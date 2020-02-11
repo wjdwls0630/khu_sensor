@@ -1,0 +1,50 @@
+/*
+SPI master
+by trangdld
+10/2019
+include:
++ clock generator
++ shift registers
+*/
+module spi_master
+(
+	clk,
+	rstn,
+	sclk,
+	miso,
+	mosi
+)
+
+input clk;
+input rstn;
+output sclk;
+input miso;
+output mosi;
+
+/// clock generator ///
+assign cnt_zero = cnt == 32'b0;
+  
+  // Counter counts half period
+  always @(posedge clk_in or posedge rst)
+  begin
+    if(rst)
+      cnt <= 32'hFFFF_FFFF;
+    else
+      begin
+        if(!enable || cnt_zero)
+          cnt <= #Tp divider;
+        else
+          cnt <= #Tp cnt - {{`SPI_DIVIDER_LEN-1{1'b0}}, 1'b1};
+      end
+  end
+  
+  // clk_out is asserted every other half period
+  always @(posedge clk_in or posedge rst)
+  begin
+    if(rst)
+      clk_out <= #Tp 1'b0;
+    else
+      clk_out <= #Tp (enable && cnt_zero && (!last_clk || clk_out)) ? ~clk_out : clk_out;
+  end
+
+endmodule
