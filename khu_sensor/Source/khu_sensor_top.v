@@ -53,7 +53,7 @@ module khu_sensor_top(
 	wire [31:0] uart_writedata_wire;
 	wire [31:0] uart_readdata_wire;
 	wire uart_irq_wire;
-
+	/*
 	rs232_uart rs232_uart(
 		.address(uart_addr_wire),    // avalon_rs232_slave.address
 		.chipselect(uart_chip_select_wire), //                   .chipselect
@@ -68,6 +68,7 @@ module khu_sensor_top(
 		.irq(uart_irq_wire),        //          interrupt.irq
 		.reset(~rst_btn)       //              reset.reset
 		);
+		*/
 
 	// ===============================================================================================================================
 	// Sensor_Core

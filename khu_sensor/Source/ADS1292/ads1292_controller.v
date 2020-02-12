@@ -63,7 +63,7 @@ module ads1292_controller (
 	Set to integer number of clocks for each half-bit of SPI data.
 	E.g. 100 MHz i_Clk, CLKS_PER_HALF_BIT = 2 would create o_SPI_CLK of 25 MHz.  Must be >= 2
 	*/
-	spi_master spi_master( // following default setting of spi
+	spi_master #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(4)) spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(rstn),     // FPGA Reset (i_Rst_L - active low)
 		.i_Clk(clk),       // FPGA Clock
@@ -71,7 +71,7 @@ module ads1292_controller (
 		// TX(Master Transimit) (MOSI) Signals (write)
 		.i_TX_Byte(spi_data_in_reg),        // Byte to transmit on MOSI
 		.i_TX_DV(spi_data_in_valid_reg),          // Data Valid Pulse with i_TX_Byte
-		.o_TX_Ready(spi_data_in_ready_wire),       // Transmit Ready for next byte
+		.o_TX_Ready(spi_data_in_ready_wire),       // Transmit Ready for next byte, it trigger sclk
 
 		// RX(Master Receive) (MISO) Signals (read)
 		.o_RX_DV(spi_data_out_wire),     // Data Valid pulse (1 clock cycle)
@@ -99,21 +99,18 @@ module ads1292_controller (
 		parameter ST_WREG_SEND_REG_ADDR = 8'd17;
 		parameter ST_WREG_SEND_REG_NUM = 8'd18;
 		parameter ST_WREG_SEND_DATA = 8'd19;
-		parameter ST_WREG_FINISH = 8'd20;
 
 		// RREG 8'b0010_xxxx
 		parameter ST_RREG_INIT = 8'd32;
 		parameter ST_RREG_SEND_REG_ADDR = 8'd33;
 		parameter ST_RREG_SEND_REG_NUM = 8'd34;
 		parameter ST_RREG_GET_DATA = 8'd35;
-		parameter ST_RREG_FINISH = 8'd36;
 
 		// RDATAC 8'b0011_xxxx
 		parameter ST_RDATAC_INIT = 8'd48;
 		parameter ST_RDATAC_WAIT_DRDY = 8'd49;
 		parameter ST_RDATAC_GET_DATA = 8'd50;
 		parameter ST_RDATAC_DATA_READY = 8'd51;
-		parameter ST_RDATAC_SEND_DUMMY = 8'd52;
 
 		// SDATAC 8'b0100_xxxx
 		parameter ST_SDATAC_INIT = 8'd64;
@@ -336,7 +333,7 @@ module ads1292_controller (
 							pstate <= ST_SPI_SELECT;
 						end else begin
 							spi_data_in_reg <= ads_command_reg; // using it command byte
-							spi_data_in_valid_reg <= 1'b1;
+							spi_data_in_valid_reg <= 1'b1; // triggering sclk condition
 							pstate <= ST_SYSCMD_SEND_CMD;
 						end
 
@@ -345,48 +342,18 @@ module ads1292_controller (
 					end
 					ST_SYSCMD_SEND_CMD:
 					begin
-						if(lstate == ST_SDATAC_INIT) begin
-							/*
-							there is a keep out zone of 4 t CLK cycles around the DRDY pulse
-							where SDATAC command cannot be issued in.
-							then wait reading process
-							*/
-							if(clk_counter_reg > 8'd4) begin
-								if (ads1292_drdy) begin
-									if(!spi_data_in_ready_wire) begin
-										spi_data_in_valid_reg <= 1'b0; //TODO need?
-										pstate <= ST_SYSCMD_SEND_CMD;
-									end else begin
-										clk_counter_reg <= 8'b0;
-										pstate <= ST_SPI_SELECT;
-									end
-								end else begin
-									spi_data_in_valid_reg <= 1'b0; //TODO need?
-									clk_counter_reg <= 8'b0;
-									pstate <= ST_SDATAC_WAIT;
-								end
-							end else begin
-								clk_counter_reg <= clk_counter_reg + 1'b1;
-								if (ads1292_drdy&&(!spi_data_in_ready_wire)) begin
-									spi_data_in_valid_reg <= 1'b0; //TODO need?
-									pstate <= ST_SYSCMD_SEND_CMD;
-								end else if(ads1292_drdy&&spi_data_in_ready_wire) begin
-									clk_counter_reg <= 8'b0;
-									pstate <= ST_SPI_SELECT;
-								end else begin
-									spi_data_in_valid_reg <= 1'b0; //TODO need?
-									clk_counter_reg <= 8'b0;
-									pstate <= ST_SDATAC_WAIT;
-								end
-							end
+						//TODO if sdatac command is not work, keep in mind the description below this
+						/*
+						there is a keep out zone of 4 t CLK cycles around the DRDY pulse
+						where SDATAC command cannot be issued in.
+						then wait reading process
+						*/
+						if(!spi_data_in_ready_wire) begin
+							spi_data_in_valid_reg <= 1'b0;
+							pstate <= ST_SYSCMD_SEND_CMD;
 						end else begin
-							if(!spi_data_in_ready_wire) begin
-								spi_data_in_valid_reg <= 1'b0; //TODO need?
-								pstate <= ST_SYSCMD_SEND_CMD;
-							end else begin
-								if(lstate != ST_RDATAC_INIT) lstate <= ST_SYSCMD_SEND_CMD;
-								pstate <= ST_SPI_SELECT;
-							end
+							if((lstate != ST_RDATAC_INIT) || (lstate != ST_SDATAC_INIT)) lstate <= ST_SYSCMD_SEND_CMD;
+							pstate <= ST_SPI_SELECT;
 						end
 					end
 
@@ -402,11 +369,11 @@ module ads1292_controller (
 					begin
 						if(!spi_data_in_ready_wire) begin
 							spi_data_in_reg <= OP_NUM_REG;
-							spi_data_in_valid_reg <= 1'b0; //TODO need?
+							spi_data_in_valid_reg <= 1'b0;
 							pstate <= ST_WREG_SEND_REG_ADDR;
 						end else begin
 							spi_data_in_reg <= OP_NUM_REG;
-							spi_data_in_valid_reg <= 1'b1; //TODO need?
+							spi_data_in_valid_reg <= 1'b1;
 							pstate <= ST_WREG_SEND_REG_NUM;
 						end
 					end
@@ -414,11 +381,11 @@ module ads1292_controller (
 					ST_WREG_SEND_REG_NUM:
 					begin
 						if(!spi_data_in_ready_wire) begin
-							spi_data_in_valid_reg <= 1'b0; //TODO need?
+							spi_data_in_valid_reg <= 1'b0;
 							pstate <= ST_WREG_SEND_REG_NUM;
 						end else begin
 							spi_data_in_reg <= ads_data_in_reg;
-							spi_data_in_valid_reg <= 1'b1; //TODO need?
+							spi_data_in_valid_reg <= 1'b1;
 							pstate <= ST_WREG_SEND_DATA;
 						end
 					end
@@ -426,15 +393,9 @@ module ads1292_controller (
 					ST_WREG_SEND_DATA:
 					begin
 						if(!spi_data_in_ready_wire) begin
-							spi_data_in_valid_reg <= 1'b0; //TODO need?
+							spi_data_in_valid_reg <= 1'b0;
 							pstate <= ST_WREG_SEND_DATA;
-						end else pstate <= ST_WREG_FINISH;
-					end
-
-					ST_WREG_FINISH:
-					begin
-						lstate <= ST_WREG_FINISH;
-						pstate <= ST_SPI_SELECT;
+						end else pstate <= ST_SPI_SELECT;
 					end
 
 					ST_RREG_INIT:
@@ -448,11 +409,11 @@ module ads1292_controller (
 					ST_RREG_SEND_REG_ADDR:
 					begin
 						if(!spi_data_in_ready_wire) begin
-							spi_data_in_valid_reg <= 1'b0; //TODO need?
+							spi_data_in_valid_reg <= 1'b0; // for stopping sclk when 8 bits is all sent
 							pstate <= ST_RREG_SEND_REG_ADDR;
 						end else begin
 							spi_data_in_reg <= OP_NUM_REG;
-							spi_data_in_valid_reg <= 1'b1; //TODO need?
+							spi_data_in_valid_reg <= 1'b1; // active sclk
 							pstate <= ST_RREG_SEND_REG_NUM;
 						end
 					end
@@ -460,23 +421,22 @@ module ads1292_controller (
 					ST_RREG_SEND_REG_NUM:
 					begin
 						if(!spi_data_in_ready_wire) begin
-							spi_data_in_valid_reg <= 1'b0; // TODO if this algorithm is wrong , then fix read too
+							spi_data_in_valid_reg <= 1'b0; // for stopping sclk when 8 bits is all sent
 							pstate <= ST_RREG_GET_DATA;
-						end else pstate <= ST_RREG_GET_DATA;
+						end else begin
+							spi_data_in_reg <= 8'b0;	 // send dummy data
+							spi_data_in_valid_reg <= 1'b1; // active sclk for reading
+							pstate <= ST_RREG_GET_DATA;
+						end
 					end
 
 					ST_RREG_GET_DATA:
 					begin
-						if(spi_data_out_valid_wire) begin
+						spi_data_in_valid_reg <= 1'b0;
+						if(spi_data_out_valid_wire) begin //TODO if this condition statement can't catch out valid signal, then delete the condition
 							ads1292_data_out[7:0] <= spi_data_out_wire;
-							pstate <= ST_RREG_FINISH;
+							pstate <= ST_SPI_SELECT;
 						end else pstate <= ST_RREG_GET_DATA;
-					end
-
-					ST_RREG_FINISH:
-					begin
-						lstate <= ST_RREG_FINISH;
-					 	pstate <= ST_SPI_SELECT;
 					end
 
 					ST_RDATAC_INIT:
@@ -487,22 +447,12 @@ module ads1292_controller (
 						pstate <= ST_SYSCMD_INIT;
 					end
 
-					ST_RDATAC_SEND_DUMMY:
-					begin
-
-					 	if(!spi_data_in_ready_wire) begin
-							spi_data_in_valid_reg <= 1'b0;
-							pstate <= ST_RDATAC_SEND_DUMMY;
-						end else begin
-							if(lstate == ST_RDATAC_GET_DATA) pstate <= ST_RDATAC_GET_DATA;
-							else pstate <= ST_RDATAC_WAIT_DRDY;
-						end
-					end
-
 					ST_RDATAC_WAIT_DRDY:
 					begin
 						if(!ads1292_drdy) begin
 						 	ads1292_rdatac_ready <= 1'b0;
+							spi_data_in_reg <= 8'b0; // send dummy for reading
+							spi_data_in_valid_reg <= 1'b1; // active sclk for reading
 							pstate <= ST_RDATAC_GET_DATA;
 						end else begin
 							if (sdatac_mode_reg) pstate <= ST_SDATAC_INIT;
@@ -512,35 +462,27 @@ module ads1292_controller (
 
 					ST_RDATAC_GET_DATA:
 					begin
+						spi_data_in_valid_reg <= 1'b0; // for stopping sclk when 8 bits is all sent
 						if(spi_data_out_valid_wire) begin
 							ads1292_data_out <= {ads1292_data_out[63:0], spi_data_out_wire};
 							if(data_counter_reg > 4'd8) begin
 								data_counter_reg <= 4'b0; // reset data counter
-								ads1292_rdatac_ready <= 1'b1;
-								pstate <= ST_RDATAC_DATA_READY;
+								ads1292_rdatac_ready <= 1'b1; // data is ready
+								pstate <= ST_SPI_SELECT;
 							end else begin
 								// read 72bit
-								spi_data_in_reg <= 8'b0;
-								spi_data_in_valid_reg <= 1'b1;
+								spi_data_in_reg <= 8'b0;  // send dummy for reading
+								spi_data_in_valid_reg <= 1'b1;  // active sclk for reading
 								data_counter_reg <= data_counter_reg + 1'b1;
-								lstate <= ST_RDATAC_GET_DATA;
-								pstate <= ST_RDATAC_SEND_DUMMY;
+								pstate <= ST_RDATAC_GET_DATA;
 							end
 						end else pstate <= ST_RDATAC_GET_DATA;
-					end
-
-					ST_RDATAC_DATA_READY:
-					begin
-						//ads1292_rdatac_ready <= 1'b1;
-						lstate <= ST_RDATAC_DATA_READY;
-						pstate <= ST_SPI_SELECT;
 					end
 
 					ST_SDATAC_INIT:
 					begin
 						// there is a keep out zone of 4 t CLK cycles around the DRDY pulse where this command cannot be issued in
 						ads_command_reg <= CM_SDATAC;
-						ads1292_rdatac_ready <= 1'b0;
 						lstate <= ST_SDATAC_INIT;
 						pstate <= ST_SYSCMD_INIT;
 					end
@@ -566,16 +508,24 @@ module ads1292_controller (
 							ads1292_busy <= 1'b0;
 							pstate <= ST_IDLE;
 						end
-						if(lstate == ST_WREG_FINISH) pstate <= ST_SPI_CLK_WAIT;
-						if(lstate == ST_RREG_FINISH) pstate <= ST_SPI_CLK_WAIT;
+
+						if(lstate == ST_SYSCMD_SEND_CMD) pstate <= ST_SPI_CLK_WAIT;
+
+						if(lstate == ST_WREG_SEND_DATA) pstate <= ST_SPI_CLK_WAIT;
+
+						if(lstate == ST_RREG_GET_DATA) pstate <= ST_SPI_CLK_WAIT;
+
 						if((lstate == ST_RDATAC_INIT) || (lstate == ST_RDATAC_DATA_READY)) begin
 							spi_data_in_reg <= 8'b0;
 							spi_data_in_valid_reg <= 1'b1;
 							lstate <= ST_SPI_SELECT;
-							pstate <= ST_RDATAC_SEND_DUMMY;
+							pstate <= ST_RDATAC_WAIT_DRDY;
 						end
+						if(lstate == ST_RDATAC_INIT) pstate <= ST_RDATAC_WAIT_DRDY;
+						if(lstate == ST_RDATAC_GET_DATA) pstate <= ST_RDATAC_WAIT_DRDY;
 						if(lstate == ST_SDATAC_INIT) begin
 							ads1292_start <= 1'b0; // turn off conversion
+							ads1292_rdatac_ready <= 1'b0;
 							pstate <= ST_SPI_CLK_WAIT;
 						end
 					end
@@ -583,7 +533,7 @@ module ads1292_controller (
 					ST_SPI_CLK_WAIT:
 					begin
 						// After the serial communication is finished, always wait 4 CLK or more cycles before taking CSN high
-						if (clk_counter_reg > 8'd7) begin
+						if (clk_counter_reg > 8'd4) begin
 							// wait 8 CLK
 							clk_counter_reg <= 8'b0;  // reset counter for ST_CLK_WAIT
 							ads1292_busy <= 1'b0;
