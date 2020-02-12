@@ -170,9 +170,12 @@ module sensor_core(
 	//===========================================================================================================================
 	// for process
 	reg run_state;
-	always @ ( run ) begin
-		if(run) run_state <= 1'b1;
-		else run_state <= 1'b0;
+	always @ ( run, rst ) begin
+		if(rst) run_state <= 1'b0;
+		else begin
+			if(run) run_state <= 1'b1;
+			else run_state <= 1'b0;
+		end
 	end
 
 	always @ ( posedge clk, posedge rst ) begin

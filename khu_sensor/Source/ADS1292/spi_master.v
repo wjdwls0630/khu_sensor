@@ -57,8 +57,9 @@ module spi_master
   wire w_CPOL;     // Clock polarity
   wire w_CPHA;     // Clock phase
   reg [$clog2(CLKS_PER_HALF_BIT*2)-1:0] r_SPI_Clk_Count;
+  //reg [7:0] r_SPI_Clk_Count;
   reg r_SPI_Clk;
-  reg [4:0] r_SPI_Clk_Edges;
+  reg [7:0] r_SPI_Clk_Edges;
   reg r_Leading_Edge;
   reg r_Trailing_Edge;
   reg       r_TX_DV;
@@ -202,11 +203,11 @@ module spi_master
     begin
 
       // Default Assignments
-      //o_RX_DV   <= 1'b0;
+      o_RX_DV   <= 1'b0;
 
       if (o_TX_Ready) // Check if ready is high, if so reset bit count to default
       begin
-        o_RX_DV   <= 1'b0;
+      //o_RX_DV   <= 1'b0;
         r_RX_Bit_Count <= 3'b111;
       end
       else if ((r_Leading_Edge & ~w_CPHA) | (r_Trailing_Edge & w_CPHA))

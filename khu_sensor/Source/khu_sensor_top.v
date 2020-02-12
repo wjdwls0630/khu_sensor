@@ -177,7 +177,8 @@ module khu_sensor_top(
 	wire ads1292_fail_wire;
 	wire ADS1292_DRDY_N;
 	assign ADS1292_DRDY_N = ~ADS1292_DRDY;
-
+	//wire ADS1292_SCLK_N;
+	//assign ADS1292_SCLK = ~ADS1292_SCLK_N
 	ads1292_controller ads1292_controller(
 		.clk(CLOCK_50M), // clock
 		.rstn(core_reset_n), //reset
