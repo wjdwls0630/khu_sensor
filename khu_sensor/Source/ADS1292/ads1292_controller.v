@@ -499,6 +499,7 @@ module ads1292_controller (
 
 					ST_RDATAC_GET_DATA:
 					begin
+						lstate <= ST_RDATAC_GET_DATA;
 						if(!spi_data_in_ready_wire) begin
 							spi_data_in_valid_reg <= 1'b0;
 							pstate <= ST_RDATAC_GET_DATA;
