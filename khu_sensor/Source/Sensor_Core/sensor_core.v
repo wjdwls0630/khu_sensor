@@ -1,7 +1,12 @@
-
-//`define UART_HEX
-`define UART_BIN
 //TODO rename everything by the rules of thumb
+///////////////////////////////////////////////////////////////////////////////
+// Module Name : sensor_core
+//
+// Description: sensor_core is module for controlling mpr121 and ads1292,
+// 							Not only that, control UART? In addition, process data from TX and RX
+//
+//
+///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART
 
@@ -15,19 +20,17 @@ module sensor_core(
 	input uart_irq_in,
 
 	// MPR121
-	input [7:0] mpr121_data_out_in,  // received data from MPR121 (read data)
-	output reg [7:0] mpr121_reg_addr_out,   // transmitted register address to MPR121 (write data)
-	output reg [7:0] mpr121_data_in_out,  // transmitted data to MPR121 (write data)
-	output reg mpr121_write_enable_out,
-	output reg mpr121_read_enable_out,
-	input mpr121_busy_in,
-	input mpr121_fail_in,
+	input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
+	output reg [7:0] o_MPR121_REG_ADDR,   // transmitted register address to MPR121 (write data)
+	output reg [7:0] o_MPR121_DATA_IN,  // transmitted data to MPR121 (write data)
+	output reg o_MPR121_WRITE_ENABLE,
+	output reg o_MPR121_READ_ENABLE,
+	input i_MPR121_BUSY,
+	input i_MPR121_FAIL,
 
 	// System connection with MPR121 data
-	output reg [11:0] mpr121_touch_status_out,
-	output reg mpr121_is_error,
-	input mpr121_irq_in,
-
+	output reg [11:0] o_MPR121_TOUCH_STATUS,
+	output reg o_MPR121_ERROR,
 
 	input [71:0] ads1292_data_out_in, // read data from ADS1292
 	output reg [2:0] ads1292_control_out, // ADS1292 Control
@@ -41,15 +44,482 @@ module sensor_core(
 	input ads1292_drdy_in,
 
 	// System I/O
-	output reg chip_set,
-	input run,
-	output reg run_set,
-	input wire clk,
-	input wire rst
+	output reg o_CHIP_SET,
+	input i_RUN,
+	output reg o_RUN_SET,
+	input wire i_CLK,
+	input wire i_RST
 	);
 
+	/****************************************************************************
+	*                           	Sensor_Core                                  	*
+	*****************************************************************************/
+	//==============================State=========================================
+	reg [7:0] r_core_lstate;
+	reg [7:0] r_core_pstate;
 
-	//=================================================================================================================
+	// Sensor_Core
+	// 8'b0000_xxxx
+	parameter ST_CORE_IDLE  = 8'd0;
+	parameter ST_CORE_START = 8'd1;
+	parameter ST_CORE_STANDBY = 8'd2;
+	parameter ST_CORE_IS_READING = 8'd3;
+	//============================================================================
+
+	//==============================Connection====================================
+
+	// chip setting logic
+	reg r_mpr_chip_set;
+	reg r_ads_chip_set;
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) r_chip_set <= 1'b0;
+		else o_CHIP_SET <= r_mpr_chip_set & r_ads_chip_set;
+	end
+
+	// remember input run signal
+	reg r_run_state;
+	always @ ( i_RUN, i_RST ) begin
+		if(i_RST) r_run_state <= 1'b0;
+		else begin
+			if(i_RUN) r_run_state <= 1'b1;
+			else r_run_state <= 1'b0;
+		end
+	end
+
+	// run condition logic for both mpr and ads
+	reg r_mpr_run_set;
+	reg r_ads_run_set;
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) o_RUN_SET <= 1'b0;
+		else o_RUN_SET <= r_mpr_run_set & r_ads_run_set;
+	end
+
+	// reading condition logic for both mpr and ads
+	reg r_mpr_is_reading;
+	reg r_ads_is_reading;
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) o_CORE_BUSY <= 1'b0;
+		else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+	end
+
+	//============================================================================
+
+	//=============================Sequential Logic===============================
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) begin
+			//TODO UART data
+
+			// state
+			r_core_lstate <= ST_IDLE;
+			r_core_pstate <= ST_IDLE;
+		end else begin
+			case (r_core_pstate)
+				ST_CORE_IDLE:
+				begin
+
+					// state
+					r_core_lstate <= ST_IDLE;
+					r_core_pstate <= ST_START;
+				end
+
+				ST_CORE_START:
+				begin
+					if(!r_chip_set) begin
+						if(!r_mpr_chip_set) r_mpr_pstate <= ST_MPR_SETTING;
+						if(!r_ads_chip_set) r_ads_pstate <= ST_ADS_SETTING;
+					end else r_core_pstate <= ST_STANDBY;
+				end
+
+				ST_CORE_STANDBY:
+				//TODO Later, when connect UART, run state will replace UART signal,
+				// will make Read Register in this state
+				begin
+
+					if(r_run_state) begin
+						if(!r_mpr_run_set) r_mpr_pstate <= ST_MPR_RUN;
+						else r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+
+						if(!r_ads_run_set) r_ads_pstate <= ST_ADS_RUN;
+						else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+					end else begin
+						if(r_mpr_run_set) r_mpr_pstate <= ST_MPR_STOP;
+						else r_mpr_pstate <= ST_MPR_IDLE; //TODO design where state should go
+
+						if(r_ads_run_set) r_ads_pstate <= ST_ADS_STOP;
+						else r_ads_pstate <= ST_ADS_IDLE;
+					end
+					// if satisfy all condition to run & read, sensor_core is going to ~
+					if (r_run_state & o_RUN_SET) r_core_pstate <= ST_CORE_READ_START;
+					else r_core_pstate <= ST_CORE_STANDBY;
+				end
+
+				ST_CORE_READ_START:
+				begin
+					r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+					//r_ads_pstate <= ST_ADS_RDATAC_INIT;
+					r_core_pstate <= ST_CORE_IS_READING;
+				end
+
+				ST_CORE_IS_READING:
+				begin
+					// core is reading
+					if(r_run_state) r_core_pstate <= ST_CORE_IS_READING;
+					else r_core_pstate <= ST_CORE_STANDBY;
+				end
+				default:
+					r_core_pstate <= ST_CORE_IDLE;
+				begin
+				end
+			endcase
+		end
+	end
+	//============================================================================
+
+	/****************************************************************************
+	*                           		MPR121                                     	*
+	*****************************************************************************/
+	//==============================Parameter=====================================
+	// MPR121 Register Setting
+	// Reference - Data Sheet - MPR121 setting recommendation
+	parameter MPR_TOUCH_STATUS_0_REG = 8'h00; //read only (ELE0 ~ ELE7)
+	parameter MPR_TOUCH_STATUS_1_REG = 8'h01; //read only (ELE8 ~ ELE11)
+	parameter MPR_MHDR_REG = 8'h2B; parameter MPR_MHDR_DATA = 8'h01;
+	parameter MPR_NHDAR_REG = 8'h2C; parameter MPR_NHDAR_DATA = 8'h01;
+	parameter MPR_NCLR_REG = 8'h2D; parameter MPR_NCLR_DATA = 8'h0E;
+	parameter MPR_FDLR_REG = 8'h2E; parameter MPR_FDLR_DATA = 8'h00;
+	parameter MPR_MHDF_REG = 8'h2F; parameter MPR_MHDF_DATA = 8'h01;
+	parameter MPR_NHDAF_REG = 8'h30; parameter MPR_NHDAF_DATA = 8'h05;
+	parameter MPR_NCLF_REG = 8'h31; parameter MPR_NCLF_DATA = 8'h01;
+	parameter MPR_FDLF_REG = 8'h32; parameter MPR_FDLF_DATA = 8'h00;
+	parameter MPR_NHDAT_REG = 8'h33; parameter MPR_NHDAT_DATA = 8'h00;
+	parameter MPR_NCLT_REG = 8'h34; parameter MPR_NCLT_DATA = 8'h00;
+	parameter MPR_FDLT_REG = 8'h35; parameter MPR_FDLT_DATA = 8'h00;
+	parameter MPR_DEBOUNCE_REG = 8'h5B; parameter MPR_DEBOUNCE_DATA = 8'h00;
+	parameter MPR_FILTER_CDC_CONFIG_REG = 8'h5C; parameter MPR_FILTER_CDC_CONFIG_DATA = 8'h10;
+	parameter MPR_FILTER_CDT_CONFIG_REG = 8'h5D; parameter MPR_FILTER_CDT_CONFIG_DATA = 8'h20;
+	parameter MPR_ELE_CONFIG_REG = 8'h5E; parameter MPR_ELE_CONFIG_RUN = 8'h8F;
+
+	// Auto config
+	parameter MPR_AUTOCONFIG_0_REG = 8'h7B; parameter MPR_AUTOCONFIG_0_DATA = 8'h0B;
+	parameter MPR_AUTOCONFIG_USL_REG = 8'h7D; parameter MPR_AUTOCONFIG_USL_DATA = 8'h9C;
+	parameter MPR_AUTOCONFIG_LSL_REG = 8'h7E; parameter MPR_AUTOCONFIG_LSL_DATA = 8'h65;
+	parameter MPR_AUTOCONFIG_TLR_REG = 8'h7F; parameter MPR_AUTOCONFIG_TLR_DATA = 8'h8C;
+	//============================================================================
+
+	//==============================State=========================================
+	reg [7:0] r_mpr_lstate;
+	reg [7:0] r_mpr_pstate;
+
+	// MPR121
+	// 8'b0001_xxxx
+	parameter ST_MPR_IDLE  = 8'd0;
+	parameter ST_MPR_SETTING = 8'd1;
+	parameter ST_MPR_RUN = 8'd2;
+	parameter ST_MPR_STOP = 8'd3;
+	parameter ST_MPR_WRITE_REG_INIT = 8'd4;
+	parameter ST_MPR_WRITE_REG_EN = 8'd5;
+	parameter ST_MPR_WRITE_REG_CONFIRM = 8'd6;
+	parameter ST_MPR_WRITE_REG_WAIT = 8'd7;
+	// TODO Read Reg state
+	parameter ST_MPR_READ_STATUS_INIT = 8'd26;
+	parameter ST_MPR_READ_STATUS_START = 8'd27;
+	parameter ST_MPR_READ_STATUS_EN = 8'd28;
+	parameter ST_MPR_READ_STATUS_CONFIRM = 8'd29;
+	parameter ST_MPR_READ_STATUS_CHANGE = 8'd30;
+	parameter ST_MPR_ERROR_REPORT = 8'd31;
+	//============================================================================
+
+	//==============================Connection====================================
+
+	// wait mpr121 read time
+	reg r_mpr_read_ready;
+	reg [31:0] r_mpr_read_delay;
+	reg r_mpr_is_reading;
+
+	always @(posedge i_CLK, posedge i_RST) begin
+		if(i_RST) begin
+			r_mpr_read_ready <= 1'b0;
+			r_mpr_read_delay <= 32'd0;
+		end else begin
+			if (mpr_is_reading_reg) begin
+				if (r_mpr_read_ready) begin
+					r_mpr_read_ready <= 1'b0;
+					r_mpr_read_delay <= 32'd0;
+				end else if (r_mpr_read_delay > 32'd10000) begin
+					r_mpr_read_ready <= 1'b1;
+					r_mpr_read_delay <= 32'd0;
+				end else begin
+					r_mpr_read_delay <= r_mpr_read_delay + 1'b1;
+				end
+			end else r_mpr_read_ready <= 1'b0;
+		end
+	end
+
+	// MPR121 variable
+	reg [7:0] r_mpr_first_param;
+	reg [7:0] r_mpr_second_param;
+	reg r_mpr_status; // status_0 read(0) status_1 read(1)
+	reg [7:0] r_mpr_touch_status_0; // reg_addr : 0x00 data
+	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
+	reg [3:0] r_mpr_set_counter; // mpr setting counter
+	//============================================================================
+	// TODO make READ_REG state
+	//=============================Sequential Logic===============================
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) begin
+
+			// i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
+			o_MPR121_REG_ADDR <= 8'b0;   // transmitted register address to MPR121 (write data)
+			o_MPR121_DATA_IN <= 8'b0;  // transmitted data to MPR121 (write data)
+			o_MPR121_WRITE_ENABLE <= 1'b0;
+			o_MPR121_READ_ENABLE <= 1'b0;
+
+			// System connection with MPR121 data
+			o_MPR121_TOUCH_STATUS <= 12'b0;
+			o_MPR121_ERROR <= 1'b0;
+
+			r_mpr_run_set <= 1'b0;
+			r_mpr_first_param <= 8'b0;
+			r_mpr_second_param <= 8'b0;
+			r_mpr_status <= 1'b0;
+			mpr_is_reading_reg <= 1'b0;
+			r_mpr_touch_status_0 <= 8'b0;
+			r_mpr_touch_status_1 <= 8'b0;
+			r_mpr_set_counter <= 4'b0;
+
+			// state
+			r_mpr_lstate <= ST_MPR_IDLE;
+			r_mpr_pstate <= ST_MPR_IDLE;
+		end else begin
+			case (r_mpr_pstate)
+				ST_MPR_IDLE:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+
+					r_mpr_run_set <= 1'b0;
+					r_mpr_first_param <= 8'b0;
+					r_mpr_second_param <= 8'b0;
+					r_mpr_status <= 1'b0;
+					mpr_is_reading_reg <= 1'b0;
+					r_mpr_touch_status_0 <= 8'b0;
+					r_mpr_touch_status_1 <= 8'b0;
+					r_mpr_set_counter <= 4'b0;
+				end
+
+				ST_MPR_SETTING:
+				begin
+					// MPR121 Setting
+					if(r_mpr_set_counter > 4'd13) begin
+						r_mpr_chip_set <= 1'b1;
+						r_mpr_set_counter <= 4'd0;
+					end else begin
+						if(r_mpr_set_counter == 4'd0) begin
+							r_mpr_first_param <= MPR_MHDR_REG;
+							r_mpr_second_param <= MPR_MHDR_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd1) begin
+							r_mpr_first_param <= MPR_NHDAR_REG;
+							r_mpr_second_param <= MPR_NHDAR_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd2) begin
+							r_mpr_first_param <= MPR_NCLR_REG;
+							r_mpr_second_param <= MPR_NCLR_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd3) begin
+							r_mpr_first_param <= MPR_FDLR_REG;
+							r_mpr_second_param <= MPR_FDLR_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd4) begin
+							r_mpr_first_param <= MPR_MHDF_REG;
+							r_mpr_second_param <= MPR_MHDF_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd5) begin
+							r_mpr_first_param <= MPR_NHDAF_REG;
+							r_mpr_second_param <= MPR_NHDAF_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd6) begin
+							r_mpr_first_param <= MPR_NCLF_REG;
+							r_mpr_second_param <= MPR_NCLF_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd7) begin
+							r_mpr_first_param <= MPR_FDLF_REG;
+							r_mpr_second_param <= MPR_FDLF_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd8) begin
+							r_mpr_first_param <= MPR_NHDAT_REG;
+							r_mpr_second_param <= MPR_NHDAT_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd9) begin
+							r_mpr_first_param <= MPR_NCLT_REG;
+							r_mpr_second_param <= MPR_NCLT_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd10) begin
+							r_mpr_first_param <= MPR_FDLT_REG;
+							r_mpr_second_param <= MPR_FDLT_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd11) begin
+							r_mpr_first_param <= MPR_DEBOUNCE_REG;
+							r_mpr_second_param <= MPR_DEBOUNCE_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd12) begin
+							r_mpr_first_param <= MPR_FILTER_CDC_CONFIG_REG;
+							r_mpr_second_param <= MPR_FILTER_CDC_CONFIG_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd13) begin
+							r_mpr_first_param <= MPR_FILTER_CDT_CONFIG_REG;
+							r_mpr_second_param <= MPR_FILTER_CDT_CONFIG_REG;
+						end
+
+						r_mpr_set_counter <= r_mpr_set_counter + 1'b1;
+						r_mpr_lstate <= ST_MPR_SETTING;
+						r_mpr_pstate <= ST_MPR_WRITE_REG_INIT;
+					end
+				end
+
+				ST_MPR_RUN:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					r_mpr_first_param <= MPR_ELE_CONFIG_REG;
+					r_mpr_second_param <= MPR_ELE_CONFIG_RUN;
+					r_mpr_lstate <= ST_MPR_RUN;
+					r_mpr_pstate <= ST_MPR_WRITE_REG_INIT;
+				end
+
+				ST_MPR_STOP:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					r_mpr_first_param <= MPR_ELE_CONFIG_REG;
+					r_mpr_second_param <= 8'h00; // disable
+					r_mpr_lstate <= ST_MPR_STOP;
+					r_mpr_pstate <= ST_MPR_WRITE_REG_INIT;
+				end
+
+				// Write data to a register of MPR121 then read back
+				ST_MPR_WRITE_REG_INIT:
+				begin
+					o_MPR121_REG_ADDR <= r_mpr_first_param;
+					o_MPR121_DATA_IN <= r_mpr_second_param;
+					r_mpr_pstate <= ST_MPR_WRITE_REG_EN;
+				end
+
+				ST_MPR_WRITE_REG_EN:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b1;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					r_mpr_pstate <= ST_MPR_WRITE_REG_CONFIRM;
+				end
+
+				ST_MPR_WRITE_REG_CONFIRM:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					if (i_MPR121_BUSY) r_mpr_pstate <= ST_MPR_WRITE_REG_CONFIRM;
+					else begin
+						if (i_MPR121_FAIL) r_mpr_pstate <= ST_MPR_ERROR_REPORT;
+						else r_mpr_pstate <= ST_MPR_WRITE_REG_WAIT;
+					end
+				end
+
+				ST_MPR_WRITE_REG_WAIT:
+				begin
+					if(r_mpr_lstate == ST_MPR_SETTING) r_mpr_pstate <= ST_MPR_SETTING;
+					else begin
+						if(r_mpr_lstate == ST_MPR_RUN) begin
+							r_mpr_chip_set <= 1'b1;
+							r_mpr_is_reading <= 1'b1;
+						end
+
+						if(r_mpr_lstate == ST_MPR_STOP) begin
+							r_mpr_chip_set <= 1'b0;
+							r_mpr_is_reading <= 1'b0;
+						end
+					end
+				end
+
+				// read data from MPR121
+				ST_MPR_READ_STATUS_INIT:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					if (r_mpr_read_ready) begin
+						r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
+						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
+					end else r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+				end
+
+				ST_MPR_READ_STATUS_START:
+				begin
+					o_MPR121_REG_ADDR <= r_mpr_first_param;
+					r_mpr_pstate <= ST_MPR_READ_STATUS_EN;
+				end
+
+				ST_MPR_READ_STATUS_EN:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b1;
+					r_mpr_pstate <= ST_MPR_READ_STATUS_CONFIRM;
+				end
+
+				ST_MPR_READ_STATUS_CONFIRM:
+				begin
+					o_MPR121_WRITE_ENABLE <= 1'b0;
+					o_MPR121_READ_ENABLE <= 1'b0;
+					if (i_MPR121_BUSY) r_mpr_pstate <= ST_MPR_READ_STATUS_CONFIRM;
+					else begin
+						if (i_MPR121_FAIL) r_mpr_pstate <= ST_MPR_ERROR_REPORT;
+						else begin
+							if (r_mpr_status == 1'b0) r_mpr_touch_status_0 <= i_MPR121_DATA_OUT;
+							else r_mpr_touch_status_1 <= i_MPR121_DATA_OUT;
+							r_mpr_pstate <= ST_MPR_READ_STATUS_CHANGE;
+						end
+					end
+				end
+
+				ST_MPR_READ_STATUS_CHANGE:
+				begin
+					r_mpr_status <= ~r_mpr_status; // change its read status;
+					if(r_mpr_status == 1'b0) begin
+						r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG; // change status
+						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
+					end else begin
+						mpr121_touch_status_out[11:0] <= {mpr_touch_status_1_reg[3:0], mpr_touch_status_0_reg[7:0]};
+						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
+						r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+					end
+				end
+
+				ST_MPR_ERROR_REPORT:
+				begin
+					mpr121_is_error <= 1'b1;
+					r_mpr_lstate <= ST_MPR_ERROR_REPORT;
+					r_mpr_pstate <= ST_MPR_IDLE;
+				end
+
+				default:
+				begin
+					r_mpr_pstate <= r_mpr_pstate;
+				end
+			endcase
+		end
+	end
+	//============================================================================
+
 	// paramaters
 
 
@@ -170,23 +640,23 @@ module sensor_core(
 	//===========================================================================================================================
 	// for process
 	reg run_state;
-	always @ ( run, rst ) begin
-		if(rst) run_state <= 1'b0;
+	always @ ( run, i_RST ) begin
+		if(i_RST) run_state <= 1'b0;
 		else begin
 			if(run) run_state <= 1'b1;
 			else run_state <= 1'b0;
 		end
 	end
 
-	always @ ( posedge clk, posedge rst ) begin
-		if(rst) run_set <= 1'b0;
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) run_set <= 1'b0;
 		else run_set <= mpr_run_set & ads_run_set;
 	end
 	// for process interrupt from ADS RDATAC data ready signal
 	reg ads_drdy_readed_reg;
 
-	always @(posedge rst or posedge clk) begin
-		if(rst) begin
+	always @(posedge i_RST or posedge i_CLK) begin
+		if(i_RST) begin
 			ads_drdy_readed_reg <= 1'b0;
 		end else begin
 			if (ads1292_rdatac_ready_in&&(~ads_drdy_readed_reg)) begin
@@ -204,8 +674,8 @@ module sensor_core(
 	reg [31:0] mpr121_irq_delay_reg;
 	reg mpr_is_reading_reg;
 
-	always @(posedge clk, posedge rst) begin
-		if(rst) begin
+	always @(posedge i_CLK, posedge i_RST) begin
+		if(i_RST) begin
 			mpr121_irq_reg <= 1'b0;
 			mpr121_irq_delay_reg <= 32'd0;
 		end else begin
@@ -224,8 +694,8 @@ module sensor_core(
 	end
 
 	/*
-	always @ ( posedge clk, posedge rst ) begin
-		if(rst) begin
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) begin
 			mpr121_irq_reg <= 1'b0;
 		end else begin
 		 	if(~mpr121_irq) mpr121_irq_reg <= 1'b0;
@@ -239,8 +709,8 @@ module sensor_core(
 	end
 	*/
 	/*
-	always @ ( posedge clk, posedge rst ) begin
-		if(rst) begin
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) begin
 			mpr121_irq_reg <= 1'b0;
 			mpr121_irq_delay_reg <= 32'b0;
 		end else begin
@@ -259,8 +729,8 @@ module sensor_core(
 
 	//start of source
 	reg [31:0] wait_timeout_reg;
-	always @(posedge clk, posedge rst) begin
-		if(rst) begin
+	always @(posedge i_CLK, posedge i_RST) begin
+		if(i_RST) begin
 
 			//UART
 			uart_addr_out <= 1'b0;

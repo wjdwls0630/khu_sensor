@@ -410,13 +410,8 @@ module mpr121_controller (
 
 				ST_WRITE_FINISH:
 				begin
-					/*
-					mpr121_busy <= 1'b0;
-					if (!mpr121_write_enable) pstate <= ST_IDLE;
-					else pstate <= ST_WRITE_FINISH;
-					*/
-
-					if(wait_timeout_reg > 32'd10000) begin
+					// for sake of stability, wait 0.02ms
+					if(wait_timeout_reg > 32'd1000) begin
 						wait_timeout_reg <= 32'b0;
 						mpr121_busy <= 1'b0;
 						if (!mpr121_write_enable) pstate <= ST_IDLE;
@@ -501,8 +496,8 @@ module mpr121_controller (
 
 				ST_READ_FINISH:
 				begin
-
-					if(wait_timeout_reg > 32'd10000) begin
+					// after reading, for sake of stability and LED light, wait 0.02ms
+					if(wait_timeout_reg > 32'd1000) begin
 						wait_timeout_reg <= 32'b0;
 						mpr121_busy <= 1'b0;
 						if (!mpr121_read_enable) pstate <= ST_IDLE;
@@ -511,12 +506,6 @@ module mpr121_controller (
 						wait_timeout_reg <= wait_timeout_reg + 1'b1;
 						pstate <= ST_READ_FINISH;
 					end
-
-					/*
-					mpr121_busy <= 1'b0;
-					if (!mpr121_read_enable) pstate <= ST_IDLE;
-					else pstate <= ST_READ_FINISH;
-					*/
 				end
 
 				default:
