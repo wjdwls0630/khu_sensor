@@ -2,8 +2,8 @@
 module khu_sensor_top(
 	// System I/O
 	input wire CLOCK_50M,
-	input KEY_0,
-	input SW_0, // for SRAM address (manual test)
+	input KEY_0, // KEY[0]
+	input SW_0, // SW[0]
 	output [17:0] LEDR,
 	output [7:0] LEDG,
 
@@ -29,14 +29,14 @@ module khu_sensor_top(
 );
 
 	// PLL
-	wire CLOCK_5M, CLOCK_25M, CLOCK_100M;
+	wire w_CLOCK_5M, w_CLOCK_25M, w_CLOCK_100M;
 	wire w_core_rstn;
 	my_pll khu_pll(
 		.areset		(!rstn_btn),
 		.inclk0		(CLOCK_50M),
-		.c0				(CLOCK_5M),
-		.c2				(CLOCK_25M),
-		.c3       (CLOCK_100M),
+		.c0				(w_CLOCK_5M),
+		.c2				(w_CLOCK_25M),
+		.c3       (w_CLOCK_100M),
 		.locked		(w_core_rstn)
 	);
 
@@ -104,24 +104,21 @@ module khu_sensor_top(
 		.o_MPR121_ERROR(w_mpr121_error),
 
 		// ADS1292
-		/*
-		.ads1292_data_out_in(ads1292_data_out_wire), // read data from ADS1292
-		.ads1292_control_out(ads1292_control_wire), // ADS1292 Control
-		.ads1292_command_out(ads1292_command_wire), // ADS1292 SPI command
-		.ads1292_reg_addr_out(ads1292_reg_addr_wire), // ADS1292 register address
-		.ads1292_data_in_out(ads1292_data_in_wire), // data to write in ADS1292 register
-		.ads1292_rdatac_ready_in(ads1292_rdatac_ready), // In Read data continue mode,  flag that 72 bits data is ready
-		.ads1292_busy_in(ads1292_busy_wire),
-		.ads1292_fail_in(ads1292_fail_wire),
+		.i_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
+		.o_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
+		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
+		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
+		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
+		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.i_ADS1292_BUSY(w_ads1292_busy),
+		.i_ADS1292_FAIL(w_ads1292_fail),
 
-		.ads1292_drdy_in(ADS1292_DRDY_N),
-		*/
 		// System I/O
 		.o_CHIP_SET(w_chip_set),
 		.i_RUN(w_run),
 		.o_RUN_SET(w_run_set),
 		.o_CORE_BUSY(w_core_busy),
-		.i_CLK(CLOCK_25M),
+		.i_CLK(w_CLOCK_25M),
 		.i_RST(!w_core_rstn)
 	);
 
@@ -162,16 +159,16 @@ module khu_sensor_top(
 
 	// ===============================================================================================================================
 	// ADS1292 Controller
-	wire [71:0] ads1292_data_out_wire;
-	wire [2:0] ads1292_control_wire;
-	wire [7:0] ads1292_command_wire;
-	wire [7:0] ads1292_reg_addr_wire;
-	wire [7:0] ads1292_data_in_wire;
-	wire ads1292_rdatac_ready;
-	wire ads1292_busy_wire;
-	wire ads1292_fail_wire;
-	wire ADS1292_DRDY_N;
-	assign ADS1292_DRDY_N = ~ADS1292_DRDY;
+	wire [71:0] w_ads1292_data_out;
+	wire [2:0] w_ads1292_control;
+	wire [7:0] w_ads1292_command;
+	wire [7:0] w_ads1292_reg_addr;
+	wire [7:0] w_ads1292_data_in;
+	wire w_ads1292_data_ready;
+	wire w_ads1292_busy;
+	wire w_ads1292_fail;
+	wire w_ADS1292_DRDY_N;
+	assign w_ADS1292_DRDY_N = ~ADS1292_DRDY;
 	//wire ADS1292_SCLK_N;
 	//assign ADS1292_SCLK = ~ADS1292_SCLK_N
 	ads1292_controller ads1292_controller(
@@ -179,20 +176,20 @@ module khu_sensor_top(
 		.rstn(w_core_rstn), //reset
 
 		// Host Side
-		.ads1292_data_out(ads1292_data_out_wire), // read data from ADS1292
-		.ads1292_control(ads1292_control_wire), // ADS1292 Control
-		.ads1292_command(ads1292_command_wire), // ADS1292 SPI command
-		.ads1292_reg_addr(ads1292_reg_addr_wire), // ADS1292 register address
-		.ads1292_data_in(ads1292_data_in_wire), // data to write in ADS1292 register
-		.ads1292_rdatac_ready(ads1292_rdatac_ready), // In Read data continue mode,  flag that 72 bits data is ready
-		.ads1292_busy(ads1292_busy_wire),
-		.ads1292_fail(ads1292_fail_wire),
+		.ads1292_data_out(w_ads1292_data_out), // read data from ADS1292
+		.ads1292_control(w_ads1292_control), // ADS1292 Control
+		.ads1292_command(w_ads1292_command), // ADS1292 SPI command
+		.ads1292_reg_addr(w_ads1292_reg_addr), // ADS1292 register address
+		.ads1292_data_in(w_ads1292_data_in), // data to write in ADS1292 register
+		.ads1292_rdatac_ready(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.ads1292_busy(w_ads1292_busy),
+		.ads1292_fail(w_ads1292_fail),
 
 		//	ADS1292, SPI Side
 		.spi_clk(ADS1292_SCLK),
 		.spi_miso(ADS1292_MISO), // SPI data form ADS - Master input Slave output (read)
 		.spi_mosi(ADS1292_MOSI), // SPI data to ADS - Master Output Slave Input (write)
-		.ads1292_drdy(ADS1292_DRDY_N), // Data Ready (active low)
+		.ads1292_drdy(w_ADS1292_DRDY_N), // Data Ready (active low) (change it active high)
 		.ads1292_reset(ADS1292_RESET),
 		.ads1292_start(ADS1292_START),
 		.spi_csn(ADS1292_CSN), // Chip Select Negative (active low)
