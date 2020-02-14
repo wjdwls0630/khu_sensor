@@ -29,21 +29,21 @@ module khu_sensor_top(
 );
 
 	// PLL
-	wire CLOCK_25M, CLOCK_5M, CLOCK_100M;
-	wire core_reset_n;
+	wire CLOCK_5M, CLOCK_25M, CLOCK_100M;
+	wire w_core_rstn;
 	my_pll khu_pll(
-		.areset		(!rst_btn),
+		.areset		(!rstn_btn),
 		.inclk0		(CLOCK_50M),
 		.c0				(CLOCK_5M),
 		.c2				(CLOCK_25M),
 		.c3       (CLOCK_100M),
-		.locked		(core_reset_n)
+		.locked		(w_core_rstn)
 	);
 
 	// System I/O
 
-	wire rst_btn;
-	assign rst_btn = KEY_0;
+	wire rstn_btn;
+	assign rstn_btn = KEY_0;
 
 	wire uart_addr_wire;
 	wire uart_chip_select_wire;
@@ -73,44 +73,38 @@ module khu_sensor_top(
 	// ===============================================================================================================================
 	// Sensor_Core
 
-  wire [11:0] mpr121_touch_status_out;
-	wire mpr121_is_error;
-	assign LEDR[17] = mpr121_is_error;
-	assign LEDR[11:0] = mpr121_touch_status_out[11:0];
-	wire chip_set_wire;
-	wire run_wire;
-	wire run_set_wire;
-	assign LEDG[0] = chip_set_wire;
-	assign run_wire = SW_0;
-	assign LEDG[1] = run_set_wire;
+  wire [11:0] w_mpr121_touch_status_out;
+	assign LEDR[11:0] = w_mpr121_touch_status_out;
 
+	wire w_mpr121_error;
+	assign LEDR[16] = w_mpr121_error;
+
+	wire w_chip_set;
+	wire w_run;
+	wire w_run_set;
+	assign LEDG[0] = w_chip_set;
+	assign w_run = SW_0;
+	assign LEDG[1] = w_run_set;
+
+	wire w_core_busy;
+	assign LEDR[17] = w_core_busy;
 
 	sensor_core sensor_core(
-		// UART
-		.uart_addr_out(uart_addr_wire),
-		.uart_chip_select_out(uart_chip_select_wire),
-		.uart_byteenable_out(uart_byteenable_wire),
-		.uart_read_out(uart_read_wire),
-		.uart_write_out(uart_write_wire),
-		.uart_writedata_out(uart_writedata_wire[7:0]), // transmitted data to PC
-		.uart_readdata_in(uart_readdata_wire[7:0]), // received data from PC
-		.uart_irq_in(uart_irq_wire),
-
 		// MPR121
-		.mpr121_data_out_in(mpr121_data_out_wire),  // received data from MPR121 (read data)
-		.mpr121_reg_addr_out(mpr121_reg_addr_wire),   // transmitted register address to MPR121 (write data)
-		.mpr121_data_in_out(mpr121_data_in_wire),  // transmitted data to MPR121 (write data)
-		.mpr121_write_enable_out(mpr121_write_enable_wire),
-		.mpr121_read_enable_out(mpr121_read_enable_wire),
-		.mpr121_busy_in(mpr121_busy_wire),
-		.mpr121_fail_in(mpr121_fail_wire),
+		.i_MPR121_DATA_OUT(w_mpr121_data_out),  // received data from MPR121 (read data)
+		.o_MPR121_REG_ADDR(w_mpr121_reg_addr),   // transmitted register address to MPR121 (write data)
+		.o_MPR121_DATA_IN(w_mpr121_data_in),  // transmitted data to MPR121 (write data)
+		.o_MPR121_WRITE_ENABLE(w_mpr121_write_enable),
+		.o_MPR121_READ_ENABLE(w_mpr121_read_enable),
+		.i_MPR121_BUSY(w_mpr121_busy),
+		.i_MPR121_FAIL(w_mpr121_fail),
 
 		// System connection with MPR121 data
-		.mpr121_touch_status_out(mpr121_touch_status_out),
-		.mpr121_is_error(mpr121_is_error),
-		.mpr121_irq_in(MPR121_IRQ),
+		.o_MPR121_TOUCH_STATUS(w_mpr121_touch_status_out),
+		.o_MPR121_ERROR(w_mpr121_error),
 
 		// ADS1292
+		/*
 		.ads1292_data_out_in(ads1292_data_out_wire), // read data from ADS1292
 		.ads1292_control_out(ads1292_control_wire), // ADS1292 Control
 		.ads1292_command_out(ads1292_command_wire), // ADS1292 SPI command
@@ -121,44 +115,45 @@ module khu_sensor_top(
 		.ads1292_fail_in(ads1292_fail_wire),
 
 		.ads1292_drdy_in(ADS1292_DRDY_N),
-
+		*/
 		// System I/O
-		.chip_set(chip_set_wire),
-		.run(run_wire),
-		.run_set(run_set_wire),
-		.clk(CLOCK_50M),
-		.rst(!core_reset_n)
+		.o_CHIP_SET(w_chip_set),
+		.i_RUN(w_run),
+		.o_RUN_SET(w_run_set),
+		.o_CORE_BUSY(w_core_busy),
+		.i_CLK(CLOCK_25M),
+		.i_RST(!w_core_rstn)
 	);
 
 	// ===============================================================================================================================
 	// MPR121 Controller
 
-	wire [7:0] mpr121_data_out_wire;
-	wire [7:0] mpr121_reg_addr_wire;
-	wire [7:0] mpr121_data_in_wire;
-	wire mpr121_write_enable_wire;
-	wire mpr121_read_enable_wire;
-	wire mpr121_busy_wire;
-	wire mpr121_fail_wire;
+	wire [7:0] w_mpr121_data_out;
+	wire [7:0] w_mpr121_reg_addr;
+	wire [7:0] w_mpr121_data_in;
+	wire w_mpr121_write_enable;
+	wire w_mpr121_read_enable;
+	wire w_mpr121_busy;
+	wire w_mpr121_fail;
 
 	/*
-	GPIO[0] is foor realeasing MPR121 Bus stuck.
+	GPIO[0] is for realeasing MPR121 Bus stuck.
 	if MPR121_SCL stuck in low, connect MPR121_SCL to GPIO[0] (force to pull up scl)
 	*/
 	assign GPIO_0 = CLOCK_5M;
 
 	mpr121_controller mpr121_controller(
 		.clk(CLOCK_50M), // clock
-		.rstn(core_reset_n), // reset
+		.rstn(w_core_rstn), // reset
 
 		// Host Side
-		.mpr121_data_out(mpr121_data_out_wire),
-		.mpr121_reg_addr(mpr121_reg_addr_wire),
-		.mpr121_data_in(mpr121_data_in_wire),
-		.mpr121_write_enable(mpr121_write_enable_wire),
-		.mpr121_read_enable(mpr121_read_enable_wire),
-		.mpr121_busy(mpr121_busy_wire),
-		.mpr121_fail(mpr121_fail_wire),
+		.mpr121_data_out(w_mpr121_data_out),
+		.mpr121_reg_addr(w_mpr121_reg_addr),
+		.mpr121_data_in(w_mpr121_data_in),
+		.mpr121_write_enable(w_mpr121_write_enable),
+		.mpr121_read_enable(w_mpr121_read_enable),
+		.mpr121_busy(w_mpr121_busy),
+		.mpr121_fail(w_mpr121_fail),
 
 		//	I2C Side
 		.i2c_scl(MPR121_SCL),
@@ -181,7 +176,7 @@ module khu_sensor_top(
 	//assign ADS1292_SCLK = ~ADS1292_SCLK_N
 	ads1292_controller ads1292_controller(
 		.clk(CLOCK_50M), // clock
-		.rstn(core_reset_n), //reset
+		.rstn(w_core_rstn), //reset
 
 		// Host Side
 		.ads1292_data_out(ads1292_data_out_wire), // read data from ADS1292
