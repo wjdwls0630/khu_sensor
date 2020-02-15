@@ -8,6 +8,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
+	// UART Controller
+	output reg o_BUFFER_SEND;
+	input i_BUFFER_SEND_READY;
 
 	// MPR121
 	input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
@@ -220,14 +223,14 @@ module sensor_core(
 
 	// MPR121
 	// 8'b0001_xxxx
-	parameter ST_MPR_IDLE  = 8'd0;
-	parameter ST_MPR_SETTING = 8'd1;
-	parameter ST_MPR_RUN = 8'd2;
-	parameter ST_MPR_STOP = 8'd3;
-	parameter ST_MPR_WRITE_REG_INIT = 8'd4;
-	parameter ST_MPR_WRITE_REG_EN = 8'd5;
-	parameter ST_MPR_WRITE_REG_CONFIRM = 8'd6;
-	parameter ST_MPR_WRITE_REG_WAIT = 8'd7;
+	parameter ST_MPR_IDLE  = 8'd16;
+	parameter ST_MPR_SETTING = 8'd17;
+	parameter ST_MPR_RUN = 8'd18;
+	parameter ST_MPR_STOP = 8'd19;
+	parameter ST_MPR_WRITE_REG_INIT = 8'd20;
+	parameter ST_MPR_WRITE_REG_EN = 8'd21;
+	parameter ST_MPR_WRITE_REG_CONFIRM = 8'd22;
+	parameter ST_MPR_WRITE_REG_WAIT = 8'd23;
 	// TODO Read Reg state
 	parameter ST_MPR_READ_STATUS_INIT = 8'd26;
 	parameter ST_MPR_READ_STATUS_START = 8'd27;
@@ -246,8 +249,8 @@ module sensor_core(
 	reg r_mpr_status; // status_0 read(0) status_1 read(1)
 	reg [7:0] r_mpr_touch_status_0; // reg_addr : 0x00 data
 	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
-	reg [11:0] r_mpr_touch_status; // 0x01 + 0x00
-	reg [9:0] r_mpr_read_delay; // wait mpr121 read time
+	reg [15:0] r_mpr_touch_status; // 0x01 + 0x00
+	reg r_mpr_data_send_ready; // mpr data to send is ready
 	//============================================================================
 	// TODO make READ_REG state
 	//=============================Sequential Logic===============================
@@ -272,8 +275,8 @@ module sensor_core(
 			r_mpr_status <= 1'b0;
 			r_mpr_touch_status_0 <= 8'b0;
 			r_mpr_touch_status_1 <= 8'b0;
-			r_mpr_touch_status <= 12'b0;
-			r_mpr_read_delay <= 10'b0;
+			r_mpr_touch_status <= 16'b0;
+			r_mpr_data_send_ready <= 1'b0;
 
 			// state
 			r_mpr_lstate <= ST_MPR_IDLE;
@@ -292,8 +295,8 @@ module sensor_core(
 					r_mpr_status <= 1'b0;
 					r_mpr_touch_status_0 <= 8'b0;
 					r_mpr_touch_status_1 <= 8'b0;
-					r_mpr_touch_status <= 12'b0;
-					r_mpr_read_delay <= 10'b0;
+					r_mpr_touch_status <= 16'b0;
+					r_mpr_data_send_ready <= 1'b0;
 
 					if(r_mpr_chip_set &&(!r_mpr_chip_set_done)) r_mpr_pstate <= ST_MPR_SETTING;
 					else if(r_mpr_run_set &&(!r_mpr_run_set_done)) r_mpr_pstate <= ST_MPR_RUN;
@@ -452,6 +455,7 @@ module sensor_core(
 					o_MPR121_READ_ENABLE <= 1'b0;
 					if((!r_mpr_run_set) && r_mpr_run_set_done) r_mpr_pstate <= ST_MPR_STOP;
 					else begin
+						r_mpr_data_send_ready <= 1'b0;
 						if(r_mpr_status == 1'b0) r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
 						else r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG;
 						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
@@ -497,7 +501,8 @@ module sensor_core(
 					r_mpr_status <= ~r_mpr_status; // change its read status;
 					if(r_mpr_status == 1'b0) r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					else begin
-						r_mpr_touch_status <= {r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
+						r_mpr_touch_status <= {4'b0, r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
+						r_mpr_data_send_ready <= 1'b1;
 						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
 						r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					end
@@ -550,6 +555,17 @@ module sensor_core(
 
 	// ADS1292
 	// 8'b0010_xxxx
+	parameter ST_ADS_IDLE  = 8'd32;
+	parameter ST_ADS_SETTING = 8'd33;
+	parameter ST_ADS_RUN = 8'd34;
+	parameter ST_ADS_STOP = 8'd35;
+	parameter ST_ADS_WREG_INIT = 8'd36;
+	parameter ST_ADS_WREG_CONFIRM = 8'd37;
+	// TODO Read Reg state
+
+	parameter ST_ADS_RDATAC_INIT = 8'd40;
+	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd41;
+
 
 	//============================================================================
 
@@ -563,6 +579,7 @@ module sensor_core(
 	reg [31:0] r_ads_data_ch2_1; // container for 8 bits of ch2's first data
 	reg [31:0] r_ads_data_ch2_2; // container for 8 bits of ch2's second data
 	reg [31:0] r_ads_data_ch2_3; // container for 8 bits of ch2's third data
+	reg r_ads_data_send_ready; // ads data to send is ready.
 	//============================================================================
 	// TODO make READ_REG state
 	//=============================Sequential Logic===============================
@@ -584,165 +601,220 @@ module sensor_core(
 			r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
 			r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
 			r_ads_data_ch2_3 <= 32'b0; // container for 8 bits of ch2's third data
+			r_ads_data_send_ready <= 1'b0;
 			// state
 			r_ads_lstate <= ST_ADS_IDLE;
 			r_ads_pstate <= ST_ADS_IDLE;
 		end else begin
-		case (r_ads_pstate)
-			ST_ADS_IDLE:
-			begin
+			case (r_ads_pstate)
+				ST_ADS_IDLE:
+				begin
 
-				r_ads_set_counter <= 4'b0; // ads setting counter
-				r_ads_first_param <= 8'b0;
-				r_ads_second_param <= 8'b0;
-				r_ads_data_out <= 72'b0;
-				r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
-				r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
-				r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
-				r_ads_data_ch2_3 <= 32'b0; // container for 8 bits of ch2's third data
+					r_ads_set_counter <= 4'b0; // ads setting counter
+					r_ads_first_param <= 8'b0;
+					r_ads_second_param <= 8'b0;
+					r_ads_data_out <= 72'b0;
+					r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
+					r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
+					r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
+					r_ads_data_ch2_3 <= 32'b0; // container for 8 bits of ch2's third data
+					r_ads_data_send_ready <= 1'b0;
 
-				if(r_ads_chip_set &&(!r_ads_chip_set_done)) r_ads_pstate <= ST_ADS_SETTING;
-				else if(r_ads_run_set &&(!r_ads_run_set_done)) r_ads_pstate <= ST_ADS_RUN;
-				else r_ads_pstate <= ST_ADS_IDLE;
-			end
+					if(r_ads_chip_set &&(!r_ads_chip_set_done)) r_ads_pstate <= ST_ADS_SETTING;
+					else if(r_ads_run_set &&(!r_ads_run_set_done)) r_ads_pstate <= ST_ADS_RUN;
+					else r_ads_pstate <= ST_ADS_IDLE;
+				end
 
-			ST_ADS_SETTING:
-			begin
-				// MPR121 Setting
-				if(r_ads_set_counter > 4'd10) begin
-					r_ads_chip_set_done <= 1'b1;
-					r_ads_set_counter <= 4'd0;
+				ST_ADS_SETTING:
+				begin
+					// ADS1292 Setting
+					if(r_ads_set_counter > 4'd10) begin
+						r_ads_chip_set_done <= 1'b1;
+						r_ads_set_counter <= 4'd0;
+						r_ads_pstate <= ST_ADS_IDLE;
+					end else begin
+						if(r_ads_set_counter == 4'd0) begin
+							r_ads_first_param <= ADS_CONFIG_1_REG;
+							r_ads_second_param <= ADS_CONFIG_1_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd1) begin
+							r_ads_first_param <= ADS_CONFIG_2_REG;
+							r_ads_second_param <= ADS_CONFIG_2_DATA;
+						end
+
+						if(r_mpr_set_counter == 4'd2) begin
+							r_ads_first_param <= ADS_LOFF_REG;
+							r_ads_second_param <= ADS_LOFF_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd3) begin
+							r_ads_first_param <= ADS_CH1SET_REG;
+							r_ads_second_param <= ADS_CH1SET_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd4) begin
+							r_ads_first_param <= ADS_CH2SET_REG;
+							r_ads_second_param <= ADS_CH2SET_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd5) begin
+							r_ads_first_param <= ADS_RLD_SENS_REG;
+							r_ads_second_param <= ADS_RLD_SENS_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd6) begin
+							r_ads_first_param <= ADS_LOFF_SENS_REG;
+							r_ads_second_param <= ADS_LOFF_SENS_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd7) begin
+							r_ads_first_param <= ADS_LOFF_STAT_REG;
+							r_ads_second_param <= ADS_LOFF_STAT_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd8) begin
+							r_ads_first_param <= ADS_RESP1_REG;
+							r_ads_second_param <= ADS_RESP1_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd9) begin
+							r_ads_first_param <= ADS_RESP2_REG;
+							r_ads_second_param <= ADS_RESP2_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd10) begin
+							r_ads_first_param <= ADS_GPIO_REG;
+							r_ads_second_param <= ADS_GPIO_DATA;
+						end
+
+						r_ads_set_counter <= r_ads_set_counter + 1'b1;
+						r_ads_lstate <= ST_ADS_SETTING;
+						r_ads_pstate <= ST_ADS_WREG_INIT;
+					end
+				end
+
+				ST_ADS_RUN:
+				begin
+					o_ADS1292_CONTROL <= ADS_CB_RDATAC;
+					r_ads_run_set_done <= 1'b1;
+					r_ads_pstate <= ST_ADS_RDATAC_INIT;
+				end
+
+				ST_ADS_STOP:
+				begin
+					o_ADS1292_CONTROL <= ADS_CB_SDATAC;
+					r_ads_run_set_done <= 1'b0;
 					r_ads_pstate <= ST_ADS_IDLE;
-				end else begin
-					if(r_ads_set_counter == 4'd0) begin
-						r_ads_first_param <= ADS_CONFIG_1_REG;
-						r_ads_second_param <= ADS_CONFIG_1_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd1) begin
-						r_ads_first_param <= ADS_CONFIG_2_REG;
-						r_ads_second_param <= ADS_CONFIG_2_DATA;
-					end
-
-					if(r_mpr_set_counter == 4'd2) begin
-						r_ads_first_param <= ADS_LOFF_REG;
-						r_ads_second_param <= ADS_LOFF_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd3) begin
-						r_ads_first_param <= ADS_CH1SET_REG;
-						r_ads_second_param <= ADS_CH1SET_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd4) begin
-						r_ads_first_param <= ADS_CH2SET_REG;
-						r_ads_second_param <= ADS_CH2SET_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd5) begin
-						r_ads_first_param <= ADS_RLD_SENS_REG;
-						r_ads_second_param <= ADS_RLD_SENS_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd6) begin
-						r_ads_first_param <= ADS_LOFF_SENS_REG;
-						r_ads_second_param <= ADS_LOFF_SENS_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd7) begin
-						r_ads_first_param <= ADS_LOFF_STAT_REG;
-						r_ads_second_param <= ADS_LOFF_STAT_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd8) begin
-						r_ads_first_param <= ADS_RESP1_REG;
-						r_ads_second_param <= ADS_RESP1_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd9) begin
-						r_ads_first_param <= ADS_RESP2_REG;
-						r_ads_second_param <= ADS_RESP2_DATA;
-					end
-
-					if(r_ads_set_counter == 4'd10) begin
-						r_ads_first_param <= ADS_GPIO_REG;
-						r_ads_second_param <= ADS_GPIO_DATA;
-					end
-
-					r_ads_set_counter <= r_ads_set_counter + 1'b1;
-					r_ads_lstate <= ST_ADS_SETTING;
-					r_ads_pstate <= ST_ADS_WREG_INIT;
 				end
-			end
 
-			ST_ADS_RUN:
-			begin
-				o_ADS1292_CONTROL <= ADS_CB_RDATAC;
-				r_ads_run_set_done <= 1'b1;
-				r_ads_pstate <= ST_ADS_RDATAC_INIT;
-			end
-
-			ST_ADS_STOP:
-			begin
-				o_ADS1292_CONTROL <= ADS_CB_SDATAC;
-				r_ads_run_set_done <= 1'b0;
-				r_ads_pstate <= ST_ADS_IDLE;
-			end
-
-			ST_ADS_WREG_INIT:
-			begin
-				ads1292_control_out <= ADS_CB_WREG;
-				ads1292_reg_addr_out <= first_param_reg;
-				ads1292_data_in_out <= second_param_reg;
-				pstate <= ST_ADS_WREG_CONFIRM;
-			end
-
-			ST_ADS_WREG_CONFIRM:
-			begin
-				ads1292_control_out <= ADS_CB_IDLE;
-				if(ads1292_busy_in) pstate <= ST_ADS_WREG_CONFIRM;
-				else begin
-					if (lstate == ST_CHIP_SETTING) pstate <= ST_CHIP_SETTING;
-					else pstate <= ST_STANDBY; //TODO go where? is there any other case to write reg?
+				ST_ADS_WREG_INIT:
+				begin
+					o_ADS1292_CONTROL <= ADS_CB_WREG;
+					o_ADS1292_REG_ADDR <= first_param_reg;
+					o_ADS1292_DATA_IN <= second_param_reg;
+					r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 				end
-			end
 
-			// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-			ST_ADS_RDATAC_INIT:
-			begin
-				if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
-				else begin
-					if(i_ADS1292_DATA_READY) begin
-						r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
-						r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
-						r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
-						r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
-						r_ads_pstate <= ST_ADS_RDATAC_DATA_PROCESS_1;
-					end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+				ST_ADS_WREG_CONFIRM:
+				begin
+					o_ADS1292_CONTROL <= ADS_CB_IDLE;
+					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_WREG_CONFIRM;
+					else begin
+						if (r_ads_lstate == ST_ADS_SETTING) r_ads_pstate <= ST_ADS_SETTING;
+						//TODO where to go?
+					end
 				end
-			end
 
-			ST_ADS_RDATAC_DATA_PROCESS_1:
-			begin
-				if(r_ads_data_ch2_1 > 8'h7F) begin
-					r_ads_data_convert <= ((~r_ads_data_ch2_1)<<16)|((~r_ads_data_ch2_2)<<8)|(~r_ads_data_ch2_3);
-				end else begin
-					r_ads_data_convert <= (r_ads_data_ch2_1<<16)|(r_ads_data_ch2_2<<8)|r_ads_data_ch2_3;
+				// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
+				ST_ADS_RDATAC_INIT:
+				begin
+					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
+					else begin
+						if(i_ADS1292_DATA_READY) begin
+							r_ads_data_send_ready <= 1'b0;
+							r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
+							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
+							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
+							r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
+							r_ads_pstate <= ST_ADS_RDATAC_DATA_PROCESS;
+						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+					end
 				end
-				r_ads_pstate <= ST_ADS_RDATAC_INIT;
-			end
-			
-			default:
-			begin
-				r_ads_pstate <= ST_ADS_IDLE;
-			end
-		endcase
 
+				ST_ADS_RDATAC_DATA_PROCESS:
+				begin
+					if(r_ads_data_ch2_1 > 8'h7F) begin
+						r_ads_data_convert <= ((~r_ads_data_ch2_1)<<16)|((~r_ads_data_ch2_2)<<8)|(~r_ads_data_ch2_3);
+					end else begin
+						r_ads_data_convert <= (r_ads_data_ch2_1<<16)|(r_ads_data_ch2_2<<8)|r_ads_data_ch2_3;
+					end
+					// TODO make ads data ready flag
+					r_ads_data_send_ready <= 1'b1;
+					r_ads_pstate <= ST_ADS_RDATAC_INIT;
+				end
 
+				default:
+				begin
+					r_ads_pstate <= ST_ADS_IDLE;
+				end
 			endcase
 		end
 	end
 
+	/****************************************************************************
+	*                          		UART Controller                                *
+	*****************************************************************************/
+	//==============================Parameter=====================================
+	// UART Signal (user defined)
+	parameter UART_SG_MPR_TX = ; // 'M'
+	parameter UART_SG_MPR_RX = ; // 'm'
+	parameter UART_SG_ADS_TX = ; // 'A'
+	parameter UART_SG_ADS_RX = ; // 'a'
+	//============================================================================
+
+	//==============================State=========================================
+	reg [7:0] r_uart_lstate;
+	reg [7:0] r_uart_pstate;
+
+	// Buffer
+	// 8'b0011_xxxx
+	//============================================================================
+
+	//=========================Internal Connection ===============================
+
+	// MPR121 variable
+	reg [3:0] r_mpr_set_counter; // mpr setting counter
+	reg [7:0] r_mpr_first_param;
+	reg [7:0] r_mpr_second_param;
+	reg r_mpr_status; // status_0 read(0) status_1 read(1)
+	reg [7:0] r_mpr_touch_status_0; // reg_addr : 0x00 data
+	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
+	reg [11:0] r_mpr_touch_status; // 0x01 + 0x00
+	reg [9:0] r_mpr_read_delay; // wait mpr121 read time
+	reg [47:0] r_uart_data_send;
+	//============================================================================
+	// TODO make READ_REG state
+	//=============================Sequential Logic===============================
+	always @ ( posedge i_Clk, posedge i_RST ) begin
+		if(i_RST) begin
+		end else begin
+			// update data on every clock
+			// set ads priority
+			if(r_ads_data_send_ready) begin
+			end else if(r_mpr_data_send_ready) begin
+			end else begin
+			end
+
+		 	case (r_buf_pstate)
+		 		ST_UART_IDLE:
+				begin
+
+				end
+		 		default: ;
+		 	endcase
+		end
+	end
 
 endmodule
 	//============================================================================
