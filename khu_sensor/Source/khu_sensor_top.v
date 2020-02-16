@@ -70,6 +70,8 @@ module khu_sensor_top(
 		);
 		*/
 
+
+
 	// ===============================================================================================================================
 	// Sensor_Core
 
@@ -88,6 +90,23 @@ module khu_sensor_top(
 
 	wire w_core_busy;
 	assign LEDR[17] = w_core_busy;
+
+	uart_controller uart_controller(
+		// TX
+		.i_UART_DATA_TX,
+		.i_UART_DATA_TX_VALID,
+		.o_DATA_TX_READY,
+		// RX
+		.o_UART_DATA_RX,
+		.o_UART_DATA_RX_VALID,
+
+		.i_CORE_BUSY(w_core_busy),
+		// System I/O
+		.i_UART_RXD(UART_RXD), // external_interface.RXD
+		.o_UART_TXD(UART_TXD),
+		.i_CLK(w_CLOCK_25M),
+		.i_RST(!w_core_rstn)
+		);
 
 	sensor_core sensor_core(
 		// MPR121

@@ -501,7 +501,7 @@ module sensor_core(
 					r_mpr_status <= ~r_mpr_status; // change its read status;
 					if(r_mpr_status == 1'b0) r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					else begin
-						r_mpr_touch_status <= {4'b0, r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
+						r_mpr_touch_status <= {r_mpr_touch_status_0[7:0], 4'b0, r_mpr_touch_status_1[3:0]};
 						r_mpr_data_send_ready <= 1'b1;
 						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
 						r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
@@ -767,10 +767,12 @@ module sensor_core(
 	*****************************************************************************/
 	//==============================Parameter=====================================
 	// UART Signal (user defined)
-	parameter UART_SG_MPR_TX = ; // 'M'
-	parameter UART_SG_MPR_RX = ; // 'm'
-	parameter UART_SG_ADS_TX = ; // 'A'
-	parameter UART_SG_ADS_RX = ; // 'a'
+	parameter UART_SG_MPR_SEND_DATA = ; // 'M'
+	parameter UART_SG_MPR_READ_REG = ; // 'm'
+	parameter UART_SG_ADS_SEND_DATA = ; // 'A'
+	parameter UART_SG_ADS_READ_REG = ; // 'a'
+	parameter UART_SG_RUN = ; // 'R'
+	parameter UART_SG_STOP = ; // 'S'
 	//============================================================================
 
 	//==============================State=========================================
@@ -783,36 +785,40 @@ module sensor_core(
 
 	//=========================Internal Connection ===============================
 
-	// MPR121 variable
-	reg [3:0] r_mpr_set_counter; // mpr setting counter
-	reg [7:0] r_mpr_first_param;
-	reg [7:0] r_mpr_second_param;
-	reg r_mpr_status; // status_0 read(0) status_1 read(1)
-	reg [7:0] r_mpr_touch_status_0; // reg_addr : 0x00 data
-	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
-	reg [11:0] r_mpr_touch_status; // 0x01 + 0x00
-	reg [9:0] r_mpr_read_delay; // wait mpr121 read time
-	reg [47:0] r_uart_data_send;
+	input [15:0] i_UART_DATA_RX;
+	reg [15:0] r_uart_data_rx;
+	input i_UART_DATA_RX_VALID;
+	output reg [47:0] o_UART_DATA_TX;
+	output reg o_UARTA_DATA_TX_VALID;
+	input i_UART_DATA_TX_READY;
 	//============================================================================
 	// TODO make READ_REG state
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_Clk, posedge i_RST ) begin
 		if(i_RST) begin
+			o_UART_DATA_TX <= 48'b0;
+			o_UART_DATA_TX_VALID <= 1'b0;
 		end else begin
-			// update data on every clock
-			// set ads priority
-			if(r_ads_data_send_ready) begin
-			end else if(r_mpr_data_send_ready) begin
+			// TODO READ priority
+			if(i_UART_DATA_RX_VALID) begin
+				r_uart_data_rx <= i_UART_DATA_RX;
+			 //TODO Run, stop ,read reg, control the mpr, ads state
 			end else begin
+				// update tx data
+				if(i_UART_DATA_TX_READY) begin
+					// prioritize ads
+					if(r_ads_data_send_ready) begin
+						o_UART_DATA_TX <= {UART_SG_ADS_TX, r_ads_data_convert};
+						o_UART_DATA_TX_VALID <= 1'b1;
+					end else if(r_mpr_data_send_ready) begin
+						o_UART_DATA_TX <= {UART_SG_MPR_TX, r_mpr_touch_status};
+						o_UART_DATA_TX_VALID <= 1'b1;
+					end else begin
+						o_UART_DATA_TX_VALID <= 1'b0;
+						//TODO do what? does it make latches?
+					end
+				end else o_UART_DATA_TX_VALID <= 1'b0;
 			end
-
-		 	case (r_buf_pstate)
-		 		ST_UART_IDLE:
-				begin
-
-				end
-		 		default: ;
-		 	endcase
 		end
 	end
 
