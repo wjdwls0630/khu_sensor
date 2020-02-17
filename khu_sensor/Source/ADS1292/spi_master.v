@@ -31,7 +31,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // FPGA board clock is 50MHz, hence o_SPI_CLK is going to be 6.25MHz
 module spi_master
-  #(parameter SPI_MODE = 0,
+  #(parameter SPI_MODE = 1, //datasheet 10page : NOTE: SPI settings are CPOL = 0 and CPHA = 1.
     parameter CLKS_PER_HALF_BIT = 2)
   (
    // Control/Data Signals,
