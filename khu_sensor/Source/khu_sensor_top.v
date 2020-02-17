@@ -45,36 +45,9 @@ module khu_sensor_top(
 	wire rstn_btn;
 	assign rstn_btn = KEY_0;
 
-	wire uart_addr_wire;
-	wire uart_chip_select_wire;
-	wire [2:0] uart_byteenable_wire;
-	wire uart_read_wire;
-	wire uart_write_wire;
-	wire [31:0] uart_writedata_wire;
-	wire [31:0] uart_readdata_wire;
-	wire uart_irq_wire;
-	/*
-	rs232_uart rs232_uart(
-		.address(uart_addr_wire),    // avalon_rs232_slave.address
-		.chipselect(uart_chip_select_wire), //                   .chipselect
-		.byteenable(uart_byteenable_wire), //                   .byteenable
-		.read(uart_read_wire),       //                   .read
-		.write(uart_write_wire),      //                   .write
-		.writedata(uart_writedata_wire),  //                   .writedata
-		.readdata(uart_readdata_wire),   //                   .readdata
-		.clk(CLOCK_50M),        //                clk.clk
-		.UART_RXD(UART_RXD),   // external_interface.RXD
-		.UART_TXD(UART_TXD),   //                   .TXD
-		.irq(uart_irq_wire),        //          interrupt.irq
-		.reset(~rst_btn)       //              reset.reset
-		);
-		*/
-
-
-
 	// ===============================================================================================================================
+	// Sensor_Core & UART
 	// Sensor_Core
-
   wire [11:0] w_mpr121_touch_status_out;
 	assign LEDR[11:0] = w_mpr121_touch_status_out;
 
@@ -91,14 +64,21 @@ module khu_sensor_top(
 	wire w_core_busy;
 	assign LEDR[17] = w_core_busy;
 
+	// UART controller
+	wire [39:0] w_uart_data_tx;
+	wire w_uart_data_tx_valid;
+	wire w_uart_data_tx_ready;
+	wire [15:0] w_uart_data_rx;
+	wire w_uart_data_rx_valid;
+
 	uart_controller uart_controller(
 		// TX
-		.i_UART_DATA_TX,
-		.i_UART_DATA_TX_VALID,
-		.o_DATA_TX_READY,
+		.i_UART_DATA_TX(w_uart_data_tx),
+		.i_UART_DATA_TX_VALID(w_uart_data_tx_valid),
+		.o_DATA_TX_READY(w_uart_data_tx_ready),
 		// RX
-		.o_UART_DATA_RX,
-		.o_UART_DATA_RX_VALID,
+		.o_UART_DATA_RX(w_uart_data_rx),
+		.o_UART_DATA_RX_VALID(w_uart_data_rx_valid),
 
 		.i_CORE_BUSY(w_core_busy),
 		// System I/O
@@ -109,6 +89,16 @@ module khu_sensor_top(
 		);
 
 	sensor_core sensor_core(
+		// UART Controller
+		// TX
+		.o_UART_DATA_TX(w_uart_data_tx), // tx data which send to PC
+		.o_UARTA_DATA_TX_VALID(w_uart_data_tx_valid), // tx data valid
+		.i_UART_DATA_TX_READY(w_uart_data_tx_ready), // tx Ready for next byte
+
+		// RX
+		.i_UART_DATA_RX(w_uart_data_rx), // rx data which receive from PC
+		.i_UART_DATA_RX_VALID(w_uart_data_rx_valid), // rx data valid pulse
+
 		// MPR121
 		.i_MPR121_DATA_OUT(w_mpr121_data_out),  // received data from MPR121 (read data)
 		.o_MPR121_REG_ADDR(w_mpr121_reg_addr),   // transmitted register address to MPR121 (write data)
