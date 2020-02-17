@@ -163,21 +163,22 @@ module khu_sensor_top(
 	assign GPIO_0 = CLOCK_5M;
 
 	mpr121_controller mpr121_controller(
-		.clk(CLOCK_50M), // clock
-		.rstn(w_core_rstn), // reset
+
+		.i_CLK(CLOCK_50M), // clock
+		.i_RSTN(w_core_rstn), // reset
 
 		// Host Side
-		.mpr121_data_out(w_mpr121_data_out),
-		.mpr121_reg_addr(w_mpr121_reg_addr),
-		.mpr121_data_in(w_mpr121_data_in),
-		.mpr121_write_enable(w_mpr121_write_enable),
-		.mpr121_read_enable(w_mpr121_read_enable),
-		.mpr121_busy(w_mpr121_busy),
-		.mpr121_fail(w_mpr121_fail),
+		.o_MPR121_DATA_OUT(w_mpr121_data_out), // read data from MPR121
+		.o_MPR121_REG_ADDR(w_mpr121_reg_addr), // MPR121 register address
+		.i_MPR121_DATA_IN(w_mpr121_data_in), // data to write in MPR121 register
+		.i_MPR121_WRITE_ENABLE(w_mpr121_write_enable), // write enable
+		.i_MPR121_READ_ENABLE(w_mpr121_read_enable), // read enable
+		.o_MPR121_BUSY(w_mpr121_busy),
+		.o_MPR121_FAIL(w_mpr121_fail),
 
 		//	I2C Side
-		.i2c_scl(MPR121_SCL),
-		.i2c_sda(MPR121_SDA)
+		.I2C_SCL(MPR121_SCL),
+		.I2C_SDA(MPR121_SDA)
 		);
 	//============================================================================
 

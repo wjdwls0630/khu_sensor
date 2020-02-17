@@ -61,7 +61,7 @@ module sensor_core(
 	parameter ST_CORE_STANDBY = 8'd2;
 	parameter ST_CORE_IS_READING = 8'd3;
 	//============================================================================
-	
+
 	//==============================wire & reg====================================
 	// chip setting logic
 	reg r_mpr_chip_set; // signal that change mpr setting state
@@ -544,7 +544,7 @@ module sensor_core(
 	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h63;
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0F;
 	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h40;
-	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'hEA;
+	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
 	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
