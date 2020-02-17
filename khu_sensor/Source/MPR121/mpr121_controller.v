@@ -275,8 +275,8 @@ module mpr121_controller (
 	parameter ST_READ_START_2 = 8'd22;
 	parameter ST_READ_GET_DATA = 8'd23;
 	parameter ST_READ_FINISH	= 8'd24;
-
-	reg [31:0] wait_timeout_reg;
+	reg [7:0] mpr_data_out_reg;
+	reg [9:0] wait_timeout_reg;
 	always@(posedge clk or negedge rstn) begin
 		if(!rstn) begin
 
@@ -306,7 +306,8 @@ module mpr121_controller (
 				mpr121_busy <= 1'b0;
 				mpr121_fail <= 1'b0;
 
-				wait_timeout_reg <= 32'b0;
+				mpr_data_out_reg <= 8'b0;
+				wait_timeout_reg <= 10'b0;
 
 				// State
 				pstate <=	ST_IDLE;
@@ -338,7 +339,8 @@ module mpr121_controller (
 					mpr121_busy <= 1'b0;
 					mpr121_fail <= 1'b0;
 
-					wait_timeout_reg <= 32'b0;
+					mpr_data_out_reg <= 8'b0;
+					wait_timeout_reg <= 10'b0;
 
 					if (mpr121_write_enable) begin
 						mpr121_busy <= 1'b1;
@@ -410,14 +412,9 @@ module mpr121_controller (
 
 				ST_WRITE_FINISH:
 				begin
-					/*
-					mpr121_busy <= 1'b0;
-					if (!mpr121_write_enable) pstate <= ST_IDLE;
-					else pstate <= ST_WRITE_FINISH;
-					*/
-
-					if(wait_timeout_reg > 32'd10000) begin
-						wait_timeout_reg <= 32'b0;
+					// for sake of stability, wait 2.5us (i2c scl one clock)
+					if(wait_timeout_reg > 10'd124) begin
+						wait_timeout_reg <= 10'b0;
 						mpr121_busy <= 1'b0;
 						if (!mpr121_write_enable) pstate <= ST_IDLE;
 						else pstate <= ST_WRITE_FINISH;
@@ -501,22 +498,9 @@ module mpr121_controller (
 
 				ST_READ_FINISH:
 				begin
-
-					if(wait_timeout_reg > 32'd10000) begin
-						wait_timeout_reg <= 32'b0;
-						mpr121_busy <= 1'b0;
-						if (!mpr121_read_enable) pstate <= ST_IDLE;
-						else pstate <= ST_READ_FINISH;
-					end else begin
-						wait_timeout_reg <= wait_timeout_reg + 1'b1;
-						pstate <= ST_READ_FINISH;
-					end
-
-					/*
 					mpr121_busy <= 1'b0;
 					if (!mpr121_read_enable) pstate <= ST_IDLE;
 					else pstate <= ST_READ_FINISH;
-					*/
 				end
 
 				default:
