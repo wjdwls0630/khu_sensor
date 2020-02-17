@@ -199,27 +199,27 @@ module khu_sensor_top(
 	//wire ADS1292_SCLK_N;
 	//assign ADS1292_SCLK = ~ADS1292_SCLK_N
 	ads1292_controller ads1292_controller(
-		.clk(CLOCK_50M), // clock
-		.rstn(w_core_rstn), //reset
+		.i_CLK(CLOCK_50M), // clock
+		.i_RSTN(w_core_rstn), //reset
 
 		// Host Side
-		.ads1292_data_out(w_ads1292_data_out), // read data from ADS1292
-		.ads1292_control(w_ads1292_control), // ADS1292 Control
-		.ads1292_command(w_ads1292_command), // ADS1292 SPI command
-		.ads1292_reg_addr(w_ads1292_reg_addr), // ADS1292 register address
-		.ads1292_data_in(w_ads1292_data_in), // data to write in ADS1292 register
-		.ads1292_rdatac_ready(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
-		.ads1292_busy(w_ads1292_busy),
-		.ads1292_fail(w_ads1292_fail),
+		.o_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
+		.i_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
+		.i_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
+		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
+		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
+		.o_ADS1292_RDATAC_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.o_ADS1292_BUSY(w_ads1292_busy),
+		.o_ADS1292_FAIL(w_ads1292_fail),
 
 		//	ADS1292, SPI Side
-		.spi_clk(ADS1292_SCLK),
-		.spi_miso(ADS1292_MISO), // SPI data form ADS - Master input Slave output (read)
-		.spi_mosi(ADS1292_MOSI), // SPI data to ADS - Master Output Slave Input (write)
-		.ads1292_drdy(w_ADS1292_DRDY_N), // Data Ready (active low) (change it active high)
-		.ads1292_reset(ADS1292_RESET),
-		.ads1292_start(ADS1292_START),
-		.spi_csn(ADS1292_CSN), // Chip Select Negative (active low)
+		.o_SPI_CLK(ADS1292_SCLK),
+		.i_SPI_MISO(ADS1292_MISO), // SPI data form ADS - Master input Slave output (read)
+		.o_SPI_MOSI(ADS1292_MOSI), // SPI data to ADS - Master Output Slave Input (write)
+		.i_ADS1292_DRDY(w_ADS1292_DRDY_N), // Data Ready (active low) (change it active high)
+		.o_ADS1292_RESET(ADS1292_RESET),
+		.o_ADS1292_START(ADS1292_START),
+		.o_SPI_CSN(ADS1292_CSN), // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 		);
 	//============================================================================
