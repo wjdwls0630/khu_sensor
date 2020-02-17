@@ -61,9 +61,8 @@ module sensor_core(
 	parameter ST_CORE_STANDBY = 8'd2;
 	parameter ST_CORE_IS_READING = 8'd3;
 	//============================================================================
-	//TODO ADS
-	//==============================Connection====================================
-
+	
+	//==============================wire & reg====================================
 	// chip setting logic
 	reg r_mpr_chip_set; // signal that change mpr setting state
 	reg r_mpr_chip_set_done; // signal that mpr chip setting process is done
@@ -159,9 +158,10 @@ module sensor_core(
 						if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
 						else r_mpr_is_reading <= 1'b1;
 
-						if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;;
+						if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
 						else r_ads_is_reading <= 1'b1;
 					end else begin
+						// TODO read register here ( when core is running, make pc cannot read reg)
 						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
 						else r_mpr_is_reading <= 1'b0; //TODO design where state should go
 
@@ -243,8 +243,7 @@ module sensor_core(
 	parameter ST_MPR_ERROR_REPORT = 8'd31;
 	//============================================================================
 
-	//=========================Internal Connection ===============================
-
+//==============================wire & reg====================================
 	// MPR121 variable
 	reg [3:0] r_mpr_set_counter; // mpr setting counter
 	reg [7:0] r_mpr_first_param;
@@ -511,8 +510,6 @@ module sensor_core(
 					end
 				end
 
-
-
 				ST_MPR_ERROR_REPORT:
 				begin
 					o_MPR121_ERROR <= 1'b1;
@@ -570,8 +567,7 @@ module sensor_core(
 	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd41;
 	//============================================================================
 
-	//=========================Internal Connection================================
-	// ADS1292 variable
+	//==============================wire & reg====================================
 	reg [3:0] r_ads_set_counter; // ads setting counter
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
@@ -786,7 +782,7 @@ module sensor_core(
 	parameter ST_UART_RX = 8'd49;
 	//============================================================================
 
-	//=========================Internal Connection ===============================
+	//==============================wire & reg====================================
 	reg [15:0] r_uart_data_rx;
 	reg temp_run_state;
 	//============================================================================

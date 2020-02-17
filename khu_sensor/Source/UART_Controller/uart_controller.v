@@ -71,7 +71,7 @@ module uart_controller (
   parameter ST_TX_SHIFT = 8'd7;
   //============================================================================
 
-  //=========================Internal Connection===============================
+  //==============================wire & reg====================================
   reg [39:0] r_uart_data_tx; // container for input data
   reg [2:0] r_data_counter; // count how much byte controller sent
   //============================================================================

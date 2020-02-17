@@ -26,11 +26,22 @@ module khu_sensor_top(
 	output ADS1292_RESET,  // GPIO[30]
 	output ADS1292_START,  // GPIO[31]
 	output ADS1292_CSN  // GPIO[32]
-);
+	);
+	/****************************************************************************
+	*                           	   FPGA				                               	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
+	wire rstn_btn;
+	assign rstn_btn = KEY_0;
+	//============================================================================
 
-	// PLL
+	/****************************************************************************
+	*                           	   ALTPLL 		                               	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	wire w_CLOCK_5M, w_CLOCK_25M, w_CLOCK_100M;
 	wire w_core_rstn;
+
 	my_pll khu_pll(
 		.areset		(!rstn_btn),
 		.inclk0		(CLOCK_50M),
@@ -38,33 +49,13 @@ module khu_sensor_top(
 		.c2				(w_CLOCK_25M),
 		.c3       (w_CLOCK_100M),
 		.locked		(w_core_rstn)
-	);
+		);
+	//============================================================================
 
-	// System I/O
-
-	wire rstn_btn;
-	assign rstn_btn = KEY_0;
-
-	// ===============================================================================================================================
-	// Sensor_Core & UART
-	// Sensor_Core
-  wire [11:0] w_mpr121_touch_status_out;
-	assign LEDR[11:0] = w_mpr121_touch_status_out;
-
-	wire w_mpr121_error;
-	assign LEDR[16] = w_mpr121_error;
-
-	wire w_chip_set;
-	wire w_run;
-	wire w_run_set;
-	assign LEDG[0] = w_chip_set;
-	assign w_run = SW_0;
-	assign LEDG[1] = w_run_set;
-
-	wire w_core_busy;
-	assign LEDR[17] = w_core_busy;
-
-	// UART controller
+	/****************************************************************************
+	*                           uart_controller			                          	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	wire [39:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
@@ -83,10 +74,31 @@ module khu_sensor_top(
 		.i_CORE_BUSY(w_core_busy),
 		// System I/O
 		.i_UART_RXD(UART_RXD), // external_interface.RXD
-		.o_UART_TXD(UART_TXD),
+		.o_UART_TXD(UART_TXD), // external_interface.TXD
 		.i_CLK(w_CLOCK_25M),
 		.i_RST(!w_core_rstn)
 		);
+	//============================================================================
+
+	/****************************************************************************
+	*                           	sensor_core			        		                 	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
+  wire [11:0] w_mpr121_touch_status_out;
+	assign LEDR[11:0] = w_mpr121_touch_status_out;
+
+	wire w_mpr121_error;
+	assign LEDR[16] = w_mpr121_error;
+
+	wire w_chip_set;
+	wire w_run;
+	wire w_run_set;
+	assign LEDG[0] = w_chip_set;
+	assign w_run = SW_0;
+	assign LEDG[1] = w_run_set;
+
+	wire w_core_busy;
+	assign LEDR[17] = w_core_busy;
 
 	sensor_core sensor_core(
 		// UART Controller
@@ -130,10 +142,12 @@ module khu_sensor_top(
 		.i_CLK(w_CLOCK_25M),
 		.i_RST(!w_core_rstn)
 	);
+	//============================================================================
 
-	// ===============================================================================================================================
-	// MPR121 Controller
-
+	/****************************************************************************
+	*                           	mpr121_controller		     		                 	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	wire [7:0] w_mpr121_data_out;
 	wire [7:0] w_mpr121_reg_addr;
 	wire [7:0] w_mpr121_data_in;
@@ -165,9 +179,12 @@ module khu_sensor_top(
 		.i2c_scl(MPR121_SCL),
 		.i2c_sda(MPR121_SDA)
 		);
+	//============================================================================
 
-	// ===============================================================================================================================
-	// ADS1292 Controller
+	/****************************************************************************
+	*                           	ads1292_controller		   		                 	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	wire [71:0] w_ads1292_data_out;
 	wire [2:0] w_ads1292_control;
 	wire [7:0] w_ads1292_command;
@@ -204,4 +221,5 @@ module khu_sensor_top(
 		.spi_csn(ADS1292_CSN), // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 		);
+	//============================================================================
 endmodule
