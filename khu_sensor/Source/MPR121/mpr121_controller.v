@@ -144,7 +144,10 @@ module mpr121_controller (
 	Read mode of Slave Address in our case
 	I2C_MPR121_addr_Read -> 8'b1011_0111
 	*/
-
+	/****************************************************************************
+	*                           		i2c_master                                   *
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	/*
 		reg == input of i2c_master
 		wire == output of i2c_master
@@ -247,9 +250,9 @@ module mpr121_controller (
 	of input i_CLK cycles (prescale = Fclk / (FI2Cclk * 4))
 	(Basic frequency of altera board)50M/(400k*4) = 125
 	*/
+	//============================================================================
 
-	// State machine
-
+	//==============================State=========================================
 	reg [7:0] r_pstate; // state machine
 
 	parameter ST_IDLE	= 8'd0;
@@ -274,10 +277,14 @@ module mpr121_controller (
 	parameter ST_READ_START_2 = 8'd22;
 	parameter ST_READ_GET_DATA = 8'd23;
 	parameter ST_READ_FINISH	= 8'd24;
+	//============================================================================
 
-
+	//==============================wire & reg====================================
 	reg [9:0] r_clk_counter;
-	always@(posedge i_CLK or negedge i_RSTN) begin
+	//============================================================================
+
+	//=============================Sequential Logic===============================
+	always @ (posedge i_CLK or negedge i_RSTN) begin
 		if(!i_RSTN) begin
 
 				// Host interface
@@ -508,4 +515,5 @@ module mpr121_controller (
 			endcase
 		end
 	end
+	//============================================================================
 endmodule

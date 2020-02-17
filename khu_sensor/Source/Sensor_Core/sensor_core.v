@@ -243,7 +243,7 @@ module sensor_core(
 	parameter ST_MPR_ERROR_REPORT = 8'd31;
 	//============================================================================
 
-//==============================wire & reg====================================
+	//==============================wire & reg====================================
 	// MPR121 variable
 	reg [3:0] r_mpr_set_counter; // mpr setting counter
 	reg [7:0] r_mpr_first_param;
