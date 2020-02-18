@@ -25,6 +25,7 @@ private:
 
     //Series Connection
     QSerialPort *m_SerialPort;
+    int m_count;
 
 private slots:
     // Button Group SLOT

@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //UART Setting
     this->m_SerialPort = new QSerialPort(this);
+    this->m_count = 0;
     connect(this->m_SerialPort, SIGNAL(readyRead()), this, SLOT(read_Serial_Port_Data()));
 
 }
@@ -109,9 +110,9 @@ void MainWindow::on_exitPB_clicked(){
 
 void MainWindow::read_Serial_Port_Data(){
     QByteArray data_out = this->m_SerialPort->readAll(); // use another function
-    QString data_out_str;
-    data_out_str = data_out.toHex(' ');
+    QString data_out_str = data_out.toHex(' ');
     qDebug()<<"Data Length : "<<data_out.length();
-    qDebug()<<"Data: "<<data_out_str;
+    qDebug()<<"Data: " << data_out_str;
+
 
 }

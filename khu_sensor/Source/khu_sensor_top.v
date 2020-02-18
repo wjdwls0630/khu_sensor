@@ -14,18 +14,17 @@ module khu_sensor_top(
 	output GPIO_0, // GPIO[0] == CLOCK_5M
 
 	// DUT IO: for MPR121 (I2C)
-	input wire MPR121_IRQ, //GPIO[7]
 	inout wire MPR121_SCL, // GPIO[8]
 	inout wire MPR121_SDA, // GPIO[9]
 
 	// DUT IO: for ADS1292 (SPI)
-	output ADS1292_SCLK, // GPIO[26]
-	input ADS1292_MISO,  // GPIO[27]
-	output ADS1292_MOSI,  // GPIO[28]
-	input ADS1292_DRDY,  // GPIO[29]
-	output ADS1292_RESET,  // GPIO[30]
-	output ADS1292_START,  // GPIO[31]
-	output ADS1292_CSN  // GPIO[32]
+	output wire ADS1292_SCLK, // GPIO[26]
+	input wire ADS1292_MISO,  // GPIO[27]
+	output wire ADS1292_MOSI,  // GPIO[28]
+	input wire ADS1292_DRDY,  // GPIO[29]
+	output wire ADS1292_RESET,  // GPIO[30]
+	output wire ADS1292_START,  // GPIO[31]
+	output wire ADS1292_CSN  // GPIO[32]
 	);
 	/****************************************************************************
 	*                           	   FPGA				                               	*
@@ -66,7 +65,7 @@ module khu_sensor_top(
 		// TX
 		.i_UART_DATA_TX(w_uart_data_tx),
 		.i_UART_DATA_TX_VALID(w_uart_data_tx_valid),
-		.o_DATA_TX_READY(w_uart_data_tx_ready),
+		.o_UART_DATA_TX_READY(w_uart_data_tx_ready),
 		// RX
 		.o_UART_DATA_RX(w_uart_data_rx),
 		.o_UART_DATA_RX_VALID(w_uart_data_rx_valid),

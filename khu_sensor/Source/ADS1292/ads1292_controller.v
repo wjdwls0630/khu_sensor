@@ -69,7 +69,7 @@ module ads1292_controller (
 	*/
 	/*#(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2))*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(4))
+	 						 .CLKS_PER_HALF_BIT(64))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
@@ -442,7 +442,7 @@ module ads1292_controller (
 				begin
 					if(!w_spi_data_in_ready) begin
 						r_spi_data_in_valid <= 1'b0; // for stopping sclk when 8 bits is all sent
-						r_pstate <= ST_RREG_GET_DATA;
+						r_pstate <= ST_RREG_SEND_REG_NUM;
 					end else begin
 						r_spi_data_in <= 8'b0;	 // send dummy data
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
@@ -452,6 +452,7 @@ module ads1292_controller (
 
 				ST_RREG_GET_DATA:
 				begin
+					//TODO fix like Rdatac
 					r_spi_data_in_valid <= 1'b0;
 					if(w_spi_data_out_valid) begin //TODO if this condition statement can't catch out valid signal, then delete the condition
 						o_ADS1292_DATA_OUT[7:0] <= w_spi_data_out;
@@ -478,12 +479,14 @@ module ads1292_controller (
 					if(r_drdy_counter > 4'd5) begin
 						r_drdy_counter <= 4'b0;
 						r_pstate <= ST_RDATAC_WAIT_DRDY;
-					end
-					else r_pstate <= ST_RDATAC_WAIT_START_SETTLING;
+					end else r_pstate <= ST_RDATAC_WAIT_START_SETTLING;
 				end
 
 				ST_RDATAC_WAIT_DRDY:
 				begin
+					// TODO make more state or wait counter on sensor RDATAC_INIT
+					// TODO or make sensing rising edge RDATAC_READY
+					o_ADS1292_RDATAC_READY <= 1'b0;
 					if(i_ADS1292_DRDY) begin
 						r_pstate <= ST_RDATAC_WAIT_DATA_SETTLING;
 					end else begin
@@ -512,25 +515,24 @@ module ads1292_controller (
 				ST_RDATAC_GET_DATA:
 				begin
 					r_lstate <= ST_RDATAC_GET_DATA;
-					if(!w_spi_data_in_ready) begin
-						r_spi_data_in_valid <= 1'b0;
-						r_pstate <= ST_RDATAC_GET_DATA;
-					end else begin
-						if(w_spi_data_out_valid) begin
-							o_ADS1292_DATA_OUT <= {o_ADS1292_DATA_OUT[63:0], w_spi_data_out};
-							if(r_data_counter > 4'd7) begin // read 8 byte, since we already triggerd one byte sclk in ST_RDATAC_WAIT_DATA_SETTLING
-								r_data_counter <= 4'b0; // reset data counter
-								o_ADS1292_RDATAC_READY <= 1'b1; // data is ready
-								r_pstate <= ST_SPI_SELECT;
-							end else begin
-								// read 72bit
-								r_spi_data_in <= 8'b0;  // send dummy for reading
-								r_spi_data_in_valid <= 1'b1;  // active sclk for reading
-								r_data_counter <= r_data_counter + 1'b1;
-								r_pstate <= ST_RDATAC_GET_DATA;
-							end
-						end else r_pstate <= ST_RDATAC_GET_DATA;
-					end
+					r_spi_data_in_valid <= 1'b0;
+					// CPHA=1 means the "out" side changes the data on leading edge of clock
+					//              the "in" side captures data on the trailing edge of clock
+					// This means that reading is complete at falling edge and after that, when rising edge trigger, writing is done.
+					if(w_spi_data_out_valid) begin
+						o_ADS1292_DATA_OUT <= {o_ADS1292_DATA_OUT[63:0], w_spi_data_out};
+						if(r_data_counter > 4'd7) begin // read 8 byte, since we already triggerd one byte sclk in ST_RDATAC_WAIT_DATA_SETTLING
+							r_data_counter <= 4'b0; // reset data counter
+							o_ADS1292_RDATAC_READY <= 1'b1; // data is ready
+							r_pstate <= ST_SPI_SELECT;
+						end else begin
+							// read 72bit
+							r_spi_data_in <= 8'b0;  // send dummy for reading
+							r_spi_data_in_valid <= 1'b1;  // active sclk for reading
+							r_data_counter <= r_data_counter + 1'b1;
+							r_pstate <= ST_RDATAC_GET_DATA;
+						end
+					end else r_pstate <= ST_RDATAC_GET_DATA;
 				end
 
 				ST_SDATAC_INIT:
