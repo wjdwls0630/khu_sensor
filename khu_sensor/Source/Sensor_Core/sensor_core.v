@@ -9,11 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
-	output reg [39:0] o_UART_DATA_TX; // tx data which send to PC
-	output reg o_UARTA_DATA_TX_VALID; // tx data valid
-	input i_UART_DATA_TX_READY; // tx Ready for next byte
-	input [15:0] i_UART_DATA_RX; // rx data which receive from PC
-	input i_UART_DATA_RX_VALID; // rx data valid pulse
+	output reg [39:0] o_UART_DATA_TX, // tx data which send to PC
+	output reg o_UART_DATA_TX_VALID, // tx data valid
+	input i_UART_DATA_TX_READY, // tx Ready for next byte
+	input [15:0] i_UART_DATA_RX, // rx data which receive from PC
+	input i_UART_DATA_RX_VALID, // rx data valid pulse
 
 	// MPR121
 	input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
@@ -708,8 +708,8 @@ module sensor_core(
 				ST_ADS_WREG_INIT:
 				begin
 					o_ADS1292_CONTROL <= ADS_CB_WREG;
-					o_ADS1292_REG_ADDR <= first_param_reg;
-					o_ADS1292_DATA_IN <= second_param_reg;
+					o_ADS1292_REG_ADDR <= r_ads_first_param;
+					o_ADS1292_DATA_IN <= r_ads_second_param;
 					r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 				end
 
@@ -788,7 +788,7 @@ module sensor_core(
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_Clk, posedge i_RST ) begin
+	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
 			o_UART_DATA_TX <= 40'b0;
 			o_UART_DATA_TX_VALID <= 1'b0;
@@ -810,10 +810,10 @@ module sensor_core(
 						if(i_UART_DATA_TX_READY) begin
 							// prioritize ads
 							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_TX, r_ads_data_convert};
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_TX, r_mpr_touch_status, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
 						end else o_UART_DATA_TX_VALID <= 1'b0;

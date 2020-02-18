@@ -15,7 +15,7 @@ module uart_controller (
   output reg o_DATA_TX_READY,
   // RX
   output reg [15:0] o_UART_DATA_RX,
-  output o_UART_DATA_RX_VALID,
+  output reg o_UART_DATA_RX_VALID,
 
   input i_CORE_BUSY,
   // System I/O
@@ -47,7 +47,7 @@ module uart_controller (
     .readdata(w_uart_readdata),   //                   .readdata
     .clk(i_CLK),        //                clk.clk
     .UART_RXD(i_UART_RXD),   // external_interface.RXD
-    .UART_TXD(i_UART_TXD),   //                   .TXD
+    .UART_TXD(o_UART_TXD),   //                   .TXD
     .irq(w_uart_irq),        //          interrupt.irq
     .reset(i_RST)       //              reset.reset
     );
@@ -56,6 +56,15 @@ module uart_controller (
   /****************************************************************************
   *                           	uart_controller                               *
   *****************************************************************************/
+  //============================Parameter=======================================
+  // UART Signal (user defined)
+  parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
+  parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
+  parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
+  parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
+  parameter UART_SG_RUN = 8'h52; // 'R'
+  parameter UART_SG_STOP = 8'h53; // 'S'
+  //============================================================================
   //==============================State=========================================
   // state
   reg [7:0] r_lstate;
@@ -78,12 +87,12 @@ module uart_controller (
 
   //=============================Sequential Logic===============================
   always @ ( posedge i_CLK, posedge i_RST ) begin
-    if(i_RSTN) begin
+    if(i_RST) begin
       // TX
-      o_DATA_TX_READY <= 1'b0,
+      o_DATA_TX_READY <= 1'b0;
       // RX
-      o_UART_DATA_RX <= 16'b0,
-      o_UART_DATA_RX_VALID <= 1'b0,
+      o_UART_DATA_RX <= 16'b0;
+      o_UART_DATA_RX_VALID <= 1'b0;
 
       // rs232_uart
       r_uart_addr <= 1'b0;
@@ -187,10 +196,10 @@ module uart_controller (
         ST_TX_INIT:
         begin
           //TODO use parameter or not
-          if(r_uart_data_tx[39:32] == 8'h41) r_pstate <= ST_TX_SEND_40BITS; // 'A'
-          else if(r_uart_data_tx[39:32] == 8'h4D) r_pstate <= ST_TX_SEND_24BITS; // 'M'
-          else if(r_uart_data_tx[39:32] == 8'h61) r_pstate <= ST_TX_SEND_24BITS; // 'a'
-          else if(r_uart_data_tx[39:32] == 8'h6D) r_pstate <= ST_TX_SEND_24BITS; // 'm'
+          if(r_uart_data_tx[39:32] == UART_SG_ADS_SEND_DATA) r_pstate <= ST_TX_SEND_40BITS; // 'A'
+          else if(r_uart_data_tx[39:32] == UART_SG_MPR_SEND_DATA) r_pstate <= ST_TX_SEND_24BITS; // 'M'
+          else if(r_uart_data_tx[39:32] == UART_SG_ADS_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'a'
+          else if(r_uart_data_tx[39:32] == UART_SG_MPR_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'm'
           else r_pstate <= ST_RX_INIT; // if signal don't match cases, do nothing
         end
 
@@ -211,7 +220,7 @@ module uart_controller (
               r_uart_chipselect <= 1'b1; //TODO make constant?
               r_uart_read <= 1'b0;
               r_uart_write <= 1'b1;
-              r_uart_writedata[7:0] <=  r_uart_data_tx [39:32]
+              r_uart_writedata[7:0] <=  r_uart_data_tx[39:32];
               r_pstate <= ST_TX_SHIFT;
             end
           end
@@ -234,7 +243,7 @@ module uart_controller (
               r_uart_chipselect <= 1'b1; //TODO make constant?
               r_uart_read <= 1'b0;
               r_uart_write <= 1'b1;
-              r_uart_writedata[7:0] <=  r_uart_data_tx [39:32]
+              r_uart_writedata[7:0] <=  r_uart_data_tx[39:32];
               r_pstate <= ST_TX_SHIFT;
             end
           end
@@ -243,9 +252,9 @@ module uart_controller (
         ST_TX_SHIFT:
         begin
           r_uart_write <= 1'b0; // turn off write
-          data <= (data<<8);
-          if(lstate == ST_TX_SEND_24BITS) r_pstate <= ST_TX_SEND_24BITS;
-          if(lstate == ST_TX_SEND_40BITS) r_pstate <= ST_TX_SEND_40BITS;
+          r_uart_data_tx <= (r_uart_data_tx<<8);
+          if(r_lstate == ST_TX_SEND_24BITS) r_pstate <= ST_TX_SEND_24BITS;
+          if(r_lstate == ST_TX_SEND_40BITS) r_pstate <= ST_TX_SEND_40BITS;
         end
 
         default:

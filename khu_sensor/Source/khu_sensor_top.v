@@ -104,7 +104,7 @@ module khu_sensor_top(
 		// UART Controller
 		// TX
 		.o_UART_DATA_TX(w_uart_data_tx), // tx data which send to PC
-		.o_UARTA_DATA_TX_VALID(w_uart_data_tx_valid), // tx data valid
+		.o_UART_DATA_TX_VALID(w_uart_data_tx_valid), // tx data valid
 		.i_UART_DATA_TX_READY(w_uart_data_tx_ready), // tx Ready for next byte
 
 		// RX
@@ -160,7 +160,7 @@ module khu_sensor_top(
 	GPIO[0] is for realeasing MPR121 Bus stuck.
 	if MPR121_SCL stuck in low, connect MPR121_SCL to GPIO[0] (force to pull up scl)
 	*/
-	assign GPIO_0 = CLOCK_5M;
+	assign GPIO_0 = w_CLOCK_5M;
 
 	mpr121_controller mpr121_controller(
 
@@ -219,7 +219,7 @@ module khu_sensor_top(
 		.i_ADS1292_DRDY(w_ADS1292_DRDY_N), // Data Ready (active low) (change it active high)
 		.o_ADS1292_RESET(ADS1292_RESET),
 		.o_ADS1292_START(ADS1292_START),
-		.o_SPI_CSN(ADS1292_CSN), // Chip Select Negative (active low)
+		.o_SPI_CSN(ADS1292_CSN) // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 		);
 	//============================================================================

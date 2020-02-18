@@ -68,7 +68,7 @@ module ads1292_controller (
 	E.g. 100 MHz i_Clk, CLKS_PER_HALF_BIT = 2 would create o_SPI_CLK of 25 MHz.  Must be >= 2
 	*/
 	/*#(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2))*/
-	spi_master #(.SPI_MODE(0),
+	spi_master #(.SPI_MODE(1),
 	 						 .CLKS_PER_HALF_BIT(4))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
