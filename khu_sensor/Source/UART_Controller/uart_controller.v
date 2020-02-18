@@ -107,7 +107,7 @@ module uart_controller (
           // turn on read/write interrupt enable
           r_uart_addr <= 1'b1;
           r_uart_chipselect <= 1'b1;
-          r_uart_read <= 1'b0; // readw on
+          r_uart_read <= 1'b0; // read on
           r_uart_write <= 1'b1;
           r_uart_writedata[7:0] <= 8'h03;
           r_uart_data_tx <= 40'b0;
