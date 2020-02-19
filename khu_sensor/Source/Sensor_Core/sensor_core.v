@@ -34,7 +34,7 @@ module sensor_core(
 	output reg [7:0] o_ADS1292_COMMAND, // ADS1292 SPI command
 	output reg [7:0] o_ADS1292_REG_ADDR, // ADS1292 register address
 	output reg [7:0] o_ADS1292_DATA_IN, // data to write in ADS1292 register
-	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
+	input i_ADS1292_DATA_READY_PE, // In Read data continue mode,  flag that 72 bits data is ready
 	input i_ADS1292_BUSY,
 	input i_ADS1292_FAIL,
 
@@ -543,7 +543,7 @@ module sensor_core(
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
 	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h63;
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0F;
-	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h40;
+	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h00;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
 	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
@@ -729,7 +729,7 @@ module sensor_core(
 					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
-						if(i_ADS1292_DATA_READY) begin // TODO, make rising edge detective
+						if(i_ADS1292_DATA_READY_PE) begin // TODO, make rising edge detective
 							r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
 							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
 							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
@@ -807,25 +807,7 @@ module sensor_core(
 						r_uart_data_rx <= i_UART_DATA_RX;
 						r_uart_pstate <= ST_UART_RX;
 					end else begin
-						/*
-						if(i_UART_DATA_TX_READY) begin
-							if(!sensor_selct) begin
-								if(r_mpr_data_send_ready) begin
-									o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
-									o_UART_DATA_TX_VALID <= 1'b1;
-									sensor_selct <= ~sensor_selct;
-								end else r_uart_pstate <= ST_UART_IDLE;
-							end else begin
-								if(r_ads_data_send_ready) begin
-									o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
-									o_UART_DATA_TX_VALID <= 1'b1;
-									sensor_selct <= ~sensor_selct;
-								end else r_uart_pstate <= ST_UART_IDLE;
-							end
-						end else r_uart_pstate <= ST_UART_IDLE;
-						*/
 						// update tx data
-
 						if(i_UART_DATA_TX_READY) begin
 							// TODO prioritize ads?
 							if(r_ads_data_send_ready) begin
@@ -836,7 +818,7 @@ module sensor_core(
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
 						end else o_UART_DATA_TX_VALID <= 1'b0;
-						r_uart_pstate <= ST_UART_IDLE;			
+						r_uart_pstate <= ST_UART_IDLE;
 					end
 				end
 

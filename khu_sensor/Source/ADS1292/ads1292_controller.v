@@ -8,7 +8,7 @@ module ads1292_controller (
 	input [7:0] i_ADS1292_COMMAND, // ADS1292 SPI command
 	input [7:0] i_ADS1292_REG_ADDR, // ADS1292 register address
 	input [7:0] i_ADS1292_DATA_IN, // data to write in ADS1292 register
-	output reg o_ADS1292_RDATAC_READY, // In Read data continue mode,  flag that 72 bits data is ready
+	output reg o_ADS1292_RDATAC_READY_PE, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
 	output reg o_ADS1292_FAIL,  //TODO delete not  use
 
@@ -222,12 +222,34 @@ module ads1292_controller (
 	reg [7:0] r_ads_command; // command byte
 	reg [7:0] r_ads_reg_addr; // register addr byte
 	reg [7:0] r_ads_data_in; // register data to write
-	reg [9:0] r_clk_counter; // wait clock
+	reg [31:0] r_clk_counter; // wait clock
 	reg [3:0] r_data_counter; // data counter for RDATAC
-	reg r_ldrdy; // last drdy
-	reg r_pdrdy; // present drdy
-	reg [3:0] r_drdy_counter; // drdy edge counter
+	reg [3:0] r_drdy_edge_counter; // drdy posedge counter
 	//============================================================================
+
+	//===========================posedge detector=================================
+	reg r_ldrdy; // last drdy
+	wire w_drdy_posedge_detect; // if detect posedge of drdy, then value go up to the high(1)
+	always @ ( posedge i_CLK, negedge i_RSTN ) begin
+		if(!i_RSTN) r_ldrdy <= 1'b0;
+		else r_ldrdy <= i_ADS1292_DRDY;
+	end
+	assign w_drdy_posedge_detect = i_ADS1292_DRDY & (~r_ldrdy);
+
+	reg r_lrdatac_ready; // last rdatac_ready
+	reg r_rdatac_ready; // ads 72 bits data is ready
+	always @ ( posedge i_CLK, negedge i_RSTN  ) begin
+		if (!i_RSTN) begin
+			r_lrdatac_ready <= 1'b0;
+			r_rdatac_ready <= 1'b0;
+		end else begin
+			r_lrdatac_ready <= r_rdatac_ready;
+			// if detect posedge of drdy, then value go up to the high(1)
+			o_ADS1292_RDATAC_READY_PE <= r_rdatac_ready & (~r_lrdatac_ready);
+		end
+	end
+	//============================================================================
+
 
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
@@ -258,12 +280,9 @@ module ads1292_controller (
 			r_ads_command <= 8'b0;
 			r_ads_reg_addr <= 8'b0;
 			r_ads_data_in <= 8'b0;
-			r_clk_counter <= 10'b0;
-
+			r_clk_counter <= 32'b0;
 			r_data_counter <= 4'b0;
-			r_ldrdy <= 1'b0;
-			r_pdrdy <= 1'b0;
-			r_drdy_counter <= 4'b0;
+			r_drdy_edge_counter <= 4'b0;
 
 			// State
 			r_pstate <= ST_IDLE;
@@ -281,12 +300,9 @@ module ads1292_controller (
 					r_ads_command <= i_ADS1292_COMMAND; // using it command
 					r_ads_reg_addr <= i_ADS1292_REG_ADDR;
 					r_ads_data_in <= i_ADS1292_DATA_IN;
-					r_clk_counter <= 10'b0;
+					r_clk_counter <= 32'b0;
 					r_data_counter <= 4'b0;
-					r_ldrdy <= 1'b0;
-					r_pdrdy <= 1'b0;
-					r_drdy_counter <= 4'b0;
-
+					r_drdy_edge_counter <= 4'b0;
 
 					o_ADS1292_RESET <= 1'b1;
 
@@ -468,49 +484,73 @@ module ads1292_controller (
 					r_pstate <= ST_SYSCMD_INIT;
 				end
 
-				// ads1292.pdf p31
-				// TODO wait three time, and on fourth , settled data is available
-				ST_RDATAC_WAIT_START_SETTLING:
-				begin
-					// catch drdy edges
-					if(r_ldrdy != r_pdrdy) r_drdy_counter <= r_drdy_counter + 1'b1;
-					r_ldrdy <= r_pdrdy;
-					r_pdrdy <= i_ADS1292_DRDY;
-					if(r_drdy_counter > 4'd5) begin
-						r_drdy_counter <= 4'b0;
-						r_pstate <= ST_RDATAC_WAIT_DRDY;
-					end else r_pstate <= ST_RDATAC_WAIT_START_SETTLING;
-				end
-
 				ST_RDATAC_WAIT_DRDY:
 				begin
-					// TODO make more state or wait counter on sensor RDATAC_INIT
-					// TODO or make sensing rising edge RDATAC_READY
-					o_ADS1292_RDATAC_READY <= 1'b0;
+					// o_ADS1292_RDATAC_READY <= 1'b0; when do i set this value to low?
 					if(i_ADS1292_DRDY) begin
-						r_pstate <= ST_RDATAC_WAIT_DATA_SETTLING;
+						if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_SETTILING_TIME;
+						else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
 					end else begin
 						if (r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
 						else r_pstate <= ST_RDATAC_WAIT_DRDY;
 					end
 				end
 
-				// settling time ads1292.pdf p.31
-				ST_RDATAC_WAIT_DATA_SETTLING:
+				ST_RDATAC_WAIT_SETTILING_TIME:
 				begin
-					if(r_clk_counter > 10'd500) begin
-						r_clk_counter <= 10'b0;
+					/*
+				 	Reference - ADS1292 - ADS1292.pdf p.31 Settling time
+				 	The settling time (t_SETTLE ) is the time it takes for the converter to output fully settled data when the START signal is pulled high.
+				 	The settling time depends on f CLK and the decimation ratio (controlled by the DR[2:0] bits in the CONFIG1(0x01) register). Refer to Table 10 for the settling time as a function of t_MOD.
+				 	In our case, DR[2:0] == 3'b010, we need to wait 1028 t_MOD
+					Settling time number uncertainty is one t MOD cycle. Therefore, it is recommended to add one t MOD cycle delay before issuing SCLK to retrieve data
+					Thus, we will wait 1030 t_MOD
+					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
+					*/
+					if(r_clk_counter > 32'd402318) begin
+						r_clk_counter <= 32'b0;
+						r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
+					end else begin
+						r_clk_counter <= r_clk_counter + 1'b1;
+						r_pstate <= ST_RDATAC_WAIT_SETTILING_TIME;
+					end
+				end
+
+				ST_RDATAC_WAIT_SETTLED_DATA:
+				begin
+					/*
+					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
+					Note that when START is held high and
+					there is a step change in the input signal, it takes 3 t_DR for the filter to settle to the new value.
+					Settled data are available on the fourth DRDY pulse.
+					one drdy pulse time is t_MOD
+					*/
+					// when catch drdy posedge
+					r_lstate <= ST_RDATAC_WAIT_SETTLED_DATA;
+					if(w_drdy_posedge_detect) r_drdy_edge_counter <= r_drdy_edge_counter + 1'b1;
+					if(r_drdy_edge_counter > 4'd2) begin
+						r_drdy_edge_counter <= 4'b0;
+						r_pstate <= ST_RDATAC_WAIT_DRDY;
+					end else r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
+				end
+
+				ST_RDATAC_WAIT_DRDY_PULSE:
+				begin
+					/*
+					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
+					one drdy pulse time is t_MOD
+					*/
+					if(r_clk_counter > 32'd391) begin
+						r_clk_counter <= 32'b0;
 						o_ADS1292_RDATAC_READY <= 1'b0;
 						r_spi_data_in <= 8'b0; // send dummy for reading
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
 						r_pstate <= ST_RDATAC_GET_DATA;
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
-						r_pstate <= ST_RDATAC_WAIT_DATA_SETTLING;
+						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
 					end
 				end
-
-
 
 				ST_RDATAC_GET_DATA:
 				begin
@@ -537,7 +577,7 @@ module ads1292_controller (
 
 				ST_SDATAC_INIT:
 				begin
-					// there is a keep out zone of 4 t_CLK cycles around the DRDY pulse where this command cannot be issued in
+					// there is a keep out zone of 4 t_CLK = t_MOD cycles around the DRDY pulse where this command cannot be issued in
 					r_ads_command <= CM_SDATAC;
 					r_lstate <= ST_SDATAC_INIT;
 					r_pstate <= ST_SYSCMD_INIT;
@@ -556,7 +596,7 @@ module ads1292_controller (
 
 					if(r_lstate == ST_RREG_GET_DATA) r_pstate <= ST_SPI_CLK_WAIT;
 
-					if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_START_SETTLING;
+					if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_DRDY;
 					if(r_lstate == ST_RDATAC_GET_DATA) r_pstate <= ST_RDATAC_WAIT_DRDY;
 					if(r_lstate == ST_SDATAC_INIT) begin
 						o_ADS1292_START <= 1'b0; // turn off conversion
@@ -567,10 +607,10 @@ module ads1292_controller (
 
 				ST_SPI_CLK_WAIT:
 				begin
-					// After the serial communication is finished, always wait 4 CLK or more cycles before taking CSN high
-					if (r_clk_counter > 10'd4) begin
+					// After the serial communication is finished, always wait 4*t_CLK(512kHz) == t_MOD or more cycles before taking CSN high
+					if (r_clk_counter > 32'd391) begin
 						// wait 4 CLK
-						r_clk_counter <= 10'b0;  // reset counter for ST_CLK_WAIT
+						r_clk_counter <= 32'b0;  // reset counter for ST_CLK_WAIT
 						o_ADS1292_BUSY <= 1'b0;
 						o_SPI_CSN <= 1'b1;
 						r_pstate <= ST_IDLE;

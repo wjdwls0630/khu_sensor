@@ -129,7 +129,7 @@ module khu_sensor_top(
 		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.i_ADS1292_DATA_READY_PE(w_ads1292_data_ready_pe), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.i_ADS1292_BUSY(w_ads1292_busy),
 		.i_ADS1292_FAIL(w_ads1292_fail),
 
@@ -190,7 +190,7 @@ module khu_sensor_top(
 	wire [7:0] w_ads1292_command;
 	wire [7:0] w_ads1292_reg_addr;
 	wire [7:0] w_ads1292_data_in;
-	wire w_ads1292_data_ready;
+	wire w_ads1292_data_ready_pe;
 	wire w_ads1292_busy;
 	wire w_ads1292_fail;
 	wire w_ADS1292_DRDY_N;
@@ -207,7 +207,7 @@ module khu_sensor_top(
 		.i_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.o_ADS1292_RDATAC_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.o_ADS1292_RDATAC_READY_PE(w_ads1292_data_ready_pe), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),
 		.o_ADS1292_FAIL(w_ads1292_fail),
 
