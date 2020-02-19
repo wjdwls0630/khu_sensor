@@ -9,11 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
-	output reg [39:0] o_UART_DATA_TX; // tx data which send to PC
-	output reg o_UARTA_DATA_TX_VALID; // tx data valid
-	input i_UART_DATA_TX_READY; // tx Ready for next byte
-	input [15:0] i_UART_DATA_RX; // rx data which receive from PC
-	input i_UART_DATA_RX_VALID; // rx data valid pulse
+	output reg [39:0] o_UART_DATA_TX, // tx data which send to PC
+	output reg o_UART_DATA_TX_VALID, // tx data valid
+	input i_UART_DATA_TX_READY, // tx Ready for next byte
+	input [15:0] i_UART_DATA_RX, // rx data which receive from PC
+	input i_UART_DATA_RX_VALID, // rx data valid pulse
 
 	// MPR121
 	input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
@@ -640,7 +640,7 @@ module sensor_core(
 							r_ads_second_param <= ADS_CONFIG_2_DATA;
 						end
 
-						if(r_mpr_set_counter == 4'd2) begin
+						if(r_ads_set_counter == 4'd2) begin
 							r_ads_first_param <= ADS_LOFF_REG;
 							r_ads_second_param <= ADS_LOFF_DATA;
 						end
@@ -708,8 +708,8 @@ module sensor_core(
 				ST_ADS_WREG_INIT:
 				begin
 					o_ADS1292_CONTROL <= ADS_CB_WREG;
-					o_ADS1292_REG_ADDR <= first_param_reg;
-					o_ADS1292_DATA_IN <= second_param_reg;
+					o_ADS1292_REG_ADDR <= r_ads_first_param;
+					o_ADS1292_DATA_IN <= r_ads_second_param;
 					r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 				end
 
@@ -726,10 +726,10 @@ module sensor_core(
 				// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
 				ST_ADS_RDATAC_INIT:
 				begin
+					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
-						if(i_ADS1292_DATA_READY) begin
-							r_ads_data_send_ready <= 1'b0;
+						if(i_ADS1292_DATA_READY) begin // TODO, make rising edge detective
 							r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
 							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
 							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
@@ -784,16 +784,17 @@ module sensor_core(
 
 	//==============================wire & reg====================================
 	reg [15:0] r_uart_data_rx;
+	reg sensor_selct;
 	reg temp_run_state;
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_Clk, posedge i_RST ) begin
+	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
 			o_UART_DATA_TX <= 40'b0;
 			o_UART_DATA_TX_VALID <= 1'b0;
 			r_uart_data_rx <= 16'b0;
-
+			sensor_selct <= 1'b0;
 			// state
 			//r_uart_lstate <= ST_UART_IDLE;
 			r_uart_pstate <= ST_UART_IDLE;
@@ -806,20 +807,39 @@ module sensor_core(
 						r_uart_data_rx <= i_UART_DATA_RX;
 						r_uart_pstate <= ST_UART_RX;
 					end else begin
-						// update tx data
+						/*
 						if(i_UART_DATA_TX_READY) begin
-							// prioritize ads
+							if(!sensor_selct) begin
+								if(r_mpr_data_send_ready) begin
+									o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
+									o_UART_DATA_TX_VALID <= 1'b1;
+									sensor_selct <= ~sensor_selct;
+								end else r_uart_pstate <= ST_UART_IDLE;
+							end else begin
+								if(r_ads_data_send_ready) begin
+									o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
+									o_UART_DATA_TX_VALID <= 1'b1;
+									sensor_selct <= ~sensor_selct;
+								end else r_uart_pstate <= ST_UART_IDLE;
+							end
+						end else r_uart_pstate <= ST_UART_IDLE;
+						*/
+						// update tx data
+
+						if(i_UART_DATA_TX_READY) begin
+							// TODO prioritize ads?
 							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_TX, r_ads_data_convert};
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_TX, r_mpr_touch_status, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
 						end else o_UART_DATA_TX_VALID <= 1'b0;
-						r_uart_pstate <= ST_UART_IDLE;
+						r_uart_pstate <= ST_UART_IDLE;			
 					end
 				end
+
 
 				ST_UART_RX:
 				begin

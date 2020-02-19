@@ -197,7 +197,7 @@ module mpr121_controller (
 	assign w_scl_in = I2C_SCL; //I2C_SCL -> inout wire
 
 	i2c_master i2c_master(
-    .i_CLK(i_CLK),
+    .clk(i_CLK),
     .rst(r_i2c_rst),
 
     // Host interface
