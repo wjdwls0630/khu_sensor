@@ -47,6 +47,98 @@ module sensor_core(
 	input wire i_RST
 	);
 
+	/*****************************************************************************
+	*                          		UART Controller                                *
+	*****************************************************************************/
+	//==============================Parameter=====================================
+	// UART Signal (user defined)
+	parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
+	parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
+	parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
+	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
+	parameter UART_SG_RUN = 8'h52; // 'R'
+	parameter UART_SG_STOP = 8'h53; // 'S'
+	//============================================================================
+	//==============================State=========================================
+	//reg [7:0] r_uart_lstate;
+	reg [7:0] r_uart_pstate;
+
+	// uart_controller
+	// 8'b0011_xxxx
+	parameter ST_UART_IDLE  = 8'd48;
+	parameter ST_UART_RX = 8'd49;
+	//============================================================================
+
+	//==============================wire & reg====================================
+	reg [15:0] r_uart_data_rx;
+	reg r_run_mode;
+	reg r_mpr_read_reg_mode;
+	reg r_ads_read_reg_mode;
+	//============================================================================
+
+	//=============================Sequential Logic===============================
+	always @ ( posedge i_CLK, posedge i_RST ) begin
+		if(i_RST) begin
+			o_UART_DATA_TX <= 40'b0;
+			o_UART_DATA_TX_VALID <= 1'b0;
+			r_uart_data_rx <= 16'b0;
+
+			r_run_mode <= 1'b0;
+			r_mpr_read_reg_mode <= 1'b0;
+			r_ads_read_reg_mode <= 1'b0;
+
+			// state
+			r_uart_pstate <= ST_UART_IDLE;
+		end else begin
+			case (r_uart_pstate)
+				ST_UART_IDLE:
+				begin
+					// TODO READ priority
+					if(i_UART_DATA_RX_VALID) begin
+						r_uart_data_rx <= i_UART_DATA_RX;
+						r_uart_pstate <= ST_UART_RX;
+					end else begin
+						// update tx data
+						if(i_UART_DATA_TX_READY) begin
+							// TODO prioritize ads?
+							if(r_ads_data_send_ready) begin
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
+								o_UART_DATA_TX_VALID <= 1'b1;
+							end else if(r_mpr_data_send_ready) begin
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
+								o_UART_DATA_TX_VALID <= 1'b1;
+							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
+						end else o_UART_DATA_TX_VALID <= 1'b0;
+						r_uart_pstate <= ST_UART_IDLE;
+					end
+				end
+
+				ST_UART_RX:
+				begin
+					//TODO Run, stop ,read reg, control the mpr, ads state
+					r_mpr_read_reg_mode <= 1'b0;
+					r_ads_read_reg_mode <= 1'b0;
+					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
+						r_run_mode <= 1'b1;
+					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
+						r_run_mode <= 1'b0;
+					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
+						r_mpr_read_reg_mode <= 1'b1;
+					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin
+						r_ads_read_reg_mode <= 1'b1;
+					end
+					r_uart_pstate <= ST_UART_IDLE;
+				end
+
+				default:
+				begin
+					r_uart_pstate <= ST_UART_IDLE;
+				end
+			endcase
+		end
+	end
+	//============================================================================
+
 	/****************************************************************************
 	*                           	Sensor_Core                                  	*
 	*****************************************************************************/
@@ -71,16 +163,6 @@ module sensor_core(
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_CHIP_SET <= 1'b0;
 		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
-	end
-
-	// remember input run signal
-	reg r_run_state;
-	always @ ( i_RUN, i_RST ) begin
-		if(i_RST) r_run_state <= 1'b0;
-		else begin
-			if(i_RUN) r_run_state <= 1'b1;
-			else r_run_state <= 1'b0;
-		end
 	end
 
 	// run condition logic for both mpr and ads
@@ -154,12 +236,18 @@ module sensor_core(
 				// will make Read Register in this state
 				begin
 
-					if(r_run_state) begin
+					if(r_run_mode) begin
 						if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
 						else r_mpr_is_reading <= 1'b1;
 
 						if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
 						else r_ads_is_reading <= 1'b1;
+					end else if(r_mpr_read_reg_mode) begin
+						if(!r_mpr_read_reg_done) r_mpr_read_reg <= 1'b1;
+						else r_mpr_read_reg <= 1'b0;
+					end else if(r_ads_read_reg_mode) begin
+						if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
+						else r_ads_read_reg <= 1'b0;
 					end else begin
 						// TODO read register here ( when core is running, make pc cannot read reg)
 						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
@@ -169,14 +257,14 @@ module sensor_core(
 						else r_ads_is_reading <= 1'b0;;
 					end
 					// if satisfy all condition to run & read, sensor_core is going to ~
-					if (r_run_state & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
+					if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
 					else r_core_pstate <= ST_CORE_STANDBY;
 				end
 
 				ST_CORE_IS_READING:
 				begin
 					// core is reading
-					if(r_run_state) r_core_pstate <= ST_CORE_IS_READING;
+					if(r_run_mode) r_core_pstate <= ST_CORE_IS_READING;
 					else r_core_pstate <= ST_CORE_STANDBY;
 				end
 
@@ -302,6 +390,7 @@ module sensor_core(
 
 					if(r_mpr_chip_set &&(!r_mpr_chip_set_done)) r_mpr_pstate <= ST_MPR_SETTING;
 					else if(r_mpr_run_set &&(!r_mpr_run_set_done)) r_mpr_pstate <= ST_MPR_RUN;
+					else if ()
 					else r_mpr_pstate <= ST_MPR_IDLE;
 				end
 
@@ -754,93 +843,6 @@ module sensor_core(
 				default:
 				begin
 					r_ads_pstate <= ST_ADS_IDLE;
-				end
-			endcase
-		end
-	end
-	//============================================================================
-
-	/*****************************************************************************
-	*                          		UART Controller                                *
-	*****************************************************************************/
-	//==============================Parameter=====================================
-	// UART Signal (user defined)
-	parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
-	parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
-	parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
-	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
-	parameter UART_SG_RUN = 8'h52; // 'R'
-	parameter UART_SG_STOP = 8'h53; // 'S'
-	//============================================================================
-	//==============================State=========================================
-	//reg [7:0] r_uart_lstate;
-	reg [7:0] r_uart_pstate;
-
-	// uart_controller
-	// 8'b0011_xxxx
-	parameter ST_UART_IDLE  = 8'd48;
-	parameter ST_UART_RX = 8'd49;
-	//============================================================================
-
-	//==============================wire & reg====================================
-	reg [15:0] r_uart_data_rx;
-	reg sensor_selct;
-	reg temp_run_state;
-	//============================================================================
-
-	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
-			o_UART_DATA_TX <= 40'b0;
-			o_UART_DATA_TX_VALID <= 1'b0;
-			r_uart_data_rx <= 16'b0;
-			sensor_selct <= 1'b0;
-			// state
-			//r_uart_lstate <= ST_UART_IDLE;
-			r_uart_pstate <= ST_UART_IDLE;
-		end else begin
-			case (r_uart_pstate)
-				ST_UART_IDLE:
-				begin
-					// TODO READ priority
-					if(i_UART_DATA_RX_VALID) begin
-						r_uart_data_rx <= i_UART_DATA_RX;
-						r_uart_pstate <= ST_UART_RX;
-					end else begin
-						// update tx data
-						if(i_UART_DATA_TX_READY) begin
-							// TODO prioritize ads?
-							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
-								o_UART_DATA_TX_VALID <= 1'b1;
-							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
-								o_UART_DATA_TX_VALID <= 1'b1;
-							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
-						end else o_UART_DATA_TX_VALID <= 1'b0;
-						r_uart_pstate <= ST_UART_IDLE;
-					end
-				end
-
-
-				ST_UART_RX:
-				begin
-					//TODO Run, stop ,read reg, control the mpr, ads state
-					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
-						temp_run_state <= 1'b1;
-					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
-						temp_run_state <= 1'b0;
-					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
-						temp_run_state <= 1'b0; // TODO change to control mpr read reg state on sensor core Sequential logic
-					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin
-							temp_run_state <= 1'b0; // TODO change to control mpr read reg state on sensor core Sequential logic
-					end
-					r_uart_pstate <= ST_UART_IDLE;
-				end
-
-				default:
-				begin
-					r_uart_pstate <= ST_UART_IDLE;
 				end
 			endcase
 		end

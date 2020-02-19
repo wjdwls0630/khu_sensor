@@ -468,9 +468,8 @@ module ads1292_controller (
 
 				ST_RREG_GET_DATA:
 				begin
-					//TODO fix like Rdatac
 					r_spi_data_in_valid <= 1'b0;
-					if(w_spi_data_out_valid) begin //TODO if this condition statement can't catch out valid signal, then delete the condition
+					if(w_spi_data_out_valid) begin
 						o_ADS1292_DATA_OUT[7:0] <= w_spi_data_out;
 						r_pstate <= ST_SPI_SELECT;
 					end else r_pstate <= ST_RREG_GET_DATA;
@@ -609,7 +608,7 @@ module ads1292_controller (
 				begin
 					// After the serial communication is finished, always wait 4*t_CLK(512kHz) == t_MOD or more cycles before taking CSN high
 					if (r_clk_counter > 32'd391) begin
-						// wait 4 CLK
+						// wait 4 t_CLK
 						r_clk_counter <= 32'b0;  // reset counter for ST_CLK_WAIT
 						o_ADS1292_BUSY <= 1'b0;
 						o_SPI_CSN <= 1'b1;
