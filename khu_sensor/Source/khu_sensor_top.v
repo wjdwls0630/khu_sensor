@@ -3,7 +3,6 @@ module khu_sensor_top(
 	// System I/O
 	input wire CLOCK_50M,
 	input KEY_0, // KEY[0]
-	input SW_0, // SW[0]
 	output [17:0] LEDR,
 	output [7:0] LEDG,
 
@@ -90,13 +89,10 @@ module khu_sensor_top(
 	assign LEDR[16] = w_mpr121_error;
 
 	wire w_chip_set;
-	wire w_run;
 	wire w_run_set;
+		wire w_core_busy;
 	assign LEDG[0] = w_chip_set;
-	assign w_run = SW_0;
 	assign LEDG[1] = w_run_set;
-
-	wire w_core_busy;
 	assign LEDR[17] = w_core_busy;
 
 	sensor_core sensor_core(
@@ -129,13 +125,12 @@ module khu_sensor_top(
 		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.i_ADS1292_BUSY(w_ads1292_busy),
 		.i_ADS1292_FAIL(w_ads1292_fail),
 
 		// System I/O
 		.o_CHIP_SET(w_chip_set),
-		.i_RUN(w_run),
 		.o_RUN_SET(w_run_set),
 		.o_CORE_BUSY(w_core_busy),
 		.i_CLK(w_CLOCK_25M),
@@ -207,7 +202,7 @@ module khu_sensor_top(
 		.i_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.o_ADS1292_RDATAC_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready
+		.o_ADS1292_RDATAC_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),
 		.o_ADS1292_FAIL(w_ads1292_fail),
 

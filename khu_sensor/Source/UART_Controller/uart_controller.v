@@ -88,7 +88,7 @@ module uart_controller (
 
   //==============================wire & reg====================================
   reg [39:0] r_uart_data_tx_shift; // container for input data and shifting
-  reg [2:0] r_data_counter; // count how much byte controller sent
+  reg [3:0] r_data_counter; // count how much byte controller sent
   //============================================================================
 
   //=============================Sequential Logic===============================
@@ -106,7 +106,7 @@ module uart_controller (
 
       // uart_controller
       r_uart_data_tx_shift <= 40'b0;
-      r_data_counter <= 3'b0;
+      r_data_counter <= 4'b0;
 
       // state
       r_lstate <= ST_IDLE;
@@ -126,7 +126,7 @@ module uart_controller (
 
           // uart_controller
           r_uart_data_tx_shift <= 40'b0;
-          r_data_counter <= 3'b0;
+          r_data_counter <= 4'b0;
           if(i_CORE_BUSY) begin // TODO when sensor is reading, don't receive data from pc, only receive stop signal
             // prioritize Reading from PC
             if(w_uart_data_rx_valid) begin
@@ -150,6 +150,10 @@ module uart_controller (
                 o_UART_DATA_RX[15:8] <= w_uart_data_rx;
                 r_pstate <= ST_RX_READ_REG_ADDR;
               end else r_pstate <= ST_IDLE; // if not run or read reg signal, do nothing
+            end else if(i_UART_DATA_TX_VALID) begin
+              r_uart_data_tx_shift <= i_UART_DATA_TX;
+              o_UART_DATA_TX_READY <= 1'b0;
+              r_pstate <= ST_TX_INIT;
             end else r_pstate <= ST_IDLE;
           end
         end

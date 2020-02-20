@@ -12,7 +12,7 @@
 // (10000000)/(115200) = 87
 
 module uart_tx
-  #(parameter CLKS_PER_BIT)
+  #(parameter CLKS_PER_BIT = 0)
   (
    input       i_Clock,
    input       i_Tx_DV,

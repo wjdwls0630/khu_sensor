@@ -3,11 +3,10 @@
 
 SettingDialog::SettingDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SettingDialog), m_UART(new UART)
+    ui(new Ui::SettingDialog), m_UART(new UART), m_ADS1292(new ADS1292)
 {
     ui->setupUi(this);
     setWindowTitle(tr("Setting"));
-    this->setDefaultTab();
 
     //fill out combo box
     this->fillPortsParameters();
@@ -18,8 +17,6 @@ SettingDialog::SettingDialog(QWidget *parent) :
     //update setting first
     this->updateConnectSetting();
 
-
-    connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(apply()));
     connect(ui->portInfoComboBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(showPortInfo(int)));
 
@@ -123,11 +120,8 @@ void SettingDialog::showPortInfo(int index){
     ui->portProductIdentifierLabel->setText(tr("Product Identifier: %1").arg(port_info_list.length() > 6 ? port_info_list.at(6) : tr("N/A")));
 }
 
-void SettingDialog::setDefaultTab(){
-    ui->SettingTab->setCurrentIndex(0);
-}
 
-void SettingDialog::apply()
+void SettingDialog::on_applyPB_clicked()
 {
     this->updateConnectSetting();
     qDebug()<<"UART_Settings";
@@ -139,4 +133,6 @@ void SettingDialog::apply()
     qDebug()<<"FlowControl : "<<this->m_UART->getFlowControlStr();
     qDebug()<<"LocalEchoEnabled : "<<this->m_UART->getLocalEchoEnabled();
     hide();
+    return;
 }
+
