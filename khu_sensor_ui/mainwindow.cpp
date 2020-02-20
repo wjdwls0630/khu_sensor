@@ -292,10 +292,14 @@ void MainWindow::on_adstb_syncPB_clicked(){
 }
 
 void MainWindow::read_Serial_Port_Data(){
+    while (this->m_SerialPort->waitForReadyRead(50)) {
+
+    }
     QByteArray data_out = this->m_SerialPort->readAll(); // use another function
     //this->sensor_Data_Process(data_out);
     qDebug()<<"length : "<<data_out.length();
     qDebug()<<data_out.toHex(' ');
+    /*
     int Data_Length;
     if(data_out.length()%2 == 0) Data_Length = data_out.length();
     else Data_Length = data_out.length() - 1;
@@ -324,5 +328,6 @@ void MainWindow::read_Serial_Port_Data(){
             pos += 3;
         }
     }
+    */
     return ;
 }

@@ -90,7 +90,7 @@ void SettingDialog::fillPortsInfo(){
 
 void SettingDialog::setDefaultConnectSetting(){
     ui->portInfoComboBox->setCurrentIndex(0);
-    ui->baudRateBox->setCurrentIndex(3); // BaudRate : 115200
+    ui->baudRateBox->setCurrentIndex(0); // BaudRate : 9600
     ui->dataBitsBox->setCurrentIndex(3); // Databits: 8bits
     ui->parityBox->setCurrentIndex(0); // Parity : None
     ui->stopBitsBox->setCurrentIndex(0); // StopBits 1bit
