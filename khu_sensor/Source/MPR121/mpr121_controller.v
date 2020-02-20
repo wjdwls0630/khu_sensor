@@ -239,7 +239,7 @@ module mpr121_controller (
 
 
     // Configuration
-    .prescale(16'd125),
+    .prescale(16'd250),
     .stop_on_idle(1'b1) // stop_on_idle automatically issue stop when command input is not valid
 		);
 

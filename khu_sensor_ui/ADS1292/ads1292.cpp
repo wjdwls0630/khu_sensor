@@ -35,119 +35,45 @@ QByteArray ADS1292::decode_ADS_Reg(ADS::REG t_Reg){
     return Reg_Hex;
 }
 
+ADS::REG ADS1292::decode_ADS_Reg_Hex(const QString &t_Data_Str){
+    ADS::REG Reg;
+    if(t_Data_Str == "00"){ Reg = ADS::REG::ID; }
+    if(t_Data_Str == "01"){ Reg = ADS::REG::CONFIG1; }
+    if(t_Data_Str == "02"){ Reg = ADS::REG::CONFIG2; }
+    if(t_Data_Str == "03"){ Reg = ADS::REG::LOFF; }
+    if(t_Data_Str == "04"){ Reg = ADS::REG::CH1SET; }
+    if(t_Data_Str == "05"){ Reg = ADS::REG::CH2SET; }
+    if(t_Data_Str == "06"){ Reg = ADS::REG::RLD_SENS; }
+    if(t_Data_Str == "07"){ Reg = ADS::REG::LOFF_SENS; }
+    if(t_Data_Str == "08"){ Reg = ADS::REG::LOFF_STAT; }
+    if(t_Data_Str == "09"){ Reg = ADS::REG::RESP1; }
+    if(t_Data_Str == "0A"){ Reg = ADS::REG::RESP2; }
+    if(t_Data_Str == "0B"){ Reg = ADS::REG::GPIO; }
+    return Reg;
+}
+
 QByteArray ADS1292::get_Send_Cmd_Code(ADS::CMD t_Cmd){
-    //Verilog - controller.v CM_ADS_SYSCMD = 8'h63 = 'c'
-    QByteArray Command_ADS_Sys;
-    QByteArray Cmd_Hex;
-    //QByteArray Dummy; //why do dummy need in op code?
+    // TODO if need to send, make
     QByteArray Out_Code;
-
-    Command_ADS_Sys = "\x63"; // 'c'
-    Cmd_Hex = this->decode_ADS_Cmd(t_Cmd);
-
-    Out_Code.append(Command_ADS_Sys);
-    Out_Code.append(Cmd_Hex);
-    //Out_Code.append(Dummy);
-
     return Out_Code;
 }
 
-QByteArray ADS1292::get_Write_Reg_Code(ADS::REG t_Reg_Start, int t_Num, QByteArray t_Value_List){
-    // ADS1292.pdf p.38 RREG
-    // t_Num == number of registers to write
-
-    // error sensing : t_Num is greater than 16, make t_Num = 1
-    int t_Num_Set;
-    if (t_Num > 16){
-        t_Num_Set = 1;
-    } else{
-        t_Num_Set = t_Num;
-    }
-    QByteArray Command_ADS_Write; // Verilog - controller.v CM_ADS_WREG = 8'h77 = 'w'
-    QByteArray Reg_Start_Hex; // Starting register to write;
-    QByteArray Reg_Num_to_Write; // number of register to write;
+QByteArray ADS1292::get_Write_Reg_Code(ADS::REG t_Reg_Addr, QByteArray t_Reg_Data){
+    // TODO if need to write, make
     QByteArray Out_Code;
-
-    QString Reg_Start_Str = "4"; // First Opcode byte 0100 rrrr (010r(process this bit to 0 rrrr)
-    QString t_Num_Str = "0"; // First Opcode byte 0000 nnnn (000n(process this bit to 0 nnnn)(limit less equal than 16 (the number of register to read))
-
-    Command_ADS_Write = "\x77"; //'w'
-
-    QString temp_Reg;
-    temp_Reg = this->decode_ADS_Reg(t_Reg_Start).toHex();
-    Reg_Start_Str += temp_Reg.at(1);
-    Reg_Start_Hex = QByteArray::fromHex(Reg_Start_Str.toUtf8());
-
-    QString temp_Num = QString::number(t_Num_Set-1); //n nnnn is the number of registers to read - 1, eg) if you want to read 1 register, Second opcode should be 0000_0000
-    t_Num_Str += temp_Num;
-    Reg_Num_to_Write = QByteArray::fromHex(t_Num_Str.toUtf8());
-
-
-    Out_Code.append(Command_ADS_Write);
-    Out_Code.append(Reg_Start_Hex);
-    Out_Code.append(Reg_Num_to_Write);
-    // error sensing : if t_Num_Set != t_Value_List.length() then follow t_Num_Set
-    for (int i = 0; i < t_Num_Set; i++){
-        Out_Code.append(t_Value_List.at(i));
-    }
-
     return Out_Code;
 }
 
-QByteArray ADS1292::get_Read_Reg_Code(ADS::REG t_Reg_Start, int t_Num){
-
-    // ADS1292.pdf p.38 RREG
-    // t_Num == number of registers to read
-
-    // error sensing : t_Num is greater than 16, make t_Num = 1
-    int t_Num_Set;
-    if (t_Num > 16){
-        t_Num_Set = 1;
-    } else{
-        t_Num_Set = t_Num;
-    }
-
-    QByteArray Command_ADS_Read; // Verilog - controller.v CM_ADS_RREG = 8'h72 = 'r'
-    QByteArray Reg_Start_Hex; // Starting register to read;
-    QByteArray Reg_Num_to_Read; // number of register to read;
+QByteArray ADS1292::get_Read_Reg_Code(ADS::REG t_Reg_Data){
     QByteArray Out_Code;
-
-    QString Reg_Start_Str = "2"; // First Opcode byte 0010 rrrr (001r(process this bit to 0 rrrr)
-    QString t_Num_Str = "0"; // First Opcode byte 0000 nnnn (000n(process this bit to 0 nnnn)(limit less equal than 16 (the number of register to read))
-
-    Command_ADS_Read = "\x72"; // 'r'
-
-    QString temp_Reg;
-    temp_Reg = this->decode_ADS_Reg(t_Reg_Start).toHex();
-    Reg_Start_Str += temp_Reg.at(1);
-    Reg_Start_Hex = QByteArray::fromHex(Reg_Start_Str.toUtf8());
-
-    QString temp_Num = QString::number(t_Num_Set-1); //n nnnn is the number of registers to read - 1, eg) if you want to read 1 register, Second opcode should be 0000_0000
-    t_Num_Str += temp_Num;
-    Reg_Num_to_Read = QByteArray::fromHex(t_Num_Str.toUtf8());
-
-    Out_Code.append(Command_ADS_Read);
-    Out_Code.append(Reg_Start_Hex);
-    Out_Code.append(Reg_Num_to_Read);
-
+    QString ADS_Read_Reg_Str = "a"; // 0x61
+    Out_Code.append(ADS_Read_Reg_Str);
+    Out_Code.append(this->decode_ADS_Reg(t_Reg_Data));
     return Out_Code;
 }
 
 QByteArray ADS1292::get_RDATAC_Code(){
-
-    // ADS1292.pdf p.36 RDATAC
-
-    QByteArray Command_ADS_RDATAC; // Verilog - controller.v CM_ADS_RREG = 8'h65 = 'e'
-    QByteArray Cmd_Hex;
-    //QByteArray Dummy; //why do dummy need in op code?
+    // TODO if need, make
     QByteArray Out_Code;
-
-    Command_ADS_RDATAC = "\x65";
-    Cmd_Hex = this->decode_ADS_Cmd(ADS::CMD::RDATAC);
-
-    Out_Code.append(Command_ADS_RDATAC);
-    Out_Code.append(Cmd_Hex);
-    //Out_Code.append(Dummy);
-
     return Out_Code;
 }

@@ -5,6 +5,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 #include "../UART/uart.h"
+#include "../ADS1292/ads1292.h"
 
 namespace Ui {
 class SettingDialog;
@@ -20,15 +21,15 @@ public:
 
     //get method
     UART getUART();
-
 private:
     Ui::SettingDialog *ui;
     // UART - Serial Connection
     UART *m_UART;
+    ADS1292 *m_ADS1292;
 
 private slots:
-    //Connect Tab
 
+    // Serial port info
     void fillPortsParameters();
     void fillPortsInfo();
     void setDefaultConnectSetting();
@@ -37,8 +38,7 @@ private slots:
 
 
     //Common Function
-    void setDefaultTab();
-    void apply();
+    void on_applyPB_clicked();
 };
 
 #endif // SETTINGDIALOG_H
