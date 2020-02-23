@@ -7,6 +7,7 @@ namespace ADS {
     enum REG {ID, CONFIG1, CONFIG2, LOFF, CH1SET, CH2SET, RLD_SENS, LOFF_SENS, LOFF_STAT, RESP1, RESP2, GPIO};
 }
 
+#define UART_SG_ADS_DATA 'A' // 0x41
 #define ECGBIT_V 2.42/(pow(2,23)-1)/6
 
 class ADS1292{
@@ -26,7 +27,7 @@ public:
     QByteArray get_Write_Reg_Code(ADS::REG t_Reg_Addr, QByteArray t_Reg_Data);
     QByteArray get_Read_Reg_Code(ADS::REG t_Reg_Addr);
     QByteArray get_RDATAC_Code();
-    //QByteArray get_RDATA_Code();
+    QByteArray get_Finish_Code();
 
 };
 

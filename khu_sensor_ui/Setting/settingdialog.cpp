@@ -35,6 +35,7 @@ void SettingDialog::fillPortsParameters(){
     ui->baudRateBox->addItem(QStringLiteral("19200"));
     ui->baudRateBox->addItem(QStringLiteral("38400"));
     ui->baudRateBox->addItem(QStringLiteral("115200"));
+    ui->baudRateBox->addItem(QStringLiteral("961200"));
 
     //DataBits
     ui->dataBitsBox->addItem(QStringLiteral("5"));
@@ -90,7 +91,7 @@ void SettingDialog::fillPortsInfo(){
 
 void SettingDialog::setDefaultConnectSetting(){
     ui->portInfoComboBox->setCurrentIndex(0);
-    ui->baudRateBox->setCurrentIndex(0); // BaudRate : 9600
+    ui->baudRateBox->setCurrentIndex(4); // BaudRate : 961200
     ui->dataBitsBox->setCurrentIndex(3); // Databits: 8bits
     ui->parityBox->setCurrentIndex(0); // Parity : None
     ui->stopBitsBox->setCurrentIndex(0); // StopBits 1bit

@@ -77,3 +77,10 @@ QByteArray ADS1292::get_RDATAC_Code(){
     QByteArray Out_Code;
     return Out_Code;
 }
+
+QByteArray ADS1292::get_Finish_Code(){
+    QByteArray Out_Code;
+    QString ADS_Finish_Str = "F"; // 0x46
+    Out_Code.append(ADS_Finish_Str);
+    return Out_Code;
+}

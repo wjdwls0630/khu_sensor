@@ -68,8 +68,8 @@ module uart_controller (
   parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
   parameter UART_SG_RUN = 8'h52; // 'R'
   parameter UART_SG_STOP = 8'h53; // 'S'
-  parameter UART_SG_ADS_FINISH = 8'h; // 'F'
-  parameter UART_SG_MPR_FINISH = 8'h; // 'f'
+  parameter UART_SG_ADS_FINISH = 8'h46; // 'F'
+  parameter UART_SG_MPR_FINISH = 8'h66; // 'f'
   //============================================================================
   //==============================State=========================================
   // state

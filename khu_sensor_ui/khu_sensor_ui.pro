@@ -28,13 +28,15 @@ SOURCES += \
     ADS1292/ads1292.cpp \
     UART/uart.cpp \
     mainwindow.cpp \
-    Setting/settingdialog.cpp
+    Setting/settingdialog.cpp \
+    MPR121/mpr121.cpp
 
 HEADERS += \
     ADS1292/ads1292.h \
     UART/uart.h \
     mainwindow.h \
-    Setting/settingdialog.h
+    Setting/settingdialog.h \
+    MPR121/mpr121.h
 
 FORMS += \
     mainwindow.ui \

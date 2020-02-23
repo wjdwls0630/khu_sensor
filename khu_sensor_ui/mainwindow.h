@@ -11,6 +11,7 @@
 
 
 #include "Setting/settingdialog.h"
+#include "MPR121/mpr121.h"
 #include "ADS1292/ads1292.h"
 
 
@@ -28,15 +29,23 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
+    void MPR_Reg_Process(QByteArray &t_Data);
+    void MPR_Data_Process(QByteArray &t_Data);
     void ADS_Reg_Process(QByteArray &t_Data);
-    void sensor_Data_Process(QByteArray &t_Data);
+    void ADS_Data_Process(QByteArray &t_Data);
 private:
     Ui::MainWindow *ui;
     SettingDialog *settingWindow;
 
     //Series Connection
     QSerialPort *m_SerialPort;
+    // MPR121
+    MPR121 *m_MPR121;
 
+    // MPR121 box light
+    QPalette *m_MPR_Pal_OFF;
+    QPalette *m_MPR_Pal_ON;
     // ADS1292
     ADS1292 *m_ADS1292;
 

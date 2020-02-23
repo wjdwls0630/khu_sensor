@@ -8,6 +8,7 @@ class UART{
 private:
     QString m_Name; // Port Name
     QSerialPort::BaudRate m_BaudRate;
+    qint32 m_BaudRateInt;
     QSerialPort::DataBits m_DataBits;
     QSerialPort::Parity m_Parity;
     QSerialPort::StopBits m_StopBits;
@@ -23,6 +24,7 @@ public:
 
     QString getName() const;
     QSerialPort::BaudRate getBaudRate() const ;
+    qint32 getBaudRateInt() const;
     QString getBaudRateStr() const;
     QSerialPort::DataBits getDataBits() const;
     QString getDataBitsStr() const;

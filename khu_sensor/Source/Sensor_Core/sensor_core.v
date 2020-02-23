@@ -58,8 +58,8 @@ module sensor_core(
 	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
 	parameter UART_SG_RUN = 8'h52; // 'R'
 	parameter UART_SG_STOP = 8'h53; // 'S'
-	parameter UART_SG_ADS_FINISH = 8'h; // 'F'
-	parameter UART_SG_MPR_FINISH = 8'h; // 'f'
+	parameter UART_SG_ADS_FINISH = 8'h46; // 'F'
+	parameter UART_SG_MPR_FINISH = 8'h66; // 'f'
 	//============================================================================
 	//==============================State=========================================
 	reg [7:0] r_uart_pstate;
@@ -145,12 +145,16 @@ module sensor_core(
 				begin
 					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
 						r_run_mode <= 1'b1;
+						r_ads_read_start <= 1'b1; // turn on
+						r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
 						r_run_mode <= 1'b0;
+						r_ads_read_start <= 1'b0; // turn off
+						r_mpr_read_start <= 1'b0; // turn off
 					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_FINISH) begin
-						r_ads_read_start <= 1'b0; // turn on
+						r_ads_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_FINISH) begin
-						r_mpr_read_start <= 1'b0; // turn on
+						r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
 						r_mpr_read_reg_mode <= 1'b1;
 					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin

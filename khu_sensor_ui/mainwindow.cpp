@@ -18,6 +18,38 @@ MainWindow::MainWindow(QWidget *parent) :
     // UART Setting
     this->m_SerialPort = new QSerialPort(this);
     connect(this->m_SerialPort, SIGNAL(readyRead()), this, SLOT(read_Serial_Port_Data()));
+    // MPR121
+    this->m_MPR121 = new MPR121;
+
+    // MPR box
+    this->m_MPR_Pal_OFF = new QPalette;
+    this->m_MPR_Pal_ON = new QPalette;
+    this->m_MPR_Pal_OFF->setColor(QPalette::Background, Qt::white);
+    this->m_MPR_Pal_ON->setColor(QPalette::Background, Qt::green);
+    ui->mprCH0widget->setAutoFillBackground(true);
+    ui->mprCH0widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH1widget->setAutoFillBackground(true);
+    ui->mprCH1widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH2widget->setAutoFillBackground(true);
+    ui->mprCH2widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH3widget->setAutoFillBackground(true);
+    ui->mprCH3widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH4widget->setAutoFillBackground(true);
+    ui->mprCH4widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH5widget->setAutoFillBackground(true);
+    ui->mprCH5widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH6widget->setAutoFillBackground(true);
+    ui->mprCH6widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH7widget->setAutoFillBackground(true);
+    ui->mprCH7widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH8widget->setAutoFillBackground(true);
+    ui->mprCH8widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH9widget->setAutoFillBackground(true);
+    ui->mprCH9widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH10widget->setAutoFillBackground(true);
+    ui->mprCH10widget->setPalette(*this->m_MPR_Pal_OFF);
+    ui->mprCH11widget->setAutoFillBackground(true);
+    ui->mprCH11widget->setPalette(*this->m_MPR_Pal_OFF);
 
     // ADS1292
     this->m_ADS1292 = new ADS1292;
@@ -25,13 +57,16 @@ MainWindow::MainWindow(QWidget *parent) :
     // ADS Chart
     this->m_ADS_Series = new QLineSeries();
     this->m_ADS_Series -> setName("ECG");
+
     this->m_ADS_Data_List.append(0);
     this->m_ADS_Series->append(0, this->m_ADS_Data_List.at(0));
     // default series
     for (int i = 1; i < 300; i++) {
-        this->m_ADS_Data_List.append(1.2);
-        this->m_ADS_Series->append(i, this->m_ADS_Data_List.at(i));
+        this->m_ADS_Data_List.append(0); // TODO need?
+        //this->m_ADS_Series->append(i, this->m_ADS_Data_List.at(i));
+        this->m_ADS_Series->append(i, 0);
     }
+
 
     this->m_ADS_Chart = new QChart();
     this->m_ADS_Chart->addSeries(this->m_ADS_Series);
@@ -60,6 +95,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::MPR_Data_Process(QByteArray &t_Data){
+
+    // Create a bit array of the appropriate size
+    QBitArray mpr_bits((t_Data.count()-1)*8);
+
+    // Convert from QByteArray to QBitArray
+    for(int i=0; i<mpr_bits.count(); i++) {
+        for(int b=0; b<8; b++) {
+            mpr_bits.setBit( i*8+b, t_Data.at(i+1)&(1<<(7-b)) );
+        }
+    }
+    // mpr data form
+    // 16'b0000_ch11~8_ch7~0
+    ui->mprCH0widget->setPalette((mpr_bits.at(0))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH1widget->setPalette((mpr_bits.at(1))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH2widget->setPalette((mpr_bits.at(2))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH3widget->setPalette((mpr_bits.at(3))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH4widget->setPalette((mpr_bits.at(4))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH5widget->setPalette((mpr_bits.at(5))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH6widget->setPalette((mpr_bits.at(6))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH7widget->setPalette((mpr_bits.at(7))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH8widget->setPalette((mpr_bits.at(8))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH9widget->setPalette((mpr_bits.at(9))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH10widget->setPalette((mpr_bits.at(10))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    ui->mprCH11widget->setPalette((mpr_bits.at(11))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
+    return;
+}
+
+
 void MainWindow::ADS_Reg_Process(QByteArray &t_Data){
     QString t_Data_Str = t_Data.toHex();
     ADS::REG ADS_Reg = this->m_ADS1292->decode_ADS_Reg_Hex(t_Data_Str.mid(1,2));
@@ -78,36 +142,17 @@ void MainWindow::ADS_Reg_Process(QByteArray &t_Data){
     return ;
 }
 
-void MainWindow::sensor_Data_Process(QByteArray &t_Data){
-
-    int Data_Length;
-    if(t_Data.length()%2 == 0) Data_Length = t_Data.length();
-    else Data_Length = t_Data.length() - 1;
-
-    int pos = 0;
+void MainWindow::ADS_Data_Process(QByteArray &t_Data){
     long ADS_Data;
     bool ADS_Data_ok;
-    QString Signal_Str;
-    QString Data_Str;
+    ADS_Data = t_Data.right(4).toLong(&ADS_Data_ok, 16);
+    this->m_ADS_Data_List.removeFirst();
+    this->m_ADS_Data_List.append(((double)ADS_Data-1)*ECGBIT_V);
 
-    while (pos < Data_Length) {
-        if(t_Data.at(pos) == '\x41'){
-            // ADS
-            //qDebug()<<t_Data.mid(pos, 5).toHex(' ');
-            ADS_Data = t_Data.mid(pos+1, 4).toLong(&ADS_Data_ok, 16);
-            this->m_ADS_Data_List.removeFirst();
-            this->m_ADS_Data_List.append(((double)ADS_Data-1)*ECGBIT_V);
-
-            for(int i = 0; i< this->m_ADS_Data_List.length(); i++){
-                this->m_ADS_Series->replace(i, i, this->m_ADS_Data_List.at(i));
-            }
-            pos += 5;
-        } else if(t_Data.at(pos) == '\x4d') {
-            // mpr
-            //qDebug()<<t_Data.mid(pos, 3).toHex(' ');
-            pos += 3;
-        }
+    for(int i = 0; i< this->m_ADS_Data_List.length(); i++){
+        this->m_ADS_Series->replace(i, i, this->m_ADS_Data_List.at(i));
     }
+    return;
 }
 
 void MainWindow::on_runPB_clicked(){
@@ -121,7 +166,7 @@ void MainWindow::on_runPB_clicked(){
             ui->runPB->setEnabled(true);
             ui->connectPB->setEnabled(false);
             ui->settingPB->setEnabled(false);
-            ui->exitPB->setEnabled(false);
+ ui->exitPB->setEnabled(false);
             ui->mprtb_syncPB->setEnabled(false);
             ui->adstb_syncPB->setEnabled(false);
             Cmd_Str = "R"; // 0x52
@@ -154,7 +199,11 @@ void MainWindow::on_connectPB_clicked(){
         //Serial port Setting
         UART temp = this->settingWindow->getUART();
         this->m_SerialPort->setPortName(temp.getName());
-        this->m_SerialPort->setBaudRate(temp.getBaudRate());
+        if(temp.getBaudRateInt() == 961200){
+            this->m_SerialPort->setBaudRate(temp.getBaudRateInt());
+        } else {
+            this->m_SerialPort->setBaudRate(temp.getBaudRate());
+        }
         this->m_SerialPort->setDataBits(temp.getDataBits());
         this->m_SerialPort->setParity(temp.getParity());
         this->m_SerialPort->setStopBits(temp.getStopBits());
@@ -292,42 +341,18 @@ void MainWindow::on_adstb_syncPB_clicked(){
 }
 
 void MainWindow::read_Serial_Port_Data(){
-    while (this->m_SerialPort->waitForReadyRead(50)) {
 
-    }
     QByteArray data_out = this->m_SerialPort->readAll(); // use another function
     //this->sensor_Data_Process(data_out);
     qDebug()<<"length : "<<data_out.length();
     qDebug()<<data_out.toHex(' ');
-    /*
-    int Data_Length;
-    if(data_out.length()%2 == 0) Data_Length = data_out.length();
-    else Data_Length = data_out.length() - 1;
-
-    int pos = 0;
-    long ADS_Data;
-    bool ADS_Data_ok;
-    QString Signal_Str;
-    QString Data_Str;
-
-    while (pos < Data_Length) {
-        if(data_out.at(pos) == '\x41'){
-            // ADS
-            //qDebug()<<t_Data.mid(pos, 5).toHex(' ');
-            ADS_Data = data_out.mid(pos+1, 4).toLong(&ADS_Data_ok, 16);
-            this->m_ADS_Data_List.removeFirst();
-            this->m_ADS_Data_List.append(((double)ADS_Data-1)*ECGBIT_V);
-
-            for(int i = 0; i< this->m_ADS_Data_List.length(); i++){
-                this->m_ADS_Series->replace(i, i, this->m_ADS_Data_List.at(i));
-            }
-            pos += 5;
-        } else if(data_out.at(pos) == '\x4d') {
-            // mpr
-            //qDebug()<<t_Data.mid(pos, 3).toHex(' ');
-            pos += 3;
-        }
+    if(data_out.at(0) == UART_SG_ADS_DATA) {
+        // this->ADS_Data_Process(data_out);
+        this->m_SerialPort->write(this->m_ADS1292->get_Finish_Code()); // send data processing is finished
+    } else if(data_out.at(0) == UART_SG_MPR_DATA){
+        // this->MPR_Data_Process(data_out);
+        this->m_SerialPort->write(this->m_MPR121->get_Finish_Code());
     }
-    */
+
     return ;
 }
