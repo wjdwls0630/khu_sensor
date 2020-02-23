@@ -30,7 +30,7 @@ module uart_controller (
   *****************************************************************************/
   //============================Parameter=======================================
   // UART Signal (user defined)
-  parameter UART_CLKS_PER_BIT = 16'd2605; // '25MHz/115200'
+  parameter UART_CLKS_PER_BIT = 16'd27; // '25MHz/961200' 
   //============================================================================
   //=========================Internal Connection===============================
   reg r_uart_data_tx_valid;
@@ -68,6 +68,8 @@ module uart_controller (
   parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
   parameter UART_SG_RUN = 8'h52; // 'R'
   parameter UART_SG_STOP = 8'h53; // 'S'
+  parameter UART_SG_ADS_FINISH = 8'h; // 'F'
+  parameter UART_SG_MPR_FINISH = 8'h; // 'f'
   //============================================================================
   //==============================State=========================================
   // state
@@ -130,7 +132,7 @@ module uart_controller (
           if(i_CORE_BUSY) begin // TODO when sensor is reading, don't receive data from pc, only receive stop signal
             // prioritize Reading from PC
             if(w_uart_data_rx_valid) begin
-              if(w_uart_data_rx == UART_SG_STOP) begin
+              if((w_uart_data_rx == UART_SG_STOP)|| (w_uart_data_rx == UART_SG_ADS_FINISH) || (w_uart_data_rx == UART_SG_MPR_FINISH)) begin
                 o_UART_DATA_RX[15:8] <= w_uart_data_rx;
                 o_UART_DATA_RX_VALID <= 1'b1;
                 r_pstate <= ST_IDLE;
