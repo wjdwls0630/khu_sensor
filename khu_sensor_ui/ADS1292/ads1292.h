@@ -7,6 +7,8 @@ namespace ADS {
     enum REG {ID, CONFIG1, CONFIG2, LOFF, CH1SET, CH2SET, RLD_SENS, LOFF_SENS, LOFF_STAT, RESP1, RESP2, GPIO};
 }
 
+#define UART_SG_ADS_DATA 'A' // 0x41
+#define UART_SG_ADS_READ_REG 'a' // 0x61
 #define ECGBIT_V 2.42/(pow(2,23)-1)/6
 
 class ADS1292{
@@ -16,17 +18,14 @@ private:
 public:
     ADS1292();
     virtual ~ADS1292();
-    //decode CMD, REG
-    QByteArray decode_ADS_Cmd(ADS::CMD t_Cmd);
+    //decode REG
     QByteArray decode_ADS_Reg(ADS::REG t_Reg);
     ADS::REG decode_ADS_Reg_Hex(const QString &t_Data_Str);
 
-    //get code to send (cmd, reg)
-    QByteArray get_Send_Cmd_Code(ADS::CMD t_Cmd);
-    QByteArray get_Write_Reg_Code(ADS::REG t_Reg_Addr, QByteArray t_Reg_Data);
+    //get code to send (reg)
     QByteArray get_Read_Reg_Code(ADS::REG t_Reg_Addr);
-    QByteArray get_RDATAC_Code();
-    //QByteArray get_RDATA_Code();
+    QByteArray get_Read_Reg_Code_Int(int counter);
+    QByteArray get_Finish_Code();
 
 };
 

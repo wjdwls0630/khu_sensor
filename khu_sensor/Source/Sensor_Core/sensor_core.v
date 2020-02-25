@@ -1,4 +1,3 @@
-//TODO rename everything by the rules of thumb
 ///////////////////////////////////////////////////////////////////////////////
 // Module Name : sensor_core
 //
@@ -34,6 +33,7 @@ module sensor_core(
 	output reg [7:0] o_ADS1292_COMMAND, // ADS1292 SPI command
 	output reg [7:0] o_ADS1292_REG_ADDR, // ADS1292 register address
 	output reg [7:0] o_ADS1292_DATA_IN, // data to write in ADS1292 register
+	output o_ADS1292_RDATAC_READ_START, // signal that start to read data in RDATAC mode
 	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
 	input i_ADS1292_BUSY,
 	input i_ADS1292_FAIL,
@@ -57,6 +57,8 @@ module sensor_core(
 	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
 	parameter UART_SG_RUN = 8'h52; // 'R'
 	parameter UART_SG_STOP = 8'h53; // 'S'
+	parameter UART_SG_ADS_FINISH = 8'h46; // 'F'
+	parameter UART_SG_MPR_FINISH = 8'h66; // 'f'
 	//============================================================================
 	//==============================State=========================================
 	reg [7:0] r_uart_pstate;
@@ -71,6 +73,9 @@ module sensor_core(
 	//==============================wire & reg====================================
 	reg [15:0] r_uart_data_rx;
 	reg r_run_mode;
+	reg r_ads_read_start; // signal from pc which means that its work finished
+	assign o_ADS1292_RDATAC_READ_START = r_ads_read_start;
+	reg r_mpr_read_start; // signal from pc which means that its work finished
 	reg r_mpr_read_reg_mode;
 	reg r_ads_read_reg_mode;
 	//============================================================================
@@ -83,6 +88,8 @@ module sensor_core(
 			r_uart_data_rx <= 16'b0;
 
 			r_run_mode <= 1'b0;
+			r_ads_read_start <= 1'b0;
+			r_mpr_read_start <= 1'b0;
 			r_mpr_read_reg_mode <= 1'b0;
 			r_ads_read_reg_mode <= 1'b0;
 
@@ -94,6 +101,8 @@ module sensor_core(
 				begin
 					r_uart_data_rx <= 16'b0;
 					r_run_mode <= 1'b0;
+					r_ads_read_start <= 1'b0;
+					r_mpr_read_start <= 1'b0;
 					r_mpr_read_reg_mode <= 1'b0;
 					r_ads_read_reg_mode <= 1'b0;
 					r_uart_pstate <= ST_UART_STANDBY;
@@ -101,20 +110,20 @@ module sensor_core(
 
 				ST_UART_STANDBY:
 				begin
-					// TODO READ priority
 					if(i_UART_DATA_RX_VALID) begin
 						r_uart_data_rx <= i_UART_DATA_RX;
 						r_uart_pstate <= ST_UART_RX;
 					end else begin
 						// update tx data
 						if(i_UART_DATA_TX_READY) begin
-							// TODO prioritize ads?
 							if(r_ads_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
 								o_UART_DATA_TX_VALID <= 1'b1;
+								r_ads_read_start <= 1'b0; // turn off
 							end else if(r_mpr_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
+								r_mpr_read_start <= 1'b0; // turn off
 							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 16'b0};
@@ -123,7 +132,7 @@ module sensor_core(
 								r_mpr_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 16'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
+							end else o_UART_DATA_TX_VALID <= 1'b0;
 						end else o_UART_DATA_TX_VALID <= 1'b0;
 						r_uart_pstate <= ST_UART_STANDBY;
 					end
@@ -133,8 +142,16 @@ module sensor_core(
 				begin
 					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
 						r_run_mode <= 1'b1;
+						r_ads_read_start <= 1'b1; // turn on
+						r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
 						r_run_mode <= 1'b0;
+						r_ads_read_start <= 1'b0; // turn off
+						r_mpr_read_start <= 1'b0; // turn off
+					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_FINISH) begin
+						r_ads_read_start <= 1'b1; // turn on
+					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_FINISH) begin
+						r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
 						r_mpr_read_reg_mode <= 1'b1;
 					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin
@@ -204,7 +221,6 @@ module sensor_core(
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
-			//TODO UART data
 			// MPR121 State Control
 			r_mpr_chip_set <= 1'b0;
 			r_mpr_run_set <= 1'b0;
@@ -252,8 +268,6 @@ module sensor_core(
 				end
 
 				ST_CORE_STANDBY:
-				//TODO Later, when connect UART, run state will replace UART signal,
-				// will make Read Register in this state
 				begin
 
 					if(r_run_mode) begin // when receive run signal
@@ -270,7 +284,7 @@ module sensor_core(
 						else r_ads_read_reg <= 1'b0;
 					end else begin // when receive stop signal
 						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
-						else r_mpr_is_reading <= 1'b0; //TODO design where state should go
+						else r_mpr_is_reading <= 1'b0;
 
 						if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
 						else r_ads_is_reading <= 1'b0;;
@@ -349,7 +363,8 @@ module sensor_core(
 	parameter ST_MPR_READ_STATUS_EN = 8'd29;
 	parameter ST_MPR_READ_STATUS_CONFIRM = 8'd30;
 	parameter ST_MPR_READ_STATUS_CHANGE = 8'd31;
-	parameter ST_MPR_ERROR_REPORT = 8'd32;
+	parameter ST_MPR_READ_STATUS_WAIT = 8'd32;
+	parameter ST_MPR_ERROR_REPORT = 8'd33;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -365,7 +380,7 @@ module sensor_core(
 	reg [15:0] r_mpr_touch_status; // 0x01 + 0x00
 	reg r_mpr_data_send_ready; // mpr data to send is ready
 	//============================================================================
-	// TODO make READ_REG state
+
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
@@ -620,7 +635,10 @@ module sensor_core(
 						r_mpr_data_send_ready <= 1'b0;
 						if(r_mpr_status == 1'b0) r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
 						else r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG;
-						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
+
+						// start reading when pc send its work finished
+						if(r_mpr_read_start) r_mpr_pstate <= ST_MPR_READ_STATUS_START;
+						else r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					end
 				end
 
@@ -659,15 +677,20 @@ module sensor_core(
 
 				ST_MPR_READ_STATUS_CHANGE:
 				begin
-					//TODO slow reaction of LED, why?
 					r_mpr_status <= ~r_mpr_status; // change its read status;
 					if(r_mpr_status == 1'b0) r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					else begin
-						r_mpr_touch_status <= {r_mpr_touch_status_0[7:0], 4'b0, r_mpr_touch_status_1[3:0]};
+						r_mpr_touch_status <= {4'b0, r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
 						r_mpr_data_send_ready <= 1'b1;
 						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
-						r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+						r_mpr_pstate <= ST_MPR_READ_STATUS_WAIT;
 					end
+				end
+
+				ST_MPR_READ_STATUS_WAIT:
+				begin
+					// wait one clock for turning off read_start and uart sending(uart_controller)
+					r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 				end
 
 				ST_MPR_ERROR_REPORT:
@@ -716,17 +739,17 @@ module sensor_core(
 	reg [7:0] r_ads_pstate;
 
 	// ADS1292
-	// 8'b0010_xxxx(>1)
-	parameter ST_ADS_IDLE  = 8'd33;
-	parameter ST_ADS_SETTING = 8'd34;
-	parameter ST_ADS_RUN = 8'd35;
-	parameter ST_ADS_STOP = 8'd36;
-	parameter ST_ADS_WREG_INIT = 8'd37;
-	parameter ST_ADS_WREG_CONFIRM = 8'd38;
-	parameter ST_ADS_RREG_INIT = 8'd39;
-	parameter ST_ADS_RREG_CONFIRM = 8'd40;
-	parameter ST_ADS_RDATAC_INIT = 8'd41;
-	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd42;
+	// 8'b0010_xxxx(>2 from MPR121)
+	parameter ST_ADS_IDLE  = 8'd34;
+	parameter ST_ADS_SETTING = 8'd35;
+	parameter ST_ADS_RUN = 8'd36;
+	parameter ST_ADS_STOP = 8'd37;
+	parameter ST_ADS_WREG_INIT = 8'd38;
+	parameter ST_ADS_WREG_CONFIRM = 8'd39;
+	parameter ST_ADS_RREG_INIT = 8'd40;
+	parameter ST_ADS_RREG_CONFIRM = 8'd41;
+	parameter ST_ADS_RDATAC_INIT = 8'd42;
+	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd43;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -743,7 +766,7 @@ module sensor_core(
 	reg [31:0] r_ads_data_ch2_3; // container for 8 bits of ch2's third data
 	reg r_ads_data_send_ready; // ads data to send is ready.
 	//============================================================================
-	// TODO make READ_REG state
+
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
@@ -780,7 +803,6 @@ module sensor_core(
 			case (r_ads_pstate)
 				ST_ADS_IDLE:
 				begin
-					// TODO for sake of preventing to create latch,
 					// but in later, if we use command input for wakeup and standby , delete it
 					o_ADS1292_COMMAND <= 8'b0;
 					// sensor_core & uart
@@ -905,7 +927,6 @@ module sensor_core(
 					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 					else begin
 						if (r_ads_lstate == ST_ADS_SETTING) r_ads_pstate <= ST_ADS_SETTING;
-						//TODO where to go?
 					end
 				end
 
@@ -934,8 +955,7 @@ module sensor_core(
 					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
-						if(i_ADS1292_DATA_READY) begin // TODO, make rising edge detective
-							//r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
+						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
 							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
 							r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
@@ -946,12 +966,16 @@ module sensor_core(
 
 				ST_ADS_RDATAC_DATA_PROCESS:
 				begin
+					// convert data process
+					/*
 					if(r_ads_data_ch2_1 > 8'h7F) begin
-						r_ads_data_convert <= ~(((~r_ads_data_ch2_1)<<16)|((~r_ads_data_ch2_2)<<8)|(~r_ads_data_ch2_3) + 1'b1);
+						r_ads_data_convert <= ~(((~r_ads_data_ch2_1)<<16)|((~r_ads_data_ch2_2)<<8)|(~r_ads_data_ch2_3) + 1'b1) + 1'b1;
 					end else begin
 						r_ads_data_convert <= (r_ads_data_ch2_1<<16)|(r_ads_data_ch2_2<<8)|r_ads_data_ch2_3;
 					end
-					// TODO make ads data ready flag
+					*/
+					// CHANGED converting ads data process in C++
+					r_ads_data_convert <= {8'b0, r_ads_data_ch2_1[7:0], r_ads_data_ch2_2[7:0], r_ads_data_ch2_3[7:0]};
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end

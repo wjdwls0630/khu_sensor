@@ -8,9 +8,10 @@ module ads1292_controller (
 	input [7:0] i_ADS1292_COMMAND, // ADS1292 SPI command
 	input [7:0] i_ADS1292_REG_ADDR, // ADS1292 register address
 	input [7:0] i_ADS1292_DATA_IN, // data to write in ADS1292 register
+	input i_ADS1292_RDATAC_READ_START, // signal that start to read data in RDATAC mode
 	output reg o_ADS1292_RDATAC_READY, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
-	output reg o_ADS1292_FAIL,  //TODO delete not  use
+	output reg o_ADS1292_FAIL,
 
 	//	ADS1292, SPI Side
 	output o_SPI_CLK,
@@ -76,7 +77,7 @@ module ads1292_controller (
 	*/
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(500))
+	 						 .CLKS_PER_HALF_BIT(49))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
@@ -245,20 +246,7 @@ module ads1292_controller (
 		else r_ldrdy <= i_ADS1292_DRDY;
 	end
 	assign w_drdy_posedge_detect = i_ADS1292_DRDY & (~r_ldrdy);
-	/*
-	reg r_lrdatac_ready; // last rdatac_ready
-	reg ; // ads 72 bits data is ready
-	always @ ( posedge i_CLK, negedge i_RSTN  ) begin
-		if (!i_RSTN) begin
-			r_lrdatac_ready <= 1'b0;
 
-		end else begin
-			r_lrdatac_ready <= ;
-		end
-	end
-	// if detect posedge of drdy, then value go up to the high(1)
-	assign o_ADS1292_RDATAC_READY =  & (~r_lrdatac_ready);
-	*/
 	//============================================================================
 
 
@@ -533,7 +521,7 @@ module ads1292_controller (
 					Thus, we will wait 1030 t_MOD
 					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
 					*/
-					if(r_clk_counter > 32'd402318) begin
+					if(r_clk_counter > 32'd402318) begin //402318
 						r_clk_counter <= 32'b0;
 						r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
 					end else begin
@@ -566,11 +554,13 @@ module ads1292_controller (
 					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
 					one drdy pulse time is t_MOD
 					*/
-					if(r_clk_counter > 32'd391) begin
-						r_clk_counter <= 32'b0;
-						r_spi_data_in <= 8'b0; // send dummy for reading
-						r_spi_data_in_valid <= 1'b1; // active sclk for reading
-						r_pstate <= ST_RDATAC_GET_DATA;
+					if(r_clk_counter > 32'd391) begin // 391
+						if(i_ADS1292_RDATAC_READ_START) begin
+							r_clk_counter <= 32'b0;
+							r_spi_data_in <= 8'b0; // send dummy for reading
+							r_spi_data_in_valid <= 1'b1; // active sclk for reading
+							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;

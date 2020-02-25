@@ -239,7 +239,7 @@ module mpr121_controller (
 
 
     // Configuration
-    .prescale(16'd250),
+    .prescale(16'd125), // 16'd125
     .stop_on_idle(1'b1) // stop_on_idle automatically issue stop when command input is not valid
 		);
 
@@ -248,7 +248,7 @@ module mpr121_controller (
 	prescale
 	set prescale to 1/4 of the minimum clock period in units
 	of input i_CLK cycles (prescale = Fclk / (FI2Cclk * 4))
-	(Basic frequency of altera board)50M/(400k*4) = 125
+	(Basic frequency of altera board)50M/(100k*4) = 125
 	*/
 	//============================================================================
 
