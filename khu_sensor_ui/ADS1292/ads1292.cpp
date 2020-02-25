@@ -52,28 +52,26 @@ QByteArray ADS1292::get_Read_Reg_Code_Int(int counter){
 
     Out_Code.append(ADS_Read_Reg_Str);
     if(counter == 0){
-        Out_Code.append(this->decode_ADS_Reg(ADS::REG::ID));
-    } else if (counter == 1){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::CONFIG1));
-    } else if (counter == 2){
+    } else if (counter == 1){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::CONFIG2));
-    } else if (counter == 3){
+    } else if (counter == 2){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF));
-    } else if (counter == 4){
+    } else if (counter == 3){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::CH1SET));
-    } else if (counter == 5){
+    } else if (counter == 4){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::CH2SET));
-    } else if (counter == 6){
+    } else if (counter == 5){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::RLD_SENS));
-    } else if (counter == 7){
+    } else if (counter == 6){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF_SENS));
-    } else if (counter == 8){
+    } else if (counter == 7){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF_STAT));
-    } else if (counter == 9){
+    } else if (counter == 8){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::RESP1));
-    } else if (counter == 10){
+    } else if (counter == 9){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::RESP2));
-    } else if (counter == 11){
+    } else if (counter == 10){
         Out_Code.append(this->decode_ADS_Reg(ADS::REG::GPIO));
     } else {
         Out_Code.clear();
