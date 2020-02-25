@@ -11,7 +11,7 @@ module ads1292_controller (
 	input i_ADS1292_RDATAC_READ_START, // signal that start to read data in RDATAC mode
 	output reg o_ADS1292_RDATAC_READY, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
-	output reg o_ADS1292_FAIL,  //TODO delete not  use
+	output reg o_ADS1292_FAIL,
 
 	//	ADS1292, SPI Side
 	output o_SPI_CLK,
@@ -246,20 +246,7 @@ module ads1292_controller (
 		else r_ldrdy <= i_ADS1292_DRDY;
 	end
 	assign w_drdy_posedge_detect = i_ADS1292_DRDY & (~r_ldrdy);
-	/*
-	reg r_lrdatac_ready; // last rdatac_ready
-	reg ; // ads 72 bits data is ready
-	always @ ( posedge i_CLK, negedge i_RSTN  ) begin
-		if (!i_RSTN) begin
-			r_lrdatac_ready <= 1'b0;
 
-		end else begin
-			r_lrdatac_ready <= ;
-		end
-	end
-	// if detect posedge of drdy, then value go up to the high(1)
-	assign o_ADS1292_RDATAC_READY =  & (~r_lrdatac_ready);
-	*/
 	//============================================================================
 
 

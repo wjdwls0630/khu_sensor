@@ -1,4 +1,3 @@
-//TODO rename everything by the rules of thumb
 ///////////////////////////////////////////////////////////////////////////////
 // Module Name : uart_controller
 //
@@ -30,7 +29,7 @@ module uart_controller (
   *****************************************************************************/
   //============================Parameter=======================================
   // UART Signal (user defined)
-  parameter UART_CLKS_PER_BIT = 16'd27; // '25MHz/961200' 
+  parameter UART_CLKS_PER_BIT = 16'd217; // '25MHz/115200'
   //============================================================================
   //=========================Internal Connection===============================
   reg r_uart_data_tx_valid;
@@ -129,7 +128,7 @@ module uart_controller (
           // uart_controller
           r_uart_data_tx_shift <= 40'b0;
           r_data_counter <= 4'b0;
-          if(i_CORE_BUSY) begin // TODO when sensor is reading, don't receive data from pc, only receive stop signal
+          if(i_CORE_BUSY) begin
             // prioritize Reading from PC
             if(w_uart_data_rx_valid) begin
               if((w_uart_data_rx == UART_SG_STOP)|| (w_uart_data_rx == UART_SG_ADS_FINISH) || (w_uart_data_rx == UART_SG_MPR_FINISH)) begin

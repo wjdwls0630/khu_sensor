@@ -4,34 +4,20 @@ ADS1292::ADS1292(){}
 
 ADS1292::~ADS1292(){}
 
-QByteArray ADS1292::decode_ADS_Cmd(ADS::CMD t_Cmd){
-    QByteArray Cmd_Hex;
-    if (t_Cmd == ADS::CMD::WAKEUP){ Cmd_Hex = "\x02"; }
-    if (t_Cmd == ADS::CMD::STANDBY){ Cmd_Hex = "\x04"; }
-    if (t_Cmd == ADS::CMD::RESET){ Cmd_Hex = "\x06"; }
-    if (t_Cmd == ADS::CMD::START){ Cmd_Hex = "\x08"; }
-    if (t_Cmd == ADS::CMD::STOP){ Cmd_Hex = "\x0A"; }
-    if (t_Cmd == ADS::CMD::OFFSETCAL){ Cmd_Hex = "\x1A"; }
-    if (t_Cmd == ADS::CMD::RDATAC){ Cmd_Hex = "\x10"; }
-    if (t_Cmd == ADS::CMD::SDATAC){ Cmd_Hex = "\x11"; }
-    if (t_Cmd == ADS::CMD::RDATA){ Cmd_Hex = "\x12"; }
-    return Cmd_Hex;
-}
-
 QByteArray ADS1292::decode_ADS_Reg(ADS::REG t_Reg){
     QByteArray Reg_Hex;
-    if(t_Reg == ADS::REG::ID){ Reg_Hex = "\x00"; }
-    if(t_Reg == ADS::REG::CONFIG1){ Reg_Hex = "\x01"; }
-    if(t_Reg == ADS::REG::CONFIG2){ Reg_Hex = "\x02"; }
-    if(t_Reg == ADS::REG::LOFF){ Reg_Hex = "\x03"; }
-    if(t_Reg == ADS::REG::CH1SET){ Reg_Hex = "\x04"; }
-    if(t_Reg == ADS::REG::CH2SET){ Reg_Hex = "\x05"; }
-    if(t_Reg == ADS::REG::RLD_SENS){ Reg_Hex = "\x06"; }
-    if(t_Reg == ADS::REG::LOFF_SENS){ Reg_Hex = "\x07"; }
-    if(t_Reg == ADS::REG::LOFF_STAT){ Reg_Hex = "\x08"; }
-    if(t_Reg == ADS::REG::RESP1){ Reg_Hex = "\x09"; }
-    if(t_Reg == ADS::REG::RESP2){ Reg_Hex = "\x0A"; }
-    if(t_Reg == ADS::REG::GPIO){ Reg_Hex = "\x0B"; }
+    if(t_Reg == ADS::REG::ID){ Reg_Hex.append(QByteArray::fromHex("00")); }
+    if(t_Reg == ADS::REG::CONFIG1){ Reg_Hex.append(QByteArray::fromHex("01")); }
+    if(t_Reg == ADS::REG::CONFIG2){ Reg_Hex.append(QByteArray::fromHex("02")); }
+    if(t_Reg == ADS::REG::LOFF){ Reg_Hex.append(QByteArray::fromHex("03")); }
+    if(t_Reg == ADS::REG::CH1SET){ Reg_Hex.append(QByteArray::fromHex("04")); }
+    if(t_Reg == ADS::REG::CH2SET){ Reg_Hex.append(QByteArray::fromHex("05")); }
+    if(t_Reg == ADS::REG::RLD_SENS){ Reg_Hex.append(QByteArray::fromHex("06")); }
+    if(t_Reg == ADS::REG::LOFF_SENS){ Reg_Hex.append(QByteArray::fromHex("07")); }
+    if(t_Reg == ADS::REG::LOFF_STAT){ Reg_Hex.append(QByteArray::fromHex("08")); }
+    if(t_Reg == ADS::REG::RESP1){ Reg_Hex.append(QByteArray::fromHex("09")); }
+    if(t_Reg == ADS::REG::RESP2){ Reg_Hex.append(QByteArray::fromHex("0A")); }
+    if(t_Reg == ADS::REG::GPIO){ Reg_Hex.append(QByteArray::fromHex("0B")); }
     return Reg_Hex;
 }
 
@@ -47,21 +33,9 @@ ADS::REG ADS1292::decode_ADS_Reg_Hex(const QString &t_Data_Str){
     if(t_Data_Str == "07"){ Reg = ADS::REG::LOFF_SENS; }
     if(t_Data_Str == "08"){ Reg = ADS::REG::LOFF_STAT; }
     if(t_Data_Str == "09"){ Reg = ADS::REG::RESP1; }
-    if(t_Data_Str == "0A"){ Reg = ADS::REG::RESP2; }
-    if(t_Data_Str == "0B"){ Reg = ADS::REG::GPIO; }
+    if(t_Data_Str == "0a"){ Reg = ADS::REG::RESP2; }
+    if(t_Data_Str == "0b"){ Reg = ADS::REG::GPIO; }
     return Reg;
-}
-
-QByteArray ADS1292::get_Send_Cmd_Code(ADS::CMD t_Cmd){
-    // TODO if need to send, make
-    QByteArray Out_Code;
-    return Out_Code;
-}
-
-QByteArray ADS1292::get_Write_Reg_Code(ADS::REG t_Reg_Addr, QByteArray t_Reg_Data){
-    // TODO if need to write, make
-    QByteArray Out_Code;
-    return Out_Code;
 }
 
 QByteArray ADS1292::get_Read_Reg_Code(ADS::REG t_Reg_Data){
@@ -72,9 +46,38 @@ QByteArray ADS1292::get_Read_Reg_Code(ADS::REG t_Reg_Data){
     return Out_Code;
 }
 
-QByteArray ADS1292::get_RDATAC_Code(){
-    // TODO if need, make
+QByteArray ADS1292::get_Read_Reg_Code_Int(int counter){
+    QString ADS_Read_Reg_Str = "a"; // 0x61
     QByteArray Out_Code;
+
+    Out_Code.append(ADS_Read_Reg_Str);
+    if(counter == 0){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::ID));
+    } else if (counter == 1){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::CONFIG1));
+    } else if (counter == 2){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::CONFIG2));
+    } else if (counter == 3){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF));
+    } else if (counter == 4){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::CH1SET));
+    } else if (counter == 5){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::CH2SET));
+    } else if (counter == 6){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::RLD_SENS));
+    } else if (counter == 7){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF_SENS));
+    } else if (counter == 8){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::LOFF_STAT));
+    } else if (counter == 9){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::RESP1));
+    } else if (counter == 10){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::RESP2));
+    } else if (counter == 11){
+        Out_Code.append(this->decode_ADS_Reg(ADS::REG::GPIO));
+    } else {
+        Out_Code.clear();
+    }
     return Out_Code;
 }
 

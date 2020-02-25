@@ -16,19 +16,15 @@ QString UART::getName() const { return this->m_Name; }
 
 QSerialPort::BaudRate UART::getBaudRate() const { return this->m_BaudRate; }
 
-qint32 UART::getBaudRateInt() const { return this->m_BaudRateInt; }
-
 QString UART::getBaudRateStr() const{
-    if(this->m_BaudRateInt == 9600){
+    if(this->m_BaudRate == QSerialPort::Baud9600){
         return "9600";
-    } else if(this->m_BaudRateInt == 19200){
+    } else if(this->m_BaudRate == QSerialPort::Baud19200){
         return "19200";
-    } else if(this->m_BaudRateInt == 38400){
+    } else if(this->m_BaudRate == QSerialPort::Baud38400){
         return "38400";
-    } else if(this->m_BaudRateInt == 115200){
+    } else if(this->m_BaudRate == QSerialPort::Baud115200){
         return "115200";
-    } else if(this->m_BaudRateInt == 961200){
-        return "961200";
     }
     return "";
 }
@@ -97,20 +93,12 @@ void UART::setName(QString t_Name){ this->m_Name = t_Name; }
 void UART::setBaudRate(QString t_BaudRate){
     if(t_BaudRate == "9600"){
         this->m_BaudRate = QSerialPort::Baud9600;
-        this->m_BaudRateInt = 9600;
     } else if(t_BaudRate == "19200"){
         this->m_BaudRate = QSerialPort::Baud19200;
-        this->m_BaudRateInt = 19200;
     } else if(t_BaudRate == "38400"){
         this->m_BaudRate = QSerialPort::Baud38400;
-        this->m_BaudRateInt = 38400;
     } else if(t_BaudRate == "115200"){
         this->m_BaudRate = QSerialPort::Baud115200;
-        this->m_BaudRateInt = 115200;
-    } else if(t_BaudRate == "961200"){
-        // caution : if you use this baud rate, call getBaudRateInt()
-        this->m_BaudRate = QSerialPort::UnknownBaud;
-        this->m_BaudRateInt = 961200;
     }
 }
 

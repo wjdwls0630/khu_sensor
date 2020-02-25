@@ -55,6 +55,12 @@ private:
     QChartView *m_ADS_ChartView;
     QList<double> m_ADS_Data_List;
 
+    // button checked
+    bool m_runPB_isChecked;
+
+    // reading chip register counter
+    int m_mpr_reg_counter;
+    int m_ads_reg_counter;
 private slots:
     // Button Group SLOT
     void on_runPB_clicked();
@@ -67,7 +73,6 @@ private slots:
 
     // Series Connection SLOT
     void read_Serial_Port_Data();
-
 };
 
 #endif // MAINWINDOW_H
