@@ -960,7 +960,7 @@ module sensor_core(
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin // TODO, make rising edge detective
-							//r_ads_data_out <= i_ADS1292_DATA_OUT[23:0]; //store data
+							r_ads_data_out <= i_ADS1292_DATA_OUT[23:0]; //store data
 							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
 							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
 							r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
