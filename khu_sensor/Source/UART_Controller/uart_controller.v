@@ -61,9 +61,9 @@ module uart_controller (
   *****************************************************************************/
   //============================Parameter=======================================
   // UART Signal (user defined)
-  parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
+  parameter UART_SG_MPR_SEND_DATA = 8'hBB; // 'M'
   parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
-  parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
+  parameter UART_SG_ADS_SEND_DATA = 8'hAA; // 'A'
   parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
   parameter UART_SG_RUN = 8'h52; // 'R'
   parameter UART_SG_STOP = 8'h53; // 'S'

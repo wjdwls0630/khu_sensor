@@ -62,7 +62,7 @@ module ads1292_controller (
 
 	/*
 	Mode | Clock Polarity (CPOL/CKP) | Clock Phase (CPHA)
-	0   |             0             |        0
+	1   |             0             |        1
 
 	CLKS_PER_HALF_BIT(2) - Sets frequency of o_SPI_Clk.  o_SPI_Clk is derived from i_Clk.
 	Set to integer number of clocks for each half-bit of SPI data.
@@ -555,12 +555,18 @@ module ads1292_controller (
 					one drdy pulse time is t_MOD
 					*/
 					if(r_clk_counter > 32'd391) begin // 391
+						r_clk_counter <= 32'b0;
+						r_spi_data_in <= 8'b0; // send dummy for reading
+						r_spi_data_in_valid <= 1'b1; // active sclk for reading
+						r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+					/*
 						if(i_ADS1292_RDATAC_READ_START) begin
 							r_clk_counter <= 32'b0;
 							r_spi_data_in <= 8'b0; // send dummy for reading
 							r_spi_data_in_valid <= 1'b1; // active sclk for reading
 							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
 						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
+						*/
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;

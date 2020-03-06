@@ -512,6 +512,7 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLE
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name SRAM_OBJECT_FILE output_files/khu_sensor.sof
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_tx.v
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_rx.v
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_controller.v
@@ -523,5 +524,5 @@ set_global_assignment -name VERILOG_FILE Source/ADS1292/ads1292_controller.v
 set_global_assignment -name VERILOG_FILE Source/MPR121/mpr121_controller.v
 set_global_assignment -name VERILOG_FILE Source/MPR121/i2c_master.v
 set_global_assignment -name VERILOG_FILE Source/khu_sensor_top.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SLD_FILE db/khu_sensor_auto_stripped.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
