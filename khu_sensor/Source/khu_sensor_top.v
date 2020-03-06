@@ -54,7 +54,7 @@ module khu_sensor_top(
 	*                           uart_controller			                          	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [39:0] w_uart_data_tx;
+	wire [31:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
@@ -90,7 +90,7 @@ module khu_sensor_top(
 
 	wire w_chip_set;
 	wire w_run_set;
-		wire w_core_busy;
+	wire w_core_busy;
 	assign LEDG[0] = w_chip_set;
 	assign LEDG[1] = w_run_set;
 	assign LEDR[17] = w_core_busy;
