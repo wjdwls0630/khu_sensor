@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
-	output reg [39:0] o_UART_DATA_TX, // tx data which send to PC
+	output reg [31:0] o_UART_DATA_TX, // tx data which send to PC
 	output reg o_UART_DATA_TX_VALID, // tx data valid
 	input i_UART_DATA_TX_READY, // tx Ready for next byte
 	input [15:0] i_UART_DATA_RX, // rx data which receive from PC
@@ -52,10 +52,10 @@ module sensor_core(
 	*****************************************************************************/
 	//==============================Parameter=====================================
 	// UART Signal (user defined)
-	parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
-	parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
-	parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
-	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
+	parameter UART_SG_MPR_SEND_DATA = 8'hBB;
+	parameter UART_SG_MPR_READ_REG = 8'h6D;
+	parameter UART_SG_ADS_SEND_DATA = 8'hAA;
+	parameter UART_SG_ADS_READ_REG = 8'h61;
 	parameter UART_SG_RUN = 8'h52; // 'R'
 	parameter UART_SG_STOP = 8'h53; // 'S'
 	parameter UART_SG_ADS_FINISH = 8'h46; // 'F'
@@ -74,9 +74,9 @@ module sensor_core(
 	//==============================wire & reg====================================
 	reg [15:0] r_uart_data_rx;
 	reg r_run_mode;
-	reg r_ads_read_start; // signal from pc which means that its work finished
-	assign o_ADS1292_RDATAC_READ_START = r_ads_read_start;
-	reg r_mpr_read_start; // signal from pc which means that its work finished
+	//reg r_ads_read_start; // signal from pc which means that its work finished
+	//assign o_ADS1292_RDATAC_READ_START = r_ads_read_start;
+	//reg r_mpr_read_start; // signal from pc which means that its work finished
 	reg r_mpr_read_reg_mode;
 	reg r_ads_read_reg_mode;
 	//============================================================================
@@ -89,8 +89,8 @@ module sensor_core(
 			r_uart_data_rx <= 16'b0;
 
 			r_run_mode <= 1'b0;
-			r_ads_read_start <= 1'b0;
-			r_mpr_read_start <= 1'b0;
+			//r_ads_read_start <= 1'b0;
+			//r_mpr_read_start <= 1'b0;
 			r_mpr_read_reg_mode <= 1'b0;
 			r_ads_read_reg_mode <= 1'b0;
 
@@ -102,8 +102,8 @@ module sensor_core(
 				begin
 					r_uart_data_rx <= 16'b0;
 					r_run_mode <= 1'b0;
-					r_ads_read_start <= 1'b0;
-					r_mpr_read_start <= 1'b0;
+					//r_ads_read_start <= 1'b0;
+					//r_mpr_read_start <= 1'b0;
 					r_mpr_read_reg_mode <= 1'b0;
 					r_ads_read_reg_mode <= 1'b0;
 					r_uart_pstate <= ST_UART_STANDBY;
@@ -120,20 +120,20 @@ module sensor_core(
 						if(i_UART_DATA_TX_READY) begin
 							// TODO prioritize ads?
 							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_out};
 								o_UART_DATA_TX_VALID <= 1'b1;
-								r_ads_read_start <= 1'b0; // turn off
+								//r_ads_read_start <= 1'b0; // turn off
 							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-								r_mpr_read_start <= 1'b0; // turn off
+								//r_mpr_read_start <= 1'b0; // turn off
 							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_read_reg_done) begin
 								r_mpr_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else o_UART_DATA_TX_VALID <= 1'b0; //TODO do what? does it make latches?
 						end else o_UART_DATA_TX_VALID <= 1'b0;
@@ -145,16 +145,16 @@ module sensor_core(
 				begin
 					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
 						r_run_mode <= 1'b1;
-						r_ads_read_start <= 1'b1; // turn on
-						r_mpr_read_start <= 1'b1; // turn on
+						//r_ads_read_start <= 1'b1; // turn on
+						//r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
 						r_run_mode <= 1'b0;
-						r_ads_read_start <= 1'b0; // turn off
-						r_mpr_read_start <= 1'b0; // turn off
+						//r_ads_read_start <= 1'b0; // turn off
+						//r_mpr_read_start <= 1'b0; // turn off
 					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_FINISH) begin
-						r_ads_read_start <= 1'b1; // turn on
+						//r_ads_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_FINISH) begin
-						r_mpr_read_start <= 1'b1; // turn on
+						//r_mpr_read_start <= 1'b1; // turn on
 					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
 						r_mpr_read_reg_mode <= 1'b1;
 					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin
@@ -641,10 +641,13 @@ module sensor_core(
 						r_mpr_data_send_ready <= 1'b0;
 						if(r_mpr_status == 1'b0) r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
 						else r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG;
+						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
 
 						// start reading when pc send its work finished
+						/*
 						if(r_mpr_read_start) r_mpr_pstate <= ST_MPR_READ_STATUS_START;
 						else r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+						*/
 					end
 				end
 
@@ -690,7 +693,8 @@ module sensor_core(
 						r_mpr_touch_status <= {4'b0, r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
 						r_mpr_data_send_ready <= 1'b1;
 						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
-						r_mpr_pstate <= ST_MPR_READ_STATUS_WAIT;
+						r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+						//r_mpr_pstate <= ST_MPR_READ_STATUS_WAIT;
 					end
 				end
 
@@ -728,16 +732,16 @@ module sensor_core(
 	parameter ADS_CB_SDATAC = 3'b101;
 
 	// ADS1292 Register Setting
-	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h02;
-	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hA0;
+	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h01;
+	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hE0;
 	parameter ADS_LOFF_REG = 8'h03; parameter ADS_LOFF_DATA = 8'h10;
 	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81;
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
-	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h63;
-	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0F;
-	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h00;
+	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h2C;
+	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
+	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h40;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h05;
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
@@ -766,7 +770,7 @@ module sensor_core(
 	reg [3:0] r_ads_set_counter; // ads setting counter
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
-	reg [71:0] r_ads_data_out;
+	reg [23:0] r_ads_data_out;
 	reg [31:0] r_ads_data_convert; // long type data (32bit = 4byte)
 	reg [31:0] r_ads_data_ch2_1; // container for 8 bits of ch2's first data
 	reg [31:0] r_ads_data_ch2_2; // container for 8 bits of ch2's second data
@@ -796,7 +800,7 @@ module sensor_core(
 			r_ads_set_counter <= 4'b0; // ads setting counter
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
-			r_ads_data_out <= 72'b0;
+			r_ads_data_out <= 24'b0;
 			r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
 			r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
 			r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
@@ -822,7 +826,7 @@ module sensor_core(
 					r_ads_set_counter <= 4'b0; // ads setting counter
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
-					r_ads_data_out <= 72'b0;
+					r_ads_data_out <= 24'b0;
 					r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
 					r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
 					r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
@@ -965,11 +969,12 @@ module sensor_core(
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin // TODO, make rising edge detective
-							//r_ads_data_out <= i_ADS1292_DATA_OUT; //store data
+							r_ads_data_out <= i_ADS1292_DATA_OUT[23:0]; //store data
 							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
 							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
 							r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
-							r_ads_pstate <= ST_ADS_RDATAC_DATA_PROCESS;
+							r_ads_data_send_ready <= 1'b1;
+							r_ads_pstate <= ST_ADS_RDATAC_INIT;
 						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
 				end

@@ -77,7 +77,7 @@ module ads1292_controller (
 	*/
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(49))
+	 						 .CLKS_PER_HALF_BIT(4))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
@@ -534,7 +534,7 @@ module ads1292_controller (
 					Thus, we will wait 1030 t_MOD
 					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
 					*/
-					if(r_clk_counter > 32'd402318) begin //402318
+					if(r_clk_counter > 32'd400977) begin //402318
 						r_clk_counter <= 32'b0;
 						r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
 					end else begin
@@ -567,13 +567,19 @@ module ads1292_controller (
 					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
 					one drdy pulse time is t_MOD
 					*/
-					if(r_clk_counter > 32'd391) begin // 391
+					if(r_clk_counter > 32'd196) begin // 391
+						r_clk_counter <= 32'b0;
+						r_spi_data_in <= 8'b0; // send dummy for reading
+						r_spi_data_in_valid <= 1'b1; // active sclk for reading
+						r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+						/*
 						if(i_ADS1292_RDATAC_READ_START) begin
 							r_clk_counter <= 32'b0;
 							r_spi_data_in <= 8'b0; // send dummy for reading
 							r_spi_data_in_valid <= 1'b1; // active sclk for reading
 							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
 						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
+						*/
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
@@ -640,7 +646,7 @@ module ads1292_controller (
 				ST_SPI_CLK_WAIT:
 				begin
 					// After the serial communication is finished, always wait 4*t_CLK(512kHz) == t_MOD or more cycles before taking CSN high
-					if (r_clk_counter > 32'd391) begin
+					if (r_clk_counter > 32'd196) begin
 						// wait 4 t_CLK
 						r_clk_counter <= 32'b0;  // reset counter for ST_CLK_WAIT
 						o_ADS1292_BUSY <= 1'b0;
