@@ -79,7 +79,7 @@ module ads1292_controller (
 	*/
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(4))
+	 						 .CLKS_PER_HALF_BIT(25))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
