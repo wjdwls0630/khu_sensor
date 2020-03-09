@@ -124,3 +124,4 @@ SPI settings are CPOL = 0 and CPHA = 1.
 
 
 ## Reference
+[ADS1292 Datasheet](./reference/ADS1292/ADS1292.pdf)
