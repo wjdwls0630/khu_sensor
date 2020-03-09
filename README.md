@@ -156,11 +156,11 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
   - ST_SPI_CLK_WAIT     
 
 
-## spi_master
+### spi_master
 SPI settings are CPOL = 0 and CPHA = 1 according to datesheet
 
 ## mpr121_controller
-## i2c_master : communication interface of mpr121
+### i2c_master
 
 ## sensor_core
 * ADS1292
