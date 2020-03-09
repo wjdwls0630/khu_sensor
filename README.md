@@ -5,7 +5,7 @@
 ## Contents
 
 * [Prerequesites](#prerequisites)
-* [Block Diagram](#Block Diagram)
+* [BlockDiagram](#Bloc Diagram)
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
 	- [ads1292_controller](#ads1292_controller)
