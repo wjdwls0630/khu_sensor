@@ -1,6 +1,6 @@
 # khu_sensor
 
-##Introduction
+## Introduction
 
 ## Contents
 
@@ -14,8 +14,7 @@
 	  + [i2c_master : communication interface of mpr121](#i2c_master : communication interface of mpr121)
 	- [sensor_core](#sensor_core)
 	- [uart_controller](#uart_controller)
-	+ [uart_rx](#uart_rx)
-	+ [uart_tx](#uart_tx)
+	  + [uart_rx](#uart_rx)        [uart_tx](#uart_tx)
 * [Reference](#Reference)
 
 
