@@ -41,13 +41,14 @@
 ## ads1292_controller
 'ads1292_controller' module directly communicates with ADS1292 sensor through spi_master. States are defined in this module, and parameters are set validly to each state. The parameters defiend by reference/ADS1292/ADS1292.pdf.        
 
-ads1292_controller have six modes     
+ads1292_controller have six modes.       
 1. Idle mode
 2. SYSCMD(System Command) mode
 3. WREG(Write Register) mode
 4. RREG(Read Register) mode
 5. RDATAC(Read Data Continue) / SDATAC(Stop Data Continue) mode
-6. SPI mode                
+6. SPI mode          
+         
 Except Idle mode, each mode consists of detail states.
 
 * ST_IDLE     
