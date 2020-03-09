@@ -107,7 +107,7 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 			Values to set in the register, 'r_ads_data_in', defined at ST_IDLE, is assigned to r_spi_data_in.               
 			State is changed to ST_WREG_SEND_DATA.
 
-- ST_WREG_SEND_DATA     
+  - ST_WREG_SEND_DATA     
 
 
 
