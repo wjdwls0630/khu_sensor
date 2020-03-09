@@ -9,14 +9,15 @@
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
 	- [ads1292_controller](#ads1292_controller)
-	  + [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)  
+	  + [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)
+		+ [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)
 	- [mpr121_controller](#mpr121_controller)
 	  + [i2c_master : communication interface of mpr121](#i2c_master : communication interface of mpr121)
 	- [sensor_core](#sensor_core)
 	- [uart_controller](#uart_controller)
 	  + [uart_rx](#uart_rx)           
 		+ [uart_tx](#uart_tx)              
-		
+
 * [Reference](#Reference)
 
 
