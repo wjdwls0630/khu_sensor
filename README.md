@@ -108,7 +108,7 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 			State is changed to ST_WREG_SEND_DATA.
 
 
-	- ST_WREG_SEND_DATA     
+- ST_WREG_SEND_DATA     
 
 
 
