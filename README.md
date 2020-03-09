@@ -9,10 +9,9 @@
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
 	- [ads1292_controller](#ads1292_controller)
-	  + [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)
-		+ [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)
+	  + [spi_master](#spi_master)
 	- [mpr121_controller](#mpr121_controller)
-	  + [i2c_master : communication interface of mpr121](#i2c_master : communication interface of mpr121)
+	  + [i2c_master](#i2c_master)
 	- [sensor_core](#sensor_core)
 	- [uart_controller](#uart_controller)
 	  + [uart_rx](#uart_rx)           
@@ -157,7 +156,7 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
   - ST_SPI_CLK_WAIT     
 
 
-## spi_master : communication interface of ads1292
+## spi_master
 SPI settings are CPOL = 0 and CPHA = 1 according to datesheet
 
 ## mpr121_controller
