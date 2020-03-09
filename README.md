@@ -47,7 +47,7 @@ ads1292_controller have six modes
 3. WREG(Write Register) mode
 4. RREG(Read Register) mode
 5. RDATAC(Read Data Continue) / SDATAC(Stop Data Continue) mode
-6. SPI mode
+6. SPI mode                
 Except Idle mode, each mode consists of detail states.
 
 * ST_IDLE     
@@ -66,15 +66,15 @@ ST_IDLE is first state of ADS1292 after reset. Next state is decided by i_ADS129
 
   	But we don't use 1, 2, 3 condition because r_ads_command will never come to CM_START or CM_STOP or CM_RESET.
 		As mentioned above, two methods are defined in ADS1292's start/stop/reset : use opcode <or> use physical sensor pin(start pin, reset pin) through tuning.
-		Our chip is remodeled to have start pin and reset pin and these pins can be controlled directly by DE2-115, so we don't need to use opcode for start, stop, reset.
-		So we use this state only for CM_RDATAC or CM_SDATAC, each transferred by ST_RDATAC_INIT or ST_SDATAC_INIT
+		Our chip is remodeled to have start pin and reset pin and these pins can be controlled directly by DE2-115, so we don't need to use opcode for start, stop, reset.       
+		So we use this state only for CM_RDATAC or CM_SDATAC, each transferred by ST_RDATAC_INIT or ST_SDATAC_INIT.
 
 	- ST_SYSCMD_SEND_CMD   
 
 * WREG(Write Register) mode
   - ST_WREG_INIT       
 		This state is start of writing register. 'r_spi_data_in' corresponds to DIN(Data Input) of datasheet. According to Table 13 of datasheet, DIN has to be 010rrrrr, rrrrr meaing register address being writed.                
-		010 is defiend as 'OP_WRITE_REG' as PARAMETER at upper part of code, and rrrrr corresponds to r_ads_reg_addr, which is assigned by i_ADS1292_REG_ADDR received from sensor_core's ST_ADS_WREG_INIT state.
+		010 is defiend as 'OP_WRITE_REG' as PARAMETER at upper part of code, and rrrrr corresponds to r_ads_reg_addr, which is assigned by i_ADS1292_REG_ADDR received from sensor_core's ST_ADS_WREG_INIT state.            
 		'r_spi_data_in is sent to spi_master module, with 'r_spi_data_in_valid' used to generating sclk and MOSI.                   
 		After sending to spi_master module, state moves to ST_WREG_SEND_REG_ADDR.
 
@@ -84,6 +84,11 @@ ST_IDLE is first state of ADS1292 after reset. Next state is decided by i_ADS129
 
 * RREG(Read Register) mode
   - ST_RREG_INIT     
+	This state is start of reading register. 'r_spi_data_in' also corresponds to DIN(Data Input) of datasheet like ST_WREG_INIT. According to Table 13 of datasheet, DIN has to be 001rrrrr, rrrrr meaing register address being read.                
+	001 is defiend as 'OP_READ_REG' as PARAMETER at upper part of code, and rrrrr corresponds to r_ads_reg_addr, which is assigned by i_ADS1292_REG_ADDR received from sensor_core's ST_ADS_RREG_INIT state.               
+	'r_spi_data_in is sent to spi_master module, with 'r_spi_data_in_valid' used to generating sclk and MOSI.                   
+	After sending to spi_master module, state moves to ST_RREG_SEND_REG_ADDR.      
+
   - ST_RREG_SEND_REG_ADDR     
   - ST_RREG_SEND_REG_NUM     
   - ST_RREG_GET_DATA     
@@ -112,7 +117,7 @@ SPI settings are CPOL = 0 and CPHA = 1.
 
 ## sensor_core
 * ADS1292
-  - ST_ADS_WREG_CONFIRM
+  - ST_ADS_WREG_CONFIRM                
 	This state controls writing value in register(register setting).
 	If ADS1292 is busy, ADS1292's state remains here and ads1292_controller's state change to ST_IDLE.
 	When ADS1292 is not busy, state changes to ST_ADS_SETTING and register setting task is continued.
