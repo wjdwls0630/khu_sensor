@@ -65,7 +65,7 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
   - ST_SYSCMD_INIT       
     In this state, opcode is transferred to spi_master for system configuration.            
 
-		There are four conditions in this state          
+		There are four conditions in this state.          
 		1.r_ads_command == CM_START          
 		2.r_ads_command == CM_STOP            
 		3.r_ads_command == CM_RESET              
