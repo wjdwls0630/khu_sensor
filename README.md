@@ -7,15 +7,15 @@
 * [Prerequesites](#prerequisites)
 * [BlockDiagram](#BlockDiagram)
 * [Modules](#Modules)
-	* [khu_sensor_top](#khu_sensor_top)
-	* [ads1292_controller](#ads1292_controller)
-	  * [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)  
-	* [mpr121_controller](#mpr121_controller)
-	  * [i2c_master : communication interface of mpr121](#i2c_master : communication interface of mpr121)
-	* [sensor_core](#sensor_core)
-	* [uart_controller](#uart_controller)
-	  * [uart_rx](#uart_rx)
-		* [uart_tx](#uart_tx)
+	- [khu_sensor_top](#khu_sensor_top)
+	- [ads1292_controller](#ads1292_controller)
+	  + [spi_master : communication interface of ads1292](#spi_master : communication interface of ads1292)  
+	- [mpr121_controller](#mpr121_controller)
+	  + [i2c_master : communication interface of mpr121](#i2c_master : communication interface of mpr121)
+	- [sensor_core](#sensor_core)
+	- [uart_controller](#uart_controller)
+	  + [uart_rx](#uart_rx)
+	+ [uart_tx](#uart_tx)
 * [Reference](#Reference)
 
 
@@ -74,7 +74,7 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 		As mentioned above, two methods are defined in ADS1292's start/stop/reset : use opcode <or> use physical sensor pin(start pin, reset pin) through tuning.
 		Our chip is remodeled to have start pin and reset pin and these pins can be controlled directly by DE2-115, so we don't need to use opcode for start, stop, reset.       
 		So we use this state only for CM_RDATAC or CM_SDATAC, each transferred by ST_RDATAC_INIT or ST_SDATAC_INIT.
-	- ST_SYSCMD_SEND_CMD
+- ST_SYSCMD_SEND_CMD
 
 * WREG(Write Register) mode
   - ST_WREG_INIT
