@@ -41,14 +41,14 @@
 ## ads1292_controller
 'ads1292_controller' module directly communicates with ADS1292 sensor through spi_master. States are defined in this module, and parameters are set validly to each state. The parameters defiend by reference/ADS1292/ADS1292.pdf.        
 
-ads1292_controller have six modes.       
+'ads1292_controller' module have six modes.       
 1. Idle mode
 2. SYSCMD(System Command) mode
 3. WREG(Write Register) mode
 4. RREG(Read Register) mode
 5. RDATAC(Read Data Continue) / SDATAC(Stop Data Continue) mode
 6. SPI mode          
-         
+
 Except Idle mode, each mode consists of detail states.
 
 * ST_IDLE     
@@ -85,7 +85,7 @@ ST_IDLE is first state of ADS1292 after reset. Next state is decided by i_ADS129
 
 * RREG(Read Register) mode
   - ST_RREG_INIT     
-	This state is start of reading register. 'r_spi_data_in' also corresponds to DIN(Data Input) of datasheet like ST_WREG_INIT. According to Table 13 of datasheet, DIN has to be 001rrrrr, rrrrr meaing register address being read.                
+	This state is start of reading register. 'r_spi_data_in' also corresponds to DIN(Data Input) of datasheet. According to Table 13 of datasheet, DIN has to be 001rrrrr, rrrrr meaing register address being read.                
 	001 is defiend as 'OP_READ_REG' as PARAMETER at upper part of code, and rrrrr corresponds to r_ads_reg_addr, which is assigned by i_ADS1292_REG_ADDR received from sensor_core's ST_ADS_RREG_INIT state.               
 	'r_spi_data_in is sent to spi_master module, with 'r_spi_data_in_valid' used to generating sclk and MOSI.                   
 	After sending to spi_master module, state moves to ST_RREG_SEND_REG_ADDR.      
