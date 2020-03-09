@@ -65,10 +65,10 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
   - ST_SYSCMD_INIT       
     In this state, opcode is transferred to spi_master for system configuration.       
 		There are four conditions in this state.          
-		1.r_ads_command == CM_START          
-		2.r_ads_command == CM_STOP            
-		3.r_ads_command == CM_RESET              
-		4.else(same with r_ads_command == CM_RDATAC or CM_SDATAC)                   
+		1. r_ads_command == CM_START          
+		2. r_ads_command == CM_STOP            
+		3. r_ads_command == CM_RESET              
+		4. else(same with r_ads_command == CM_RDATAC or CM_SDATAC)                   
 
   	But we don't use 1, 2, 3 condition because r_ads_command will never come to CM_START or CM_STOP or CM_RESET.
 		As mentioned above, two methods are defined in ADS1292's start/stop/reset : use opcode <or> use physical sensor pin(start pin, reset pin) through tuning.
