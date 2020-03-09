@@ -87,6 +87,8 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
   - ST_WREG_SEND_REG_ADDR            
 		This state is divided by whether 'w_spi_data_in_ready' is 1'b0 or 1'b1. 'w_spi_data_in_ready' is output from 'spi_master' module.
+
+
 		+ w_spi_data_in_ready == 1'b0
 			According to Table 13 of datasheet, one more byte is needed for opcode at WREG mode. The byte consists of 8'b000nnnnn.         
 			'nnnnn means' 'the number of registers to be writen from register of 'rrrrr'' -1. We will set register one by one, so our opcode should be 8'b00000000.         
