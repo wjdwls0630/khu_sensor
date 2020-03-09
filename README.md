@@ -87,14 +87,12 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
   - ST_WREG_SEND_REG_ADDR
 		This state is divided by whether 'w_spi_data_in_ready' is 1'b0 or 1'b1. 'w_spi_data_in_ready' is output from 'spi_master' module.
-
 		+ w_spi_data_in_ready == 1'b0
 			According to Table 13 of datasheet, one more byte is needed for opcode at WREG mode. The byte consists of 8'b000nnnnn.         
 			'nnnnn means' 'the number of registers to be writen from register of 'rrrrr'' -1. We will set register one by one, so our opcode should be 8'b00000000.         
 			This value is assigned to parameter 'OP_NUM_REG'.           
 			So 'OP_NUM_REG' assigned to 'r_spi_data_in' and sent to 'spi_master' module.                      
 			Then, because 'spi_master' module is not ready to receive (w_spi_data_in_ready == 0), r_spi_data_in_valid should be 1'b0. And state is maintained until spi_master is ready.
-
 		+ w_spi_data_in_ready == 1'b1
 			Now 'spi_master' module is ready to receive data, so r_spi_data_in_valid is set to 1'b1. 'r_spi_data_in' is set same as above, 8'b00000000.            
 			State is changed to ST_WREG_SEND_REG_NUM.                
@@ -103,7 +101,6 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
   - ST_WREG_SEND_REG_NUM
 		+ w_spi_data_in_ready == 1'b0
 			Just wait until 'spi_master' is ready to receive the data maintaining state.              
-
 		+ w_spi_data_in_ready == 1'b1
 			Values to set in the register, 'r_ads_data_in', defined at ST_IDLE, is assigned to r_spi_data_in.               
 			State is changed to ST_WREG_SEND_DATA.
@@ -122,10 +119,8 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
   - ST_RREG_SEND_REG_ADDR
 		This state is divided by whether 'w_spi_data_in_ready' is 1'b0 or 1'b1. 'w_spi_data_in_ready' is output from 'spi_master' module.
-
 		+ w_spi_data_in_ready == 1'b0
-			Just wait until 'spi_master' module is ready to receive the data maintaining state.          
-
+			Just wait until 'spi_master' module is ready to receive the data maintaining state.
 		+ w_spi_data_in_ready == 1'b1
 			According to Table 13 of datasheet, one more byte is needed for opcode at RREG mode. The byte consists of 8'b000nnnnn.           
 			'nnnnn' means 'the number of registers to be read from register of 'rrrrr'' -1. We will read register one by one, so our opcode should be 8'b00000000.        
