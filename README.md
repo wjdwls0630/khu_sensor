@@ -35,7 +35,7 @@
 ## Modules
 
 #### khu_sensor_top
-[khu_sensor_top](./khu_sensor/Source/khu_seonsor_top.v) module assigns pins of fpga to parameters. The parameters are used to communicate with ADS1292(SPI), MPR121(I2C), PC(UART).
+[khu_sensor_top](./khu_sensor/Source/khu_sensor_top.v) module assigns pins of fpga to parameters. The parameters are used to communicate with ADS1292(SPI), MPR121(I2C), PC(UART).
 
 #### ads1292_controller
 [ads1292_controller](./khu_sensor/Source/ADS1292/ads1292_controller.v) module directly communicates with ADS1292 sensor through [spi_master](./khu_sensor/Source/ADS1292/spi_master.v). States are defined in this module, and parameters are set validly to each state. The parameters defined by [ADS1292.pdf](./reference/ADS1292/ADS1292.pdf).        
