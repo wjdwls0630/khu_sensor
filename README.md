@@ -7,15 +7,15 @@
 * [Prerequesites](#prerequisites)
 * [BlockDiagram](#BlockDiagram)
 * [Modules](#Modules)
-   - [khu_sensor_top.v](#khu_sensor_top.v)
-   - [ads1292_controller.v](#ads1292_controller.v)
-     + [spi_master.v](#spi_master.v)  
-   - [mpr121_controller.v](#mpr121_controller.v)
-     + [i2c_master.v](#i2c_master.v)
-   - [sensor_core.v](#sensor_core.v)
-   - [uart_controller.v](#uart_controller.v)
-     + [uart_rx.v](#uart_rx.v)
-      + [uart_tx.v](#uart_tx.v)
+   - [khu_sensor_top](##khu_sensor_top)
+   - [ads1292_controller](#ads1292_controller)
+     + [spi_master](#spi_master)  
+   - [mpr121_controller](#mpr121_controller)
+     + [i2c_master](#i2c_master)
+   - [sensor_core](#sensor_core)
+   - [uart_controller](#uart_controller)
+     + [uart_rx](#uart_rx)
+      + [uart_tx](#uart_tx)
 
 
 
@@ -35,7 +35,7 @@
 ## Modules
 
 #### khu_sensor_top.v
-[khu_sensor_top.v](./khu_sensor/Source/khu_seonsor_top.v) module assigns pins of fpga to parameters. The parameters are used to communicate with ADS1292(SPI), MPR121(I2C), PC(UART).
+[khu_sensor_top](./khu_sensor/Source/khu_seonsor_top.v) module assigns pins of fpga to parameters. The parameters are used to communicate with ADS1292(SPI), MPR121(I2C), PC(UART).
 
 #### ads1292_controller.v
 [ads1292_controller.v](./khu_sensor/Source/ads1292_controller.v) module directly communicates with ADS1292 sensor through [spi_master.v](./khu_sensor/Source/spi_master.v). States are defined in this module, and parameters are set validly to each state. The parameters defined by [ADS1292.pdf](./reference/ADS1292/ADS1292.pdf).        
