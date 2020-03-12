@@ -169,7 +169,9 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
 ### spi_master
 SPI settings are CPOL = 0 and CPHA = 1 according to datesheet
-
+49 is assigned to CLKS_PER_HALF_BIT in 'ads1292_controller' module.
+So sclk is 50,000,000 / (2 * 49) = about 510kHz
+ 
 ## mpr121_controller
 ### i2c_master
 
