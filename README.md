@@ -113,6 +113,12 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
   - ST_WREG_SEND_DATA     
 
+		- w_spi_data_in_ready == 1'b0        
+		Just wait until 'spi_master' is ready to receive the data maintaining state.          
+
+		- w_spi_data_in_ready == 1'b1            
+			Assign present state to r_lstate(last state), and move to state 'ST_SPI_SELECT'.
+			r_lstate is going to be used at that state.
 
 
 
@@ -139,6 +145,10 @@ r_ads_data_in <= i_ADS1292_DATA_IN;   -   it will be used in ST_WREG_SEND_REG_NU
 
 
   - ST_RREG_SEND_REG_NUM     
+	  When w_spi_data_in_ready == 1'b0, this state just maintain its state.
+		And then w_spi_data_in_ready change to 1'b1, number of register to read should be transmitted.
+		We will read register one by one, so our opcode should be 8'b00000000.
+
   - ST_RREG_GET_DATA     
   - ST_RREG_WAIT_SCLK
 
