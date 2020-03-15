@@ -83,7 +83,22 @@ module spi_master
 
 
   // Purpose: Generate SPI Clock correct number of times when DV pulse comes
-  always @(posedge i_Clk or negedge i_Rst_L)
+
+//	  			 __  	 __	 __                 __	  __	  _                __    __
+	// i_CLK  __/  \__/  \__/  \  . . .        /  \__/  \__/ . . .          /  \__/  \__/
+	//i_CLK_C 0 1     2     3     4            49    50    51               96    97    0
+	//
+    //r_SPI_Clk_Edges         16              |          15                            |     14
+   //                                          _________________________________________
+	//SPI_clk  X\______________________________/            1(=~CPOL)                    \_________
+	//
+	//SPI_LEADING_EDGE		0						 |1|          0                           |0	
+	//
+	//SPI_TRAILING_EDGE 		0                  |0                                       |1|   0
+	//
+	
+	 
+ always @(posedge i_Clk or negedge i_Rst_L)
   begin
     if (~i_Rst_L)
     begin
