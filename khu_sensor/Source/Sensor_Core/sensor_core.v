@@ -329,12 +329,15 @@ module sensor_core(
 	parameter MPR_NHDAT_REG = 8'h33; parameter MPR_NHDAT_DATA = 8'h00;
 	parameter MPR_NCLT_REG = 8'h34; parameter MPR_NCLT_DATA = 8'h00;
 	parameter MPR_FDLT_REG = 8'h35; parameter MPR_FDLT_DATA = 8'h00;
-	parameter MPR_DEBOUNCE_REG = 8'h5B; parameter MPR_DEBOUNCE_DATA = 8'h00;
+	// no use 13th channel ELEPROX (8'h36 ~ 8'h40)
+	// no setting Touch and Release Threshold (8'h41 ~ 8'h5A)
+	parameter MPR_DEBOUNCE_REG = 8'h5B; parameter MPR_DEBOUNCE_DATA = 8'h00; // for immediately change?
 	parameter MPR_FILTER_CDC_CONFIG_REG = 8'h5C; parameter MPR_FILTER_CDC_CONFIG_DATA = 8'h10;
 	parameter MPR_FILTER_CDT_CONFIG_REG = 8'h5D; parameter MPR_FILTER_CDT_CONFIG_DATA = 8'h20;
 	parameter MPR_ELE_CONFIG_REG = 8'h5E; parameter MPR_ELE_CONFIG_RUN = 8'h8F;
-
-	// Auto config
+	// no setting Individual Charge Current Register (0x5F~0x6B)
+	// no setting Individual Charge Time Register (0x6C~0x72)
+	// Auto config -> Using equations in mpr121 datasheets p.16 ~ 17
 	parameter MPR_AUTOCONFIG_0_REG = 8'h7B; parameter MPR_AUTOCONFIG_0_DATA = 8'h0B;
 	parameter MPR_AUTOCONFIG_USL_REG = 8'h7D; parameter MPR_AUTOCONFIG_USL_DATA = 8'h9C;
 	parameter MPR_AUTOCONFIG_LSL_REG = 8'h7E; parameter MPR_AUTOCONFIG_LSL_DATA = 8'h65;
@@ -386,8 +389,8 @@ module sensor_core(
 		if(i_RST) begin
 
 			// i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
-			o_MPR121_REG_ADDR <= 8'b0;   // transmitted register address to MPR121 (write data)
-			o_MPR121_DATA_IN <= 8'b0;  // transmitted data to MPR121 (write data)
+			o_MPR121_REG_ADDR <= 8'b0;   // transmitted register address to MPR121 chip (write data)
+			o_MPR121_DATA_IN <= 8'b0;  // transmitted data to MPR121 chip (write data)
 			o_MPR121_WRITE_ENABLE <= 1'b0;
 			o_MPR121_READ_ENABLE <= 1'b0;
 
