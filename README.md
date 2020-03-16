@@ -42,8 +42,8 @@
 
 But just by sending 8'h52 which is **RUN** , precedure of setting register and exporting output begins automatically. So this README.md will only treat **Run** mode
 
-Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_ra_valid** becomes 1'b1 for a cycle and satifies condition
-   * **w_uart_data_ra_valid : let FPGA know just got finished receiving data through uart completely**
+Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_rx_valid** becomes 1'b1 for a cycle and satifies condition
+   * **w_uart_data_rx_valid : let FPGA know just got finished receiving data through uart completely**
 
 <pre>
 <code>
@@ -148,43 +148,14 @@ That's technically all for stopping ADS. sensor core stays idle until new comman
 
 # How MPR Works
 
-Through wire **UART_RXD** from PC,  8 kind of controls are available.(list below)
-
-|| Command | byte |
-|---| ---|---|
-|1|UART_SG_MPR_SEND_DATA| 8'h4D |
-|2|UART_SG_MPR_READ_REG| 8'h6D |
-|3|UART_SG_ADS_SEND_DATA| 8'h41 |
-|4|UART_SG_ADS_READ_REG| 8'h61 |
-|5|UART_SG_RUN| 8'h52 |
-|6|UART_SG_STOP| 8'h53 |
-|7|UART_SG_ADS_FINISH| 8'h46 |
-|8|UART_SG_MPR_FINISH| 8'h66 |
-
-But just by sending 8'h52 which is **RUN** , precedure of setting register and exporting output begins automatically. So this README.md will only treat **Run** mode
-
-Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_ra_valid** becomes 1'b1 for a cycle and satifies condition
-  * **w_uart_data_ra_valid : let FPGA know just got finished receiving data through uart completely**
-
-<pre>
-<code>
-//uart_controller.v
-
-if(w_uart_data_rx_valid) begin
-             if(w_uart_data_rx == UART_SG_RUN) begin
-               o_UART_DATA_RX[15:8] <= w_uart_data_rx;
-               o_UART_DATA_RX_VALID <= 1'b1;
-               r_pstate <= ST_IDLE;
-             end
-</code>
-</pre>
+This is the same as ADS Works, so click [here](#how-ads-works) to see the list and explanation.
 
 **w_uart_data_rx, w_uart_data_rx_valid** from uart_controller.v will initiate ***sensor core***   
 Inside sensor core, 3 parts(**uart, sensor core, mpr121**) will have it's own sequential logic
 
-> uart SL: as a result of ***ST_UART_RX***, reg **r_run_mode** <=1'b1 and reg **r_ads_read_start** <=1'b1.   
+> uart SL: as a result of ***ST_UART_RX***, reg **r_run_mode** <=1'b1 and reg **r_mpr_read_start** <=1'b1.   
 > sensor core SL: handle [chip set](#chip-set) and [run set](#run-set)   
-> ads1292 SL :  details of **chip set** and **run set** are executed here
+> mpr121 SL :  details of **chip set** and **run set** are executed here
 
 First, initiate [chip set](#chip-set) process. when chip set success, FPGA gets **r_mpr_chip_set_done<=1'h1** (at sensor_core)     
 This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to move sensor core state to ***ST_CORE_STANDBY***.   
@@ -218,11 +189,11 @@ And It is technically everything you need to know to Run ADS!!
 
 - - -
 
-# How ADS stops
+# How MPR stops
 
-The way ADS stop is very similiar to the way ADS works.  
+The way MPR stop is very similiar to the way ADS works.  
 
-From PC, send 8bit data  8'h53 to give stop signal to FPGA     
+From PC, send 8bit data 8'h53 to give stop signal to FPGA     
 Of course, stop signal is supposed to import while ADS is running( **i_CORE_BUSY** on high(1) state)
 
 This stop signal will effect all three SL inside  **sensor_core.v**, and most important SL is ADS SL!!     
@@ -286,21 +257,10 @@ always @ ( posedge i_CLK, posedge i_RST ) begin
 </code>
 </pre>
 
-Default setting of registers are below (check detail description at ADS1292 datasheet)
+Default setting of registers are below (check detail description at [ADS1292]() and [MPR121]() datasheet)
 
-| Address | Name | Data|
-|---|---|---|
-|01h|ADS_CONFIG_1_REG | 8'h02 |
-|02h|ADS_CONFIG_2_REG | 8'hA0 |
-|03h|ADS_LOFF_REG | 8'h10 |
-|04h|ADS_CH1SET_REG| 8'h02 |
-|05h|ADS_CH2SET_REG| 8'h00 |
-|06h|ADS_RLD_SENS_REG|8'h63 |
-|07h|ADS_LOFF_SENS_REG|8'h0F |
-|08h|ADS_LOFF_STAT_REG|8'h00 |
-|09h|ADS_RESP1_REG|8'h02 |
-|0Ah|ADS_RESP2_REG|8'h03 |
-|0Bh|ADS_GPIO_REG|8'h00|
+![screensh](./img/chip_setting_1.png)
+![screensh](./img/chip_setting_2.png)
 
 #### Procedure
 
