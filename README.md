@@ -5,10 +5,10 @@
  -Altera DE2 Cyclone 4(EP4CE115F29C7)
 
  -***Italic***: module name
- 
+
  -**Bold**: reg or wire name
 
-![screensh](./img/khu_sensor_blockdiagram.png)
+![screensh](./reference/Image/khu_sensor_blockdiagram.png)
 
 # Content
 
@@ -41,7 +41,7 @@
 But just by sending 8'h52 which is **RUN** , precedure of setting register and exporting output begins automatically. So this README.md will only treat **Run** mode
 
 Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_ra_valid** becomes 1'b1 for a cycle and satifies condition
-   * **w_uart_data_ra_valid : let FPGA know just got finished receiving data through uart completely** 
+   * **w_uart_data_ra_valid : let FPGA know just got finished receiving data through uart completely**
 
 <pre>
 <code>
@@ -69,7 +69,7 @@ This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to 
 <code>
 ST_CORE_STANDBY:
 	begin
-	if(r_run_mode) begin 
+	if(r_run_mode) begin
 	   if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
                    else r_ads_is_reading <= 1'b1;
 	end
@@ -86,7 +86,7 @@ Third, at state ***ST_ADS_RDATAC_INIT, ST_ADS_RDATAC_DATA_PROCESS***, due to con
 Fourth, at UART SL state ***ST_UART_STANDBY*** , export data **o_UART_DATA_TX[39:0], o_UART_DATA_TX_VALID** to **uart_controller.v**
    * **o_UART_DATA_TX_VALID** : signal that inititate uart_tx    
    * **o_UART_DATA_TX[39:0] ** : {UART_SG_ADS_SEND_DATA, r_ads_data_convert}    
-      * UART_SG_ADS_SEND_DATA : in our code it is 8'h41, it will just work as header for PC 
+      * UART_SG_ADS_SEND_DATA : in our code it is 8'h41, it will just work as header for PC
 
 Fifth, as **o_UART_DATA_TX_VALID** goes high(1) send data through [uart_tx](#uart-tx.v)
 
@@ -110,7 +110,7 @@ As I mentioned, ADS is currently on running mode, so state of ADS SL should be e
 at state **ST_ADS_RDATAC_INIT**, because **r_ads_run_set** is low(0) next state will be ***ST_ADS_STOP***
 
 Then, **o_RUN_SDATAC** control command goes to ***ads1292_controller.v***     
-Again, ADS is currently on running mode, state at ADS1292_controller.v should be either **ST_RDATAC_WAIT_DRDY, ~ ~ ~**. 
+Again, ADS is currently on running mode, state at ADS1292_controller.v should be either **ST_RDATAC_WAIT_DRDY, ~ ~ ~**.
 
 <pre>
 <code>
@@ -128,7 +128,7 @@ end
 </pre>
 </code>
 
-  
+
 After this, ads1292_controller.v will send command using MOSI communication.    
 >    while on move to ***ST_SYS_SENDCMD*** for MOSI, you'll easily see **if(i_ADS1292_DRDY) r_pstate <= ST_RDATAC_WAIT_DRDY** code    
 >    this code is added to consider keep out zone of DRDY pulse.    
@@ -138,7 +138,7 @@ When command is sent, to tell FPGA about the status, export **o_ADS1292_START, o
   * o_ADS1292_READY: <- 1'b0 device not ready to work     
   * o_ADS1292_BUSY: <- 1'b0 device ready to do anything    
   * o_SPI_CSN: <- 1'b1  In condition Chip Select high device can not get any command.    
-    * **Before taking CSN high always wait 4 * t_clk(512kHz) == t_MOD or more cycles. 
+    * **Before taking CSN high always wait 4 * t_clk(512kHz) == t_MOD or more cycles.
 
 That's technically all for stopping ADS. sensor core stays idle until new command issued from PC   
 
@@ -148,11 +148,11 @@ That's technically all for stopping ADS. sensor core stays idle until new comman
 
 
 
-  
 
- 
+
+
 - - -
-- - - 
+- - -
 
 ## Chip Set
 
@@ -181,7 +181,7 @@ Default setting of registers are below (check detail description at ADS1292 data
 |08h|ADS_LOFF_STAT_REG|8'h00 |
 |09h|ADS_RESP1_REG|8'h02 |
 |0Ah|ADS_RESP2_REG|8'h03 |
-|0Bh|ADS_GPIO_REG|8'h00| 
+|0Bh|ADS_GPIO_REG|8'h00|
 
 #### Procedure
 
@@ -192,7 +192,7 @@ Default setting of registers are below (check detail description at ADS1292 data
 2. outputs of sensor core(**o_ADS1292_CONTROL, o_ADS1292_REG_ADDR, o_ADS1292_DATA_IN**) goes to ads1292_controller	 
    * **o_ADS1292_COMMAND** : default value for this reg is 1'b0, but later when using command input for wakeup and standby, no need for this
 
-  
+
 3. Inside the [ads1292_controller](#ads1929_controller.v), send 3 bytes data using SPI [MOSI](#mosi) comunication    
    * First Byte: 010r rrrr    
      * 010: meaning **write**    
@@ -221,15 +221,15 @@ begin
 	if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 	else begin
 	~~if (r_ads_lstate == ST_ADS_SETTING)~~ r_ads_pstate <= ST_ADS_SETTING;
-	end	
+	end
 end
 </code>
 </pre>
 
 7. when all registers setting are done let FPGA know it by making **r_ads_chip_set_done** high(1'b1)
 
-- - - 
- 
+- - -
+
 - - -
 
 ## Run set
@@ -244,7 +244,7 @@ Our source is using **RDATAC** so far.  ~~might later fixed~~
 
 Also, we need to start ads1292 before running, this can be done by either command or pin
   * Command: send START command and keep START pin low(0) until the STOP command is issued
-  * Pin: set Start pin High(1) 
+  * Pin: set Start pin High(1)
 
 Our source are using Pin way.
 
@@ -257,10 +257,10 @@ Our source are using Pin way.
 3. At state ***ST_SYSCMD_INIT***, begin [MOSI](#mosi) communication with **r_spi_data_in, r_spi_data_in_valid**    
   * **r_spi_data_in** : FPGA will shoot 8'h10( Byte representing RDATAC)
   * **r_spi_data_in_valid** : Triggering clock for SPI communication.
-    
+
 4. At state **ST_SYSCMD_SEND_CMD**, wait till MOSI SPI communication ends.	   
   * **i_ADS1292_DRDY** : FPGA is trying to send data, so stays low(0)
-   
+
 <pre>
 <code>
 ST_SYSCMD_SEND_CMD:
@@ -286,18 +286,18 @@ end
 </code>
 </pre>
 
-5. Next, at ***ST_RDATAC_WAIT_DRDY*** state, because  current **r_lstate** is ***ST_RDATAC_INIT***, moves to ***ST_RDATAC_WAIT_SETTLING_TIME*** 
+5. Next, at ***ST_RDATAC_WAIT_DRDY*** state, because  current **r_lstate** is ***ST_RDATAC_INIT***, moves to ***ST_RDATAC_WAIT_SETTLING_TIME***
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/settling_time.PNG">
+  <img width="600" height="200" src="./reference/Image/settling_time.PNG">
 </p>
 
 
-5-1. The time needed for converter to output fully settled data when **START** pin goes high is called **Settling time**  (need  once when OPCODE changes) 
+5-1. The time needed for converter to output fully settled data when **START** pin goes high is called **Settling time**  (need  once when OPCODE changes)
   * In our case, we setted **LOFF STAT** 8'b0F and **CONFIG1[2:0]** 3'b010   
-     * CONFIG[2:0] == 3'b010 : settling time will be **1028 x t_mod**  with one t_mod uncertainty 
-     * LOFF STAT[7]=CLK_DIV == 0 : t_mod = 4 x t_clk, default f_clk is 512 kHz -> f_mod = f_clk / 4 
+     * CONFIG[2:0] == 3'b010 : settling time will be **1028 x t_mod**  with one t_mod uncertainty
+     * LOFF STAT[7]=CLK_DIV == 0 : t_mod = 4 x t_clk, default f_clk is 512 kHz -> f_mod = f_clk / 4
 
 5-2. So, according to **5-1** and we are using 50M kHz for general, cycle needed can be calculated      
   * {(1028+2) x t_mod} / (1/ CLK_50M) = 1030 x ( 4 x (1 / 512 * 1000) ) * 50 * 1,000,000 = 402,338.6    
@@ -323,24 +323,24 @@ end
   *  Reference - ADS1292 - ADS1292.pdf p.31 Settling time      
       > Note that when START is held high and there is a step change in the input signal, it takes 3 t_DR for the filter to settle to the new value.     
       > Settled data are available on the fourth DRDY pulse.
-					
-					
+
+
 
 
 7. Now, ads1292 is ready to export **DOUT**    
      * **DOUT**: The data output pin (DOUT) is used with SCLK to read conversion and register data from ADS1292
      * 24 status bits+ 24bits x 2 channels= 72 bits    
        * MSB of DOUT data is clocked out on the first SCLK rising edge
-       * at RDATAC mode, DOUT output also indicates when new data are available 
+       * at RDATAC mode, DOUT output also indicates when new data are available
        * **Status bits**: 1100 + LOFF_STAT[4:0] + GPIO[1:0] + 13'0s     
 
 <p align="center">
-  <img width="400" height="200" src="./img/drdy_set.PNG">
+  <img width="400" height="200" src="./reference/Image/drdy_set.PNG">
 </p>
 
 
 
-8. To get data from ADS through [MISO](#miso) , FPGA has to send **r_spi_data_in_valid** to initiate sclk. But there is minimum pulse time for **DRDY** staying high(1) which is t_mod 
+8. To get data from ADS through [MISO](#miso) , FPGA has to send **r_spi_data_in_valid** to initiate sclk. But there is minimum pulse time for **DRDY** staying high(1) which is t_mod
    * **t_mod** : as mentioned earlier, f_mod== 4/ f_clk==4 / 512 kHz == 0.0000078125    
        * cycle needed for t_mod : (f_mod) / (1/50 MHz)=390.625      
    * **DRDY** : Signal telling new conversion data are ready     
@@ -349,14 +349,14 @@ end
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/drdy_sclk_relation.png" title="DRDY SCLK relation">
+  <img width="600" height="200" src="./reference/Image/drdy_sclk_relation.png" title="DRDY SCLK relation">
 </p>
 
 <pre>
 <code>
 ST_RDATAC_WAIT_DRDY_PULSE:
 begin
-	if(r_clk_counter > 32'd391) begin 
+	if(r_clk_counter > 32'd391) begin
 		if(i_ADS1292_RDATAC_READ_START) begin
 			r_clk_counter <= 32'b0;
 			r_spi_data_in <= 8'b0; // send dummy for reading
@@ -373,7 +373,7 @@ end
 
 9. Now ads1292 will continuously send data to FPGA and FPGA will get data through [MISO](#miso) communication    
   * **Data Recieving State** : state ***ST_RDATAC_WAIT_DRDY_PULSE + ST_RDATAC_WAIT_SCLK***, initiate sending by giving signal **r_spi_data_in_valid** high(1)    
-      
+
 10. Every single state ***ST_RDATAC_WAIT_DRDY_PULSE, ST_RDATAC_WAIT_SCLK*** will give only 8 bits at one time, so at state ***ST_RDATAC_GET_DATA***, keep shift **w_spi_data_out** and fill 72 bits  	  
 
 <pre>
@@ -397,11 +397,11 @@ end
 </code>
 
 11. When 72 bits are all filled, export output **o_ADS1292_DATA_OUT[71:0], o_ADS1292_RDATAC_READY** to sensor_core    
-   * **o_ADS1292_RDATAC_READY** : goes high(1) when 72bit data are all received 
+   * **o_ADS1292_RDATAC_READY** : goes high(1) when 72bit data are all received
 
 # Module Detail
- 
-## UART 
+
+## UART
 
 
 - - -
@@ -412,7 +412,7 @@ end
 
 designed phase locked loop
 
-* input: 50M clock 
+* input: 50M clock
 
 * output: 5M, 25M, 100M clock
 
@@ -453,7 +453,7 @@ designed phase locked loop
 * **i_UART_DATA_TX_VALID** bit high(1) will initiate uart_tx
 
 * In our case there are two types of tx data     
-  * **40Bits** : when header is **ADS_SEND_DATA** 
+  * **40Bits** : when header is **ADS_SEND_DATA**
   * **24Bits** : when header is **MPR_SEND_DATA, ADS_READ_DATA, MPR_READ_DATA**
 
 * The only different of two case is how many reps uart_tx has to repeat.(uart can send or receive 8 bits at once)
@@ -461,11 +461,11 @@ designed phase locked loop
 * So, from [39:32] to [7:0] start sending it by giving signal **r_uart_data_tx_valid** high(1)    
   * **r_uart_data_tx_valid** : data setting for uart tx is ready, begin uart_tx communication
 
-* **o_Tx_Active** : always goes high(1) during communication 
+* **o_Tx_Active** : always goes high(1) during communication
 
-* **o_Tx_Serial** : single bit data that really sent to PC. consisting **r_Tx_Data's ** from LSB to MSB 
+* **o_Tx_Serial** : single bit data that really sent to PC. consisting **r_Tx_Data's ** from LSB to MSB
 ### uart_rx.v
-	
+
 * **i_Rx_Serial** (i_UART_RXD==UART_RXD) inputs low to begin ***UART_RX***
 
 * After two cycle **i_Rx_Serial(i_UART_RXD)** replicated to **r_Rx_Data**  
@@ -476,7 +476,7 @@ designed phase locked loop
 
 * After **r_Rx_Byte[7:0]** is filled, change state and wait (CLKS_PER_BIT-1) cycle
 
-* When **r_Clock_count** reaches (CLKS_PER_BIT-1), state changes with register **r_Rx_Dv** high, 
+* When **r_Clock_count** reaches (CLKS_PER_BIT-1), state changes with register **r_Rx_Dv** high,
 
 * At s_CLEANUP state change register '**r_Rx_Dv**' back to low
 
@@ -527,19 +527,19 @@ designed phase locked loop
         begin
           r_TX_Byte <= i_TX_Byte;
         end
-      end 
-  end 
+      end
+  end
 </code>
 </pre>
 
 > 	> after **i_TX_DV** becomes low again, make SPI it's own 16 cycle using reg **r_Trailing_Egde, r_Leading_Egde**
 
 <p align="center">
-  <img width="600" height="200" src="./img/spi_clock.PNG">
+  <img width="600" height="200" src="./reference/Image/spi_clock.PNG">
 </p>
 
 
-> 	> now at the Edge of spi_clock send single bit of input Byte **i_TX_Byte** from MSB to LSB 
+> 	> now at the Edge of spi_clock send single bit of input Byte **i_TX_Byte** from MSB to LSB
 
 <pre>
 <code>
@@ -561,13 +561,13 @@ designed phase locked loop
 
 <pre>
 <code>
- if (o_TX_Ready) 
+ if (o_TX_Ready)
       begin
         r_RX_Bit_Count <= 3'b111;
       end
       else if ((r_Leading_Edge & ~w_CPHA) | (r_Trailing_Edge & w_CPHA))
       begin
-        o_RX_Byte[r_RX_Bit_Count] <= i_SPI_MISO; 
+        o_RX_Byte[r_RX_Bit_Count] <= i_SPI_MISO;
         r_RX_Bit_Count            <= r_RX_Bit_Count - 1;
         if (r_RX_Bit_Count == 3'b000)
         begin
@@ -585,11 +585,11 @@ designed phase locked loop
 
 * **o_ADS1292_START** : 1'b1 when ads starts, start here means when ads returns data. So at RREG or WREG  command, **o_ADS1292_START** goes 1'b0
 
-* **o_SPI_CSN** : meaning chip select, there are various chips(ex. ADS1292, ADS1291 ... ) and you can only communicate with one chip using SPI protocol. 
+* **o_SPI_CSN** : meaning chip select, there are various chips(ex. ADS1292, ADS1291 ... ) and you can only communicate with one chip using SPI protocol.
    - After the serial communication is finished, ***always wait four or more tCLK cycles*** before taking CS high    
    - When CS is taken high, the serial interface is reset(SCLK and DIN are ignored,and DOUT enters a high-impedance state)
 
-* **i_ADS1292_DRDY** : output of ads1292, meaning new conversion data are ready 
+* **i_ADS1292_DRDY** : output of ads1292, meaning new conversion data are ready
 
 ### mpr121_controller.v
 
