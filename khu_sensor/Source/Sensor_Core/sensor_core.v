@@ -748,7 +748,7 @@ module sensor_core(
 	parameter ST_ADS_RREG_CONFIRM = 8'd42;
 	parameter ST_ADS_RREG_WAIT = 8'd43;
 	parameter ST_ADS_RDATAC_INIT = 8'd44;
-	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd45;
+	parameter ST_ADS_RDATAC_WAIT = 8'd45;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -960,21 +960,19 @@ module sensor_core(
 				ST_ADS_RDATAC_INIT:
 				begin
 					// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-
+					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
-							r_ads_data_send_ready <= 1'b1;
-						end else r_ads_data_send_ready <= 1'b0;
-						r_ads_pstate <= ST_ADS_RDATAC_INIT;
+							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
+						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
 				end
 
-				ST_ADS_RDATAC_DATA_PROCESS:
+				ST_ADS_RDATAC_WAIT:
 				begin
-					// CHANGED converting ads data process in C++
-					// CHANGED delete
+					// wait data for Receiving Stop Signal
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end
