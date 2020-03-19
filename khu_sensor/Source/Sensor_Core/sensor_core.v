@@ -967,14 +967,12 @@ module sensor_core(
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
 						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
-
 					end
 				end
 
 				ST_ADS_RDATAC_WAIT:
 				begin
-					// CHANGED converting ads data process in C++
-					// CHANGED delete
+					// wait data for Receiving Stop Signal
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end
