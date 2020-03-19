@@ -8,7 +8,7 @@
 
  -**Bold**: reg or wire name
 
-![screensh](./img/khu_sensor_blockdiagram.png)
+![screensh](./reference/Image/khu_sensor_blockdiagram.png)
 
 # Content
 
@@ -62,10 +62,10 @@ if(w_uart_data_rx_valid) begin
 Inside sensor core, 3 parts(**uart, sensor core, ads1292**) will have it's own sequential logic
 
 > uart SL: as a result of ***ST_UART_RX***, reg **r_run_mode** <=1'b1 and reg **r_ads_read_start** <=1'b1.   
-> sensor core SL: handle [chip set](#chip-set) and [run set](#run-set)   
+> sensor core SL: handle [chip set](#ads-chip-set) and [run set](#ads-run-set)   
 > ads1292 SL :  details of **chip set** and **run set** are executed here
 
-First, initiate [chip set](#chip-set) process. when chip set success, FPGA gets **r_ads_chip_set_done<=1'h1** (at sensor_core)     
+First, initiate [chip set](#ads-chip-set) process. when chip set success, FPGA gets **r_ads_chip_set_done<=1'h1** (at sensor_core)     
 This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to move sensor core state to ***ST_CORE_STANDBY***.   
 <pre>
 <code>
@@ -78,7 +78,7 @@ ST_CORE_STANDBY:
 </code>
 </pre>
 
-Second, as **r_ads_is_reading** from 'sensor_core SL' becomes **1'b1**, ads1292 SL start [run_set](#run-set) process.     
+Second, as **r_ads_is_reading** from 'sensor_core SL' becomes **1'b1**, ads1292 SL start [run_set](#ads-run-set) process.     
 When **Run-set** is done, sensor core will recieve **i_ADS1292_DATA_READY** high(1'b1) and **i_ADS1292_DATA_OUT[71:0] and this will make **o_CORE_BUSY** high(1)   
 
 Third, at state ***ST_ADS_RDATAC_INIT, ST_ADS_RDATAC_DATA_PROCESS***, due to condition satisfaction, assign **r_ads_data_convert[31:0],r_ads_data_send_ready**    
@@ -154,10 +154,10 @@ This is the same as ADS Works, so click [here](#how-ads-works) to see the list a
 Inside sensor core, 3 parts(**uart, sensor core, mpr121**) will have it's own sequential logic
 
 > uart SL: as a result of ***ST_UART_RX***, reg **r_run_mode** <=1'b1 and reg **r_mpr_read_start** <=1'b1.   
-> sensor core SL: handle [chip set](#chip-set) and [run set](#run-set)   
+> sensor core SL: handle [chip set](#mpr-chip-set) and [run set](#mpr-run-set)   
 > mpr121 SL :  details of **chip set** and **run set** are executed here
 
-First, initiate [chip set](#chip-set) process. when chip set success, FPGA gets **r_mpr_chip_set_done<=1'b1** (at sensor_core)     
+First, initiate [chip set](#mpr-chip-set) process. when chip set success, FPGA gets **r_mpr_chip_set_done<=1'b1** (at sensor_core)     
 This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to move sensor core state to ***ST_CORE_STANDBY***.   
 <pre>
 <code>
@@ -244,7 +244,7 @@ That's technically all for stopping ADS. sensor core stays idle until new comman
 - - -
 - - -
 
-## Chip Set
+## ADS Chip Set
 
 as a result of ***ST_CORE_START*** from sensor_core.v and code below, chip set begins   
 
@@ -257,16 +257,30 @@ always @ ( posedge i_CLK, posedge i_RST ) begin
 </code>
 </pre>
 
-Default setting of registers are below (check detail description at [ADS1292](./reference/ADS1292/ADS1292.pdf) and [MPR121](./reference/MPR121/MPR121.pdf) datasheet)
+Default setting of registers are below (check detail description at [ADS1292](./reference/ADS1292/ADS1292.pdf).
 
-![screensh](./img/chip_setting_1.png)
-![screensh](./img/chip_setting_2.png)
+| Address | Name | Data|
+|---|---|---|
+|01h|ADS_CONFIG_1_REG | 8'h02 |
+|02h|ADS_CONFIG_2_REG | 8'hA0 |
+|03h|ADS_LOFF_REG | 8'h10 |
+|04h|ADS_CH1SET_REG| 8'h02 |
+|05h|ADS_CH2SET_REG| 8'h00 |
+|06h|ADS_RLD_SENS_REG|8'h63 |
+|07h|ADS_LOFF_SENS_REG|8'h0F |
+|08h|ADS_LOFF_STAT_REG|8'h00 |
+|09h|ADS_RESP1_REG|8'h02 |
+|0Ah|ADS_RESP2_REG|8'h03 |
+|0Bh|ADS_GPIO_REG|8'h00|
 
-#### Procedure
+To change ads1292 register setting data, refer to line 721 of sensor_core.v
+
+
+#### ADS1292 Chip Set Procedure
 
 1. At state ***ST_MPR_SETTING***, assign **r_mpr_first_param, r_mpr_second_param**     
-   * **r_mpr_first_param** : 8 bits representing **address** of register to set    
-   * **r_mpr_second_param** : 8 bits representing **data** to set at designated register      
+   * **r_ads_first_param** : 8 bits representing **address** of register to set    
+   * **r_ads_second_param** : 8 bits representing **data** to set at designated register      
 
 2. outputs of sensor core(**o_ADS1292_CONTROL, o_ADS1292_REG_ADDR, o_ADS1292_DATA_IN**) goes to ads1292_controller    
    * **o_ADS1292_COMMAND** : default value for this reg is 1'b0, but later when using command input for wakeup and standby, no need for this
@@ -311,7 +325,7 @@ end
 
 - - -
 
-## Run set
+## ADS Run set
 
 As **r_ads_is_reading** becomes 1'b1 at ***sensor_core.v*** Run set Initiates
 
@@ -369,7 +383,7 @@ end
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/settling_time.PNG">
+  <img width="600" height="200" src="./reference/Image/settling_time.PNG">
 </p>
 
 
@@ -414,7 +428,7 @@ end
        * **Status bits**: 1100 + LOFF_STAT[4:0] + GPIO[1:0] + 13'0s     
 
 <p align="center">
-  <img width="400" height="200" src="./img/drdy_set.PNG">
+  <img width="400" height="200" src="./reference/Image/drdy_set.PNG">
 </p>
 
 
@@ -428,7 +442,7 @@ end
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/drdy_sclk_relation.png" title="DRDY SCLK relation">
+  <img width="600" height="200" src="./reference/Image/drdy_sclk_relation.png" title="DRDY SCLK relation">
 </p>
 
 <pre>
@@ -477,6 +491,83 @@ end
 
 11. When 72 bits are all filled, export output **o_ADS1292_DATA_OUT[71:0], o_ADS1292_RDATAC_READY** to sensor_core    
    * **o_ADS1292_RDATAC_READY** : goes high(1) when 72bit data are all received
+
+- - -
+- - -
+
+## MPR Chip Set
+
+as a result of ***ST_CORE_START*** from sensor_core.v and code below, chip set begins   
+
+<pre>
+<code>
+always @ ( posedge i_CLK, posedge i_RST ) begin
+      if(i_RST) o_CHIP_SET <= 1'b0;
+      else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+   end
+</code>
+</pre>
+
+Default setting of registers are below (check detail description at [MPR121](./reference/MPR121/MPR121.pdf).
+
+| Address | Name | Data|
+|---|---|---|
+|8'h2B|MPR_MHDR_REG | 8'h01 |
+|8'h2C|MPR_NHDAR_REG | 8'h01 |
+|8'h2D|MPR_NCLR_REG | 8'h0E |
+|8'h2E|MPR_FDLR_REG| 8'h00 |
+|8'h2F|MPR_MHDF_REG| 8'h01 |
+|8'h30|MPR_NHDAF_REG|8'h05 |
+|8'h31|MPR_NCLF_REG|8'h01 |
+|8'h32|MPR_FDLF_REG|8'h00 |
+|8'h33|MPR_NHDAT_REG|8'h00 |
+|8'h34|MPR_NCLT_REG|8'h00 |
+|8'h35|MPR_FDLT_REG|8'h00|
+|8'h5B|MPR_DEBOUNCE_REG|8'h00|
+|8'h5C|MPR_FILTER_CDC_CONFIG_REG|8'h10|
+|8'h5D|MPR_FILTER_CDT_CONFIG_REG|8'h20|
+|8'h5E|MPR_ELE_CONFIG_REG|8'h8F|
+|8'h7B|MPR_AUTOCONFIG_0_REG|8'h0B|
+|8'h7D|MPR_AUTOCONFIG_USL_REG|8'h9C|
+|8'h7E|MPR_AUTOCONFIG_LSL_REG|8'h65|
+|8'h7F|MPR_AUTOCONFIG_TLR_REG|8'h8C|
+
+To change mpr121 register setting data, refer to line 302 of sensor_core.v
+
+
+#### MPR121 Chip Set Procedure
+- - -
+
+## MPR Run set
+
+As **r_mpr_is_reading** becomes 1'b1 at ***sensor_core.v***, Run set initiates.
+
+#### Procedure - Write
+
+<pre>
+<code>
+    __    ___ ___ ___ ___ ___ ___ ___ ___     ___ ___ ___ ___ ___ ___ ___ ___     ___ ___ ___ ___ ___ ___ ___ ___ ___    __
+sda   \__/_6_X_5_X_4_X_3_X_2_X_1_X_0_/ W \_A_/_7_X_6_X_5_X_4_X_3_X_2_X_1_X_0_\_A_/_7_X_6_X_5_X_4_X_3_X_2_X_1_X_0_/ N \__/
+    ____   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   ____
+scl  ST \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ SP
+
+ST - Start Condition, SP - Stop Condition, W - Write, A - Acknowledge, N - Not-Acknowledge
+
+</pre>
+</code>
+
+1. At sensor_core.v
+address of the Electrode Configuration Register(ECR) is set to o_MPR121_REG_ADDR, and data of the ECR(8'h8F) is set to o_MPR121_DATA_IN. Then, MPR121 write enable bit becomes 1.
+  * 8'h8F = 10(CL) 00(ELEPROX_EN) 1111(ELE_EN), and it means
+    1. CL(Calibration Lock - Controls the baseline tracking and how the baseline initial value is loaded) - Baseline tracking enabled, initial baseline value is loaded with the 5 high bits of the first 10-bit electrode data value
+    2. ELEPROX_EN(Proximity Enable - Controls the operation of 13th Proximity Detection) - Proximity Detection is disabled
+    3. ELE_EN(Electrode Enable - Controls the operation of 12 electrodes detection) - Run Mode with ELE0 ~ ELE11 for electrode detection enabled
+
+2. At mpr121_controller.v
+As the mpr121 write enable bit becomes 1, the mpr121 busy bit becomes 1 and moves to the 'Write' State. In this state, wait for the slave address send. If master wrote slave address(1011011, ADDR pin connection '3Vo'), then write register address.
+
+
+
 
 # Module Detail
 
@@ -614,7 +705,7 @@ designed phase locked loop
 >    > after **i_TX_DV** becomes low again, make SPI it's own 16 cycle using reg **r_Trailing_Egde, r_Leading_Egde**
 
 <p align="center">
-  <img width="600" height="200" src="./img/spi_clock.PNG">
+  <img width="600" height="200" src="./reference/Image/spi_clock.PNG">
 </p>
 
 

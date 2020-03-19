@@ -365,7 +365,7 @@ module mpr121_controller (
 				ST_STANDBY:
 				begin
 					// store input data
-					r_i2c_reg_addr <= o_MPR121_REG_ADDR;
+					r_i2c_reg_addr <= i_MPR121_REG_ADDR;
 					r_i2c_reg_data_in <= i_MPR121_DATA_IN;
 					r_lstate <= ST_STANDBY;
 					if (i_MPR121_WRITE_ENABLE) begin
