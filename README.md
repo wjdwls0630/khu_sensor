@@ -8,7 +8,7 @@
 
  -**Bold**: reg or wire name
 
-![screensh](./img/khu_sensor_blockdiagram.png)
+![screensh](./reference/Image/khu_sensor_blockdiagram.png)
 
 # Content
 
@@ -16,11 +16,9 @@
 
 [2. How ADS stops](#how-ads-stops)
 
-[3. How MPR works](#how-mpr-works)
+[3. How to run MPR ](#how-mpr-works)
 
-[4. How MPR stops](#how-mpr-stops)
-
-[5. Module Detail](#module-detail)
+[4. Module Detail](#module-detail)
 
 - - -
 
@@ -42,8 +40,8 @@
 
 But just by sending 8'h52 which is **RUN** , precedure of setting register and exporting output begins automatically. So this README.md will only treat **Run** mode
 
-Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_rx_valid** becomes 1'b1 for a cycle and satifies condition
-   * **w_uart_data_rx_valid : let FPGA know just got finished receiving data through uart completely**
+Getting 8'h52 through [uart_rx.v](#uart_rx.v), **w_uart_data_ra_valid** becomes 1'b1 for a cycle and satifies condition
+   * **w_uart_data_ra_valid : let FPGA know just got finished receiving data through uart completely**
 
 <pre>
 <code>
@@ -144,97 +142,9 @@ When command is sent, to tell FPGA about the status, export **o_ADS1292_START, o
 
 That's technically all for stopping ADS. sensor core stays idle until new command issued from PC   
 
-- - -
-
 # How MPR Works
 
-This is the same as ADS Works, so click [here](#how-ads-works) to see the list and explanation.
-
-**w_uart_data_rx, w_uart_data_rx_valid** from uart_controller.v will initiate ***sensor core***   
-Inside sensor core, 3 parts(**uart, sensor core, mpr121**) will have it's own sequential logic
-
-> uart SL: as a result of ***ST_UART_RX***, reg **r_run_mode** <=1'b1 and reg **r_mpr_read_start** <=1'b1.   
-> sensor core SL: handle [chip set](#chip-set) and [run set](#run-set)   
-> mpr121 SL :  details of **chip set** and **run set** are executed here
-
-First, initiate [chip set](#chip-set) process. when chip set success, FPGA gets **r_mpr_chip_set_done<=1'h1** (at sensor_core)     
-This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to move sensor core state to ***ST_CORE_STANDBY***.   
-<pre>
-<code>
-ST_CORE_STANDBY:
- begin
- if(r_run_mode) begin
-    if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
-                  else r_mpr_is_reading <= 1'b1;
- end
-</code>
-</pre>
-
-Second, as **r_mpr_is_reading** from 'sensor_core SL' becomes **1'b1**, mpr121 SL start [run_set](#run-set) process.     
-When **Run-set** is done, sensor core will recieve **i_ADS1292_DATA_READY** high(1'b1) and **i_ADS1292_DATA_OUT[71:0] and this will make **o_CORE_BUSY** high(1)   
-
-Third, at state ***ST_ADS_RDATAC_INIT, ST_ADS_RDATAC_DATA_PROCESS***, due to condition satisfaction, assign **r_ads_data_convert[31:0],r_ads_data_send_ready**    
-  * **r_ads_data_convert[31:0] ** : {8b'0, i_ADS1292_DATA_OUT[23:16], i_ADS1292_DATA_OUT[15:8], i_ADS1292_DATA_OUT[7:0]}    
-  * **r_ads_data_send_ready** : finished assign neccessary data (In our case, CH2 data which is 24 bits),   
-
-Fourth, at UART SL state ***ST_UART_STANDBY*** , export data **o_UART_DATA_TX[39:0], o_UART_DATA_TX_VALID** to **uart_controller.v**
-  * **o_UART_DATA_TX_VALID** : signal that inititate uart_tx    
-  * **o_UART_DATA_TX[39:0] ** : {UART_SG_ADS_SEND_DATA, r_ads_data_convert}    
-     * UART_SG_ADS_SEND_DATA : in our code it is 8'h41, it will just work as header for PC
-
-Fifth, as **o_UART_DATA_TX_VALID** goes high(1) send data through [uart_tx](#uart-tx.v)
-
-Then from now on, process after **Run set** will repeated and keep export 72bits data to sensor core!!.     
-And It is technically everything you need to know to Run ADS!!     
-
-- - -
-
-# How MPR stops
-
-The way MPR stop is very similiar to the way ADS works.  
-
-From PC, send 8bit data 8'h53 to give stop signal to FPGA     
-Of course, stop signal is supposed to import while ADS is running( **i_CORE_BUSY** on high(1) state)
-
-This stop signal will effect all three SL inside  **sensor_core.v**, and most important SL is ADS SL!!     
-  *  **uart** : assign all **r_run_mode, r_ads_read_start** low(0)    
-  *  **sensor core** : assign **r_ads_run_set, r_ads_is_reading** low(0)     
-
-As I mentioned, ADS is currently on running mode, so state of ADS SL should be either **ST_ADS_RDATAC_INIT** or **ST_ADS_RDATAC_DATA_PROCESS**    
-at state **ST_ADS_RDATAC_INIT**, because **r_ads_run_set** is low(0) next state will be ***ST_ADS_STOP***
-
-Then, **o_RUN_SDATAC** control command goes to ***ads1292_controller.v***     
-Again, ADS is currently on running mode, state at ADS1292_controller.v should be either **ST_RDATAC_WAIT_DRDY, ~ ~ ~**.
-
-<pre>
-<code>
-ST_RDATAC_WAIT_DRDY:
-begin
- o_ADS1292_RDATAC_READY <= 1'b0; // wait 2 clock to turn off since sensor_core's clock is 25MHz-YHM
- if(i_ADS1292_DRDY) begin
-   if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_SETTILING_TIME;
-   else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
- end else begin
-   if (r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
-   else r_pstate <= ST_RDATAC_WAIT_DRDY;
- end
-end
-</pre>
-</code>
-
-
-After this, ads1292_controller.v will send command using MOSI communication.    
->    while on move to ***ST_SYS_SENDCMD*** for MOSI, you'll easily see **if(i_ADS1292_DRDY) r_pstate <= ST_RDATAC_WAIT_DRDY** code    
->    this code is added to consider keep out zone of DRDY pulse.    
-
-When command is sent, to tell FPGA about the status, export **o_ADS1292_START, o_ADS1292_RDATAC_READY,o_ADS1929_BUSY, o_SPI_CSN**    
- * o_ADS1292_START: <- 1'b0 turned off the device    
- * o_ADS1292_READY: <- 1'b0 device not ready to work     
- * o_ADS1292_BUSY: <- 1'b0 device ready to do anything    
- * o_SPI_CSN: <- 1'b1  In condition Chip Select high device can not get any command.    
-   * **Before taking CSN high always wait 4 * t_clk(512kHz) == t_MOD or more cycles.
-
-That's technically all for stopping ADS. sensor core stays idle until new command issued from PC   
+**pretty much same with ADS procedures, so skipped **
 
 
 
@@ -257,10 +167,21 @@ always @ ( posedge i_CLK, posedge i_RST ) begin
 </code>
 </pre>
 
-Default setting of registers are below (check detail description at [ADS1292]() and [MPR121]() datasheet)
+Default setting of registers are below (check detail description at ADS1292 datasheet)
 
-![screensh](./img/chip_setting_1.png)
-![screensh](./img/chip_setting_2.png)
+| Address | Name | Data|
+|---|---|---|
+|01h|ADS_CONFIG_1_REG | 8'h02 |
+|02h|ADS_CONFIG_2_REG | 8'hA0 |
+|03h|ADS_LOFF_REG | 8'h10 |
+|04h|ADS_CH1SET_REG| 8'h02 |
+|05h|ADS_CH2SET_REG| 8'h00 |
+|06h|ADS_RLD_SENS_REG|8'h63 |
+|07h|ADS_LOFF_SENS_REG|8'h0F |
+|08h|ADS_LOFF_STAT_REG|8'h00 |
+|09h|ADS_RESP1_REG|8'h02 |
+|0Ah|ADS_RESP2_REG|8'h03 |
+|0Bh|ADS_GPIO_REG|8'h00|
 
 #### Procedure
 
@@ -369,7 +290,7 @@ end
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/settling_time.PNG">
+  <img width="600" height="200" src="./reference/Image/settling_time.PNG">
 </p>
 
 
@@ -414,7 +335,7 @@ end
        * **Status bits**: 1100 + LOFF_STAT[4:0] + GPIO[1:0] + 13'0s     
 
 <p align="center">
-  <img width="400" height="200" src="./img/drdy_set.PNG">
+  <img width="400" height="200" src="./reference/Image/drdy_set.PNG">
 </p>
 
 
@@ -428,7 +349,7 @@ end
 
 
 <p align="center">
-  <img width="600" height="200" src="./img/drdy_sclk_relation.png" title="DRDY SCLK relation">
+  <img width="600" height="200" src="./reference/Image/drdy_sclk_relation.png" title="DRDY SCLK relation">
 </p>
 
 <pre>
@@ -614,7 +535,7 @@ designed phase locked loop
 > 	> after **i_TX_DV** becomes low again, make SPI it's own 16 cycle using reg **r_Trailing_Egde, r_Leading_Egde**
 
 <p align="center">
-  <img width="600" height="200" src="./img/spi_clock.PNG">
+  <img width="600" height="200" src="./reference/Image/spi_clock.PNG">
 </p>
 
 

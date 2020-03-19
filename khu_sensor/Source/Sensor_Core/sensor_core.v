@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
-	output reg [39:0] o_UART_DATA_TX, // tx data which send to PC
+	output reg [79:0] o_UART_DATA_TX, // tx data which send to PC
 	output reg o_UART_DATA_TX_VALID, // tx data valid
 	input i_UART_DATA_TX_READY, // tx Ready for next byte
 	input [15:0] i_UART_DATA_RX, // rx data which receive from PC
@@ -20,6 +20,7 @@ module sensor_core(
 	output reg [7:0] o_MPR121_DATA_IN,  // transmitted data to MPR121 (write data)
 	output reg o_MPR121_WRITE_ENABLE,
 	output reg o_MPR121_READ_ENABLE,
+	input i_MPR121_INIT_SET,
 	input i_MPR121_BUSY,
 	input i_MPR121_FAIL,
 
@@ -33,7 +34,7 @@ module sensor_core(
 	output reg [7:0] o_ADS1292_COMMAND, // ADS1292 SPI command
 	output reg [7:0] o_ADS1292_REG_ADDR, // ADS1292 register address
 	output reg [7:0] o_ADS1292_DATA_IN, // data to write in ADS1292 register
-	output o_ADS1292_RDATAC_READ_START, // signal that start to read data in RDATAC mode
+	input i_ADS1292_INIT_SET, // signal that start to read data in RDATAC mode
 	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
 	input i_ADS1292_BUSY,
 	input i_ADS1292_FAIL,
@@ -51,14 +52,12 @@ module sensor_core(
 	*****************************************************************************/
 	//==============================Parameter=====================================
 	// UART Signal (user defined)
-	parameter UART_SG_MPR_SEND_DATA = 8'h4D; // 'M'
+	parameter UART_SG_MPR_SEND_DATA = 8'hBB;
 	parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
-	parameter UART_SG_ADS_SEND_DATA = 8'h41; // 'A'
+	parameter UART_SG_ADS_SEND_DATA = 8'hAA;
 	parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
 	parameter UART_SG_RUN = 8'h52; // 'R'
 	parameter UART_SG_STOP = 8'h53; // 'S'
-	parameter UART_SG_ADS_FINISH = 8'h46; // 'F'
-	parameter UART_SG_MPR_FINISH = 8'h66; // 'f'
 	//============================================================================
 	//==============================State=========================================
 	reg [7:0] r_uart_pstate;
@@ -73,9 +72,6 @@ module sensor_core(
 	//==============================wire & reg====================================
 	reg [15:0] r_uart_data_rx;
 	reg r_run_mode;
-	reg r_ads_read_start; // signal from pc which means that its work finished
-	assign o_ADS1292_RDATAC_READ_START = r_ads_read_start;
-	reg r_mpr_read_start; // signal from pc which means that its work finished
 	reg r_mpr_read_reg_mode;
 	reg r_ads_read_reg_mode;
 	//============================================================================
@@ -88,8 +84,6 @@ module sensor_core(
 			r_uart_data_rx <= 16'b0;
 
 			r_run_mode <= 1'b0;
-			r_ads_read_start <= 1'b0;
-			r_mpr_read_start <= 1'b0;
 			r_mpr_read_reg_mode <= 1'b0;
 			r_ads_read_reg_mode <= 1'b0;
 
@@ -101,8 +95,6 @@ module sensor_core(
 				begin
 					r_uart_data_rx <= 16'b0;
 					r_run_mode <= 1'b0;
-					r_ads_read_start <= 1'b0;
-					r_mpr_read_start <= 1'b0;
 					r_mpr_read_reg_mode <= 1'b0;
 					r_ads_read_reg_mode <= 1'b0;
 					r_uart_pstate <= ST_UART_STANDBY;
@@ -117,22 +109,20 @@ module sensor_core(
 						// update tx data
 						if(i_UART_DATA_TX_READY) begin
 							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_convert};
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_out};
 								o_UART_DATA_TX_VALID <= 1'b1;
-								r_ads_read_start <= 1'b0; // turn off
 							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 56'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-								r_mpr_read_start <= 1'b0; // turn off
 							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 56'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_read_reg_done) begin
 								r_mpr_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 16'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 56'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end else o_UART_DATA_TX_VALID <= 1'b0;
+							end */else o_UART_DATA_TX_VALID <= 1'b0;
 						end else o_UART_DATA_TX_VALID <= 1'b0;
 						r_uart_pstate <= ST_UART_STANDBY;
 					end
@@ -140,23 +130,10 @@ module sensor_core(
 
 				ST_UART_RX:
 				begin
-					if(r_uart_data_rx[15:8] == UART_SG_RUN) begin
-						r_run_mode <= 1'b1;
-						r_ads_read_start <= 1'b1; // turn on
-						r_mpr_read_start <= 1'b1; // turn on
-					end else if(r_uart_data_rx[15:8] == UART_SG_STOP) begin
-						r_run_mode <= 1'b0;
-						r_ads_read_start <= 1'b0; // turn off
-						r_mpr_read_start <= 1'b0; // turn off
-					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_FINISH) begin
-						r_ads_read_start <= 1'b1; // turn on
-					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_FINISH) begin
-						r_mpr_read_start <= 1'b1; // turn on
-					end else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) begin
-						r_mpr_read_reg_mode <= 1'b1;
-					end else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) begin
-						r_ads_read_reg_mode <= 1'b1;
-					end
+					if(r_uart_data_rx[15:8] == UART_SG_RUN) r_run_mode <= 1'b1;
+					else if(r_uart_data_rx[15:8] == UART_SG_STOP) r_run_mode <= 1'b0;
+					else if(r_uart_data_rx[15:8] == UART_SG_MPR_READ_REG) r_mpr_read_reg_mode <= 1'b1;
+					else if(r_uart_data_rx[15:8] == UART_SG_ADS_READ_REG) r_ads_read_reg_mode <= 1'b1;
 					r_uart_pstate <= ST_UART_STANDBY;
 				end
 
@@ -179,9 +156,10 @@ module sensor_core(
 	// Sensor_Core
 	// 8'b0000_xxxx
 	parameter ST_CORE_IDLE  = 8'd0;
-	parameter ST_CORE_START = 8'd1;
-	parameter ST_CORE_STANDBY = 8'd2;
-	parameter ST_CORE_IS_READING = 8'd3;
+	parameter ST_CORE_WAIT_INIT_SET = 8'd1;
+	parameter ST_CORE_CHIP_SET = 8'd2;
+	parameter ST_CORE_STANDBY = 8'd3;
+	parameter ST_CORE_IS_READING = 8'd4;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -254,26 +232,32 @@ module sensor_core(
 
 					// state
 					r_core_lstate <= ST_CORE_IDLE;
-					r_core_pstate <= ST_CORE_START;
+					r_core_pstate <= ST_CORE_WAIT_INIT_SET;
 				end
 
-				ST_CORE_START:
+				ST_CORE_WAIT_INIT_SET:
+				begin
+					// wait inital setting of both MPR121 and ADS1292
+					if(i_MPR121_INIT_SET & i_ADS1292_INIT_SET) r_core_pstate <= ST_CORE_CHIP_SET;
+					else r_core_pstate <= ST_CORE_WAIT_INIT_SET;
+				end
+
+				ST_CORE_CHIP_SET:
 				begin
 					if(!o_CHIP_SET) begin
 						if(!r_mpr_chip_set_done) r_mpr_chip_set <= 1'b1;
 						else r_mpr_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
 						if(!r_ads_chip_set_done) r_ads_chip_set <= 1'b1;
 						else r_ads_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
+						r_core_pstate <= ST_CORE_CHIP_SET;
 					end else r_core_pstate <= ST_CORE_STANDBY;
 				end
 
 				ST_CORE_STANDBY:
 				begin
-
 					if(r_run_mode) begin // when receive run signal
 						if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
 						else r_mpr_is_reading <= 1'b1;
-
 						if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
 						else r_ads_is_reading <= 1'b1;
 					end else if(r_mpr_read_reg_mode) begin
@@ -358,13 +342,14 @@ module sensor_core(
 	parameter ST_MPR_READ_REG_INIT = 8'd24;
 	parameter ST_MPR_READ_REG_EN = 8'd25;
 	parameter ST_MPR_READ_REG_CONFIRM = 8'd26;
-	parameter ST_MPR_READ_STATUS_INIT = 8'd27;
-	parameter ST_MPR_READ_STATUS_START = 8'd28;
-	parameter ST_MPR_READ_STATUS_EN = 8'd29;
-	parameter ST_MPR_READ_STATUS_CONFIRM = 8'd30;
-	parameter ST_MPR_READ_STATUS_CHANGE = 8'd31;
-	parameter ST_MPR_READ_STATUS_WAIT = 8'd32;
-	parameter ST_MPR_ERROR_REPORT = 8'd33;
+	parameter ST_MPR_READ_REG_WAIT = 8'd27;
+	parameter ST_MPR_READ_STATUS_INIT = 8'd28;
+	parameter ST_MPR_READ_STATUS_START = 8'd29;
+	parameter ST_MPR_READ_STATUS_EN = 8'd30;
+	parameter ST_MPR_READ_STATUS_CONFIRM = 8'd31;
+	parameter ST_MPR_READ_STATUS_CHANGE = 8'd32;
+	parameter ST_MPR_READ_STATUS_WAIT = 8'd33;
+	parameter ST_MPR_ERROR_REPORT = 8'd34;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -379,6 +364,7 @@ module sensor_core(
 	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
 	reg [15:0] r_mpr_touch_status; // 0x01 + 0x00
 	reg r_mpr_data_send_ready; // mpr data to send is ready
+	reg [3:0] r_mpr_clk_counter;
 	//============================================================================
 
 	//=============================Sequential Logic===============================
@@ -415,6 +401,7 @@ module sensor_core(
 			r_mpr_touch_status_1 <= 8'b0;
 			r_mpr_touch_status <= 16'b0;
 			r_mpr_data_send_ready <= 1'b0;
+			r_mpr_clk_counter <= 4'b0;
 
 			// state
 			r_mpr_lstate <= ST_MPR_IDLE;
@@ -442,6 +429,7 @@ module sensor_core(
 					r_mpr_touch_status_1 <= 8'b0;
 					r_mpr_touch_status <= 16'b0;
 					r_mpr_data_send_ready <= 1'b0;
+					r_mpr_clk_counter <= 4'b0;
 
 					if(r_mpr_chip_set &&(!r_mpr_chip_set_done)) r_mpr_pstate <= ST_MPR_SETTING;
 					else if(r_mpr_run_set &&(!r_mpr_run_set_done)) r_mpr_pstate <= ST_MPR_RUN;
@@ -620,8 +608,19 @@ module sensor_core(
 						else begin
 							r_mpr_read_reg_done <= 1'b1;
 							r_mpr_reg_data <= i_MPR121_DATA_OUT;
-							r_mpr_pstate <= ST_MPR_IDLE;
+							r_mpr_pstate <= ST_MPR_READ_REG_WAIT;
 						end
+					end
+				end
+
+				ST_MPR_READ_REG_WAIT:
+				begin
+					if(r_mpr_clk_counter > 4'd4) begin
+						r_mpr_clk_counter <= 4'b0;
+						r_mpr_pstate <= ST_MPR_IDLE;
+					end else begin
+						r_mpr_clk_counter <= r_mpr_clk_counter + 1'b1;
+						r_mpr_pstate <= ST_MPR_READ_REG_WAIT;
 					end
 				end
 
@@ -635,10 +634,7 @@ module sensor_core(
 						r_mpr_data_send_ready <= 1'b0;
 						if(r_mpr_status == 1'b0) r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
 						else r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG;
-
-						// start reading when pc send its work finished
-						if(r_mpr_read_start) r_mpr_pstate <= ST_MPR_READ_STATUS_START;
-						else r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
+						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
 					end
 				end
 
@@ -689,6 +685,7 @@ module sensor_core(
 
 				ST_MPR_READ_STATUS_WAIT:
 				begin
+					// TODO adjust wating time for optimizing serial communication
 					// wait one clock for turning off read_start and uart sending(uart_controller)
 					r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 				end
@@ -719,18 +716,19 @@ module sensor_core(
 	parameter ADS_CB_RREG = 3'b011;
 	parameter ADS_CB_RDATAC = 3'b100;
 	parameter ADS_CB_SDATAC = 3'b101;
+	parameter ADS_CB_DUMMY = 3'b111;
 
 	// ADS1292 Register Setting
-	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h02;
-	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hA0;
+	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h01;
+	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hF0;
 	parameter ADS_LOFF_REG = 8'h03; parameter ADS_LOFF_DATA = 8'h10;
-	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81;
+	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81; // disable 8'h81
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
-	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h63;
-	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0F;
-	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h00;
+	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h2C;
+	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
+	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h0F;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h85; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
@@ -739,17 +737,18 @@ module sensor_core(
 	reg [7:0] r_ads_pstate;
 
 	// ADS1292
-	// 8'b0010_xxxx(>2 from MPR121)
-	parameter ST_ADS_IDLE  = 8'd34;
-	parameter ST_ADS_SETTING = 8'd35;
-	parameter ST_ADS_RUN = 8'd36;
-	parameter ST_ADS_STOP = 8'd37;
-	parameter ST_ADS_WREG_INIT = 8'd38;
-	parameter ST_ADS_WREG_CONFIRM = 8'd39;
-	parameter ST_ADS_RREG_INIT = 8'd40;
-	parameter ST_ADS_RREG_CONFIRM = 8'd41;
-	parameter ST_ADS_RDATAC_INIT = 8'd42;
-	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd43;
+	// 8'b0010_xxxx(>=35 from MPR121)
+	parameter ST_ADS_IDLE  = 8'd35;
+	parameter ST_ADS_SETTING = 8'd36;
+	parameter ST_ADS_RUN = 8'd37;
+	parameter ST_ADS_STOP = 8'd38;
+	parameter ST_ADS_WREG_INIT = 8'd39;
+	parameter ST_ADS_WREG_CONFIRM = 8'd40;
+	parameter ST_ADS_RREG_INIT = 8'd41;
+	parameter ST_ADS_RREG_CONFIRM = 8'd42;
+	parameter ST_ADS_RREG_WAIT = 8'd43;
+	parameter ST_ADS_RDATAC_INIT = 8'd44;
+	parameter ST_ADS_RDATAC_WAIT = 8'd45;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -760,11 +759,8 @@ module sensor_core(
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
 	reg [71:0] r_ads_data_out;
-	reg [31:0] r_ads_data_convert; // long type data (32bit = 4byte)
-	reg [31:0] r_ads_data_ch2_1; // container for 8 bits of ch2's first data
-	reg [31:0] r_ads_data_ch2_2; // container for 8 bits of ch2's second data
-	reg [31:0] r_ads_data_ch2_3; // container for 8 bits of ch2's third data
 	reg r_ads_data_send_ready; // ads data to send is ready.
+	reg [3:0] r_ads_clk_counter;
 	//============================================================================
 
 	//=============================Sequential Logic===============================
@@ -790,11 +786,8 @@ module sensor_core(
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
 			r_ads_data_out <= 72'b0;
-			r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
-			r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
-			r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
-			r_ads_data_ch2_3 <= 32'b0; // container for 8 bits of ch2's third data
 			r_ads_data_send_ready <= 1'b0;
+			r_ads_clk_counter <= 4'b0;
 
 			// state
 			r_ads_lstate <= ST_ADS_IDLE;
@@ -815,12 +808,10 @@ module sensor_core(
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
 					r_ads_data_out <= 72'b0;
-					r_ads_data_convert <= 32'b0; // long type data (32bit = 4byte)
-					r_ads_data_ch2_1 <= 32'b0; // container for 8 bits of ch2's first data
-					r_ads_data_ch2_2 <= 32'b0; // container for 8 bits of ch2's second data
-					r_ads_data_ch2_3 <= 32'b0; // container for 8 bits of ch2's third data
 					r_ads_data_send_ready <= 1'b0;
+					r_ads_clk_counter <= 4'b0;
 
+					o_ADS1292_CONTROL <= 3'b111; // Send Dummy, do nothing
 					if(r_ads_chip_set &&(!r_ads_chip_set_done)) r_ads_pstate <= ST_ADS_SETTING;
 					else if(r_ads_run_set &&(!r_ads_run_set_done)) r_ads_pstate <= ST_ADS_RUN;
 					else if (r_ads_read_reg &&(!r_ads_read_reg_done)) begin
@@ -833,59 +824,65 @@ module sensor_core(
 				ST_ADS_SETTING:
 				begin
 					// ADS1292 Setting
+					/*
+					Note that an internal RESET is automatically issued to the digital filter whenever the CONFIG1, RESP1, and
+					RESP2 registers are set to a new value with a WREG command.
+					The digital filter on each channel consists of a third-order sinc filter.
+					The decimation ratio on the sinc filters can be adjusted by the DR bits in the CONFIG1 register.
+					*/
 					if(r_ads_set_counter > 4'd10) begin
 						r_ads_chip_set_done <= 1'b1;
 						r_ads_set_counter <= 4'd0;
 						r_ads_pstate <= ST_ADS_IDLE;
 					end else begin
 						if(r_ads_set_counter == 4'd0) begin
-							r_ads_first_param <= ADS_CONFIG_1_REG;
-							r_ads_second_param <= ADS_CONFIG_1_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd1) begin
-							r_ads_first_param <= ADS_CONFIG_2_REG;
-							r_ads_second_param <= ADS_CONFIG_2_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd2) begin
-							r_ads_first_param <= ADS_LOFF_REG;
-							r_ads_second_param <= ADS_LOFF_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd3) begin
-							r_ads_first_param <= ADS_CH1SET_REG;
-							r_ads_second_param <= ADS_CH1SET_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd4) begin
-							r_ads_first_param <= ADS_CH2SET_REG;
-							r_ads_second_param <= ADS_CH2SET_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd5) begin
-							r_ads_first_param <= ADS_RLD_SENS_REG;
-							r_ads_second_param <= ADS_RLD_SENS_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd6) begin
-							r_ads_first_param <= ADS_LOFF_SENS_REG;
-							r_ads_second_param <= ADS_LOFF_SENS_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd7) begin
-							r_ads_first_param <= ADS_LOFF_STAT_REG;
-							r_ads_second_param <= ADS_LOFF_STAT_DATA;
-						end
-
-						if(r_ads_set_counter == 4'd8) begin
 							r_ads_first_param <= ADS_RESP1_REG;
 							r_ads_second_param <= ADS_RESP1_DATA;
 						end
 
-						if(r_ads_set_counter == 4'd9) begin
+						if(r_ads_set_counter == 4'd1) begin
 							r_ads_first_param <= ADS_RESP2_REG;
 							r_ads_second_param <= ADS_RESP2_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd2) begin
+							r_ads_first_param <= ADS_CONFIG_1_REG;
+							r_ads_second_param <= ADS_CONFIG_1_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd3) begin
+							r_ads_first_param <= ADS_CONFIG_2_REG;
+							r_ads_second_param <= ADS_CONFIG_2_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd4) begin
+							r_ads_first_param <= ADS_LOFF_REG;
+							r_ads_second_param <= ADS_LOFF_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd5) begin
+							r_ads_first_param <= ADS_CH1SET_REG;
+							r_ads_second_param <= ADS_CH1SET_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd6) begin
+							r_ads_first_param <= ADS_CH2SET_REG;
+							r_ads_second_param <= ADS_CH2SET_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd7) begin
+							r_ads_first_param <= ADS_RLD_SENS_REG;
+							r_ads_second_param <= ADS_RLD_SENS_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd8) begin
+							r_ads_first_param <= ADS_LOFF_SENS_REG;
+							r_ads_second_param <= ADS_LOFF_SENS_DATA;
+						end
+
+						if(r_ads_set_counter == 4'd9) begin
+							r_ads_first_param <= ADS_LOFF_STAT_REG;
+							r_ads_second_param <= ADS_LOFF_STAT_DATA;
 						end
 
 						if(r_ads_set_counter == 4'd10) begin
@@ -923,7 +920,7 @@ module sensor_core(
 
 				ST_ADS_WREG_CONFIRM:
 				begin
-					o_ADS1292_CONTROL <= ADS_CB_IDLE;
+					o_ADS1292_CONTROL <= ADS_CB_DUMMY;
 					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_WREG_CONFIRM;
 					else begin
 						if (r_ads_lstate == ST_ADS_SETTING) r_ads_pstate <= ST_ADS_SETTING;
@@ -939,12 +936,23 @@ module sensor_core(
 
 				ST_ADS_RREG_CONFIRM:
 				begin
-					o_ADS1292_CONTROL <= ADS_CB_IDLE;
+					o_ADS1292_CONTROL <= ADS_CB_DUMMY;
 					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_RREG_CONFIRM;
 					else begin
 						r_ads_read_reg_done <= 1'b1;
 						r_ads_reg_data <= i_ADS1292_DATA_OUT[7:0];
+						r_ads_pstate <= ST_ADS_RREG_WAIT;
+					end
+				end
+
+				ST_ADS_RREG_WAIT:
+				begin
+					if(r_ads_clk_counter > 4'd4) begin
+						r_ads_clk_counter <= 4'b0;
 						r_ads_pstate <= ST_ADS_IDLE;
+					end else begin
+						r_ads_clk_counter <= r_ads_clk_counter + 1'b1;
+						r_ads_pstate <= ST_ADS_RREG_WAIT;
 					end
 				end
 
@@ -956,26 +964,15 @@ module sensor_core(
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
-							r_ads_data_ch2_1[7:0] <= i_ADS1292_DATA_OUT[23:16];
-							r_ads_data_ch2_2[7:0] <= i_ADS1292_DATA_OUT[15:8];
-							r_ads_data_ch2_3[7:0] <= i_ADS1292_DATA_OUT[7:0];
-							r_ads_pstate <= ST_ADS_RDATAC_DATA_PROCESS;
+							r_ads_data_out <= i_ADS1292_DATA_OUT;
+							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
 						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
 				end
 
-				ST_ADS_RDATAC_DATA_PROCESS:
+				ST_ADS_RDATAC_WAIT:
 				begin
-					// convert data process
-					/*
-					if(r_ads_data_ch2_1 > 8'h7F) begin
-						r_ads_data_convert <= ~(((~r_ads_data_ch2_1)<<16)|((~r_ads_data_ch2_2)<<8)|(~r_ads_data_ch2_3) + 1'b1) + 1'b1;
-					end else begin
-						r_ads_data_convert <= (r_ads_data_ch2_1<<16)|(r_ads_data_ch2_2<<8)|r_ads_data_ch2_3;
-					end
-					*/
-					// CHANGED converting ads data process in C++
-					r_ads_data_convert <= {8'b0, r_ads_data_ch2_1[7:0], r_ads_data_ch2_2[7:0], r_ads_data_ch2_3[7:0]};
+					// wait data for Receiving Stop Signal
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end
