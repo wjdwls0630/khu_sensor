@@ -896,6 +896,22 @@ module sensor_core(
 					end
 				end
 
+				/*
+				ST_ADS_WAKEUP:
+				begin
+					Reference - ADS1292 - ADS1292.pdf p.35
+					exit the low-power standby mode. All parts of the circuit are shut down.
+					Time(From STANDBY mode to DRDY low 10 ms) is required when exiting standby mode
+				end
+
+				ST_ADS_STANDBY:
+				begin
+					Reference - ADS1292 - ADS1292.pdf p.35
+					enter the low-power standby mode. All parts of the circuit are shut down.
+					do not send any other command other than the wake up command after the device enters the standby mode.
+				end
+				*/
+
 				ST_ADS_RUN:
 				begin
 					o_ADS1292_CONTROL <= ADS_CB_RDATAC;
