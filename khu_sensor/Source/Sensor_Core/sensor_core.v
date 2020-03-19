@@ -728,7 +728,7 @@ module sensor_core(
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
 	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h0F;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h05; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
