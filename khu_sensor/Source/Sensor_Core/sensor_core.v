@@ -720,15 +720,15 @@ module sensor_core(
 
 	// ADS1292 Register Setting
 	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h01;
-	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hE0;
+	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hF0;
 	parameter ADS_LOFF_REG = 8'h03; parameter ADS_LOFF_DATA = 8'h10;
-	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h00;
+	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81; // disable 8'h81
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
 	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h2C;
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
 	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h0F;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h85; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
@@ -748,7 +748,7 @@ module sensor_core(
 	parameter ST_ADS_RREG_CONFIRM = 8'd42;
 	parameter ST_ADS_RREG_WAIT = 8'd43;
 	parameter ST_ADS_RDATAC_INIT = 8'd44;
-	parameter ST_ADS_RDATAC_DATA_PROCESS = 8'd45;
+	parameter ST_ADS_RDATAC_WAIT = 8'd45;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -960,21 +960,19 @@ module sensor_core(
 				ST_ADS_RDATAC_INIT:
 				begin
 					// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-
+					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
-							r_ads_data_send_ready <= 1'b1;
-						end else r_ads_data_send_ready <= 1'b0;
-						r_ads_pstate <= ST_ADS_RDATAC_INIT;
+							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
+						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
 				end
 
-				ST_ADS_RDATAC_DATA_PROCESS:
+				ST_ADS_RDATAC_WAIT:
 				begin
-					// CHANGED converting ads data process in C++
-					// CHANGED delete
+					// wait data for Receiving Stop Signal
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end
