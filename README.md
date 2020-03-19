@@ -12,11 +12,11 @@
 
 # Content
 
-[1. How ADS works](#how-ads-works)
+[1. How ADS runs](#how-ads-works)
 
 [2. How ADS stops](#how-ads-stops)
 
-[3. How MPR works](#how-mpr-works)
+[3. How MPR start](#how-mpr-works)
 
 [4. How MPR stops](#how-mpr-stops)
 
@@ -27,18 +27,16 @@
 # How ADS works
 
 
- Through wire **UART_RXD** from PC,  8 kind of controls are available.(list below)
+ Through wire **UART_RXD** from PC,  6 kind of controls are available.(list below)
 
 || Command | byte |
 |---| ---|---|
-|1|UART_SG_MPR_SEND_DATA| 8'h4D |
+|1|UART_SG_MPR_SEND_DATA| 8'hBB |
 |2|UART_SG_MPR_READ_REG| 8'h6D |
-|3|UART_SG_ADS_SEND_DATA| 8'h41 |
+|3|UART_SG_ADS_SEND_DATA| 8'hAA |
 |4|UART_SG_ADS_READ_REG| 8'h61 |
 |5|UART_SG_RUN| 8'h52 |
 |6|UART_SG_STOP| 8'h53 |
-|7|UART_SG_ADS_FINISH| 8'h46 |
-|8|UART_SG_MPR_FINISH| 8'h66 |
 
 But just by sending 8'h52 which is **RUN** , precedure of setting register and exporting output begins automatically. So this README.md will only treat **Run** mode
 
@@ -65,7 +63,7 @@ Inside sensor core, 3 parts(**uart, sensor core, ads1292**) will have it's own s
 > sensor core SL: handle [chip set](#ads-chip-set) and [run set](#ads-run-set)   
 > ads1292 SL :  details of **chip set** and **run set** are executed here
 
-First, initiate [chip set](#ads-chip-set) process. when chip set success, FPGA gets **r_ads_chip_set_done<=1'h1** (at sensor_core)     
+First, initiate [chip set](#ads-chip-set) process. when chip set success, FPGA gets **r_ads_chip_set_done<=1'b1** (at sensor_core)     
 This will make **o_CHIP_SET<=1b'1**(meaning chip setting is done) and allows to move sensor core state to ***ST_CORE_STANDBY***.   
 <pre>
 <code>
