@@ -4,11 +4,10 @@ module mpr121_controller (
 
 	// Host Side
 	output reg [7:0] o_MPR121_DATA_OUT, // read data from MPR121
-	input [7:0] o_MPR121_REG_ADDR, // MPR121 register address
+	input [7:0] i_MPR121_REG_ADDR, // MPR121 register address
 	input [7:0] i_MPR121_DATA_IN, // data to write in MPR121 register
 	input i_MPR121_WRITE_ENABLE, // write enable
 	input i_MPR121_READ_ENABLE, // read enable
-	output reg o_MPR121_INIT_SET,
 	output reg o_MPR121_BUSY,
 	output reg o_MPR121_FAIL,
 
@@ -43,13 +42,13 @@ module mpr121_controller (
 	we can assign 4 I2C addresses to the MPR121 depending on the connection of the ADDR pin
 	MPR121 Slave address (AN3895.pdf - p.3 )
 	ADDR Pin Connection      I2C Address (7bit) (MPR121 slave's address)
-	VSS (not connected) 							                0x5A (we choose)
-	3Vo (tied to 3V)                     							0x5B
+	VSS (not connected) 							                0x5A
+	3Vo (tied to 3V)                     							0x5B (we choose)
 	SDA (tied to SDA)                     						0x5C
 	SCL (tied to SCL)                     						0x5D
 	*/
 	// we will use VDD for MPR121 Slave addresss (There is no matter which one we assig)
-	parameter I2C_MPR121_ADDR = 7'b1011_010; // ADDR pin connect to Ground  - 0x5A
+	parameter I2C_MPR121_ADDR = 7'b1011_011; // ADDR pin connection 3Vo - 0x5B
 
 	//I2C instantiation
   //CHANGED side to connection
@@ -254,33 +253,30 @@ module mpr121_controller (
 	//============================================================================
 
 	//==============================State=========================================
-	reg [7:0] r_pstate; // present state
-	reg [7:0] r_lstate; // last state
+	reg [7:0] r_pstate; // state machine
 
 	parameter ST_IDLE	= 8'd0;
-	parameter ST_RESET = 8'd1;
-	parameter ST_STANDBY = 8'd2;
 
-	// Write Status 8'b0001_xxxx
-	parameter ST_WRITE_INIT = 8'd16;
-	parameter ST_WRITE_START = 8'd17;
-	parameter ST_WRITE_SEND_REG_ADDR = 8'd18;
-	parameter ST_WRITE_REG_ADDR_WAIT = 8'd19;
-	parameter ST_WRITE_SEND_DATA = 8'd20;
-	parameter ST_WRITE_SEND_DATA_1 = 8'd21;
-	parameter ST_WRITE_SEND_DATA_2 = 8'd22;
-	parameter ST_WRITE_STOP = 8'd23;
-	parameter ST_WRITE_FINISH = 8'd24;
+	// Write Status 8'b0000_xxxx
+	parameter ST_WRITE_INIT = 8'd1;
+	parameter ST_WRITE_START = 8'd2;
+	parameter ST_WRITE_SEND_REG_ADDR = 8'd3;
+	parameter ST_WRITE_REG_ADDR_WAIT = 8'd4;
+	parameter ST_WRITE_SEND_DATA = 8'd5;
+	parameter ST_WRITE_SEND_DATA_1 = 8'd6;
+	parameter ST_WRITE_SEND_DATA_2 = 8'd7;
+	parameter ST_WRITE_STOP = 8'd8;
+	parameter ST_WRITE_FINISH = 8'd9;
 
-	// Read Status 8'b0010_xxxx
-	parameter ST_READ_INIT = 8'd32;
-	parameter ST_READ_START = 8'd33;
-	parameter ST_READ_SEND_REG_ADDR = 8'd34;
-	parameter ST_READ_REG_ADDR_WAIT	= 8'd35;
-	parameter ST_READ_START_REPEAT = 8'd36;
-	parameter ST_READ_START_1 = 8'd37;
-	parameter ST_READ_GET_DATA = 8'd38;
-	parameter ST_READ_FINISH	= 8'd39;
+	// Read Status 8'b0001_xxxx
+	parameter ST_READ_INIT = 8'd17;
+	parameter ST_READ_START = 8'd18;
+	parameter ST_READ_SEND_REG_ADDR = 8'd19;
+	parameter ST_READ_REG_ADDR_WAIT	= 8'd20;
+	parameter ST_READ_REAPEAT_START = 8'd21;
+	parameter ST_READ_START_2 = 8'd22;
+	parameter ST_READ_GET_DATA = 8'd23;
+	parameter ST_READ_FINISH	= 8'd24;
 	//============================================================================
 
 	//==============================wire & reg====================================
@@ -314,14 +310,12 @@ module mpr121_controller (
 
 				// MPR121_Controller Output
 				o_MPR121_DATA_OUT <= 8'b0;
-				o_MPR121_INIT_SET <= 1'b0;
 				o_MPR121_BUSY <= 1'b0;
 				o_MPR121_FAIL <= 1'b0;
 
 				r_clk_counter <= 10'b0;
 
 				// State
-				r_lstate <= ST_IDLE;
 				r_pstate <=	ST_IDLE;
 		end
 		else begin
@@ -343,31 +337,16 @@ module mpr121_controller (
 					// Master (I2C)(read)(receive)(input) - Slave (MPR121)(transmit)(output)
 					r_i2c_data_out_ready <= 1'b0;
 
+					// store input data
+					r_i2c_reg_addr <= i_MPR121_REG_ADDR;
+					r_i2c_reg_data_in <= i_MPR121_DATA_IN;
+
 					// MPR121_Controller Output
-					o_MPR121_INIT_SET <= 1'b0;
 					o_MPR121_BUSY <= 1'b0;
 					o_MPR121_FAIL <= 1'b0;
 
 					r_clk_counter <= 10'b0;
-					r_lstate <= ST_IDLE;
-					r_pstate <= ST_RESET;
-				end
 
-				ST_RESET:
-				begin
-					// Soft Reset(0x80)
-					r_i2c_reg_addr <= 8'h80;
-					r_i2c_reg_data_in <= 8'h63;
-					r_lstate <= ST_RESET;
-					r_pstate <= ST_WRITE_INIT;
-				end
-
-				ST_STANDBY:
-				begin
-					// store input data
-					r_i2c_reg_addr <= i_MPR121_REG_ADDR;
-					r_i2c_reg_data_in <= i_MPR121_DATA_IN;
-					r_lstate <= ST_STANDBY;
 					if (i_MPR121_WRITE_ENABLE) begin
 						o_MPR121_BUSY <= 1'b1;
 						r_pstate <= ST_WRITE_INIT;
@@ -376,8 +355,7 @@ module mpr121_controller (
 						r_pstate <= ST_READ_INIT;
 					end
 					else begin
-						o_MPR121_BUSY <= 1'b0;
-						r_pstate <= ST_STANDBY;
+						r_pstate <= ST_IDLE;
 					end
 				end
 
@@ -427,7 +405,7 @@ module mpr121_controller (
 						r_i2c_data_in <= r_i2c_reg_data_in;
 						r_i2c_data_in_valid <= 1'b1;
 						r_i2c_data_in_last <= 1'b1; // send this data is last to write
-						r_pstate <= ST_WRITE_STOP;
+						r_pstate <= ST_WRITE_SEND_DATA_1;
 					end else r_pstate <= ST_WRITE_SEND_DATA;
 				end
 
@@ -439,18 +417,12 @@ module mpr121_controller (
 
 				ST_WRITE_FINISH:
 				begin
-					// for the sake of stability, wait 10us (i2c scl one clock)
-					if(r_clk_counter > 10'd500) begin
+					// for sake of stability, wait 2.5us (i2c scl one clock)
+					if(r_clk_counter > 10'd124) begin
 						r_clk_counter <= 10'b0;
 						o_MPR121_BUSY <= 1'b0;
-						if(r_lstate == ST_RESET) begin
-							o_MPR121_INIT_SET <= 1'b1;
-							r_pstate <= ST_STANDBY;
-						end
-						else begin
-							if (!i_MPR121_WRITE_ENABLE) r_pstate <= ST_STANDBY;
-							else r_pstate <= ST_WRITE_FINISH;
-						end
+						if (!i_MPR121_WRITE_ENABLE) r_pstate <= ST_IDLE;
+						else r_pstate <= ST_WRITE_FINISH;
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_WRITE_FINISH;
@@ -493,11 +465,11 @@ module mpr121_controller (
 				begin
 					if (!w_i2c_data_in_ready) begin // reg_addr sending
 						r_i2c_data_in_valid <= 1'b0; // release valid set for write reg addr again
-						r_pstate <= ST_READ_START_REPEAT;
+						r_pstate <= ST_READ_REAPEAT_START;
 					end else r_pstate <= ST_READ_REG_ADDR_WAIT;
 				end
 
-				ST_READ_START_REPEAT:
+				ST_READ_REAPEAT_START:
 				begin
 					r_i2c_start <= 1'b1; // repeated start signal
 					r_i2c_read <= 1'b1; // turn on , master write again slave address
@@ -509,10 +481,10 @@ module mpr121_controller (
 					r_i2c_data_in_last<= 1'b0;
 					r_i2c_data_out_ready<= 1'b0;
 					r_i2c_data_in <= 8'b0;
-					r_pstate <= ST_READ_START_1;
+					r_pstate <= ST_READ_START_2;
 				end
 
-				ST_READ_START_1:
+				ST_READ_START_2:
 				begin
 					r_i2c_cmd_valid <= 1'b1; // send cmd is valid to i2c master
 					r_pstate <= ST_READ_GET_DATA;
@@ -532,7 +504,7 @@ module mpr121_controller (
 				ST_READ_FINISH:
 				begin
 					o_MPR121_BUSY <= 1'b0;
-					if (!i_MPR121_READ_ENABLE) r_pstate <= ST_STANDBY;
+					if (!i_MPR121_READ_ENABLE) r_pstate <= ST_IDLE;
 					else r_pstate <= ST_READ_FINISH;
 				end
 
