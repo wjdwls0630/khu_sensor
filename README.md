@@ -23,6 +23,8 @@
 * I2C_SDA
 
 
+ - - -
+
 #### i_MPR121_REG_ADDR
 * 8'h2B : Maximum Half Delta (MHD) Rising Register
 * 8'h2C : Noise Half Delta (NHD) Amount Rising Register
