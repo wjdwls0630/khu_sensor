@@ -41,7 +41,7 @@ module sensor_core(
 
 	// System I/O
 	output reg o_CHIP_SET,
-	output reg o_RUN_SET,
+	output reg o_RUN_SET,i_MPR121_REG_ADDR
 	output reg o_CORE_BUSY,
 	input wire i_CLK,
 	input wire i_RST
