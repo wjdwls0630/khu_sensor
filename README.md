@@ -1,6 +1,5 @@
-## Sensor_core.v         
-<span style="color=red"> Input </span>
-
+## Sensor Clock        
+### Input     
 ##### UART Controller    
 * i_UART_DATA_TX_READY       
   * 1'b1: either MPR121 or ADS1292 fully received Bio-signal     
