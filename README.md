@@ -148,54 +148,34 @@
 ### Input
 * i_CLK, i_RSTN
   * same as ads1292_controller
-* [i_MPR121_REG_ADDR](#Register Set) [7:0]
+* i_MPR121_REG_ADDR[7:0]
   * MPR121 Register address      
-* [i_MPR121_DATA_IN](#Register Set) [7:0]     
+* i_MPR121_DATA_IN[7:0]     
   * MPR121 Register value    
-* [i_MPR121_WRITE_ENABLE](#i_MPR121_WRITE_ENABLE)    
+* i_MPR121_WRITE_ENABLE   
   * 1'b1 : order MPR to be on write state  
-* [i_MPR121_READ_ENABLE](#i_MPR121_READ_ENABLE)    
-  * 1'b1 : order MPR to be on data recieve state    
+* i_MPR121_READ_ENABLE   
+  * 1'b1 : order MPR to be on data receive state    
 
 
 ### Output
-* [o_MPR121_DATA_OUT](#o_MPR121_DATA_OUT)          
+* o_MPR121_DATA_OUT       
   * alternately recieve touch status from sensor **0~7** and **8~11**        
-* [o_MPR121_BUSY](#o_MPR121_BUSY)
+* o_MPR121_BUSY
   * 1'b1 : MPR either on WRITE or READ state   
-* [o_MPR121_FAIL](#o_MPR121_FAIL)
+* o_MPR121_FAIL
   * 1'b1 : unexpected error occured during process        
-* [o_MPR121_INIT_SET](#o_MPR121_INIT_SET)
+* o_MPR121_INIT_SET
   * 1'b1 : soft reset. The soft reset does not effect the I2C module, but all others reset the same as power on reset
 
 ### Inout
-* I2C_SCL I2C_SDA
-  * I
-*
-
+* I2C_SCL
+* I2C_SDA
 
  - - -
 
 
-#### i_MPR121_WRITE_ENABLE
 
-#### i_MPR121_READ_ENABLE
-
-#### o_MPR121_DATA_OUT
-
-#### o_MPR121_BUSY  
-module is communicating over the bus
-<pre>
-<code>
-if (i_MPR121_WRITE_ENABLE || i_MPR121_READ_ENABLE)
-  o_MPR121_BUSY <= 1'b1;
-else o_MPR121_BUSY <= 1'b0;
-</code>
-</pre>
-
-#### o_MPR121_FAIL
-
-#### I2C_SCL, I2C_SDA
 
 ## i2c_master
 <pre>
@@ -212,7 +192,7 @@ sda   \__/_6_X_5_X_4_X_3_X_2_X_1_X_0_/ W \_A_/_7_X_6_X_5_X_4_X_3_X_2_X_1_X_0_\_A
     ____   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   _   ____
 scl  ST \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ SP
 </code>
-<pre>
+</pre>
 
 ### Input
 * cmd_address[6:0]
@@ -358,54 +338,13 @@ If you want to modify value of each register, refer to the description of regist
 
 |Register Name|Address|Value|Register Name|Address|Value|
 |----|----|----|----|----|----|
-|8'h2B||||8'|8'|
-||8'|8'|h2C|8'|8'|
-||8'|8'||8'|8'|
-||8'|8'||8'|8'|
-||8'|8'||8'|8'|
-||8'|8'||8'|8'|
-||8'|8'||8'|8'|
-||8'|8'||8'|8'|
-
-* 8'h2B : Maximum Half Delta (MHD) Rising Register
-* 8'h2C : Noise Half Delta (NHD) Amount Rising Register
-* 8'h2D : Noise Count Limit (NCL) Rising Register
-* 8'h2E : Filter Delay Count Limit (FDL) Rising Register
-* 8'h2F : MHD Falling Register
-* 8'h30 : NHD Amount Falling Register
-* 8'h31 : NCL Falling Register
-* 8'h32 : FDL Falling Register
-* 8'h33 : NHD Amount Touched Register
-* 8'h34 : NCL Touched Register
-* 8'h35 : FDL Touched Register
-* 8'h5B : Debounce Touch & Release Register
-* 8'h5C : Filter/Global CDC Configuration Register
-* 8'h5D : Filter/Global CDT Configuration Register
-* 8'h5E : Electrode Configuration (MHD) Register
-* 8'h7B : AUTO-CONFIG Control Register 0
-* 8'h7D : AUTO-CONFIG USL Register
-* 8'h7E : AUTO-CONFIG LSL Register
-* 8'h7F : AUTO-CONFIG Target Level Register    
-* 8'h80 : Soft Reset Register
-
-#### i_MPR121_DATA_IN
-* 8'h01 : Maximum Half Delta (MHD) Rising Register
-* 8'h01 : Noise Half Delta (NHD) Amount Rising Register
-* 8'h0E : Noise Count Limit (NCL) Rising Register
-* 8'h00 : Filter Delay Count Limit (FDL) Rising Register
-* 8'h01 : MHD Falling Register
-* 8'h05 : NHD Amount Falling Register
-* 8'h01 : NCL Falling Register
-* 8'h00 : FDL Falling Register
-* 8'h00 : NHD Amount Touched Register
-* 8'h00 : NCL Touched Register
-* 8'h00 : FDL Touched Register
-* 8'h00 : Debounce Touch & Release Register
-* 8'h10 : Filter/Global CDC Configuration Register
-* 8'h20 : Filter/Global CDT Configuration Register
-* 8'h8F : Electrode Configuration (MHD) Register
-* 8'h0B : AUTO-CONFIG Control Register 0
-* 8'h9C : AUTO-CONFIG USL Register
-* 8'h65 : AUTO-CONFIG LSL Register
-* 8'h8C : AUTO-CONFIG Target Level Register
-* 8'
+|Maximum Half Delta Rising Register|8'h2B|8'h01|Noise Half Delta  Amount Rising Register|8'h2C|8'h01|
+|Noise Count Limit Rising Register|8'h2D|8'h0E|Filter Delay Count Limit Rising Register|8'h2E|8'h00|
+|MHD Falling Register|8'h2F|8'h01|NHD Amount Falling Register|8'h30|8'h05|
+|NCL Falling Register|8'h31|8'h01|FDL Falling Register|8'h32|8'h00|
+|NHD Amount Touched Register|8'h33|8'h00|NCL Touched Register|8'h34|8'h00|
+|FDL Touched Register|8'h35|8'h00|Debounce Touch & Release Register|8'h5B|8'h00|
+|Filter/Global CDC Configuration Register|8'h5C|8'h10|Filter/Global CDT Configuration Register|8'h5D|8'h20|
+|Electrode Configuration (MHD) Register|8'h5E|8'h8F|AUTO-CONFIG Control Register 0|8'h7B|8'h0B|
+|AUTO-CONFIG USL Register|8'h7D|8'h9C|AUTO-CONFIG LSL Register|8'h7E|8'h65|
+|AUTO-CONFIG Target Level Register|8'h7F|8'h8C|Soft Reset Register|8'h80|8'h63|
