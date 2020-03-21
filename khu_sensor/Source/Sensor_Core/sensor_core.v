@@ -110,13 +110,8 @@ module sensor_core(
 							if(r_ads_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_ch2_data_out};
 								o_UART_DATA_TX_VALID <= 1'b1;
-<<<<<<< HEAD
 							end else if(r_mpr_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
-=======
-							end /*else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 56'b0};
->>>>>>> 7564d54a5e9b9c880ad5e4cf4fd37aa4050d875a
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end */else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
@@ -732,11 +727,7 @@ module sensor_core(
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
 	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h00;
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-<<<<<<< HEAD
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h87;
-=======
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h05; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
->>>>>>> 7564d54a5e9b9c880ad5e4cf4fd37aa4050d875a
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h87; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
