@@ -720,15 +720,15 @@ module sensor_core(
 
 	// ADS1292 Register Setting
 	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h01;
-	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hE0;
+	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hF0;
 	parameter ADS_LOFF_REG = 8'h03; parameter ADS_LOFF_DATA = 8'h10;
-	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h00;
+	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81; // disable 8'h81
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
 	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h2C;
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
-	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h0F;
+	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h4F; // f MOD = f CLK / 16, f CLK = 2.048 MHz)
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h03;
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h85; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
@@ -895,6 +895,22 @@ module sensor_core(
 						r_ads_pstate <= ST_ADS_WREG_INIT;
 					end
 				end
+
+				/*
+				ST_ADS_WAKEUP:
+				begin
+					Reference - ADS1292 - ADS1292.pdf p.35
+					exit the low-power standby mode. All parts of the circuit are shut down.
+					Time(From STANDBY mode to DRDY low 10 ms) is required when exiting standby mode
+				end
+
+				ST_ADS_STANDBY:
+				begin
+					Reference - ADS1292 - ADS1292.pdf p.35
+					enter the low-power standby mode. All parts of the circuit are shut down.
+					do not send any other command other than the wake up command after the device enters the standby mode.
+				end
+				*/
 
 				ST_ADS_RUN:
 				begin
