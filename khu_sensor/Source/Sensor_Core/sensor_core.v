@@ -37,7 +37,6 @@ module sensor_core(
 	input i_ADS1292_INIT_SET, // signal that start to read data in RDATAC mode
 	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
 	input i_ADS1292_BUSY,
-	input i_ADS1292_FAIL,
 
 	// System I/O
 	output reg o_CHIP_SET,

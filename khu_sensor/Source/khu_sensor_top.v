@@ -130,7 +130,6 @@ module khu_sensor_top(
 		.i_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
 		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.i_ADS1292_BUSY(w_ads1292_busy),
-		.i_ADS1292_FAIL(w_ads1292_fail),
 
 		// System I/O
 		.o_CHIP_SET(w_chip_set),
@@ -209,7 +208,6 @@ module khu_sensor_top(
 		.o_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
 		.o_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),
-		.o_ADS1292_FAIL(w_ads1292_fail),
 
 		//	ADS1292, SPI Side
 		.o_SPI_CLK(ADS1292_SCLK),
