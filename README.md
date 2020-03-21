@@ -1,4 +1,4 @@
-## Sensor Clock        
+## sensor_core.v        
 ### Input     
 ##### UART Controller    
 * i_UART_DATA_TX_READY       
