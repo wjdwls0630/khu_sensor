@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
-	output reg [79:0] o_UART_DATA_TX, // tx data which send to PC
+	output reg [31:0] o_UART_DATA_TX, // tx data which send to PC
 	output reg o_UART_DATA_TX_VALID, // tx data valid
 	input i_UART_DATA_TX_READY, // tx Ready for next byte
 	input [15:0] i_UART_DATA_RX, // rx data which receive from PC
@@ -37,11 +37,10 @@ module sensor_core(
 	input i_ADS1292_INIT_SET, // signal that start to read data in RDATAC mode
 	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
 	input i_ADS1292_BUSY,
-	input i_ADS1292_FAIL,
 
 	// System I/O
 	output reg o_CHIP_SET,
-	output reg o_RUN_SET,i_MPR121_REG_ADDR
+	output reg o_RUN_SET,
 	output reg o_CORE_BUSY,
 	input wire i_CLK,
 	input wire i_RST
@@ -79,7 +78,7 @@ module sensor_core(
 	//=============================Sequential Logic===============================
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) begin
-			o_UART_DATA_TX <= 40'b0;
+			o_UART_DATA_TX <= 32'b0;
 			o_UART_DATA_TX_VALID <= 1'b0;
 			r_uart_data_rx <= 16'b0;
 
@@ -109,20 +108,20 @@ module sensor_core(
 						// update tx data
 						if(i_UART_DATA_TX_READY) begin
 							if(r_ads_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_data_out};
+								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_ch2_data_out};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 56'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end else if(r_ads_read_reg_done) begin
+							end */else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 56'b0};
+								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_read_reg_done) begin
 								r_mpr_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 56'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else o_UART_DATA_TX_VALID <= 1'b0;
+							end else o_UART_DATA_TX_VALID <= 1'b0;
 						end else o_UART_DATA_TX_VALID <= 1'b0;
 						r_uart_pstate <= ST_UART_STANDBY;
 					end
@@ -720,15 +719,15 @@ module sensor_core(
 
 	// ADS1292 Register Setting
 	parameter ADS_CONFIG_1_REG = 8'h01; parameter ADS_CONFIG_1_DATA = 8'h01;
-	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hF0;
+	parameter ADS_CONFIG_2_REG = 8'h02; parameter ADS_CONFIG_2_DATA = 8'hE0;
 	parameter ADS_LOFF_REG = 8'h03; parameter ADS_LOFF_DATA = 8'h10;
-	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h81; // disable 8'h81
+	parameter ADS_CH1SET_REG = 8'h04; parameter ADS_CH1SET_DATA = 8'h00; // disable 8'h81
 	parameter ADS_CH2SET_REG = 8'h05; parameter ADS_CH2SET_DATA = 8'h00;
 	parameter ADS_RLD_SENS_REG = 8'h06; parameter ADS_RLD_SENS_DATA = 8'h2C;
 	parameter ADS_LOFF_SENS_REG = 8'h07; parameter ADS_LOFF_SENS_DATA = 8'h0E;
-	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h0F;
+	parameter ADS_LOFF_STAT_REG = 8'h08; parameter ADS_LOFF_STAT_DATA = 8'h00; // f MOD = f CLK / 4, f CLK = 512 kHz)
 	parameter ADS_RESP1_REG = 8'h09; parameter ADS_RESP1_DATA = 8'h02;
-	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h85; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
+	parameter ADS_RESP2_REG = 8'h0A; parameter ADS_RESP2_DATA = 8'h87; // Calib_onf (offset calibration), Bit2 must be written with 1 in ADS1292
 	parameter ADS_GPIO_REG = 8'h0B; parameter ADS_GPIO_DATA = 8'h00;
 	//============================================================================
 
@@ -759,6 +758,7 @@ module sensor_core(
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
 	reg [71:0] r_ads_data_out;
+	reg [31:0] r_ads_ch2_data_out;
 	reg r_ads_data_send_ready; // ads data to send is ready.
 	reg [3:0] r_ads_clk_counter;
 	//============================================================================
@@ -786,6 +786,7 @@ module sensor_core(
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
 			r_ads_data_out <= 72'b0;
+			r_ads_ch2_data_out <= 32'b0;
 			r_ads_data_send_ready <= 1'b0;
 			r_ads_clk_counter <= 4'b0;
 
@@ -808,6 +809,7 @@ module sensor_core(
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
 					r_ads_data_out <= 72'b0;
+					r_ads_ch2_data_out <= 32'b0;
 					r_ads_data_send_ready <= 1'b0;
 					r_ads_clk_counter <= 4'b0;
 
@@ -965,6 +967,7 @@ module sensor_core(
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
+							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
 						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
