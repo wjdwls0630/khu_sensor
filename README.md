@@ -66,30 +66,30 @@
   * 8'h11 -> SDATAC       
 
 * [7:0] i_ADS1292_REG_ADDR : Register address to write or read data   
- * 8'h01 -> CONFIG1      
- * 8'h02 -> CONFIG2           
- * 8'h03 -> LOFF          
- * 8'h04 -> CH1SET       
- * 8'h05 -> CH2SET         
- * 8'h06 -> RLD_SENS      
- * 8'h07 -> LOFF_SENS       
- * 8'h08 -> LOFF_STAT        
- * 8'h09 -> RESP1        
- * 8'h0A -> RESP2        
- * 8'h0B -> GPIO          
+  * 8'h01 -> CONFIG1      
+  * 8'h02 -> CONFIG2           
+  * 8'h03 -> LOFF          
+  * 8'h04 -> CH1SET       
+  * 8'h05 -> CH2SET         
+  * 8'h06 -> RLD_SENS      
+  * 8'h07 -> LOFF_SENS       
+  * 8'h08 -> LOFF_STAT        
+  * 8'h09 -> RESP1        
+  * 8'h0A -> RESP2        
+  * 8'h0B -> GPIO          
 
 * [7:0] i_ADS1292_DATA_IN : Register data to be written in specific register   
- * 8'h01 -> written in CONFIG1  
- * 8'hE0 -> written in CONFIG2  
- * 8'h10 -> written in LOFF  
- * 8'h00 -> written in CH1SET  
- * 8'h00 -> written in CH2SET  
- * 8'h2C -> written in RLD_SENS  
- * 8'h0E -> written in vLOFF_SENS  
- * 8'h00 -> written in LOFF_STAT  
- * 8'h02 -> written in RESP1  
- * 8'h87 -> written in RESP2  
- * 8'h00 -> written in GPIO  
+  * 8'h01 -> written in CONFIG1  
+  * 8'hE0 -> written in CONFIG2  
+  * 8'h10 -> written in LOFF  
+  * 8'h00 -> written in CH1SET  
+  * 8'h00 -> written in CH2SET  
+  * 8'h2C -> written in RLD_SENS  
+  * 8'h0E -> written in vLOFF_SENS  
+  * 8'h00 -> written in LOFF_STAT  
+  * 8'h02 -> written in RESP1  
+  * 8'h87 -> written in RESP2  
+  * 8'h00 -> written in GPIO  
 
 * i_SPI_MISO : 1bit data that ADS1292 sends to DE2-115    
  * Written data of register : In RREG mode      
