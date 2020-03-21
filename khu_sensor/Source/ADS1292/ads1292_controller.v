@@ -255,7 +255,7 @@ module ads1292_controller (
 	reg [3:0] r_drdy_edge_counter; // drdy posedge counter
 	//============================================================================
 
-	//===========================posedge detector=================================
+	//===========================negedge detector=================================
 	reg r_ldrdy; // last drdy
 	wire w_drdy_negedge_detect; // if detect posedge of drdy, then value go up to the high(1)
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
@@ -627,10 +627,10 @@ module ads1292_controller (
 				 	Reference - ADS1292 - ADS1292.pdf p.31 Settling time
 				 	The settling time (t_SETTLE ) is the time it takes for the converter to output fully settled data when the START signal is pulled high.
 				 	The settling time depends on f CLK and the decimation ratio (controlled by the DR[2:0] bits in the CONFIG1(0x01) register). Refer to Table 10 for the settling time as a function of t_MOD.
-				 	In our case, DR[2:0] == 3'b010, we need to wait 1028 t_MOD
+				 	In our case, DR[2:0] == 3'b001, we need to wait 2052 t_MOD
 					Settling time number uncertainty is one t MOD cycle. Therefore, it is recommended to add one t MOD cycle delay before issuing SCLK to retrieve data
-					Thus, we will wait 1030 t_MOD
-					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
+					Thus, we will wait 2054 t_MOD
+					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/16 (f_CLK = 2.048MkHz)
 					*/
 					if(r_clk_counter > 32'd802344) begin //2054 settling 16*tclk
 						r_clk_counter <= 32'b0;

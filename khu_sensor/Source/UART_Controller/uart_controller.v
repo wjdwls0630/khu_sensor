@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 module uart_controller (
   // TX
-  input [79:0] i_UART_DATA_TX,
+  input [31:0] i_UART_DATA_TX,
   input i_UART_DATA_TX_VALID,
   output reg o_UART_DATA_TX_READY,
   // RX
@@ -81,12 +81,12 @@ module uart_controller (
   parameter ST_STANDBY = 8'd5;
   parameter ST_TX_INIT = 8'd6;
   parameter ST_TX_SEND_24BITS = 8'd7;
-  parameter ST_TX_SEND_80BITS = 8'd8;
+  parameter ST_TX_SEND_32BITS = 8'd8;
   parameter ST_TX_SHIFT = 8'd9;
   //============================================================================
 
   //==============================wire & reg====================================
-  reg [79:0] r_uart_data_tx_shift; // container for input data and shifting
+  reg [31:0] r_uart_data_tx_shift; // container for input data and shifting
   reg [3:0] r_data_counter; // count how much byte controller sent
   //============================================================================
 
@@ -104,7 +104,7 @@ module uart_controller (
       r_uart_data_tx <= 8'b0;
 
       // uart_controller
-      r_uart_data_tx_shift <= 80'b0;
+      r_uart_data_tx_shift <= 32'b0;
       r_data_counter <= 4'b0;
 
       // state
@@ -124,7 +124,7 @@ module uart_controller (
           r_uart_data_tx <= 8'b0;
 
           // uart_controller
-          r_uart_data_tx_shift <= 80'b0;
+          r_uart_data_tx_shift <= 32'b0;
           r_data_counter <= 4'b0;
           if(i_CORE_BUSY) begin
             // prioritize Reading from PC
@@ -168,10 +168,10 @@ module uart_controller (
 
         ST_TX_INIT:
         begin
-          if(r_uart_data_tx_shift[79:72] == UART_SG_ADS_SEND_DATA) r_pstate <= ST_TX_SEND_80BITS; // 'A'
-          else if(r_uart_data_tx_shift[79:72] == UART_SG_MPR_SEND_DATA) r_pstate <= ST_TX_SEND_80BITS; // 'M'
-          else if(r_uart_data_tx_shift[79:72] == UART_SG_ADS_READ_REG) r_pstate <= ST_TX_SEND_80BITS; // 'a'
-          else if(r_uart_data_tx_shift[79:72] == UART_SG_MPR_READ_REG) r_pstate <= ST_TX_SEND_80BITS; // 'm'
+          if(r_uart_data_tx_shift[31:24] == UART_SG_ADS_SEND_DATA) r_pstate <= ST_TX_SEND_32BITS; // 8'hAA
+          else if(r_uart_data_tx_shift[31:24] == UART_SG_MPR_SEND_DATA) r_pstate <= ST_TX_SEND_24BITS; // 8'hBB
+          else if(r_uart_data_tx_shift[31:24] == UART_SG_ADS_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'a'
+          else if(r_uart_data_tx_shift[31:24] == UART_SG_MPR_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'm'
           else r_pstate <= ST_IDLE; // if signal don't match cases, do nothing
         end
 
@@ -186,24 +186,24 @@ module uart_controller (
           end else begin
             r_data_counter <= r_data_counter + 1'b1;
             r_uart_data_tx_valid <= 1'b1;
-            r_uart_data_tx <= r_uart_data_tx_shift[79:72];
+            r_uart_data_tx <= r_uart_data_tx_shift[31:24];
             r_pstate <= ST_TX_SHIFT;
           end
         end
 
 
-        ST_TX_SEND_80BITS:
+        ST_TX_SEND_32BITS:
         begin
           // send 40 bits when case is ads data case
-          r_lstate <= ST_TX_SEND_80BITS;
-          if(r_data_counter > 4'd9) begin
+          r_lstate <= ST_TX_SEND_32BITS;
+          if(r_data_counter > 4'd3) begin
             r_data_counter <= 4'b0;
             o_UART_DATA_TX_READY <= 1'b1;
             r_pstate <= ST_IDLE;
           end else begin
             r_data_counter <= r_data_counter + 1'b1;
             r_uart_data_tx_valid <= 1'b1;
-            r_uart_data_tx <= r_uart_data_tx_shift[79:72];
+            r_uart_data_tx <= r_uart_data_tx_shift[31:24];
             r_pstate <= ST_TX_SHIFT;
           end
         end
@@ -217,7 +217,7 @@ module uart_controller (
           end else begin
             r_uart_data_tx_shift <= (r_uart_data_tx_shift<<8);
             if(r_lstate == ST_TX_SEND_24BITS) r_pstate <= ST_TX_SEND_24BITS;
-            if(r_lstate == ST_TX_SEND_80BITS) r_pstate <= ST_TX_SEND_80BITS;
+            if(r_lstate == ST_TX_SEND_32BITS) r_pstate <= ST_TX_SEND_32BITS;
           end
         end
 
