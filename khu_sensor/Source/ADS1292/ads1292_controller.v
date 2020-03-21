@@ -11,7 +11,6 @@ module ads1292_controller (
 	output reg o_ADS1292_INIT_SET, // signal that ADS1292 chip initial setting is done
 	output reg o_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
-	output reg o_ADS1292_FAIL,
 
 	//	ADS1292, SPI Side
 	output o_SPI_CLK,
@@ -284,7 +283,6 @@ module ads1292_controller (
 			o_ADS1292_INIT_SET <= 1'b0;
 			o_ADS1292_DATA_READY <= 1'b0;
 			o_ADS1292_BUSY <= 1'b0;
-			o_ADS1292_FAIL <= 1'b0;
 
 			//	ADS1292, SPI Side
 			o_ADS1292_RESET <= 1'b1; // Reset activ low, don't reset even KEY[0] is pressed.
