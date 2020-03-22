@@ -1,18 +1,18 @@
 # -------------------------------------------------------------------------- #
 #
 # Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
-# Your use of Altera Corporation's design tools, logic functions 
-# and other software and tools, and its AMPP partner logic 
-# functions, and any output files from any of the foregoing 
-# (including device programming or simulation files), and any 
-# associated documentation or information are expressly subject 
-# to the terms and conditions of the Altera Program License 
+# Your use of Altera Corporation's design tools, logic functions
+# and other software and tools, and its AMPP partner logic
+# functions, and any output files from any of the foregoing
+# (including device programming or simulation files), and any
+# associated documentation or information are expressly subject
+# to the terms and conditions of the Altera Program License
 # Subscription Agreement, the Altera Quartus Prime License Agreement,
-# the Altera MegaCore Function License Agreement, or other 
-# applicable license agreement, including, without limitation, 
-# that your use is for the sole purpose of programming logic 
-# devices manufactured by Altera and sold by Altera or its 
-# authorized distributors.  Please refer to the applicable 
+# the Altera MegaCore Function License Agreement, or other
+# applicable license agreement, including, without limitation,
+# that your use is for the sole purpose of programming logic
+# devices manufactured by Altera and sold by Altera or its
+# authorized distributors.  Please refer to the applicable
 # agreement for further details.
 #
 # -------------------------------------------------------------------------- #
@@ -61,7 +61,6 @@ set_location_assignment PIN_AE15 -to MPR121_SDA
 set_location_assignment PIN_G12 -to UART_RXD
 set_location_assignment PIN_G9 -to UART_TXD
 set_location_assignment PIN_Y2 -to CLOCK_50M
-set_location_assignment PIN_AB22 -to GPIO_0
 set_location_assignment PIN_M23 -to KEY_0
 set_location_assignment PIN_G21 -to LEDG[7]
 set_location_assignment PIN_G22 -to LEDG[6]
@@ -99,15 +98,17 @@ set_location_assignment PIN_AE20 -to ADS1292_RESET
 set_location_assignment PIN_AG23 -to ADS1292_START
 set_location_assignment PIN_AF20 -to ADS1292_CSN
 set_instance_assignment -name IO_STANDARD "SSTL-2 CLASS II" -to LEDR[1]
-set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE output_files/khu_sensor.stp
-set_global_assignment -name SLD_FILE db/khu_sensor_auto_stripped.stp
-set_global_assignment -name VERILOG_FILE Source/ALTPLL/my_pll.v
+set_location_assignment PIN_AC15 -to GPIO[1]
+set_location_assignment PIN_AB22 -to GPIO[0]
+
+set_global_assignment -name QIP_FILE Source/ALTPLL/my_pll.qip
+set_global_assignment -name CDF_FILE output_files/khu_sensor.cdf
 set_global_assignment -name SRAM_OBJECT_FILE output_files/khu_sensor.sof
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_tx.v
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_rx.v
 set_global_assignment -name VERILOG_FILE Source/UART_Controller/uart_controller.v
-set_global_assignment -name CDF_FILE output_files/khu_sensor.cdf
 set_global_assignment -name VERILOG_FILE Source/Sensor_Core/sensor_core.v
 set_global_assignment -name VERILOG_FILE Source/ADS1292/spi_master.v
 set_global_assignment -name VERILOG_FILE Source/ADS1292/ads1292_controller.v
