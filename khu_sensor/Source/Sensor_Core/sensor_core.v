@@ -169,7 +169,8 @@ module sensor_core(
 	reg r_ads_chip_set_done; // signal that ads chip setting process is done
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_CHIP_SET <= 1'b0;
-		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+//		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+		else o_CHIP_SET<=r_mpr_chip_set_done;
 	end
 
 	// run condition logic for both mpr and ads
@@ -179,7 +180,8 @@ module sensor_core(
 	reg r_ads_run_set_done; // signal that turning on ads run state process is done
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_RUN_SET <= 1'b0;
-		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+//		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+		else o_RUN_SET<=r_mpr_run_set_done;
 	end
 
 	// reading condition logic for both mpr and ads
@@ -187,7 +189,8 @@ module sensor_core(
 	reg r_ads_is_reading; // flag that ads is reading or not
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_CORE_BUSY <= 1'b0;
-		else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+	//	else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+		else o_CORE_BUSY<=r_mpr_is_reading;
 	end
 
 	// read reg condition
@@ -262,15 +265,17 @@ module sensor_core(
 					end else if(r_mpr_read_reg_mode) begin
 						if(!r_mpr_read_reg_done) r_mpr_read_reg <= 1'b1;
 						else r_mpr_read_reg <= 1'b0;
-					end else if(r_ads_read_reg_mode) begin
-						if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
-						else r_ads_read_reg <= 1'b0;
-					end else begin // when receive stop signal
+					end
+			//		end else if(r_ads_read_reg_mode) begin
+			//			if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
+				//		else r_ads_read_reg <= 1'b0;
+					//end
+					else begin // when receive stop signal
 						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
 						else r_mpr_is_reading <= 1'b0;
 
-						if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
-						else r_ads_is_reading <= 1'b0;;
+				//		if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
+				//		else r_ads_is_reading <= 1'b0;;
 					end
 					// if satisfy all condition to run & read, sensor_core is going to ~
 					if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
@@ -436,7 +441,8 @@ module sensor_core(
 						r_mpr_first_param <= r_uart_data_rx[7:0];
 						r_mpr_reg_addr <= r_uart_data_rx[7:0]; // for sending data to pc
 						r_mpr_pstate <= ST_MPR_READ_REG_INIT;
-					end else r_mpr_pstate <= ST_MPR_IDLE;
+					end
+					else r_mpr_pstate <= ST_MPR_IDLE;
 				end
 
 				ST_MPR_SETTING:
