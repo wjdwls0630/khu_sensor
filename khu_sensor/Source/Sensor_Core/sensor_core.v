@@ -113,7 +113,7 @@ module sensor_core(
 							end else if(r_mpr_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else if(r_ads_read_reg_done) begin
+							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
@@ -686,6 +686,7 @@ module sensor_core(
 				begin
 					// TODO adjust wating time for optimizing serial communication
 					// wait one clock for turning off read_start and uart sending(uart_controller)
+					r_mpr_data_send_ready <= 1'b0;
 					r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 				end
 
@@ -758,7 +759,7 @@ module sensor_core(
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
 	reg [71:0] r_ads_data_out;
-	reg [31:0] r_ads_ch2_data_out;
+	reg [23:0] r_ads_ch2_data_out;
 	reg r_ads_data_send_ready; // ads data to send is ready.
 	reg [3:0] r_ads_clk_counter;
 	//============================================================================
@@ -786,7 +787,7 @@ module sensor_core(
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
 			r_ads_data_out <= 72'b0;
-			r_ads_ch2_data_out <= 32'b0;
+			r_ads_ch2_data_out <= 24'b0;
 			r_ads_data_send_ready <= 1'b0;
 			r_ads_clk_counter <= 4'b0;
 
@@ -809,7 +810,7 @@ module sensor_core(
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
 					r_ads_data_out <= 72'b0;
-					r_ads_ch2_data_out <= 32'b0;
+					r_ads_ch2_data_out <= 24'b0;
 					r_ads_data_send_ready <= 1'b0;
 					r_ads_clk_counter <= 4'b0;
 
@@ -962,14 +963,18 @@ module sensor_core(
 				ST_ADS_RDATAC_INIT:
 				begin
 					// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-					r_ads_data_send_ready <= 1'b0;
+
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
 							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
+							r_ads_data_send_ready <= 1'b1;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
-						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end else begin
+							r_ads_data_send_ready <= 1'b0;
+							r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end
 					end
 				end
 
