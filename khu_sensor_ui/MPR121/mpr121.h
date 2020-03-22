@@ -7,7 +7,7 @@ namespace MPR {
     enum REG {MHDR, NHDAR, NCLR, FDLR, MHDF, NHDAF, NCLF, FDLF, NHDAT, NCLT, FDLT, DEBOUNCE, CDC_CONFIG, CDT_CONFIG};
 }
 
-#define UART_SG_MPR_DATA 'M' // 0x4D
+#define UART_SG_MPR_DATA 0xBB // 0x4D
 #define UART_SG_MPR_READ_REG 'm' // 0x6D
 
 class MPR121{
