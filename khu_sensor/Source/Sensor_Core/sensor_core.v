@@ -113,7 +113,7 @@ module sensor_core(
 							end else if(r_mpr_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else if(r_ads_read_reg_done) begin
+							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
@@ -169,7 +169,8 @@ module sensor_core(
 	reg r_ads_chip_set_done; // signal that ads chip setting process is done
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_CHIP_SET <= 1'b0;
-		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+//		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+		else o_CHIP_SET<=r_mpr_chip_set_done;
 	end
 
 	// run condition logic for both mpr and ads
@@ -179,7 +180,8 @@ module sensor_core(
 	reg r_ads_run_set_done; // signal that turning on ads run state process is done
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_RUN_SET <= 1'b0;
-		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+//		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+		else o_RUN_SET<=r_mpr_run_set_done;
 	end
 
 	// reading condition logic for both mpr and ads
@@ -187,7 +189,8 @@ module sensor_core(
 	reg r_ads_is_reading; // flag that ads is reading or not
 	always @ ( posedge i_CLK, posedge i_RST ) begin
 		if(i_RST) o_CORE_BUSY <= 1'b0;
-		else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+	//	else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+		else o_CORE_BUSY<=r_mpr_is_reading;
 	end
 
 	// read reg condition
@@ -262,15 +265,17 @@ module sensor_core(
 					end else if(r_mpr_read_reg_mode) begin
 						if(!r_mpr_read_reg_done) r_mpr_read_reg <= 1'b1;
 						else r_mpr_read_reg <= 1'b0;
-					end else if(r_ads_read_reg_mode) begin
-						if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
-						else r_ads_read_reg <= 1'b0;
-					end else begin // when receive stop signal
+					end
+			//		end else if(r_ads_read_reg_mode) begin
+			//			if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
+				//		else r_ads_read_reg <= 1'b0;
+					//end
+					else begin // when receive stop signal
 						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
 						else r_mpr_is_reading <= 1'b0;
 
-						if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
-						else r_ads_is_reading <= 1'b0;;
+				//		if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
+				//		else r_ads_is_reading <= 1'b0;;
 					end
 					// if satisfy all condition to run & read, sensor_core is going to ~
 					if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
@@ -436,7 +441,8 @@ module sensor_core(
 						r_mpr_first_param <= r_uart_data_rx[7:0];
 						r_mpr_reg_addr <= r_uart_data_rx[7:0]; // for sending data to pc
 						r_mpr_pstate <= ST_MPR_READ_REG_INIT;
-					end else r_mpr_pstate <= ST_MPR_IDLE;
+					end
+					else r_mpr_pstate <= ST_MPR_IDLE;
 				end
 
 				ST_MPR_SETTING:
@@ -686,6 +692,7 @@ module sensor_core(
 				begin
 					// TODO adjust wating time for optimizing serial communication
 					// wait one clock for turning off read_start and uart sending(uart_controller)
+					r_mpr_data_send_ready <= 1'b0;
 					r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 				end
 
@@ -758,7 +765,7 @@ module sensor_core(
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
 	reg [71:0] r_ads_data_out;
-	reg [31:0] r_ads_ch2_data_out;
+	reg [23:0] r_ads_ch2_data_out;
 	reg r_ads_data_send_ready; // ads data to send is ready.
 	reg [3:0] r_ads_clk_counter;
 	//============================================================================
@@ -786,7 +793,7 @@ module sensor_core(
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
 			r_ads_data_out <= 72'b0;
-			r_ads_ch2_data_out <= 32'b0;
+			r_ads_ch2_data_out <= 24'b0;
 			r_ads_data_send_ready <= 1'b0;
 			r_ads_clk_counter <= 4'b0;
 
@@ -809,7 +816,7 @@ module sensor_core(
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
 					r_ads_data_out <= 72'b0;
-					r_ads_ch2_data_out <= 32'b0;
+					r_ads_ch2_data_out <= 24'b0;
 					r_ads_data_send_ready <= 1'b0;
 					r_ads_clk_counter <= 4'b0;
 
@@ -962,14 +969,17 @@ module sensor_core(
 				ST_ADS_RDATAC_INIT:
 				begin
 					// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-					r_ads_data_send_ready <= 1'b0;
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
 							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
+							r_ads_data_send_ready <= 1'b1;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
-						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end else begin
+							r_ads_data_send_ready <= 1'b0;
+							r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end
 					end
 				end
 
