@@ -121,7 +121,7 @@ module sensor_core(
 								r_mpr_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else o_UART_DATA_TX_VALID <= 1'b0;
+							end else o_UART_DATA_TX_VALID <= 1'b0;
 						end else o_UART_DATA_TX_VALID <= 1'b0;
 						r_uart_pstate <= ST_UART_STANDBY;
 					end
