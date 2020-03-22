@@ -113,7 +113,7 @@ module sensor_core(
 							end else if(r_mpr_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else if(r_ads_read_reg_done) begin
+							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
 								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
@@ -968,6 +968,7 @@ module sensor_core(
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
 							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
+							r_ads_data_send_ready <= 1'b1;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
 						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
 					end
