@@ -978,14 +978,18 @@ module sensor_core(
 				ST_ADS_RDATAC_INIT:
 				begin
 					// The MSB of the data on DOUT is clocked out on the first SCLK rising edge (ADS1292.pdf p.29)
-					r_ads_data_send_ready <= 1'b0;
+
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
 						if(i_ADS1292_DATA_READY) begin
 							r_ads_data_out <= i_ADS1292_DATA_OUT;
 							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
+							r_ads_data_send_ready <= 1'b1;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
-						end else r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end else begin
+							r_ads_data_send_ready <= 1'b0;
+							r_ads_pstate <= ST_ADS_RDATAC_INIT;
+						end
 					end
 				end
 
