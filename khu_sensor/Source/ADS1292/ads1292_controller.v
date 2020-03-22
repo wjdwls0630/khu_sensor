@@ -512,6 +512,13 @@ module ads1292_controller (
 					r_pstate <= ST_WREG_SEND_REG_NUM;
 				end
 
+				ST_WREG_SEND_REG_ADDR_WAIT:
+				begin
+					// wait o_TX_Ready to be Low
+					r_spi_data_in_valid <= 1'b0;
+					r_pstate <= ST_WREG_SEND_REG_NUM;
+				end
+
 				ST_WREG_SEND_REG_NUM:
 				begin
 					if(!w_spi_data_in_ready) r_pstate <= ST_WREG_SEND_REG_NUM;
@@ -520,6 +527,13 @@ module ads1292_controller (
 						r_spi_data_in_valid <= 1'b1;
 						r_pstate <= ST_WREG_SEND_REG_NUM_WAIT;
 					end
+				end
+
+				ST_WREG_SEND_REG_NUM_WAIT:
+				begin
+					// wait o_TX_Ready to be Low
+					r_spi_data_in_valid <= 1'b0;
+					r_pstate <= ST_WREG_SEND_DATA;
 				end
 
 				ST_WREG_SEND_REG_NUM_WAIT:
@@ -559,6 +573,13 @@ module ads1292_controller (
 						r_spi_data_in_valid <= 1'b1; // active sclk
 						r_pstate <= ST_RREG_SEND_REG_ADDR_WAIT;
 					end
+				end
+
+				ST_RREG_SEND_REG_ADDR_WAIT:
+				begin
+					// wait o_TX_Ready to be Low
+					r_spi_data_in_valid <= 1'b0; // for stopping sclk when 8 bits is all sent
+					r_pstate <= ST_RREG_SEND_REG_NUM;
 				end
 
 				ST_RREG_SEND_REG_ADDR_WAIT:
@@ -665,9 +686,20 @@ module ads1292_controller (
 						r_clk_counter <= 32'b0;
 						r_spi_data_in <= 8'b0; // send dummy for reading
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
+						r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+					/*
+						if(i_ADS1292_RDATAC_READ_START) begin
+							r_clk_counter <= 32'b0;
+							r_spi_data_in <= 8'b0; // send dummy for reading
+							r_spi_data_in_valid <= 1'b1; // active sclk for reading
+							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
+						*/
+=======
 
 						if(r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
 						else r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
+>>>>>>> master
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
