@@ -146,157 +146,152 @@ module sensor_core(
 	//============================================================================
 
 	/****************************************************************************
-	*                           	Sensor_Core                                  	*
-	*****************************************************************************/
-	//==============================State=========================================
-	reg [7:0] r_core_lstate;
-	reg [7:0] r_core_pstate;
+		*                           	Sensor_Core                                 *
+		***************************************************************************/
+		//==============================State=========================================
+		reg [7:0] r_core_lstate;
+		reg [7:0] r_core_pstate;
 
-	// Sensor_Core
-	// 8'b0000_xxxx
-	parameter ST_CORE_IDLE  = 8'd0;
-	parameter ST_CORE_WAIT_INIT_SET = 8'd1;
-	parameter ST_CORE_CHIP_SET = 8'd2;
-	parameter ST_CORE_STANDBY = 8'd3;
-	parameter ST_CORE_IS_READING = 8'd4;
-	//============================================================================
+		// Sensor_Core
+		// 8'b0000_xxxx
+		parameter ST_CORE_IDLE  = 8'd0;
+		parameter ST_CORE_WAIT_INIT_SET = 8'd1;
+		parameter ST_CORE_CHIP_SET = 8'd2;
+		parameter ST_CORE_STANDBY = 8'd3;
+		parameter ST_CORE_IS_READING = 8'd4;
+		//============================================================================
 
-	//==============================wire & reg====================================
-	// chip setting logic
-	reg r_mpr_chip_set; // signal that change mpr setting state
-	reg r_mpr_chip_set_done; // signal that mpr chip setting process is done
-	reg r_ads_chip_set; // signal that change ads setting state
-	reg r_ads_chip_set_done; // signal that ads chip setting process is done
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_CHIP_SET <= 1'b0;
-//		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
-		else o_CHIP_SET<=r_mpr_chip_set_done;
-	end
-
-	// run condition logic for both mpr and ads
-	reg r_mpr_run_set; // signal that change mpr run state
-	reg r_mpr_run_set_done; // signal that turning on mpr run state process is done
-	reg r_ads_run_set; // signal that change ads run state
-	reg r_ads_run_set_done; // signal that turning on ads run state process is done
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_RUN_SET <= 1'b0;
-//		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
-		else o_RUN_SET<=r_mpr_run_set_done;
-	end
-
-	// reading condition logic for both mpr and ads
-	reg r_mpr_is_reading; // flag that mpr is reading or not
-	reg r_ads_is_reading; // flag that ads is reading or not
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_CORE_BUSY <= 1'b0;
-	//	else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
-		else o_CORE_BUSY<=r_mpr_is_reading;
-	end
-
-	// read reg condition
-	reg r_mpr_read_reg;
-	reg r_ads_read_reg;
-	//============================================================================
-
-	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
-			// MPR121 State Control
-			r_mpr_chip_set <= 1'b0;
-			r_mpr_run_set <= 1'b0;
-			r_mpr_is_reading <= 1'b0;
-			r_mpr_read_reg <= 1'b0;
-
-			// ADS1292 State Control
-			r_ads_chip_set <= 1'b0;
-			r_ads_run_set <= 1'b0;
-			r_ads_is_reading <= 1'b0;
-			r_ads_read_reg <= 1'b0;
-
-			// state
-			r_core_lstate <= ST_CORE_IDLE;
-			r_core_pstate <= ST_CORE_IDLE;
-		end else begin
-			case (r_core_pstate)
-				ST_CORE_IDLE:
-				begin
-					// MPR121 State Control
-					r_mpr_chip_set <= 1'b0;
-					r_mpr_run_set <= 1'b0;
-					r_mpr_is_reading <= 1'b0;
-					r_mpr_read_reg <= 1'b0;
-
-					// ADS1292 State Control
-					r_ads_chip_set <= 1'b0;
-					r_ads_run_set <= 1'b0;
-					r_ads_is_reading <= 1'b0;
-					r_ads_read_reg <= 1'b0;
-
-					// state
-					r_core_lstate <= ST_CORE_IDLE;
-					r_core_pstate <= ST_CORE_WAIT_INIT_SET;
-				end
-
-				ST_CORE_WAIT_INIT_SET:
-				begin
-					// wait inital setting of both MPR121 and ADS1292
-					if(i_MPR121_INIT_SET & i_ADS1292_INIT_SET) r_core_pstate <= ST_CORE_CHIP_SET;
-					else r_core_pstate <= ST_CORE_WAIT_INIT_SET;
-				end
-
-				ST_CORE_CHIP_SET:
-				begin
-					if(!o_CHIP_SET) begin
-						if(!r_mpr_chip_set_done) r_mpr_chip_set <= 1'b1;
-						else r_mpr_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
-						if(!r_ads_chip_set_done) r_ads_chip_set <= 1'b1;
-						else r_ads_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
-						r_core_pstate <= ST_CORE_CHIP_SET;
-					end else r_core_pstate <= ST_CORE_STANDBY;
-				end
-
-				ST_CORE_STANDBY:
-				begin
-					if(r_run_mode) begin // when receive run signal
-						if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
-						else r_mpr_is_reading <= 1'b1;
-						if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
-						else r_ads_is_reading <= 1'b1;
-					end else if(r_mpr_read_reg_mode) begin
-						if(!r_mpr_read_reg_done) r_mpr_read_reg <= 1'b1;
-						else r_mpr_read_reg <= 1'b0;
-					end
-			//		end else if(r_ads_read_reg_mode) begin
-			//			if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
-				//		else r_ads_read_reg <= 1'b0;
-					//end
-					else begin // when receive stop signal
-						if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
-						else r_mpr_is_reading <= 1'b0;
-
-				//		if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
-				//		else r_ads_is_reading <= 1'b0;;
-					end
-					// if satisfy all condition to run & read, sensor_core is going to ~
-					if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
-					else r_core_pstate <= ST_CORE_STANDBY;
-				end
-
-				ST_CORE_IS_READING:
-				begin
-					// core is reading
-					if(r_run_mode) r_core_pstate <= ST_CORE_IS_READING;
-					else r_core_pstate <= ST_CORE_STANDBY;
-				end
-
-				default:
-				begin
-					r_core_pstate <= ST_CORE_IDLE;
-				end
-			endcase
+		//==============================wire & reg====================================
+		// chip setting logic
+		reg r_mpr_chip_set; // signal that change mpr setting state
+		reg r_mpr_chip_set_done; // signal that mpr chip setting process is done
+		reg r_ads_chip_set; // signal that change ads setting state
+		reg r_ads_chip_set_done; // signal that ads chip setting process is done
+		always @ ( posedge i_CLK, posedge i_RST ) begin
+			if(i_RST) o_CHIP_SET <= 1'b0;
+			else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
 		end
-	end
-	//============================================================================
+
+		// run condition logic for both mpr and ads
+		reg r_mpr_run_set; // signal that change mpr run state
+		reg r_mpr_run_set_done; // signal that turning on mpr run state process is done
+		reg r_ads_run_set; // signal that change ads run state
+		reg r_ads_run_set_done; // signal that turning on ads run state process is done
+		always @ ( posedge i_CLK, posedge i_RST ) begin
+			if(i_RST) o_RUN_SET <= 1'b0;
+			else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+		end
+
+		// reading condition logic for both mpr and ads
+		reg r_mpr_is_reading; // flag that mpr is reading or not
+		reg r_ads_is_reading; // flag that ads is reading or not
+		always @ ( posedge i_CLK, posedge i_RST ) begin
+			if(i_RST) o_CORE_BUSY <= 1'b0;
+			else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+		end
+
+		// read reg condition
+		reg r_mpr_read_reg;
+		reg r_ads_read_reg;
+		//============================================================================
+
+		//=============================Sequential Logic===============================
+		always @ ( posedge i_CLK, posedge i_RST ) begin
+			if(i_RST) begin
+				// MPR121 State Control
+				r_mpr_chip_set <= 1'b0;
+				r_mpr_run_set <= 1'b0;
+				r_mpr_is_reading <= 1'b0;
+				r_mpr_read_reg <= 1'b0;
+
+				// ADS1292 State Control
+				r_ads_chip_set <= 1'b0;
+				r_ads_run_set <= 1'b0;
+				r_ads_is_reading <= 1'b0;
+				r_ads_read_reg <= 1'b0;
+
+				// state
+				r_core_lstate <= ST_CORE_IDLE;
+				r_core_pstate <= ST_CORE_IDLE;
+			end else begin
+				case (r_core_pstate)
+					ST_CORE_IDLE:
+					begin
+						// MPR121 State Control
+						r_mpr_chip_set <= 1'b0;
+						r_mpr_run_set <= 1'b0;
+						r_mpr_is_reading <= 1'b0;
+						r_mpr_read_reg <= 1'b0;
+
+						// ADS1292 State Control
+						r_ads_chip_set <= 1'b0;
+						r_ads_run_set <= 1'b0;
+						r_ads_is_reading <= 1'b0;
+						r_ads_read_reg <= 1'b0;
+
+						// state
+						r_core_lstate <= ST_CORE_IDLE;
+						r_core_pstate <= ST_CORE_WAIT_INIT_SET;
+					end
+
+					ST_CORE_WAIT_INIT_SET:
+					begin
+						// wait inital setting of both MPR121 and ADS1292
+						if(i_MPR121_INIT_SET & i_ADS1292_INIT_SET) r_core_pstate <= ST_CORE_CHIP_SET;
+						else r_core_pstate <= ST_CORE_WAIT_INIT_SET;
+					end
+
+					ST_CORE_CHIP_SET:
+					begin
+						if(!o_CHIP_SET) begin
+							if(!r_mpr_chip_set_done) r_mpr_chip_set <= 1'b1;
+							else r_mpr_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
+							if(!r_ads_chip_set_done) r_ads_chip_set <= 1'b1;
+							else r_ads_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
+							r_core_pstate <= ST_CORE_CHIP_SET;
+						end else r_core_pstate <= ST_CORE_STANDBY;
+					end
+
+					ST_CORE_STANDBY:
+					begin
+						if(r_run_mode) begin // when receive run signal
+							if(!r_mpr_run_set_done) r_mpr_run_set <= 1'b1;
+							else r_mpr_is_reading <= 1'b1;
+							if(!r_ads_run_set_done) r_ads_run_set <= 1'b1;
+							else r_ads_is_reading <= 1'b1;
+						end else if(r_mpr_read_reg_mode) begin
+							if(!r_mpr_read_reg_done) r_mpr_read_reg <= 1'b1;
+							else r_mpr_read_reg <= 1'b0;
+						end else if(r_ads_read_reg_mode) begin
+							if(!r_ads_read_reg_done) r_ads_read_reg <= 1'b1;
+							else r_ads_read_reg <= 1'b0;
+						end else begin // when receive stop signal
+							if(r_mpr_run_set_done) r_mpr_run_set <= 1'b0;
+							else r_mpr_is_reading <= 1'b0;
+
+							if(r_ads_run_set_done) r_ads_run_set <= 1'b0;
+							else r_ads_is_reading <= 1'b0;;
+						end
+						// if satisfy all condition to run & read, sensor_core is going to ~
+						if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
+						else r_core_pstate <= ST_CORE_STANDBY;
+					end
+
+					ST_CORE_IS_READING:
+					begin
+						// core is reading
+						if(r_run_mode) r_core_pstate <= ST_CORE_IS_READING;
+						else r_core_pstate <= ST_CORE_STANDBY;
+					end
+
+					default:
+					begin
+						r_core_pstate <= ST_CORE_IDLE;
+					end
+				endcase
+			end
+		end
+		//============================================================================
 
 	/****************************************************************************
 	*                           		MPR121                                     	*

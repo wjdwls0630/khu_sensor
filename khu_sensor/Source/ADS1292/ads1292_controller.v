@@ -14,7 +14,7 @@ module ads1292_controller (
 
 	//	ADS1292, SPI Side
 	output o_SPI_CLK,
-	input i_SPI_MISO, // SPI data form ADS - Master input Slave output (read)
+	input i_SPI_MISO, // SPI data from ADS - Master input Slave output (read)
 	output o_SPI_MOSI, // SPI data to ADS - Master Output Slave Input (write)
 	input i_ADS1292_DRDY, // Data Ready
 	output reg o_ADS1292_RESET,
