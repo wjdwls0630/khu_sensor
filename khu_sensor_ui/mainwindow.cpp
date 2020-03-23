@@ -230,6 +230,10 @@ void MainWindow::on_runPB_clicked(){
             Cmd_Str = "S"; // 0x53
             Cmd = Cmd_Str.toLocal8Bit();
             this->m_SerialPort -> write(Cmd);
+            this->m_SerialPort -> write(Cmd);
+            this->m_SerialPort -> write(Cmd);
+            this->m_SerialPort -> write(Cmd);
+            this->m_SerialPort -> write(Cmd);
             qDebug() << "Stop Sensor!";
         }
         return ;
@@ -351,6 +355,7 @@ void MainWindow::read_Serial_Port_Data(){
     QByteArray ADS_Data, MPR_Data;
     qDebug()<<"port length : "<<data_out.length();
     qDebug()<<data_out.toHex(' ');
+    /*
     if(this->m_runPB_isChecked){
         if(data_out.length() == 8){
             if(data_out.at(0) == UART_SG_ADS_DATA){
@@ -389,6 +394,7 @@ void MainWindow::read_Serial_Port_Data(){
         }
         return ;
     }
+    */
 
 
     return ;

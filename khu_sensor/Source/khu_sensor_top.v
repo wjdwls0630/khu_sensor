@@ -54,7 +54,7 @@ module khu_sensor_top(
 	*                           uart_controller			                          	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [31:0] w_uart_data_tx;
+	wire [55:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
