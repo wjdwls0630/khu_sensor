@@ -667,7 +667,6 @@ module ads1292_controller (
 						r_clk_counter <= 32'b0;
 						r_spi_data_in <= 8'b0; // send dummy for reading
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
-
 						if(r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
 						else r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
 					end else begin
