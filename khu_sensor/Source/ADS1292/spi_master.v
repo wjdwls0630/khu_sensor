@@ -30,7 +30,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-module SPI_Master
+module spi_master
   #(parameter SPI_MODE = 0,
     parameter CLKS_PER_HALF_BIT = 2)
   (
