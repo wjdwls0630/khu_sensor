@@ -29,9 +29,9 @@
 //              would create o_SPI_CLK of 25 MHz.  Must be >= 2
 //
 ///////////////////////////////////////////////////////////////////////////////
-
+// FPGA board clock is 50MHz, hence o_SPI_CLK is going to be 6.25MHz
 module spi_master
-  #(parameter SPI_MODE = 0,
+  #(parameter SPI_MODE = 1, //datasheet 10page : NOTE: SPI settings are CPOL = 0 and CPHA = 1.
     parameter CLKS_PER_HALF_BIT = 2)
   (
    // Control/Data Signals,
@@ -56,8 +56,8 @@ module spi_master
   // SPI Interface (All Runs at SPI Clock Domain)
   wire w_CPOL;     // Clock polarity
   wire w_CPHA;     // Clock phase
-
   reg [$clog2(CLKS_PER_HALF_BIT*2)-1:0] r_SPI_Clk_Count;
+  //reg [7:0] r_SPI_Clk_Count;
   reg r_SPI_Clk;
   reg [7:0] r_SPI_Clk_Edges;
   reg r_Leading_Edge;
@@ -83,7 +83,22 @@ module spi_master
 
 
   // Purpose: Generate SPI Clock correct number of times when DV pulse comes
-  always @(posedge i_Clk or negedge i_Rst_L)
+
+//	  			 __  	 __	 __                 __	  __	  _                __    __
+	// i_CLK  __/  \__/  \__/  \  . . .        /  \__/  \__/ . . .          /  \__/  \__/
+	//i_CLK_C 0 1     2     3     4            49    50    51               96    97    0
+	//
+    //r_SPI_Clk_Edges         16              |          15                            |     14
+   //                                          _________________________________________
+	//SPI_clk  X\______________________________/            1(=~CPOL)                    \_________
+	//
+	//SPI_LEADING_EDGE		0						 |1|          0                           |0
+	//
+	//SPI_TRAILING_EDGE 		0                  |0                                       |1|   0
+	//
+
+
+ always @(posedge i_Clk or negedge i_Rst_L)
   begin
     if (~i_Rst_L)
     begin
@@ -207,6 +222,7 @@ module spi_master
 
       if (o_TX_Ready) // Check if ready is high, if so reset bit count to default
       begin
+      //o_RX_DV   <= 1'b0;
         r_RX_Bit_Count <= 3'b111;
       end
       else if ((r_Leading_Edge & ~w_CPHA) | (r_Trailing_Edge & w_CPHA))
