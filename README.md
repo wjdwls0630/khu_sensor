@@ -10,7 +10,7 @@ khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292
   - [How khu_sensor works](#Operation_Manual)
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
-  - [mpr121_controller](#mpr121_controller)
+  - [mpr121_controller](#mpr121_controller.v)
 	- [ads1292_controller](#ads1292_controller)
 	  + [spi_master](#spi_master)
 
@@ -258,7 +258,8 @@ _If you want to obtain more specific information, refer to [DE2-115](./Reference
 
 ---
 ### mpr121_controller.v
-mpr121_controller is the module which control MPR121 chip operation. It offers Read and Write register operation through I2C communication.
+mpr121_controller is the module which controls MPR121 chip operation. It offers Read and Write register operation through I2C communication.
+**this module must use in tandem with i2c_master.v**
 
 #### Port Lists
 
@@ -321,7 +322,7 @@ mpr121_controller is the module which control MPR121 chip operation. It offers R
 #### Operation_Manual
 
 ##### Write Register
-* put in 8bits Register Address to i_MPR121_REG_ADDR.
+* put in 8bits Register Address you want to write to i_MPR121_REG_ADDR.
 
 * put in 8bits Register Data to i_MPR121_DATA_IN.
 
@@ -337,7 +338,7 @@ mpr121_controller is the module which control MPR121 chip operation. It offers R
 * o_MPR121_BUSY goes Low(0) after finishing writing operation.
 
 ##### Read Register
-* put in 8bits Register Address to i_MPR121_REG_ADDR.
+* put in 8bits Register Address you want to read to i_MPR121_REG_ADDR.
 
 * set i_MPR121_READ_ENABLE High(1).  
   _Caution : Do not set i_MPR121_WRITE_ENABLE and i_MPR121_READ_ENABLE High(1) at the same time._  
@@ -350,17 +351,16 @@ mpr121_controller is the module which control MPR121 chip operation. It offers R
 
 * o_MPR121_BUSY goes Low(0) after finishing reading operation.
 
-* After receiving 8bits register data from MPR121, the data is stored on o_ADS1292_DATA_OUT.
+* After receiving 8bits register data from MPR121, the data is stored on o_MPR121_DATA_OUT.
 
 
 _If you want to obtain more specific information and operation, refer to [Reference](#Reference_mpr121_controller)_
 
-
 ---
 
----
 ### ads1292_controller.v
-ads1292_controller is the module which control ADS1292 chip operation. It offers Read, Write register operation and Measuring Bio-potential through SPI communication.
+ads1292_controller is the module which controls ADS1292 chip operation. It offers Read, Write register operation and Measuring Bio-potential through SPI communication.
+**this module must use in tandem with spi_master.v**
 
 #### Port Lists
 
@@ -428,8 +428,8 @@ ads1292_controller is the module which control ADS1292 chip operation. It offers
 
 
 * o_ADS1292_RESET   
-- Power-down or ADS1292 reset
-- active Low(0)
+  - Power-down or ADS1292 reset
+  - active Low(0)
 
 
 * o_ADS1292_START  
@@ -442,42 +442,63 @@ ads1292_controller is the module which control ADS1292 chip operation. It offers
 
 #### Operation_Manual
 
+##### Write SPI Command
+* put in 8bits Command Byte you want to control to i_ADS1292_COMMAND.
+
+* set i_ADS1292_CONTROL to 3'b001.   
+
+* These operations must be performed at the same time or you should put in Command Byte before setting i_ADS1292_CONTROL to 3'b001.  
+
+* **Make sure that put in 3'b111 to i_ADS1292_CONTROL before the end of Writing Command operation.**
+
+* o_ADS1292_BUSY goes High(1) at next two clocks after setting i_ADS1292_CONTROL to 3'b010.
+
+* o_ADS1292_BUSY goes Low(0) after finishing writing command operation.
+
 ##### Write Register
-* put in 8bits Register Address to i_MPR121_REG_ADDR.
+* put in 8bits Register Address you want to write to i_ADS1292_REG_ADDR.
 
-* put in 8bits Register Data to i_MPR121_DATA_IN.
+* put in 8bits Register Data to i_ADS1292_DATA_IN.   
 
-* set i_MPR121_WRITE_ENABLE High(1).  
-  _Caution : Do not set i_MPR121_WRITE_ENABLE and i_MPR121_READ_ENABLE High(1) at the same time._  
+* set i_ADS1292_CONTROL to 3'b010.
 
-* The above three operations must be performed simultaneously or you should put in register address and data before setting i_MPR121_WRITE_ENABLE High(1).  
+* These operations must be performed at the same time or you should put in Register Address and Register Data before setting i_ADS1292_CONTROL to 3'b010.  
 
-* **Make sure that set i_MPR121_WRITE_ENABLE Low(0) before the end of Writing operation.**
+* **Make sure that put in 3'b111 to i_ADS1292_CONTROL  before the end of Writing Register operation.**
 
-* o_MPR121_BUSY goes High(1) at next clock after setting i_MPR121_WRITE_ENABLE High(1).
+* o_ADS1292_BUSY goes High(1) at next two clocks after setting i_ADS1292_CONTROL to 3'b011.
 
-* o_MPR121_BUSY goes Low(0) after finishing writing operation.
+* o_ADS1292_BUSY goes Low(0) after finishing writing register operation.
 
 ##### Read Register
-* put in 8bits Register Address to i_MPR121_REG_ADDR.
+* put in 8bits Register Address you want to read to i_ADS1292_REG_ADDR.
 
-* set i_MPR121_READ_ENABLE High(1).  
-  _Caution : Do not set i_MPR121_WRITE_ENABLE and i_MPR121_READ_ENABLE High(1) at the same time._  
+* set i_ADS1292_CONTROL to 3'b011.
 
-* The above two operations must be performed simultaneously or you should put in register address before setting i_MPR121_READ_ENABLE High(1).  
+* These operations must be performed at the same time or you should put in Register Address e before setting i_ADS1292_CONTROL to 3'b011.  
 
-* **Make sure that set i_MPR121_READ_ENABLE Low(0) before the end of Reading operation.**
+* **Make sure that put in 3'b111 to i_ADS1292_CONTROL  before the end of Reading Register operation.**
 
-* o_MPR121_BUSY goes High(1) at next clock after setting i_MPR121_READ_ENABLE High(1).
+* o_ADS1292_BUSY goes High(1) at next two clocks after setting i_ADS1292_CONTROL to 3'b011.
 
-* o_MPR121_BUSY goes Low(0) after finishing reading operation.
+* o_ADS1292_BUSY goes Low(0) after finishing writing register operation.
 
-* After receiving 8bits register data from MPR121, the data is stored on o_ADS1292_DATA_OUT.
-
+* After receiving 8bits register data from ADS1292, the data is stored on o_ADS1292_DATA_OUT[7:0].
 
 ##### Read Bio-potential Data
 
-_If you want to obtain more specific information and operation, refer to [Reference](#Reference_mpr121_controller)_
+* set i_ADS1292_CONTROL to 3'b100.
+
+* o_ADS1292_BUSY goes High(1) at next two clocks after setting i_ADS1292_CONTROL to 3'b100.
+
+* o_ADS1292_BUSY goes Low(0) after finishing Reading Bio-potential Data. (RDATAC mode only can be finished by setting SDATAC mode)
+
+* After receiving 72bits conversion data from ADS1292, o_ADS1292_DATA_READY is pulled High(1) and the data is stored on o_ADS1292_DATA_OUT.
+  _Caution : data is only worthy when o_ADS1292_DATA_OUT is High(1)_
+  
+* o_ADS1292_DATA_READY goes Low(0) when two clocks passed after being pulled up o_ADS1292_DATA_READY to High(1).
+
+_If you want to obtain more specific information and operation, refer to [Reference](#Reference_ads1292_controller)_
 
 
 ---
