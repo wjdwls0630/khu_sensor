@@ -291,7 +291,6 @@ mpr121_controller is the module which controls MPR121 chip operation. It offers 
   - start writing operation
 
 
-
 * i_MPR121_READ_ENABLE
   - start reading operation
 
@@ -522,22 +521,8 @@ Furthermore, when sensor_core is perceived a flag that data is ready to be sent,
 **you must use with all Source File(mpr121_controller.v, ads1292_controller.v, uart_controller.v ...)**
 
 #### Port Lists
-// UART Controller
-output reg [31:0] o_UART_DATA_TX, // tx data which send to PC
-output reg o_UART_DATA_TX_VALID, // tx data valid
-input i_UART_DATA_TX_READY, // tx Ready for next byte
-input [15:0] i_UART_DATA_RX, // rx data which receive from PC
-input i_UART_DATA_RX_VALID, // rx data valid pulse
 
-// MPR121
-input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
-output reg [7:0] o_MPR121_REG_ADDR,   // transmitted register address to MPR121 (write data)
-output reg [7:0] o_MPR121_DATA_IN,  // transmitted data to MPR121 (write data)
-output reg o_MPR121_WRITE_ENABLE,
-output reg o_MPR121_READ_ENABLE,
-input i_MPR121_INIT_SET,
-input i_MPR121_BUSY,
-input i_MPR121_FAIL,
+
 
 // System connection with MPR121 data
 output reg [11:0] o_MPR121_TOUCH_STATUS,
@@ -575,19 +560,51 @@ input wire i_RST
   - A flag which means that uart_controller finish TX tasks and is possible to send other byte.
 
 
-* i_UART_DATA_RX[15:8]     
-  * 8'h6D : read setted data from MPR reg address **i_UART_DATA_RX[7:0]**             
-  * 8'h61 : read setted data from ADS reg address **i_UART_DATA_RX[7:0]**                     
-  * 8'h52 : Alternately get bio_signal from MPR and ADS        
-  * 8'h53 : stop getting bio_signal from MPR and ADS      
-  * __8'h46 : ???__     
-  * __8'h66 : ???__     	
-* i_UART_DATA_RX_VALID          
-  * 1'b1: FPGA fully recieved single byte info from UART   
+* **input** [15:0] i_UART_DATA_RX  
+  - rx data which receive from PC
+
+
+* **input** i_UART_DATA_RX_VALID
+  - rx data is valid
+  - A flag which means that Rx data is fully received and can be used
+  // MPR121
+  input [7:0] i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
+  output reg [7:0] o_MPR121_REG_ADDR,   // transmitted register address to MPR121 (write data)
+  output reg [7:0] o_MPR121_DATA_IN,  // transmitted data to MPR121 (write data)
+  output reg o_MPR121_WRITE_ENABLE,
+  output reg o_MPR121_READ_ENABLE,
+  input i_MPR121_INIT_SET,
+  input i_MPR121_BUSY,
+  input i_MPR121_FAIL,
 
 ##### MPR121     
-* i_MPR121_DATA_OUT[7:0]          
-  * alternately recieve touch status from sensor **0~7** and **8~11**        
+* **input** [7:0] i_MPR121_DATA_OUT
+  - received register data from MPR121 (read data)
+  * alternately recieve touch status from sensor **0~7** and **8~11**     
+
+
+* **output** [7:0] o_MPR121_REG_ADDR
+  - transmitted register address of MPR121 to write or read (write or read data)
+
+
+* **output** [7:0] o_MPR121_DATA_IN[7:0] : data to write on specific MPR address
+  - transmitted register data to MPR121 (write data)
+
+
+* **output** o_MPR121_WRITE_ENABLE  
+    - start/enable writing operation           
+
+
+* **output** o_MPR121_READ_ENABLE      
+    - start/enable reading operation       
+
+
+##### System connection with MPR121 data      
+  * o_MPR121_TOUCH_STATUS        
+    * o_MPR121_TOUCH_STATUS[11:8] : touch sensor 8~11 status       
+    * o_MPR121_TOUCH_STATUS[7:0] : touch sensor 0~7 status       
+  * o_MPR121_ERROR       
+    * 1'b1: LEDR[16] light on    
 * i_MPR121_INIT_SET      
   * 1'b1 : initiation code successfully passed to MPR      
 * i_MPR121_BUSY       
@@ -619,19 +636,7 @@ input wire i_RST
 ##### UART Controller        
 
 ##### MPR121     
-* o_MPR121_REG_ADDR[7:0] : specific register address of MPR to write or read      
-* o_MPR121_DATA_IN[7:0] : data to write on specific MPR address    
-* o_MPR121_WRITE_ENABLE      
-  * 1'b1 : order MPR to be on write state           
-* o_MPR121_READ_ENABLE      
-  * 1'b1 : order MPR to be on data recieve state       
 
-##### System connection with MPR121 data      
-* o_MPR121_TOUCH_STATUS        
-  * o_MPR121_TOUCH_STATUS[11:8] : touch sensor 8~11 status       
-  * o_MPR121_TOUCH_STATUS[7:0] : touch sensor 0~7 status       
-* o_MPR121_ERROR       
-  * 1'b1: LEDR[16] light on         
 
 ##### ADS1292      
 * o_ADS1292_CONTROL [2:0]             
@@ -1261,3 +1266,17 @@ end
 
 11. When 72 bits are all filled, export output **o_ADS1292_DATA_OUT[71:0], o_ADS1292_RDATAC_READY** to sensor_core    
    * **o_ADS1292_RDATAC_READY** : goes high(1) when 72bit data are all received
+
+
+### Reference_sensor_core
+
+* 8'hBB :  send MPR sensor data        
+* 8'hAA : send ADS sensor data       
+* 8'h6D : send MPR register data      
+* 8'h61 : send ADS register data
+* 8'h6D : read setted data from MPR reg address **i_UART_DATA_RX[7:0]**             
+* 8'h61 : read setted data from ADS reg address **i_UART_DATA_RX[7:0]**                     
+* 8'h52 : Alternately get bio_signal from MPR and ADS        
+* 8'h53 : stop getting bio_signal from MPR and ADS      
+* __8'h46 : ???__     
+* __8'h66 : ???__   
