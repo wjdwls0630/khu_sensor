@@ -1,3 +1,10 @@
+///////////////////////////////////////////////////////////////////////////////
+// Module Name : ads1292_controller
+//
+// Description: ads1292_controller is the module which controls ADS1292 chip operation.
+//It offers Read, Write register operation and Measuring Bio-potential through SPI communication.
+//this module must use in tandem with spi_master.v
+///////////////////////////////////////////////////////////////////////////////
 module ads1292_controller (
 	input i_CLK, // clock
 	input i_RSTN, //reset
@@ -184,13 +191,13 @@ module ads1292_controller (
 
 	/*
 	ADS1292 Control Cases: (User defined) (exclude other mode in data sheet)
-														i_ADS1292_CONTROL
+	                          i_ADS1292_CONTROL
 	0. IDLE :											3'b000
 	1. System control:						3'b001 (use i_ADS1292_COMMAND, do not use i_ADS1292_REG_ADDR)
 	2. Write Register:						3'b010 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
 	3. Read Register:							3'b011 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
-	4. Read Data Continue:				3'b100 (only works by control bits)
-	5. Stop Read Data Continue : 	3'b101 (only works if controller is rdatac_mode, and works by control bits)
+	4. Read Data Continue:				3'b100 (only worked by control bits)
+	5. Stop Read Data Continue : 	3'b101 (only worked if controller is rdatac_mode, and worked by control bits)
 	7. Dummy:       							3'b111 do nothing
 	*/
 

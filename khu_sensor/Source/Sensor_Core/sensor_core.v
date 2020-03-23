@@ -1,10 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Module Name : sensor_core
 //
-// Description: sensor_core is module for controlling mpr121 and ads1292,
-// 							In addition, process data from TX and RX
-//
-//
+// Description: sensor core is the pivot module on this project. It controls mpr121_controller, ads1292_controller, uart_controller comprehensively.
+//It process Command which received from UART_RX of uart_controller, and make that mpr121_controller and ads1292_controller operates specific task.
+//Furthermore, when sensor_core is perceived a flag that data is ready to be sent, It impose uart_controller to transmit data which is from mpr121_controller and ads1292_controller to PC.
+//this module cannot use independent
+//you must use with all Source File(mpr121_controller.v, ads1292_controller.v, uart_controller.v ...)
 ///////////////////////////////////////////////////////////////////////////////
 module sensor_core(
 	// UART Controller
