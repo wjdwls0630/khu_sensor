@@ -680,26 +680,14 @@ module ads1292_controller (
 				begin
 					/*
 					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
-					one drdy pulse time is t_MOD
+					one drdy pulse time is t_MOD = 16 *t_clk
 					*/
 					if(r_clk_counter > 32'd391) begin // 391
 						r_clk_counter <= 32'b0;
 						r_spi_data_in <= 8'b0; // send dummy for reading
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
-						r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
-					/*
-						if(i_ADS1292_RDATAC_READ_START) begin
-							r_clk_counter <= 32'b0;
-							r_spi_data_in <= 8'b0; // send dummy for reading
-							r_spi_data_in_valid <= 1'b1; // active sclk for reading
-							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
-						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
-						*/
-=======
-
 						if(r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
 						else r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
->>>>>>> master
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
