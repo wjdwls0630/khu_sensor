@@ -92,12 +92,12 @@ module spi_master
    //                                          _________________________________________
 	//SPI_clk  X\______________________________/            1(=~CPOL)                    \_________
 	//
-	//SPI_LEADING_EDGE		0						 |1|          0                           |0	
+	//SPI_LEADING_EDGE		0						 |1|          0                           |0
 	//
 	//SPI_TRAILING_EDGE 		0                  |0                                       |1|   0
 	//
-	
-	 
+
+
  always @(posedge i_Clk or negedge i_Rst_L)
   begin
     if (~i_Rst_L)

@@ -1,3 +1,11 @@
+///////////////////////////////////////////////////////////////////////////////
+// Module Name : ads1292_controller
+//
+// Description: ads1292_controller is the module which controls ADS1292 chip operation.
+//It offers Read, Write register operation and Measuring Bio-potential through SPI communication.
+//this module must use in tandem with spi_master.v
+///////////////////////////////////////////////////////////////////////////////
+// TODO filter connection 
 module ads1292_controller (
 	input i_CLK, // clock
 	input i_RSTN, //reset

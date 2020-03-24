@@ -7,6 +7,7 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
+//TODO filter wire connection, delete unused state, wire and reg
 module uart_controller (
   // TX
   input [55:0] i_UART_DATA_TX,

@@ -6,6 +6,9 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
+//TODO fix filter connection, uart wire ,  modify header, tail parameter name
+// delete unused wire and reg, mpr121 Transimit Hertz 250Hz?
+// keep LED status changing hertz, let sensor core extract mpr data and give it to uart controller when ads data is ready
 module sensor_core(
 	// UART Controller
 	output reg [55:0] o_UART_DATA_TX, // tx data which send to PC
