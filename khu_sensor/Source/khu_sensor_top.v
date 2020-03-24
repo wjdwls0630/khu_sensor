@@ -1,11 +1,4 @@
 /** Top module **/
-///////////////////////////////////////////////////////////////////////////////
-// Module Name : khu_sensor_top
-//
-// Description: khu_sensor_top is the top module of khu_sensor.
-//              The module assigns pins of fpga to wire and register.
-//              These pins are used to communicate with ADS1292(SPI), MPR121(I2C), PC(UART).
-///////////////////////////////////////////////////////////////////////////////
 module khu_sensor_top(
 	// System I/O
 	input wire CLOCK_50M,
@@ -61,7 +54,7 @@ module khu_sensor_top(
 	*                           uart_controller			                          	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [31:0] w_uart_data_tx;
+	wire [55:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
@@ -199,6 +192,7 @@ module khu_sensor_top(
 	wire w_ads1292_data_ready;
 	wire w_ads1292_init_set;
 	wire w_ads1292_busy;
+	wire w_ads1292_fail;
 
 	assign GPIO[1] = ADS1292_DRDY;
 	ads1292_controller ads1292_controller(

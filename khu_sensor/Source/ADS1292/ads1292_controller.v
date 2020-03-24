@@ -21,7 +21,7 @@ module ads1292_controller (
 
 	//	ADS1292, SPI Side
 	output o_SPI_CLK,
-	input i_SPI_MISO, // SPI data from ADS - Master input Slave output (read)
+	input i_SPI_MISO, // SPI data form ADS - Master input Slave output (read)
 	output o_SPI_MOSI, // SPI data to ADS - Master Output Slave Input (write)
 	input i_ADS1292_DRDY, // Data Ready
 	output reg o_ADS1292_RESET,
@@ -82,10 +82,12 @@ module ads1292_controller (
 	Try to be as similar as possible to I2C_SCL = 400kHz
 
 	3) 50MHz i_Clk, CLKS_PER_HALF_BIT = 25 would create o_SPI_CLK of 1 MHz.
+	4) 50MHz i_Clk, CLKS_PER_HALF_BIT = 7 would create o_SPI_CLK of 3.57143 MHz.
+
 	*/
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(25))
+	 						 .CLKS_PER_HALF_BIT(7))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
@@ -191,13 +193,13 @@ module ads1292_controller (
 
 	/*
 	ADS1292 Control Cases: (User defined) (exclude other mode in data sheet)
-	                          i_ADS1292_CONTROL
+														i_ADS1292_CONTROL
 	0. IDLE :											3'b000
 	1. System control:						3'b001 (use i_ADS1292_COMMAND, do not use i_ADS1292_REG_ADDR)
 	2. Write Register:						3'b010 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
 	3. Read Register:							3'b011 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
-	4. Read Data Continue:				3'b100 (only worked by control bits)
-	5. Stop Read Data Continue : 	3'b101 (only worked if controller is rdatac_mode, and worked by control bits)
+	4. Read Data Continue:				3'b100 (only works by control bits)
+	5. Stop Read Data Continue : 	3'b101 (only works if controller is rdatac_mode, and works by control bits)
 	7. Dummy:       							3'b111 do nothing
 	*/
 
@@ -259,7 +261,7 @@ module ads1292_controller (
 	reg [3:0] r_drdy_edge_counter; // drdy posedge counter
 	//============================================================================
 
-	//===========================posedge detector=================================
+	//===========================negedge detector=================================
 	reg r_ldrdy; // last drdy
 	wire w_drdy_negedge_detect; // if detect posedge of drdy, then value go up to the high(1)
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
@@ -630,12 +632,12 @@ module ads1292_controller (
 				 	Reference - ADS1292 - ADS1292.pdf p.31 Settling time
 				 	The settling time (t_SETTLE ) is the time it takes for the converter to output fully settled data when the START signal is pulled high.
 				 	The settling time depends on f CLK and the decimation ratio (controlled by the DR[2:0] bits in the CONFIG1(0x01) register). Refer to Table 10 for the settling time as a function of t_MOD.
-				 	In our case, DR[2:0] == 3'b010, we need to wait 1028 t_MOD
+				 	In our case, DR[2:0] == 3'b001, we need to wait 2052 t_MOD
 					Settling time number uncertainty is one t MOD cycle. Therefore, it is recommended to add one t MOD cycle delay before issuing SCLK to retrieve data
-					Thus, we will wait 1030 t_MOD
-					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
+					Thus, we will wait 2054 t_MOD
+					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/16 (f_CLK = 2.048MkHz)
 					*/
-					if(r_clk_counter > 32'd801563) begin //402318
+					if(r_clk_counter > 32'd802344) begin //2054 settling 16*tclk
 						r_clk_counter <= 32'b0;
 						r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
 					end else begin
@@ -760,9 +762,10 @@ module ads1292_controller (
 
 				ST_SPI_CLK_WAIT:
 				begin
-					// After the serial communication is finished, always wait 4*t_CLK(512kHz) == t_MOD or more cycles before taking CSN high
+					// TODO 4*t_clk or 16*t_clk in 2.048MHz
+					// After the serial communication is finished, always wait 16*t_CLK(2.048MHz) or more cycles before taking CSN high
 					if (r_clk_counter > 32'd391) begin
-						// wait 4 t_CLK
+						// wait 16 t_CLK
 						r_clk_counter <= 32'b0;  // reset counter for ST_CLK_WAIT
 						o_ADS1292_BUSY <= 1'b0;
 						o_SPI_CSN <= 1'b1;
