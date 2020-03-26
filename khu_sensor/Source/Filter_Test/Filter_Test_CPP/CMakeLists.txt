@@ -19,23 +19,18 @@ set(PROJECT_VERSION_MINOR 1)
 
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_CXX_FLAGS "-g -o -Wall -std=c++11 ")
-set(CMAKE_EXE_LINKER_FLAGS "-Wl")
+set(CMAKE_EXE_LINKER_FLAGS "-W")
 
 set(SOURCE_FILES
         main.cpp
-        iir_lpf/iir_lpf.cpp iir_lpf/iir_lpf.hpp
-        iir_notch/iir_notch.cpp iir_notch/iir_notch.hpp
-        iir_hpf/iir_hpf.cpp iir_hpf/iir_hpf.hpp
-        signal_generator/signal_generator.cpp signal_generator/signal_generator.hpp
-        signal_generator/Data_Structure/AVLTree.hpp
-        signal_generator/Data_Structure/BinaryIterator.hpp
-        signal_generator/Data_Structure/BinaryNodeType.hpp
-        signal_generator/Data_Structure/BinarySearchTree.hpp
-        signal_generator/Data_Structure/BinaryTree.hpp
-        signal_generator/Data_Structure/Comparer
-        signal_generator/Data_Structure/DoublyIterator.hpp
-        signal_generator/Data_Structure/DoublyNodeType.hpp
-        signal_generator/Data_Structure/DoublySortedLinkedList.hpp
+        IIR/IIR_LPF/iir_lpf.cpp IIR/IIR_LPF/iir_lpf.hpp
+        IIR/IIR_Notch/iir_notch.cpp IIR/IIR_Notch/iir_notch.hpp
+        IIR/IIR_HPF/iir_hpf.cpp IIR/IIR_HPF/iir_hpf.hpp
+        Signal_Generator/signal_generator.cpp Signal_Generator/signal_generator.hpp
+        Data_Structure/Comparer
+        Data_Structure/DoublyIterator.hpp
+        Data_Structure/DoublyNodeType.hpp
+        Data_Structure/DoublySortedLinkedList.hpp
         )
 
 set(CMKAE_VERBOSE_MAKEFILE ON)

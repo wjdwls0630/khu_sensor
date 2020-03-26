@@ -4,13 +4,11 @@
 
 #include <fstream>
 
-#include "iir_lpf/iir_lpf.hpp"
-#include "iir_notch/iir_notch.hpp"
-#include "iir_hpf/iir_hpf.hpp"
-#include "signal_generator/signal_generator.hpp"
-#include "signal_generator/Data_Structure/AVLTree.hpp"
-#include "signal_generator/Data_Structure/DoublySortedLinkedList.hpp"
-
+#include "Data_Structure/DoublySortedLinkedList.hpp"
+#include "Signal_Generator/signal_generator.hpp"
+#include "IIR/IIR_LPF/iir_lpf.hpp"
+#include "IIR/IIR_Notch/iir_notch.hpp"
+#include "IIR/IIR_HPF/iir_hpf.hpp"
 
 int main()
 {
@@ -19,34 +17,50 @@ int main()
     iir_hpf hpf;
 
     // write coefficient
-    std::ofstream out("../../Data/IIR/Coefficient/IIR_LPF_Coefficient.txt", std::ios::out);
-
+    std::ofstream out("../Data/IIR/IIR_LPF/IIR_LPF_Coefficient.txt", std::ios::out);
     if (!out) {
-        std::cerr << "Cannot open \"../../Data/IIR/Coefficient/IIR_LPF_Coefficient.txt\" file" << '\n';
+        std::cerr << "Cannot open \"../Data/IIR/IIR_LPF/IIR_LPF_Coefficient\" file" << '\n';
         return -1;
+    } else{
+        out << lpf;
+        out.close();
     }
 
-    out << lpf;
-    out.close();
+    out.open("../Data/IIR/IIR_Notch/IIR_Notch_Coefficient.txt", std::ios::out);
+    if (!out) {
+        std::cerr << "Cannot open \"../Data/IIR/IIR_Notch/IIR_Notch_Coefficient.txt\" file" << '\n';
+        return -1;
+    } else{
+        out << notch;
+        out.close();
+    }
 
-    // test each pass filter
+    out.open("../Data/IIR/IIR_HPF/IIR_HPF_Coefficient.txt", std::ios::out);
+    if (!out) {
+        std::cerr << "Cannot open \"../Data/IIR/IIR_HPF/IIR_HPF_Coefficient.txt\" file" << '\n';
+        return -1;
+    } else{
+        out << hpf;
+        out.close();
+    }
+
+    // Test each pass filter
 
     // make signal
     // decide frequency
-    AVLTree<int>* frequency = nullptr;
-    frequency = new AVLTree<int>;
-
-    for (int i = 1; i <= 66; i++) {
+    DSLinkedList<int>* frequency = nullptr;
+    frequency = new DSLinkedList<int>;
+    for (int i = 0; i <= 66 ; i++) {
         frequency->Add(i);
     }
 
     signal_generator sg(frequency, 0);
 
-    sg.make_Signal("../../Data/IIR/Signal/Signal_CPP_1.txt");
+    sg.make_Signal("../Data/Signal/Signal_1.txt");
 
-    lpf.pass_LPF(*sg.transmit(), "../../Data/IIR/LPF/IIR_LPF_Passed_Signal_CPP_1.txt");
-    notch.pass_Notch(*sg.transmit(), "../../Data/IIR/BSF/IIR_BSF_Passed_Signal_CPP_1.txt");
-    hpf.pass_HPF(*sg.transmit(), "../../Data/IIR/HPF/IIR_HPF_Passed_Signal_CPP_1.txt");
+    lpf.pass_LPF(*sg.transmit(), "../Data/IIR/IIR_LPF/LPF_Passed_Signal_1.txt");
+    notch.pass_Notch(*sg.transmit(), "../Data/IIR/IIR_Notch/Notch_Passed_Signal_1.txt");
+    hpf.pass_HPF(*sg.transmit(), "../Data/IIR/IIR_HPF/HPF_Passed_Signal_1.txt");
 
 
     /*
@@ -54,6 +68,7 @@ int main()
     * –3-dB BANDWIDTH (Hz) 65.5 Hz
     */
     // initialize frequency
+
     frequency->MakeEmpty();
     frequency->Add(64);
     frequency->Add(63);
@@ -72,12 +87,12 @@ int main()
      */
     sg.reset(frequency, 116);
 
-    sg.make_Signal("../../Data/IIR/Signal/Signal_CPP_2.txt");
+    sg.make_Signal("../Data/Signal/Signal_2.txt");
 
-    lpf.pass_LPF(*sg.transmit(), "../../Data/IIR/LPF/IIR_LPF_Passed_Signal_CPP_2.txt");
-    notch.pass_Notch(*lpf.transmit(), "../../Data/IIR/BSF/IIR_BSF_Passed_Signal_CPP_2.txt");
-    hpf.pass_HPF(*notch.transmit(), "../../Data/IIR/HPF/IIR_HPF_Passed_Signal_CPP_2.txt");
-    hpf.pass_HPF(*notch.transmit(), "../../Data/IIR/Filter_Passed_Signal_CPP.txt");
+    lpf.pass_LPF(*sg.transmit(), "../Data/IIR/IIR_LPF/LPF_Passed_Signal_2.txt");
+    notch.pass_Notch(*lpf.transmit(), "../Data/IIR/IIR_Notch/Notch_Passed_Signal_2.txt");
+    hpf.pass_HPF(*notch.transmit(), "../Data/IIR/IIR_HPF/HPF_Passed_Signal_2.txt");
+    hpf.pass_HPF(*notch.transmit(), "../Data/IIR/All_Filters_Passed_Signal.txt");
 
 
 
