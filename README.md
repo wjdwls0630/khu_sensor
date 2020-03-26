@@ -14,10 +14,9 @@ khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
   - [mpr121_controller](#mpr121_controller.v)
+    + [i2c_master](#i2c_master)
 	- [ads1292_controller](#ads1292_controller)
 	  + [spi_master](#spi_master)
-
-	  + [i2c_master](#i2c_master)
 	- [sensor_core](#sensor_core)
 	- [uart_controller](#uart_controller)
 	  + [uart_rx](#uart_rx)
@@ -525,8 +524,7 @@ Furthermore, when sensor_core is perceived a flag that data is ready to be sent,
 
 
 // System connection with MPR121 data
-output reg [11:0] o_MPR121_TOUCH_STATUS,
-output reg o_MPR121_ERROR,
+
 
 // ADS1292
 input [71:0] i_ADS1292_DATA_OUT, // read data from ADS1292
@@ -576,6 +574,8 @@ input wire i_RST
   input i_MPR121_INIT_SET,
   input i_MPR121_BUSY,
   input i_MPR121_FAIL,
+  output reg [11:0] o_MPR121_TOUCH_STATUS,
+  output reg o_MPR121_ERROR,
 
 ##### MPR121     
 * **input** [7:0] i_MPR121_DATA_OUT
@@ -597,20 +597,38 @@ input wire i_RST
 
 * **output** o_MPR121_READ_ENABLE      
     - start/enable reading operation       
+    * o_MPR121_INIT_SET
 
 
-##### System connection with MPR121 data      
-  * o_MPR121_TOUCH_STATUS        
-    * o_MPR121_TOUCH_STATUS[11:8] : touch sensor 8~11 status       
-    * o_MPR121_TOUCH_STATUS[7:0] : touch sensor 0~7 status       
-  * o_MPR121_ERROR       
-    * 1'b1: LEDR[16] light on    
-* i_MPR121_INIT_SET      
-  * 1'b1 : initiation code successfully passed to MPR      
-* i_MPR121_BUSY       
-  * 1'b1 : MPR either on WRITE or READ state       
-* i_MPR121_FAIL     
-  * 1'b1 : unexpected error occured during process         
+
+    * o_MPR121_BUSY
+      - busy flag that mpr121_controller is either on writing or reading operation
+
+
+    * o_MPR121_FAIL
+      - flag that unexpected error is occurred during process         
+
+
+* **input** i_MPR121_INIT_SET
+  - A flag that indicates MPR121 initial setting is done
+
+
+* **input** i_MPR121_BUSY
+  - A flag that indicates MPR121 is writing or reading
+
+
+* **input** i_MPR121_FAIL     
+    - A flag that indicates MPR121 error is occurred during writing or reading
+
+
+* **output** o_MPR121_TOUCH_STATUS
+  - o_MPR121_TOUCH_STATUS[11:8] : MPR121 ELE11 ~ 8 status       
+  - o_MPR121_TOUCH_STATUS[7:0] : MPR121 ELE7 ~ 0 status
+  - It is connected with LEDR[11:0] and the lights on same index with ELE node when it is touched.  
+
+* **output** o_MPR121_ERROR
+  - It is connected with LEDR[16] and its light on when i_MPR121_FAIL is pulled high.
+
 
 ##### ADS1292      
 * i_ADS1292_DATA_OUT       
