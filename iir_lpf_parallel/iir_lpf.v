@@ -152,7 +152,7 @@ module iir_lpf(
 
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
 		if (!i_RSTN) r_y_data <= 96'b0;
-		else if(o_Y_DATA_VALID) r_y_data <= {r_y_data[63:0], o_Y_DATA}; // shift when x_Data valid is on
+		else if(o_Y_DATA_VALID & i_Y_ACK) r_y_data <= {r_y_data[63:0], o_Y_DATA}; // o_Y_DATA_VALID is high for not just 1 cycle
 		else r_y_data <= r_y_data;
 	end
   //============================================================================
@@ -265,8 +265,8 @@ module iir_lpf(
 				begin
 					r_pstate<=ST_WAIT_Z;
 					
-					r_add_AB_STB_1<=1'b0;
-					r_mult_AB_STB<=1'b0;
+					//r_add_AB_STB_1<=1'b0;
+					//r_mult_AB_STB<=1'b0;
 								
 					case(cnt)
 						4'b000:begin
@@ -276,6 +276,8 @@ module iir_lpf(
 								r_add_B_1<=w_mult_Z_2;
 								r_add_Z_ACK_1<=1'b1;
 								r_mult_Z_ACK<=1'b1;
+								r_add_AB_STB_1<=1'b0;
+								r_mult_AB_STB<=1'b0;
 								cnt<=cnt+4'b0001;
 								r_pstate<=ST_INIT;
 							end
@@ -287,6 +289,8 @@ module iir_lpf(
 								r_add_B_1<=w_add_Z_1;
 								r_mult_Z_ACK<=1'b1;
 								r_add_Z_ACK_1<=1'b1;
+								r_add_AB_STB_1<=1'b0;
+								r_mult_AB_STB<=1'b0;
 								cnt<=cnt+4'b0001;
 								r_pstate<=ST_INIT;
 							end
@@ -296,6 +300,8 @@ module iir_lpf(
 								r_add_A_1<=o_Y_DATA;
 								r_add_B_1<=w_add_Z_1;
 								r_add_Z_ACK_1<=1'b1;
+								r_add_AB_STB_1<=1'b0;
+								r_mult_AB_STB<=1'b0;
 								cnt<=cnt+4'b0001;
 								r_pstate<=ST_INIT;
 							end
@@ -304,6 +310,8 @@ module iir_lpf(
 							if(w_add_Z_STB_1)begin
 								o_Y_DATA<=w_add_Z_1;
 								r_add_Z_ACK_1<=1'b1;
+								r_add_AB_STB_1<=1'b0;
+								r_mult_AB_STB<=1'b0;
 								cnt<=4'b000;
 								r_pstate<=ST_FINISH;
 							end
