@@ -1,3 +1,11 @@
+///////////////////////////////////////////////////////////////////////////////
+// Module Name : ads1292_controller
+//
+// Description: ads1292_controller is the module which controls ADS1292 chip operation.
+//It offers Read, Write register operation and Measuring Bio-potential through SPI communication.
+//this module must use in tandem with spi_master.v
+///////////////////////////////////////////////////////////////////////////////
+// TODO filter connection
 module ads1292_controller (
 	input i_CLK, // clock
 	input i_RSTN, //reset
@@ -75,10 +83,12 @@ module ads1292_controller (
 	Try to be as similar as possible to I2C_SCL = 400kHz
 
 	3) 50MHz i_Clk, CLKS_PER_HALF_BIT = 25 would create o_SPI_CLK of 1 MHz.
+	4) 50MHz i_Clk, CLKS_PER_HALF_BIT = 7 would create o_SPI_CLK of 3.57143 MHz.
+
 	*/
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master #(.SPI_MODE(1),
-	 						 .CLKS_PER_HALF_BIT(25))
+	 						 .CLKS_PER_HALF_BIT(7))
 	spi_master( // following default setting of spi
 		// Control/Data Signals,
 		.i_Rst_L(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
@@ -252,7 +262,7 @@ module ads1292_controller (
 	reg [3:0] r_drdy_edge_counter; // drdy posedge counter
 	//============================================================================
 
-	//===========================posedge detector=================================
+	//===========================negedge detector=================================
 	reg r_ldrdy; // last drdy
 	wire w_drdy_negedge_detect; // if detect posedge of drdy, then value go up to the high(1)
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
@@ -512,13 +522,6 @@ module ads1292_controller (
 					r_pstate <= ST_WREG_SEND_REG_NUM;
 				end
 
-				ST_WREG_SEND_REG_ADDR_WAIT:
-				begin
-					// wait o_TX_Ready to be Low
-					r_spi_data_in_valid <= 1'b0;
-					r_pstate <= ST_WREG_SEND_REG_NUM;
-				end
-
 				ST_WREG_SEND_REG_NUM:
 				begin
 					if(!w_spi_data_in_ready) r_pstate <= ST_WREG_SEND_REG_NUM;
@@ -527,13 +530,6 @@ module ads1292_controller (
 						r_spi_data_in_valid <= 1'b1;
 						r_pstate <= ST_WREG_SEND_REG_NUM_WAIT;
 					end
-				end
-
-				ST_WREG_SEND_REG_NUM_WAIT:
-				begin
-					// wait o_TX_Ready to be Low
-					r_spi_data_in_valid <= 1'b0;
-					r_pstate <= ST_WREG_SEND_DATA;
 				end
 
 				ST_WREG_SEND_REG_NUM_WAIT:
@@ -573,13 +569,6 @@ module ads1292_controller (
 						r_spi_data_in_valid <= 1'b1; // active sclk
 						r_pstate <= ST_RREG_SEND_REG_ADDR_WAIT;
 					end
-				end
-
-				ST_RREG_SEND_REG_ADDR_WAIT:
-				begin
-					// wait o_TX_Ready to be Low
-					r_spi_data_in_valid <= 1'b0; // for stopping sclk when 8 bits is all sent
-					r_pstate <= ST_RREG_SEND_REG_NUM;
 				end
 
 				ST_RREG_SEND_REG_ADDR_WAIT:
@@ -644,12 +633,12 @@ module ads1292_controller (
 				 	Reference - ADS1292 - ADS1292.pdf p.31 Settling time
 				 	The settling time (t_SETTLE ) is the time it takes for the converter to output fully settled data when the START signal is pulled high.
 				 	The settling time depends on f CLK and the decimation ratio (controlled by the DR[2:0] bits in the CONFIG1(0x01) register). Refer to Table 10 for the settling time as a function of t_MOD.
-				 	In our case, DR[2:0] == 3'b010, we need to wait 1028 t_MOD
+				 	In our case, DR[2:0] == 3'b001, we need to wait 2052 t_MOD
 					Settling time number uncertainty is one t MOD cycle. Therefore, it is recommended to add one t MOD cycle delay before issuing SCLK to retrieve data
-					Thus, we will wait 1030 t_MOD
-					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/4 (default, f_CLK = 512kHz)
+					Thus, we will wait 2054 t_MOD
+					(we set the LOFF_STAT(0x08)'s BIT 6 to 0, f_MOD = f_CLK/16 (f_CLK = 2.048MkHz)
 					*/
-					if(r_clk_counter > 32'd801563) begin //402318
+					if(r_clk_counter > 32'd802344) begin //2054 settling 16*tclk
 						r_clk_counter <= 32'b0;
 						r_pstate <= ST_RDATAC_WAIT_SETTLED_DATA;
 					end else begin
@@ -680,26 +669,14 @@ module ads1292_controller (
 				begin
 					/*
 					Reference - ADS1292 - ADS1292.pdf p.31 Settling time
-					one drdy pulse time is t_MOD
+					one drdy pulse time is t_MOD = 16 *t_clk
 					*/
 					if(r_clk_counter > 32'd391) begin // 391
 						r_clk_counter <= 32'b0;
 						r_spi_data_in <= 8'b0; // send dummy for reading
 						r_spi_data_in_valid <= 1'b1; // active sclk for reading
-						r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
-					/*
-						if(i_ADS1292_RDATAC_READ_START) begin
-							r_clk_counter <= 32'b0;
-							r_spi_data_in <= 8'b0; // send dummy for reading
-							r_spi_data_in_valid <= 1'b1; // active sclk for reading
-							r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
-						end else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
-						*/
-=======
-
 						if(r_sdatac_mode) r_pstate <= ST_SDATAC_INIT;
 						else r_pstate <= ST_RDATAC_GET_DATA; // wait until read start High(1)
->>>>>>> master
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
 						r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
@@ -786,9 +763,10 @@ module ads1292_controller (
 
 				ST_SPI_CLK_WAIT:
 				begin
-					// After the serial communication is finished, always wait 4*t_CLK(512kHz) == t_MOD or more cycles before taking CSN high
+					// TODO 4*t_clk or 16*t_clk in 2.048MHz
+					// After the serial communication is finished, always wait 16*t_CLK(2.048MHz) or more cycles before taking CSN high
 					if (r_clk_counter > 32'd391) begin
-						// wait 4 t_CLK
+						// wait 16 t_CLK
 						r_clk_counter <= 32'b0;  // reset counter for ST_CLK_WAIT
 						o_ADS1292_BUSY <= 1'b0;
 						o_SPI_CSN <= 1'b1;
