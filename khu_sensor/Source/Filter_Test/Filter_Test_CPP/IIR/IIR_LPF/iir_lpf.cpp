@@ -36,6 +36,7 @@ iir_lpf::~iir_lpf(){
 
 int iir_lpf::pass_LPF(DSLinkedList<float>& t_Signal, const std::string &t_FileName){
     this->m_OutFile.open(t_FileName, std::ios::out);
+
     if(!this->m_OutFile.is_open()){
         std::cerr<<"Can't open the file !"<<'\t'<<t_FileName<<'\n';
         return -1;
@@ -47,12 +48,20 @@ int iir_lpf::pass_LPF(DSLinkedList<float>& t_Signal, const std::string &t_FileNa
         this->m_OutFile << "Data : "<<'\n'; // Data Part Header
 
         float value = 0;
+        unsigned int code;
         DoublyIterator<float> s_iter(t_Signal);
         this->m_Signal->MakeEmpty(); // initiailize
         while (!s_iter.NextIsTail()){
             value = this->LPF_Process(s_iter.Next());
             this->m_Signal->Add(value);
-            this->m_OutFile<<value<<'\n';
+            // get the IEEE-754 form of code
+            code = *(int*)&value;
+            if(value == 0.0){
+                this->m_OutFile << value <<' '<<"0x00000000"<<'\n';
+            } else{
+                this->m_OutFile << value <<' '<<"0x"<< std::setfill ('0') << std::setw(3)<<std::hex<<code<<'\n';
+            }
+            this->m_OutFile.unsetf(std::ios::hex);
         }
 
     }

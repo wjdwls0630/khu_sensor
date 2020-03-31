@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cmath>
 #include <random>
 #include "../Data_Structure/DoublySortedLinkedList.hpp"

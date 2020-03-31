@@ -28,13 +28,15 @@ if __name__ == "__main__":
         line = dataFile.readline()  # Data :  Header
 
         value = numpy.array([], dtype=float)
+        value_hex = numpy.array([])
         while True:
             line = dataFile.readline()  # read one line
-
+            temp = line.split(" ")
             if not line:
                 break
 
-            value = numpy.append(value, float(line))  # save data
+            value = numpy.append(value, float(temp[0]))  # save data
+            value_hex = numpy.append(value_hex, temp[1])  # save hex data
 
     n = numpy.arange(0, sampling_count, 1)
 
@@ -60,7 +62,7 @@ if __name__ == "__main__":
     fig1 = pyplot.figure(figsize=(8.27, 11.69), dpi=100)
     fig1.subplots_adjust(hspace=0.7, wspace=0.2)
     ax = fig1.add_subplot(2, 1, 1)
-    ax.text(0.6, 1.0, spec, horizontalalignment='left', verticalalignment='top', transform=fig1.transFigure)
+    # ax.text(0.6, 1.0, spec, horizontalalignment='left', verticalalignment='top', transform=fig1.transFigure)
     fig1.suptitle("IIR_HPF_Passed_Signal_1")
 
     # Time Domain

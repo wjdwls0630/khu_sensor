@@ -58,6 +58,7 @@ signal_generator::~signal_generator() {
 int signal_generator::make_Signal(const std::string &t_FileName){
     this->m_OutFile.open(t_FileName, std::ios::out);
     DoublyIterator<int> f_iter(*this->m_Frequency);
+
     // write Signal graph
     if(!this->m_OutFile.is_open()){
         std::cerr<<"Can't open the file !"<<'\t'<<t_FileName<<'\n';
@@ -80,6 +81,8 @@ int signal_generator::make_Signal(const std::string &t_FileName){
         this->m_OutFile << "Data : "<<'\n'; // Data Part Header
         float t = 0.0; // Start Time
         float temp = 0.0; // signal value
+        unsigned int code; // for float hex code
+        std::stringstream stream;
 
         // add_noise
         // AWGN(Additive White Gaussian Noise)
@@ -96,7 +99,17 @@ int signal_generator::make_Signal(const std::string &t_FileName){
             }
 
             this->m_Signal->Add(temp);
-            this->m_OutFile << temp <<'\n';
+
+            // get the IEEE-754 form of code
+
+            code = *(int*)&temp;
+            if(temp == 0.0){
+                this->m_OutFile << temp <<' '<<"0x00000000"<<'\n';
+            } else{
+                this->m_OutFile << temp <<' '<<"0x"<< std::setfill ('0') << std::setw(3)<<std::hex<<code<<'\n';
+            }
+            this->m_OutFile.unsetf(std::ios::hex);
+
             f_iter.ResetToHead(); // initialize iterator
             temp = 0.0; // initialize value
         }
@@ -149,6 +162,7 @@ int signal_generator::reset(DSLinkedList<int> *t_Frequency, float t_SNR) {
             this->m_Noise_stdev = 0;
         }
     }
+    return 1;
 }
 
 DSLinkedList<int> *signal_generator::getFrequency() const {

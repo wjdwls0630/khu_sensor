@@ -27,12 +27,20 @@ int iir_hpf::pass_HPF(DSLinkedList<float> &t_Signal, const std::string &t_FileNa
         this->m_OutFile << "Data : "<<'\n'; // Data Part Header
 
         float value = 0;
+        unsigned int code;
         DoublyIterator<float> s_iter(t_Signal);
         this->m_Signal->MakeEmpty(); // initiailize
         while (!s_iter.NextIsTail()){
             value = this->HPF_Process(s_iter.Next());
             this->m_Signal->Add(value);
-            this->m_OutFile<<value<<'\n';
+            // get the IEEE-754 form of code
+            code = *(int*)&value;
+            if(value == 0.0){
+                this->m_OutFile << value <<' '<<"0x00000000"<<'\n';
+            } else{
+                this->m_OutFile << value <<' '<<"0x"<< std::setfill ('0') << std::setw(3)<<std::hex<<code<<'\n';
+            }
+            this->m_OutFile.unsetf(std::ios::hex);
         }
 
     }
