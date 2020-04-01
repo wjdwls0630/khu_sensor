@@ -12,7 +12,7 @@
 // 0 0 0x00000000
 // 0 0 0x00000000
 // 0 0 0x00000000
-
+//
 // LPF_BCoef[0:5]
 // 1 1065353216 0x3f800000
 // -1.64746 3218268152 0xbfd2dff8
@@ -20,6 +20,8 @@
 // 0 0 0x00000000
 // 0 0 0x00000000
 // 0 0 0x00000000
+//
+// Use 1 adder, 1 multiplier -> 4 cycle
 ///////////////////////////////////////////////////////////////////////////////
 module iir_lpf(
 	input [31:0] i_X_DATA, // input x (float)
@@ -37,22 +39,22 @@ module iir_lpf(
 	*                           	   float_adder                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	reg [31:0] r_add_A_1;
-	reg [31:0] r_add_B_1;
-	reg r_add_AB_STB_1;
-	wire w_add_AB_ACK_1;
-	wire [31:0] w_add_Z_1;
-	wire w_add_Z_STB_1;
-	reg r_add_Z_ACK_1;
+	reg [31:0] r_add_A;
+	reg [31:0] r_add_B;
+	reg r_add_AB_STB;
+	wire w_add_AB_ACK;
+	wire [31:0] w_add_Z;
+	wire w_add_Z_STB;
+	reg r_add_Z_ACK;
 
-	float_adder adder_1(
-		.i_A(r_add_A_1), // input a
-		.i_B(r_add_B_1), // input b
-		.i_AB_STB(r_add_AB_STB_1), // input data is valid
-		.o_AB_ACK(w_add_AB_ACK_1), // A flag that next calculation is ready
-		.o_Z(w_add_Z_1),  // output data
-		.o_Z_STB(w_add_Z_STB_1), // Calculation is done, and output data is valid
-		.i_Z_ACK(r_add_Z_ACK_1), // A flag that external module get data,
+	float_adder add(
+		.i_A(r_add_A), // input a
+		.i_B(r_add_B), // input b
+		.i_AB_STB(r_add_AB_STB), // input data is valid
+		.o_AB_ACK(w_add_AB_ACK), // A flag that next calculation is ready
+		.o_Z(w_add_Z),  // output data
+		.o_Z_STB(w_add_Z_STB), // Calculation is done, and output data is valid
+		.i_Z_ACK(r_add_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
 		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
 		//CHANGED : .rst(rstn)X
@@ -63,45 +65,45 @@ module iir_lpf(
 	/****************************************************************************
 	*                           	   float_multiplier                          	*
 	*****************************************************************************/
-	//=========================Internal Connection===============================
-	reg [31:0] r_mult_A_1, r_mult_A_2;
-	reg [31:0] r_mult_B_1, r_mult_B_2;
-	reg r_mult_AB_STB;								//SHARE
-	wire w_mult_AB_ACK_1,w_mult_AB_ACK_2;		//SHARE
-	wire [31:0] w_mult_Z_1, w_mult_Z_2;
-	wire w_mult_Z_STB_1,w_mult_Z_STB_2;			//SHARE
-	reg r_mult_Z_ACK;									//SHARE
+	//=============================Internal Connection===========================/
+	reg [31:0] r_mult_1_A, r_mult_2_A;
+	reg [31:0] r_mult_1_B, r_mult_2_B;
+	reg r_mult_AB_STB;											//SHARE
+	wire w_mult_1_AB_ACK,w_mult_2_AB_ACK;		//SHARE
+	wire [31:0] w_mult_1_Z, w_mult_2_Z;
+	wire w_mult_1_Z_STB,w_mult_2_Z_STB;			//SHARE
+	reg r_mult_Z_ACK;												//SHARE
 	wire w_mult_AB_ACK, w_mult_Z_STB;
 
-	assign w_mult_AB_ACK=w_mult_AB_ACK_1 & w_mult_AB_ACK_2;
-	assign w_mult_Z_STB=w_mult_Z_STB_1 & w_mult_Z_STB_2;
+	assign w_mult_AB_ACK = w_mult_1_AB_ACK & w_mult_2_AB_ACK;
+	assign w_mult_Z_STB = w_mult_1_Z_STB & w_mult_2_Z_STB;
 
 
 	// A*X, B*Y
-	float_multiplier multiplier_A(
-		.i_A(r_mult_A_1), // input a
-		.i_B(r_mult_B_1), // input b
+	float_multiplier mult_1(
+		.i_A(r_mult_1_A), // input a
+		.i_B(r_mult_1_B), // input b
 		.i_AB_STB(r_mult_AB_STB), // input data is valid
-		.o_AB_ACK(w_mult_AB_ACK_1), // A flag that next calculation is ready
-		.o_Z(w_mult_Z_1),  // output data
-		.o_Z_STB(w_mult_Z_STB_1), // Calculation is done, and output data is valid
+		.o_AB_ACK(w_mult_1_AB_ACK), // A flag that next calculation is ready
+		.o_Z(w_mult_1_Z),  // output data
+		.o_Z_STB(w_mult_1_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_mult_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
 		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
 		//CHANGED : .rst(rstn)X
 		);
-	float_multiplier multiplier_B(
-		.i_A(r_mult_A_2),
-		.i_B(r_mult_B_2),
+	float_multiplier mult_2(
+		.i_A(r_mult_2_A),
+		.i_B(r_mult_2_B),
 		.i_AB_STB(r_mult_AB_STB),
-		.o_AB_ACK(w_mult_AB_ACK_2),
-		.o_Z(w_mult_Z_2),
-		.o_Z_STB(w_mult_Z_STB_2),
+		.o_AB_ACK(w_mult_2_AB_ACK),
+		.o_Z(w_mult_2_Z),
+		.o_Z_STB(w_mult_2_Z_STB),
 		.i_Z_ACK(r_mult_Z_ACK),
 		.i_CLK(i_CLK),
 		.i_RST(~i_RSTN)
 		);
-		//============================================================================
+	//============================================================================
 	/****************************************************************************
 	*                           	iir_lpf                               *
 	*****************************************************************************/
@@ -142,11 +144,11 @@ module iir_lpf(
   reg [1:0] r_counter;
 
 	//TODO Tried direct connect x_data not using ii_x_data, but failed due to multiple net expression issue
-	always @ ( posedge i_CLK, negedge i_RSTN ) begin
+	always @ (posedge i_CLK, negedge i_RSTN) begin
 		if (!i_RSTN) begin
 			r_x_data <= 96'b0;
 			r_y_data <= 64'b0;
-		end else if(i_X_DATA_VALID && o_X_DATA_READY) begin
+		end else if (i_X_DATA_VALID && o_X_DATA_READY) begin
 		 	r_x_data <= {r_x_data[63:0], i_X_DATA}; // shift when x_Data valid is on
 			r_y_data <= {r_y_data[31:0], o_Y_DATA}; // shift when x_Data valid is on
 		end else begin
@@ -157,8 +159,8 @@ module iir_lpf(
   //============================================================================
 
   //=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, negedge i_RSTN ) begin
-		if(!i_RSTN) begin
+	always @ (posedge i_CLK, negedge i_RSTN) begin
+		if (!i_RSTN) begin
 			// output pin
 			o_Y_DATA <= 32'b0; // output y (float)
 			o_Y_DATA_VALID <= 1'b0; // output data is valid
@@ -167,34 +169,34 @@ module iir_lpf(
 			// CHANGED Even if Rstn is activated, input data for adder and multiplier won't be reset
 			// resetting input data is also necessary
 
-			r_add_A_1 <= 32'b0;
-			r_add_B_1 <= 32'b0;
-			r_add_AB_STB_1 <= 1'b0;
-			r_add_Z_ACK_1<=1'b0;
+			r_add_A <= 32'b0;
+			r_add_B <= 32'b0;
+			r_add_AB_STB <= 1'b0;
+			r_add_Z_ACK<=1'b0;
 
 			// float_multiplier
-			r_mult_A_1 <= 32'b0;
-			r_mult_A_2 <= 32'b0;
-			r_mult_B_1 <= 32'b0;
-			r_mult_B_2 <= 32'b0;
+			r_mult_1_A <= 32'b0;
+			r_mult_1_B <= 32'b0;
+			r_mult_2_A <= 32'b0;
+			r_mult_2_B <= 32'b0;
 			r_mult_AB_STB <= 1'b0;
-			r_mult_Z_ACK<=1'b0;
+			r_mult_Z_ACK <= 1'b0;
 
 			//counter
-			r_counter<=2'b0;
+			r_counter <= 2'b0;
 
 			// State
 			r_pstate <= ST_IDLE;
 			r_lstate <= ST_IDLE;
 		end else begin
-			case(r_pstate)
+			case (r_pstate)
 				ST_IDLE:
 				begin
 					o_X_DATA_READY <= 1'b1; // default for input data
 					o_Y_DATA_VALID <= 1'b0; // default for output data
-					r_counter<=2'b0;
+					r_counter <= 2'b0;
 					r_lstate <= ST_IDLE;
-					if(i_X_DATA_VALID && o_X_DATA_READY) begin
+					if (i_X_DATA_VALID && o_X_DATA_READY) begin
 						o_X_DATA_READY <= 1'b0;
 						r_pstate <= ST_INIT;
 					end else r_pstate <= ST_IDLE;
@@ -203,114 +205,113 @@ module iir_lpf(
 
 				ST_INIT:		//MAKES MUL AND ADDER CHANGE ITS STATE FROM get_ab TO next
 				begin
-
 					r_lstate <= ST_INIT;
-					r_pstate<=ST_INIT;
+					r_pstate <= ST_INIT;
 
 					//NON-LATCH
 					// CHANGED
-					// r_mult_A_1 <= 32'b0; makes multiplier input data 0 when w_mult_AB_ACK & w_add_AB_ACK_1 is not true
+					// r_mult_1_A <= 32'b0; makes multiplier input data 0 when w_mult_AB_ACK & w_add_AB_ACK is not true
 					// Thus, In this state , except first step, only control STB
 					// control and connect wire of input and output data on ST_WAIT_Z state
-					r_add_A_1<=r_add_A_1;
-					r_add_B_1<=r_add_B_1;
+					r_add_A<=r_add_A;
+					r_add_B<=r_add_B;
 
-					r_mult_A_1<=r_mult_A_1;
-					r_mult_B_1<=r_mult_B_1;
-					r_mult_A_2<=r_mult_A_2;
-					r_mult_B_2<=r_mult_B_2;
+					r_mult_1_A<=r_mult_1_A;
+					r_mult_1_B<=r_mult_1_B;
+					r_mult_2_A<=r_mult_2_A;
+					r_mult_2_B<=r_mult_2_B;
 
 					r_mult_Z_ACK<=1'b0;
-					r_add_Z_ACK_1<=1'b0;
+					r_add_Z_ACK<=1'b0;
 
-					if(w_mult_AB_ACK & w_add_AB_ACK_1) begin		//CONDITION OUTSIDE CASE: ALL MODULES ON STATE get_ab
-						case(r_counter)
+					if (w_mult_AB_ACK & w_add_AB_ACK) begin		//CONDITION OUTSIDE CASE: ALL MODULES ON STATE get_ab
+						case (r_counter)
 							2'b00:begin
 								//ADD
-								r_add_AB_STB_1<=1'b1;
-								r_add_A_1<=r_x_data[31:0];
-								r_add_B_1<=r_x_data[95:64];
+								r_add_AB_STB <= 1'b1;
+								r_add_A <= r_x_data[31:0];
+								r_add_B <= r_x_data[95:64];
 								//MULT
-								r_mult_AB_STB<=1'b1;
-								r_mult_A_1<=BCoef1;
-								r_mult_B_1<=r_y_data[31:0]; // CHANGED
-								r_mult_A_2<=BCoef2;
-								r_mult_B_2<=r_y_data[63:32]; // CHANGED
+								r_mult_AB_STB <= 1'b1;
+								r_mult_1_A <= BCoef1;
+								r_mult_1_B <= r_y_data[31:0]; // CHANGED
+								r_mult_2_A <= BCoef2;
+								r_mult_2_B <= r_y_data[63:32]; // CHANGED
 							end
 							2'b01: begin
 								//ADD
 								//CHANGED
 								o_Y_DATA <= 32'b0; // initialize output before assign
-								r_add_AB_STB_1<=1'b1;
+								r_add_AB_STB <= 1'b1;
 								//MULT
-								r_mult_AB_STB<=1'b1;
+								r_mult_AB_STB <= 1'b1;
 							end
 							2'b10: begin
 								//ADD
-								r_add_AB_STB_1<=1'b1;
+								r_add_AB_STB <= 1'b1;
 								//MULT
-								r_mult_AB_STB<=1'b0;			//state will remain get_ab
+								r_mult_AB_STB <= 1'b0;	//state will remain get_ab
 								end
 							2'b11: begin
 								//ADD
-								r_add_AB_STB_1<=1'b1;
+								r_add_AB_STB <= 1'b1;
 								//MULT
-								r_mult_AB_STB<=1'b0;
+								r_mult_AB_STB <= 1'b0;
 							end
 						endcase
-						r_pstate<=ST_WAIT_Z;
+						r_pstate <= ST_WAIT_Z;
 					end
 				end
 
-				ST_WAIT_Z:		//MAKES MUL AND ADDER CHANGE IT'S STATE FROM put_z TO get_ab.
+				ST_WAIT_Z: //MAKES MUL AND ADDER CHANGE IT'S STATE FROM put_z TO get_ab.
 				begin
-					r_pstate<=ST_WAIT_Z;
+					r_pstate <= ST_WAIT_Z;
 
-					r_add_AB_STB_1<=1'b0;
-					r_mult_AB_STB<=1'b0;
+					r_add_AB_STB <= 1'b0;
+					r_mult_AB_STB <= 1'b0;
 
 					case(r_counter)
-						2'b00:begin
-							if(w_add_Z_STB_1 & w_mult_Z_STB) begin
-								//CONDITIONS INSIDE CASE: MODULES ON USE DIFFERS DEPEND ON R_COUNTER
-								r_mult_A_1<=ACoef1;
-								r_mult_B_1<=r_x_data[63:32];
-								r_mult_A_2<=ACoef0;
-								r_mult_B_2<=w_add_Z_1;
-								r_add_A_1<=w_mult_Z_1;
-								r_add_B_1<=w_mult_Z_2;
-								r_add_Z_ACK_1<=1'b1;
-								r_mult_Z_ACK<=1'b1;
-								r_counter<=r_counter+2'b01;
-								r_pstate<=ST_INIT;
+						2'b00: begin
+							if (w_add_Z_STB & w_mult_Z_STB) begin
+								//CONDITIONS INSIDE CASE: MODULES ON USE DIFFERS DEPEND ON CNT
+								r_mult_1_A <= ACoef1;
+								r_mult_1_B <= r_x_data[63:32];
+								r_mult_2_A <= ACoef0;
+								r_mult_2_B <= w_add_Z;
+								r_add_A <= w_mult_1_Z;
+								r_add_B <= w_mult_2_Z;
+								r_add_Z_ACK <= 1'b1;
+								r_mult_Z_ACK <= 1'b1;
+								r_counter <= r_counter + 2'b01;
+								r_pstate <= ST_INIT;
 							end
 						end
 						2'b01:begin
-							if( w_add_Z_STB_1 & w_mult_Z_STB)begin
-								o_Y_DATA<=w_mult_Z_1;
-								r_add_A_1<=w_mult_Z_2;
-								r_add_B_1<=w_add_Z_1;
-								r_mult_Z_ACK<=1'b1;
-								r_add_Z_ACK_1<=1'b1;
-								r_counter<=r_counter+2'b01;
-								r_pstate<=ST_INIT;
+							if (w_add_Z_STB & w_mult_Z_STB) begin
+								o_Y_DATA <= w_mult_1_Z;
+								r_add_A <= w_mult_2_Z;
+								r_add_B <= w_add_Z;
+								r_mult_Z_ACK <= 1'b1;
+								r_add_Z_ACK <= 1'b1;
+								r_counter <= r_counter + 2'b01;
+								r_pstate <= ST_INIT;
 							end
 						end
 						2'b10: begin
-							if(w_add_Z_STB_1)begin
-								r_add_A_1<=o_Y_DATA;
-								r_add_B_1<=w_add_Z_1;
-								r_add_Z_ACK_1<=1'b1;
-								r_counter<=r_counter+2'b01;
-								r_pstate<=ST_INIT;
+							if (w_add_Z_STB) begin
+								r_add_A <= o_Y_DATA;
+								r_add_B <= w_add_Z;
+								r_add_Z_ACK <= 1'b1;
+								r_counter <= r_counter + 2'b01;
+								r_pstate <= ST_INIT;
 							end
 						end
 						2'b11: begin
-							if(w_add_Z_STB_1)begin
-								o_Y_DATA<=w_add_Z_1;
-								r_add_Z_ACK_1<=1'b1;
-								r_counter<=2'b00;
-								r_pstate<=ST_FINISH;
+							if (w_add_Z_STB) begin
+								o_Y_DATA <= w_add_Z;
+								r_add_Z_ACK <= 1'b1;
+								r_counter <= 2'b00;
+								r_pstate <= ST_FINISH;
 							end
 						end
 					endcase

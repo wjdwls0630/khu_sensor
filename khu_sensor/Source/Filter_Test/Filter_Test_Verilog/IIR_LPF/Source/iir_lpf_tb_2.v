@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module LPF2_tb;
+module iir_lpf_tb_2;
 
 
 reg CLK, rstn;
@@ -12,7 +12,7 @@ reg i_Y_ACK;
 iir_lpf  a(
 	.i_X_DATA(32'h40000000), // input x (float)
 	.i_X_DATA_VALID(i_X_DATA_VALID), //input x_data is valid
-	.o_X_DATA_READY(o_X_DATA_READY), // iir_lpf busy	
+	.o_X_DATA_READY(o_X_DATA_READY), // iir_lpf busy
 	.o_Y_DATA(o_Y_DATA), // output y (float)
 	.o_Y_DATA_VALID(o_Y_DATA_VALID), // output data is valid
 	.i_Y_ACK(i_Y_ACK), // A flag that external module get data, so, o_Y_DATA is going to meaningless
@@ -33,4 +33,3 @@ end
 always #10 CLK<=~CLK;
 
 endmodule
-
