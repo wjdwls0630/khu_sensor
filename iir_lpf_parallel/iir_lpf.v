@@ -141,8 +141,6 @@ module iir_lpf(
   //counter for loop
   reg [1:0] r_counter;
 
-
-
 	//TODO Tried direct connect x_data not using ii_x_data, but failed due to multiple net expression issue
 	always @ ( posedge i_CLK, negedge i_RSTN ) begin
 		if (!i_RSTN) begin
@@ -183,7 +181,7 @@ module iir_lpf(
 			r_mult_Z_ACK<=1'b0;
 
 			//counter
-			r_counter<=4'b0;
+			r_counter<=2'b0;
 
 			// State
 			r_pstate <= ST_IDLE;
@@ -194,7 +192,7 @@ module iir_lpf(
 				begin
 					o_X_DATA_READY <= 1'b1; // default for input data
 					o_Y_DATA_VALID <= 1'b0; // default for output data
-					r_counter<=4'b0;
+					r_counter<=2'b0;
 					r_lstate <= ST_IDLE;
 					if(i_X_DATA_VALID && o_X_DATA_READY) begin
 						o_X_DATA_READY <= 1'b0;
@@ -210,13 +208,17 @@ module iir_lpf(
 					r_pstate<=ST_INIT;
 
 					//NON-LATCH
+					// CHANGED
+					// r_mult_A_1 <= 32'b0; makes multiplier input data 0 when w_mult_AB_ACK & w_add_AB_ACK_1 is not true
+					// Thus, In this state , except first step, only control STB
+					// control and connect wire of input and output data on ST_WAIT_Z state
 					r_add_A_1<=r_add_A_1;
 					r_add_B_1<=r_add_B_1;
 
-					r_mult_A_1<=32'b0;
-					r_mult_B_1<=32'b0;
-					r_mult_A_2<=32'b0;
-					r_mult_B_2<=32'b0;
+					r_mult_A_1<=r_mult_A_1;
+					r_mult_B_1<=r_mult_B_1;
+					r_mult_A_2<=r_mult_A_2;
+					r_mult_B_2<=r_mult_B_2;
 
 					r_mult_Z_ACK<=1'b0;
 					r_add_Z_ACK_1<=1'b0;
@@ -242,10 +244,6 @@ module iir_lpf(
 								r_add_AB_STB_1<=1'b1;
 								//MULT
 								r_mult_AB_STB<=1'b1;
-								r_mult_A_1<=ACoef1;
-								r_mult_B_1<=r_x_data[63:32];
-								r_mult_A_2<=ACoef0;
-								r_mult_B_2<=r_mult_B_2;
 							end
 							2'b10: begin
 								//ADD
@@ -273,7 +271,11 @@ module iir_lpf(
 
 					case(r_counter)
 						2'b00:begin
-							if(w_add_Z_STB_1 & w_mult_Z_STB) begin		//CONDITIONS INSIDE CASE: MODULES ON USE DIFFERS DEPEND ON CNT
+							if(w_add_Z_STB_1 & w_mult_Z_STB) begin
+								//CONDITIONS INSIDE CASE: MODULES ON USE DIFFERS DEPEND ON R_COUNTER
+								r_mult_A_1<=ACoef1;
+								r_mult_B_1<=r_x_data[63:32];
+								r_mult_A_2<=ACoef0;
 								r_mult_B_2<=w_add_Z_1;
 								r_add_A_1<=w_mult_Z_1;
 								r_add_B_1<=w_mult_Z_2;
