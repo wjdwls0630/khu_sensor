@@ -7,7 +7,7 @@ namespace ADS {
     enum REG {ID, CONFIG1, CONFIG2, LOFF, CH1SET, CH2SET, RLD_SENS, LOFF_SENS, LOFF_STAT, RESP1, RESP2, GPIO};
 }
 
-#define UART_SG_ADS_DATA 'A' // 0x41
+#define UART_SG_ADS_DATA 0xAA // 0x41
 #define UART_SG_ADS_READ_REG 'a' // 0x61
 #define ECGBIT_V 2.42/(pow(2,23)-1)/6
 

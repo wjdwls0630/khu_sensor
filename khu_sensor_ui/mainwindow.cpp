@@ -93,7 +93,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::MPR_Reg_Process(QByteArray &t_Data){
     QString t_Data_Str = t_Data.toHex();
-    MPR::REG MPR_Reg = this->m_MPR121->decode_MPR_Reg_Hex(t_Data_Str.mid(2,2));
+    MPR::REG MPR_Reg = this->m_MPR121->decode_MPR_Reg_Hex(t_Data_Str.left(2));
     QString MPR_Reg_Data_Str = t_Data_Str.right(2);
 
     if(MPR_Reg == MPR::REG::MHDR) ui->mprMHDRLabel->setText(tr("MHDR(0x2B): %1").arg(MPR_Reg_Data_Str));
@@ -116,12 +116,13 @@ void MainWindow::MPR_Reg_Process(QByteArray &t_Data){
 void MainWindow::MPR_Data_Process(QByteArray &t_Data){
 
     // Create a bit array of the appropriate size
-    QBitArray mpr_bits((t_Data.count()-1)*8);
+
+    QBitArray mpr_bits((t_Data.count())*8);
 
     // Convert from QByteArray to QBitArray
-    for(int i=0; i<t_Data.count()-1; i++) {
+    for(int i=0; i<t_Data.count(); i++) {
         for(int b=0; b<8; b++) {
-            mpr_bits.setBit(mpr_bits.count()-1-(i*8+b), t_Data.at(i+1)&(1<<(7-b)) );
+            mpr_bits.setBit(mpr_bits.count()-1-(i*8+b), t_Data.at(i)&(1<<(7-b)) );
         }
     }
     // mpr data form
@@ -139,6 +140,7 @@ void MainWindow::MPR_Data_Process(QByteArray &t_Data){
     ui->mprCH10widget->setPalette((mpr_bits.at(10))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
     ui->mprCH11widget->setPalette((mpr_bits.at(11))?*this->m_MPR_Pal_ON:*this->m_MPR_Pal_OFF);
     return;
+
 }
 
 
@@ -166,11 +168,11 @@ void MainWindow::ADS_Data_Process(QByteArray &t_Data){
     unsigned char data1c, data2c, data3c;
     unsigned long data1l, data2l, data3l;
 
-    data1c = t_Data.at(2);
-    data2c = t_Data.at(3);
-    data3c = t_Data.at(4);
+    data1c = t_Data.at(0);
+    data2c = t_Data.at(1);
+    data3c = t_Data.at(2);
 
-    if(t_Data.at(2) > 0x7F){
+    if(t_Data.at(0) > 0x7F){
         data1c = ~data1c;
         data2c = ~data2c;
         data3c = ~data3c;
@@ -229,6 +231,8 @@ void MainWindow::on_runPB_clicked(){
             this->m_runPB_isChecked = false;
             Cmd_Str = "S"; // 0x53
             Cmd = Cmd_Str.toLocal8Bit();
+            this->m_SerialPort -> write(Cmd);
+            this->m_SerialPort -> write(Cmd);
             this->m_SerialPort -> write(Cmd);
             qDebug() << "Stop Sensor!";
         }
@@ -347,29 +351,89 @@ void MainWindow::on_adstb_syncPB_clicked(){
 
 void MainWindow::read_Serial_Port_Data(){
 
-    QByteArray data_out = this->m_SerialPort->readAll(); // use another function
+    QByteArray head = this->m_SerialPort->read(1); // use another function
     QByteArray ADS_Data, MPR_Data;
-    qDebug()<<"port length : "<<data_out.length();
-    qDebug()<<data_out.toHex(' ');
-    if(this->m_runPB_isChecked){
-        if(data_out.length() == 8){
-            if(data_out.at(0) == UART_SG_ADS_DATA){
-                ADS_Data = data_out.left(5);
-                MPR_Data = data_out.right(3);
-            } else if(data_out.at(0) == UART_SG_MPR_DATA){
-                ADS_Data = data_out.right(5);
-                MPR_Data = data_out.left(3);
-            }
-            this->ADS_Data_Process(ADS_Data);
-            this->MPR_Data_Process(MPR_Data);
+    qDebug()<<"port length : "<<head.length();
+    qDebug()<<head.toHex(' ');
+    if(head.at(0) == UART_SG_MPR_READ_REG){
+        //this->m_SerialPort->setReadBufferSize(2);
+
+        this->m_SerialPort->waitForReadyRead();
+        MPR_Data = this->m_SerialPort->read(1);
+        this->m_SerialPort->waitForReadyRead();
+        MPR_Data.append(this->m_SerialPort->read(1));
+        qDebug()<<"MPR_Data";
+        qDebug()<<MPR_Data.toHex(' ');
+        this->MPR_Reg_Process(MPR_Data);
+        QThread::msleep(1);
+        MPR_Data = this->m_MPR121->get_Read_Reg_Code_Int(this->m_mpr_reg_counter);
+        this->m_SerialPort->write(MPR_Data);
+        if(MPR_Data.isEmpty()){
+            this->m_mpr_reg_counter = 0;
+        } else {
+            this->m_mpr_reg_counter++;
         }
 
-        this->m_SerialPort->write(this->m_ADS1292->get_Finish_Code()); // send data processing is finished
-        this->m_SerialPort->write(this->m_MPR121->get_Finish_Code());
+    } else if(head.at(0) == UART_SG_ADS_READ_REG){
+        //this->m_SerialPort->setReadBufferSize(2);
+        this->m_SerialPort->waitForReadyRead();
+        ADS_Data = this->m_SerialPort->readAll();
+        qDebug()<<"ADS_Data";
+        qDebug()<<ADS_Data.toHex(' ');
+        /*
+        this->ADS_Reg_Process(data_out);
+        ADS_Data = this->m_ADS1292->get_Read_Reg_Code_Int(this->m_ads_reg_counter);
+        if(ADS_Data.isEmpty()){
+            this->m_ads_reg_counter = 0;
+        } else {
+            this->m_ads_reg_counter++;
+        }
+        */
+    }
+    this->m_SerialPort->setReadBufferSize(1);
+    /*
+    if(head.toHex() == "aa"){
+        //0
+        this->m_SerialPort->waitForReadyRead();
+        ADS_Data = this->m_SerialPort->read(1);
+        //1
+        this->m_SerialPort->waitForReadyRead();
+        ADS_Data.append(this->m_SerialPort->read(1));
+        //2
+        this->m_SerialPort->waitForReadyRead();
+        ADS_Data.append(this->m_SerialPort->read(1));
+        qDebug()<<"ADS_Data";
+        qDebug()<<ADS_Data.toHex(' ');
+        this->ADS_Data_Process(ADS_Data);
+    } else if(head.toHex() == "bb"){
+        //0
+        this->m_SerialPort->waitForReadyRead();
+        MPR_Data = this->m_SerialPort->read(1);
+        //1
+        this->m_SerialPort->waitForReadyRead();
+        MPR_Data.append(this->m_SerialPort->read(1));
+        qDebug()<<"MPR_Data";
+        qDebug()<<MPR_Data.toHex(' ');
+        this->MPR_Data_Process(MPR_Data);
+    }
+
+    //qDebug()<<"trash_Data";
+    //qDebug()<<this->m_SerialPort->readAll().toHex(' ');
+    */
+
+    /*
+    if(this->m_runPB_isChecked){
+        if(head.at(0) == UART_SG_ADS_DATA){
+            ADS_Data = this->m_SerialPort->read(3);
+            this->ADS_Data_Process(ADS_Data);
+        } else if(head.at(0) == UART_SG_MPR_DATA){
+            MPR_Data = this->m_SerialPort->read(2);
+            this->MPR_Data_Process(MPR_Data);
+        }
         return ;
 
     } else {
-        if(data_out.at(0) == UART_SG_MPR_READ_REG){
+        if(head.at(0) == UART_SG_MPR_READ_REG){
             this->MPR_Reg_Process(data_out);
             MPR_Data = this->m_MPR121->get_Read_Reg_Code_Int(this->m_mpr_reg_counter);
             this->m_SerialPort->write(MPR_Data);
@@ -378,7 +442,7 @@ void MainWindow::read_Serial_Port_Data(){
             } else {
                 this->m_mpr_reg_counter++;
             }
-        } else if(data_out.at(0) == UART_SG_ADS_READ_REG){
+        } else if(head.at(0) == UART_SG_ADS_READ_REG){
             this->ADS_Reg_Process(data_out);
             ADS_Data = this->m_ADS1292->get_Read_Reg_Code_Int(this->m_ads_reg_counter);
             if(ADS_Data.isEmpty()){
@@ -389,6 +453,8 @@ void MainWindow::read_Serial_Port_Data(){
         }
         return ;
     }
+    */
+
 
 
     return ;

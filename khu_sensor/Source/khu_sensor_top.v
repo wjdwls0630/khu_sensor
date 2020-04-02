@@ -1,3 +1,4 @@
+`timescale 1ns / 1ns
 /** Top module **/
 module khu_sensor_top(
 	// System I/O
@@ -10,7 +11,7 @@ module khu_sensor_top(
 	input wire UART_RXD,
 	output wire UART_TXD,
 
-	output GPIO_0, // GPIO[0] == CLOCK_5M
+	output [1:0] GPIO, // GPIO[0] == CLOCK_5M, GPIO[1] == ADS1292_DRDY;
 
 	// DUT IO: for MPR121 (I2C)
 	inout wire MPR121_SCL, // GPIO[8]
@@ -25,12 +26,22 @@ module khu_sensor_top(
 	output wire ADS1292_START,  // GPIO[31]
 	output wire ADS1292_CSN  // GPIO[32]
 	);
+
 	/****************************************************************************
 	*                           	   FPGA				                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
 	wire rstn_btn;
-	assign rstn_btn = KEY_0;
+	reg rstn_init;
+	assign rstn_btn = KEY_0 | rstn_btn;
+	
+	// initial reset
+	initial begin
+		rstn_init <= 1'b0;
+		#1000000 rstn_init <= 1'b1; // after 1ms, reset will be released
+		
+	end
+
 	//============================================================================
 
 	/****************************************************************************
@@ -54,7 +65,7 @@ module khu_sensor_top(
 	*                           uart_controller			                          	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [39:0] w_uart_data_tx;
+	wire [55:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
@@ -82,7 +93,7 @@ module khu_sensor_top(
 	*                           	sensor_core			        		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-  wire [11:0] w_mpr121_touch_status_out;
+	wire [11:0] w_mpr121_touch_status_out;
 	assign LEDR[11:0] = w_mpr121_touch_status_out;
 
 	wire w_mpr121_error;
@@ -90,9 +101,10 @@ module khu_sensor_top(
 
 	wire w_chip_set;
 	wire w_run_set;
-		wire w_core_busy;
-	assign LEDG[0] = w_chip_set;
-	assign LEDG[1] = w_run_set;
+	wire w_core_busy;
+	assign LEDG[0] = w_mpr121_init_set & w_ads1292_init_set;
+	assign LEDG[1] = w_chip_set;
+	assign LEDG[2] = w_run_set;
 	assign LEDR[17] = w_core_busy;
 
 	sensor_core sensor_core(
@@ -112,6 +124,7 @@ module khu_sensor_top(
 		.o_MPR121_DATA_IN(w_mpr121_data_in),  // transmitted data to MPR121 (write data)
 		.o_MPR121_WRITE_ENABLE(w_mpr121_write_enable),
 		.o_MPR121_READ_ENABLE(w_mpr121_read_enable),
+		.i_MPR121_INIT_SET(w_mpr121_init_set),
 		.i_MPR121_BUSY(w_mpr121_busy),
 		.i_MPR121_FAIL(w_mpr121_fail),
 
@@ -125,10 +138,9 @@ module khu_sensor_top(
 		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.o_ADS1292_RDATAC_READ_START(w_ads1292_rdatac_read_start), // signal that start to read data in RDATAC mode
+		.i_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
 		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.i_ADS1292_BUSY(w_ads1292_busy),
-		.i_ADS1292_FAIL(w_ads1292_fail),
 
 		// System I/O
 		.o_CHIP_SET(w_chip_set),
@@ -148,6 +160,7 @@ module khu_sensor_top(
 	wire [7:0] w_mpr121_data_in;
 	wire w_mpr121_write_enable;
 	wire w_mpr121_read_enable;
+	wire w_mpr121_init_set;
 	wire w_mpr121_busy;
 	wire w_mpr121_fail;
 
@@ -155,7 +168,7 @@ module khu_sensor_top(
 	GPIO[0] is for realeasing MPR121 Bus stuck.
 	if MPR121_SCL stuck in low, connect MPR121_SCL to GPIO[0] (force to pull up scl)
 	*/
-	assign GPIO_0 = w_CLOCK_5M;
+	assign GPIO[0] = w_CLOCK_5M;
 
 	mpr121_controller mpr121_controller(
 
@@ -168,6 +181,7 @@ module khu_sensor_top(
 		.i_MPR121_DATA_IN(w_mpr121_data_in), // data to write in MPR121 register
 		.i_MPR121_WRITE_ENABLE(w_mpr121_write_enable), // write enable
 		.i_MPR121_READ_ENABLE(w_mpr121_read_enable), // read enable
+		.o_MPR121_INIT_SET(w_mpr121_init_set),
 		.o_MPR121_BUSY(w_mpr121_busy),
 		.o_MPR121_FAIL(w_mpr121_fail),
 
@@ -187,13 +201,11 @@ module khu_sensor_top(
 	wire [7:0] w_ads1292_reg_addr;
 	wire [7:0] w_ads1292_data_in;
 	wire w_ads1292_data_ready;
-	wire w_ads1292_rdatac_read_start;
+	wire w_ads1292_init_set;
 	wire w_ads1292_busy;
 	wire w_ads1292_fail;
-	wire w_ADS1292_DRDY_N;
-	assign w_ADS1292_DRDY_N = ~ADS1292_DRDY;
-	//wire ADS1292_SCLK_N;
-	//assign ADS1292_SCLK = ~ADS1292_SCLK_N
+
+	assign GPIO[1] = ADS1292_DRDY;
 	ads1292_controller ads1292_controller(
 		.i_CLK(CLOCK_50M), // clock
 		.i_RSTN(w_core_rstn), //reset
@@ -204,16 +216,15 @@ module khu_sensor_top(
 		.i_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
-		.i_ADS1292_RDATAC_READ_START(w_ads1292_rdatac_read_start), // signal that start to read data in RDATAC mode
-		.o_ADS1292_RDATAC_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
+		.o_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
+		.o_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),
-		.o_ADS1292_FAIL(w_ads1292_fail),
 
 		//	ADS1292, SPI Side
 		.o_SPI_CLK(ADS1292_SCLK),
 		.i_SPI_MISO(ADS1292_MISO), // SPI data form ADS - Master input Slave output (read)
 		.o_SPI_MOSI(ADS1292_MOSI), // SPI data to ADS - Master Output Slave Input (write)
-		.i_ADS1292_DRDY(w_ADS1292_DRDY_N), // Data Ready (active low) (change it active high)
+		.i_ADS1292_DRDY(ADS1292_DRDY), // Data Ready (active low) (change it active high)
 		.o_ADS1292_RESET(ADS1292_RESET),
 		.o_ADS1292_START(ADS1292_START),
 		.o_SPI_CSN(ADS1292_CSN) // Chip Select Negative (active low)
