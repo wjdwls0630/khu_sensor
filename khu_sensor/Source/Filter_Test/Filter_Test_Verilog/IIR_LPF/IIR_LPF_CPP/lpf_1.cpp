@@ -2,7 +2,7 @@
 // Created by ParkJungJin on 2020-03-24.
 //
 
-#include "../../Signal/Signal_CPP/signal_generator.hpp"
+#include "../../Signal/Signal_CPP/signal.hpp"
 #include "iir_lpf.hpp"
 
 int main()

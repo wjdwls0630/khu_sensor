@@ -5,7 +5,7 @@
 
 set(SOURCE_FILES_SIGNAL
         signal_1.cpp
-        signal_generator.cpp signal_generator.hpp
+        signal.cpp signal.hpp
         )
 add_executable(signal_1 ${SOURCE_FILES_SIGNAL})
 target_link_libraries(signal_1)

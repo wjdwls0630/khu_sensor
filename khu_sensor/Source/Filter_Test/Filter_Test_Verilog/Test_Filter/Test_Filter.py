@@ -4,7 +4,7 @@ from chips.api.api import *
 import subprocess
 import numpy
 from Signal.Signal import Signal
-import os
+
 # Parameter Type and Return Type annotations are unsupported in Python 2
 """
 filter_type
@@ -15,8 +15,8 @@ filter_type
 
 
 class TestFilter(object):
-    def __init__(self, filter_type=1, test_title=None, input_file_cpp=None, output_file_cpp=None,
-                 verilog_compile_list=None):
+    def __init__(self, filter_type=1, test_title=None, verilog_compile_list=None,
+                 input_file_cpp=None, output_file_cpp=None):
         # test title
         self.test_title = test_title
 
@@ -46,15 +46,18 @@ class TestFilter(object):
             # HPF
             self.cut_off_frequency = 5
 
-    def run_test(self):
-        if self.compile() != 1:
+    def run_test(self, tb = ""):
+        if self.compile(tb=tb) != 1:
             print(self.test_title+" is failed by error !")
             return -1
 
         # TODO output file name in test_bench_tb
         # TODO change all times doing other test?
         try:
-            subprocess.check_call("./Stimulus/test_bench_tb")
+            if tb == "":
+                subprocess.check_call("./Stimulus/test_bench_tb")
+            else:
+                subprocess.check_call(tb[:-1])
         except subprocess.CalledProcessError as subErr:
             # handle errors in the called executable
             print ("SubProcessor Error occurred: " + "That command didn't work, try again")
@@ -66,7 +69,10 @@ class TestFilter(object):
             print ("OSError > ", OSErr.filename)
             exit(-1)
 
-        subprocess.call("./Stimulus/test_bench_tb", shell=True)
+        if tb == "":
+            subprocess.call("./Stimulus/test_bench_tb", shell=True)
+        else:
+            subprocess.call(tb, shell=True)
 
         self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=False)
         self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=False)
@@ -74,11 +80,13 @@ class TestFilter(object):
         print(self.test_title+" is finished successfully !")
         return 1
 
-    def compile(self):
-        print (os.getcwd())
+    def compile(self, tb):
         if self.verilog_compile_list is not None:
             try:
-                subprocess.call("iverilog -o ./Stimulus/test_bench_tb " + self.verilog_compile_list, shell=True)
+                if tb == "":
+                    subprocess.call("iverilog -o ./Stimulus/test_bench_tb " + self.verilog_compile_list, shell=True)
+                else:
+                    subprocess.call("iverilog -o " + tb + self.verilog_compile_list, shell=True)
                 #  subprocess.check_call("iverilog -o " + self.verilog_compile_list)
             except subprocess.CalledProcessError as subErr:
                 # handle errors in the called executable
@@ -106,7 +114,7 @@ class TestFilter(object):
             print("Could not open or read the file ! \t", directory_address+self.test_title+"_Output_Compare.txt")
             exit(-1)
 
-        index =0
+        index = 0
         error_rate = 0.0
         error_rate_list = numpy.array([], dtype=float)
 
@@ -130,40 +138,10 @@ class TestFilter(object):
             error_rate = (abs(float(out_cpp-out_verilog))/float(out_cpp))*100
             error_rate_list = numpy.append(error_rate_list, error_rate)
             compare_file.write(str(error_rate)+"%\n\n")
-
-            """
-            if not matched:
-                print("Fail ... cpp : {}\tverilog : {}".format(hex(out_cpp).rstrip("L"), hex(in_cpp).rstrip("L")))
-
-                # input
-                print("input_cpp")
-                print(self.input_cpp.signal[index], hex(in_cpp).rstrip("L"))
-                print("sign : ", ((in_cpp & 0x80000000) >> 31))
-                print("exponent : ", ((in_cpp & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", in_cpp & 0x7fffff)
-                print("\n")
-
-                # output cpp
-                print("output_cpp")
-                print(self.output_cpp.signal[index], hex(out_cpp).rstrip("L"))
-                print("sign : ", ((out_cpp & 0x80000000) >> 31))
-                print("exponent : ", ((out_cpp & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", out_cpp & 0x7fffff)
-                print("\n")
-
-                # output verilog
-                print("output_verilog")
-                print(self.output_verilog.signal[index], hex(in_cpp).rstrip("L"))
-                print("sign : ", ((out_verilog & 0x80000000) >> 31))
-                print("exponent : ", ((out_verilog & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", out_verilog & 0x7fffff)
-                print("\n")
-
-                return 0
-            """
             index += 1
-
-        compare_file.write("Average Error rate : "+str(numpy.mean(error_rate_list)+'\n'))
+        # TODO fix?
+        error_rate_list = numpy.delete(error_rate_list, 0)
+        compare_file.write("Average Error rate : "+numpy.str(numpy.mean(error_rate_list, axis=0))+"%\n")
         compare_file.close()
         return 1
 

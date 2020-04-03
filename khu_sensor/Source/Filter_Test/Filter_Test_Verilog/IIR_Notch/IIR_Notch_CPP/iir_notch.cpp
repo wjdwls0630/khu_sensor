@@ -39,7 +39,7 @@ iir_notch::~iir_notch(){
     }
 }
 
-int iir_notch::pass_Notch(DSLinkedList<float> &t_Signal) {
+int iir_notch::pass_Notch(DSLinkedList<float>& t_Signal) {
     if(this->m_Signal == nullptr){
         this->m_Signal = new DSLinkedList<float>;
     } else {

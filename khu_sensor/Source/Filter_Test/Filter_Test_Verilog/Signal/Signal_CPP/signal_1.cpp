@@ -5,7 +5,7 @@
 #include <fstream>
 
 
-#include "signal_generator.hpp"
+#include "signal.hpp"
 #include "../../Library_CPP/Data_Structure_CPP/DoublySortedLinkedList.hpp"
 
 int main()
@@ -32,7 +32,7 @@ int main()
     frequency->Add(60);
     frequency->Add(65);
 
-    signal_generator sg(frequency, 116);
+    signal sg(frequency, 116);
     /*
      * Reference/ADS1292/ADS1292.pdf p.7 DR BITS OF CONFIG1 REGISTER 001 (250SPS)
      * SNR = 117.8
