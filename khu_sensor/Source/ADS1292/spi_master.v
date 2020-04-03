@@ -13,7 +13,7 @@
 //              and MISO.  If the SPI peripheral requires a chip-select,
 //              this must be done at a higher level.
 //
-// Note:        i_Clk must be at least 2x faster than i_SPI_Clk		in our case 50M vs 50M/49*2, i_clk is around 98 times faster
+// Note:        i_Clk must be at least 2x faster than i_SPI_Clk
 //
 // Parameters:  SPI_MODE, can be 0, 1, 2, or 3.  See above.
 //              Can be configured in one of 4 modes:
@@ -56,12 +56,12 @@ module spi_master
   // SPI Interface (All Runs at SPI Clock Domain)
   wire w_CPOL;     // Clock polarity
   wire w_CPHA;     // Clock phase
-  reg [$clog2(CLKS_PER_HALF_BIT*2)-1:0] r_SPI_Clk_Count;		//clog:http://rahulhiyertechnical.blogspot.com/2016/10/clog2-in-verilog.html 
+  reg [$clog2(CLKS_PER_HALF_BIT*2)-1:0] r_SPI_Clk_Count;
   //reg [7:0] r_SPI_Clk_Count;
   reg r_SPI_Clk;
   reg [7:0] r_SPI_Clk_Edges;
-  reg r_Leading_Edge;		//??
-  reg r_Trailing_Edge;		//??
+  reg r_Leading_Edge;
+  reg r_Trailing_Edge;
   reg       r_TX_DV;
   reg [7:0] r_TX_Byte;
 
@@ -83,8 +83,8 @@ module spi_master
 
 
   // Purpose: Generate SPI Clock correct number of times when DV pulse comes
-  
- 	//	  			 __  	 __	 __                 __	  __	  _                __    __
+
+//	  			 __  	 __	 __                 __	  __	  _                __    __
 	// i_CLK  __/  \__/  \__/  \  . . .        /  \__/  \__/ . . .          /  \__/  \__/
 	//i_CLK_C 0 1     2     3     4            49    50    51               96    97    0
 	//
@@ -92,13 +92,13 @@ module spi_master
    //                                          _________________________________________
 	//SPI_clk  X\______________________________/            1(=~CPOL)                    \_________
 	//
-	//SPI_LEADING_EDGE		0						 |1|          0                           |0	
+	//SPI_LEADING_EDGE		0						 |1|          0                           |0
 	//
 	//SPI_TRAILING_EDGE 		0                  |0                                       |1|   0
 	//
-	
-	
-  always @(posedge i_Clk or negedge i_Rst_L)
+
+
+ always @(posedge i_Clk or negedge i_Rst_L)
   begin
     if (~i_Rst_L)
     begin
@@ -116,21 +116,21 @@ module spi_master
       r_Leading_Edge  <= 1'b0;
       r_Trailing_Edge <= 1'b0;
 
-      if (i_TX_DV)		//1=> master is able to transmit data, from this time you can send a byte to slave   
+      if (i_TX_DV)
       begin
-        o_TX_Ready      <= 1'b0;		//0=>master is unable to get data
-        r_SPI_Clk_Edges <= 16;  // Total # edges in one byte ALWAYS 16		16=8*2?? 8 for byte 2 for half bit
+        o_TX_Ready      <= 1'b0;
+        r_SPI_Clk_Edges <= 16;  // Total # edges in one byte ALWAYS 16
       end
       else if (r_SPI_Clk_Edges > 0)
       begin
         o_TX_Ready <= 1'b0;
 
-        if (r_SPI_Clk_Count == CLKS_PER_HALF_BIT*2-1)		//49*2-1=97
+        if (r_SPI_Clk_Count == CLKS_PER_HALF_BIT*2-1)
         begin
           r_SPI_Clk_Edges <= r_SPI_Clk_Edges - 1;
           r_Trailing_Edge <= 1'b1;
           r_SPI_Clk_Count <= 0;
-          r_SPI_Clk       <= ~r_SPI_Clk;			//so spi_cli only changes when fpga clock count is (49-1) nad (98-1)
+          r_SPI_Clk       <= ~r_SPI_Clk;
         end
         else if (r_SPI_Clk_Count == CLKS_PER_HALF_BIT-1)
         begin
@@ -165,13 +165,13 @@ module spi_master
     end
     else
       begin
-        r_TX_DV <= i_TX_DV; // 1 clock cycle delay !!!  
+        r_TX_DV <= i_TX_DV; // 1 clock cycle delay
         if (i_TX_DV)
         begin
           r_TX_Byte <= i_TX_Byte;
         end
-      end 
-  end 
+      end // else: !if(~i_Rst_L)
+  end // always @ (posedge i_Clk or negedge i_Rst_L)
 
 
   // Purpose: Generate MOSI data
@@ -238,7 +238,7 @@ module spi_master
   end
 
 
-  // Purpose: Add clock delay to signals for alignment.	??
+  // Purpose: Add clock delay to signals for alignment.
   always @(posedge i_Clk or negedge i_Rst_L)
   begin
     if (~i_Rst_L)
