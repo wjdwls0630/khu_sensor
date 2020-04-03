@@ -48,9 +48,9 @@ module iir_notch(
 	reg r_add_1_Z_ACK, r_add_2_Z_ACK;
 
 	assign r_add_AB_STB = r_add_1_AB_STB & r_add_2_AB_STB;
-	assign w_add_AB_ACK = w_add_1_AB_ACK & w_add_2_AB_ACK;	
+	assign w_add_AB_ACK = w_add_1_AB_ACK & w_add_2_AB_ACK;
 	assign w_add_Z_STB = w_add_1_Z_STB & w_add_2_Z_STB;
-	
+
 	float_adder add_1(
 		.i_A(r_add_1_A), // input a
 		.i_B(r_add_1_B), // input b
@@ -81,8 +81,8 @@ module iir_notch(
 	//=============================Internal Connection===========================/
 	reg [31:0] r_mult_1_A, r_mult_2_A, r_mult_3_A;
 	reg [31:0] r_mult_1_B, r_mult_2_B, r_mult_3_B;
-	reg r_mult_1_AB_STB, r_mult_2_AB_STB, r_mult_3_AB_STB;											
-	wire w_mult_1_AB_ACK,w_mult_2_AB_ACK,w_mult_3_AB_ACK;		
+	reg r_mult_1_AB_STB, r_mult_2_AB_STB, r_mult_3_AB_STB;
+	wire w_mult_1_AB_ACK,w_mult_2_AB_ACK,w_mult_3_AB_ACK;
 	wire [31:0] w_mult_1_Z, w_mult_2_Z, w_mult_3_Z;
 	wire w_mult_1_Z_STB, w_mult_2_Z_STB, w_mult_3_Z_STB;
 	reg r_mult_1_Z_ACK, r_mult_2_Z_ACK,  r_mult_3_Z_ACK;
@@ -127,8 +127,8 @@ module iir_notch(
 		.i_CLK(i_CLK),
 		.i_RST(~i_RSTN)
 		);
-		
-		
+
+
 	//============================================================================
 	/****************************************************************************
 	*                           	iir_lpf                               *
@@ -203,14 +203,14 @@ module iir_notch(
 			r_add_2_B <= 32'b0;
 			r_add_2_AB_STB <= 1'b0;
 			r_add_2_Z_ACK<=1'b0;
-			
+
 			// float_multiplier
 			r_mult_1_A <= 32'b0;
 			r_mult_1_B <= 32'b0;
 			r_mult_2_A <= 32'b0;
 			r_mult_2_B <= 32'b0;
 			r_mult_3_A <= 32'b0;
-			r_mult_3_B <= 32'b0;			
+			r_mult_3_B <= 32'b0;
 			r_mult_1_AB_STB <= 1'b0;
 			r_mult_2_AB_STB <= 1'b0;
 			r_mult_2_AB_STB <= 1'b0;
@@ -252,9 +252,9 @@ module iir_notch(
 					r_add_1_B<=r_add_1_B;
 					r_add_2_A<=r_add_2_A;
 					r_add_2_B<=r_add_2_B;
-					
+
 					r_mult_1_A<=r_mult_1_A;
-					r_mult_1_B<=r_mult_1_B;       
+					r_mult_1_B<=r_mult_1_B;
 					r_mult_2_A<=r_mult_2_A;
 					r_mult_2_B<=r_mult_2_B;
 					r_mult_3_A<=r_mult_3_A;
@@ -273,23 +273,23 @@ module iir_notch(
 								r_add_1_AB_STB <= 1'b1;
 								r_add_1_A <= r_x_data[31:0];
 								r_add_1_B <= r_x_data[159:128];
-								
+
 								r_add_2_AB_STB <= 1'b1;
 								r_add_2_A <= r_x_data[63:32];
 								r_add_2_B <= r_x_data[127:96];
-								
+
 								//MULT
 								r_mult_1_AB_STB <= 1'b1;
 								r_mult_1_A <= ACoef2;
 								r_mult_1_B <= r_x_data[95:64];
-								
+
 								r_mult_2_AB_STB <= 1'b1;
 								r_mult_2_B <= r_y_data[31:0];
-								r_mult_2_A <= BCoef1; 
-								
+								r_mult_2_A <= BCoef1;
+
 								r_mult_3_AB_STB <= 1'b1;
 								r_mult_3_A <= BCoef2;
-								r_mult_3_B <= r_y_data[63:32]; 
+								r_mult_3_B <= r_y_data[63:32];
 							end
 							3'b001: begin
 								//ADD
@@ -300,15 +300,15 @@ module iir_notch(
 								//MULT
 								r_mult_1_AB_STB <= 1'b1;
 								r_mult_2_AB_STB <= 1'b1;
-								r_mult_3_AB_STB <= 1'b1; 
+								r_mult_3_AB_STB <= 1'b1;
 							end
 							3'b010: begin
 								//ADD
 								r_add_1_AB_STB <= 1'b1;
 								r_add_2_AB_STB <= 1'b1;
 								//MULT
-								r_mult_1_AB_STB <= 1'b1;	
-								r_mult_2_AB_STB <= 1'b1;	
+								r_mult_1_AB_STB <= 1'b1;
+								r_mult_2_AB_STB <= 1'b1;
 								r_mult_3_AB_STB <= 1'b0;	//state will remain get_ab
 								end
 							3'b011: begin
@@ -354,14 +354,14 @@ module iir_notch(
 
 								r_add_1_A <= w_mult_1_Z;
 								r_add_1_B <= 32'b0;
-								
+
 								r_add_2_A <= w_mult_2_Z;
 								r_add_2_B <= w_mult_3_Z;
-								
+
 								r_mult_3_A <= BCoef3;
-								r_mult_3_B <= r_y_data[95:64];		
-								
-									
+								r_mult_3_B <= r_y_data[95:64];
+
+
 								r_add_1_Z_ACK <= 1'b1;
 								r_add_2_Z_ACK <= 1'b1;
 								r_mult_1_Z_ACK <= 1'b1;
@@ -375,16 +375,16 @@ module iir_notch(
 							if (w_add_Z_STB & w_mult_Z_STB) begin
 								r_mult_1_A <= w_mult_1_Z;
 								r_mult_1_B <= 32'h3f800000;
-								
+
 								r_add_1_A <= w_mult_2_Z;
 								r_add_1_B <= w_add_1_Z;
-								
+
 								r_add_2_A <= w_add_2_Z;
 								r_add_2_B <= w_mult_3_Z;
-								
+
 								r_mult_2_A <= BCoef4;
 								r_mult_2_B <= r_y_data[127:96];
-								
+
 								r_add_1_Z_ACK <= 1'b1;
 								r_add_2_Z_ACK <= 1'b1;
 								r_mult_1_Z_ACK <= 1'b1;
@@ -400,7 +400,7 @@ module iir_notch(
 								r_add_1_B <= w_add_1_Z;
 								r_add_2_A <= w_add_2_Z;
 								r_add_2_B <= w_mult_2_Z;
-								
+
 								r_mult_1_Z_ACK <= 1'b1;
 								r_add_1_Z_ACK <= 1'b1;
 								r_add_2_Z_ACK <= 1'b1;
@@ -413,7 +413,7 @@ module iir_notch(
 							if (w_add_Z_STB) begin
 								r_add_1_A <= w_add_1_Z;
 								r_add_1_B <= w_add_2_Z;
-								
+
 								r_add_1_Z_ACK <= 1'b1;
 								r_add_2_Z_ACK <= 1'b1;
 								r_counter <= r_counter + 3'b001;
