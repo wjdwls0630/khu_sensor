@@ -2,9 +2,9 @@
 // Created by ParkJungJin on 2020-03-24.
 //
 
-#include "signal_generator.hpp"
+#include "signal.hpp"
 
-signal_generator::signal_generator(DSLinkedList<int> *t_Frequency, float t_SNR)
+signal::signal(DSLinkedList<int> *t_Frequency, float t_SNR)
 : m_Frequency(nullptr), m_Signal(nullptr), m_SNR(t_SNR) {
 
     //sampling freq must be more 2 times of maximum freq
@@ -45,7 +45,7 @@ signal_generator::signal_generator(DSLinkedList<int> *t_Frequency, float t_SNR)
     }
 }
 
-signal_generator::~signal_generator() {
+signal::~signal() {
     if(this->m_Frequency != nullptr){
         delete this->m_Frequency;
     }
@@ -55,7 +55,7 @@ signal_generator::~signal_generator() {
     }
 }
 
-int signal_generator::make_Signal(){
+int signal::make_Signal(){
     if(this->m_Signal == nullptr) {
         this->m_Signal = new DSLinkedList<float>;
     } else {
@@ -87,7 +87,7 @@ int signal_generator::make_Signal(){
     return 1;
 }
 
-int signal_generator::write_Signal(const std::string &t_FileName){
+int signal::write_Signal(const std::string &t_FileName){
     if(t_FileName != "") {
         // create file
         this->m_OutFile_1.open(t_FileName, std::ios::out);
@@ -133,7 +133,7 @@ int signal_generator::write_Signal(const std::string &t_FileName){
     return 1;
 }
 
-int signal_generator::read_Signal(const std::string &t_FileName){
+int signal::read_Signal(const std::string &t_FileName){
     if(this->m_Signal == nullptr) {
         this->m_Signal = new DSLinkedList<float>;
     } else {
@@ -165,7 +165,7 @@ int signal_generator::read_Signal(const std::string &t_FileName){
     return 1;
 }
 
-int signal_generator::reset(DSLinkedList<int> *t_Frequency, float t_SNR) {
+int signal::reset(DSLinkedList<int> *t_Frequency, float t_SNR) {
     if (t_Frequency == nullptr) {
         return -1;
     } else {
@@ -212,71 +212,71 @@ int signal_generator::reset(DSLinkedList<int> *t_Frequency, float t_SNR) {
     return 1;
 }
 
-DSLinkedList<int> *signal_generator::getFrequency() const {
+DSLinkedList<int> *signal::getFrequency() const {
     return m_Frequency;
 }
 
-void signal_generator::setFrequency(DSLinkedList<int> *t_Frequency) {
+void signal::setFrequency(DSLinkedList<int> *t_Frequency) {
     m_Frequency = t_Frequency;
 }
 
-DSLinkedList<float>* signal_generator::transmit() const {
+DSLinkedList<float>* signal::transmit() const {
     return this->m_Signal;
 }
 
-void signal_generator::setSignal(DSLinkedList<float> *t_Signal) {
+void signal::setSignal(DSLinkedList<float> *t_Signal) {
     m_Signal = t_Signal;
 }
 
-float signal_generator::getFs() const {
+float signal::getFs() const {
     return m_Fs;
 }
 
-void signal_generator::setFs(float t_Fs) {
+void signal::setFs(float t_Fs) {
     m_Fs = t_Fs;
 }
 
-float signal_generator::getTs() const {
+float signal::getTs() const {
     return m_Ts;
 }
 
-void signal_generator::setTs(float t_Ts) {
+void signal::setTs(float t_Ts) {
     m_Ts = t_Ts;
 }
 
-int signal_generator::getF0() const {
+int signal::getF0() const {
     return m_F0;
 }
 
-void signal_generator::setF0(int t_F0) {
+void signal::setF0(int t_F0) {
     m_F0 = t_F0;
 }
 
-int signal_generator::getSampleCount() const {
+int signal::getSampleCount() const {
     return m_Sample_Count;
 }
 
-void signal_generator::setSampleCount(int t_SampleCount) {
+void signal::setSampleCount(int t_SampleCount) {
     m_Sample_Count = t_SampleCount;
 }
 
-int signal_generator::getMSnr() const {
+int signal::getMSnr() const {
     return m_SNR;
 }
 
-void signal_generator::setMSnr(int mSnr) {
+void signal::setMSnr(int mSnr) {
     m_SNR = mSnr;
 }
 
-float signal_generator::getMNoiseStdev() const {
+float signal::getMNoiseStdev() const {
     return m_Noise_stdev;
 }
 
-void signal_generator::setMNoiseStdev(float mNoiseStdev) {
+void signal::setMNoiseStdev(float mNoiseStdev) {
     m_Noise_stdev = mNoiseStdev;
 }
 
-int signal_generator::gcd(int a, int b){
+int signal::gcd(int a, int b){
     while(b!=0){
         int r = a%b;
         a= b;
@@ -285,7 +285,7 @@ int signal_generator::gcd(int a, int b){
     return a;
 }
 
-int signal_generator::lcm(int a, int b){
+int signal::lcm(int a, int b){
     return a * b / this->gcd(a,b);
 }
 

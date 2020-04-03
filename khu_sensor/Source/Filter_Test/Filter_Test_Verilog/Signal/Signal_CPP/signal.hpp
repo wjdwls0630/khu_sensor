@@ -2,8 +2,8 @@
 // Created by ParkJungJin on 2020-03-24.
 //
 
-#ifndef FILTER_TEST_CPP_SIGNAL_GENERATOR_HPP
-#define FILTER_TEST_CPP_SIGNAL_GENERATOR_HPP
+#ifndef FILTER_TEST_CPP_SIGNAL_HPP
+#define FILTER_TEST_CPP_SIGNAL_HPP
 
 #include <iostream>
 #include <fstream>
@@ -15,7 +15,7 @@
 
 # define PERIOD 3
 
-class signal_generator {
+class signal {
 
 private:
 
@@ -32,9 +32,9 @@ private:
     std::ifstream m_inFile_1; // read signal from  TODO not implement reading *.txt
 
 public:
-    signal_generator(DSLinkedList<int> *t_Frequency = nullptr, float t_SNR = 0.0);
+    signal(DSLinkedList<int> *t_Frequency = nullptr, float t_SNR = 0.0);
 
-    virtual ~signal_generator();
+    virtual ~signal();
 
     int make_Signal();
     int write_Signal(const std::string &t_FileName = "");
@@ -77,4 +77,4 @@ public:
 };
 
 
-#endif //FILTER_TEST_CPP_SIGNAL_GENERATOR_HPP
+#endif //FILTER_TEST_CPP_signal_HPP

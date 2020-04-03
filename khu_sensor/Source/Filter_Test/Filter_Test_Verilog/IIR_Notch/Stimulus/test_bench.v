@@ -21,7 +21,7 @@ module test_bench(clk, rstn);
     .input_a_stb(w_y_data_valid),
     .input_a_ack(w_y_data_ready));
 
-  iir_hpf iir_hpf_1(
+  iir_notch iir_notch_1(
     .i_X_DATA(w_x_data), // input x (float)
     .i_X_DATA_VALID(w_x_data_valid), //input x_data is valid
     .o_X_DATA_READY(w_x_data_ready), // input is ready for next float data

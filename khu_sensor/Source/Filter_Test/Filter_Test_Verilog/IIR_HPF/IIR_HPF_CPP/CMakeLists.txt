@@ -6,7 +6,7 @@
 set(SOURCE_FILES_IIR_HPF
         hpf_1.cpp
         iir_hpf.cpp iir_hpf.hpp
-        ../../Signal/Signal_CPP/signal_generator.hpp ../../Signal/Signal_CPP/signal_generator.cpp
+        ../../Signal/Signal_CPP/signal.hpp ../../Signal/Signal_CPP/signal.cpp
         )
 add_executable(hpf_1 ${SOURCE_FILES_IIR_HPF})
 target_link_libraries(hpf_1)

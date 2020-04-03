@@ -4,7 +4,7 @@ from chips.api.api import *
 import subprocess
 import numpy
 from Signal.Signal import Signal
-import os
+
 # Parameter Type and Return Type annotations are unsupported in Python 2
 """
 filter_type
@@ -15,8 +15,8 @@ filter_type
 
 
 class TestFilter(object):
-    def __init__(self, filter_type=1, test_title=None, input_file_cpp=None, output_file_cpp=None,
-                 verilog_compile_list=None):
+    def __init__(self, filter_type=1, test_title=None, verilog_compile_list=None,
+                 input_file_cpp=None, output_file_cpp=None):
         # test title
         self.test_title = test_title
 
@@ -75,7 +75,6 @@ class TestFilter(object):
         return 1
 
     def compile(self):
-        print (os.getcwd())
         if self.verilog_compile_list is not None:
             try:
                 subprocess.call("iverilog -o ./Stimulus/test_bench_tb " + self.verilog_compile_list, shell=True)
@@ -106,7 +105,7 @@ class TestFilter(object):
             print("Could not open or read the file ! \t", directory_address+self.test_title+"_Output_Compare.txt")
             exit(-1)
 
-        index =0
+        index = 0
         error_rate = 0.0
         error_rate_list = numpy.array([], dtype=float)
 
@@ -130,40 +129,10 @@ class TestFilter(object):
             error_rate = (abs(float(out_cpp-out_verilog))/float(out_cpp))*100
             error_rate_list = numpy.append(error_rate_list, error_rate)
             compare_file.write(str(error_rate)+"%\n\n")
-
-            """
-            if not matched:
-                print("Fail ... cpp : {}\tverilog : {}".format(hex(out_cpp).rstrip("L"), hex(in_cpp).rstrip("L")))
-
-                # input
-                print("input_cpp")
-                print(self.input_cpp.signal[index], hex(in_cpp).rstrip("L"))
-                print("sign : ", ((in_cpp & 0x80000000) >> 31))
-                print("exponent : ", ((in_cpp & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", in_cpp & 0x7fffff)
-                print("\n")
-
-                # output cpp
-                print("output_cpp")
-                print(self.output_cpp.signal[index], hex(out_cpp).rstrip("L"))
-                print("sign : ", ((out_cpp & 0x80000000) >> 31))
-                print("exponent : ", ((out_cpp & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", out_cpp & 0x7fffff)
-                print("\n")
-
-                # output verilog
-                print("output_verilog")
-                print(self.output_verilog.signal[index], hex(in_cpp).rstrip("L"))
-                print("sign : ", ((out_verilog & 0x80000000) >> 31))
-                print("exponent : ", ((out_verilog & 0x7f800000) >> 23) - 127)
-                print("mantissa : ", out_verilog & 0x7fffff)
-                print("\n")
-
-                return 0
-            """
             index += 1
-
-        compare_file.write("Average Error rate : "+str(numpy.mean(error_rate_list)+'\n'))
+        # TODO fix?
+        error_rate_list = numpy.delete(error_rate_list, 0)
+        compare_file.write("Average Error rate : "+numpy.str(numpy.mean(error_rate_list, axis=0))+"%\n")
         compare_file.close()
         return 1
 

@@ -379,6 +379,10 @@ option(BUILD_SIGNAL "Build Signal" ON)
 option(BUILD_IIR_LPF "Build IIR_LPF" ON)
 option(BUILD_IIR_NOTCH "Build IIR_Notch" ON)
 option(BUILD_IIR_HPF "Build IIR_HPF" ON)
+option(BUILD_CONVERTER_F2I "Build Converter_F2I" ON)
+option(BUILD_CONVERTER_I2F "Build Converter_I2F" ON)
+option(BUILD_FLOAT_ADDER "Build Float_Adder" ON)
+option(BUILD_FLOAT_MULTIPLIER "Build Float_Multiplier" ON)
 
 #=======================================================================================================================
 # Add project subdirectories
@@ -400,8 +404,24 @@ if(${BUILD_IIR_HPF})
     add_subdirectory(IIR_HPF/IIR_HPF_CPP)
 endif()
 
+if(${BUILD_CONVERTER_F2I})
+    add_subdirectory(Converter_F2I/Converter_F2I_CPP)
+endif()
+
+if(${BUILD_CONVERTER_I2F})
+    add_subdirectory(Converter_I2F/Converter_I2F_CPP)
+endif()
+
+if(${BUILD_FLOAT_ADDER})
+    add_subdirectory(Float_Adder/Float_Adder_CPP)
+endif()
+
+if(${BUILD_FLOAT_MULTIPLIER})
+    add_subdirectory(Float_Multiplier/Float_Multiplier_CPP)
+endif()
+
 #=======================================================================================================================
-# Add Data_Structure
+# Add Library_CPP
 #=======================================================================================================================
 set(DATA_STRUCTURE Library_CPP/Data_Structure_CPP)
 

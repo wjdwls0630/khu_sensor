@@ -2,7 +2,7 @@
 // Created by ParkJungJin on 2020-03-29.
 //
 
-#include "../../Signal/Signal_CPP/signal_generator.hpp"
+#include "../../Signal/Signal_CPP/signal.hpp"
 #include "iir_notch.hpp"
 
 int main()
@@ -11,7 +11,7 @@ int main()
 
     // make signal
 
-    signal_generator sg(nullptr, 0);
+    signal sg(nullptr, 0);
 
     sg.read_Signal("../../../Data/Signal/Signal");
 
