@@ -1,37 +1,22 @@
 //IEEE Floating Point Multiplier (Single Precision)
 //Copyright (C) Jonathan P Dawson 2013
 //2013-12-12
-module multiplier(
-        input_a,
-        input_b,
-        input_ab_stb,
-        output_z_ack,
-        clk,
-        rst,
-        output_z,
-        output_z_stb,
-        input_ab_ack);
-
-  input     clk;
-  input     rst;
-
-  input     [31:0] input_a;
-  input     input_ab_stb;
-  output    input_ab_ack;
-
-  input     [31:0] input_b;
-
-
-  output    [31:0] output_z;
-  output    output_z_stb;
-  input     output_z_ack;
-
-  reg       s_output_z_stb;
-  reg       [31:0] s_output_z;
-  reg       s_input_ab_ack;
-
+// A*B => Z
+module float_multiplier(
+  input [31:0] i_A, // input a
+  input [31:0] i_B, // input b
+  input i_AB_STB, // input data is valid
+  output reg o_AB_ACK, // A flag that next calculation is ready
+  output reg [31:0] o_Z,  // output data
+  output reg o_Z_STB, // Calculation is done, and output data is valid
+  input i_Z_ACK, // A flag that external module get data, so, o_Z is going to meaningless
+  // it can be used as elongating o_Z_STB High (1)
+  input i_CLK, // clock
+  input i_RST // reset activate High(1)(asynchronous)
+  );
+  // CHANGED: remove state get_b
   reg       [3:0] state;
-  parameter get_a_b       = 4'd0,  
+  parameter get_ab         = 4'd0,
             unpack        = 4'd1,
             special_cases = 4'd2,
             normalise_a   = 4'd3,
@@ -51,20 +36,17 @@ module multiplier(
   reg       guard, round_bit, sticky;
   reg       [49:0] product;
 
-  
-  always @(posedge clk)
+  always @(posedge i_CLK)
   begin
-
     case(state)
-
-      get_a_b:
+      get_ab:
       begin
-        s_input_ab_ack <= 1;
-        if (s_input_ab_ack && input_ab_stb) begin
-          a <= input_a;
-          b <= input_b;
-          s_input_ab_ack <= 0;
-          state <= unpack;
+        o_AB_ACK <= 1;
+		    if (o_AB_ACK && i_AB_STB) begin
+          a <= i_A;
+          b <= i_B;
+			    o_AB_ACK <= 0;
+			    state <= unpack;
         end
       end
 
@@ -81,7 +63,7 @@ module multiplier(
 
       special_cases:
       begin
-        //if a is NaN or b is NaN return NaN 
+        //if a is NaN or b is NaN return NaN
         if ((a_e == 128 && a_m != 0) || (b_e == 128 && b_m != 0)) begin
           z[31] <= 1;
           z[30:23] <= 255;
@@ -236,26 +218,22 @@ module multiplier(
 
       put_z:
       begin
-        s_output_z_stb <= 1;
-        s_output_z <= z;
-        if (s_output_z_stb && output_z_ack) begin
-          s_output_z_stb <= 0;
-          state <= get_a_b;
+        //even if o_Z_STB is high when mother module doesn't want data(output_z_ack low) stay still
+        // TODO : keep stb flag one clock
+        o_Z_STB <= 1;
+        o_Z <= z;
+        if (o_Z_STB && i_Z_ACK) begin
+          o_Z_STB <= 0;
+          state <= get_ab;
         end
       end
-
     endcase
 
-    if (rst == 1) begin
-      state <= get_a_b;
-      s_input_ab_ack <= 0;
-      s_output_z_stb <= 0;
+    if (i_RST == 1) begin
+      state <= get_ab;
+      o_AB_ACK <= 0;
+      o_Z_STB <= 0;
     end
-
   end
-
-  assign input_ab_ack = s_input_ab_ack;
-  assign output_z_stb = s_output_z_stb;
-  assign output_z = s_output_z;
-
+   
 endmodule
