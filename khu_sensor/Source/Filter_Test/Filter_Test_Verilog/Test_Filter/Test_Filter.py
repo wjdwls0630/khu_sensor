@@ -46,15 +46,18 @@ class TestFilter(object):
             # HPF
             self.cut_off_frequency = 5
 
-    def run_test(self):
-        if self.compile() != 1:
+    def run_test(self, tb = ""):
+        if self.compile(tb=tb) != 1:
             print(self.test_title+" is failed by error !")
             return -1
 
         # TODO output file name in test_bench_tb
         # TODO change all times doing other test?
         try:
-            subprocess.check_call("./Stimulus/test_bench_tb")
+            if tb == "":
+                subprocess.check_call("./Stimulus/test_bench_tb")
+            else:
+                subprocess.check_call(tb[:-1])
         except subprocess.CalledProcessError as subErr:
             # handle errors in the called executable
             print ("SubProcessor Error occurred: " + "That command didn't work, try again")
@@ -66,7 +69,10 @@ class TestFilter(object):
             print ("OSError > ", OSErr.filename)
             exit(-1)
 
-        subprocess.call("./Stimulus/test_bench_tb", shell=True)
+        if tb == "":
+            subprocess.call("./Stimulus/test_bench_tb", shell=True)
+        else:
+            subprocess.call(tb, shell=True)
 
         self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=False)
         self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=False)
@@ -74,10 +80,13 @@ class TestFilter(object):
         print(self.test_title+" is finished successfully !")
         return 1
 
-    def compile(self):
+    def compile(self, tb):
         if self.verilog_compile_list is not None:
             try:
-                subprocess.call("iverilog -o ./Stimulus/test_bench_tb " + self.verilog_compile_list, shell=True)
+                if tb == "":
+                    subprocess.call("iverilog -o ./Stimulus/test_bench_tb " + self.verilog_compile_list, shell=True)
+                else:
+                    subprocess.call("iverilog -o " + tb + self.verilog_compile_list, shell=True)
                 #  subprocess.check_call("iverilog -o " + self.verilog_compile_list)
             except subprocess.CalledProcessError as subErr:
                 # handle errors in the called executable

@@ -5,6 +5,7 @@ from matplotlib import pyplot
 from struct import pack, unpack
 from ctypes import cast, pointer, c_int, c_float, POINTER
 from sys import exit
+import os
 
 
 class Signal(object):
