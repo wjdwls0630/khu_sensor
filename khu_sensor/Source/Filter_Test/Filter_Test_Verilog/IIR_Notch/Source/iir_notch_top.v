@@ -46,7 +46,7 @@ module iir_notch_top(
             r_y_data_ready <= 1'b1;
             r_state <= ST_GET;
           end else begin
-
+            
             out <= w_y_data;
             r_x_data <= 32'hb4dc753a;
             r_x_data_valid <= 1'b1;
@@ -68,7 +68,7 @@ module iir_notch_top(
     end
   end
 
-  iir_notch iir_notch_1(
+  iir_lpf iir_lpf_1(
     .i_X_DATA(r_x_data), // input x (float)
     .i_X_DATA_VALID(r_x_data_valid), //input x_data is valid
     .o_X_DATA_READY(w_x_data_ready), // input is ready for next float data
