@@ -1,4 +1,4 @@
-module iir_lpf_tb;
+module iir_notch_tb;
   reg  clk;
   reg  rstn;
 
