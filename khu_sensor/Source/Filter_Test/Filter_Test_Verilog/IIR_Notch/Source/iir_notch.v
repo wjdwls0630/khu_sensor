@@ -135,16 +135,16 @@ module iir_notch(
 	*****************************************************************************/
 	//============================Coefficient=====================================
 	parameter ACoef0 = 32'h3f668c9c;
-	parameter ACoef1 = 32'hbe6847e8;
+	parameter ACoef1 = 32'hbe6847e6;
 	parameter ACoef2 = 32'h3fe860a9;
 	parameter ACoef3 = 32'h3f668c9c;
-	parameter ACoef4 = 32'hbe6847e8;
+	parameter ACoef4 = 32'hbe6847e6;
 	parameter ACoef5 = 32'h00000000;
 
 	parameter BCoef0 = 32'hbf800000; // -BCoef[0] for not using subtractor
-	parameter BCoef1 = 32'h3e74375a; // -BCoef[1] for not using subtractor
-	parameter BCoef2 = 32'hbfe69dbc; // -BCoef[2] for not using subtractor
-	parameter BCoef3 = 32'h3e5b72fb; // -BCoef[3] for not using subtractor
+	parameter BCoef1 = 32'h3e74375c; // -BCoef[1] for not using subtractor
+	parameter BCoef2 = 32'hbfe69dbd; // -BCoef[2] for not using subtractor
+	parameter BCoef3 = 32'h3e5b72fd; // -BCoef[3] for not using subtractor
 	parameter BCoef4 = 32'hbf4ed5c9; // -BCoef[4] for not using subtractor
 	parameter BCoef5 = 32'h00000000; // -BCoef[5] for not using subtractor
 	//============================================================================
