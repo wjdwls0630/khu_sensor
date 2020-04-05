@@ -197,7 +197,7 @@ module uart_controller (
         begin
           // send 40 bits when case is ads data case
           r_lstate <= ST_TX_SEND_56BITS;
-          if(r_data_counter > 4'd7) begin
+          if(r_data_counter > 4'd6) begin
             r_data_counter <= 4'b0;
             o_UART_DATA_TX_READY <= 1'b1;
             r_pstate <= ST_IDLE;

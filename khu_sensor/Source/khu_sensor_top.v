@@ -33,13 +33,12 @@ module khu_sensor_top(
 	//=========================Internal Connection===============================
 	wire rstn_btn;
 	reg rstn_init;
-	assign rstn_btn = KEY_0 | rstn_btn;
-	
+	assign rstn_btn = KEY_0 & rstn_init; // POR
+
 	// initial reset
 	initial begin
 		rstn_init <= 1'b0;
 		#1000000 rstn_init <= 1'b1; // after 1ms, reset will be released
-		
 	end
 
 	//============================================================================
