@@ -1,6 +1,6 @@
 import numpy
-#  import matplotlib  # turn on when you run the code on MacOS
-#  matplotlib.use('TkAgg')  # turn on when you run the code on MacOS
+import matplotlib  # turn on when you run the code on MacOS
+matplotlib.use('TkAgg')  # turn on when you run the code on MacOS
 from matplotlib import pyplot
 from struct import pack, unpack
 from ctypes import cast, pointer, c_int, c_float, POINTER

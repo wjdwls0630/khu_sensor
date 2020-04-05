@@ -57,7 +57,7 @@ module file_reader_b(output_z_ack,clk,rst,output_z,output_z_stb);
   reg       [31:0] s_output_z;
   reg [39:0] instructions [14:0];
   reg [31:0] registers [2:0];
-
+  reg eof;
   //////////////////////////////////////////////////////////////////////////////
   // INSTRUCTION INITIALIZATION
   //
@@ -175,7 +175,8 @@ module file_reader_b(output_z_ack,clk,rst,output_z,output_z_stb);
 
         16'd3:
         begin
-          if(!$feof(input_file_0)) file_count = $fscanf(input_file_0, "%d\n", result_2);
+          eof = $feof(input_file_0);
+          if(!eof) file_count = $fscanf(input_file_0, "%d\n", result_2);
           write_enable_2 <= 1;
         end
 
@@ -190,7 +191,7 @@ module file_reader_b(output_z_ack,clk,rst,output_z,output_z_stb);
           stage_0_enable <= 0;
           stage_1_enable <= 0;
           stage_2_enable <= 0;
-          if(!$feof(input_file_0)) s_output_z_stb <= 1'b1;
+          if(!eof) s_output_z_stb <= 1'b1;
           else s_output_z_stb <= 1'b0;
           s_output_z <= register_1;
         end

@@ -11,7 +11,7 @@ int main()
 
     // make signal
 
-    signal sg(nullptr, 0);
+    class signal sg(nullptr, 0);
 
     sg.read_Signal("../../../Data/Signal/Signal");
 

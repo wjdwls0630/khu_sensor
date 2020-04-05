@@ -32,7 +32,7 @@ int main()
     frequency->Add(60);
     frequency->Add(65);
 
-    signal sg(frequency, 116);
+    class signal sg(frequency, 116);
     /*
      * Reference/ADS1292/ADS1292.pdf p.7 DR BITS OF CONFIG1 REGISTER 001 (250SPS)
      * SNR = 117.8
