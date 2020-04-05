@@ -5,21 +5,21 @@
 // Sampling Frequency : 250Hz
 // Cut-Off Frequency : 59Hz, 61Hz
 //
-// NF_ACoef[0:5]
-//  0.9005830 1012600047 0x3f668c9c
-// -0.2268368 1020988655 0xbe6847e8
-//  1.8154498 1012600047 0x3fe860a9
-//  0.9005830 1012600047 0x3f668c9c
-// -0.2268368 1020988655 0xbe6847e8
-//  0 		  0 			 0x00000000
+//Notch_ACoef[0:5]
+//0.900583 1063685276 0x3f668c9c
+//-0.226837 3194505190 0xbe6847e6
+//1.81545 1072193705 0x3fe860a9
+//-0.226837 3194505190 0xbe6847e6
+//0.900583 1063685276 0x3f668c9c
+//0 0 0x00000000
 //
-// NF BCoef[0:5]
-//  1.0000000 1065353216 0x3f800000
-//  0.2384924 1047803738 0x3e74375a
-// -1.8016887 3219561916 0xbfe69dbc
-//  0.2143058 1046180603 0x3e5b72fb
-// -0.8079496 3209614793 0xbf4ed5c9
-//  0         0          0x00000000
+//Notch_BCoef[0:5]
+//1 1065353216 0x3f800000
+//-0.238492 3195287388 0xbe74375c
+//1.80169 1072078269 0x3fe69dbd
+//-0.214306 3193664253 0xbe5b72fd
+//0.80795 1062131145 0x3f4ed5c9
+//0 0 0x00000000
 //
 // Use 2 adder, 3 multiplier -> 5 cycle
 ///////////////////////////////////////////////////////////////////////////////
@@ -137,8 +137,8 @@ module iir_notch(
 	parameter ACoef0 = 32'h3f668c9c;
 	parameter ACoef1 = 32'hbe6847e6;
 	parameter ACoef2 = 32'h3fe860a9;
-	parameter ACoef3 = 32'h3f668c9c;
-	parameter ACoef4 = 32'hbe6847e6;
+	parameter ACoef3 = 32'hbe6847e6;
+	parameter ACoef4 = 32'h3f668c9c;
 	parameter ACoef5 = 32'h00000000;
 
 	parameter BCoef0 = 32'hbf800000; // -BCoef[0] for not using subtractor

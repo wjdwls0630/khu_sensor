@@ -217,7 +217,7 @@ int iir_lpf::write_Coefficient(const std::string &t_FileName) {
         this->m_OutFile_3<<'\n';
 
         unsigned int code;
-        this->m_OutFile_3<<"LPF_ACoef[0:6]\n";
+        this->m_OutFile_3<<"LPF_ACoef[0:5]\n";
         for (int i = 0; i < NCOEF_LPF+1; ++i) {
             code = *(int*)(&*(this->m_ACoef+i));
             if(*(this->m_ACoef+i) == 0.0){
@@ -229,7 +229,7 @@ int iir_lpf::write_Coefficient(const std::string &t_FileName) {
         }
         this->m_OutFile_3<<'\n';
 
-        this->m_OutFile_3<<"LPF_BCoef[0:6]\n";
+        this->m_OutFile_3<<"LPF_BCoef[0:5]\n";
         for (int i = 0; i < NCOEF_LPF+1; ++i) {
             code = *(int*)(&*(this->m_BCoef+i));
             if(*(this->m_BCoef+i) == 0.0){
