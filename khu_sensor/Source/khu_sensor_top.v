@@ -1,3 +1,4 @@
+`timescale 1ns / 1ns
 /** Top module **/
 module khu_sensor_top(
 	// System I/O
@@ -25,12 +26,21 @@ module khu_sensor_top(
 	output wire ADS1292_START,  // GPIO[31]
 	output wire ADS1292_CSN  // GPIO[32]
 	);
+
 	/****************************************************************************
 	*                           	   FPGA				                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
 	wire rstn_btn;
-	assign rstn_btn = KEY_0;
+	reg rstn_init;
+	assign rstn_btn = KEY_0 & rstn_init; // POR
+
+	// initial reset
+	initial begin
+		rstn_init <= 1'b0;
+		#1000000 rstn_init <= 1'b1; // after 1ms, reset will be released
+	end
+
 	//============================================================================
 
 	/****************************************************************************
