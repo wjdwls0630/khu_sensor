@@ -1,0 +1,14 @@
+//
+// Created by ParkJungJin on 2020-04-07.
+//
+
+#ifndef FILTER_TEST_VERILOG_ADS1292_FILTER_HPP
+#define FILTER_TEST_VERILOG_ADS1292_FILTER_HPP
+
+
+class ads1292_filter {
+
+};
+
+
+#endif //FILTER_TEST_VERILOG_ADS1292_FILTER_HPP

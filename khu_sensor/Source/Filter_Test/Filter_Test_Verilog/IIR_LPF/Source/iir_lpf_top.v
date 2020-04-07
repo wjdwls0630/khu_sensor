@@ -46,7 +46,7 @@ module iir_lpf_top(
             r_y_data_ready <= 1'b1;
             r_state <= ST_GET;
           end else begin
-            
+
             out <= w_y_data;
             r_x_data <= 32'hb4dc753a;
             r_x_data_valid <= 1'b1;

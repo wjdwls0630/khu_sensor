@@ -7,9 +7,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // TODO filter connection
 module ads1292_controller (
-	input i_CLK, // clock
-	input i_RSTN, //reset
-
 	// Host Side
 	output reg [71:0] o_ADS1292_DATA_OUT, // read data from ADS1292
 	input [2:0] i_ADS1292_CONTROL, // ADS1292 Control
@@ -27,8 +24,11 @@ module ads1292_controller (
 	input i_ADS1292_DRDY, // Data Ready
 	output reg o_ADS1292_RESET,
 	output reg o_ADS1292_START,
-	output reg o_SPI_CSN // Chip Select Negative (active low)
+	output reg o_SPI_CSN, // Chip Select Negative (active low)
 	// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
+
+	input i_CLK, // clock
+	input i_RSTN //reset
 	);
 
 	/* ADS1292 Pins (ADS192.pdf p.12 PIN ASSIGNMENTS)
