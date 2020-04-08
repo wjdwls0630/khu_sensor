@@ -17,6 +17,7 @@ int main()
 
     // passed notch
     iir_notch notch;
+    notch.reset();
     DSLinkedList<float> *temp = nullptr;
     temp = new DSLinkedList<float>;
     * temp = *sg.transmit();
