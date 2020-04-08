@@ -40,6 +40,7 @@ int main() {
 
     // passed lpf
     ads1292_filter filter;
+    filter.reset();
     DSLinkedList<signed int> *temp = nullptr;
     temp = new DSLinkedList<signed int>;
     * temp = *sg.transmit();

@@ -45,6 +45,7 @@ int main()
 
     // passed lpf
     iir_lpf lpf;
+    lpf.reset();
     DSLinkedList<float> *temp = nullptr;
     temp = new DSLinkedList<float>;
     * temp = *sg.transmit();
@@ -57,7 +58,7 @@ int main()
     // passed notch
 
     iir_notch notch;
-
+    notch.reset();
     temp = new DSLinkedList<float>;
     * temp = *lpf.transmit();
     notch.pass_Notch(* temp);
@@ -69,6 +70,7 @@ int main()
 
     // passed hpf
     iir_hpf hpf;
+    hpf.reset();
     temp = new DSLinkedList<float>;
     * temp = *notch.transmit();
     hpf.pass_HPF(* temp);
