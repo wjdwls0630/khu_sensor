@@ -383,6 +383,9 @@ option(BUILD_CONVERTER_F2I "Build Converter_F2I" ON)
 option(BUILD_CONVERTER_I2F "Build Converter_I2F" ON)
 option(BUILD_FLOAT_ADDER "Build Float_Adder" ON)
 option(BUILD_FLOAT_MULTIPLIER "Build Float_Multiplier" ON)
+option(BUILD_ALL_FILTERS "Build All_Filters" ON)
+option(BUILD_ADS1292_SIGNAL "Build ADS1292_Signal" ON)
+option(BUILD_ADS1292_FILTER "Build ADS1292_Filter" ON)
 
 #=======================================================================================================================
 # Add project subdirectories
@@ -420,25 +423,19 @@ if(${BUILD_FLOAT_MULTIPLIER})
     add_subdirectory(Float_Multiplier/Float_Multiplier_CPP)
 endif()
 
+if(${BUILD_ALL_FILTERS})
+    add_subdirectory(All_Filters/All_Filters_CPP)
+endif()
+
+if(${BUILD_ADS1292_SIGNAL})
+    add_subdirectory(ADS1292_Signal/ADS1292_Signal_CPP)
+endif()
+
+if(${BUILD_ADS1292_FILTER})
+    add_subdirectory(ADS1292_Filter/ADS1292_Filter_CPP)
+endif()
+
 #=======================================================================================================================
 # Add Library_CPP
 #=======================================================================================================================
 set(DATA_STRUCTURE Library_CPP/Data_Structure_CPP)
-
-#=======================================================================================================================
-# Define main target
-#=======================================================================================================================
-
-
-set(SOURCE_FILES
-        main.cpp
-        ./Signal/Signal_CPP/signal.hpp ./Signal/Signal_CPP/signal.cpp
-        ./IIR_LPF/IIR_LPF_CPP/iir_lpf.hpp ./IIR_LPF/IIR_LPF_CPP/iir_lpf.cpp
-        ./IIR_Notch/IIR_Notch_CPP/iir_notch.hpp ./IIR_Notch/IIR_Notch_CPP/iir_notch.cpp
-        ./IIR_HPF/IIR_HPF_CPP/iir_hpf.hpp ./IIR_HPF/IIR_HPF_CPP/iir_hpf.cpp
-        )
-
-add_executable(main ${SOURCE_FILES})
-target_link_libraries(main)
-target_include_directories(main PUBLIC)
-set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

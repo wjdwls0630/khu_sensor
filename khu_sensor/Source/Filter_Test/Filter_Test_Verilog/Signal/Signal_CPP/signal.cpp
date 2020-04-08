@@ -87,6 +87,10 @@ int signal::make_Signal(){
     return 1;
 }
 
+
+
+
+
 int signal::write_Signal(const std::string &t_FileName){
     if(t_FileName != "") {
         // create file
@@ -223,6 +227,7 @@ void signal::setFrequency(DSLinkedList<int> *t_Frequency) {
 DSLinkedList<float>* signal::transmit() const {
     return this->m_Signal;
 }
+
 
 void signal::setSignal(DSLinkedList<float> *t_Signal) {
     m_Signal = t_Signal;
