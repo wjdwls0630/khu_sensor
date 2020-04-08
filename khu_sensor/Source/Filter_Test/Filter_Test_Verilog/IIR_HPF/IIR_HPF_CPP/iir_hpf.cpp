@@ -96,6 +96,18 @@ int iir_hpf::write_Passed_Signal(const std::string &t_FileName){
     return 1;
 }
 
+int iir_hpf::reset(){
+    if(this->m_Signal != nullptr){
+        delete this->m_Signal;
+        this->m_Signal = nullptr;
+    }
+
+    // initialize input and output data
+    this->m_Input = 0.0;
+    this->m_Output = 0.0;
+    return 1;
+}
+
 DSLinkedList<float>* iir_hpf::transmit() const {
     return this->m_Signal;
 }

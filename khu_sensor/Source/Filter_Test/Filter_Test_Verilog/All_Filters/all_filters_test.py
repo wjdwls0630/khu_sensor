@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """@package docstring
-@brief	iir_lpf verilog test
+@brief	all filters verilog test
 @details get signal plot in time domain and frequency domain
 """
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
 #include "signal.hpp"
 
 signal::signal(DSLinkedList<int> *t_Frequency, float t_SNR)
-: m_Frequency(nullptr), m_Signal(nullptr), m_Signal_ADS(nullptr), m_SNR(t_SNR) {
+: m_Frequency(nullptr), m_Signal(nullptr), m_SNR(t_SNR) {
 
     //sampling freq must be more 2 times of maximum freq
     //this->m_Fs = 5. * (f_iter.Last()), this->m_Ts = 1. / this->m_Fs; //sampling freq, sampling period
@@ -41,7 +41,6 @@ signal::signal(DSLinkedList<int> *t_Frequency, float t_SNR)
         }
     } else {
         this->m_Signal = nullptr;
-        this->m_Signal_ADS = nullptr;
         this->m_Frequency = nullptr;
     }
 }
@@ -88,98 +87,9 @@ int signal::make_Signal(){
     return 1;
 }
 
-int signal::make_Signal_24to32_int() {
-    if(this->m_Signal == nullptr) {
-        this->m_Signal = new DSLinkedList<float>;
-    } else {
-        this->m_Signal->MakeEmpty(); // initialize signal
-    }
 
-    if(this->m_Signal_ADS == nullptr) {
-        this->m_Signal_ADS = new DSLinkedList<signed int>;
-    } else {
-        this->m_Signal_ADS->MakeEmpty(); // initialize signal
-    }
 
-    DoublyIterator<int> f_iter(*this->m_Frequency);
-    float t = 0.0; // Start Time
-    float temp = 0.0; // signal value
-    std::bitset<32> temp_bits; // for data shift
-    unsigned int code; // for hex code
-    signed int value; // signal value
 
-    // add_noise
-    // AWGN(Additive White Gaussian Noise)
-    std::default_random_engine generator;
-    std::normal_distribution<float> dist(0.0, this->m_Noise_stdev);
-
-    for (int i = 0; i <= this->m_Sample_Count ; i++, t+=this->m_Ts) {
-        while (!f_iter.NextIsTail()){
-            temp += sin(2.0*M_PI*f_iter.Next()*t); // TODO changed select sine, cosine, square wave
-        }
-
-        if(this->m_SNR != 0){
-            temp += dist(generator);
-        }
-        temp_bits = *(signed int*)&temp;
-        temp_bits >>= 8; // make 24bits
-        temp_bits <<= 8; // scale up to 32bits
-
-        code = temp_bits.to_ulong();
-        value = *(signed int*)&code;
-        this->m_Signal->Add(temp); // float type data
-        this->m_Signal_ADS->Add(value);
-        f_iter.ResetToHead(); // initialize iterator
-        temp = 0; // initialize value
-    }
-    return 1;
-}
-
-int signal::write_Signal_24to32_int(const std::string &t_FileName){
-    if(t_FileName != "") {
-        // create file
-        this->m_OutFile_1.open(t_FileName, std::ios::out);
-        std::string temp_file_name = t_FileName; // for removing .txt string
-        for (int i = 0; i < 4; ++i) {
-            temp_file_name.pop_back();
-        }
-        this->m_OutFile_2.open(temp_file_name, std::ios::out); // for stimulus on verilog test bench
-        if (!this->m_OutFile_1.is_open()) {
-            std::cerr << "Can't open the file !" << '\t' << t_FileName << '\n';
-            return -1;
-        } else if (!this->m_OutFile_2.is_open()) {
-            std::cerr << "Can't open the file !" << '\t' << temp_file_name << '\n';
-            return -1;
-        } else {
-            if (this->m_Signal_ADS != nullptr) {
-                signed int temp; // signal value
-                unsigned int code; // for float hex code
-                DoublyIterator<signed int> s_iter(*this->m_Signal_ADS);
-                while (!s_iter.NextIsTail()) {
-                    temp = s_iter.Next();
-                    // get the IEEE-754 form of code
-                    code = *(int *) &temp;
-                    if (temp == 0.0) {
-                        this->m_OutFile_1 << temp << ' ' << "0x00000000" << '\n';
-                    } else {
-                        this->m_OutFile_1 << temp << ' ' << "0x" << std::hex << code << '\n';
-                    }
-                    this->m_OutFile_1.unsetf(std::ios::hex);
-                    this->m_OutFile_2 << code << '\n';
-                }
-                this->m_OutFile_1.close();
-                this->m_OutFile_2.close();
-            } else {
-                std::cerr << "Signal is Empty !" << '\n';
-                return 0;
-            }
-        }
-    } else {
-        std::cerr << "Can't open the file which has not a filename !" << '\n';
-        return -1;
-    }
-    return 1;
-}
 
 int signal::write_Signal(const std::string &t_FileName){
     if(t_FileName != "") {
@@ -318,9 +228,6 @@ DSLinkedList<float>* signal::transmit() const {
     return this->m_Signal;
 }
 
-DSLinkedList<signed int>* signal::transmit_ADS() const {
-    return this->m_Signal_ADS;
-}
 
 void signal::setSignal(DSLinkedList<float> *t_Signal) {
     m_Signal = t_Signal;

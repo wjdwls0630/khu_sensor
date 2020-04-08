@@ -38,6 +38,8 @@ public:
 
     DSLinkedList<float>* transmit() const;
 
+    int reset();
+
     float *getACoef() const;
 
     void setACoef(float *t_ACoef);

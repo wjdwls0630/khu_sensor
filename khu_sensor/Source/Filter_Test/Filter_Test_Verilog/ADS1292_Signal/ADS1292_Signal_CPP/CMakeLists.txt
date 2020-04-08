@@ -6,6 +6,7 @@
 set(SOURCE_FILES_ADS1292_SIGNAL
         ads1292_signal_test.cpp
         ads1292_signal.cpp ads1292_signal.hpp
+        ../../Signal/Signal_CPP/signal.hpp ../../Signal/Signal_CPP/signal.cpp
         )
 add_executable(ads1292_signal_test ${SOURCE_FILES_ADS1292_SIGNAL})
 target_link_libraries(ads1292_signal_test)

@@ -22,26 +22,26 @@ private:
 
     DSLinkedList<int>* m_Frequency;
     DSLinkedList<float>* m_Signal;
-    DSLinkedList<signed int>* m_Signal_ADS;
     float m_Fs; // sampling frequency
     float m_Ts; // sampling time
     int m_F0; // Base Frequency
     int m_Sample_Count; // Sampling Count
     float m_SNR; // SNR ratio
     float m_Noise_stdev; // standard deviation of Gaussian noise
+
+protected:
     std::ofstream m_OutFile_1; // write float and hex m_Signal graph
     std::ofstream m_OutFile_2; // write integer for reading from verilog
     std::ifstream m_inFile_1; // read signal from  TODO not implement reading *.txt
-
 public:
     signal(DSLinkedList<int> *t_Frequency = nullptr, float t_SNR = 0.0);
 
     virtual ~signal();
 
-    int make_Signal();
-    int make_Signal_24to32_int();
-    int write_Signal(const std::string &t_FileName = "");
-    int write_Signal_24to32_int(const std::string &t_FileName = "");
+    virtual int make_Signal();
+
+    virtual int write_Signal(const std::string &t_FileName = "");
+
     int read_Signal(const std::string &t_FileName = "");
     int reset(DSLinkedList<int> *t_Frequency = nullptr, float t_SNR = 0.0);
     DSLinkedList<int> *getFrequency() const;
@@ -49,7 +49,6 @@ public:
     void setFrequency(DSLinkedList<int> *t_Frequency);
 
     DSLinkedList<float>* transmit() const;
-    DSLinkedList<signed int>* transmit_ADS() const;
 
     void setSignal(DSLinkedList<float> *t_Sine);
 

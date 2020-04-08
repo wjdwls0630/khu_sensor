@@ -4,6 +4,7 @@ from chips.api.api import *
 import subprocess
 import numpy
 from Signal.Signal import Signal
+from ADS1292_Signal.ADS1292_Signal import ADS1292_Signal
 
 # Parameter Type and Return Type annotations are unsupported in Python 2
 """
@@ -27,9 +28,14 @@ class TestFilter(object):
         self.verilog_compile_list = verilog_compile_list  # verilog files to being compiled by icarus-verilog
 
         # signal
-        self.input_cpp = Signal()
-        self.output_cpp = Signal()
-        self.output_verilog = Signal()
+        if filter_type != 4:
+            self.input_cpp = Signal()
+            self.output_cpp = Signal()
+            self.output_verilog = Signal()
+        else:
+            self.input_cpp = ADS1292_Signal()
+            self.output_cpp = ADS1292_Signal()
+            self.output_verilog = ADS1292_Signal()
 
         # filter type
         self.filter_type = filter_type
@@ -42,9 +48,11 @@ class TestFilter(object):
         elif filter_type == 2:
             # Notch
             self.cut_off_frequency = 60  # notch mid frequency 60Hz
-        else:
+        elif filter_type == 3:
             # HPF
             self.cut_off_frequency = 5
+        else:
+            self.cut_off_frequency = numpy.array([10, 60, 5])
 
     def run_test(self, tb = ""):
         if self.compile(tb=tb) != 1:
@@ -73,10 +81,15 @@ class TestFilter(object):
             subprocess.call("./Stimulus/test_bench_tb", shell=True)
         else:
             subprocess.call(tb, shell=True)
+        if self.filter_type != 4:
+            self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=False)
+            self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=False)
+            self.output_verilog.set_data_from_file(data_file=self.output_file_verilog, signal_int_form=True)
+        else:
+            self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=True)
+            self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=True)
+            self.output_verilog.set_data_from_file(data_file=self.output_file_verilog, signal_int_form=True)
 
-        self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=False)
-        self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=False)
-        self.output_verilog.set_data_from_file(data_file=self.output_file_verilog, signal_int_form=True)
         print(self.test_title+" is finished successfully !")
         return 1
 
@@ -162,14 +175,29 @@ class TestFilter(object):
         fig = self.output_cpp.get_graph()
         fig.suptitle(self.test_title+"\nOutput Signal C++(Time Domain)")
         ax_list = fig.get_axes()
-        ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
-        ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
-                            xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
         ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
                             xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
                             xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
+        if self.filter_type != 4:
+            ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
+            ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
+                            xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+        else:
+            ax_list[1].axvline(x=self.cut_off_frequency[0], color='g', linestyle='--')
+            ax_list[1].annotate(r'$LPF$={}Hz'.format(self.cut_off_frequency[0]),
+                            xy=(self.cut_off_frequency[0], 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[0]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+            ax_list[1].axvline(x=self.cut_off_frequency[1], color='g', linestyle='--')
+            ax_list[1].annotate(r'$Notch$={}Hz'.format(self.cut_off_frequency[1]),
+                            xy=(self.cut_off_frequency[1], 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[1]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+            ax_list[1].axvline(x=self.cut_off_frequency[2], color='g', linestyle='--')
+            ax_list[1].annotate(r'$HPF$={}Hz'.format(self.cut_off_frequency[2]),
+                        xy=(self.cut_off_frequency[2], 0.2), color='g', xycoords='data',
+                        xytext=(self.cut_off_frequency[2]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+
         # fig.show()
         if save_img:
             fig.savefig(img_file)
@@ -179,14 +207,28 @@ class TestFilter(object):
         fig = self.output_verilog.get_graph()
         fig.suptitle(self.test_title+"\nOutput Signal Verilog(Time Domain)")
         ax_list = fig.get_axes()
-        ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
-        ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
-                            xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
         ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
-                            xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
-                            xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
+                        xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
+                        xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
+        if self.filter_type != 4:
+            ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
+            ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
+                            xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+        else:
+            ax_list[1].axvline(x=self.cut_off_frequency[0], color='g', linestyle='--')
+            ax_list[1].annotate(r'$LPF$={}Hz'.format(self.cut_off_frequency[0]),
+                            xy=(self.cut_off_frequency[0], 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[0]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+            ax_list[1].axvline(x=self.cut_off_frequency[1], color='g', linestyle='--')
+            ax_list[1].annotate(r'$Notch$={}Hz'.format(self.cut_off_frequency[1]),
+                            xy=(self.cut_off_frequency[1], 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[1]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+            ax_list[1].axvline(x=self.cut_off_frequency[2], color='g', linestyle='--')
+            ax_list[1].annotate(r'$HPF$={}Hz'.format(self.cut_off_frequency[2]),
+                            xy=(self.cut_off_frequency[2], 0.2), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[2]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         # fig.show()
         if save_img:
             fig.savefig(img_file)
