@@ -88,10 +88,10 @@ module iir_hpf(
 	reg [3:0] r_pstate;
 	reg [3:0] r_lstate;
 
-	parameter ST_IDLE = 4'b0001;
-	parameter ST_INIT = 4'b0010;
-	parameter ST_WAIT_Z = 4'b0100;
-	parameter ST_FINISH = 4'b1000;
+	parameter ST_IDLE = 4'd0;
+	parameter ST_INIT = 4'd1;
+	parameter ST_WAIT_Z = 4'd2;
+	parameter ST_FINISH = 4'd3;
 	//============================================================================
 	//==============================wire & reg====================================
 	// In 2nd order IIR Filter, we need to store input and output data for calculation

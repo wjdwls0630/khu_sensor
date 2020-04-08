@@ -1,4 +1,4 @@
-module iir_lpf_tb;
+module ads1292_filter_tb;
   reg  clk;
   reg  rstn;
 
@@ -23,7 +23,7 @@ module iir_lpf_tb;
   always @ ( out ) begin
     $monitor("%d %d", out, $time);
   end
-  iir_lpf_top iir_lpf_top(
+  ads1292_filter_top ads1292_filter_top(
     .clk(clk),
     .rstn(rstn),
     .out(out)
