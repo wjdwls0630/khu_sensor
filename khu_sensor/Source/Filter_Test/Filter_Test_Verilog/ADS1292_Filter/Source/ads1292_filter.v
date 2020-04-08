@@ -40,6 +40,7 @@ module ads1292_filter (
 
   //=========================Internal Connection===============================
   // CHANGED Direct connection is failed by timing of crossing stb and ack
+  // And also connected with ack and stb, pre-order module will be activated while post-order module stay
   // converter_i2f
   // input
   reg [31:0] r_converter_i2f_a; // input a (int)
@@ -145,7 +146,7 @@ module ads1292_filter (
     .o_Z_STB(w_converter_f2i_z_stb), // Calculation is done, and output data is valid
     .i_Z_ACK(r_converter_f2i_z_ack), // A flag that external module get data, so, o_Z is going to meaningless
     // it can be used as elongating o_Z_STB High (1)
-    .i_CLK(clk), // clock
+    .i_CLK(i_CLK), // clock
     .i_RST(!i_RSTN) // reset activate High(1)(asynchronous)
     );
   //============================================================================

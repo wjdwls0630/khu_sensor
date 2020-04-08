@@ -11,7 +11,7 @@ module test_bench_tb;
 
   initial
   begin
-    #2000000 $finish;
+    //#2000000 $finish;
   end
 
 

@@ -100,7 +100,7 @@ int ads1292_filter::write_Passed_Data(const std::string &t_FileName){
             return -1;
         } else {
             if(this->m_Signal != nullptr) {
-                float temp = 0.0; // signal value
+                signed int temp = 0.0; // signal value
                 unsigned int code = 0; // for hex code
                 DoublyIterator<signed int> s_iter(*this->m_Signal);
                 while (!s_iter.NextIsTail()){

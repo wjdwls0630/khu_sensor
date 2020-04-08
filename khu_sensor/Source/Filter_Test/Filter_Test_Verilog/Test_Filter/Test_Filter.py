@@ -148,7 +148,15 @@ class TestFilter(object):
                 compare_file.write("not matched\t")
             else :
                 compare_file.write("matched\t")
-            error_rate = (abs(float(out_cpp-out_verilog))/float(out_cpp))*100
+
+            if not numpy.isnan(self.output_cpp.signal[index]) and not numpy.isnan(self.output_verilog.signal[index]):
+                if out_cpp == 0.0:
+                    error_rate = 0.0
+                else:
+                    error_rate = (abs(float(out_cpp-out_verilog))/float(out_cpp))*100
+            else:
+                error_rate = 0.0
+
             error_rate_list = numpy.append(error_rate_list, error_rate)
             compare_file.write(str(error_rate)+"%\n\n")
             index += 1
