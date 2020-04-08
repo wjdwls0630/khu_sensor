@@ -20,5 +20,6 @@ if __name__ == "__main__":
         lpf_test.show_input_cpp_graph("../Data/IIR_LPF/IIR_LPF_Test_Input_CPP.png")
         lpf_test.show_output_cpp_graph("../Data/IIR_LPF/IIR_LPF_Test_Output_CPP.png")
         lpf_test.show_output_verilog_graph("../Data/IIR_LPF/IIR_LPF_Test_Output_Verilog.png")
+        lpf_test.compare_output("../Data/IIR_LPF/")
     else:
-        exit(-1)
+         exit(-1)

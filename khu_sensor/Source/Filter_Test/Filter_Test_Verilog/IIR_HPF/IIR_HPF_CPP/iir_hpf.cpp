@@ -9,6 +9,8 @@ iir_hpf::iir_hpf()
     this->m_tau = FILTER_CAP * this->m_filter_R;
     this->m_omega = this->m_tau/(this->m_tau+this->m_ts);
     this->m_omega_cal = SPR/(2*M_PI*CUTOFF+SPR);
+    this->m_Input = 0.0;
+    this->m_Output = 0.0;
     this->m_Signal = nullptr;
 }
 
@@ -37,7 +39,7 @@ int iir_hpf::pass_HPF(DSLinkedList<float> &t_Signal) {
 }
 
 float iir_hpf::HPF_Process(const float &t_Sample) {
-    float result;
+    float result = 0.0;
     result = this->m_omega_cal * this->m_Output + this->m_omega_cal * (t_Sample-this->m_Input);
 
     // shift
@@ -91,6 +93,18 @@ int iir_hpf::write_Passed_Signal(const std::string &t_FileName){
         std::cerr << "Can't open the file which has not a filename !" << '\n';
         return -1;
     }
+    return 1;
+}
+
+int iir_hpf::reset(){
+    if(this->m_Signal != nullptr){
+        delete this->m_Signal;
+        this->m_Signal = nullptr;
+    }
+
+    // initialize input and output data
+    this->m_Input = 0.0;
+    this->m_Output = 0.0;
     return 1;
 }
 

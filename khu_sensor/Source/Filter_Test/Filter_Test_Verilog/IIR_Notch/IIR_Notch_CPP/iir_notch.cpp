@@ -39,7 +39,7 @@ iir_notch::~iir_notch(){
     }
 }
 
-int iir_notch::pass_Notch(DSLinkedList<float> &t_Signal) {
+int iir_notch::pass_Notch(DSLinkedList<float>& t_Signal) {
     if(this->m_Signal == nullptr){
         this->m_Signal = new DSLinkedList<float>;
     } else {
@@ -124,7 +124,19 @@ DSLinkedList<float>* iir_notch::transmit() const {
     return this->m_Signal;
 }
 
+int iir_notch::reset(){
+    if(this->m_Signal != nullptr){
+        delete this->m_Signal;
+        this->m_Signal = nullptr;
+    }
 
+    // initialize input and output data
+    for (int i = 0; i < NCOEF_NOTCH+1; i++) {
+        this->m_Input[i] = 0.0;
+        this->m_Output[i] = 0.0;
+    }
+    return 1;
+}
 
 float *iir_notch::getACoef() const {
     return this->m_ACoef;
@@ -206,7 +218,7 @@ int iir_notch::write_Coefficient(const std::string &t_FileName) {
         this->m_OutFile_3 << '\n';
 
         unsigned int code;
-        this->m_OutFile_3 << "LPF_ACoef[0:6]\n";
+        this->m_OutFile_3 << "Notch_ACoef[0:5]\n";
         for (int i = 0; i < NCOEF_NOTCH + 1; ++i) {
             code = *(int *) (&*(this->m_ACoef + i));
             if (*(this->m_ACoef + i) == 0.0) {
@@ -218,7 +230,7 @@ int iir_notch::write_Coefficient(const std::string &t_FileName) {
         }
         this->m_OutFile_3 << '\n';
 
-        this->m_OutFile_3 << "LPF_BCoef[0:6]\n";
+        this->m_OutFile_3 << "Notch_BCoef[0:5]\n";
         for (int i = 0; i < NCOEF_NOTCH + 1; ++i) {
             code = *(int *) (&*(this->m_BCoef + i));
             if (*(this->m_BCoef + i) == 0.0) {
@@ -232,6 +244,8 @@ int iir_notch::write_Coefficient(const std::string &t_FileName) {
     this->m_OutFile_3.close();
     return 1;
 }
+
+
 
 
 

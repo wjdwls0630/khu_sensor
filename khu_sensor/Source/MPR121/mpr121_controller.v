@@ -1,7 +1,4 @@
 module mpr121_controller (
-	input i_CLK, // clock
-	input i_RSTN, // reset
-
 	// Host Side
 	output reg [7:0] o_MPR121_DATA_OUT, // read data from MPR121
 	input [7:0] o_MPR121_REG_ADDR, // MPR121 register address
@@ -14,7 +11,10 @@ module mpr121_controller (
 
 	//	I2C Side
 	inout wire I2C_SCL,
-	inout wire I2C_SDA
+	inout wire I2C_SDA,
+
+	input i_CLK, // clock
+	input i_RSTN // reset
 	);
 	/* MPR121 Pins
 

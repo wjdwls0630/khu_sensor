@@ -1,10 +1,11 @@
 import numpy
-#  import matplotlib  # turn on when you run the code on MacOS
-#  matplotlib.use('TkAgg')  # turn on when you run the code on MacOS
+import matplotlib  # turn on when you run the code on MacOS
+matplotlib.use('TkAgg')  # turn on when you run the code on MacOS
 from matplotlib import pyplot
-from struct import pack
+from struct import pack, unpack
 from ctypes import cast, pointer, c_int, c_float, POINTER
 from sys import exit
+import os
 
 
 class Signal(object):
@@ -12,7 +13,8 @@ class Signal(object):
         self.data_file = None
         self.signal = numpy.array([], dtype=float)
         self.signal_hex = numpy.array([], dtype=int)
-        self.signal_hex_str = numpy.array([])
+        self.signal_hex_str = numpy.array([], dtype=str)
+        self.signal_signed_int = numpy.array([], dtype=int)
 
     def read_signal_float(self):
         try:
@@ -34,6 +36,11 @@ class Signal(object):
                 self.signal = numpy.append(self.signal, float(temp[0]))  # save data
                 self.signal_hex = numpy.append(self.signal_hex, int(temp[1], 0))  # save hex data
                 self.signal_hex_str = numpy.append(self.signal_hex_str, temp[1])  # save hex string data
+
+        for i in self.signal_hex:
+            hex_code = hex(i).rstrip('L')  # convert from hex to a Python int
+            self.signal_signed_int = numpy.append(self.signal_signed_int, self.s32(i))
+
         return 1
 
     def read_signal_hex(self):
@@ -64,6 +71,11 @@ class Signal(object):
                 else:
                     # make same status with read_signal_float
                     self.signal_hex_str = numpy.append(self.signal_hex_str, hex(int(line)).rstrip('L')+'\n')
+
+        for i in self.signal_hex:
+            hex_code = hex(i).rstrip('L')  # convert from hex to a Python int
+            self.signal_signed_int = numpy.append(self.signal_signed_int, self.s32(i))
+
         return 1
 
     def set_data_from_file(self, data_file=None, signal_int_form=False):
@@ -94,7 +106,13 @@ class Signal(object):
                     # make this into a c integer and cast the int pointer to a float pointer
                     float_pointer = cast(pointer(c_int(hex_code)), POINTER(c_float))
                     self.signal = numpy.append(self.signal, float_pointer.contents.value)
-                    self.signal_hex_str = numpy.append(self.signal_hex_str, hex(i).rstrip('L'))
+                    self.signal_signed_int = numpy.append(self.signal_signed_int, self.s32(i))
+                    if i == 0:
+                        # make same status with read_signal_float
+                        self.signal_hex_str = numpy.append(self.signal_hex_str, '0x00000000\n')
+                    else:
+                        # make same status with read_signal_float
+                        self.signal_hex_str = numpy.append(self.signal_hex_str, hex(i).rstrip('L')+'\n')
             else:
                 self.signal = signal  # save data
                 for i in self.signal:
@@ -102,6 +120,10 @@ class Signal(object):
                     self.signal_hex = numpy.append(self.signal_hex, int(pack(">f", i).encode("hex"), 16))
                     # save hex string data
                     self.signal_hex_str = numpy.append(self.signal_hex_str, "0x"+pack(">f", i).encode("hex"))
+
+                for i in self.signal_hex:
+                    hex_code = hex(i).rstrip('L')  # convert from hex to a Python int
+                    self.signal_signed_int = numpy.append(self.signal_signed_int, self.s32(i))
 
             return 1
 
@@ -147,5 +169,5 @@ class Signal(object):
         ax2.legend()
         return fig1
 
-
-
+    def s32(self, value):
+        return -(value & 0x80000000) | (value & 0x7fffffff)

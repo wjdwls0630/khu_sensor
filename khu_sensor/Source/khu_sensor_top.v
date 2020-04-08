@@ -33,13 +33,12 @@ module khu_sensor_top(
 	//=========================Internal Connection===============================
 	wire rstn_btn;
 	reg rstn_init;
-	assign rstn_btn = KEY_0 | rstn_btn;
-	
+	assign rstn_btn = KEY_0 & rstn_init; // POR
+
 	// initial reset
 	initial begin
 		rstn_init <= 1'b0;
 		#1000000 rstn_init <= 1'b1; // after 1ms, reset will be released
-		
 	end
 
 	//============================================================================
@@ -171,10 +170,6 @@ module khu_sensor_top(
 	assign GPIO[0] = w_CLOCK_5M;
 
 	mpr121_controller mpr121_controller(
-
-		.i_CLK(CLOCK_50M), // clock
-		.i_RSTN(w_core_rstn), // reset
-
 		// Host Side
 		.o_MPR121_DATA_OUT(w_mpr121_data_out), // read data from MPR121
 		.o_MPR121_REG_ADDR(w_mpr121_reg_addr), // MPR121 register address
@@ -187,7 +182,10 @@ module khu_sensor_top(
 
 		//	I2C Side
 		.I2C_SCL(MPR121_SCL),
-		.I2C_SDA(MPR121_SDA)
+		.I2C_SDA(MPR121_SDA),
+
+		.i_CLK(CLOCK_50M), // clock
+		.i_RSTN(w_core_rstn) // reset
 		);
 	//============================================================================
 
@@ -207,9 +205,6 @@ module khu_sensor_top(
 
 	assign GPIO[1] = ADS1292_DRDY;
 	ads1292_controller ads1292_controller(
-		.i_CLK(CLOCK_50M), // clock
-		.i_RSTN(w_core_rstn), //reset
-
 		// Host Side
 		.o_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
 		.i_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
@@ -227,8 +222,11 @@ module khu_sensor_top(
 		.i_ADS1292_DRDY(ADS1292_DRDY), // Data Ready (active low) (change it active high)
 		.o_ADS1292_RESET(ADS1292_RESET),
 		.o_ADS1292_START(ADS1292_START),
-		.o_SPI_CSN(ADS1292_CSN) // Chip Select Negative (active low)
+		.o_SPI_CSN(ADS1292_CSN), // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
+
+		.i_CLK(CLOCK_50M), // clock
+		.i_RSTN(w_core_rstn) //reset
 		);
 	//============================================================================
 endmodule
