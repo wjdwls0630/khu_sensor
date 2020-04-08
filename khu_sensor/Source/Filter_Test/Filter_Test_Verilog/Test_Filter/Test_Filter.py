@@ -183,28 +183,33 @@ class TestFilter(object):
         fig = self.output_cpp.get_graph()
         fig.suptitle(self.test_title+"\nOutput Signal C++(Time Domain)")
         ax_list = fig.get_axes()
-        ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
-        ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
+
+        if self.filter_type != 4:
+            ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
+            ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
                             xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
                             xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
-        if self.filter_type != 4:
             ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
             ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
                             xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
                             xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         else:
+            ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
+            ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
+                            xy=(self.sampling_frequency/2, 0.05), color='b', xycoords='data',
+                            xytext=(self.sampling_frequency/2+20, 0.05), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
             ax_list[1].axvline(x=self.cut_off_frequency[0], color='g', linestyle='--')
             ax_list[1].annotate(r'$LPF$={}Hz'.format(self.cut_off_frequency[0]),
-                            xy=(self.cut_off_frequency[0], 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency[0]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                            xy=(self.cut_off_frequency[0], 0.08), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[0]+20, 0.08), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
             ax_list[1].axvline(x=self.cut_off_frequency[1], color='g', linestyle='--')
             ax_list[1].annotate(r'$Notch$={}Hz'.format(self.cut_off_frequency[1]),
-                            xy=(self.cut_off_frequency[1], 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency[1]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                            xy=(self.cut_off_frequency[1], 0.06), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[1]+20, 0.06), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
             ax_list[1].axvline(x=self.cut_off_frequency[2], color='g', linestyle='--')
             ax_list[1].annotate(r'$HPF$={}Hz'.format(self.cut_off_frequency[2]),
-                        xy=(self.cut_off_frequency[2], 0.2), color='g', xycoords='data',
-                        xytext=(self.cut_off_frequency[2]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                        xy=(self.cut_off_frequency[2], 0.02), color='g', xycoords='data',
+                        xytext=(self.cut_off_frequency[2]+20, 0.02), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
 
         # fig.show()
         if save_img:
@@ -215,28 +220,33 @@ class TestFilter(object):
         fig = self.output_verilog.get_graph()
         fig.suptitle(self.test_title+"\nOutput Signal Verilog(Time Domain)")
         ax_list = fig.get_axes()
-        ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
-        ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
-                        xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
-                        xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
+
         if self.filter_type != 4:
+            ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
+            ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
+                            xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
+                            xytext=(self.sampling_frequency/2+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
             ax_list[1].axvline(x=self.cut_off_frequency, color='g', linestyle='--')
             ax_list[1].annotate(r'$f_c$={}Hz'.format(self.cut_off_frequency),
                             xy=(self.cut_off_frequency, 0.2), color='g', xycoords='data',
                             xytext=(self.cut_off_frequency+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         else:
+            ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
+            ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
+                            xy=(self.sampling_frequency/2, 0.05), color='b', xycoords='data',
+                            xytext=(self.sampling_frequency/2+20, 0.05), textcoords='data', arrowprops=dict(arrowstyle="->", color='b'))
             ax_list[1].axvline(x=self.cut_off_frequency[0], color='g', linestyle='--')
             ax_list[1].annotate(r'$LPF$={}Hz'.format(self.cut_off_frequency[0]),
-                            xy=(self.cut_off_frequency[0], 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency[0]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                            xy=(self.cut_off_frequency[0], 0.08), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[0]+20, 0.08), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
             ax_list[1].axvline(x=self.cut_off_frequency[1], color='g', linestyle='--')
             ax_list[1].annotate(r'$Notch$={}Hz'.format(self.cut_off_frequency[1]),
-                            xy=(self.cut_off_frequency[1], 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency[1]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                            xy=(self.cut_off_frequency[1], 0.06), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[1]+20, 0.06), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
             ax_list[1].axvline(x=self.cut_off_frequency[2], color='g', linestyle='--')
             ax_list[1].annotate(r'$HPF$={}Hz'.format(self.cut_off_frequency[2]),
-                            xy=(self.cut_off_frequency[2], 0.2), color='g', xycoords='data',
-                            xytext=(self.cut_off_frequency[2]+20, 0.2), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
+                            xy=(self.cut_off_frequency[2], 0.02), color='g', xycoords='data',
+                            xytext=(self.cut_off_frequency[2]+20, 0.02), textcoords='data', arrowprops=dict(arrowstyle="->", color='g'))
         # fig.show()
         if save_img:
             fig.savefig(img_file)
