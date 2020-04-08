@@ -235,5 +235,5 @@ module float_multiplier(
       o_Z_STB <= 0;
     end
   end
-   
+
 endmodule
