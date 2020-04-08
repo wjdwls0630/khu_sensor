@@ -124,7 +124,19 @@ DSLinkedList<float>* iir_notch::transmit() const {
     return this->m_Signal;
 }
 
+int iir_notch::reset(){
+    if(this->m_Signal != nullptr){
+        delete this->m_Signal;
+        this->m_Signal = nullptr;
+    }
 
+    // initialize input and output data
+    for (int i = 0; i < NCOEF_NOTCH+1; i++) {
+        this->m_Input[i] = 0.0;
+        this->m_Output[i] = 0.0;
+    }
+    return 1;
+}
 
 float *iir_notch::getACoef() const {
     return this->m_ACoef;
@@ -232,6 +244,8 @@ int iir_notch::write_Coefficient(const std::string &t_FileName) {
     this->m_OutFile_3.close();
     return 1;
 }
+
+
 
 
 
