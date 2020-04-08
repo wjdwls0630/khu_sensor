@@ -4,7 +4,7 @@
 // Description: iir_hpf filter
 // Sampling Frequency : 250Hz
 // Cut-Off Frequency : 5Hz
-//0.888365 1063480288 0x3f636be0
+// 0.888365 1063480288 0x3f636be0
 // HPF_ACoef[0:1]
 // 0.888365 1063480288 0x3f636be0 (omega)
 // -0.888365 3210963939 0xbf636be3 (-omega)
@@ -85,13 +85,13 @@ module iir_hpf(
 	parameter omega = 32'h3f636be3; // 0.8883647883
 	//============================================================================
 	//==============================State=========================================
-	reg [3:0] r_pstate;
-	reg [3:0] r_lstate;
+	reg [1:0] r_pstate;
+	reg [1:0] r_lstate;
 
-	parameter ST_IDLE = 4'b0001;
-	parameter ST_INIT = 4'b0010;
-	parameter ST_WAIT_Z = 4'b0100;
-	parameter ST_FINISH = 4'b1000;
+	parameter ST_IDLE = 2'b00;
+	parameter ST_INIT = 2'b01;
+	parameter ST_WAIT_Z = 2'b10;
+	parameter ST_FINISH = 2'b11;
 	//============================================================================
 	//==============================wire & reg====================================
 	// In 2nd order IIR Filter, we need to store input and output data for calculation
