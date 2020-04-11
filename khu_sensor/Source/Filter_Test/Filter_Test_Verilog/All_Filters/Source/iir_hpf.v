@@ -4,7 +4,7 @@
 // Description: iir_hpf filter
 // Sampling Frequency : 250Hz
 // Cut-Off Frequency : 5Hz
-//0.888365 1063480288 0x3f636be0
+// 0.888365 1063480288 0x3f636be0
 // HPF_ACoef[0:1]
 // 0.888365 1063480288 0x3f636be0 (omega)
 // -0.888365 3210963939 0xbf636be3 (-omega)

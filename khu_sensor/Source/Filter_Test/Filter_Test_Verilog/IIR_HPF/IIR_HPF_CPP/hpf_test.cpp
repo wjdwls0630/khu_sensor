@@ -17,6 +17,7 @@ int main()
 
     // passed hpf
     iir_hpf hpf;
+    hpf.reset();
     DSLinkedList<float> *temp = nullptr;
     temp = new DSLinkedList<float>;
     * temp = *sg.transmit();

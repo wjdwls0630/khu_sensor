@@ -85,13 +85,13 @@ module iir_hpf(
 	parameter omega = 32'h3f636be3; // 0.8883647883
 	//============================================================================
 	//==============================State=========================================
-	reg [1:0] r_pstate;
-	reg [1:0] r_lstate;
+	reg [3:0] r_pstate;
+	reg [3:0] r_lstate;
 
-	parameter ST_IDLE = 2'b00;
-	parameter ST_INIT = 2'b01;
-	parameter ST_WAIT_Z = 2'b10;
-	parameter ST_FINISH = 2'b11;
+	parameter ST_IDLE = 4'd0;
+	parameter ST_INIT = 4'd1;
+	parameter ST_WAIT_Z = 4'd2;
+	parameter ST_FINISH = 4'd3;
 	//============================================================================
 	//==============================wire & reg====================================
 	// In 2nd order IIR Filter, we need to store input and output data for calculation
