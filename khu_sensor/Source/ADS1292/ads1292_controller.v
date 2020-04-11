@@ -14,7 +14,7 @@ module ads1292_controller (
 	input [7:0] i_ADS1292_REG_ADDR, // ADS1292 register address
 	input [7:0] i_ADS1292_DATA_IN, // data to write in ADS1292 register
 	output reg o_ADS1292_INIT_SET, // signal that ADS1292 chip initial setting is done
-	output reg o_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
+	output reg o_ADS1292_DATA_VALID, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
 
 	//	ADS1292, SPI Side
@@ -291,7 +291,7 @@ module ads1292_controller (
 			// ADS1292_Controller Output
 			o_ADS1292_DATA_OUT <= 72'b0; // read data from ADS1292 Status(24 bits) - CH1(24 bits) - CH2(24 - bits)
 			o_ADS1292_INIT_SET <= 1'b0;
-			o_ADS1292_DATA_READY <= 1'b0;
+			o_ADS1292_DATA_VALID <= 1'b0;
 			o_ADS1292_BUSY <= 1'b0;
 
 			//	ADS1292, SPI Side
@@ -610,14 +610,14 @@ module ads1292_controller (
 				ST_RDATAC_INIT:
 				begin
 					r_ads_command <= CM_RDATAC;
-					o_ADS1292_DATA_READY <= 1'b0;
+					o_ADS1292_DATA_VALID <= 1'b0;
 					r_lstate <= ST_RDATAC_INIT;
 					r_pstate <= ST_SYSCMD_INIT;
 				end
 
 				ST_RDATAC_WAIT_DRDY:
 				begin
-					o_ADS1292_DATA_READY <= 1'b0; // wait 2 clock to turn off since sensor_core's clock is 25MHz
+					o_ADS1292_DATA_VALID <= 1'b0; // wait 2 clock to turn off since sensor_core's clock is 25MHz
 					if(!i_ADS1292_DRDY) begin
 						if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_SETTILING_TIME;
 						else r_pstate <= ST_RDATAC_WAIT_DRDY_PULSE;
@@ -694,7 +694,7 @@ module ads1292_controller (
 						// read 72 bits
 						if(r_data_counter > 4'd7) begin // read 8 byte, since we already triggerd one byte sclk in ST_RDATAC_WAIT_DATA_SETTLING
 							r_data_counter <= 4'b0; // reset data counter
-							o_ADS1292_DATA_READY <= 1'b1; // data is ready
+							o_ADS1292_DATA_VALID <= 1'b1; // data is ready
 							r_lstate <= ST_RDATAC_GET_DATA;
 							r_pstate <= ST_SPI_SELECT;
 						end else r_pstate <= ST_RDATAC_WAIT_SCLK;
@@ -756,7 +756,7 @@ module ads1292_controller (
 					else if((r_lstate == ST_RDATAC_INIT) || (r_lstate == ST_RDATAC_GET_DATA)) r_pstate <= ST_RDATAC_WAIT_DRDY;
 					else if(r_lstate == ST_SDATAC_WAIT) begin
 						o_ADS1292_START <= 1'b0; // turn off conversion
-						o_ADS1292_DATA_READY <= 1'b0;
+						o_ADS1292_DATA_VALID <= 1'b0;
 						r_pstate <= ST_SPI_CLK_WAIT;
 					end else r_pstate <= ST_SPI_SELECT;
 				end

@@ -32,13 +32,14 @@ module sensor_core(
 	output reg o_MPR121_ERROR,
 
 	// ADS1292
-	input [71:0] i_ADS1292_DATA_OUT, // read data from ADS1292
+	input [23:0] i_ADS1292_FILTERED_DATA_OUT, // read data from ADS1292
 	output reg [2:0] o_ADS1292_CONTROL, // ADS1292 Control
 	output reg [7:0] o_ADS1292_COMMAND, // ADS1292 SPI command
 	output reg [7:0] o_ADS1292_REG_ADDR, // ADS1292 register address
 	output reg [7:0] o_ADS1292_DATA_IN, // data to write in ADS1292 register
 	input i_ADS1292_INIT_SET, // signal that start to read data in RDATAC mode
-	input i_ADS1292_DATA_READY, // In Read data continue mode,  flag that 72 bits data is ready
+	input i_ADS1292_FILTERED_DATA_VALID, // In Read data continue mode,  flag that 72 bits data is ready
+	output reg o_ADS1292_FILTERED_DATA_ACK,
 	input i_ADS1292_BUSY,
 
 	// System I/O
@@ -760,7 +761,6 @@ module sensor_core(
 	reg [3:0] r_ads_set_counter; // ads setting counter
 	reg [7:0] r_ads_first_param;
 	reg [7:0] r_ads_second_param;
-	reg [71:0] r_ads_data_out;
 	reg [23:0] r_ads_ch2_data_out;
 	reg r_ads_data_send_ready; // ads data to send is ready.
 	reg [3:0] r_ads_clk_counter;
@@ -774,6 +774,7 @@ module sensor_core(
 			o_ADS1292_COMMAND <= 8'b0; // ADS1292 SPI command
 			o_ADS1292_REG_ADDR <= 8'b0; // ADS1292 register address
 			o_ADS1292_DATA_IN <= 8'b0; // data to write in ADS1292 register
+			o_ADS1292_FILTERED_DATA_ACK <= 1'b0;
 
 			// sensor_core & uart
 			r_ads_read_reg_done <= 1'b0; // default
@@ -961,7 +962,7 @@ module sensor_core(
 					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_RREG_CONFIRM;
 					else begin
 						r_ads_read_reg_done <= 1'b1;
-						r_ads_reg_data <= i_ADS1292_DATA_OUT[7:0];
+						r_ads_reg_data <= i_ADS1292_FILTERED_DATA_OUT[7:0];
 						r_ads_pstate <= ST_ADS_RREG_WAIT;
 					end
 				end
@@ -984,9 +985,9 @@ module sensor_core(
 
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
-						if(i_ADS1292_DATA_READY) begin
-							r_ads_data_out <= i_ADS1292_DATA_OUT;
-							r_ads_ch2_data_out <= i_ADS1292_DATA_OUT[23:0];
+						if(i_ADS1292_DATA_VALID) begin
+							r_ads_ch2_data_out <= i_ADS1292_FILTERED_DATA_OUT;
+							o_ADS1292_FILTERED_DATA_ACK <= 1'b1;
 							r_ads_data_send_ready <= 1'b1;
 							r_ads_pstate <= ST_ADS_RDATAC_WAIT;
 						end else begin
@@ -999,6 +1000,7 @@ module sensor_core(
 				ST_ADS_RDATAC_WAIT:
 				begin
 					// wait data for Receiving Stop Signal
+					o_ADS1292_FILTERED_DATA_ACK <= 1'b0;
 					r_ads_data_send_ready <= 1'b1;
 					r_ads_pstate <= ST_ADS_RDATAC_INIT;
 				end

@@ -132,13 +132,14 @@ module khu_sensor_top(
 		.o_MPR121_ERROR(w_mpr121_error),
 
 		// ADS1292
-		.i_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
+		.i_ADS1292_FILTERED_DATA_OUT(w_ads1292_filtered_data), // read data from ADS1292
 		.o_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
 		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
 		.i_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
-		.i_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
+		.i_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
+		.o_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
 		.i_ADS1292_BUSY(w_ads1292_busy),
 
 		// System I/O
@@ -188,7 +189,23 @@ module khu_sensor_top(
 		.i_RSTN(w_core_rstn) // reset
 		);
 	//============================================================================
+	/****************************************************************************
+	*                           	ads1292_filter		   		                     	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
+	wire [23:0] w_ads1292_filtered_data;
+	wire w_ads1292_filtered_data_valid;
+	wire w_ads1292_filtered_data_ack;
 
+	ads1292_filter ads1292_filter(
+	  .i_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
+	  .i_ADS1292_DATA_VALID(w_ads1292_data_valid), // In Read data continue mode,  flag that 72 bits data is ready
+	  .o_ADS1292_FILTERED_DATA(w_ads1292_filtered_data),
+	  .o_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid),
+	  .i_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
+	  .i_CLK(CLOCK_50M), // clock
+	  .i_RSTN(w_core_rstn) //reset
+	  );
 	/****************************************************************************
 	*                           	ads1292_controller		   		                 	*
 	*****************************************************************************/
@@ -198,7 +215,7 @@ module khu_sensor_top(
 	wire [7:0] w_ads1292_command;
 	wire [7:0] w_ads1292_reg_addr;
 	wire [7:0] w_ads1292_data_in;
-	wire w_ads1292_data_ready;
+	wire w_ads1292_data_valid;
 	wire w_ads1292_init_set;
 	wire w_ads1292_busy;
 	wire w_ads1292_fail;
@@ -212,7 +229,7 @@ module khu_sensor_top(
 		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
 		.o_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
-		.o_ADS1292_DATA_READY(w_ads1292_data_ready), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
+		.o_ADS1292_DATA_VALID(w_ads1292_data_valid), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),
 
 		//	ADS1292, SPI Side
