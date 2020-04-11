@@ -48,7 +48,7 @@ if __name__ == "__main__":
         exit(-1)
 
     # hpf
-    hpf_test = TestFilter(filter_type=3, test_title="IIR_HPF_Test")
+    hpf_test = TestFilter(filter_type=4, test_title="All_Filters_Test")
 
     hpf_test.set_input_file_cpp("../Data/All_Filters/IIR_Notch_Passed_Signal_CPP.txt")
     hpf_test.set_output_file_cpp("../Data/All_Filters/IIR_HPF_Passed_Signal_CPP.txt")
@@ -61,8 +61,8 @@ if __name__ == "__main__":
 
     if hpf_test.run_test(tb="./Stimulus/IIR_Notch/test_bench_tb ") == 1:
         # hpf_test.show_input_cpp_graph("./Data/ADS1292_Filter/Filter_Test_Input_CPP.png")
-        hpf_test.show_output_cpp_graph("../Data/All_Filters/IIR_HPF_Test_Output_CPP.png")
-        hpf_test.show_output_verilog_graph("../Data/All_Filters/IIR_HPF_Test_Output_Verilog.png")
+        hpf_test.show_output_cpp_graph("../Data/All_Filters/All_Filters_Test_Output_CPP.png")
+        hpf_test.show_output_verilog_graph("../Data/All_Filters/All_Filters_Test_Output_Verilog.png")
         hpf_test.compare_output("../Data/All_Filters/")
     else:
         exit(-1)

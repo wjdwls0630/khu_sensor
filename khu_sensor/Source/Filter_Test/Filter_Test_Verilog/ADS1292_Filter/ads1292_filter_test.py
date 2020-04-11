@@ -8,7 +8,7 @@ if __name__ == "__main__":
     from sys import exit
 
     # lpf
-    ads1292_filter_test = TestFilter(filter_type=4, test_title="ADS1292_Filter_Test")
+    ads1292_filter_test = TestFilter(filter_type=5, test_title="ADS1292_Filter_Test")
 
     ads1292_filter_test.set_input_file_cpp("../Data/ADS1292_Filter/Signal")
     ads1292_filter_test.set_output_file_cpp("../Data/ADS1292_Filter/ADS1292_Filter_Passed_Signal_CPP")

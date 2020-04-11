@@ -28,7 +28,7 @@ class TestFilter(object):
         self.verilog_compile_list = verilog_compile_list  # verilog files to being compiled by icarus-verilog
 
         # signal
-        if filter_type != 4:
+        if filter_type < 5:
             self.input_cpp = Signal()
             self.output_cpp = Signal()
             self.output_verilog = Signal()
@@ -81,7 +81,7 @@ class TestFilter(object):
             subprocess.call("./Stimulus/test_bench_tb", shell=True)
         else:
             subprocess.call(tb, shell=True)
-        if self.filter_type != 4:
+        if self.filter_type < 5:
             self.input_cpp.set_data_from_file(data_file=self.input_file_cpp, signal_int_form=False)
             self.output_cpp.set_data_from_file(data_file=self.output_file_cpp, signal_int_form=False)
             self.output_verilog.set_data_from_file(data_file=self.output_file_verilog, signal_int_form=True)
@@ -184,7 +184,7 @@ class TestFilter(object):
         fig.suptitle(self.test_title+"\nOutput Signal C++(Time Domain)")
         ax_list = fig.get_axes()
 
-        if self.filter_type != 4:
+        if self.filter_type < 4:
             ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
             ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
                             xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
@@ -221,7 +221,7 @@ class TestFilter(object):
         fig.suptitle(self.test_title+"\nOutput Signal Verilog(Time Domain)")
         ax_list = fig.get_axes()
 
-        if self.filter_type != 4:
+        if self.filter_type < 4:
             ax_list[1].axvline(x=self.sampling_frequency/2, color='b', linestyle='--')
             ax_list[1].annotate('Nyquist rate'+"\n"+r'$\frac{f_s}{2}$'+"={}Hz".format(self.sampling_frequency/2),
                             xy=(self.sampling_frequency/2, 0.2), color='b', xycoords='data',
