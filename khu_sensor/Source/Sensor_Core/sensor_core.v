@@ -789,7 +789,6 @@ module sensor_core(
 			r_ads_set_counter <= 4'b0; // ads setting counter
 			r_ads_first_param <= 8'b0;
 			r_ads_second_param <= 8'b0;
-			r_ads_data_out <= 72'b0;
 			r_ads_ch2_data_out <= 24'b0;
 			r_ads_data_send_ready <= 1'b0;
 			r_ads_clk_counter <= 4'b0;
@@ -812,7 +811,6 @@ module sensor_core(
 					r_ads_set_counter <= 4'b0; // ads setting counter
 					r_ads_first_param <= 8'b0;
 					r_ads_second_param <= 8'b0;
-					r_ads_data_out <= 72'b0;
 					r_ads_ch2_data_out <= 24'b0;
 					r_ads_data_send_ready <= 1'b0;
 					r_ads_clk_counter <= 4'b0;
@@ -985,7 +983,7 @@ module sensor_core(
 
 					if((!r_ads_run_set) && r_ads_run_set_done) r_ads_pstate <= ST_ADS_STOP;
 					else begin
-						if(i_ADS1292_DATA_VALID) begin
+						if(i_ADS1292_FILTERED_DATA_VALID) begin
 							r_ads_ch2_data_out <= i_ADS1292_FILTERED_DATA_OUT;
 							o_ADS1292_FILTERED_DATA_ACK <= 1'b1;
 							r_ads_data_send_ready <= 1'b1;

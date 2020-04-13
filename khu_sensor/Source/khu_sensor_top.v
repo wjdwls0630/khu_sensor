@@ -58,6 +58,25 @@ module khu_sensor_top(
 		.c3       (w_CLOCK_100M),
 		.locked		(w_core_rstn)
 		);
+
+	// debug
+	reg r_CLOCK_10K;
+	reg [31:0] r_clk_counter;
+	always @ ( posedge CLOCK_50M, negedge rstn_btn ) begin
+		if(!rstn_btn) begin
+		 	r_CLOCK_10K <= 1'b0;
+			r_clk_counter <= 32'b0;
+		end
+		else begin
+			if(r_clk_counter > 32'd4999) begin
+				r_clk_counter <= 32'b0;
+				r_CLOCK_10K <= 1'b1;
+			end else begin
+				r_clk_counter <= r_clk_counter + 1'b1;
+				r_CLOCK_10K <= 1'b0;
+			end
+		end
+	end
 	//============================================================================
 
 	/****************************************************************************

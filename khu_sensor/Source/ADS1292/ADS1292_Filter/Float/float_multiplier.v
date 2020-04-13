@@ -12,7 +12,7 @@ module float_multiplier(
   input i_Z_ACK, // A flag that external module get data, so, o_Z is going to meaningless
   // it can be used as elongating o_Z_STB High (1)
   input i_CLK, // clock
-  input i_RST, // reset activate High(1)(asynchronous)
+  input i_RST // reset activate High(1)(asynchronous)
   );
   // CHANGED: remove state get_b
   reg       [3:0] state;
@@ -232,8 +232,8 @@ module float_multiplier(
     if (i_RST == 1) begin
       state <= get_ab;
       o_AB_ACK <= 0;
-       <= 0;
       o_Z_STB <= 0;
     end
   end
+
 endmodule
