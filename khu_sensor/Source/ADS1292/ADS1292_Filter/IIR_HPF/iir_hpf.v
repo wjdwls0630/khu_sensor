@@ -21,7 +21,7 @@ module iir_hpf(
 	output reg o_X_DATA_READY, // iir_hpf busy
 	output reg [31:0] o_Y_DATA, // output y (float)
 	output reg o_Y_DATA_VALID, // output data is valid
-	input i_Y_ACK, // A flag that external module get data, so, o_Y_DATA is going to meaningless
+	input i_Y_ACK, // A flag that external module get data, so, o_Y_DATA is going to be meaningless
 	// it can be used as elongating o_Y_DATA_VALID High (1)
 	input i_CLK, // clock
 	input i_RSTN // reset activate Low(0)
