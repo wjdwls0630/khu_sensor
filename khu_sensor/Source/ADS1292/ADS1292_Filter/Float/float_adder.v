@@ -54,8 +54,8 @@ module float_adder(
       begin
         a_m <= {a[22 : 0], 3'd0};
         b_m <= {b[22 : 0], 3'd0};
-        a_e <= a[30 : 23] - 127;
-        b_e <= b[30 : 23] - 127;
+        a_e <= a[30 : 23] - 8'h7f; // 127
+        b_e <= b[30 : 23] - 8'h7f; // 127
         a_s <= a[31];
         b_s <= b[31];
         state <= special_cases;
@@ -92,31 +92,31 @@ module float_adder(
         //if a is zero return b
         end else if ((($signed(a_e) == -127) && (a_m == 0)) && (($signed(b_e) == -127) && (b_m == 0))) begin
           z[31] <= a_s & b_s;
-          z[30:23] <= b_e[7:0] + 127;
+          z[30:23] <= b_e[7:0] + 8'h7f; // 127
           z[22:0] <= b_m[26:3];
           state <= put_z;
         //if a is zero return b
         end else if (($signed(a_e) == -127) && (a_m == 0)) begin
           z[31] <= b_s;
-          z[30:23] <= b_e[7:0] + 127;
+          z[30:23] <= b_e[7:0] + 8'h7f; // 127
           z[22:0] <= b_m[26:3];
           state <= put_z;
         //if b is zero return a
         end else if (($signed(b_e) == -127) && (b_m == 0)) begin
           z[31] <= a_s;
-          z[30:23] <= a_e[7:0] + 127;
+          z[30:23] <= a_e[7:0] + 8'h7f; // 127
           z[22:0] <= a_m[26:3];
           state <= put_z;
         end else begin
           //Denormalised Number
           if ($signed(a_e) == -127) begin
-            a_e <= -126;
+            a_e <= $signed(10'b1001111110); // -126
           end else begin
             a_m[26] <= 1;
           end
           //Denormalised Number
           if ($signed(b_e) == -127) begin
-            b_e <= -126;
+            b_e <= $signed(10'b1001111110); // -126
           end else begin
             b_m[26] <= 1;
           end
@@ -127,11 +127,11 @@ module float_adder(
       align:
       begin
         if ($signed(a_e) > $signed(b_e)) begin
-          b_e <= b_e + 1;
+          b_e <= b_e + 1'b1;
           b_m <= b_m >> 1;
           b_m[0] <= b_m[0] | b_m[1];
         end else if ($signed(a_e) < $signed(b_e)) begin
-          a_e <= a_e + 1;
+          a_e <= a_e + 1'b1;
           a_m <= a_m >> 1;
           a_m[0] <= a_m[0] | a_m[1];
         end else begin
@@ -164,7 +164,7 @@ module float_adder(
           guard <= sum[3];
           round_bit <= sum[2];
           sticky <= sum[1] | sum[0];
-          z_e <= z_e + 1;
+          z_e <= z_e + 1'b1;
         end else begin
           z_m <= sum[26:3];
           guard <= sum[2];
@@ -177,7 +177,7 @@ module float_adder(
       normalise_1:
       begin
         if (z_m[23] == 0 && $signed(z_e) > -126) begin
-          z_e <= z_e - 1;
+          z_e <= z_e - 1'b1;
           z_m <= z_m << 1;
           z_m[0] <= guard;
           guard <= round_bit;
@@ -190,7 +190,7 @@ module float_adder(
       normalise_2:
       begin
         if ($signed(z_e) < -126) begin
-          z_e <= z_e + 1;
+          z_e <= z_e + 1'b1;
           z_m <= z_m >> 1;
           guard <= z_m[0];
           round_bit <= guard;
@@ -203,9 +203,9 @@ module float_adder(
       round:
       begin
         if (guard && (round_bit | sticky | z_m[0])) begin
-          z_m <= z_m + 1;
+          z_m <= z_m + 1'b1;
           if (z_m == 24'hffffff) begin
-            z_e <=z_e + 1;
+            z_e <=z_e + 1'b1;
           end
         end
         state <= pack;
@@ -214,7 +214,7 @@ module float_adder(
       pack:
       begin
         z[22 : 0] <= z_m[22:0];
-        z[30 : 23] <= z_e[7:0] + 127;
+        z[30 : 23] <= z_e[7:0] + 8'h7f;
         z[31] <= z_s;
         if ($signed(z_e) == -126 && z_m[23] == 0) begin
           z[30 : 23] <= 0;

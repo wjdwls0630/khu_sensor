@@ -47,7 +47,8 @@ module iir_notch(
 	wire w_add_1_Z_STB, w_add_2_Z_STB;
 	reg r_add_1_Z_ACK, r_add_2_Z_ACK;
 
-	assign r_add_AB_STB = r_add_1_AB_STB & r_add_2_AB_STB;
+	wire w_add_AB_ACK;
+	wire w_add_Z_STB;
 	assign w_add_AB_ACK = w_add_1_AB_ACK & w_add_2_AB_ACK;
 	assign w_add_Z_STB = w_add_1_Z_STB & w_add_2_Z_STB;
 
@@ -87,11 +88,10 @@ module iir_notch(
 	wire w_mult_1_Z_STB, w_mult_2_Z_STB, w_mult_3_Z_STB;
 	reg r_mult_1_Z_ACK, r_mult_2_Z_ACK,  r_mult_3_Z_ACK;
 
+	wire w_mult_Z_STB;
+	wire w_mult_AB_ACK;
 	assign w_mult_Z_STB = w_mult_1_Z_STB & w_mult_2_Z_STB & w_mult_3_Z_STB;
 	assign w_mult_AB_ACK = w_mult_1_AB_ACK & w_mult_2_AB_ACK & w_mult_3_AB_ACK;
-	assign r_mult_AB_STB = r_mult_1_AB_STB & r_mult_2_AB_STB & r_mult_3_AB_STB;
-
-
 
 	// A*X, B*Y
 	float_multiplier mult_1(
@@ -134,28 +134,27 @@ module iir_notch(
 	*                           	iir_lpf                               *
 	*****************************************************************************/
 	//============================Coefficient=====================================
-	parameter ACoef0 = 32'h3f668c9c;
-	parameter ACoef1 = 32'hbe6847e8;
-	parameter ACoef2 = 32'h3fe860a9;
-	parameter ACoef3 = 32'h3f668c9c;
-	parameter ACoef4 = 32'hbe6847e8;
-	parameter ACoef5 = 32'h00000000;
+	localparam ACoef0 = 32'h3f668c9c;
+	localparam ACoef1 = 32'hbe6847e8;
+	localparam ACoef2 = 32'h3fe860a9;
+	localparam ACoef3 = 32'h3f668c9c;
+	localparam ACoef4 = 32'hbe6847e8;
+	localparam ACoef5 = 32'h00000000;
 
-	parameter BCoef0 = 32'hbf800000; // -BCoef[0] for not using subtractor
-	parameter BCoef1 = 32'h3e74375a; // -BCoef[1] for not using subtractor
-	parameter BCoef2 = 32'hbfe69dbc; // -BCoef[2] for not using subtractor
-	parameter BCoef3 = 32'h3e5b72fb; // -BCoef[3] for not using subtractor
-	parameter BCoef4 = 32'hbf4ed5c9; // -BCoef[4] for not using subtractor
-	parameter BCoef5 = 32'h00000000; // -BCoef[5] for not using subtractor
+	localparam BCoef0 = 32'hbf800000; // -BCoef[0] for not using subtractor
+	localparam BCoef1 = 32'h3e74375a; // -BCoef[1] for not using subtractor
+	localparam BCoef2 = 32'hbfe69dbc; // -BCoef[2] for not using subtractor
+	localparam BCoef3 = 32'h3e5b72fb; // -BCoef[3] for not using subtractor
+	localparam BCoef4 = 32'hbf4ed5c9; // -BCoef[4] for not using subtractor
+	localparam BCoef5 = 32'h00000000; // -BCoef[5] for not using subtractor
 	//============================================================================
 	//==============================State=========================================
 	reg [3:0] r_pstate;
-	reg [3:0] r_lstate;
 
-	parameter ST_IDLE=4'b0000;
-	parameter ST_INIT=4'b0001;
-	parameter ST_WAIT_Z=4'b0010;
-	parameter ST_FINISH=4'b0011;
+	localparam ST_IDLE=4'b0000;
+	localparam ST_INIT=4'b0001;
+	localparam ST_WAIT_Z=4'b0010;
+	localparam ST_FINISH=4'b0011;
 	//============================================================================
 	//==============================wire & reg====================================
 	// In 6th order IIR Filter, we need to store input and output data for calculation
@@ -222,7 +221,6 @@ module iir_notch(
 
 			// State
 			r_pstate <= ST_IDLE;
-			r_lstate <= ST_IDLE;
 		end else begin
 			case (r_pstate)
 				ST_IDLE:
@@ -230,7 +228,6 @@ module iir_notch(
 					o_X_DATA_READY <= 1'b1; // default for input data
 					o_Y_DATA_VALID <= 1'b0; // default for output data
 					r_counter <= 3'b0;
-					r_lstate <= ST_IDLE;
 					if (i_X_DATA_VALID && o_X_DATA_READY) begin
 						o_X_DATA_READY <= 1'b0;
 						r_pstate <= ST_INIT;
@@ -240,7 +237,6 @@ module iir_notch(
 
 				ST_INIT:		//MAKES MUL AND ADDER CHANGE ITS STATE FROM get_ab TO next
 				begin
-					r_lstate <= ST_INIT;
 					r_pstate <= ST_INIT;
 
 					//NON-LATCH

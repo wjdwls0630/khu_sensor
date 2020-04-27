@@ -62,9 +62,9 @@ module uart_controller (
   *****************************************************************************/
   //============================Parameter=======================================
   // UART Signal (user defined)
-  parameter UART_SG_MPR_SEND_DATA = 8'hBB; // 'M'
+  parameter UART_SG_MPR_SEND_DATA = 8'hBB;
   parameter UART_SG_MPR_READ_REG = 8'h6D; // 'm'
-  parameter UART_SG_ADS_SEND_DATA = 8'hAA; // 'A'
+  parameter UART_SG_ADS_SEND_DATA = 8'hAA;
   parameter UART_SG_ADS_READ_REG = 8'h61; // 'a'
   parameter UART_SG_RUN = 8'h52; // 'R'
   parameter UART_SG_STOP = 8'h53; // 'S'
@@ -170,9 +170,8 @@ module uart_controller (
         ST_TX_INIT:
         begin
           if(r_uart_data_tx_shift[55:48] == UART_SG_ADS_SEND_DATA) r_pstate <= ST_TX_SEND_56BITS; // 8'hAA
-          else if(r_uart_data_tx_shift[31:24] == UART_SG_MPR_SEND_DATA) r_pstate <= ST_TX_SEND_24BITS; // 8'hBB
-          else if(r_uart_data_tx_shift[31:24] == UART_SG_ADS_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'a'
-          else if(r_uart_data_tx_shift[31:24] == UART_SG_MPR_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'm'
+          else if(r_uart_data_tx_shift[55:48] == UART_SG_ADS_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'a'
+          else if(r_uart_data_tx_shift[55:48] == UART_SG_MPR_READ_REG) r_pstate <= ST_TX_SEND_24BITS; // 'm'
           else r_pstate <= ST_IDLE; // if signal don't match cases, do nothing
         end
 
@@ -195,7 +194,7 @@ module uart_controller (
 
         ST_TX_SEND_56BITS:
         begin
-          // send 40 bits when case is ads data case
+          // send 56 bits when case is ads data case
           r_lstate <= ST_TX_SEND_56BITS;
           if(r_data_counter > 4'd6) begin
             r_data_counter <= 4'b0;

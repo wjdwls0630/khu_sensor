@@ -114,16 +114,13 @@ module sensor_core(
 							if(r_ads_data_send_ready) begin
 								o_UART_DATA_TX <= {UART_SG_ADS_SEND_DATA, r_ads_ch2_data_out, r_mpr_touch_status, UART_SG_MPR_SEND_DATA};
 								o_UART_DATA_TX_VALID <= 1'b1;
-							end /*else if(r_mpr_data_send_ready) begin
-								o_UART_DATA_TX <= {UART_SG_MPR_SEND_DATA, r_mpr_touch_status, 8'b0};
-								o_UART_DATA_TX_VALID <= 1'b1;
-							end */else if(r_ads_read_reg_done) begin
+							end else if(r_ads_read_reg_done) begin
 								r_ads_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 8'b0};
+								o_UART_DATA_TX <= {UART_SG_ADS_READ_REG, r_ads_reg_addr, r_ads_reg_data, 32'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else if(r_mpr_read_reg_done) begin
 								r_mpr_read_reg_mode <= 1'b0;
-								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 8'b0};
+								o_UART_DATA_TX <= {UART_SG_MPR_READ_REG, r_mpr_reg_addr, r_mpr_reg_data, 32'b0};
 								o_UART_DATA_TX_VALID <= 1'b1;
 							end else o_UART_DATA_TX_VALID <= 1'b0;
 						end else o_UART_DATA_TX_VALID <= 1'b0;
@@ -153,7 +150,6 @@ module sensor_core(
 	*                           	Sensor_Core                                  	*
 	*****************************************************************************/
 	//==============================State=========================================
-	reg [7:0] r_core_lstate;
 	reg [7:0] r_core_pstate;
 
 	// Sensor_Core
@@ -215,7 +211,6 @@ module sensor_core(
 			r_ads_read_reg <= 1'b0;
 
 			// state
-			r_core_lstate <= ST_CORE_IDLE;
 			r_core_pstate <= ST_CORE_IDLE;
 		end else begin
 			case (r_core_pstate)
@@ -234,7 +229,6 @@ module sensor_core(
 					r_ads_read_reg <= 1'b0;
 
 					// state
-					r_core_lstate <= ST_CORE_IDLE;
 					r_core_pstate <= ST_CORE_WAIT_INIT_SET;
 				end
 
@@ -366,7 +360,6 @@ module sensor_core(
 	reg [7:0] r_mpr_touch_status_0; // reg_addr : 0x00 data
 	reg [7:0] r_mpr_touch_status_1; // reg_addr : 0x01 data
 	reg [15:0] r_mpr_touch_status; // 0x01 + 0x00
-	reg r_mpr_data_send_ready; // mpr data to send is ready
 	reg [3:0] r_mpr_clk_counter;
 	//============================================================================
 
@@ -403,7 +396,6 @@ module sensor_core(
 			r_mpr_touch_status_0 <= 8'b0;
 			r_mpr_touch_status_1 <= 8'b0;
 			r_mpr_touch_status <= 16'b0;
-			r_mpr_data_send_ready <= 1'b0;
 			r_mpr_clk_counter <= 4'b0;
 
 			// state
@@ -431,7 +423,6 @@ module sensor_core(
 					r_mpr_touch_status_0 <= 8'b0;
 					r_mpr_touch_status_1 <= 8'b0;
 					r_mpr_touch_status <= 16'b0;
-					r_mpr_data_send_ready <= 1'b0;
 					r_mpr_clk_counter <= 4'b0;
 
 					if(r_mpr_chip_set &&(!r_mpr_chip_set_done)) r_mpr_pstate <= ST_MPR_SETTING;
@@ -634,7 +625,6 @@ module sensor_core(
 					o_MPR121_READ_ENABLE <= 1'b0;
 					if((!r_mpr_run_set) && r_mpr_run_set_done) r_mpr_pstate <= ST_MPR_STOP;
 					else begin
-						r_mpr_data_send_ready <= 1'b0;
 						if(r_mpr_status == 1'b0) r_mpr_first_param <= MPR_TOUCH_STATUS_0_REG; // MPR Touch_0 Status Register addr
 						else r_mpr_first_param <= MPR_TOUCH_STATUS_1_REG;
 						r_mpr_pstate <= ST_MPR_READ_STATUS_START;
@@ -680,7 +670,6 @@ module sensor_core(
 					if(r_mpr_status == 1'b0) r_mpr_pstate <= ST_MPR_READ_STATUS_INIT;
 					else begin
 						r_mpr_touch_status <= {4'b0, r_mpr_touch_status_1[3:0], r_mpr_touch_status_0[7:0]};
-						r_mpr_data_send_ready <= 1'b1;
 						r_mpr_lstate <= ST_MPR_READ_STATUS_CHANGE;
 						r_mpr_pstate <= ST_MPR_READ_STATUS_WAIT;
 					end
