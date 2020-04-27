@@ -10,8 +10,15 @@ module mpr121_controller (
 	output reg o_MPR121_FAIL,
 
 	//	I2C Side
-	inout wire I2C_SCL,
-	inout wire I2C_SDA,
+	wire w_scl_in, w_scl_out, w_scl_out_enable;
+	wire w_sda_in, w_sda_out, w_sda_out_enable;
+
+	input wire i_I2C_SCL_IN,
+	input wire i_I2C_SDA_IN,
+	output wire o_I2C_SCL_OUT,
+	output wire o_I2C_SDA_OUT,
+	output wire o_I2C_SCL_EN,
+	output wire o_I2C_SDA_EN,
 
 	input i_CLK, // clock
 	input i_RSTN // reset
@@ -189,6 +196,7 @@ module mpr121_controller (
 	assign sda_i = sda_pin;
 	assign sda_pin = sda_t ? 1'bz : sda_o;
 	*/
+	/*
 	wire w_scl_in, w_scl_out, w_scl_out_enable;
 	wire w_sda_in, w_sda_out, w_sda_out_enable;
 
@@ -196,7 +204,7 @@ module mpr121_controller (
 	assign I2C_SDA = w_sda_out_enable ? 1'bz : w_sda_out;
 	assign w_sda_in = I2C_SDA;  //I2C_SDA -> inout wire
 	assign w_scl_in = I2C_SCL; //I2C_SCL -> inout wire
-
+	*/
 	i2c_master i2c_master(
     .clk(i_CLK),
     .rst(r_i2c_rst),
@@ -225,12 +233,12 @@ module mpr121_controller (
 
 
   	// I2C interface
-    .scl_i(w_scl_in),
-    .scl_o(w_scl_out),
-    .scl_t(w_scl_out_enable),
-    .sda_i(w_sda_in),
-    .sda_o(w_sda_out),
-    .sda_t(w_sda_out_enable),
+    .scl_i(i_I2C_SCL_IN),
+    .scl_o(o_I2C_SCL_OUT),
+    .scl_t(o_I2C_SCL_EN),
+    .sda_i(i_I2C_SDA_IN),
+    .sda_o(o_I2C_SDA_OUT),
+    .sda_t(o_I2C_SDA_EN),
 
 		// Status
     .busy(),
