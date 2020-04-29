@@ -17,13 +17,13 @@ module khu_sensor_top(
 	output wire MPR121_SDA_EN,
 
 	// DUT IO: for ADS1292 (SPI)
-	output wire ADS1292_SCLK, // [26]
-	input wire ADS1292_MISO,  // [27]
-	output wire ADS1292_MOSI,  // [28]
-	input wire ADS1292_DRDY,  // [29]
-	output wire ADS1292_RESET,  // [30]
-	output wire ADS1292_START,  // [31]
-	output wire ADS1292_CSN  // [32]
+	output wire ADS1292_SCLK,
+	input wire ADS1292_MISO,
+	output wire ADS1292_MOSI,
+	input wire ADS1292_DRDY,
+	output wire ADS1292_RESET,
+	output wire ADS1292_START,
+	output wire ADS1292_CSN
 	);
 
 	/****************************************************************************
@@ -51,17 +51,51 @@ module khu_sensor_top(
 		);
 
 	//============================================================================
-
-	/****************************************************************************
-	*                           uart_controller			                          	*
-	*****************************************************************************/
-	//=========================Internal Connection===============================
+	//==============================wire & reg====================================
+	// uart_controller
 	wire [55:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
 	wire w_uart_data_rx_valid;
 
+	// sensor_core
+	// System I/O
+	wire w_chip_set;
+	wire w_run_set;
+	wire w_core_busy;
+
+	// mpr121_controller
+	wire [7:0] w_mpr121_data_out;
+	wire [7:0] w_mpr121_reg_addr;
+	wire [7:0] w_mpr121_data_in;
+	wire w_mpr121_write_enable;
+	wire w_mpr121_read_enable;
+	wire w_mpr121_init_set;
+	wire w_mpr121_busy;
+	wire w_mpr121_fail;
+	wire [11:0] w_mpr121_touch_status_out;
+	wire w_mpr121_error;
+
+	// ads1292_filter
+	wire [23:0] w_ads1292_filtered_data;
+	wire w_ads1292_filtered_data_valid;
+	wire w_ads1292_filtered_data_ack;
+
+	// ads1292
+	wire [71:0] w_ads1292_data_out;
+	wire [2:0] w_ads1292_control;
+	wire [7:0] w_ads1292_command;
+	wire [7:0] w_ads1292_reg_addr;
+	wire [7:0] w_ads1292_data_in;
+	wire w_ads1292_data_valid;
+	wire w_ads1292_init_set;
+	wire w_ads1292_busy;
+	wire w_ads1292_fail;
+	/****************************************************************************
+	*                           uart_controller			                          	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	uart_controller uart_controller(
 		// TX
 		.i_UART_DATA_TX(w_uart_data_tx),
@@ -84,7 +118,6 @@ module khu_sensor_top(
 	*                           	sensor_core			        		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-
 	sensor_core sensor_core(
 		// UART Controller
 		// TX
@@ -134,15 +167,6 @@ module khu_sensor_top(
 	*                           	mpr121_controller		     		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [7:0] w_mpr121_data_out;
-	wire [7:0] w_mpr121_reg_addr;
-	wire [7:0] w_mpr121_data_in;
-	wire w_mpr121_write_enable;
-	wire w_mpr121_read_enable;
-	wire w_mpr121_init_set;
-	wire w_mpr121_busy;
-	wire w_mpr121_fail;
-
 	mpr121_controller mpr121_controller(
 		// Host Side
 		.o_MPR121_DATA_OUT(w_mpr121_data_out), // read data from MPR121
@@ -170,10 +194,6 @@ module khu_sensor_top(
 	*                           	ads1292_filter		   		                     	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [23:0] w_ads1292_filtered_data;
-	wire w_ads1292_filtered_data_valid;
-	wire w_ads1292_filtered_data_ack;
-
 	ads1292_filter ads1292_filter(
 	  .i_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
 	  .i_ADS1292_DATA_VALID(w_ads1292_data_valid), // In Read data continue mode,  flag that 72 bits data is ready
@@ -187,16 +207,6 @@ module khu_sensor_top(
 	*                           	ads1292_controller		   		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire [71:0] w_ads1292_data_out;
-	wire [2:0] w_ads1292_control;
-	wire [7:0] w_ads1292_command;
-	wire [7:0] w_ads1292_reg_addr;
-	wire [7:0] w_ads1292_data_in;
-	wire w_ads1292_data_valid;
-	wire w_ads1292_init_set;
-	wire w_ads1292_busy;
-	wire w_ads1292_fail;
-
 	ads1292_controller ads1292_controller(
 		// Host Side
 		.o_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
