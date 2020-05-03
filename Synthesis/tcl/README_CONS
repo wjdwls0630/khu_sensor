@@ -1,4 +1,3 @@
-
 #******************************************************************************
 #**                         Set Design Constraints                          **
 #******************************************************************************
@@ -62,9 +61,6 @@
 # To set max_transition of all pins belonging to the clock Group
 # set_max_transition 5 [get_clocks Clk]
 #******************************************************************************
-# Command
-# set_max_transition 1.3 [all_designs]
-#******************************************************************************
 # set_max_fanout
 # The fanout restriction is the constraint how many outputs can be driven,
 # the values are described on integer form which the technology library contains.
@@ -86,9 +82,6 @@
 # get_attribute "libA/AND2/i" fanout_load
 # To set max_transition
 # set_max_fanout 8 [get_designs design_name]
-#******************************************************************************
-# Command
-# set_max_fanout 3 [all_designs]
 #******************************************************************************
 # set_max_capacitance
 # The set_max_capacitance command constrain capacitance independently.
@@ -126,75 +119,14 @@
 # To undo a set_min_capacitance command, use the remove attribute command.
 # remove_attribute port_name min_capacitance
 #******************************************************************************
-# Command
-# set_max_capacitance 2.5 [all_designs]
-#******************************************************************************
 #******************************************************************************
 #**                     Set Optimization Constraints                         **
 #******************************************************************************
 #******************************************************************************
 # Design Compiler optimize speed first before optimizing area.
 #******************************************************************************
-# create_clock
-create_clock : 클럭의 주파수를 정해주고
-set_input_delay : 입력신호가 clock에 비해 얼마나 늦게 들어오는지를 알려 주기 위해
-set_output_delay : 출력신호가 clock을 기준으로 외부에 얼마만큼의 지연이 추가로 있음을 알려 주기 위해(의미를 정확히 아셔야...클럭주기가 10ns일 때 output_delay를 3 ns로 하면 현재 block에서 clock edge기준으로 최소한 7ns 전에 신호가 나가야 한다는 뜻입니다.)
-set_driving_cell : 입력신호에 대해 외부에서 어떤 cell이 drive하고 있는지 알려줌(얼마나 세게 driven되는 신호인지, 따라서 그 신호를 받아서 쓸 때 fan-out을 맞추기 위한 buffering을 어느 정도 해 줘야 하는지 알려줌)
-set_load : 출력신호에 대해 외부에 얼마만큼의 load가 있는지 알려줌(따라서 얼마나 세게 drive해 줘야 하는지 알려줌)
-asynchronous path 신호에 대해 지연값을 정해주기 위해서는 set_max_delay 와 set_min_delay 명령을 사용합니다. 이 max_delay와 min_delay는 또한 clock을 create_clock 을 사용하여 가상의 클럭을 기준으로 정해줄 수도 있습니다. set_fix_hold명령은 delay를 추가함으로써 hold time위반을 잡아줍니다.
-max_area
-optimization 도중에는 max_delay, min_delay, max_power, max_area에 대한 cost값이 최소가 되도록 회로가 여러번 수정되는 것입니다.(cost계산 방식은 생략)
-# One thing is design rule constraint which is the value defined by the technology library itself.
-# Since circuit would not operate properly when the constraint is breached,
-# It has high priority during synthesis.
-# (If you do not define rules, Design Compiler would apply constraints defined
-# by the technology library itself)
-# Another thing is optimization constraints which are the set condition of speed and area
-# during optimization.
-#******************************************************************************
-1. Design Rule Constraints
-Set_max_fanout :
-dc_shell> get_attribute find(pin, "libA/AND2/i") fanout_load
-와 같이 알아낼 수 있습니다.
-set_max_transition :
-set_max_capacitance :
-예를 보면,
-dc_shell> set_max_transition 5 test
-dc_shell> set_max_fanout 5
-dc_shell> set_max_capacitance 5
-# Design
-## AREA ##
-set_max_area 0
+Starting at the specified source object, the set_dont_touch_network command propagates the dont_touch_network attribute throughout the hierarchy of the clock network. By default, the propagation stops at output ports, or at sequential components if setup and hold relationships exist. If you use the -no_propagate option, the propagation stops at any logical cell.
+The propagation of the dont_touch_network attribute occurs only in a forward direction, starting from the specified source object and spreading to objects driven by the source. The propagation can not go backward, even to electrically connected nets in the same net group. This method of propagation highlights an important difference between the set_dont_touch_network and the set_ideal_network commands: the set_ideal_network command propagates in both the forward and backward directions.
 
-## CLOCK ##
-create_clock -period 10.6 [get_ports CLK]
-set_dont_touch_network [get_clocks CLK]
 
-set_clock_uncertainty -setup 0.2 [get_clocks CLK]
-set_clock_transition 0.1 [get_clocks CLK]
-
-## INPUT DELAY ##
-set_input_delay -max 4.24 -clock CLK [all_inputs]
-# in considered input_pad constraint
-
-remove_input_delay -clock CLK [all_inputs]
-# remove clock input delay
-
-## OUTPUT DELAY##
-set_output_delay -max 4.24 -clock CLK [all_outputs]
-# set output delay as 40% of clock period
-# it considered output_pad constraint
-
-## INPUT PORT TRANSITION ##
-set_input_transition 0.8 [all_inputs]
-#1.2ns
-#set_driving_cell -lib_cell ivtd1_hd [all_inputs]
-remove_driving_cell [get_ports CLK]
-
-## MAX CAPACITANCE ##
-
-# this command limits the amount of capacitance DC hang off.
-
-## MAX TRANSITION and FANOUT ##
-# To fix the auto_wire_load selection
-set auto_wire_load_selection true
+# refer to DC User guide p.545

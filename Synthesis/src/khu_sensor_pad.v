@@ -1,8 +1,8 @@
 module khu_sensor_pad (
   // System I/O
-  input wire CLK, // Clock
+  input wire i_CLK, // Clock
   output wire CLK_OUT, // Clock Out
-  input wire RSTN, // Reset
+  input wire i_RSTN, // Reset
 
   // RS232 UART
   input wire UART_RXD,
@@ -70,7 +70,7 @@ module khu_sensor_pad (
   //It is the best way that 3.3V logic is located on the corner of chip,
   //owing to being deprived of connection with main(internal) module.
   // Setting a number of GND PAD as much as possible has advantageous for stabilizing supply voltage,
-  // especially periphery of high frequency such as CLK.
+  // especially periphery of high frequency such as i_CLK.
 
   // vdd33oph : 3.3V output-driver and pre-driver
   // vssoh : Output-driver GND for 3.3V interface
@@ -103,7 +103,7 @@ module khu_sensor_pad (
   */
   vssoh pad15();
   vssoh pad16();
-  phic pad17(.PAD(RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
+  phic pad17(.PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
   vssoh pad18();
   vssoh pad19();
 
@@ -121,11 +121,11 @@ module khu_sensor_pad (
   vssiph pad26();
 
   // phsoscm3 : 3.3V Interface Oscillator Cell with Enable(40M ~ 100MHz)
-  vssiph pad27(); // Shield GND for CLK
-  vssiph pad28(); // Shield GND for CLK
-  phsoscm3 pad29(.PADA(CLK), .E(1'b1), .PI(), .PO(), .YN(w_clk_p), .PADY(CLK_OUT));
-  vssiph pad30(); // Shield GND for CLK
-  vssiph pad31(); // Shield GND for CLK
+  vssiph pad27(); // Shield GND for i_CLK
+  vssiph pad28(); // Shield GND for i_CLK
+  phsoscm3 pad29(.PADA(i_CLK), .E(1'b1), .PI(), .PO(), .YN(w_clk_p), .PADY(CLK_OUT));
+  vssiph pad30(); // Shield GND for i_CLK
+  vssiph pad31(); // Shield GND for i_CLK
 
   vssiph pad32();
   vssiph pad33();
@@ -425,8 +425,8 @@ module khu_sensor_pad (
   //=========================Internal Connection===============================
   khu_sensor_top khu_sensor_top(
   	// System I/O
-  	.CLK(w_clk_p), // Clock
-  	.RSTN(w_rstn_p), // Reset
+  	.i_CLK(w_clk_p), // Clock
+  	.i_RSTN(w_rstn_p), // Reset
 
   	// RS232 UART
   	.UART_RXD(w_uart_rx_p),

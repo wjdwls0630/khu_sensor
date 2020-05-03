@@ -1,8 +1,8 @@
 /** Top module **/
 module khu_sensor_top(
 	// System I/O
-	input wire CLK, // Clock
-	input wire RSTN, // Reset
+	input wire i_CLK, // Clock
+	input wire i_RSTN, // Reset
 
 	// RS232 UART
 	input wire UART_RXD,
@@ -31,7 +31,7 @@ module khu_sensor_top(
 	*****************************************************************************/
 	//=========================Internal Connection===============================
 	wire rstn_btn;
-	assign rstn_btn = RSTN;
+	assign rstn_btn = i_RSTN;
 	//============================================================================
 
 	/****************************************************************************
@@ -43,7 +43,7 @@ module khu_sensor_top(
 	/*
 	my_pll khu_pll(
 		.areset		(!rstn_btn),
-		.inclk0		(CLK),
+		.inclk0		(i_CLK),
 		.c0				(),
 		.c2				(w_CLOCK_HALF),
 		.c3       (),
@@ -187,7 +187,7 @@ module khu_sensor_top(
 		.o_I2C_SCL_EN(MPR121_SCL_EN),
 		.o_I2C_SDA_EN(MPR121_SDA_EN),
 
-		.i_CLK(CLK), // clock
+		.i_CLK(i_CLK), // clock
 		.i_RSTN(w_core_rstn) // reset
 		);*/
 	//============================================================================
@@ -201,7 +201,7 @@ module khu_sensor_top(
 	  .o_ADS1292_FILTERED_DATA(w_ads1292_filtered_data),
 	  .o_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid),
 	  .i_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
-	  .i_CLK(CLK), // clock
+	  .i_CLK(i_CLK), // clock
 	  .i_RSTN(w_core_rstn) //reset
 	  );
 	/****************************************************************************
@@ -229,7 +229,7 @@ module khu_sensor_top(
 		.o_SPI_CSN(ADS1292_CSN), // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 
-		.i_CLK(CLK), // clock
+		.i_CLK(i_CLK), // clock
 		.i_RSTN(w_core_rstn) //reset
 		);
 	//============================================================================
