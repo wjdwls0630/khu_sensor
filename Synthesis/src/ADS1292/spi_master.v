@@ -13,7 +13,7 @@
 //              and MISO.  If the SPI peripheral requires a chip-select,
 //              this must be done at a higher level.
 //
-// Note:        i_Clk must be at least 2x faster than i_SPI_Clk
+// Note:        i_CLK must be at least 2x faster than i_SPI_Clk
 //
 // Parameters:  SPI_MODE, can be 0, 1, 2, or 3.  See above.
 //              Can be configured in one of 4 modes:
@@ -24,19 +24,19 @@
 //               3   |             1             |        1
 //              More: https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus#Mode_numbers
 //              CLKS_PER_HALF_BIT - Sets frequency of o_SPI_Clk.  o_SPI_Clk is
-//              derived from i_Clk.  Set to integer number of clocks for each
-//              half-bit of SPI data.  E.g. 100 MHz i_Clk, CLKS_PER_HALF_BIT = 2
+//              derived from i_CLK.  Set to integer number of clocks for each
+//              half-bit of SPI data.  E.g. 100 MHz i_CLK, CLKS_PER_HALF_BIT = 2
 //              would create o_SPI_CLK of 25 MHz.  Must be >= 2
 //
 ///////////////////////////////////////////////////////////////////////////////
 // FPGA board clock is 50MHz, hence o_SPI_CLK is going to be 6.25MHz
 module spi_master
   #(parameter SPI_MODE = 1, //datasheet 10page : NOTE: SPI settings are CPOL = 0 and CPHA = 1.
-    parameter CLKS_PER_HALF_BIT = 2)
+    parameter CLKS_PER_HALF_BIT = 7)
   (
    // Control/Data Signals,
-   input        i_Rst_L,     // FPGA Reset
-   input        i_Clk,       // FPGA Clock
+   input        i_RSTN,     // FPGA Reset
+   input        i_CLK,       // FPGA Clock
 
    // TX (MOSI) Signals
    input [7:0]  i_TX_Byte,        // Byte to transmit on MOSI
@@ -98,9 +98,9 @@ module spi_master
 	//
 
 
- always @(posedge i_Clk or negedge i_Rst_L)
+ always @(posedge i_CLK or negedge i_RSTN)
   begin
-    if (~i_Rst_L)
+    if (~i_RSTN)
     begin
       o_TX_Ready      <= 1'b0;
       r_SPI_Clk_Edges <= 0;
@@ -150,15 +150,15 @@ module spi_master
       end
 
 
-    end // else: !if(~i_Rst_L)
-  end // always @ (posedge i_Clk or negedge i_Rst_L)
+    end // else: !if(~i_RSTN)
+  end // always @ (posedge i_CLK or negedge i_RSTN)
 
 
   // Purpose: Register i_TX_Byte when Data Valid is pulsed.
   // Keeps local storage of byte in case higher level module changes the data
-  always @(posedge i_Clk or negedge i_Rst_L)
+  always @(posedge i_CLK or negedge i_RSTN)
   begin
-    if (~i_Rst_L)
+    if (~i_RSTN)
     begin
       r_TX_Byte <= 8'h00;
       r_TX_DV   <= 1'b0;
@@ -170,15 +170,15 @@ module spi_master
         begin
           r_TX_Byte <= i_TX_Byte;
         end
-      end // else: !if(~i_Rst_L)
-  end // always @ (posedge i_Clk or negedge i_Rst_L)
+      end // else: !if(~i_RSTN)
+  end // always @ (posedge i_CLK or negedge i_RSTN)
 
 
   // Purpose: Generate MOSI data
   // Works with both CPHA=0 and CPHA=1
-  always @(posedge i_Clk or negedge i_Rst_L)
+  always @(posedge i_CLK or negedge i_RSTN)
   begin
-    if (~i_Rst_L)
+    if (~i_RSTN)
     begin
       o_SPI_MOSI     <= 1'b0;
       r_TX_Bit_Count <= 3'b111; // send MSb first
@@ -206,9 +206,9 @@ module spi_master
 
 
   // Purpose: Read in MISO data.
-  always @(posedge i_Clk or negedge i_Rst_L)
+  always @(posedge i_CLK or negedge i_RSTN)
   begin
-    if (~i_Rst_L)
+    if (~i_RSTN)
     begin
       o_RX_Byte      <= 8'h00;
       o_RX_DV        <= 1'b0;
@@ -239,17 +239,17 @@ module spi_master
 
 
   // Purpose: Add clock delay to signals for alignment.
-  always @(posedge i_Clk or negedge i_Rst_L)
+  always @(posedge i_CLK or negedge i_RSTN)
   begin
-    if (~i_Rst_L)
+    if (~i_RSTN)
     begin
       o_SPI_Clk  <= w_CPOL;
     end
     else
       begin
         o_SPI_Clk <= r_SPI_Clk;
-      end // else: !if(~i_Rst_L)
-  end // always @ (posedge i_Clk or negedge i_Rst_L)
+      end // else: !if(~i_RSTN)
+  end // always @ (posedge i_CLK or negedge i_RSTN)
 
 
 endmodule // SPI_Master

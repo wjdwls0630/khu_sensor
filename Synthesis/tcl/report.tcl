@@ -1,52 +1,29 @@
 # This script file creates reports for all modules
-
+echo "***********************************************************************"
+echo "                           ${design}                                   "
+echo "                           report.tcl                                  "
+echo "                                                                       "
+echo "***********************************************************************"
 check_design > "${log_path}${dir}${design}_check_design.rpt"
 check_timing > "${log_path}${dir}${design}_check_timing.rpt"
 
-report_area >> "${log_path}${dir}${design}_report_area.rpt"
-report_design >> "${log_path}${dir}${design}_report_design.rpt"
-report_clock >> "${log_path}${dir}${design}_report_clock.rpt"
-report_port -verbose >> "${log_path}${dir}${design}_report_port.rpt"
-report_cell >> "${log_path}${dir}${design}_report_cell.rpt"
-report_reference >> "${log_path}${dir}${design}_report_reference.rpt"
-report_net >> "${log_path}${dir}${design}_report_net.rpt"
-report_compile_options >>"${log_path}${dir}${design}_report_compile_options.rpt"
-report_constraint -all_violators -verbose >> "${log_path}${rpt_file}"
-report_timing -path end >> "${log_path}${rpt_file}"
-report_timing -max_path $maxpaths >> "${log_path}${rpt_file}"
-report_qor >> "${log_path}${rpt_file}"
-
-   #current_design $top
-
-   #check_design                                    >  ./log/check_design.log
-   #check_timing                                    >  ./log/mips.check_timing.log
-
-   #report_design                                   >  ./log/mips.report_design.log
-   #report_clock                                    >  ./log/mips.report_clock.log
-   #report_port                                     >  ./log/mips.report_port.log
-   #report_timing                                   >  ./log/mips.report_timing.log
-   #report_timing_requirements                      >  ./log/mips.report_timing_requirements
-   #report_constraint                               >  ./log/mips.report_constraint.log
-   #report_constraint -all_violators                >> ./log/mips.report_constraint.log
-
-
-   check_design                                    >  ./log/$top.check_design.log
-   check_timing                                    >  ./log/$top.check_timing.log
-
-   report_area					>  ./log/$top.report_area.log
-   report_design                                   >  ./log/$top.report_design.log
-   report_clock                                    >  ./log/$top.report_clock.log
-   report_port                                     >  ./log/$top.report_port.log
-   report_timing -delay max			 > ./log/$top.report_timing_max
-   report_timing -delay min                         > ./log/$top.report_timing_min
-   report_timing_requirements                      >  ./log/$top.report_timing_requirements
-   report_constraint                               >  ./log/$top.report_constraint.log
-   report_constraint -all_violators                >> ./log/$top.report_constraint.log
-   report_design_lib
-   report_lib std150e_typ_120_p025 		> ./log/lib_report.log
-   report_lib std150e_typ_120_p025_memory       > ./log/lib_report_mem.log
-   #check_timing
-
-
-   #change_names -rules verilog -hierarchy -verbose > ./log/change_names.v
-   #change_name -rule verilog -hier
+report_area > "${log_path}${dir}${design}_report_area.rpt"
+report_design > "${log_path}${dir}${design}_report_design.rpt"
+report_clock > "${log_path}${dir}${design}_report_clock.rpt"
+report_port -verbose > "${log_path}${dir}${design}_report_port.rpt"
+report_cell > "${log_path}${dir}${design}_report_cell.rpt"
+report_reference > "${log_path}${dir}${design}_report_reference.rpt"
+report_resources > "${log_path}${dir}${design}_report_resources.rpt"
+report_net > "${log_path}${dir}${design}_report_net.rpt"
+report_attribute -design > "${log_path}${dir}${design}_report_attribute.rpt"
+report_compile_options > "${log_path}${dir}${design}_report_compile_options.rpt"
+report_constraint > "${log_path}${dir}${design}_report_constraints.rpt"
+report_constraint -all_violators -verbose >> "${log_path}${dir}${design}_report_constraints.rpt"
+report_timing -path full -input_pins > "${log_path}${dir}${design}_report_timing_input_pin_path.rpt"
+report_timing -max_path 5 > "${log_path}${dir}${design}_report_timing_max_path.rpt"
+report_timing -path end > "${log_path}${dir}${design}_report_timing_path_end.rpt"
+report_timing -delay max > "${log_path}${dir}${design}_report_timing_delay_max.rpt"
+report_timing -delay min  > "${log_path}${dir}${design}_report_timing_delay_min.rpt"
+report_timing_requirements > "${log_path}${dir}${design}_report_timing_requirements.rpt"
+report_qor > "${log_path}${dir}${design}_report_QoR.rpt"
+report_power > "${log_path}${dir}${design}_report_power.rpt"
