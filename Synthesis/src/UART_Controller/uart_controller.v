@@ -40,8 +40,9 @@ module uart_controller (
   wire w_uart_data_rx_valid;
   wire [7:0] w_uart_data_rx;
 
-  uart_tx #(.CLKS_PER_BIT(UART_CLKS_PER_BIT)) uart_tx
-  (.i_Clock(i_CLK),
+  uart_tx #(.CLKS_PER_BIT(UART_CLKS_PER_BIT)) uart_tx(
+   .i_Clock(i_CLK),
+   .i_RST(i_RST),
    .i_Tx_DV(r_uart_data_tx_valid),
    .i_Tx_Byte(r_uart_data_tx),
    .o_Tx_Active(),
@@ -49,11 +50,12 @@ module uart_controller (
    .o_Tx_Done(w_uart_data_tx_done)
    );
 
-  uart_rx #(.CLKS_PER_BIT(UART_CLKS_PER_BIT)) uart_rx
-  (.i_Clock(i_CLK),
-   .i_Rx_Serial(i_UART_RXD),
-   .o_Rx_DV(w_uart_data_rx_valid),
-   .o_Rx_Byte(w_uart_data_rx)
+  uart_rx #(.CLKS_PER_BIT(UART_CLKS_PER_BIT)) uart_rx(
+    .i_Clock(i_CLK),
+    .i_RST(i_RST),
+    .i_Rx_Serial(i_UART_RXD),
+    .o_Rx_DV(w_uart_data_rx_valid),
+    .o_Rx_Byte(w_uart_data_rx)
    );
   //============================================================================
 

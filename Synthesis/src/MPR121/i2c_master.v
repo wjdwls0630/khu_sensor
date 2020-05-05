@@ -24,14 +24,14 @@ THE SOFTWARE.
 
 // Language: Verilog 2001
 
-//`timescale 1ns / 1ps
+`timescale 1ns / 1ps
 
 /*
  * I2C master
  */
 module i2c_master (
-    input  wire        clk,
-    input  wire        rst,
+    input  wire        i_CLK,
+    input  wire        i_RSTN,
 
     /*
      * Host interface
@@ -138,7 +138,7 @@ Parameters:
 
 prescale
     set prescale to 1/4 of the minimum clock period in units
-    of input clk cycles (prescale = Fclk / (FI2Cclk * 4))
+    of input i_CLK cycles (prescale = Fclk / (FI2Cclk * 4))
 
 stop_on_idle
     automatically issue stop when command input is not valid
@@ -196,7 +196,7 @@ localparam [4:0]
     STATE_READ = 4'd10,
     STATE_STOP = 4'd11;
 
-reg [4:0] state_reg, state_next;
+reg [4:0] state_reg = STATE_IDLE, state_next;
 
 localparam [4:0]
     PHY_STATE_IDLE = 5'd0,
@@ -216,7 +216,8 @@ localparam [4:0]
     PHY_STATE_STOP_2 = 5'd14,
     PHY_STATE_STOP_3 = 5'd15;
 
-reg [4:0] phy_state_reg, phy_state_next; 
+reg [4:0] phy_state_reg = STATE_IDLE, phy_state_next;
+
 reg phy_start_bit;
 reg phy_stop_bit;
 reg phy_write_bit;
@@ -225,7 +226,7 @@ reg phy_release_bus;
 
 reg phy_tx_data;
 
-reg phy_rx_data_reg, phy_rx_data_next; 
+reg phy_rx_data_reg, phy_rx_data_next;
 
 reg [6:0] addr_reg, addr_next;
 reg [7:0] data_reg, data_next;
@@ -234,13 +235,13 @@ reg last_reg, last_next;
 reg mode_read_reg, mode_read_next;
 reg mode_write_multiple_reg, mode_write_multiple_next;
 reg mode_stop_reg, mode_stop_next;
- 
+
 reg [16:0] delay_reg, delay_next;
 reg delay_scl_reg, delay_scl_next;
 reg delay_sda_reg, delay_sda_next;
 
 reg [3:0] bit_count_reg, bit_count_next;
- 
+
 reg cmd_ready_reg, cmd_ready_next;
 
 reg data_in_ready_reg, data_in_ready_next;
@@ -290,50 +291,6 @@ wire start_bit = sda_negedge & scl_i_reg;
 wire stop_bit = sda_posedge & scl_i_reg;
 
 always @* begin
-    // reg initial assignment warning
-    /*
-    phy_state_reg = STATE_IDLE, phy_state_next;
-    phy_rx_data_reg = 1'b0, phy_rx_data_next;
-
-    addr_reg = 7'd0, addr_next;
-    data_reg = 8'd0, data_next;
-    last_reg = 1'b0, last_next;
-
-    mode_read_reg = 1'b0, mode_read_next;
-    mode_write_multiple_reg = 1'b0, mode_write_multiple_next;
-    mode_stop_reg = 1'b0, mode_stop_next;
-
-    delay_reg = 16'd0, delay_next;
-    delay_scl_reg = 1'b0, delay_scl_next;
-    delay_sda_reg = 1'b0, delay_sda_next;
-
-    bit_count_reg = 4'd0, bit_count_next;
-
-    cmd_ready_reg = 1'b0, cmd_ready_next;
-
-    data_in_ready_reg = 1'b0, data_in_ready_next;
-
-    data_out_reg = 8'd0, data_out_next;
-    data_out_valid_reg = 1'b0, data_out_valid_next;
-    data_out_last_reg = 1'b0, data_out_last_next;
-
-    scl_i_reg = 1'b1;
-    sda_i_reg = 1'b1;
-
-    scl_o_reg = 1'b1, scl_o_next;
-    sda_o_reg = 1'b1, sda_o_next;
-
-    last_scl_i_reg = 1'b1;
-    last_sda_i_reg = 1'b1;
-
-    busy_reg = 1'b0;
-    bus_active_reg = 1'b0;
-    bus_control_reg = 1'b0, bus_control_next;
-    missed_ack_reg = 1'b0, missed_ack_next;
-    */    
-    
-
-
     state_next = STATE_IDLE;
 
     phy_start_bit = 1'b0;
@@ -527,13 +484,13 @@ always @* begin
             end
             STATE_ADDRESS_1: begin
                 // send address
-                bit_count_next = bit_count_reg - 1'b1;
-                if (bit_count_reg > 4'd1) begin
+                bit_count_next = bit_count_reg - 1;
+                if (bit_count_reg > 1) begin
                     // send address
                     phy_write_bit = 1'b1;
                     phy_tx_data = addr_reg[bit_count_reg-2];
                     state_next = STATE_ADDRESS_1;
-                end else if (bit_count_reg > 4'd0) begin
+                end else if (bit_count_reg > 0) begin
                     // send read/write bit
                     phy_write_bit = 1'b1;
                     phy_tx_data = mode_read_reg;
@@ -576,8 +533,8 @@ always @* begin
             end
             STATE_WRITE_2: begin
                 // send data
-                bit_count_next = bit_count_reg - 1'b1;
-                if (bit_count_reg > 4'd0) begin
+                bit_count_next = bit_count_reg - 1;
+                if (bit_count_reg > 0) begin
                     // write data bit
                     phy_write_bit = 1'b1;
                     phy_tx_data = data_reg[bit_count_reg-1];
@@ -607,9 +564,9 @@ always @* begin
             STATE_READ: begin
                 // read data
 
-                bit_count_next = bit_count_reg - 1'b1;
+                bit_count_next = bit_count_reg - 1;
                 data_next = {data_reg[6:0], phy_rx_data_reg};
-                if (bit_count_reg > 4'd0) begin
+                if (bit_count_reg > 0) begin
                     // read next bit
                     phy_read_bit = 1'b1;
                     state_next = STATE_READ;
@@ -671,7 +628,7 @@ always @* begin
         phy_state_next = phy_state_reg;
     end else if (delay_reg > 0) begin
         // time delay
-        delay_next = delay_reg - 1'b1;
+        delay_next = delay_reg - 1;
         phy_state_next = phy_state_reg;
     end else begin
         case (phy_state_reg)
@@ -869,8 +826,8 @@ always @* begin
     end
 end
 
-always @(posedge clk) begin
-    if (rst) begin
+always @(posedge i_CLK) begin
+    if (!i_RSTN) begin
         state_reg <= STATE_IDLE;
         phy_state_reg <= PHY_STATE_IDLE;
         delay_reg <= 16'd0;
@@ -885,6 +842,20 @@ always @(posedge clk) begin
         bus_active_reg <= 1'b0;
         bus_control_reg <= 1'b0;
         missed_ack_reg <= 1'b0;
+
+		  phy_rx_data_reg<=1'b0;
+		  addr_reg<=7'd0;
+		  data_reg<=8'd0;
+		  mode_read_reg<=1'b0;
+		  mode_write_multiple_reg<=1'b0;
+		  mode_stop_reg<=1'b0;
+		  bit_count_reg<=4'b0;
+		  data_out_reg<=1'b0;
+		  data_out_last_reg<=1'b0;
+		  scl_i_reg<=1'b1;
+		  sda_i_reg<=1'b0;
+		  last_scl_i_reg<=1'b1;
+		  last_sda_i_reg<=1'b1;
     end else begin
         state_reg <= state_next;
         phy_state_reg <= phy_state_next;

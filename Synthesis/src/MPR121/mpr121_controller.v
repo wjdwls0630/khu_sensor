@@ -204,8 +204,8 @@ module mpr121_controller (
 	assign w_scl_in = I2C_SCL; //I2C_SCL -> inout wire
 	*/
 	i2c_master i2c_master(
-    .clk(i_CLK),
-    .rst(r_i2c_rst),
+    .i_CLK(i_CLK),
+    .i_RSTN(r_i2c_rst),
 
     // Host interface
     .cmd_address(I2C_MPR121_ADDR), // MPR121 (slave) address

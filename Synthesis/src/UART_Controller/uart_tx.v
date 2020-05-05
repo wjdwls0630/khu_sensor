@@ -6,15 +6,16 @@
 // and no parity bit.  When transmit is complete o_Tx_done will be
 // driven high for one clock cycle.
 //
-// Set parameter CLKS_PER_BIT as follows:
-// CLKS_PER_BIT = (Frequency of i_Clock)/(Frequency of UART)
+// Set Parameter CLKS_PER_BIT as follows:
+// CLKS_PER_BIT = (Frequency of i_CLK)/(Frequency of UART)
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
 
 module uart_tx
-  #(parameter CLKS_PER_BIT = 0)
+  #(parameter CLKS_PER_BIT = 217)
   (
-   input       i_Clock,
+   input       i_CLK,
+   input 		   i_RST,
    input       i_Tx_DV,
    input [7:0] i_Tx_Byte,
    output      o_Tx_Active,
@@ -22,29 +23,36 @@ module uart_tx
    output      o_Tx_Done
    );
 
-  localparam s_IDLE         = 3'b000;
-  localparam s_TX_START_BIT = 3'b001;
-  localparam s_TX_DATA_BITS = 3'b010;
-  localparam s_TX_STOP_BIT  = 3'b011;
-  localparam s_CLEANUP      = 3'b100;
+  parameter s_IDLE         = 3'b000;
+  parameter s_TX_START_BIT = 3'b001;
+  parameter s_TX_DATA_BITS = 3'b010;
+  parameter s_TX_STOP_BIT  = 3'b011;
+  parameter s_CLEANUP      = 3'b100;
 
-  reg [2:0]    r_SM_Main    ;
-  reg [15:0]    r_Clock_Count ;
-  reg [2:0]    r_Bit_Index   ;
-  reg [7:0]    r_Tx_Data     ;
-  reg          r_Tx_Done     ;
-  reg          r_Tx_Active   ;
+  reg [2:0]    r_SM_Main;
+  reg [15:0]    r_Clock_Count;
+  reg [2:0]    r_Bit_Index;
+  reg [7:0]    r_Tx_Data;
+  reg          r_Tx_Done;
+  reg          r_Tx_Active;
 
-  always @(posedge i_Clock)
-    begin
-
+  always @(posedge i_CLK, posedge i_RST) begin
+	 if(i_RST)begin
+		r_SM_Main<=3'b0;
+		r_Clock_Count<=16'b0;
+		r_Bit_Index<=3'b0;
+		r_Tx_Data<=8'b0;
+		r_Tx_Done<=1'b0;
+		r_Tx_Active<=1'b0;
+	 end
+	 else begin
       case (r_SM_Main)
         s_IDLE :
           begin
             o_Tx_Serial   <= 1'b1;         // Drive Line High for Idle
             r_Tx_Done     <= 1'b0;
-            r_Clock_Count <= 16'b0;
-            r_Bit_Index   <= 3'b0;
+            r_Clock_Count <= 0;
+            r_Bit_Index   <= 0;
 
             if (i_Tx_DV == 1'b1)
               begin
@@ -63,14 +71,14 @@ module uart_tx
             o_Tx_Serial <= 1'b0;
 
             // Wait CLKS_PER_BIT-1 clock cycles for start bit to finish
-            if (r_Clock_Count < CLKS_PER_BIT-1'b1)
+            if (r_Clock_Count < CLKS_PER_BIT-1)
               begin
-                r_Clock_Count <= r_Clock_Count + 1'b1;
+                r_Clock_Count <= r_Clock_Count + 1;
                 r_SM_Main     <= s_TX_START_BIT;
               end
             else
               begin
-                r_Clock_Count <= 16'b0;
+                r_Clock_Count <= 0;
                 r_SM_Main     <= s_TX_DATA_BITS;
               end
           end // case: s_TX_START_BIT
@@ -81,24 +89,24 @@ module uart_tx
           begin
             o_Tx_Serial <= r_Tx_Data[r_Bit_Index];
 
-            if (r_Clock_Count < CLKS_PER_BIT-1'b1)
+            if (r_Clock_Count < CLKS_PER_BIT-1)
               begin
-                r_Clock_Count <= r_Clock_Count + 1'b1;
+                r_Clock_Count <= r_Clock_Count + 1;
                 r_SM_Main     <= s_TX_DATA_BITS;
               end
             else
               begin
-                r_Clock_Count <= 16'b0;
+                r_Clock_Count <= 0;
 
                 // Check if we have sent out all bits
-                if (r_Bit_Index < 3'd7)
+                if (r_Bit_Index < 7)
                   begin
-                    r_Bit_Index <= r_Bit_Index + 1'b1;
+                    r_Bit_Index <= r_Bit_Index + 1;
                     r_SM_Main   <= s_TX_DATA_BITS;
                   end
                 else
                   begin
-                    r_Bit_Index <= 3'b0;
+                    r_Bit_Index <= 0;
                     r_SM_Main   <= s_TX_STOP_BIT;
                   end
               end
@@ -111,15 +119,15 @@ module uart_tx
             o_Tx_Serial <= 1'b1;
 
             // Wait CLKS_PER_BIT-1 clock cycles for Stop bit to finish
-            if (r_Clock_Count < CLKS_PER_BIT-1'b1)
+            if (r_Clock_Count < CLKS_PER_BIT-1)
               begin
-                r_Clock_Count <= r_Clock_Count + 1'b1;
+                r_Clock_Count <= r_Clock_Count + 1;
                 r_SM_Main     <= s_TX_STOP_BIT;
               end
             else
               begin
                 r_Tx_Done     <= 1'b1;
-                r_Clock_Count <= 16'b0;
+                r_Clock_Count <= 0;
                 r_SM_Main     <= s_CLEANUP;
                 r_Tx_Active   <= 1'b0;
               end
@@ -139,7 +147,7 @@ module uart_tx
 
       endcase
     end
-
+end
   assign o_Tx_Active = r_Tx_Active;
   assign o_Tx_Done   = r_Tx_Done;
 

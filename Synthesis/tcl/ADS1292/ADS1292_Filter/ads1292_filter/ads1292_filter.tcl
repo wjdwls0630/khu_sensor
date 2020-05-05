@@ -18,7 +18,9 @@ link
 
 source "${tcl_path}default_constraints.tcl"
 
-optimize_registers
+set_clock_uncertainty -setup 0.2 [get_clocks clk]
+set_clock_latency 2 [get_clocks clk]
+
 compile_ultra
 
 change_names -rules verilog -hierarchy -verbose

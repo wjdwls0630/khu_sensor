@@ -46,20 +46,19 @@ if { $is_real_clk == true } {
 if { [sizeof_collection [get_ports i_RSTN]] > 0 } {
   set_max_fanout 1 [get_ports i_RSTN]
   set_dont_touch_network [get_ports i_RSTN]
-  set_ideal_network [get_ports i_RSTN]
 } elseif { [sizeof_collection [get_ports i_RST]] > 0 } {
   set_max_fanout 1 [get_ports i_RST]
   set_dont_touch_network [get_ports i_RST]
-  set_ideal_network [get_ports i_RST]
 }
 
 # default timing constraints for modules
 # clock skew
 # small ckt : 0.1ns large ckt : 0.3ns
+
 set_clock_uncertainty -setup 0.3 [get_clocks clk]
 
 # latency is the propagation time from the actual clock origin to the clock definition point
-# in the design 
+# in the design
 # This setting can be avoid if the design is without the clock generator
 # small ckt : 1ns large ckt : 3ns
 set_clock_latency 3 [get_clocks clk]
@@ -70,24 +69,9 @@ set_clock_transition -max 0.5 [get_clocks clk]
 # input transition
 set_input_transition -max 0.5 [all_inputs]
 
-if { $design == "khu_sensor_pad" } {
-  # input delay
-  # By input_pad constraint
-  set_input_delay -max 4.24 -clock $clk_name [all_inputs]
-  remove_input_delay -clock $clk_name0 [all_inputs]
-  
-  # output delay
-  # By output_pad constraint
-  set_output_delay -max 4.24 -clock $clk_name [all_outputs]
-  
-  # Apply default drive strengths and typical loads # for I/O ports
-  set_driving_cell -lib_cell ivtd1_hd [all_inputs]
-  set_max_area 16000000
-} else {
-  set_input_delay 1.2 [all_inputs] -clock $clk_name
-  set_output_delay 1.5 [all_outputs] -clock $clk_name
-  set_max_area 0
-}
+
+set_input_delay -max 1.2 [all_inputs] -clock $clk_name
+set_output_delay -max 1.5 [all_outputs] -clock $clk_name
 
 set max_load [expr [load_of $STD_WST/ivd1_hd/A] * 5.0]
 set_load $max_load [all_outputs]
@@ -101,9 +85,11 @@ set_operating_conditions -max V105WTP1250 -min V135BTN0400
 # (library must support this feature)
 set auto_wire_load_selection true
 
-# fix multiple port for feedthrough 
+# fix multiple port for feedthrough
 set_fix_multiple_port_nets -all -buffer_constants
 
+# area
+set_max_area 0
 
 # power
 set_dynamic_optimization true

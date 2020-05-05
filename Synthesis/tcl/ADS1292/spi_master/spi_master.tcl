@@ -12,12 +12,14 @@ set_svf "${svf_path}${dir}${design}.svf"
 
 define_design_lib khu_sensor_lib -path ./lib
 analyze -format verilog "${src_path}ADS1292/${design}.v" -lib khu_sensor_lib
-elaborate spi_master -lib khu_sensor_lib 
+elaborate spi_master -lib khu_sensor_lib
 current_design $design
 
 source "${tcl_path}default_constraints.tcl"
 
-optimize_registers
+set_clock_uncertainty -setup 0.1 [get_clocks clk]
+set_clock_latency 1 [get_clocks clk]
+
 compile_ultra -incremental
 
 change_names -rules verilog -hierarchy -verbose

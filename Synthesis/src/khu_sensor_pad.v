@@ -179,7 +179,7 @@ module khu_sensor_pad (
   vssoh pad69();
   // TODO bi-directional -> how? Open-drain or Tri-State
   // TODO en High activate? or Low activate
-  phbAtYZ pad(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
+  phbct12 pad(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
 
   vssoh pad71();
   vssoh pad72();
@@ -202,7 +202,7 @@ module khu_sensor_pad (
   vssoh pad80();
   vssoh pad81();
   // TODO bi-directional -> how? Open-drain or Tri-State
-  phbAdYZ pad82(.PAD(MPR121_SDA), .TN(~w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
+  phbct12 pad82(.PAD(MPR121_SDA), .TN(~w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
   vssoh pad83();
   vssoh pad84();
 
