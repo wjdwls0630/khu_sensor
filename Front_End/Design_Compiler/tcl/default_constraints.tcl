@@ -4,7 +4,7 @@ echo "                     default_constraints.tcl                           "
 echo "                                                                       "
 echo "***********************************************************************"
 
-# set_max_transition 1.3 [all_designs]
+#set_max_transition 0.5 [all_designs]
 #set_max_fanout 6 [all_designs]
 # set_max_capacitance 2.5 [all_designs]
 
@@ -16,23 +16,34 @@ set clk_half_period [expr {$clk_main_period*2}]
 # Create real clock if clock port is found
 if { [sizeof_collection [get_ports i_CLK]] > 0 } {
   set clk_name clk
-  if { $design == "sensor_core" } {
-    create_clock -name $clk_name -period $clk_half_period [get_ports i_CLK]
-  } elseif { $design == "uart_controller" } {
+  if { $design == "khu_sensor_pad"  } {
+    create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
+    create_generated_clock -name clk_half -source [get_pins khu_sensor_top/divider_by_2/i_CLK] \
+    -divide_by 2 [get_pins khu_sensor_top/divider_by_2/o_CLK_DIV_2]
+
+    # half clock
+    set_propagated_clock [get_clocks clk_half]
+    set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
+    set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
+    set_clock_transition -max 0.5 [get_clocks clk_half]
+    remove_input_delay [get_pins khu_sensor_top/divider_by_2/i_CLK]
+  } elseif { $design == "khu_sensor_top" } {
+    create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
+    create_generated_clock -name clk_half -source [get_pins divider_by_2/i_CLK] \
+    -divide_by 2 [get_pins divider_by_2/o_CLK_DIV_2]
+
+    # half clock
+    set_propagated_clock [get_clocks clk_half]
+    set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
+    set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
+    remove_input_delay [get_pins divider_by_2/i_CLK]
+  } elseif { $design == "sensor_core" || $design == "uart_controller" || $design == "uart_rx" || $design == "uart_tx" } {
     create_clock -name $clk_name -period $clk_half_period [get_ports i_CLK]
   } else {
     create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
   }
-  set is_real_clk true
-} else {
-  # Create virtual clock if clock port is not found
-  set clk_name "vclk"
-  create_clock -period $clk_main_period -name vclk
-  set is_real_clk false
-}
-
-# If real clock, set infinite drive strength
-if { $is_real_clk == true } {
+  
+  # If real clock, set infinite drive strength
   # Since we usually let the CTS procedure performed in the P&R
   # the clock source driving capability is poor
   # Thus we can set the clock tree as an ideal network without driving issue
@@ -40,8 +51,26 @@ if { $is_real_clk == true } {
   set_load 0 [get_ports i_CLK]
   #set_max_fanout 1 [get_ports i_CLK]
   # do not re-buffer the clock network
-  set_dont_touch_network [get_ports i_CLK]
+  #set_dont_touch_network [get_ports i_CLK]  
+  set_dont_touch_network [get_clocks clk]  
+  # if source clk is passed from pll which hav +/- 150ps jitter,
+  set_clock_uncertainty -setup 0.3 [get_clocks clk]
+  set_clock_uncertainty -hold 0.3 [get_clocks clk]
+  # CIC < 0.5ns as a rule of thumb.
+  set_clock_transition -max 0.5 [get_clocks clk]
+ # set_input_transition -max 0.5 [all_inputs]
+  remove_input_delay [get_ports i_CLK]
+  # latency is the propagation time from the actual clock origin to the clock definition point
+  # in the design
+  # This setting can be avoid if the design is without the clock generator
+  # small ckt : 1ns large ckt : 3ns
+  #set_clock_latency 3 [get_clocks clk]
+} else {
+  # Create virtual clock if clock port is not found
+  set clk_name "vclk"
+  create_clock -period $clk_main_period -name vclk
 }
+
 
 if { [sizeof_collection [get_ports i_RSTN]] > 0 } {
   echo "constraints i_RSTN"
@@ -58,25 +87,6 @@ if { [sizeof_collection [get_ports i_RSTN]] > 0 } {
   set_dont_touch_network [get_ports i_RST]
   set_false_path -from [get_ports i_RST]
 }
-
-# default timing constraints for modules
-# clock skew
-# small ckt : 0.1ns large ckt : 0.3ns
-
-#set_clock_uncertainty -setup 0.3 [get_clocks clk]
-
-# latency is the propagation time from the actual clock origin to the clock definition point
-# in the design
-# This setting can be avoid if the design is without the clock generator
-# small ckt : 1ns large ckt : 3ns
-#set_clock_latency 3 [get_clocks clk]
-
-# < 0.5ns CIC tester: 0.5ns
-#set_clock_transition -max 0.5 [get_clocks clk]
-
-# input transition
-#set_input_transition -max 0.5 [all_inputs]
-
 
 #set_input_delay -max 1.2 [all_inputs] -clock $clk_name
 #set_output_delay -max 1.5 [all_outputs] -clock $clk_name
@@ -102,5 +112,3 @@ set_max_area 0
 # power
 set_leakage_optimization true
 set_dynamic_optimization true
-
-#set compie_keep_original_for_external_references true

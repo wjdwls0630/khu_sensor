@@ -48,8 +48,6 @@ module uart_tx ( i_CLK, i_RST, i_Tx_DV, i_Tx_Byte, o_Tx_Active, o_Tx_Serial,
   fd2qd1_hd r_Tx_Done_reg ( .D(n89), .CK(i_CLK), .RN(n22), .Q(o_Tx_Done) );
   fd2qd1_hd r_Tx_Active_reg ( .D(n100), .CK(i_CLK), .RN(n23), .Q(o_Tx_Active)
          );
-  fd2qd1_hd r_Clock_Count_reg_2_ ( .D(n87), .CK(i_CLK), .RN(n3), .Q(
-        r_Clock_Count[2]) );
   fd2qd1_hd r_Tx_Data_reg_2_ ( .D(n97), .CK(i_CLK), .RN(n29), .Q(r_Tx_Data[2])
          );
   fd2qd1_hd r_Tx_Data_reg_6_ ( .D(n93), .CK(i_CLK), .RN(n25), .Q(r_Tx_Data[6])
@@ -68,21 +66,23 @@ module uart_tx ( i_CLK, i_RST, i_Tx_DV, i_Tx_Byte, o_Tx_Active, o_Tx_Serial,
          );
   fd2qd1_hd r_Bit_Index_reg_2_ ( .D(n102), .CK(i_CLK), .RN(n17), .Q(N19) );
   fd2qd1_hd r_Bit_Index_reg_0_ ( .D(n91), .CK(i_CLK), .RN(n21), .Q(N17) );
-  fd2qd1_hd r_Clock_Count_reg_0_ ( .D(n103), .CK(i_CLK), .RN(n1), .Q(
-        r_Clock_Count[0]) );
-  fd2qd1_hd r_Clock_Count_reg_1_ ( .D(n88), .CK(i_CLK), .RN(n2), .Q(
-        r_Clock_Count[1]) );
-  fd2qd1_hd r_Clock_Count_reg_4_ ( .D(n85), .CK(i_CLK), .RN(n5), .Q(
-        r_Clock_Count[4]) );
+  fd2qd1_hd r_Clock_Count_reg_2_ ( .D(n87), .CK(i_CLK), .RN(n3), .Q(
+        r_Clock_Count[2]) );
   fd2qd1_hd r_Clock_Count_reg_7_ ( .D(n82), .CK(i_CLK), .RN(n8), .Q(
         r_Clock_Count[7]) );
   fd2qd1_hd r_Clock_Count_reg_6_ ( .D(n83), .CK(i_CLK), .RN(n7), .Q(
         r_Clock_Count[6]) );
-  fd2qd1_hd r_Clock_Count_reg_3_ ( .D(n86), .CK(i_CLK), .RN(n4), .Q(
-        r_Clock_Count[3]) );
+  fd2qd1_hd r_Clock_Count_reg_0_ ( .D(n103), .CK(i_CLK), .RN(n1), .Q(
+        r_Clock_Count[0]) );
+  fd2qd1_hd r_Clock_Count_reg_1_ ( .D(n88), .CK(i_CLK), .RN(n2), .Q(
+        r_Clock_Count[1]) );
   fd2qd1_hd r_Clock_Count_reg_5_ ( .D(n84), .CK(i_CLK), .RN(n6), .Q(
         r_Clock_Count[5]) );
   fd2qd1_hd r_SM_Main_reg_0_ ( .D(N186), .CK(i_CLK), .RN(n38), .Q(r_SM_Main[0]) );
+  fd2qd1_hd r_Clock_Count_reg_4_ ( .D(n85), .CK(i_CLK), .RN(n5), .Q(
+        r_Clock_Count[4]) );
+  fd2qd1_hd r_Clock_Count_reg_3_ ( .D(n86), .CK(i_CLK), .RN(n4), .Q(
+        r_Clock_Count[3]) );
   fd3d1_hd r_SM_Main_reg_2_ ( .D(n33), .CK(i_CLK), .SN(n32), .Q(n34), .QN(
         r_SM_Main[2]) );
   fd3d1_hd r_SM_Main_reg_1_ ( .D(n36), .CK(i_CLK), .SN(n35), .Q(n37) );
@@ -90,52 +90,52 @@ module uart_tx ( i_CLK, i_RST, i_Tx_DV, i_Tx_Byte, o_Tx_Active, o_Tx_Serial,
         N18) );
   clknd2d1_hd U111 ( .A(n140), .B(n139), .Y(n144) );
   ivd1_hd U112 ( .A(n148), .Y(n145) );
-  ivd1_hd U113 ( .A(n106), .Y(n153) );
-  clknd2d1_hd U114 ( .A(n122), .B(n153), .Y(n110) );
-  clknd2d1_hd U115 ( .A(r_SM_Main[0]), .B(n34), .Y(n115) );
-  clknd2d1_hd U116 ( .A(r_Clock_Count[5]), .B(n146), .Y(n149) );
-  nr2d1_hd U117 ( .A(n133), .B(n132), .Y(n139) );
-  clknd2d1_hd U118 ( .A(r_Clock_Count[1]), .B(r_Clock_Count[0]), .Y(n132) );
-  clknd2d1_hd U119 ( .A(n148), .B(n109), .Y(n127) );
-  clknd2d1_hd U120 ( .A(n159), .B(n110), .Y(n123) );
-  clknd2d1_hd U121 ( .A(n112), .B(N19), .Y(n111) );
-  clknd2d1_hd U122 ( .A(n112), .B(n123), .Y(n158) );
-  clknd2d1_hd U123 ( .A(i_Tx_DV), .B(n116), .Y(n120) );
-  ao211d1_hd U124 ( .A(n37), .B(n125), .C(n153), .D(r_SM_Main[2]), .Y(n148) );
-  clknd2d1_hd U125 ( .A(n34), .B(n127), .Y(n128) );
+  nr2d1_hd U113 ( .A(n133), .B(n132), .Y(n139) );
+  clknd2d1_hd U114 ( .A(r_Clock_Count[1]), .B(r_Clock_Count[0]), .Y(n132) );
+  ivd1_hd U115 ( .A(n106), .Y(n153) );
+  clknd2d1_hd U116 ( .A(n122), .B(n153), .Y(n110) );
+  clknd2d1_hd U117 ( .A(r_SM_Main[0]), .B(n34), .Y(n115) );
+  clknd2d1_hd U118 ( .A(n148), .B(n109), .Y(n127) );
+  clknd2d1_hd U119 ( .A(r_Clock_Count[5]), .B(n146), .Y(n149) );
+  ao211d1_hd U120 ( .A(n37), .B(n125), .C(n153), .D(r_SM_Main[2]), .Y(n148) );
+  clknd2d1_hd U121 ( .A(n34), .B(n127), .Y(n128) );
+  clknd2d1_hd U122 ( .A(n159), .B(n110), .Y(n123) );
+  clknd2d1_hd U123 ( .A(n112), .B(N19), .Y(n111) );
+  clknd2d1_hd U124 ( .A(n112), .B(n123), .Y(n158) );
+  clknd2d1_hd U125 ( .A(i_Tx_DV), .B(n116), .Y(n120) );
   ivd1_hd U126 ( .A(n120), .Y(n121) );
   clknd2d1_hd U127 ( .A(n34), .B(n37), .Y(n107) );
   clknd2d1_hd U128 ( .A(n37), .B(n155), .Y(n154) );
   clknd2d1_hd U129 ( .A(r_SM_Main[0]), .B(n153), .Y(n155) );
   clknd2d1_hd U130 ( .A(n117), .B(n153), .Y(n33) );
-  clknd2d1_hd U131 ( .A(n122), .B(n156), .Y(n124) );
-  clknd2d1_hd U132 ( .A(n122), .B(n111), .Y(n114) );
-  clknd2d1_hd U133 ( .A(n131), .B(n130), .Y(n87) );
+  clknd2d1_hd U131 ( .A(n131), .B(n130), .Y(n87) );
+  clknd2d1_hd U132 ( .A(n122), .B(n156), .Y(n124) );
+  clknd2d1_hd U133 ( .A(n122), .B(n111), .Y(n114) );
   clknd2d1_hd U134 ( .A(n119), .B(o_Tx_Active), .Y(n118) );
   nr2d1_hd U135 ( .A(n107), .B(r_SM_Main[0]), .Y(n116) );
   ivd1_hd U136 ( .A(N17), .Y(n156) );
-  scg2d1_hd U137 ( .A(r_Clock_Count[3]), .B(n134), .C(n135), .D(n139), .Y(n86)
+  scg2d1_hd U137 ( .A(r_Clock_Count[5]), .B(n142), .C(n143), .D(n141), .Y(n84)
          );
-  scg2d1_hd U138 ( .A(r_Clock_Count[5]), .B(n142), .C(n143), .D(n141), .Y(n84)
-         );
-  scg2d1_hd U139 ( .A(r_Clock_Count[1]), .B(n128), .C(n129), .D(
+  scg2d1_hd U138 ( .A(r_Clock_Count[1]), .B(n128), .C(n129), .D(
         r_Clock_Count[0]), .Y(n88) );
-  scg2d1_hd U140 ( .A(n121), .B(i_Tx_Byte[1]), .C(r_Tx_Data[1]), .D(n120), .Y(
-        n98) );
-  scg2d1_hd U141 ( .A(n121), .B(i_Tx_Byte[4]), .C(r_Tx_Data[4]), .D(n120), .Y(
+  scg2d1_hd U139 ( .A(r_Clock_Count[3]), .B(n134), .C(n135), .D(n139), .Y(n86)
+         );
+  scg2d1_hd U140 ( .A(n121), .B(i_Tx_Byte[4]), .C(r_Tx_Data[4]), .D(n120), .Y(
         n95) );
+  scg2d1_hd U141 ( .A(n121), .B(i_Tx_Byte[5]), .C(r_Tx_Data[5]), .D(n120), .Y(
+        n94) );
   scg2d1_hd U142 ( .A(n121), .B(i_Tx_Byte[0]), .C(r_Tx_Data[0]), .D(n120), .Y(
         n99) );
   scg2d1_hd U143 ( .A(n121), .B(i_Tx_Byte[2]), .C(r_Tx_Data[2]), .D(n120), .Y(
         n97) );
-  scg2d1_hd U144 ( .A(n121), .B(i_Tx_Byte[5]), .C(r_Tx_Data[5]), .D(n120), .Y(
-        n94) );
+  scg2d1_hd U144 ( .A(n121), .B(i_Tx_Byte[3]), .C(r_Tx_Data[3]), .D(n120), .Y(
+        n96) );
   scg2d1_hd U145 ( .A(n121), .B(i_Tx_Byte[7]), .C(r_Tx_Data[7]), .D(n120), .Y(
         n92) );
-  scg2d1_hd U146 ( .A(n121), .B(i_Tx_Byte[6]), .C(r_Tx_Data[6]), .D(n120), .Y(
+  scg2d1_hd U146 ( .A(n121), .B(i_Tx_Byte[1]), .C(r_Tx_Data[1]), .D(n120), .Y(
+        n98) );
+  scg2d1_hd U147 ( .A(n121), .B(i_Tx_Byte[6]), .C(r_Tx_Data[6]), .D(n120), .Y(
         n93) );
-  scg2d1_hd U147 ( .A(n121), .B(i_Tx_Byte[3]), .C(r_Tx_Data[3]), .D(n120), .Y(
-        n96) );
   or2d1_hd U148 ( .A(n153), .B(n115), .Y(n108) );
   mx2d1_hd U149 ( .D0(n161), .D1(n162), .S(N19), .Y(N79) );
   ad2d1_hd U150 ( .A(r_Clock_Count[3]), .B(r_Clock_Count[4]), .Y(n140) );

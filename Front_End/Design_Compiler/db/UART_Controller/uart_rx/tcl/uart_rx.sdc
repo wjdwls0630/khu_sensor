@@ -1,6 +1,6 @@
 ###################################################################
 
-# Created by write_sdc on Wed May 13 02:33:35 2020
+# Created by write_sdc on Wed May 13 09:57:28 2020
 
 ###################################################################
 set sdc_version 1.9
@@ -14,3 +14,7 @@ set_disable_timing [get_ports i_RST]
 set_load -pin_load 0 [get_ports i_CLK]
 set_ideal_network [get_ports i_RST]
 create_clock [get_ports i_CLK]  -name clk  -period 20  -waveform {0 10}
+set_clock_uncertainty 0.3  [get_clocks clk]
+set_clock_transition -max -fall 0.5 [get_clocks clk]
+set_clock_transition -max -rise 0.5 [get_clocks clk]
+set_false_path   -from [get_ports i_RST]

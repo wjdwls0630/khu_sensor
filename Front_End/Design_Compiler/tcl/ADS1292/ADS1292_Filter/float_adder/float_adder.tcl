@@ -8,7 +8,7 @@ echo "                             ${design}.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
-set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
 define_design_lib khu_sensor_lib -path ./lib
 analyze -format verilog "${src_path}ADS1292/ADS1292_Filter/Float/${design}.v" -lib khu_sensor_lib

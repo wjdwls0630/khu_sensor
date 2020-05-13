@@ -3,7 +3,7 @@ module khu_sensor_top(
 	// System I/O
 	input wire i_CLK, // Clock
 	input wire i_RSTN, // Reset
-	input wire i_CLK_HALF,
+
 	// RS232 UART
 	input wire UART_RXD,
 	output wire UART_TXD,
@@ -25,31 +25,17 @@ module khu_sensor_top(
 	output wire ADS1292_START,
 	output wire ADS1292_CSN
 	);
-
 	/****************************************************************************
-	*                           	   FPGA				                               	*
+	*                           divider_by_2		                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	//wire rstn_btn;
-	//assign rstn_btn = i_RSTN;
-	//============================================================================
+	wire w_CLOCK_HALF;
+	divider_by_2 divider_by_2 (
+	  .i_CLK(i_CLK),
+	  .i_RSTN(i_RSTN),
+	  .o_CLK_DIV_2(w_CLOCK_HALF)
+	  );
 
-	/****************************************************************************
-	*                           	   ALTPLL 		                               	*
-	*****************************************************************************/
-	//=========================Internal Connection===============================
-	//wire w_CLOCK_HALF;
-	//wire w_core_rstn;
-	/*
-	my_pll khu_pll(
-		.areset		(!rstn_btn),
-		.inclk0		(i_CLK),
-		.c0				(),
-		.c2				(w_CLOCK_HALF),
-		.c3       (),
-		.locked		(w_core_rstn)
-		);
-	*/
 	//============================================================================
 	//==============================wire & reg====================================
 	// uart_controller
@@ -96,7 +82,7 @@ module khu_sensor_top(
 	*                           uart_controller			                          	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	
+
 	uart_controller uart_controller(
 		// TX
 		.i_UART_DATA_TX(w_uart_data_tx),
@@ -110,7 +96,7 @@ module khu_sensor_top(
 		// System I/O
 		.i_UART_RXD(UART_RXD), // external_interface.RXD
 		.o_UART_TXD(UART_TXD), // external_interface.TXD
-		.i_CLK(i_CLK_HALF),
+		.i_CLK(w_CLOCK_HALF),
 		.i_RST(!i_RSTN)
 		);
 	//============================================================================
@@ -156,10 +142,7 @@ module khu_sensor_top(
 		.i_ADS1292_BUSY(w_ads1292_busy),
 
 		// System I/O
-		.o_CHIP_SET(w_chip_set),
-		.o_RUN_SET(w_run_set),
-		.o_CORE_BUSY(w_core_busy),
-		.i_CLK(i_CLK_HALF),
+		.i_CLK(w_CLOCK_HALF),
 		.i_RST(!i_RSTN)
 	);
 	//============================================================================

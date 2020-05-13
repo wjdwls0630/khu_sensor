@@ -8,9 +8,9 @@ echo "                             ${design}.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
-set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
-read_file -format verilog "${src_path}Sensor_Core/${design}.v"
+read_file -format verilog "${src_path}${dir}${design}.v"
 
 current_design $design
 # The link command locates the reference for each cell in the design.
@@ -24,9 +24,6 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
-# clk up!
-set clk_period 20
-create_clock -name $clk_name -period $clk_period [get_ports i_CLK]
 # Here
 
 echo "***********************************************************************"

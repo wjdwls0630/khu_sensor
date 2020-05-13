@@ -43,9 +43,6 @@ module sensor_core(
 	input i_ADS1292_BUSY,
 
 	// System I/O
-	output reg o_CHIP_SET,
-	output reg o_RUN_SET,
-	output reg o_CORE_BUSY,
 	input wire i_CLK,
 	input wire i_RST
 	);
@@ -176,28 +173,36 @@ module sensor_core(
 	reg r_mpr_chip_set_done; // signal that mpr chip setting process is done
 	reg r_ads_chip_set; // signal that change ads setting state
 	reg r_ads_chip_set_done; // signal that ads chip setting process is done
+	reg r_chip_set;
 	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_CHIP_SET <= 1'b0;
-		else o_CHIP_SET <= r_mpr_chip_set_done & r_ads_chip_set_done;
+		if(i_RST) r_chip_set <= 1'b0;
+		else r_chip_set <= r_mpr_chip_set_done & r_ads_chip_set_done;
 	end
+
 
 	// run condition logic for both mpr and ads
 	reg r_mpr_run_set; // signal that change mpr run state
 	reg r_mpr_run_set_done; // signal that turning on mpr run state process is done
 	reg r_ads_run_set; // signal that change ads run state
 	reg r_ads_run_set_done; // signal that turning on ads run state process is done
+	reg r_run_set;
 	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_RUN_SET <= 1'b0;
-		else o_RUN_SET <= r_mpr_run_set_done & r_ads_run_set_done;
+		if(i_RST) r_run_set <= 1'b0;
+		else r_run_set <= r_mpr_run_set_done & r_ads_run_set_done;
 	end
+
 
 	// reading condition logic for both mpr and ads
 	reg r_mpr_is_reading; // flag that mpr is reading or not
 	reg r_ads_is_reading; // flag that ads is reading or not
+	/*
+	reg r_core_busy;
 	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) o_CORE_BUSY <= 1'b0;
-		else o_CORE_BUSY <= r_mpr_is_reading & r_ads_is_reading;
+		if(i_RST) r_core_busy <= 1'b0;
+		else r_core_busy <= r_mpr_is_reading & r_ads_is_reading;
 	end
+	*/
+
 
 	// read reg condition
 	reg r_mpr_read_reg;
@@ -250,7 +255,7 @@ module sensor_core(
 
 				ST_CORE_CHIP_SET:
 				begin
-					if(!o_CHIP_SET) begin
+					if(!r_chip_set) begin
 						if(!r_mpr_chip_set_done) r_mpr_chip_set <= 1'b1;
 						else r_mpr_chip_set <= 1'b0; // don't need to set the chip again before reset or power off
 						if(!r_ads_chip_set_done) r_ads_chip_set <= 1'b1;
@@ -280,7 +285,7 @@ module sensor_core(
 						else r_ads_is_reading <= 1'b0;;
 					end
 					// if satisfy all condition to run & read, sensor_core is going to ~
-					if (r_run_mode & o_RUN_SET) r_core_pstate <= ST_CORE_IS_READING;
+					if (r_run_mode & r_run_set) r_core_pstate <= ST_CORE_IS_READING;
 					else r_core_pstate <= ST_CORE_STANDBY;
 				end
 

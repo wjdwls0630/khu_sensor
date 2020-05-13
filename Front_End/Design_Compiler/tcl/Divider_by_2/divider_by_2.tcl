@@ -1,6 +1,6 @@
-# Script file for constraining float_adder
-set design "float_multiplier"
-set dir "ADS1292/ADS1292_Filter/float_multiplier/"
+# Script file for constraining divider_by_2
+set design "divider_by_2"
+set dir "Divider_by_2/"
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -10,9 +10,7 @@ echo "***********************************************************************"
 
 set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
-define_design_lib khu_sensor_lib -path ./lib
-analyze -format verilog "${src_path}ADS1292/ADS1292_Filter/Float/${design}.v" -lib khu_sensor_lib
-elaborate float_multiplier -lib khu_sensor_lib
+read_file -format verilog "${src_path}${dir}${design}.v"
 
 current_design $design
 # The link command locates the reference for each cell in the design.
@@ -26,9 +24,6 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
-# clk up!
-set clk_period 20
-create_clock -name $clk_name -period $clk_period [get_ports i_CLK]
 # Here
 
 echo "***********************************************************************"

@@ -3,8 +3,7 @@ module khu_sensor_pad (
   input wire i_CLK, // Clock
   output wire CLK_OUT, // Clock Out
   input wire i_RSTN, // Reset
-  input wire i_CLK_HALF,
-  output wire CLK_HALF_OUT,
+
   // RS232 UART
   input wire UART_RXD,
   output wire UART_TXD,
@@ -41,7 +40,7 @@ module khu_sensor_pad (
   wire w_clk_p; // Clock
   wire w_clk_out_p; // Clock Out
   wire w_rstn_p; // Reset
-  
+
   wire w_clk_half_p;
   wire w_clk_half_out_p;
   // RS232 UART
@@ -131,8 +130,7 @@ module khu_sensor_pad (
   vssiph pad31(); // Shield GND for i_CLK
 
   vssiph pad32();
-  phsoscm3 pad33(.PADA(i_CLK_HALF), .E(1'b1), .PI(), .PO(), .YN(w_clk_half_p), .PADY(CLK_HALF_OUT));
-  //vssiph pad33();
+  vssiph pad33();
   vssiph pad34();
   vdd12ih pad35();
   vssiph pad36();
@@ -431,7 +429,7 @@ module khu_sensor_pad (
   	// System I/O
   	.i_CLK(w_clk_p), // Clock
   	.i_RSTN(w_rstn_p), // Reset
-	.i_CLK_HALF(w_clk_half_p),
+
   	// RS232 UART
   	.UART_RXD(w_uart_rx_p),
   	.UART_TXD(w_uart_tx_p),

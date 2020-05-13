@@ -8,7 +8,7 @@ echo "                           iir_notch.tcl                               "
 echo "                                                                       "
 echo "***********************************************************************"
 
-set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
 read_file -format verilog "${src_path}ADS1292/ADS1292_Filter/IIR_Notch/${design}.v"
 

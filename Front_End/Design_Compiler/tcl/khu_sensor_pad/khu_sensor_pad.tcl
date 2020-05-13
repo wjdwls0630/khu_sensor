@@ -8,7 +8,7 @@ echo "                             ${design}.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
-set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
 read_file -format verilog "${src_path}${design}.v"
 
@@ -43,7 +43,7 @@ echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra 
+compile_ultra
 
 echo "***********************************************************************"
 echo "                                                                       "

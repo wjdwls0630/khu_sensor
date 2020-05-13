@@ -10,7 +10,7 @@ echo "***********************************************************************"
 
 set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
 
-read_file -format verilog "${src_path}Sensor_Core/${design}.v"
+read_file -format verilog "${src_path}${dir}${design}.v"
 
 current_design $design
 # The link command locates the reference for each cell in the design.
