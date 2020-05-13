@@ -22,21 +22,21 @@ if { [sizeof_collection [get_ports i_CLK]] > 0 } {
     -divide_by 2 [get_pins khu_sensor_top/divider_by_2/o_CLK_DIV_2]
 
     # half clock
-    set_propagated_clock [get_clocks clk_half]
-    set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
-    set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
-    set_clock_transition -max 0.5 [get_clocks clk_half]
-    remove_input_delay [get_pins khu_sensor_top/divider_by_2/i_CLK]
+    #set_propagated_clock [get_clocks clk_half]
+    #set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
+    #set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
+    #set_clock_transition -max 0.5 [get_clocks clk_half]
+    #remove_input_delay [get_pins khu_sensor_top/divider_by_2/i_CLK]
   } elseif { $design == "khu_sensor_top" } {
     create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
     create_generated_clock -name clk_half -source [get_pins divider_by_2/i_CLK] \
     -divide_by 2 [get_pins divider_by_2/o_CLK_DIV_2]
 
     # half clock
-    set_propagated_clock [get_clocks clk_half]
-    set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
-    set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
-    remove_input_delay [get_pins divider_by_2/i_CLK]
+    #set_propagated_clock [get_clocks clk_half]
+    #set_clock_uncertainty -setup 0.3 [get_clocks clk_half]
+    #set_clock_uncertainty -hold 0.3 [get_clocks clk_half]
+    #remove_input_delay [get_pins divider_by_2/i_CLK]
   } elseif { $design == "sensor_core" || $design == "uart_controller" || $design == "uart_rx" || $design == "uart_tx" } {
     create_clock -name $clk_name -period $clk_half_period [get_ports i_CLK]
   } else {
@@ -53,11 +53,14 @@ if { [sizeof_collection [get_ports i_CLK]] > 0 } {
   # do not re-buffer the clock network
   #set_dont_touch_network [get_ports i_CLK]  
   set_dont_touch_network [get_clocks clk]  
-  # if source clk is passed from pll which hav +/- 150ps jitter,
-  set_clock_uncertainty -setup 0.3 [get_clocks clk]
-  set_clock_uncertainty -hold 0.3 [get_clocks clk]
+  # assume that we use programmable multi clock generator 
+  # AK8147DV2
+  # if source clk is passed from pll which have +/- 80ps jitter,
+  set_clock_uncertainty -setup 0.0804 [get_clocks clk]
+  set_clock_uncertainty -hold 0.0804 [get_clocks clk]
   # CIC < 0.5ns as a rule of thumb.
-  set_clock_transition -max 0.5 [get_clocks clk]
+  set_clock_transition -rise 1.4 [get_clocks clk]
+  set_clock_transition -fall 1.9 [get_clocks clk]
  # set_input_transition -max 0.5 [all_inputs]
   remove_input_delay [get_ports i_CLK]
   # latency is the propagation time from the actual clock origin to the clock definition point
@@ -75,14 +78,14 @@ if { [sizeof_collection [get_ports i_CLK]] > 0 } {
 if { [sizeof_collection [get_ports i_RSTN]] > 0 } {
   echo "constraints i_RSTN"
   #set_max_fanout 1 [get_ports i_RSTN]
-  set_disable_timing [get_ports i_RSTN]
+  #set_disable_timing [get_ports i_RSTN]
   set_ideal_network [get_ports i_RSTN]
   set_dont_touch_network [get_ports i_RSTN]
   set_false_path -from [get_ports i_RSTN]
 } elseif { [sizeof_collection [get_ports i_RST]] > 0 } {
   echo "constraints i_RST"
   #set_max_fanout 1 [get_ports i_RST]
-  set_disable_timing [get_ports i_RST]
+  #set_disable_timing [get_ports i_RST]
   set_ideal_network [get_ports i_RST]
   set_dont_touch_network [get_ports i_RST]
   set_false_path -from [get_ports i_RST]
@@ -91,8 +94,8 @@ if { [sizeof_collection [get_ports i_RSTN]] > 0 } {
 #set_input_delay -max 1.2 [all_inputs] -clock $clk_name
 #set_output_delay -max 1.5 [all_outputs] -clock $clk_name
 
-#set max_load [expr [load_of $STD_WST/ivd1_hd/A] * 5.0]
-#set_load $max_load [all_outputs]
+set max_load [expr [load_of $STD_WST/ivd1_hd/A] * 5.0]
+set_load $max_load [all_outputs]
 
 
 # Set operating conditions

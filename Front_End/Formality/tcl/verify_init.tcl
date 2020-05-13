@@ -6,15 +6,15 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # MPR121
-source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
-source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
+#source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
+#source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
 
 # ADS1292i
 #source "${tcl_path}ADS1292/spi_master/spi_master.tcl"
 #source "${tcl_path}ADS1292/ads1292_controller/ads1292_controller.tcl"
 
 # ADS1292_Filter
-#source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
+source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/float_multiplier/float_multiplier.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/iir_lpf/iir_lpf.tcl"
 
