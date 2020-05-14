@@ -24,7 +24,11 @@ report_timing -path full -input_pins > "${log_path}${dir}${t_w_path}${design}_re
 report_timing -max_path 5 > "${log_path}${dir}${t_w_path}${design}_report_timing_max_path.rpt"
 report_timing -path end > "${log_path}${dir}${t_w_path}${design}_report_timing_path_end.rpt"
 report_timing -delay max > "${log_path}${dir}${t_w_path}${design}_report_timing_delay_max.rpt"
+<<<<<<< HEAD
 report_timing -delay min  > "${log_path}${dir}${t_w_path}${design}_report_timing_delay_min.rpt"
+=======
+report_timing -delay min > "${log_path}${dir}${t_w_path}${design}_report_timing_delay_min.rpt"
+>>>>>>> jin
 report_timing_requirements > "${log_path}${dir}${t_w_path}${design}_report_timing_requirements.rpt"
 report_qor > "${log_path}${dir}${t_w_path}${design}_report_QoR.rpt"
 report_power > "${log_path}${dir}${t_w_path}${design}_report_power.rpt"

@@ -9,7 +9,11 @@ echo "***********************************************************************"
 # set_max_capacitance 2.5 [all_designs]
 
 # CLOCK
+<<<<<<< HEAD
 set clk_main_period 220
+=======
+set clk_main_period 20
+>>>>>>> jin
 set clk_half_period [expr {$clk_main_period*2}]
 
 # Define system clock period

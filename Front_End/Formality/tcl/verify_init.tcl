@@ -6,15 +6,24 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # MPR121
+<<<<<<< HEAD
 source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
 source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
+=======
+#source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
+#source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
+>>>>>>> jin
 
 # ADS1292i
 #source "${tcl_path}ADS1292/spi_master/spi_master.tcl"
 #source "${tcl_path}ADS1292/ads1292_controller/ads1292_controller.tcl"
 
 # ADS1292_Filter
+<<<<<<< HEAD
 #source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
+=======
+source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
+>>>>>>> jin
 #source "${tcl_path}ADS1292/ADS1292_Filter/float_multiplier/float_multiplier.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/iir_lpf/iir_lpf.tcl"
 
@@ -27,7 +36,11 @@ source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/ads1292_filter/ads1292_filter.tcl"
 
 # Sensor_Core
+<<<<<<< HEAD
 source "${tcl_path}Sensor_Core/sensor_core.tcl"
+=======
+#source "${tcl_path}Sensor_Core/sensor_core.tcl"
+>>>>>>> jin
 
 # Uart_Controller
 #source "${tcl_path}UART_Controller/uart_rx/uart_rx.tcl"

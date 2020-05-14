@@ -24,12 +24,19 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
+<<<<<<< HEAD
 # clk up!
 set clk_period 10
 create_clock -name $clk_name -period $clk_period [get_ports i_CLK]
 set_dont_touch_network [get_clocks clk]
 set_dont_touch i2c_master
 
+=======
+set_dont_touch i2c_master
+
+# Here
+
+>>>>>>> jin
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                       compile_ultra ${design}                         "
