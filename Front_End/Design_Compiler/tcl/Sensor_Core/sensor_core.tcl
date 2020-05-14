@@ -1,6 +1,7 @@
 # Script file for constraining sensor_core
 set design "sensor_core"
 set dir "Sensor_Core/"
+set timing_disable_clock_gating_checks true
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -23,6 +24,10 @@ echo "                                                                       "
 echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
+
+set clk_main_period 10
+create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
+set_dont_touch_network [get_clocks clk]  
 
 # Here
 

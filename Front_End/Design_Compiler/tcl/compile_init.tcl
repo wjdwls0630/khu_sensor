@@ -6,8 +6,8 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # MPR121
-source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
-source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
+#source "${tcl_path}MPR121/i2c_master/i2c_master.tcl"
+#source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
 
 # ADS1292
 # source "${tcl_path}ADS1292/spi_master/spi_master.tcl"
@@ -27,7 +27,7 @@ source "${tcl_path}MPR121/mpr121_controller/mpr121_controller.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/ads1292_filter/ads1292_filter.tcl"
 
 # Sensor_Core
-#source "${tcl_path}Sensor_Core/sensor_core.tcl"
+source "${tcl_path}Sensor_Core/sensor_core.tcl"
 
 # Uart_Controller
 #source "${tcl_path}UART_Controller/uart_rx/uart_rx.tcl"

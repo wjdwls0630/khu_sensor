@@ -1,6 +1,7 @@
 # Script file for constraining i2c_master
 set design "i2c_master"
 set dir "MPR121/i2c_master/"
+set timing_disable_clock_gating_checks true
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -24,9 +25,10 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
-# clk up!
-set clk_period 10
-create_clock -name $clk_name -period $clk_period [get_ports i_CLK]
+
+set clk_main_period 10
+create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
+set_dont_touch_network [get_clocks clk]  
 # Here
 
 echo "***********************************************************************"
