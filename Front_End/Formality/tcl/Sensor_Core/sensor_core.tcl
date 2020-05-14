@@ -1,6 +1,7 @@
 # Remove containers before starting new verification
 remove_container -all
 
+# Script file for verifying sensor_core
 set design "sensor_core"
 set dir "Sensor_Core/"
 
@@ -11,7 +12,7 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # read automated setup file where the retiming guidance commands are written
-set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
 # when you use black-box,
 # exec $env(SEC_FM)/utils/udc2bb <udc file address> -f udc_filename.v
@@ -20,7 +21,7 @@ set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
 # Create a container for the reference design(RTL)
 # Read the reference design and set_top(link) it
 create_container ref
-read_verilog -container ref ${src_path}${dir}${design}.v
+read_verilog -container ref ${src_path}Sensor_Core/${design}.v
 
 # link command is obsolete, using set_top instead
 #link ref:/WORK/$design
@@ -32,19 +33,18 @@ set_reference_design ref:/WORK/$design
 # Read the implementation design and set_top(link) it
 create_container impl
 
-read_verilog -container impl -netlist  ${netlist_path}${dir}${t_w_path}${design}.vg 
+read_verilog -container impl -netlist ${netlist_path}${dir}${t_w_path}${design}.vg
 
 #link impl:/WORK/$design
 set_top impl:/WORK/$design
 
 set_implementation_design impl:/WORK/$design
 
-set_compare_rule impl:/WORK/$design                          \
+set_compare_rule impl:/WORK/$design                           \
                  -from {\(.*\)_reg\([0-9]*\)_\([0-9][0-9]*\)A} \
                  -to   {\1_reg\2[\3]}
 # set_compare_point commands for mapping the comparable design objects changes
 # their instance name or flattened hierarchy path name
-
 
 echo "***********************************************************************"
 echo "                                                                       "

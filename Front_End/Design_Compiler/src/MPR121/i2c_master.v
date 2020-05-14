@@ -827,7 +827,7 @@ end
 
 always @(posedge i_CLK) begin
     if (!i_RSTN) begin
-	r_prescale <= 16'd250;
+	r_prescale <= 16'd125;
         state_reg <= STATE_IDLE;
         phy_state_reg <= PHY_STATE_IDLE;
         delay_reg <= 16'd0;
@@ -857,7 +857,7 @@ always @(posedge i_CLK) begin
 		  last_scl_i_reg<=1'b1;
 		  last_sda_i_reg<=1'b1;
     end else begin
-        r_prescale <= 16'd250;
+        r_prescale <= 16'd125;
         state_reg <= state_next;
         phy_state_reg <= phy_state_next;
 

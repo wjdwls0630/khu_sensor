@@ -1,6 +1,6 @@
 ###################################################################
 
-# Created by write_sdc on Thu May 14 15:42:24 2020
+# Created by write_sdc on Thu May 14 18:09:06 2020
 
 ###################################################################
 set sdc_version 1.9
@@ -128,7 +128,7 @@ set_load -pin_load 0.01035 [get_ports {o_ADS1292_DATA_IN[0]}]
 set_load -pin_load 0.01035 [get_ports o_ADS1292_FILTERED_DATA_ACK]
 set_load -pin_load 0 [get_ports i_CLK]
 set_ideal_network [get_ports i_RST]
-create_clock [get_ports i_CLK]  -name clk  -period 10  -waveform {0 5}
+create_clock [get_ports i_CLK]  -name clk  -period 20  -waveform {0 10}
 set_clock_uncertainty 0.0804  [get_clocks clk]
 set_clock_transition -min -fall 1.9 [get_clocks clk]
 set_clock_transition -max -rise 1.4 [get_clocks clk]
