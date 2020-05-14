@@ -1,10 +1,6 @@
 # Remove containers before starting new verification
 remove_container -all
 
-set design "i2c_master"
-set dir "MPR121/i2c_master/"
-set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
-
 # Script file for verifying mpr121_controller
 set design "mpr121_controller"
 set dir "MPR121/mpr121_controller/"
@@ -18,6 +14,14 @@ echo "***********************************************************************"
 # read automated setup file where the retiming guidance commands are written
 set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
+# read sub-module's svf file
+set design "i2c_master"
+set dir "MPR121/i2c_master/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "mpr121_controller"
+set dir "MPR121/mpr121_controller/"
+
 # when you use black-box,
 # exec $env(SEC_FM)/utils/udc2bb <udc file address> -f udc_filename.v
 # read_verilog -technology_library -container <ref/impl> udc_filename.v
@@ -25,7 +29,7 @@ set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 # Create a container for the reference design(RTL)
 # Read the reference design and set_top(link) it
 create_container ref
-read_verilog -container ref ${src_path}MPR121/i2c_master.v 
+read_verilog -container ref ${src_path}MPR121/i2c_master.v
 read_verilog -container ref ${src_path}MPR121/${design}.v
 
 

@@ -25,9 +25,9 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # clk up!
-set clk_period 20
+set clk_period 10
 create_clock -name $clk_name -period $clk_period [get_ports i_CLK]
-# Here
+set_dont_touch_network [get_clocks clk]
 
 echo "***********************************************************************"
 echo "                                                                       "
