@@ -14,8 +14,8 @@ echo "***********************************************************************"
 #source "${tcl_path}ADS1292/ads1292_controller/ads1292_controller.tcl"
 
 # ADS1292_Filter
-source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
-#source "${tcl_path}ADS1292/ADS1292_Filter/float_multiplier/float_multiplier.tcl"
+#source "${tcl_path}ADS1292/ADS1292_Filter/float_adder/float_adder.tcl"
+source "${tcl_path}ADS1292/ADS1292_Filter/float_multiplier/float_multiplier.tcl"
 #source "${tcl_path}ADS1292/ADS1292_Filter/iir_lpf/iir_lpf.tcl"
 
 #source "${tcl_path}ADS1292/ADS1292_Filter/iir_hpf/iir_hpf.tcl"
