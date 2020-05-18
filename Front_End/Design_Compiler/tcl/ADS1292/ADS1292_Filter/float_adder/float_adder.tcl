@@ -25,23 +25,18 @@ echo "                                                                       "
 echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
+
 set clk_main_period 10
 create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
-set_dont_touch_network [get_clocks clk]  
-set_input_delay -max 0.31 [all_inputs] -clock $clk_name
-set_output_delay -max 0.14 [all_outputs] -clock $clk_name
-remove_input_delay [get_ports i_CLK]
-remove_input_delay [get_ports i_RST]
-set_cost_priority -delay
-set_fix_hold [get_clocks clk]
-set timing_disable_clock_gating_checks true
+set_dont_touch_network [get_clocks clk]
+
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra -no_autoungroup -incremental
+compile_ultra -no_autoungroup
 
 echo "***********************************************************************"
 echo "                                                                       "

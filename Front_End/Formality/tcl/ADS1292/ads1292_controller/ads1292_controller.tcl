@@ -1,10 +1,6 @@
 # Remove containers before starting new verification
 remove_container -all
 
-set design "spi_master"
-set dir "ADS1292/spi_master/"
-set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
-
 # Script file for verifying ads1292_controller
 set design "ads1292_controller"
 set dir "ADS1292/ads1292_controller/"
@@ -18,6 +14,13 @@ echo "***********************************************************************"
 # read automated setup file where the retiming guidance commands are written
 set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
+set design "spi_master"
+set dir "ADS1292/spi_master/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "ads1292_controller"
+set dir "ADS1292/ads1292_controller/"
+
 # when you use black-box,
 # exec $env(SEC_FM)/utils/udc2bb <udc file address> -f udc_filename.v
 # read_verilog -technology_library -container <ref/impl> udc_filename.v
@@ -25,8 +28,8 @@ set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 # Create a container for the reference design(RTL)
 # Read the reference design and set_top(link) it
 create_container ref
-read_verilog -container ref ${src_path}ADS1292/spi_master.v 
-read_verilog -container ref ${src_path}ADS1292/${design}.v 
+read_verilog -container ref ${src_path}ADS1292/spi_master.v
+read_verilog -container ref ${src_path}ADS1292/${design}.v
 
 # link command is obsolete, using set_top instead
 #link ref:/WORK/$design
@@ -38,7 +41,7 @@ set_reference_design ref:/WORK/$design
 # Read the implementation design and set_top(link) it
 create_container impl
 
-read_verilog -container impl -netlist ${netlist_path}${dir}${t_w_path}${design}.vg 
+read_verilog -container impl -netlist ${netlist_path}${dir}${t_w_path}${design}.vg
 
 #link impl:/WORK/$design
 set_top impl:/WORK/$design

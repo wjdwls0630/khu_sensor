@@ -23,8 +23,12 @@ echo "                                                                       "
 echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
+set clk_main_period 10
+create_clock -name $clk_name -period $clk_main_period [get_ports i_CLK]
+set_dont_touch_network [get_clocks clk]
+
 set_dont_touch spi_master
-# Here
+
 
 echo "***********************************************************************"
 echo "                                                                       "

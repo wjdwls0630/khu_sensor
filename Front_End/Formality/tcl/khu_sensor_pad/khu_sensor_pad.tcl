@@ -1,6 +1,9 @@
-# Script file for constraining khu_sensor_pad
-set design "khu_sensor_pad"
-set dir "khu_sensor_pad/"
+# Remove containers before starting new verification
+remove_container -all
+
+# Script file for verifying ads1292_filter
+set design "ads1292_filter"
+set dir "ADS1292/ADS1292_Filter/ads1292_filter/"
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -8,53 +11,92 @@ echo "                             ${design}.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
-set_svf "${svf_path}${t_w_path}${dir}${design}.svf"
+# read automated setup file where the retiming guidance commands are written
+set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
-read_file -format verilog "${src_path}${design}.v"
+set design "float_adder"
+set dir "ADS1292/ADS1292_Filter/float_adder/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
 
-current_design $design
-# The link command locates the reference for each cell in the design.
-link
+set design "float_multiplier"
+set dir "ADS1292/ADS1292_Filter/float_multiplier/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
 
-source "${tcl_path}default_constraints.tcl"
+set design "iir_lpf"
+set dir "ADS1292/ADS1292_Filter/iir_lpf/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "iir_hpf"
+set dir "ADS1292/ADS1292_Filter/iir_hpf/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "iir_notch"
+set dir "ADS1292/ADS1292_Filter/iir_notch/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "converter_f2i"
+set dir "ADS1292/ADS1292_Filter/converter_f2i/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "converter_i2f"
+set dir "ADS1292/ADS1292_Filter/converter_i2f/"
+set_svf -append "${svf_path}${dir}${t_w_path}${design}.svf"
+
+set design "ads1292_filter"
+set dir "ADS1292/ADS1292_Filter/ads1292_filter/"
+
+# when you use black-box,
+# exec $env(SEC_FM)/utils/udc2bb <udc file address> -f udc_filename.v
+# read_verilog -technology_library -container <ref/impl> udc_filename.v
+
+# Create a container for the reference design(RTL)
+# Read the reference design and set_top(link) it
+create_container ref
+read_verilog -container ref ${src_path}ADS1292/ADS1292_Filter/Float/float_adder.v
+read_verilog -container ref ${src_path}ADS1292/ADS1292_Filter/Float/float_multiplier.v
+read_verilog -container ref ${src_path}ADS1292/ADS1292_Filter/Float/converter_f2i.v
+read_verilog -container ref ${src_path}ADS1292/ADS1292_Filter/Float/converter_i2f.v
+read_verilog -container ref ${src_path}ADS1292/ADS1292_Filter/${design}.v
+
+
+# link command is obsolete, using set_top instead
+#link ref:/WORK/$design
+
+set_top ref:/WORK/$design
+set_reference_design ref:/WORK/$design
+
+# Create a container for the implementation design(Gate-Level)
+# Read the implementation design and set_top(link) it
+create_container impl
+
+read_verilog -container impl -netlist ${netlist_path}${dir}${t_w_path}${design}.vg
+
+#link impl:/WORK/$design
+set_top impl:/WORK/$design
+
+set_implementation_design impl:/WORK/$design
+
+set_compare_rule impl:/WORK/$design                          \
+                 -from {\(.*\)_reg\([0-9]*\)_\([0-9][0-9]*\)A} \
+                 -to   {\1_reg\2[\3]}
+# set_compare_point commands for mapping the comparable design objects changes
+# their instance name or flattened hierarchy path name
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "                    Apply ${design}_constraints.tcl                    "
+echo "                            verify  ${design}                          "
 echo "                                                                       "
 echo "***********************************************************************"
 
-# input delay
-# By input_pad constraint
-set_input_delay -max 4.24 -clock $clk_name [all_inputs]
-remove_input_delay -clock $clk_name [all_inputs]
-
-# output delay
-# By output_pad constraint
-set_output_delay -max 4.24 -clock $clk_name [all_outputs]
-
-# Apply default drive strengths and typical loads # for I/O ports
-set_driving_cell -lib_cell ivtd1_hd [all_inputs]
-set_max_area 16000000
-
-echo "***********************************************************************"
-echo "                                                                       "
-echo "                       compile_ultra ${design}                         "
-echo "                                                                       "
-echo "***********************************************************************"
-
-compile_ultra 
-
-echo "***********************************************************************"
-echo "                                                                       "
-echo "                    write ${design} output file                        "
-echo "                                                                       "
-echo "***********************************************************************"
-
-change_names -rules verilog -hierarchy -verbose
-write_file -format verilog -hierarchy -output "${netlist_path}${dir}${t_w_path}${design}.vg"
-write_sdf "${db_path}${dir}${t_w_path}${design}.sdf"
-write_sdc "${db_path}${dir}${t_w_path}${design}.sdc"
-write_parasitics -output "${db_path}${dir}${t_w_path}${design}_parasitics"
-
-source "${tcl_path}report.tcl"
+# verification
+# Since we have already linked the design pairs,
+# use -nolink option when performing verification
+# However, for now, -nolink is obsolete, it is default
+if {[verify] != 1} {
+   diagnose
+   report_failing_points
+   source "${tcl_path}report_fail.tcl"
+} else {
+   source "${tcl_path}report_pass.tcl"
+}
+source "${tcl_path}report_default.tcl"

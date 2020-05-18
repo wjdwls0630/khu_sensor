@@ -10,14 +10,13 @@
 // CLKS_PER_BIT = (Frequency of i_CLK)/(Frequency of UART)
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
-
+`timescale 1ns/1ns
 module uart_tx
   (
    input       i_CLK,
    input 		   i_RST,
    input       i_Tx_DV,
    input [7:0] i_Tx_Byte,
-   output      o_Tx_Active,
    output reg  o_Tx_Serial,
    output      o_Tx_Done
    );
@@ -29,20 +28,19 @@ module uart_tx
   localparam s_CLEANUP      = 3'b100;
 
   reg [2:0]    r_SM_Main;
-  reg [15:0]    r_Clock_Count;
+  reg [7:0]    r_Clock_Count;
   reg [2:0]    r_Bit_Index;
   reg [7:0]    r_Tx_Data;
   reg          r_Tx_Done;
-  reg          r_Tx_Active;
 
   always @(posedge i_CLK, posedge i_RST) begin
 	 if(i_RST)begin
 		r_SM_Main<=3'b0;
-		r_Clock_Count<=16'b0;
+		r_Clock_Count<=8'b0;
 		r_Bit_Index<=3'b0;
 		r_Tx_Data<=8'b0;
 		r_Tx_Done<=1'b0;
-		r_Tx_Active<=1'b0;
+
 	 end
 	 else begin
       case (r_SM_Main)
@@ -55,7 +53,7 @@ module uart_tx
 
             if (i_Tx_DV == 1'b1)
               begin
-                r_Tx_Active <= 1'b1;
+
                 r_Tx_Data   <= i_Tx_Byte;
                 r_SM_Main   <= s_TX_START_BIT;
               end
@@ -128,7 +126,6 @@ module uart_tx
                 r_Tx_Done     <= 1'b1;
                 r_Clock_Count <= 0;
                 r_SM_Main     <= s_CLEANUP;
-                r_Tx_Active   <= 1'b0;
               end
           end // case: s_Tx_STOP_BIT
 
@@ -147,7 +144,6 @@ module uart_tx
       endcase
     end
 end
-  assign o_Tx_Active = r_Tx_Active;
   assign o_Tx_Done   = r_Tx_Done;
 
 endmodule

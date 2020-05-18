@@ -10,7 +10,7 @@
 // CLKS_PER_BIT = (Frequency of i_CLK)/(Frequency of UART)
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
-
+`timescale 1ns/1ns
 module uart_rx(
    input        i_CLK,
    input			  i_RST,
@@ -29,7 +29,8 @@ module uart_rx(
   reg           r_Rx_Data_R;
   reg           r_Rx_Data;
 
-  reg [15:0]     r_Clock_Count;
+   //2020.5.13 r_Clock_Count bit changed: 16->8
+  reg [7:0]     r_Clock_Count;
   reg [2:0]     r_Bit_Index; //8 bits total
   reg [7:0]     r_Rx_Byte;
   reg           r_Rx_DV;
@@ -54,7 +55,7 @@ end
   always @(posedge i_CLK, posedge i_RST)
     begin
     if(i_RST)begin
-		r_Clock_Count<=16'b0;
+		r_Clock_Count<=8'b0;
 		r_Bit_Index<=3'b0;
 		r_Rx_Byte<=8'b0;
 		r_Rx_DV<=1'b0;
