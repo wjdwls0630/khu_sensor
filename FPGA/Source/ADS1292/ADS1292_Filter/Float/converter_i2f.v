@@ -47,7 +47,7 @@ module converter_i2f(
         if ( a == 0 ) begin
           z_s <= 0;
           z_m <= 0;
-          z_e <= 8'hff; // -127
+          z_e <= -127;
           state <= pack;
         end else begin
           value <= a[31] ? -a : a;
@@ -58,7 +58,7 @@ module converter_i2f(
 
       convert_1:
       begin
-        z_e <= 8'd31;
+        z_e <= 31;
         z_m <= value[31:8];
         z_r <= value[7:0];
         state <= convert_2;
@@ -67,7 +67,7 @@ module converter_i2f(
       convert_2:
       begin
         if (!z_m[23]) begin
-          z_e <= z_e - 1'b1;
+          z_e <= z_e - 1;
           z_m <= z_m << 1;
           z_m[0] <= z_r[7];
           z_r <= z_r << 1;
@@ -82,9 +82,9 @@ module converter_i2f(
       round:
       begin
         if (guard && (round_bit || sticky || z_m[0])) begin
-          z_m <= z_m + 1'b1;
+          z_m <= z_m + 1;
           if (z_m == 24'hffffff) begin
-            z_e <=z_e + 1'b1;
+            z_e <=z_e + 1;
           end
         end
         state <= pack;
@@ -93,7 +93,7 @@ module converter_i2f(
       pack:
       begin
         z[22 : 0] <= z_m[22:0];
-        z[30 : 23] <= z_e + 8'h7f; // 127
+        z[30 : 23] <= z_e + 127;
         z[31] <= z_s;
         state <= put_z;
       end

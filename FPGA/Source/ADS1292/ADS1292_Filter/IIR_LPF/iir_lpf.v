@@ -124,6 +124,7 @@ module iir_lpf(
 	//============================================================================
 	//==============================State=========================================
 	reg [3:0] r_pstate;
+	reg [3:0] r_lstate;
 
 	parameter ST_IDLE=4'b0000;
 	parameter ST_INIT=4'b0001;
@@ -186,6 +187,7 @@ module iir_lpf(
 
 			// State
 			r_pstate <= ST_IDLE;
+			r_lstate <= ST_IDLE;
 		end else begin
 			case (r_pstate)
 				ST_IDLE:
@@ -193,6 +195,7 @@ module iir_lpf(
 					o_X_DATA_READY <= 1'b1; // default for input data
 					o_Y_DATA_VALID <= 1'b0; // default for output data
 					r_counter <= 2'b0;
+					r_lstate <= ST_IDLE;
 					if (i_X_DATA_VALID && o_X_DATA_READY) begin
 						o_X_DATA_READY <= 1'b0;
 						r_pstate <= ST_INIT;
@@ -202,6 +205,7 @@ module iir_lpf(
 
 				ST_INIT:		//MAKES MUL AND ADDER CHANGE ITS STATE FROM get_ab TO next
 				begin
+					r_lstate <= ST_INIT;
 					r_pstate <= ST_INIT;
 
 					//NON-LATCH

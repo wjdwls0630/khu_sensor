@@ -1,29 +1,30 @@
+`timescale 1ns / 1ns
 /** Top module **/
 module khu_sensor_top(
 	// System I/O
-	input wire CLK, // Clock
-	input wire RSTN, // Reset
+	input wire CLOCK_50M,
+	input KEY_0, // KEY[0]
+	output [17:0] LEDR,
+	output [7:0] LEDG,
 
 	// RS232 UART
 	input wire UART_RXD,
 	output wire UART_TXD,
 
+	output [1:0] GPIO, // GPIO[0] == CLOCK_5M, GPIO[1] == ADS1292_DRDY;
+
 	// DUT IO: for MPR121 (I2C)
-	input wire MPR121_SCL_IN,
-	input wire MPR121_SDA_IN,
-	output wire MPR121_SCL_OUT,
-	output wire MPR121_SDA_OUT,
-	output wire MPR121_SCL_EN,
-	output wire MPR121_SDA_EN,
+	inout wire MPR121_SCL, // GPIO[8]
+	inout wire MPR121_SDA, // GPIO[9]
 
 	// DUT IO: for ADS1292 (SPI)
-	output wire ADS1292_SCLK,
-	input wire ADS1292_MISO,
-	output wire ADS1292_MOSI,
-	input wire ADS1292_DRDY,
-	output wire ADS1292_RESET,
-	output wire ADS1292_START,
-	output wire ADS1292_CSN
+	output wire ADS1292_SCLK, // GPIO[26]
+	input wire ADS1292_MISO,  // GPIO[27]
+	output wire ADS1292_MOSI,  // GPIO[28]
+	input wire ADS1292_DRDY,  // GPIO[29]
+	output wire ADS1292_RESET,  // GPIO[30]
+	output wire ADS1292_START,  // GPIO[31]
+	output wire ADS1292_CSN  // GPIO[32]
 	);
 
 	/****************************************************************************
@@ -31,71 +32,45 @@ module khu_sensor_top(
 	*****************************************************************************/
 	//=========================Internal Connection===============================
 	wire rstn_btn;
-	assign rstn_btn = RSTN;
+	reg rstn_init;
+	assign rstn_btn = KEY_0 & rstn_init; // POR
+
+	// initial reset
+	initial begin
+		rstn_init <= 1'b0;
+		#1000000 rstn_init <= 1'b1; // after 1ms, reset will be released
+	end
+
 	//============================================================================
 
 	/****************************************************************************
 	*                           	   ALTPLL 		                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
-	wire w_CLOCK_HALF;
+	wire w_CLOCK_5M, w_CLOCK_25M, w_CLOCK_100M;
 	wire w_core_rstn;
 
 	my_pll khu_pll(
 		.areset		(!rstn_btn),
-		.inclk0		(CLK),
-		.c0				(),
-		.c2				(w_CLOCK_HALF),
-		.c3       (),
+		.inclk0		(CLOCK_50M),
+		.c0				(w_CLOCK_5M),
+		.c2				(w_CLOCK_25M),
+		.c3       (w_CLOCK_100M),
 		.locked		(w_core_rstn)
 		);
 
 	//============================================================================
-	//==============================wire & reg====================================
-	// uart_controller
+
+	/****************************************************************************
+	*                           uart_controller			                          	*
+	*****************************************************************************/
+	//=========================Internal Connection===============================
 	wire [55:0] w_uart_data_tx;
 	wire w_uart_data_tx_valid;
 	wire w_uart_data_tx_ready;
 	wire [15:0] w_uart_data_rx;
 	wire w_uart_data_rx_valid;
 
-	// sensor_core
-	// System I/O
-	wire w_chip_set;
-	wire w_run_set;
-	wire w_core_busy;
-
-	// mpr121_controller
-	wire [7:0] w_mpr121_data_out;
-	wire [7:0] w_mpr121_reg_addr;
-	wire [7:0] w_mpr121_data_in;
-	wire w_mpr121_write_enable;
-	wire w_mpr121_read_enable;
-	wire w_mpr121_init_set;
-	wire w_mpr121_busy;
-	wire w_mpr121_fail;
-	wire [11:0] w_mpr121_touch_status_out;
-	wire w_mpr121_error;
-
-	// ads1292_filter
-	wire [23:0] w_ads1292_filtered_data;
-	wire w_ads1292_filtered_data_valid;
-	wire w_ads1292_filtered_data_ack;
-
-	// ads1292
-	wire [71:0] w_ads1292_data_out;
-	wire [2:0] w_ads1292_control;
-	wire [7:0] w_ads1292_command;
-	wire [7:0] w_ads1292_reg_addr;
-	wire [7:0] w_ads1292_data_in;
-	wire w_ads1292_data_valid;
-	wire w_ads1292_init_set;
-	wire w_ads1292_busy;
-	wire w_ads1292_fail;
-	/****************************************************************************
-	*                           uart_controller			                          	*
-	*****************************************************************************/
-	//=========================Internal Connection===============================
 	uart_controller uart_controller(
 		// TX
 		.i_UART_DATA_TX(w_uart_data_tx),
@@ -109,7 +84,7 @@ module khu_sensor_top(
 		// System I/O
 		.i_UART_RXD(UART_RXD), // external_interface.RXD
 		.o_UART_TXD(UART_TXD), // external_interface.TXD
-		.i_CLK(w_CLOCK_HALF),
+		.i_CLK(w_CLOCK_25M),
 		.i_RST(!w_core_rstn)
 		);
 	//============================================================================
@@ -118,6 +93,20 @@ module khu_sensor_top(
 	*                           	sensor_core			        		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
+	wire [11:0] w_mpr121_touch_status_out;
+	assign LEDR[11:0] = w_mpr121_touch_status_out;
+
+	wire w_mpr121_error;
+	assign LEDR[16] = w_mpr121_error;
+
+	wire w_chip_set;
+	wire w_run_set;
+	wire w_core_busy;
+	assign LEDG[0] = w_mpr121_init_set & w_ads1292_init_set;
+	assign LEDG[1] = w_chip_set;
+	assign LEDG[2] = w_run_set;
+	assign LEDR[17] = w_core_busy;
+
 	sensor_core sensor_core(
 		// UART Controller
 		// TX
@@ -158,7 +147,7 @@ module khu_sensor_top(
 		.o_CHIP_SET(w_chip_set),
 		.o_RUN_SET(w_run_set),
 		.o_CORE_BUSY(w_core_busy),
-		.i_CLK(w_CLOCK_HALF),
+		.i_CLK(w_CLOCK_25M),
 		.i_RST(!w_core_rstn)
 	);
 	//============================================================================
@@ -167,6 +156,21 @@ module khu_sensor_top(
 	*                           	mpr121_controller		     		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
+	wire [7:0] w_mpr121_data_out;
+	wire [7:0] w_mpr121_reg_addr;
+	wire [7:0] w_mpr121_data_in;
+	wire w_mpr121_write_enable;
+	wire w_mpr121_read_enable;
+	wire w_mpr121_init_set;
+	wire w_mpr121_busy;
+	wire w_mpr121_fail;
+
+	/*
+	GPIO[0] is for realeasing MPR121 Bus stuck.
+	if MPR121_SCL stuck in low, connect MPR121_SCL to GPIO[0] (force to pull up scl)
+	*/
+	assign GPIO[0] = w_CLOCK_5M;
+
 	mpr121_controller mpr121_controller(
 		// Host Side
 		.o_MPR121_DATA_OUT(w_mpr121_data_out), // read data from MPR121
@@ -179,14 +183,10 @@ module khu_sensor_top(
 		.o_MPR121_FAIL(w_mpr121_fail),
 
 		//	I2C Side
-		.i_I2C_SCL_IN(MPR121_SCL_IN),
-		.i_I2C_SDA_IN(MPR121_SDA_IN),
-		.o_I2C_SCL_OUT(MPR121_SCL_OUT),
-		.o_I2C_SDA_OUT(MPR121_SDA_OUT),
-		.o_I2C_SCL_EN(MPR121_SCL_EN),
-		.o_I2C_SDA_EN(MPR121_SDA_EN),
+		.I2C_SCL(MPR121_SCL),
+		.I2C_SDA(MPR121_SDA),
 
-		.i_CLK(CLK), // clock
+		.i_CLK(CLOCK_50M), // clock
 		.i_RSTN(w_core_rstn) // reset
 		);
 	//============================================================================
@@ -194,19 +194,34 @@ module khu_sensor_top(
 	*                           	ads1292_filter		   		                     	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
+	wire [23:0] w_ads1292_filtered_data;
+	wire w_ads1292_filtered_data_valid;
+	wire w_ads1292_filtered_data_ack;
+
 	ads1292_filter ads1292_filter(
 	  .i_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
 	  .i_ADS1292_DATA_VALID(w_ads1292_data_valid), // In Read data continue mode,  flag that 72 bits data is ready
 	  .o_ADS1292_FILTERED_DATA(w_ads1292_filtered_data),
 	  .o_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid),
 	  .i_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
-	  .i_CLK(CLK), // clock
+	  .i_CLK(CLOCK_50M), // clock
 	  .i_RSTN(w_core_rstn) //reset
 	  );
 	/****************************************************************************
 	*                           	ads1292_controller		   		                 	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
+	wire [71:0] w_ads1292_data_out;
+	wire [2:0] w_ads1292_control;
+	wire [7:0] w_ads1292_command;
+	wire [7:0] w_ads1292_reg_addr;
+	wire [7:0] w_ads1292_data_in;
+	wire w_ads1292_data_valid;
+	wire w_ads1292_init_set;
+	wire w_ads1292_busy;
+	wire w_ads1292_fail;
+
+	assign GPIO[1] = ADS1292_DRDY;
 	ads1292_controller ads1292_controller(
 		// Host Side
 		.o_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
@@ -228,7 +243,7 @@ module khu_sensor_top(
 		.o_SPI_CSN(ADS1292_CSN), // Chip Select Negative (active low)
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 
-		.i_CLK(CLK), // clock
+		.i_CLK(CLOCK_50M), // clock
 		.i_RSTN(w_core_rstn) //reset
 		);
 	//============================================================================

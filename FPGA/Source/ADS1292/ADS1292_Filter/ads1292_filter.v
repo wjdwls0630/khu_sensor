@@ -159,7 +159,7 @@ module ads1292_filter (
   //=============================Sequential Logic===============================
   always @ ( posedge i_CLK, negedge i_RSTN ) begin
     if(!i_RSTN) begin
-      o_ADS1292_FILTERED_DATA <= 24'b0;
+      o_ADS1292_FILTERED_DATA <= 32'b0;
       o_ADS1292_FILTERED_DATA_VALID <= 1'b0;
 
       // converter_i2f

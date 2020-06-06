@@ -484,13 +484,13 @@ always @* begin
             end
             STATE_ADDRESS_1: begin
                 // send address
-                bit_count_next = bit_count_reg - 1'b1;
-                if (bit_count_reg > 4'd1) begin
+                bit_count_next = bit_count_reg - 1;
+                if (bit_count_reg > 1) begin
                     // send address
                     phy_write_bit = 1'b1;
                     phy_tx_data = addr_reg[bit_count_reg-2];
                     state_next = STATE_ADDRESS_1;
-                end else if (bit_count_reg > 4'd0) begin
+                end else if (bit_count_reg > 0) begin
                     // send read/write bit
                     phy_write_bit = 1'b1;
                     phy_tx_data = mode_read_reg;
@@ -533,8 +533,8 @@ always @* begin
             end
             STATE_WRITE_2: begin
                 // send data
-                bit_count_next = bit_count_reg - 1'b1;
-                if (bit_count_reg > 4'd0) begin
+                bit_count_next = bit_count_reg - 1;
+                if (bit_count_reg > 0) begin
                     // write data bit
                     phy_write_bit = 1'b1;
                     phy_tx_data = data_reg[bit_count_reg-1];
@@ -564,9 +564,9 @@ always @* begin
             STATE_READ: begin
                 // read data
 
-                bit_count_next = bit_count_reg - 1'b1;
+                bit_count_next = bit_count_reg - 1;
                 data_next = {data_reg[6:0], phy_rx_data_reg};
-                if (bit_count_reg > 4'd0) begin
+                if (bit_count_reg > 0) begin
                     // read next bit
                     phy_read_bit = 1'b1;
                     state_next = STATE_READ;
@@ -628,7 +628,7 @@ always @* begin
         phy_state_next = phy_state_reg;
     end else if (delay_reg > 0) begin
         // time delay
-        delay_next = delay_reg - 1'b1;
+        delay_next = delay_reg - 1;
         phy_state_next = phy_state_reg;
     end else begin
         case (phy_state_reg)

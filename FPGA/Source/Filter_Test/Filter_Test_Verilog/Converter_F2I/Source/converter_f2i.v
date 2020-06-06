@@ -41,7 +41,7 @@ module converter_f2i(
       begin
         a_m[31:8] <= {1'b1, a[22 : 0]};
         a_m[7:0] <= 0;
-        a_e <= a[30 : 23] - 8'h7f;
+        a_e <= a[30 : 23] - 127;
         a_s <= a[31];
         state <= special_cases;
       end
@@ -62,7 +62,7 @@ module converter_f2i(
       convert:
       begin
         if ($signed(a_e) < 31 && a_m) begin
-          a_e <= a_e + 1'b1;
+          a_e <= a_e + 1;
           a_m <= a_m >> 1;
         end else begin
           if (a_m[31]) begin
