@@ -18,12 +18,13 @@ set netlist_path "./netlist/"
 set src_path "./src/"
 set svf_path "./svf/"
 set tcl_path "./tcl/"
+set aux_path "./aux/"
 #******************************************************************************
 #******************************************************************************
 #**                         Set Library Parameter                            **
 #******************************************************************************
 setenv SEC_SYNOPSYS ../../../../../../Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys
-setenv SEC_SYNOPSYS_AUX env(SEC_SYNOPSYS)/aux
+setenv SEC_SYNOPSYS_AUX env(SEC_SYNOPSYS)/aux 
 #******************************************************************************
 #**                Set New Variable for 'search_path'                        **
 #******************************************************************************

@@ -25,7 +25,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 module ads1292_filter (
-  input [71:0] i_ADS1292_DATA_OUT, // read data from ADS1292
+  input [23:0] i_ADS1292_DATA_OUT, // read data from ADS1292
   input i_ADS1292_DATA_VALID, // In Read data continue mode,  flag that 72 bits data is ready
   output reg [23:0] o_ADS1292_FILTERED_DATA,
   output reg o_ADS1292_FILTERED_DATA_VALID,
@@ -207,7 +207,7 @@ module ads1292_filter (
           r_counter <= 8'b0;
           if (i_ADS1292_DATA_VALID) begin
             // scale up 24bits to 32bits
-            r_converter_i2f_a <= {i_ADS1292_DATA_OUT[23:0], 8'b0};
+            r_converter_i2f_a <= {i_ADS1292_DATA_OUT, 8'b0};
             r_pstate <= ST_INIT;
           end else r_pstate <= ST_IDLE;
         end
@@ -232,7 +232,6 @@ module ads1292_filter (
             8'd0:
             begin
               if (w_converter_i2f_a_ack) begin
-                //r_converter_i2f_a <= i_ADS1292_DATA_OUT;
                 r_converter_i2f_a_stb <= 1'b1;
                 r_pstate <= ST_WAIT_Z;
               end

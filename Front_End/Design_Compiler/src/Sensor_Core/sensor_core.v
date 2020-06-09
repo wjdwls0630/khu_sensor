@@ -28,23 +28,22 @@ module sensor_core(
 	input i_MPR121_FAIL,
 
 	// System connection with MPR121 data
-	output reg [11:0] o_MPR121_TOUCH_STATUS,
 	output reg o_MPR121_ERROR,
 
 	// ADS1292
 	input [23:0] i_ADS1292_FILTERED_DATA_OUT, // read data from ADS1292
 	output reg [2:0] o_ADS1292_CONTROL, // ADS1292 Control
-	output reg [7:0] o_ADS1292_COMMAND, // ADS1292 SPI command
 	output reg [7:0] o_ADS1292_REG_ADDR, // ADS1292 register address
 	output reg [7:0] o_ADS1292_DATA_IN, // data to write in ADS1292 register
+	input [7:0] i_ADS1292_REG_DATA_OUT,
 	input i_ADS1292_INIT_SET, // signal that start to read data in RDATAC mode
 	input i_ADS1292_FILTERED_DATA_VALID, // In Read data continue mode,  flag that 72 bits data is ready
 	output reg o_ADS1292_FILTERED_DATA_ACK,
 	input i_ADS1292_BUSY,
 
 	// System I/O
-	input wire i_CLK,
-	input wire i_RST
+	input i_CLK,
+	input i_RST
 	);
 
 	/*****************************************************************************
@@ -384,7 +383,6 @@ module sensor_core(
 			o_MPR121_READ_ENABLE <= 1'b0;
 
 			// System connection with MPR121 data
-			o_MPR121_TOUCH_STATUS <= 12'b0;
 			o_MPR121_ERROR <= 1'b0;
 
 			// sensor_core & uart
@@ -417,7 +415,6 @@ module sensor_core(
 				begin
 					o_MPR121_WRITE_ENABLE <= 1'b0;
 					o_MPR121_READ_ENABLE <= 1'b0;
-					o_MPR121_TOUCH_STATUS <= 12'b0;
 
 					// sensor_core & uart
 					r_mpr_read_reg_done <= 1'b0; // default
@@ -664,10 +661,8 @@ module sensor_core(
 						else begin
 							if (r_mpr_status == 1'b0) begin
 								r_mpr_touch_status_0 <= i_MPR121_DATA_OUT;
-								o_MPR121_TOUCH_STATUS[7:0] <= i_MPR121_DATA_OUT;
 							end else begin
 								r_mpr_touch_status_1 <= i_MPR121_DATA_OUT;
-								o_MPR121_TOUCH_STATUS[11:8] <= i_MPR121_DATA_OUT[3:0];
 							end
 							r_mpr_pstate <= ST_MPR_READ_STATUS_CHANGE;
 						end
@@ -765,7 +760,6 @@ module sensor_core(
 		if(i_RST) begin
 			// ADS1292 port
 			o_ADS1292_CONTROL <= 3'b0; // ADS1292 Control
-			o_ADS1292_COMMAND <= 8'b0; // ADS1292 SPI command
 			o_ADS1292_REG_ADDR <= 8'b0; // ADS1292 register address
 			o_ADS1292_DATA_IN <= 8'b0; // data to write in ADS1292 register
 			o_ADS1292_FILTERED_DATA_ACK <= 1'b0;
@@ -795,7 +789,6 @@ module sensor_core(
 				ST_ADS_IDLE:
 				begin
 					// but in later, if we use command input for wakeup and standby , delete it
-					o_ADS1292_COMMAND <= 8'b0;
 					// sensor_core & uart
 					r_ads_read_reg_done <= 1'b0; // default
 					r_ads_reg_addr <= 8'b0;
@@ -954,7 +947,7 @@ module sensor_core(
 					if(i_ADS1292_BUSY) r_ads_pstate <= ST_ADS_RREG_CONFIRM;
 					else begin
 						r_ads_read_reg_done <= 1'b1;
-						r_ads_reg_data <= i_ADS1292_FILTERED_DATA_OUT[7:0];
+						r_ads_reg_data <= i_ADS1292_REG_DATA_OUT;
 						r_ads_pstate <= ST_ADS_RREG_WAIT;
 					end
 				end

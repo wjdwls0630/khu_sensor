@@ -1,25 +1,25 @@
 module khu_sensor_pad (
   // System I/O
-  input wire i_CLK, // Clock
-  output wire CLK_OUT, // Clock Out
-  input wire i_RSTN, // Reset
+  input i_CLK, // Clock
+  output CLK_OUT, // Clock Out
+  input i_RSTN, // Reset
 
   // RS232 UART
-  input wire UART_RXD,
-  output wire UART_TXD,
+  input UART_RXD,
+  output UART_TXD,
 
   // DUT IO: for MPR121 (I2C)
-  inout wire MPR121_SCL,
-  inout wire MPR121_SDA,
+  inout MPR121_SCL,
+  inout MPR121_SDA,
 
   // DUT IO: for ADS1292 (SPI)
-  output wire ADS1292_SCLK,
-  input wire ADS1292_MISO,
-  output wire ADS1292_MOSI,
-  input wire ADS1292_DRDY,
-  output wire ADS1292_RESET,
-  output wire ADS1292_START,
-  output wire ADS1292_CSN
+  output ADS1292_SCLK,
+  input ADS1292_MISO,
+  output ADS1292_MOSI,
+  input ADS1292_DRDY,
+  output ADS1292_RESET,
+  output ADS1292_START,
+  output ADS1292_CSN
   );
   /*
   4x4mm core

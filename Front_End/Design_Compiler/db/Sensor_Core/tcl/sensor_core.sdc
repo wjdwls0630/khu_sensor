@@ -1,6 +1,6 @@
 ###################################################################
 
-# Created by write_sdc on Thu May 14 19:22:03 2020
+# Created by write_sdc on Tue Jun  9 04:28:11 2020
 
 ###################################################################
 set sdc_version 1.9
@@ -10,6 +10,7 @@ set_units -time ns -resistance kOhm -capacitance pF -power mW -voltage V       \
 set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125\
                          -min V135BTN0400 -min_library std150e_bst_135_n040
 set_max_area 0
+set_disable_timing [get_ports i_RST]
 set_load -pin_load 0.01035 [get_ports {o_UART_DATA_TX[55]}]
 set_load -pin_load 0.01035 [get_ports {o_UART_DATA_TX[54]}]
 set_load -pin_load 0.01035 [get_ports {o_UART_DATA_TX[53]}]
@@ -85,30 +86,10 @@ set_load -pin_load 0.01035 [get_ports {o_MPR121_DATA_IN[1]}]
 set_load -pin_load 0.01035 [get_ports {o_MPR121_DATA_IN[0]}]
 set_load -pin_load 0.01035 [get_ports o_MPR121_WRITE_ENABLE]
 set_load -pin_load 0.01035 [get_ports o_MPR121_READ_ENABLE]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[11]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[10]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[9]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[8]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[7]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[6]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[5]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[4]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[3]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[2]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[1]}]
-set_load -pin_load 0.01035 [get_ports {o_MPR121_TOUCH_STATUS[0]}]
 set_load -pin_load 0.01035 [get_ports o_MPR121_ERROR]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_CONTROL[2]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_CONTROL[1]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_CONTROL[0]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[7]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[6]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[5]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[4]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[3]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[2]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[1]}]
-set_load -pin_load 0.01035 [get_ports {o_ADS1292_COMMAND[0]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_REG_ADDR[7]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_REG_ADDR[6]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_REG_ADDR[5]}]
@@ -127,11 +108,13 @@ set_load -pin_load 0.01035 [get_ports {o_ADS1292_DATA_IN[1]}]
 set_load -pin_load 0.01035 [get_ports {o_ADS1292_DATA_IN[0]}]
 set_load -pin_load 0.01035 [get_ports o_ADS1292_FILTERED_DATA_ACK]
 set_load -pin_load 0 [get_ports i_CLK]
+set_max_fanout 1 [get_ports i_RST]
+set_load -min -pin_load 0 [get_ports i_CLK]
 set_ideal_network [get_ports i_RST]
-create_clock [get_ports i_CLK]  -name clk  -period 20  -waveform {0 10}
+create_clock [get_ports i_CLK]  -name clk  -period 10  -waveform {0 5}
 set_clock_uncertainty 0.0804  [get_clocks clk]
-set_clock_transition -min -fall 1.9 [get_clocks clk]
 set_clock_transition -max -rise 1.4 [get_clocks clk]
 set_clock_transition -min -rise 1.4 [get_clocks clk]
 set_clock_transition -max -fall 1.9 [get_clocks clk]
+set_clock_transition -min -fall 1.9 [get_clocks clk]
 set_false_path   -from [get_ports i_RST]

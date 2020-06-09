@@ -11,9 +11,11 @@ source "${tcl_path}compile_init.tcl"
 
 
 # Characterize and write_script for all modules
-#source "${tcl_path}characterize.tcl"
+source "${tcl_path}characterize.tcl"
 
 # Recompile all modules using write_script constraints
 #remove_design -all
 #set t_w_path "wtcl/"
+#read_db $STD_BST.db
 #source "${tcl_path}compile_wtcl.tcl"
+exit

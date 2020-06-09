@@ -1,329 +1,361 @@
 
+module spi_master_DW01_inc_0 ( A, SUM );
+  input [13:0] A;
+  output [13:0] SUM;
+  wire   n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12;
+
+  had1_hd U2 ( .A(A[12]), .B(n2), .CO(n1), .S(SUM[12]) );
+  had1_hd U3 ( .A(A[11]), .B(n3), .CO(n2), .S(SUM[11]) );
+  had1_hd U4 ( .A(A[10]), .B(n4), .CO(n3), .S(SUM[10]) );
+  had1_hd U5 ( .A(A[9]), .B(n5), .CO(n4), .S(SUM[9]) );
+  had1_hd U6 ( .A(A[8]), .B(n6), .CO(n5), .S(SUM[8]) );
+  had1_hd U7 ( .A(A[7]), .B(n7), .CO(n6), .S(SUM[7]) );
+  had1_hd U8 ( .A(A[6]), .B(n8), .CO(n7), .S(SUM[6]) );
+  had1_hd U9 ( .A(A[5]), .B(n9), .CO(n8), .S(SUM[5]) );
+  had1_hd U10 ( .A(A[4]), .B(n10), .CO(n9), .S(SUM[4]) );
+  had1_hd U11 ( .A(A[3]), .B(n11), .CO(n10), .S(SUM[3]) );
+  had1_hd U12 ( .A(A[2]), .B(n12), .CO(n11), .S(SUM[2]) );
+  had1_hd U13 ( .A(A[1]), .B(A[0]), .CO(n12), .S(SUM[1]) );
+  xo2d1_hd U17 ( .A(n1), .B(A[13]), .Y(SUM[13]) );
+  ivd1_hd U18 ( .A(A[0]), .Y(SUM[0]) );
+endmodule
+
+
 module spi_master ( i_RSTN, i_CLK, i_TX_Byte, i_TX_DV, o_TX_Ready, o_RX_DV, 
         o_RX_Byte, o_SPI_Clk, i_SPI_MISO, o_SPI_MOSI );
   input [7:0] i_TX_Byte;
   output [7:0] o_RX_Byte;
   input i_RSTN, i_CLK, i_TX_DV, i_SPI_MISO;
   output o_TX_Ready, o_RX_DV, o_SPI_Clk, o_SPI_MOSI;
-  wire   N20, N21, N22, r_SPI_Clk, r_Leading_Edge, r_Trailing_Edge, N107, N108,
-         N120, r_RX_Bit_Count_2_, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15,
-         n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29,
-         n31, n36, n37, n38, n39, n73, n74, n75, n76, n77, n78, n79, n80, n81,
-         n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95,
-         n100, n101, n102, n103, n104, n105, n106, n108, n109, n110, n111,
-         n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122,
-         n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133,
-         n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144,
-         n145, n146, n147, n148, n149, n150, n151, n152, n153, n154, n155,
-         n156, n157, n158, n159, n160, n161, n162, n163, n164, n165, n166,
-         n167, n168, n169, n170, n171, n172, n173, n174, n175, n176, n177,
-         n178, n179, n180, n181, n182, n183, n184, n185, n186, n187, n188,
-         n189, n190, n191, n192, n193, n194, n195, n196, n197, n198, n199,
-         n200, n201, n202, n203, n204, n205, n206, n207, n208, n209, n210,
-         n211, n212, n213, n214, n215, n216, n217, n218, n219, n220, n221,
-         n222, n223, n224, n225;
-  wire   [6:0] r_SPI_Clk_Edges;
+  wire   N0, N1, N11, r_SPI_Clk, N23, N25, N30, N31, N32, N33, N34, N35, N36,
+         N37, N46, N47, N48, N49, N50, N51, N52, N53, N54, N55, N56, N57, N58,
+         N59, N74, N98, N99, N100, N101, N102, N103, N104, N105, N106, N107,
+         N108, N109, N115, N118, N119, N120, N121, N122, N123, N124, N125,
+         N126, N132, N137, N138, N139, N140, N141, N142, N143, N144, N145,
+         N146, N147, N148, N149, N150, N151, N152, N153, N156, N157, N158,
+         N159, N160, N161, N162, N163, N164, N165, N166, N167, N168, N169,
+         N171, N172, N173, N174, N175, N176, N177, N178, N179, N180, N181,
+         N182, N183, N184, N185, N186, N187, N191, N192, N193, N194, N195,
+         N196, N197, N198, N199, N200, N201, N202, N203, N204, N205, N206,
+         alt7_n39, sub_x_13_n1, sub_x_11_n1, n1, n2, n3, n4, n5, n6, n7, n8,
+         n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22,
+         n23, n24, n25, n27, n28, n31, n32, n33, n34, n35, n36, n37, n38, n39,
+         n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53,
+         n54, n55, n56, n104, n105, n106, n107, n108, n109, n110, n111, n112,
+         n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123,
+         n124, n125, n126, n127;
+  wire   [7:0] r_SPI_Clk_Edges;
   wire   [13:0] r_SPI_Clk_Count;
   wire   [7:0] r_TX_Byte;
+  wire   [2:0] r_TX_Bit_Count;
+  wire   [2:0] r_RX_Bit_Count;
 
-  fd3qd1_hd r_TX_Bit_Count_reg_2_ ( .D(n84), .CK(i_CLK), .SN(i_RSTN), .Q(N22)
-         );
-  fd3qd1_hd r_RX_Bit_Count_reg_2_ ( .D(n81), .CK(i_CLK), .SN(i_RSTN), .Q(
-        r_RX_Bit_Count_2_) );
-  fd3d1_hd r_RX_Bit_Count_reg_1_ ( .D(n82), .CK(i_CLK), .SN(i_RSTN), .Q(n101), 
-        .QN(n38) );
-  fd3d1_hd r_RX_Bit_Count_reg_0_ ( .D(n83), .CK(i_CLK), .SN(i_RSTN), .Q(n100), 
-        .QN(n39) );
-  fd3d1_hd o_RX_DV_reg ( .D(n31), .CK(i_CLK), .SN(i_RSTN), .QN(o_RX_DV) );
-  fd2qd1_hd o_RX_Byte_reg_1_ ( .D(n79), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[1]) );
-  fd2qd1_hd o_RX_Byte_reg_5_ ( .D(n75), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[5]) );
-  fd2qd1_hd o_RX_Byte_reg_4_ ( .D(n76), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[4]) );
-  fd2qd1_hd o_RX_Byte_reg_6_ ( .D(n74), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[6]) );
-  fd2qd1_hd o_RX_Byte_reg_2_ ( .D(n78), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[2]) );
-  fd2qd1_hd o_RX_Byte_reg_3_ ( .D(n77), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[3]) );
-  fd2qd1_hd o_RX_Byte_reg_7_ ( .D(n73), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[7]) );
-  fd2qd1_hd o_SPI_MOSI_reg ( .D(n87), .CK(i_CLK), .RN(i_RSTN), .Q(o_SPI_MOSI)
-         );
-  fd2qd1_hd o_RX_Byte_reg_0_ ( .D(n80), .CK(i_CLK), .RN(i_RSTN), .Q(
-        o_RX_Byte[0]) );
-  fd2qd1_hd r_Leading_Edge_reg ( .D(N107), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_Leading_Edge) );
-  fd2qd1_hd r_TX_Byte_reg_6_ ( .D(n12), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_TX_Byte[6]) );
-  fd2qd1_hd r_TX_Byte_reg_2_ ( .D(n8), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd3qd1_hd r_TX_Bit_Count_reg_0_ ( .D(n46), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_TX_Bit_Count[0]) );
+  fd3qd1_hd r_TX_Bit_Count_reg_1_ ( .D(n45), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_TX_Bit_Count[1]) );
+  fd3qd1_hd r_TX_Bit_Count_reg_2_ ( .D(n44), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_TX_Bit_Count[2]) );
+  fd3qd1_hd r_RX_Bit_Count_reg_0_ ( .D(n43), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_RX_Bit_Count[0]) );
+  fd3qd1_hd r_RX_Bit_Count_reg_1_ ( .D(n42), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_RX_Bit_Count[1]) );
+  fd3qd1_hd r_RX_Bit_Count_reg_2_ ( .D(n41), .CK(i_CLK), .SN(i_RSTN), .Q(
+        r_RX_Bit_Count[2]) );
+  ivd1_hd U26 ( .A(N186), .Y(N187) );
+  nr2d1_hd U27 ( .A(r_SPI_Clk_Count[0]), .B(N169), .Y(N171) );
+  ivd1_hd U28 ( .A(n3), .Y(N109) );
+  nd2d1_hd U29 ( .A(N25), .B(n1), .Y(n3) );
+  ivd1_hd U30 ( .A(i_TX_DV), .Y(n1) );
+  ad2d1_hd U34 ( .A(N30), .B(n28), .Y(N99) );
+  or2d1_hd U35 ( .A(i_TX_DV), .B(n104), .Y(N98) );
+  ad2d1_hd U36 ( .A(n105), .B(N152), .Y(N151) );
+  ad2d1_hd U37 ( .A(N192), .B(N152), .Y(N150) );
+  ad2d1_hd U38 ( .A(N194), .B(N152), .Y(N149) );
+  ad2d1_hd U39 ( .A(N196), .B(N152), .Y(N148) );
+  ad2d1_hd U40 ( .A(N198), .B(N152), .Y(N147) );
+  ad2d1_hd U41 ( .A(N200), .B(N152), .Y(N146) );
+  ad2d1_hd U42 ( .A(N202), .B(N152), .Y(N145) );
+  ad2d1_hd U43 ( .A(N204), .B(N152), .Y(N144) );
+  ad2d1_hd U44 ( .A(N206), .B(N152), .Y(N143) );
+  scg6d1_hd U45 ( .A(N152), .B(N138), .C(o_TX_Ready), .Y(N141) );
+  scg6d1_hd U46 ( .A(N152), .B(N137), .C(o_TX_Ready), .Y(N140) );
+  scg16d1_hd U47 ( .A(N152), .B(r_RX_Bit_Count[0]), .C(alt7_n39), .Y(N139) );
+  ad2d1_hd U48 ( .A(N120), .B(N125), .Y(N126) );
+  scg6d1_hd U49 ( .A(N125), .B(N119), .C(o_TX_Ready), .Y(N123) );
+  scg6d1_hd U50 ( .A(N125), .B(N118), .C(o_TX_Ready), .Y(N122) );
+  scg16d1_hd U51 ( .A(N125), .B(r_TX_Bit_Count[0]), .C(alt7_n39), .Y(N121) );
+  ivd1_hd U55 ( .A(n31), .Y(N108) );
+  ivd1_hd U56 ( .A(n32), .Y(N107) );
+  ad2d1_hd U57 ( .A(N37), .B(n28), .Y(N106) );
+  ad2d1_hd U58 ( .A(N36), .B(n28), .Y(N105) );
+  ad2d1_hd U59 ( .A(N35), .B(n28), .Y(N104) );
+  scg6d1_hd U60 ( .A(N34), .B(n28), .C(i_TX_DV), .Y(N103) );
+  ad2d1_hd U61 ( .A(N33), .B(n28), .Y(N102) );
+  ad2d1_hd U62 ( .A(N32), .B(n28), .Y(N101) );
+  ad2d1_hd U63 ( .A(N31), .B(n28), .Y(N100) );
+  spi_master_DW01_inc_0 add_x_3 ( .A(r_SPI_Clk_Count), .SUM({N59, N58, N57, 
+        N56, N55, N54, N53, N52, N51, N50, N49, N48, N47, N46}) );
+  fd4qd1_hd o_SPI_Clk_reg ( .D(r_SPI_Clk), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_SPI_Clk) );
+  fd4qd1_hd r_TX_Byte_reg_6_ ( .D(n10), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(r_TX_Byte[6]) );
+  fd4qd1_hd r_TX_Byte_reg_2_ ( .D(n6), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[2]) );
-  fd2qd1_hd r_TX_Byte_reg_5_ ( .D(n11), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd4qd1_hd r_TX_Byte_reg_5_ ( .D(n9), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[5]) );
-  fd2qd1_hd r_TX_Byte_reg_1_ ( .D(n7), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd4qd1_hd r_TX_Byte_reg_1_ ( .D(n5), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[1]) );
-  fd2qd1_hd r_TX_Byte_reg_4_ ( .D(n10), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd4qd1_hd r_TX_Byte_reg_4_ ( .D(n8), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[4]) );
-  fd2qd1_hd r_TX_Byte_reg_0_ ( .D(n6), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd4qd1_hd r_TX_Byte_reg_0_ ( .D(n4), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[0]) );
-  fd2qd1_hd r_TX_Byte_reg_7_ ( .D(n13), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_TX_Byte[7]) );
-  fd2qd1_hd r_TX_Byte_reg_3_ ( .D(n9), .CK(i_CLK), .RN(i_RSTN), .Q(
+  fd4qd1_hd r_TX_Byte_reg_7_ ( .D(n11), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(r_TX_Byte[7]) );
+  fd4qd1_hd r_TX_Byte_reg_3_ ( .D(n7), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         r_TX_Byte[3]) );
-  fd3d1_hd r_TX_Bit_Count_reg_1_ ( .D(n85), .CK(i_CLK), .SN(i_RSTN), .Q(N21), 
-        .QN(n36) );
-  fd3d1_hd r_TX_Bit_Count_reg_0_ ( .D(n86), .CK(i_CLK), .SN(i_RSTN), .Q(N20), 
-        .QN(n37) );
-  fd2qd1_hd r_SPI_Clk_reg ( .D(n88), .CK(i_CLK), .RN(i_RSTN), .Q(r_SPI_Clk) );
-  fd2qd1_hd r_Trailing_Edge_reg ( .D(N108), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_Trailing_Edge) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_13_ ( .D(n28), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[13]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_2_ ( .D(n17), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[2]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_4_ ( .D(n19), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[4]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_0_ ( .D(n29), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[0]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_8_ ( .D(n23), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[8]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_6_ ( .D(n21), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[6]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_10_ ( .D(n25), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[10]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_3_ ( .D(n18), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[3]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_12_ ( .D(n27), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[12]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_9_ ( .D(n24), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[9]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_1_ ( .D(n16), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[1]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_5_ ( .D(n20), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[5]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_11_ ( .D(n26), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[11]) );
-  fd2qd1_hd r_SPI_Clk_Count_reg_7_ ( .D(n22), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Count[7]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_6_ ( .D(n89), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[6]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_2_ ( .D(n93), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[2]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_4_ ( .D(n91), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[4]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_3_ ( .D(n92), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[3]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_5_ ( .D(n90), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[5]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_0_ ( .D(n95), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[0]) );
-  fd2qd1_hd r_SPI_Clk_Edges_reg_1_ ( .D(n94), .CK(i_CLK), .RN(i_RSTN), .Q(
-        r_SPI_Clk_Edges[1]) );
-  fd3d1_hd o_TX_Ready_reg ( .D(n14), .CK(i_CLK), .SN(i_RSTN), .Q(n15), .QN(
+  fd4qd1_hd o_TX_Ready_reg ( .D(n106), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
         o_TX_Ready) );
-  fd3d1_hd o_SPI_Clk_reg ( .D(n130), .CK(i_CLK), .SN(i_RSTN), .QN(o_SPI_Clk)
+  fd4qd1_hd o_RX_DV_reg ( .D(N151), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
+        o_RX_DV) );
+  fd4qd1_hd o_RX_Byte_reg_7_ ( .D(n33), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[7]) );
+  fd4qd1_hd o_SPI_MOSI_reg ( .D(n47), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
+        o_SPI_MOSI) );
+  fd4qd1_hd o_RX_Byte_reg_3_ ( .D(n37), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[3]) );
+  fd4qd1_hd o_RX_Byte_reg_2_ ( .D(n38), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[2]) );
+  fd4qd1_hd o_RX_Byte_reg_6_ ( .D(n34), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[6]) );
+  fd4qd1_hd o_RX_Byte_reg_0_ ( .D(n40), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[0]) );
+  fd4qd1_hd o_RX_Byte_reg_4_ ( .D(n36), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[4]) );
+  fd4qd1_hd o_RX_Byte_reg_1_ ( .D(n39), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[1]) );
+  fd4qd1_hd o_RX_Byte_reg_5_ ( .D(n35), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(o_RX_Byte[5]) );
+  fd4qd1_hd r_Trailing_Edge_reg ( .D(N108), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(N132) );
+  fd4qd1_hd r_Leading_Edge_reg ( .D(N107), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), 
+        .Q(N115) );
+  fd4qd1_hd r_SPI_Clk_reg ( .D(n55), .CK(i_CLK), .SN(1'b1), .RN(i_RSTN), .Q(
+        r_SPI_Clk) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_13_ ( .D(n23), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[13]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_12_ ( .D(n12), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[12]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_11_ ( .D(n13), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[11]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_10_ ( .D(n14), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[10]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_9_ ( .D(n15), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[9]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_8_ ( .D(n16), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[8]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_7_ ( .D(n17), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[7]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_6_ ( .D(n18), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[6]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_5_ ( .D(n19), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[5]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_4_ ( .D(n20), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[4]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_3_ ( .D(n21), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[3]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_2_ ( .D(n22), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[2]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_1_ ( .D(n24), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[1]) );
+  fd4qd1_hd r_SPI_Clk_Count_reg_0_ ( .D(n25), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Count[0]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_7_ ( .D(n56), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[7]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_6_ ( .D(n48), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[6]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_5_ ( .D(n49), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[5]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_4_ ( .D(n50), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[4]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_3_ ( .D(n51), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[3]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_2_ ( .D(n52), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[2]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_1_ ( .D(n53), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[1]) );
+  fd4qd1_hd r_SPI_Clk_Edges_reg_0_ ( .D(n54), .CK(i_CLK), .SN(1'b1), .RN(
+        i_RSTN), .Q(r_SPI_Clk_Edges[0]) );
+  or2d1_hd U93 ( .A(r_SPI_Clk_Count[10]), .B(N175), .Y(N176) );
+  or2d1_hd U94 ( .A(r_SPI_Clk_Count[11]), .B(N174), .Y(N175) );
+  or2d1_hd U95 ( .A(r_SPI_Clk_Count[12]), .B(r_SPI_Clk_Count[13]), .Y(N174) );
+  or2d1_hd U96 ( .A(r_SPI_Clk_Count[11]), .B(N158), .Y(N159) );
+  or2d1_hd U97 ( .A(r_SPI_Clk_Count[12]), .B(r_SPI_Clk_Count[13]), .Y(N158) );
+  or2d1_hd U98 ( .A(r_SPI_Clk_Count[6]), .B(N179), .Y(N180) );
+  or2d1_hd U99 ( .A(r_SPI_Clk_Count[7]), .B(N178), .Y(N179) );
+  or2d1_hd U100 ( .A(r_SPI_Clk_Count[8]), .B(N177), .Y(N178) );
+  or2d1_hd U101 ( .A(r_SPI_Clk_Count[9]), .B(N176), .Y(N177) );
+  or2d1_hd U102 ( .A(r_SPI_Clk_Count[7]), .B(N162), .Y(N163) );
+  or2d1_hd U103 ( .A(r_SPI_Clk_Count[8]), .B(N161), .Y(N162) );
+  or2d1_hd U104 ( .A(r_SPI_Clk_Count[9]), .B(N160), .Y(N161) );
+  or2d1_hd U105 ( .A(r_SPI_Clk_Count[10]), .B(N159), .Y(N160) );
+  or2d1_hd U106 ( .A(N172), .B(N182), .Y(N183) );
+  ivd1_hd U107 ( .A(r_SPI_Clk_Count[3]), .Y(N172) );
+  or2d1_hd U108 ( .A(r_SPI_Clk_Count[4]), .B(N181), .Y(N182) );
+  or2d1_hd U109 ( .A(r_SPI_Clk_Count[5]), .B(N180), .Y(N181) );
+  or2d1_hd U110 ( .A(r_SPI_Clk_Count[3]), .B(N166), .Y(N167) );
+  or2d1_hd U111 ( .A(r_SPI_Clk_Count[4]), .B(N165), .Y(N166) );
+  or2d1_hd U112 ( .A(r_SPI_Clk_Count[5]), .B(N164), .Y(N165) );
+  or2d1_hd U113 ( .A(r_SPI_Clk_Count[6]), .B(N163), .Y(N164) );
+  ivd1_hd U114 ( .A(r_SPI_Clk_Count[2]), .Y(N156) );
+  or2d1_hd U115 ( .A(N173), .B(N185), .Y(N186) );
+  ivd1_hd U116 ( .A(r_SPI_Clk_Count[0]), .Y(N173) );
+  or2d1_hd U117 ( .A(r_SPI_Clk_Count[1]), .B(N184), .Y(N185) );
+  or2d1_hd U118 ( .A(N156), .B(N183), .Y(N184) );
+  or2d1_hd U119 ( .A(N157), .B(N168), .Y(N169) );
+  ivd1_hd U120 ( .A(r_SPI_Clk_Count[1]), .Y(N157) );
+  or2d1_hd U121 ( .A(N156), .B(N167), .Y(N168) );
+  clknd2d1_hd U122 ( .A(n107), .B(N30), .Y(n110) );
+  clknd2d1_hd U123 ( .A(n113), .B(n112), .Y(n116) );
+  clknd2d1_hd U124 ( .A(n119), .B(n118), .Y(n122) );
+  clknd2d1_hd U125 ( .A(n32), .B(n31), .Y(n28) );
+  or2d1_hd U126 ( .A(N187), .B(N171), .Y(N74) );
+  clknd2d1_hd U127 ( .A(N109), .B(N171), .Y(n32) );
+  clknd2d1_hd U128 ( .A(N187), .B(N109), .Y(n31) );
+  clknd2d1_hd U129 ( .A(n127), .B(n126), .Y(N25) );
+  ad2d1_hd U130 ( .A(N132), .B(alt7_n39), .Y(N152) );
+  or2d1_hd U131 ( .A(o_TX_Ready), .B(N152), .Y(N142) );
+  ad2d1_hd U132 ( .A(N115), .B(alt7_n39), .Y(N125) );
+  clknd2d1_hd U133 ( .A(alt7_n39), .B(n27), .Y(N124) );
+  ivd1_hd U134 ( .A(N125), .Y(n27) );
+  mx2d1_hd U135 ( .D0(r_SPI_Clk_Edges[0]), .D1(N99), .S(N98), .Y(n54) );
+  mx2d1_hd U136 ( .D0(r_SPI_Clk_Edges[1]), .D1(N100), .S(N98), .Y(n53) );
+  mx2d1_hd U137 ( .D0(r_SPI_Clk_Edges[2]), .D1(N101), .S(N98), .Y(n52) );
+  mx2d1_hd U138 ( .D0(r_SPI_Clk_Edges[3]), .D1(N102), .S(N98), .Y(n51) );
+  mx2d1_hd U139 ( .D0(r_SPI_Clk_Edges[4]), .D1(N103), .S(N98), .Y(n50) );
+  mx2d1_hd U140 ( .D0(r_SPI_Clk_Edges[5]), .D1(N104), .S(N98), .Y(n49) );
+  mx2d1_hd U141 ( .D0(r_SPI_Clk_Edges[6]), .D1(N105), .S(N98), .Y(n48) );
+  mx2d1_hd U142 ( .D0(r_SPI_Clk_Edges[7]), .D1(N106), .S(N98), .Y(n56) );
+  xo2d1_hd U143 ( .A(r_SPI_Clk_Edges[7]), .B(n123), .Y(N37) );
+  scg2d1_hd U144 ( .A(N51), .B(n2), .C(r_SPI_Clk_Count[5]), .D(n3), .Y(n19) );
+  scg2d1_hd U145 ( .A(N52), .B(n2), .C(r_SPI_Clk_Count[6]), .D(n3), .Y(n18) );
+  scg2d1_hd U146 ( .A(N53), .B(n2), .C(r_SPI_Clk_Count[7]), .D(n3), .Y(n17) );
+  scg2d1_hd U147 ( .A(N54), .B(n2), .C(r_SPI_Clk_Count[8]), .D(n3), .Y(n16) );
+  scg2d1_hd U148 ( .A(N55), .B(n2), .C(r_SPI_Clk_Count[9]), .D(n3), .Y(n15) );
+  scg2d1_hd U149 ( .A(N56), .B(n2), .C(r_SPI_Clk_Count[10]), .D(n3), .Y(n14)
          );
-  scg12d1_hd U103 ( .A(n114), .B(n115), .C(r_SPI_Clk_Edges[4]), .Y(n119) );
-  clknd2d1_hd U104 ( .A(r_SPI_Clk_Count[10]), .B(n210), .Y(n211) );
-  nr2d1_hd U105 ( .A(i_TX_DV), .B(n165), .Y(n200) );
-  clknd2d1_hd U106 ( .A(n145), .B(n101), .Y(n157) );
-  clknd2d1_hd U107 ( .A(n145), .B(n38), .Y(n142) );
-  ad4d1_hd U108 ( .A(n127), .B(1'b1), .C(n124), .D(n119), .Y(n165) );
-  clknd2d1_hd U109 ( .A(n166), .B(n131), .Y(n113) );
-  clknd2d1_hd U110 ( .A(n113), .B(n200), .Y(n108) );
-  clknd2d1_hd U111 ( .A(n114), .B(n118), .Y(n116) );
-  ivd1_hd U112 ( .A(n108), .Y(n118) );
-  clknd2d1_hd U113 ( .A(n119), .B(n118), .Y(n125) );
-  clknd2d1_hd U114 ( .A(n200), .B(n204), .Y(n205) );
-  clknd2d1_hd U115 ( .A(r_SPI_Clk_Count[5]), .B(n184), .Y(n189) );
-  clknd2d1_hd U116 ( .A(n200), .B(n184), .Y(n185) );
-  clknd2d1_hd U117 ( .A(r_SPI_Clk_Count[7]), .B(n193), .Y(n198) );
-  clknd2d1_hd U118 ( .A(n200), .B(n168), .Y(n212) );
-  clknd2d1_hd U119 ( .A(n200), .B(n193), .Y(n194) );
-  clknd2d1_hd U120 ( .A(r_SPI_Clk_Count[0]), .B(r_SPI_Clk_Count[1]), .Y(n172)
+  scg2d1_hd U150 ( .A(N57), .B(n2), .C(r_SPI_Clk_Count[11]), .D(n3), .Y(n13)
          );
-  clknd2d1_hd U121 ( .A(r_SPI_Clk_Count[11]), .B(n213), .Y(n218) );
-  or4d1_hd U122 ( .A(r_SPI_Clk_Count[1]), .B(n180), .C(n106), .D(n222), .Y(
-        n168) );
-  nr2d1_hd U123 ( .A(N107), .B(N108), .Y(n131) );
-  clknd2d1_hd U124 ( .A(n133), .B(n37), .Y(n134) );
-  ivd1_hd U125 ( .A(n200), .Y(n223) );
-  clknd2d1_hd U126 ( .A(n15), .B(r_Leading_Edge), .Y(n132) );
-  clknd2d1_hd U127 ( .A(n36), .B(n135), .Y(n137) );
-  clknd2d1_hd U128 ( .A(n165), .B(n166), .Y(n14) );
-  clknd2d1_hd U129 ( .A(n127), .B(n124), .Y(n126) );
-  clknd2d1_hd U130 ( .A(n201), .B(n193), .Y(n191) );
-  clknd2d1_hd U131 ( .A(n201), .B(n184), .Y(n182) );
-  clknd2d1_hd U132 ( .A(r_SPI_Clk_Count[0]), .B(n169), .Y(n167) );
-  clknd2d1_hd U133 ( .A(n201), .B(n204), .Y(n202) );
-  clknd2d1_hd U134 ( .A(n207), .B(n210), .Y(n209) );
-  clknd2d1_hd U135 ( .A(n181), .B(n175), .Y(n178) );
-  clknd2d1_hd U136 ( .A(n201), .B(n173), .Y(n170) );
-  clknd2d1_hd U137 ( .A(r_SPI_Clk_Count[12]), .B(n219), .Y(n217) );
-  clknd2d1_hd U138 ( .A(r_SPI_Clk_Count[1]), .B(n222), .Y(n105) );
-  clknd2d1_hd U139 ( .A(n163), .B(o_RX_Byte[7]), .Y(n162) );
-  clknd2d1_hd U140 ( .A(n161), .B(n100), .Y(n163) );
-  clknd2d1_hd U141 ( .A(n150), .B(o_RX_Byte[3]), .Y(n149) );
-  clknd2d1_hd U142 ( .A(n148), .B(n100), .Y(n150) );
-  clknd2d1_hd U143 ( .A(n147), .B(o_RX_Byte[2]), .Y(n146) );
-  clknd2d1_hd U144 ( .A(n39), .B(n148), .Y(n147) );
-  clknd2d1_hd U145 ( .A(n160), .B(o_RX_Byte[6]), .Y(n159) );
-  clknd2d1_hd U146 ( .A(n39), .B(n161), .Y(n160) );
-  clknd2d1_hd U147 ( .A(n153), .B(o_RX_Byte[4]), .Y(n152) );
-  clknd2d1_hd U148 ( .A(r_RX_Bit_Count_2_), .B(n151), .Y(n153) );
-  clknd2d1_hd U149 ( .A(n156), .B(o_RX_Byte[5]), .Y(n155) );
-  clknd2d1_hd U150 ( .A(r_RX_Bit_Count_2_), .B(n154), .Y(n156) );
-  clknd2d1_hd U151 ( .A(n144), .B(o_RX_Byte[1]), .Y(n143) );
-  clknd2d1_hd U152 ( .A(n154), .B(n158), .Y(n144) );
-  clknd2d1_hd U153 ( .A(n151), .B(n158), .Y(n31) );
-  clknd2d1_hd U154 ( .A(n100), .B(n139), .Y(n138) );
-  clknd2d1_hd U155 ( .A(n39), .B(n145), .Y(n140) );
-  clknd2d1_hd U156 ( .A(N22), .B(n137), .Y(n136) );
-  scg2d1_hd U157 ( .A(r_SPI_Clk_Count[11]), .B(n214), .C(n213), .D(n215), .Y(
-        n26) );
-  or2d1_hd U158 ( .A(n211), .B(n223), .Y(n214) );
-  scg2d1_hd U159 ( .A(r_SPI_Clk_Edges[1]), .B(n111), .C(n110), .D(n118), .Y(
-        n94) );
-  or2d1_hd U160 ( .A(n198), .B(r_SPI_Clk_Count[8]), .Y(n197) );
-  scg2d1_hd U161 ( .A(r_SPI_Clk_Count[3]), .B(n176), .C(n175), .D(n180), .Y(
-        n18) );
-  scg10d1_hd U162 ( .A(n31), .B(i_SPI_MISO), .C(o_RX_Byte[0]), .D(n141), .Y(
-        n80) );
-  or2d1_hd U163 ( .A(n189), .B(r_SPI_Clk_Count[6]), .Y(n188) );
-  scg2d1_hd U164 ( .A(n133), .B(N120), .C(o_SPI_MOSI), .D(n132), .Y(n87) );
-  mx2d1_hd U165 ( .D0(n224), .D1(n225), .S(N22), .Y(N120) );
-  scg2d1_hd U166 ( .A(i_TX_DV), .B(i_TX_Byte[0]), .C(r_TX_Byte[0]), .D(n166), 
-        .Y(n6) );
-  scg2d1_hd U167 ( .A(i_TX_DV), .B(i_TX_Byte[1]), .C(r_TX_Byte[1]), .D(n166), 
+  scg2d1_hd U151 ( .A(N58), .B(n2), .C(r_SPI_Clk_Count[12]), .D(n3), .Y(n12)
+         );
+  mx2d1_hd U152 ( .D0(r_SPI_Clk), .D1(N23), .S(n104), .Y(n55) );
+  ivd1_hd U153 ( .A(r_SPI_Clk), .Y(N23) );
+  mx2d1_hd U154 ( .D0(o_RX_Byte[5]), .D1(i_SPI_MISO), .S(N148), .Y(n35) );
+  ad2d1_hd U155 ( .A(N195), .B(r_RX_Bit_Count[2]), .Y(N196) );
+  ad2d1_hd U156 ( .A(r_RX_Bit_Count[0]), .B(N1), .Y(N195) );
+  mx2d1_hd U157 ( .D0(o_RX_Byte[1]), .D1(i_SPI_MISO), .S(N144), .Y(n39) );
+  ad2d1_hd U158 ( .A(N203), .B(N11), .Y(N204) );
+  ad2d1_hd U159 ( .A(r_RX_Bit_Count[0]), .B(N1), .Y(N203) );
+  mx2d1_hd U160 ( .D0(o_RX_Byte[4]), .D1(i_SPI_MISO), .S(N147), .Y(n36) );
+  ad2d1_hd U161 ( .A(N197), .B(r_RX_Bit_Count[2]), .Y(N198) );
+  ad2d1_hd U162 ( .A(N0), .B(N1), .Y(N197) );
+  mx2d1_hd U163 ( .D0(o_RX_Byte[0]), .D1(i_SPI_MISO), .S(N143), .Y(n40) );
+  ad2d1_hd U164 ( .A(N205), .B(N11), .Y(N206) );
+  ad2d1_hd U165 ( .A(N0), .B(N1), .Y(N205) );
+  mx2d1_hd U166 ( .D0(o_RX_Byte[6]), .D1(i_SPI_MISO), .S(N149), .Y(n34) );
+  ad2d1_hd U167 ( .A(N193), .B(r_RX_Bit_Count[2]), .Y(N194) );
+  ad2d1_hd U168 ( .A(N0), .B(r_RX_Bit_Count[1]), .Y(N193) );
+  mx2d1_hd U169 ( .D0(o_RX_Byte[2]), .D1(i_SPI_MISO), .S(N145), .Y(n38) );
+  ad2d1_hd U170 ( .A(N201), .B(N11), .Y(N202) );
+  ad2d1_hd U171 ( .A(N0), .B(r_RX_Bit_Count[1]), .Y(N201) );
+  mx2d1_hd U172 ( .D0(o_RX_Byte[3]), .D1(i_SPI_MISO), .S(N146), .Y(n37) );
+  ad2d1_hd U173 ( .A(N199), .B(N11), .Y(N200) );
+  ad2d1_hd U174 ( .A(r_RX_Bit_Count[0]), .B(r_RX_Bit_Count[1]), .Y(N199) );
+  mx2d1_hd U175 ( .D0(o_SPI_MOSI), .D1(N126), .S(N125), .Y(n47) );
+  mx2d1_hd U176 ( .D0(n124), .D1(n125), .S(r_TX_Bit_Count[2]), .Y(N120) );
+  mx2d1_hd U177 ( .D0(o_RX_Byte[7]), .D1(i_SPI_MISO), .S(N150), .Y(n33) );
+  ad2d1_hd U178 ( .A(N191), .B(r_RX_Bit_Count[2]), .Y(N192) );
+  ad2d1_hd U179 ( .A(r_RX_Bit_Count[0]), .B(r_RX_Bit_Count[1]), .Y(N191) );
+  or2d1_hd U180 ( .A(r_RX_Bit_Count[1]), .B(r_RX_Bit_Count[2]), .Y(N153) );
+  scg2d1_hd U181 ( .A(i_TX_DV), .B(i_TX_Byte[3]), .C(r_TX_Byte[3]), .D(n1), 
         .Y(n7) );
-  scg2d1_hd U168 ( .A(i_TX_DV), .B(i_TX_Byte[5]), .C(r_TX_Byte[5]), .D(n166), 
+  scg2d1_hd U182 ( .A(i_TX_DV), .B(i_TX_Byte[7]), .C(r_TX_Byte[7]), .D(n1), 
         .Y(n11) );
-  scg2d1_hd U169 ( .A(i_TX_DV), .B(i_TX_Byte[3]), .C(r_TX_Byte[3]), .D(n166), 
-        .Y(n9) );
-  scg2d1_hd U170 ( .A(i_TX_DV), .B(i_TX_Byte[2]), .C(r_TX_Byte[2]), .D(n166), 
+  scg2d1_hd U183 ( .A(i_TX_DV), .B(i_TX_Byte[0]), .C(r_TX_Byte[0]), .D(n1), 
+        .Y(n4) );
+  scg2d1_hd U184 ( .A(i_TX_DV), .B(i_TX_Byte[4]), .C(r_TX_Byte[4]), .D(n1), 
         .Y(n8) );
-  scg2d1_hd U171 ( .A(i_TX_DV), .B(i_TX_Byte[4]), .C(r_TX_Byte[4]), .D(n166), 
+  scg2d1_hd U185 ( .A(i_TX_DV), .B(i_TX_Byte[1]), .C(r_TX_Byte[1]), .D(n1), 
+        .Y(n5) );
+  scg2d1_hd U186 ( .A(i_TX_DV), .B(i_TX_Byte[5]), .C(r_TX_Byte[5]), .D(n1), 
+        .Y(n9) );
+  scg2d1_hd U187 ( .A(i_TX_DV), .B(i_TX_Byte[2]), .C(r_TX_Byte[2]), .D(n1), 
+        .Y(n6) );
+  scg2d1_hd U188 ( .A(i_TX_DV), .B(i_TX_Byte[6]), .C(r_TX_Byte[6]), .D(n1), 
         .Y(n10) );
-  scg2d1_hd U172 ( .A(i_TX_DV), .B(i_TX_Byte[7]), .C(r_TX_Byte[7]), .D(n166), 
-        .Y(n13) );
-  scg2d1_hd U173 ( .A(i_TX_DV), .B(i_TX_Byte[6]), .C(r_TX_Byte[6]), .D(n166), 
-        .Y(n12) );
-  nr2bd1_hd U174 ( .AN(n204), .B(n206), .Y(n210) );
-  ivd1_hd U175 ( .A(n134), .Y(n135) );
-  ivd1_hd U176 ( .A(n132), .Y(n133) );
-  ivd1_hd U177 ( .A(i_SPI_MISO), .Y(n164) );
-  ivd1_hd U178 ( .A(r_RX_Bit_Count_2_), .Y(n158) );
-  nr2d1_hd U179 ( .A(n100), .B(n142), .Y(n151) );
-  ivd1_hd U180 ( .A(r_Trailing_Edge), .Y(n139) );
-  ivd1_hd U181 ( .A(n212), .Y(n201) );
-  ivd1_hd U182 ( .A(r_SPI_Clk_Count[13]), .Y(n219) );
-  ivd1_hd U183 ( .A(r_SPI_Clk_Count[9]), .Y(n206) );
-  ivd1_hd U184 ( .A(r_SPI_Clk_Count[2]), .Y(n173) );
-  ivd1_hd U185 ( .A(r_SPI_Clk_Count[4]), .Y(n181) );
-  ivd1_hd U186 ( .A(r_SPI_Clk_Count[6]), .Y(n190) );
-  ivd1_hd U187 ( .A(r_SPI_Clk_Count[8]), .Y(n199) );
-  ivd1_hd U188 ( .A(r_SPI_Clk_Count[12]), .Y(n216) );
-  ivd1_hd U189 ( .A(r_SPI_Clk_Count[3]), .Y(n180) );
-  ivd1_hd U190 ( .A(r_SPI_Clk_Count[0]), .Y(n222) );
-  ivd1_hd U191 ( .A(r_SPI_Clk_Edges[3]), .Y(n115) );
-  ivd1_hd U192 ( .A(r_SPI_Clk_Edges[5]), .Y(n124) );
-  ivd1_hd U193 ( .A(r_SPI_Clk_Edges[6]), .Y(n127) );
-  ivd1_hd U194 ( .A(i_TX_DV), .Y(n166) );
-  nr2d1_hd U196 ( .A(r_SPI_Clk_Count[5]), .B(r_SPI_Clk_Count[13]), .Y(n104) );
-  nr4d1_hd U197 ( .A(r_SPI_Clk_Count[4]), .B(r_SPI_Clk_Count[8]), .C(
-        r_SPI_Clk_Count[6]), .D(r_SPI_Clk_Count[7]), .Y(n103) );
-  nr4d1_hd U198 ( .A(r_SPI_Clk_Count[11]), .B(r_SPI_Clk_Count[9]), .C(
-        r_SPI_Clk_Count[10]), .D(r_SPI_Clk_Count[12]), .Y(n102) );
-  nd4d1_hd U199 ( .A(r_SPI_Clk_Count[2]), .B(n104), .C(n103), .D(n102), .Y(
-        n106) );
-  nr3d1_hd U200 ( .A(r_SPI_Clk_Edges[2]), .B(r_SPI_Clk_Edges[1]), .C(
-        r_SPI_Clk_Edges[0]), .Y(n114) );
-  nr4d1_hd U201 ( .A(r_SPI_Clk_Count[3]), .B(n106), .C(n223), .D(n105), .Y(
-        N107) );
-  nr2d1_hd U202 ( .A(n223), .B(n168), .Y(N108) );
-  ivd1_hd U203 ( .A(n131), .Y(n129) );
-  ao21d1_hd U204 ( .A(n119), .B(n129), .C(i_TX_DV), .Y(n122) );
-  ao21d1_hd U205 ( .A(n118), .B(r_SPI_Clk_Edges[5]), .C(n122), .Y(n128) );
-  ivd1_hd U206 ( .A(r_SPI_Clk_Edges[0]), .Y(n109) );
-  ao22d1_hd U207 ( .A(r_SPI_Clk_Edges[0]), .B(n113), .C(n108), .D(n109), .Y(
-        n95) );
-  oa21d1_hd U208 ( .A(n223), .B(n109), .C(n113), .Y(n111) );
-  nr2d1_hd U209 ( .A(r_SPI_Clk_Edges[1]), .B(r_SPI_Clk_Edges[0]), .Y(n110) );
-  ao21d1_hd U210 ( .A(r_SPI_Clk_Edges[1]), .B(n118), .C(n111), .Y(n112) );
-  scg16d1_hd U211 ( .A(r_SPI_Clk_Edges[2]), .B(n112), .C(n116), .Y(n93) );
-  oa21d1_hd U212 ( .A(n114), .B(n223), .C(n113), .Y(n120) );
-  ivd1_hd U213 ( .A(n120), .Y(n117) );
-  ao22d1_hd U214 ( .A(r_SPI_Clk_Edges[3]), .B(n117), .C(n116), .D(n115), .Y(
-        n92) );
-  oa21d1_hd U215 ( .A(r_SPI_Clk_Edges[3]), .B(n120), .C(r_SPI_Clk_Edges[4]), 
-        .Y(n121) );
-  nd3d1_hd U216 ( .A(n166), .B(n125), .C(n121), .Y(n91) );
-  ivd1_hd U217 ( .A(n122), .Y(n123) );
-  ao22d1_hd U218 ( .A(r_SPI_Clk_Edges[5]), .B(n123), .C(n125), .D(n124), .Y(
-        n90) );
-  oa22d1_hd U219 ( .A(n128), .B(n127), .C(n126), .D(n125), .Y(n89) );
-  ivd1_hd U220 ( .A(r_SPI_Clk), .Y(n130) );
-  ao22d1_hd U221 ( .A(n131), .B(n130), .C(r_SPI_Clk), .D(n129), .Y(n88) );
-  oa211d1_hd U222 ( .A(r_Leading_Edge), .B(n37), .C(n15), .D(n134), .Y(n86) );
-  oa211d1_hd U223 ( .A(n36), .B(n135), .C(n15), .D(n137), .Y(n85) );
-  oa211d1_hd U224 ( .A(N22), .B(n137), .C(n15), .D(n136), .Y(n84) );
-  oa211d1_hd U225 ( .A(n100), .B(n139), .C(n15), .D(n138), .Y(n83) );
-  nr2d1_hd U226 ( .A(o_TX_Ready), .B(n139), .Y(n145) );
-  scg17d1_hd U227 ( .A(n101), .B(n140), .C(n151), .D(n15), .Y(n82) );
-  oa211d1_hd U228 ( .A(n151), .B(n158), .C(n15), .D(n31), .Y(n81) );
-  ivd1_hd U229 ( .A(n31), .Y(n141) );
-  nr2d1_hd U230 ( .A(n39), .B(n142), .Y(n154) );
-  oa21d1_hd U231 ( .A(n164), .B(n144), .C(n143), .Y(n79) );
-  nr2d1_hd U232 ( .A(r_RX_Bit_Count_2_), .B(n157), .Y(n148) );
-  oa21d1_hd U233 ( .A(n164), .B(n147), .C(n146), .Y(n78) );
-  oa21d1_hd U234 ( .A(n164), .B(n150), .C(n149), .Y(n77) );
-  oa21d1_hd U235 ( .A(n164), .B(n153), .C(n152), .Y(n76) );
-  oa21d1_hd U236 ( .A(n164), .B(n156), .C(n155), .Y(n75) );
-  nr2d1_hd U237 ( .A(n158), .B(n157), .Y(n161) );
-  oa21d1_hd U238 ( .A(n164), .B(n160), .C(n159), .Y(n74) );
-  oa21d1_hd U239 ( .A(n164), .B(n163), .C(n162), .Y(n73) );
-  nr2d1_hd U240 ( .A(n223), .B(n222), .Y(n221) );
-  ivd1_hd U241 ( .A(r_SPI_Clk_Count[1]), .Y(n169) );
-  oa22d1_hd U242 ( .A(n221), .B(n169), .C(n167), .D(n212), .Y(n16) );
-  ao211d1_hd U243 ( .A(n169), .B(n168), .C(n222), .D(n223), .Y(n171) );
-  oa22d1_hd U244 ( .A(n171), .B(n173), .C(n172), .D(n170), .Y(n17) );
-  nr2d1_hd U245 ( .A(n173), .B(n172), .Y(n174) );
-  oa21d1_hd U246 ( .A(n174), .B(n212), .C(n200), .Y(n176) );
-  ivd1_hd U247 ( .A(n174), .Y(n179) );
-  nr2d1_hd U248 ( .A(n212), .B(n179), .Y(n175) );
-  nr2d1_hd U249 ( .A(n180), .B(n176), .Y(n177) );
-  oa22d1_hd U250 ( .A(n180), .B(n178), .C(n177), .D(n181), .Y(n19) );
-  nr3d1_hd U251 ( .A(n181), .B(n180), .C(n179), .Y(n184) );
-  ivd1_hd U252 ( .A(n185), .Y(n183) );
-  ivd1_hd U253 ( .A(r_SPI_Clk_Count[5]), .Y(n186) );
-  ao22d1_hd U254 ( .A(r_SPI_Clk_Count[5]), .B(n183), .C(n182), .D(n186), .Y(
-        n20) );
-  nr2d1_hd U255 ( .A(n186), .B(n185), .Y(n187) );
-  oa22d1_hd U256 ( .A(n212), .B(n188), .C(n187), .D(n190), .Y(n21) );
-  nr2d1_hd U257 ( .A(n190), .B(n189), .Y(n193) );
-  ivd1_hd U258 ( .A(n194), .Y(n192) );
-  ivd1_hd U259 ( .A(r_SPI_Clk_Count[7]), .Y(n195) );
-  ao22d1_hd U260 ( .A(r_SPI_Clk_Count[7]), .B(n192), .C(n191), .D(n195), .Y(
-        n22) );
-  nr2d1_hd U261 ( .A(n195), .B(n194), .Y(n196) );
-  oa22d1_hd U262 ( .A(n212), .B(n197), .C(n196), .D(n199), .Y(n23) );
-  nr2d1_hd U263 ( .A(n199), .B(n198), .Y(n204) );
-  ivd1_hd U264 ( .A(n205), .Y(n203) );
-  ao22d1_hd U265 ( .A(r_SPI_Clk_Count[9]), .B(n203), .C(n202), .D(n206), .Y(
-        n24) );
-  ivd1_hd U266 ( .A(r_SPI_Clk_Count[10]), .Y(n207) );
-  nr2d1_hd U267 ( .A(n206), .B(n205), .Y(n208) );
-  oa22d1_hd U268 ( .A(n212), .B(n209), .C(n208), .D(n207), .Y(n25) );
-  nr2d1_hd U269 ( .A(n212), .B(n211), .Y(n213) );
-  ivd1_hd U270 ( .A(r_SPI_Clk_Count[11]), .Y(n215) );
-  nr3d1_hd U271 ( .A(n215), .B(n216), .C(n214), .Y(n220) );
-  ao21d1_hd U272 ( .A(n216), .B(n218), .C(n220), .Y(n27) );
-  oa22d1_hd U273 ( .A(n220), .B(n219), .C(n218), .D(n217), .Y(n28) );
-  ao21d1_hd U274 ( .A(n223), .B(n222), .C(n221), .Y(n29) );
-  mx4d1_hd U275 ( .D0(r_TX_Byte[0]), .D1(r_TX_Byte[1]), .D2(r_TX_Byte[2]), 
-        .D3(r_TX_Byte[3]), .S0(N20), .S1(N21), .Y(n224) );
-  mx4d1_hd U276 ( .D0(r_TX_Byte[4]), .D1(r_TX_Byte[5]), .D2(r_TX_Byte[6]), 
-        .D3(r_TX_Byte[7]), .S0(N20), .S1(N21), .Y(n225) );
+  mx2d1_hd U189 ( .D0(r_RX_Bit_Count[2]), .D1(N141), .S(N142), .Y(n41) );
+  xn2d1_hd U190 ( .A(sub_x_13_n1), .B(r_RX_Bit_Count[2]), .Y(N138) );
+  or2d1_hd U191 ( .A(r_RX_Bit_Count[0]), .B(r_RX_Bit_Count[1]), .Y(sub_x_13_n1) );
+  mx2d1_hd U192 ( .D0(r_RX_Bit_Count[1]), .D1(N140), .S(N142), .Y(n42) );
+  xn2d1_hd U193 ( .A(r_RX_Bit_Count[0]), .B(r_RX_Bit_Count[1]), .Y(N137) );
+  mx2d1_hd U194 ( .D0(r_RX_Bit_Count[0]), .D1(N139), .S(N142), .Y(n43) );
+  mx2d1_hd U195 ( .D0(r_TX_Bit_Count[2]), .D1(N123), .S(N124), .Y(n44) );
+  xn2d1_hd U196 ( .A(sub_x_11_n1), .B(r_TX_Bit_Count[2]), .Y(N119) );
+  or2d1_hd U197 ( .A(r_TX_Bit_Count[0]), .B(r_TX_Bit_Count[1]), .Y(sub_x_11_n1) );
+  mx2d1_hd U198 ( .D0(r_TX_Bit_Count[1]), .D1(N122), .S(N124), .Y(n45) );
+  xn2d1_hd U199 ( .A(r_TX_Bit_Count[0]), .B(r_TX_Bit_Count[1]), .Y(N118) );
+  mx2d1_hd U200 ( .D0(r_TX_Bit_Count[0]), .D1(N121), .S(N124), .Y(n46) );
+  scg2d1_hd U201 ( .A(N46), .B(n2), .C(r_SPI_Clk_Count[0]), .D(n3), .Y(n25) );
+  scg2d1_hd U202 ( .A(N47), .B(n2), .C(r_SPI_Clk_Count[1]), .D(n3), .Y(n24) );
+  scg2d1_hd U203 ( .A(N59), .B(n2), .C(r_SPI_Clk_Count[13]), .D(n3), .Y(n23)
+         );
+  scg2d1_hd U204 ( .A(N48), .B(n2), .C(r_SPI_Clk_Count[2]), .D(n3), .Y(n22) );
+  scg2d1_hd U205 ( .A(N49), .B(n2), .C(r_SPI_Clk_Count[3]), .D(n3), .Y(n21) );
+  scg2d1_hd U206 ( .A(N50), .B(n2), .C(r_SPI_Clk_Count[4]), .D(n3), .Y(n20) );
+  scg20d2_hd U207 ( .A(N171), .B(N186), .C(n3), .Y(n2) );
+  ivd1_hd U253 ( .A(o_TX_Ready), .Y(alt7_n39) );
+  ad2d1_hd U254 ( .A(N74), .B(N109), .Y(n104) );
+  ivd1_hd U255 ( .A(r_RX_Bit_Count[1]), .Y(N1) );
+  ivd1_hd U256 ( .A(r_RX_Bit_Count[0]), .Y(N0) );
+  ivd1_hd U257 ( .A(r_RX_Bit_Count[2]), .Y(N11) );
+  nr2d1_hd U258 ( .A(r_RX_Bit_Count[0]), .B(N153), .Y(n105) );
+  nr2d1_hd U259 ( .A(N25), .B(i_TX_DV), .Y(n106) );
+  ivd1_hd U260 ( .A(r_SPI_Clk_Edges[0]), .Y(N30) );
+  ivd1_hd U261 ( .A(r_SPI_Clk_Edges[1]), .Y(n107) );
+  ao22d1_hd U262 ( .A(r_SPI_Clk_Edges[1]), .B(N30), .C(r_SPI_Clk_Edges[0]), 
+        .D(n107), .Y(N31) );
+  ivd1_hd U263 ( .A(n110), .Y(n109) );
+  ivd1_hd U264 ( .A(r_SPI_Clk_Edges[2]), .Y(n108) );
+  ao22d1_hd U265 ( .A(r_SPI_Clk_Edges[2]), .B(n109), .C(n110), .D(n108), .Y(
+        N32) );
+  nr2d1_hd U266 ( .A(r_SPI_Clk_Edges[2]), .B(n110), .Y(n113) );
+  ivd1_hd U267 ( .A(n113), .Y(n111) );
+  ivd1_hd U268 ( .A(r_SPI_Clk_Edges[3]), .Y(n112) );
+  ao22d1_hd U269 ( .A(r_SPI_Clk_Edges[3]), .B(n113), .C(n111), .D(n112), .Y(
+        N33) );
+  ivd1_hd U270 ( .A(n116), .Y(n115) );
+  ivd1_hd U271 ( .A(r_SPI_Clk_Edges[4]), .Y(n114) );
+  ao22d1_hd U272 ( .A(r_SPI_Clk_Edges[4]), .B(n115), .C(n116), .D(n114), .Y(
+        N34) );
+  nr2d1_hd U273 ( .A(r_SPI_Clk_Edges[4]), .B(n116), .Y(n119) );
+  ivd1_hd U274 ( .A(n119), .Y(n117) );
+  ivd1_hd U275 ( .A(r_SPI_Clk_Edges[5]), .Y(n118) );
+  ao22d1_hd U276 ( .A(r_SPI_Clk_Edges[5]), .B(n119), .C(n117), .D(n118), .Y(
+        N35) );
+  ivd1_hd U277 ( .A(n122), .Y(n121) );
+  ivd1_hd U278 ( .A(r_SPI_Clk_Edges[6]), .Y(n120) );
+  ao22d1_hd U279 ( .A(r_SPI_Clk_Edges[6]), .B(n121), .C(n122), .D(n120), .Y(
+        N36) );
+  nr2d1_hd U280 ( .A(r_SPI_Clk_Edges[6]), .B(n122), .Y(n123) );
+  mx4d1_hd U281 ( .D0(r_TX_Byte[0]), .D1(r_TX_Byte[1]), .D2(r_TX_Byte[2]), 
+        .D3(r_TX_Byte[3]), .S0(r_TX_Bit_Count[0]), .S1(r_TX_Bit_Count[1]), .Y(
+        n124) );
+  mx4d1_hd U282 ( .D0(r_TX_Byte[4]), .D1(r_TX_Byte[5]), .D2(r_TX_Byte[6]), 
+        .D3(r_TX_Byte[7]), .S0(r_TX_Bit_Count[0]), .S1(r_TX_Bit_Count[1]), .Y(
+        n125) );
+  nr4d1_hd U283 ( .A(r_SPI_Clk_Edges[3]), .B(r_SPI_Clk_Edges[2]), .C(
+        r_SPI_Clk_Edges[1]), .D(r_SPI_Clk_Edges[0]), .Y(n127) );
+  nr4d1_hd U284 ( .A(r_SPI_Clk_Edges[7]), .B(r_SPI_Clk_Edges[6]), .C(
+        r_SPI_Clk_Edges[5]), .D(r_SPI_Clk_Edges[4]), .Y(n126) );
 endmodule
 

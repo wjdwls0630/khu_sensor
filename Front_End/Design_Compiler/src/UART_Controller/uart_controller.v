@@ -20,10 +20,10 @@ module uart_controller (
 
   input i_CORE_BUSY,
   // System I/O
-  input wire i_UART_RXD, // external_interface.RXD
-  output wire o_UART_TXD,
+  input i_UART_RXD, // external_interface.RXD
+  output o_UART_TXD,
   input i_CLK,
-  input i_RSTN
+  input i_RST
   );
 
   /****************************************************************************
@@ -44,7 +44,7 @@ module uart_controller (
    //2020.05.13 : Unused Port removed
   uart_tx uart_tx(
    .i_CLK(i_CLK),
-   .i_RST(i_RSTN),
+   .i_RST(i_RST),
    .i_Tx_DV(r_uart_data_tx_valid),
    .i_Tx_Byte(r_uart_data_tx),
    .o_Tx_Serial(o_UART_TXD),
@@ -53,7 +53,7 @@ module uart_controller (
 
   uart_rx uart_rx(
     .i_CLK(i_CLK),
-    .i_RST(i_RSTN),
+    .i_RST(i_RST),
     .i_Rx_Serial(i_UART_RXD),
     .o_Rx_DV(w_uart_data_rx_valid),
     .o_Rx_Byte(w_uart_data_rx)
@@ -97,8 +97,8 @@ module uart_controller (
   //============================================================================
 
   //=============================Sequential Logic===============================
-  always @ ( posedge i_CLK, posedge i_RSTN ) begin
-    if(i_RSTN) begin
+  always @ ( posedge i_CLK, posedge i_RST ) begin
+    if(i_RST) begin
       // TX
       o_UART_DATA_TX_READY <= 1'b0;
       // RX

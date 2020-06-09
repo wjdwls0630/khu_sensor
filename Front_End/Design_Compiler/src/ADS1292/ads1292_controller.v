@@ -8,11 +8,11 @@
 // TODO filter connection
 module ads1292_controller (
 	// Host Side
-	output reg [71:0] o_ADS1292_DATA_OUT, // read data from ADS1292
+	output reg [23:0] o_ADS1292_DATA_OUT, // read data from ADS1292
 	input [2:0] i_ADS1292_CONTROL, // ADS1292 Control
-	input [7:0] i_ADS1292_COMMAND, // ADS1292 SPI command
 	input [7:0] i_ADS1292_REG_ADDR, // ADS1292 register address
 	input [7:0] i_ADS1292_DATA_IN, // data to write in ADS1292 register
+	output reg [7:0] o_ADS1292_REG_DATA_OUT, // ADS1292 register data
 	output reg o_ADS1292_INIT_SET, // signal that ADS1292 chip initial setting is done
 	output reg o_ADS1292_DATA_VALID, // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 	output reg o_ADS1292_BUSY,
@@ -169,14 +169,14 @@ module ads1292_controller (
 	RDATAC : Read Data Continuously
 	SDATAC : Stop Read Data Continuously
 	*/
-	// Command byte by i_ADS1292_COMMAND , do not use i_ADS1292_REG_ADDR
+	// Command byte by r_ads_command 
 	parameter CM_RESET = 8'h06;
 	parameter CM_START = 8'h08;
 	parameter CM_STOP = 8'h0A;
 	parameter CM_RDATAC = 8'h10;
 	parameter CM_SDATAC = 8'h11;
 
-	// WREG, RREG by i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND
+	// WREG, RREG by i_ADS1292_REG_ADDR
 	/*
 	Data Sheet - ADS1292.pdf p.38
 	Read First opcode byte
@@ -194,9 +194,9 @@ module ads1292_controller (
 	ADS1292 Control Cases: (User defined) (exclude other mode in data sheet)
 														i_ADS1292_CONTROL
 	0. IDLE :											3'b000
-	1. System control:						3'b001 (use i_ADS1292_COMMAND, do not use i_ADS1292_REG_ADDR)
-	2. Write Register:						3'b010 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
-	3. Read Register:							3'b011 (use i_ADS1292_REG_ADDR, do not use i_ADS1292_COMMAND)
+	1. System control:						3'b001 (use i_ADS1292_REG_ADDR)
+	2. Write Register:						3'b010 (use i_ADS1292_REG_ADDR)
+	3. Read Register:							3'b011 (use i_ADS1292_REG_ADDR)
 	4. Read Data Continue:				3'b100 (only works by control bits)
 	5. Stop Read Data Continue : 	3'b101 (only works if controller is rdatac_mode, and works by control bits)
 	7. Dummy:       							3'b111 do nothing
@@ -256,6 +256,7 @@ module ads1292_controller (
 	reg [7:0] r_ads_reg_addr; // register addr byte
 	reg [7:0] r_ads_data_in; // register data to write
 	reg [31:0] r_clk_counter; // wait clock
+	reg [71:0] r_ads_data_out; // RDATAC Data 72bits
 	reg [3:0] r_data_counter; // data counter for RDATAC
 	reg [3:0] r_drdy_edge_counter; // drdy posedge counter
 	//============================================================================
@@ -287,7 +288,7 @@ module ads1292_controller (
 			//w_spi_data_out_valid;
 
 			// ADS1292_Controller Output
-			o_ADS1292_DATA_OUT <= 72'b0; // read data from ADS1292 Status(24 bits) - CH1(24 bits) - CH2(24 - bits)
+			r_ads_data_out <= 72'b0; // read data from ADS1292 Status(24 bits) - CH1(24 bits) - CH2(24 - bits)
 			o_ADS1292_INIT_SET <= 1'b0;
 			o_ADS1292_DATA_VALID <= 1'b0;
 			o_ADS1292_BUSY <= 1'b0;
@@ -395,7 +396,7 @@ module ads1292_controller (
 					// CSN must remain low for the entire duration of the serial communication
 					// After the serial communication is finished, always wait 4 CLK or more cycles before taking CSN high
 					// store input data
-					r_ads_command <= i_ADS1292_COMMAND; // using it command
+					r_ads_command <= i_ADS1292_REG_ADDR;
 					r_ads_reg_addr <= i_ADS1292_REG_ADDR;
 					r_ads_data_in <= i_ADS1292_DATA_IN;
 					r_lstate <= ST_STANDBY;
@@ -593,7 +594,7 @@ module ads1292_controller (
 				begin
 					r_spi_data_in_valid <= 1'b0;
 					if(w_spi_data_out_valid) begin
-						o_ADS1292_DATA_OUT[7:0] <= w_spi_data_out;
+						o_ADS1292_REG_DATA_OUT[7:0] <= w_spi_data_out;
 						r_pstate <= ST_RREG_WAIT_SCLK;
 					end else r_pstate <= ST_RREG_GET_DATA;
 				end
@@ -688,7 +689,7 @@ module ads1292_controller (
 					// This means that reading is complete at falling edge and after that, when rising edge trigger, writing is done.
 					r_spi_data_in_valid <= 1'b0;
 					if(w_spi_data_out_valid) begin
-						o_ADS1292_DATA_OUT <= {o_ADS1292_DATA_OUT[63:0], w_spi_data_out};
+						r_ads_data_out <= {r_ads_data_out[63:0], w_spi_data_out};
 						// read 72 bits
 						if(r_data_counter > 4'd7) begin // read 8 byte, since we already triggerd one byte sclk in ST_RDATAC_WAIT_DATA_SETTLING
 							r_data_counter <= 4'b0; // reset data counter
@@ -751,7 +752,11 @@ module ads1292_controller (
 					end else if(r_lstate == ST_SYSCMD_SEND_CMD) r_pstate <= ST_SPI_CLK_WAIT;
 					else if(r_lstate == ST_WREG_SEND_DATA) r_pstate <= ST_SPI_CLK_WAIT;
 					else if(r_lstate == ST_RREG_WAIT_SCLK) r_pstate <= ST_SPI_CLK_WAIT;
-					else if((r_lstate == ST_RDATAC_INIT) || (r_lstate == ST_RDATAC_GET_DATA)) r_pstate <= ST_RDATAC_WAIT_DRDY;
+					else if(r_lstate == ST_RDATAC_INIT) r_pstate <= ST_RDATAC_WAIT_DRDY;
+					else if(r_lstate == ST_RDATAC_GET_DATA) begin
+						o_ADS1292_DATA_OUT <= r_ads_data_out[23:0];
+						r_pstate <= ST_RDATAC_WAIT_DRDY;
+					end
 					else if(r_lstate == ST_SDATAC_WAIT) begin
 						o_ADS1292_START <= 1'b0; // turn off conversion
 						o_ADS1292_DATA_VALID <= 1'b0;

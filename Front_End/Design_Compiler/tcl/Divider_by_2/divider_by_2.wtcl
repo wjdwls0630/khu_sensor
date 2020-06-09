@@ -1,0 +1,77 @@
+###################################################################
+
+# Created by write_script -format dctcl on Tue Jun  9 04:35:32 2020
+
+###################################################################
+
+# Set the current_design #
+current_design divider_by_2
+
+set_units -time ns -resistance kOhm -capacitance pF -power mW -voltage V       \
+-current mA
+set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125\
+                         -min V135BTN0400 -min_library std150e_bst_135_n040
+set_wire_load_mode enclosed
+set_dont_touch [current_design] 
+set_wire_load_selection_group 4LM
+set_max_leakage_power 0
+set_local_link_library {std150e_wst_105_p125.db}
+set_max_area 0
+set_fix_multiple_port_nets -all -buffer_constants
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports i_CLK]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports i_CLK]
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports i_RSTN]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports i_RSTN]
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports o_CLK_DIV_2]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports o_CLK_DIV_2]
+set_connection_class "default" [get_ports i_CLK]
+set_connection_class "default" [get_ports i_RSTN]
+set_connection_class "default" [get_ports o_CLK_DIV_2]
+set_disable_timing [get_ports i_RSTN]
+set_dont_touch [get_nets o_CLK_DIV_2] 
+set_dont_touch [get_nets i_CLK] 
+set_dont_touch_network [get_ports i_RSTN]
+set_dont_touch_network [get_ports o_CLK_DIV_2]
+set_fanout_load 412 [get_ports o_CLK_DIV_2]
+set_port_fanout_number 4978 [get_ports i_CLK]
+set_port_fanout_number 1724 [get_ports i_RSTN]
+set_port_fanout_number 412 [get_ports o_CLK_DIV_2]
+set_load -pin_load 10.1886 [get_ports i_CLK]
+set_load -pin_load 3.15588 [get_ports i_RSTN]
+set_load -pin_load 0.828487 [get_ports o_CLK_DIV_2]
+set_max_fanout 1 [get_ports i_RSTN]
+set_load -min -pin_load 10.5402 [get_ports i_CLK]
+set_load -min -pin_load 3.21903 [get_ports i_RSTN]
+set_load -min -pin_load 0.860842 [get_ports o_CLK_DIV_2]
+set_switching_activity -period 1 -toggle_rate 0.0514282 -static_probability    \
+0.748718 [get_pins o_CLK_DIV_2_reg/QN]
+set_ideal_network [get_ports i_RSTN]
+create_clock [get_ports i_CLK]  -name clk  -period 10  -waveform {0 5}
+set_clock_uncertainty 0.0804  [get_clocks clk]
+set_dont_touch_network [get_clocks clk]
+set_clock_transition -min -fall 1.9 [get_clocks clk]
+set_clock_transition -min -rise 1.4 [get_clocks clk]
+set_clock_transition -max -fall 1.9 [get_clocks clk]
+set_clock_transition -max -rise 1.4 [get_clocks clk]
+create_generated_clock [get_pins o_CLK_DIV_2_reg/Q]  -name clk_half  -source   \
+[get_ports i_CLK]  -divide_by 2
+set_clock_uncertainty 0.0804  [get_clocks clk_half]
+set_dont_touch_network [get_clocks clk_half]
+set_clock_transition -min -fall 1.9 [get_clocks clk_half]
+set_clock_transition -min -rise 1.4 [get_clocks clk_half]
+set_clock_transition -max -fall 1.9 [get_clocks clk_half]
+set_clock_transition -max -rise 1.4 [get_clocks clk_half]
+set_input_delay -clock clk  -rise 0  [get_ports i_CLK]
+set_input_delay -clock clk  -clock_fall  -fall 0  -add_delay  [get_ports i_CLK]
+set_input_delay 0  [get_ports i_RSTN]
+set_load 0  [get_nets i_CLK]
+set_resistance 0  [get_nets i_CLK]
+set_load 0  [get_nets o_CLK_DIV_2]
+set_resistance 0  [get_nets o_CLK_DIV_2]
+1

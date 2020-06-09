@@ -1,29 +1,29 @@
 /** Top module **/
 module khu_sensor_top(
 	// System I/O
-	input wire i_CLK, // Clock
-	input wire i_RSTN, // Reset
+	input i_CLK, // Clock
+	input i_RSTN, // Reset
 
 	// RS232 UART
-	input wire UART_RXD,
-	output wire UART_TXD,
+	input UART_RXD,
+	output UART_TXD,
 
 	// DUT IO: for MPR121 (I2C)
-	input wire MPR121_SCL_IN,
-	input wire MPR121_SDA_IN,
-	output wire MPR121_SCL_OUT,
-	output wire MPR121_SDA_OUT,
-	output wire MPR121_SCL_EN,
-	output wire MPR121_SDA_EN,
+	input MPR121_SCL_IN,
+	input MPR121_SDA_IN,
+	output MPR121_SCL_OUT,
+	output MPR121_SDA_OUT,
+	output MPR121_SCL_EN,
+	output MPR121_SDA_EN,
 
 	// DUT IO: for ADS1292 (SPI)
-	output wire ADS1292_SCLK,
-	input wire ADS1292_MISO,
-	output wire ADS1292_MOSI,
-	input wire ADS1292_DRDY,
-	output wire ADS1292_RESET,
-	output wire ADS1292_START,
-	output wire ADS1292_CSN
+	output ADS1292_SCLK,
+	input ADS1292_MISO,
+	output ADS1292_MOSI,
+	input ADS1292_DRDY,
+	output ADS1292_RESET,
+	output ADS1292_START,
+	output ADS1292_CSN
 	);
 	/****************************************************************************
 	*                           divider_by_2		                               	*
@@ -60,7 +60,6 @@ module khu_sensor_top(
 	wire w_mpr121_init_set;
 	wire w_mpr121_busy;
 	wire w_mpr121_fail;
-	wire [11:0] w_mpr121_touch_status_out;
 	wire w_mpr121_error;
 
 	// ads1292_filter
@@ -69,12 +68,12 @@ module khu_sensor_top(
 	wire w_ads1292_filtered_data_ack;
 
 	// ads1292
-	wire [71:0] w_ads1292_data_out;
+	wire [23:0] w_ads1292_data_out;
 	wire [2:0] w_ads1292_control;
-	wire [7:0] w_ads1292_command;
 	wire [7:0] w_ads1292_reg_addr;
 	wire [7:0] w_ads1292_data_in;
 	wire w_ads1292_data_valid;
+	wire [7:0] w_ads1292_reg_data_out;
 	wire w_ads1292_init_set;
 	wire w_ads1292_busy;
 	wire w_ads1292_fail;
@@ -127,15 +126,14 @@ module khu_sensor_top(
 		.i_MPR121_FAIL(w_mpr121_fail),
 
 		// System connection with MPR121 data
-		.o_MPR121_TOUCH_STATUS(w_mpr121_touch_status_out),
 		.o_MPR121_ERROR(w_mpr121_error),
 
 		// ADS1292
 		.i_ADS1292_FILTERED_DATA_OUT(w_ads1292_filtered_data), // read data from ADS1292
 		.o_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
-		.o_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.o_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.o_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
+		.i_ADS1292_REG_DATA_OUT(w_ads1292_reg_data_out), // reg data read 
 		.i_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
 		.i_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
@@ -195,9 +193,9 @@ module khu_sensor_top(
 		// Host Side
 		.o_ADS1292_DATA_OUT(w_ads1292_data_out), // read data from ADS1292
 		.i_ADS1292_CONTROL(w_ads1292_control), // ADS1292 Control
-		.i_ADS1292_COMMAND(w_ads1292_command), // ADS1292 SPI command
 		.i_ADS1292_REG_ADDR(w_ads1292_reg_addr), // ADS1292 register address
 		.i_ADS1292_DATA_IN(w_ads1292_data_in), // data to write in ADS1292 register
+		.o_ADS1292_REG_DATA_OUT(w_ads1292_reg_data_out),
 		.o_ADS1292_INIT_SET(w_ads1292_init_set), // signal that start to read data in RDATAC mode
 		.o_ADS1292_DATA_VALID(w_ads1292_data_valid), // In Read data continue mode,  flag that 72 bits data is ready (active posedge)
 		.o_ADS1292_BUSY(w_ads1292_busy),

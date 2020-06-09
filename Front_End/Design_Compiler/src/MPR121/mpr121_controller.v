@@ -12,12 +12,12 @@ module mpr121_controller (
 	//	I2C Side
 	//inout wire I2C_SCL,
 	//inout wire I2C_SDA,
-	input wire i_I2C_SCL_IN,
-	input wire i_I2C_SDA_IN,
-	output wire o_I2C_SCL_OUT,
-	output wire o_I2C_SDA_OUT,
-	output wire o_I2C_SCL_EN,
-	output wire o_I2C_SDA_EN,
+	input i_I2C_SCL_IN,
+	input i_I2C_SDA_IN,
+	output o_I2C_SCL_OUT,
+	output o_I2C_SDA_OUT,
+	output o_I2C_SCL_EN,
+	output o_I2C_SDA_EN,
 
 	input i_CLK, // clock
 	input i_RSTN // reset
