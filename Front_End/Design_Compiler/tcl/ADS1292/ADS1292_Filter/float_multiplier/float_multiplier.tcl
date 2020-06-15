@@ -12,11 +12,11 @@ set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
 define_design_lib khu_sensor_lib -path ./lib
 analyze -format verilog  "${src_path}ADS1292/ADS1292_Filter/Float/${design}.v" -lib khu_sensor_lib
-elaborate float_multiplier -lib khu_sensor_lib
+elaborate $design -lib khu_sensor_lib
 
 current_design $design
 # The link command locates the reference for each cell in the design.
-link
+#link
 
 source "${tcl_path}default_constraints.tcl"
 
@@ -32,7 +32,7 @@ echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra -no_autoungroup -incremental 
+compile_ultra -no_autoungroup -incremental
 
 echo "***********************************************************************"
 echo "                                                                       "

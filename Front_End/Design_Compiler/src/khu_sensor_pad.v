@@ -105,7 +105,8 @@ module khu_sensor_pad (
   */
   vssoh pad15();
   vssoh pad16();
-  phic pad17(.PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
+  // schmitt trigger for global reset
+  phis pad17(.PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
   vssoh pad18();
   vssoh pad19();
 
@@ -181,7 +182,7 @@ module khu_sensor_pad (
   vssoh pad69();
   // TODO bi-directional -> how? Open-drain or Tri-State
   // TODO en High activate? or Low activate
-  phbct12 pad(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
+  phbct12 pad70(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
 
   vssoh pad71();
   vssoh pad72();

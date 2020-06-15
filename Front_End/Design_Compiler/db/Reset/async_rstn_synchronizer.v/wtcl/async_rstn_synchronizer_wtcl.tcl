@@ -1,30 +1,26 @@
-# Script file for constraining float_adder
-set design "float_adder"
-set dir "ADS1292/ADS1292_Filter/float_adder/"
+# Script file for constraining sensor_core
+set design "sensor_core"
+set dir "Sensor_Core/"
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "                             ${design}.tcl                             "
+echo "                        ${design}_wtcl.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
 set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 
-define_design_lib khu_sensor_lib -path ./lib
-analyze -format verilog  "${src_path}ADS1292/ADS1292_Filter/Float/${design}.v" -lib khu_sensor_lib
-elaborate $design -lib khu_sensor_lib
+read_file -format verilog -netlist ${netlist_path}${dir}tcl/${design}.vg
 
 current_design $design
-# The link command locates the reference for each cell in the design.
-#link
-
+echo "***********************************************************************"
+echo "                                                                       "
+echo "                          Apply ${design}.wtcl                         "
+echo "                                                                       "
+echo "***********************************************************************"
+source "${tcl_path}${dir}${design}.wtcl"
+remove_attribute [current_design] dont_touch
 source "${tcl_path}default_constraints.tcl"
-
-echo "***********************************************************************"
-echo "                                                                       "
-echo "                    Apply ${design}_constraints.tcl                    "
-echo "                                                                       "
-echo "***********************************************************************"
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -32,7 +28,8 @@ echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra -no_autoungroup -incremental
+optimize_registers
+compile_ultra -no_autoungroup -retime -gate_clock -incremental
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -45,5 +42,4 @@ write_file -format verilog -output "${netlist_path}${dir}${t_w_path}${design}.vg
 write_sdf "${db_path}${dir}${t_w_path}${design}.sdf"
 write_sdc "${db_path}${dir}${t_w_path}${design}.sdc"
 write_parasitics -output "${db_path}${dir}${t_w_path}${design}_parasitics"
-
 source "${tcl_path}report.tcl"
