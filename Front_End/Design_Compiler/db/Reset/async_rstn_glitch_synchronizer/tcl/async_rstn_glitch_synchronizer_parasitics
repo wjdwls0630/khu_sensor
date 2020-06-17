@@ -1,0 +1,45 @@
+*SPEF "IEEE 1481-1999"
+*DESIGN "async_rstn_glitch_synchronizer"
+*DATE "Wed Jun 17 12:46:52 2020"
+*VENDOR "SYNOPSYS INC"
+*PROGRAM "Synopsys Design Compiler cmos"
+*VERSION "F-2011.09-SP5-3"
+*DESIGN_FLOW "SYNTHESIS"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1.0 NS
+*C_UNIT 1.0 PF
+*R_UNIT 1.0 KOHM
+*L_UNIT 1.0 HENRY
+
+*PORTS
+
+i_CLK I *L 0.000e+00 *S 0.000e+00 0.000e+00 
+i_RSTN I *L 0.000e+00 *S 0.000e+00 0.000e+00 
+o_RSTN O *L 1.035e-02 *S 1.249e-01 1.641e-01 
+
+*R_NET i_CLK 4.100e-03
+*DRIVER i_CLK
+*CELL NULL
+*C2_R1_C1 2.050e-03 0.000e+00 2.050e-03 
+*LOADS
+*RC async_rstn_synchronizer/r_ff_reg:CK 0.000e+00
+*RC async_rstn_synchronizer/o_RSTN_reg:CK 0.000e+00
+*END
+
+*R_NET o_RSTN 1.350e-02
+*DRIVER async_rstn_synchronizer/o_RSTN_reg:Q
+*CELL fd2qd1_hd
+*C2_R1_C1 6.750e-03 7.370e-03 6.750e-03 
+*LOADS
+*RC o_RSTN 9.950e-05
+*END
+
+*R_NET async_rstn_synchronizer/r_ff 4.680e-03
+*DRIVER async_rstn_synchronizer/r_ff_reg:Q
+*CELL fd2qd1_hd
+*C2_R1_C1 2.340e-03 7.370e-03 2.340e-03 
+*LOADS
+*RC async_rstn_synchronizer/o_RSTN_reg:D 3.449e-05
+*END

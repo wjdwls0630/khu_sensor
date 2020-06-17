@@ -825,8 +825,19 @@ always @* begin
     end
 end
 
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
+
 always @(posedge i_CLK) begin
-  if (!i_RSTN) begin
+  if (!w_rstn) begin
 	  r_prescale <= 16'd125;
     state_reg <= STATE_IDLE;
     phy_state_reg <= PHY_STATE_IDLE;

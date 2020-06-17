@@ -4,8 +4,9 @@ module divider_by_2 (
   output reg o_CLK_DIV_2
   );
 
+  // After reset, starting with same rising edge with skew
   always @ ( posedge i_CLK, negedge i_RSTN ) begin
-    if(!i_RSTN) o_CLK_DIV_2 <= 1'b0;
+    if(!i_RSTN) o_CLK_DIV_2 <= 1'b1;
     else o_CLK_DIV_2 <= ~o_CLK_DIV_2;
   end
 

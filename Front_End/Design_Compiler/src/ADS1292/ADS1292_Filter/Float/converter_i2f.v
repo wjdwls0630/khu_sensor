@@ -10,7 +10,7 @@ module converter_i2f(
   input i_Z_ACK, // A flag that external module get data, so, o_Z is going to meaningless
   // it can be used as elongating o_Z_STB High (1)
   input i_CLK, // clock
-  input i_RST // reset activate High(1)(asynchronous)
+  input i_RST // reset activate High(1)(synchronous)
   );
 
   reg       [2:0] state;
@@ -28,6 +28,10 @@ module converter_i2f(
   reg [7:0] z_e;
   reg z_s;
   reg guard, round_bit, sticky;
+  // sync_set_reset directive does not affect the logical behavior of a design 
+  // instead it only impacts the functional implementation of design 
+  // this swithch make DC avoid re-synthesizing the design late 
+  // synopsys sync_set_reset "i_RST"
 
   always @(posedge i_CLK)
   begin

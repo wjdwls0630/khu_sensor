@@ -13,12 +13,22 @@
 `timescale 1ns/1ns
 module uart_rx(
    input        i_CLK,
-   input			  i_RST,
+   input			  i_RSTN,
    input        i_Rx_Serial,
    output       o_Rx_DV,
    output [7:0] o_Rx_Byte
 
    );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
 
   localparam s_IDLE         = 3'b000;
   localparam s_RX_START_BIT = 3'b001;
@@ -39,8 +49,8 @@ module uart_rx(
   // Purpose: Double-register the incoming data.
   // This allows it to be used in the UART RX Clock Domain.
   // (It removes problems caused by metastability)
-  always @(posedge i_CLK, posedge i_RST)begin
-	 if(i_RST)begin
+  always @(posedge i_CLK, posedge w_rst)begin
+	 if(w_rst)begin
 		r_Rx_Data_R<=1'b1;
 		r_Rx_Data<=1'b1;
 	 end
@@ -52,9 +62,9 @@ end
 
 
   // Purpose: Control RX state machine
-  always @(posedge i_CLK, posedge i_RST)
+  always @(posedge i_CLK, posedge w_rst)
     begin
-    if(i_RST)begin
+    if(w_rst)begin
 		r_Clock_Count<=8'b0;
 		r_Bit_Index<=3'b0;
 		r_Rx_Byte<=8'b0;

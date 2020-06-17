@@ -14,12 +14,22 @@
 module uart_tx
   (
    input       i_CLK,
-   input 		   i_RST,
+   input 		   i_RSTN,
    input       i_Tx_DV,
    input [7:0] i_Tx_Byte,
    output reg  o_Tx_Serial,
    output      o_Tx_Done
    );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
 
   localparam s_IDLE         = 3'b000;
   localparam s_TX_START_BIT = 3'b001;
@@ -33,8 +43,8 @@ module uart_tx
   reg [7:0]    r_Tx_Data;
   reg          r_Tx_Done;
 
-  always @(posedge i_CLK, posedge i_RST) begin
-	 if(i_RST)begin
+  always @(posedge i_CLK, posedge w_rst) begin
+	 if(w_rst)begin
 		r_SM_Main<=3'b0;
 		r_Clock_Count<=8'b0;
 		r_Bit_Index<=3'b0;

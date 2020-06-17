@@ -15,200 +15,178 @@ module uart_rx_DW01_inc_0 ( A, SUM );
 endmodule
 
 
-module uart_rx ( i_CLK, i_RST, i_Rx_Serial, o_Rx_DV, o_Rx_Byte );
+module uart_rx ( i_CLK, i_RSTN, i_Rx_Serial, o_Rx_DV, o_Rx_Byte );
   output [7:0] o_Rx_Byte;
-  input i_CLK, i_RST, i_Rx_Serial;
+  input i_CLK, i_RSTN, i_Rx_Serial;
   output o_Rx_DV;
-  wire   r_Rx_Data, r_Rx_Data_R, N31, N32, N33, N34, N35, N36, N39, N42, N45,
-         N52, N53, N54, N55, N56, N57, N58, N59, N71, N72, N85, N86, N129,
+  wire   w_rst, r_Rx_Data, r_Rx_Data_R, N31, N32, N33, N34, N35, N36, N39, N42,
+         N45, N52, N53, N54, N55, N56, N57, N58, N59, N71, N72, N85, N86, N129,
          N130, N131, N132, N133, N134, N135, N136, N137, N138, N139, N140,
          N141, N142, N143, N144, N146, N147, N148, N149, N150, N151, N152,
          N153, N155, N156, N157, N158, N159, N160, N161, N162, N163, N164,
-         N165, N169, N172, N175, N176, N177, N178, N179, N180, N181, N182,
-         N183, N184, N185, N186, N187, N188, N189, N190, add_x_3_n1,
-         lt_x_2_n13, lt_x_2_n9, lt_x_2_n7, lt_x_2_n5, n1, n2, n3, n4, n5, n6,
-         n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20,
-         n21, n22, n23, n24, n25, n26, n28, n29, n30, n31, n32, n33, n35, n36,
-         n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51,
-         n52, n53, n54, n55, n56, n57, n61, n62, n63, n64, n65, n66, n67;
+         N169, N172, N175, N176, N177, N178, N179, N180, N181, N182, N183,
+         N184, N185, N186, N187, N188, N189, N190, add_x_3_n1, lt_x_2_n13,
+         lt_x_2_n9, lt_x_2_n7, lt_x_2_n5, n1, n2, n4, n5, n6, n7, n8, n9, n11,
+         n12, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26,
+         n27, n28, n29, n30, n31, n32, n33, n36, n37, n38, n39, n40, n41, n42,
+         n43;
   wire   [2:0] r_SM_Main;
   wire   [7:0] r_Clock_Count;
   wire   [2:0] r_Bit_Index;
 
+  async_rst_synchronizer async_rst_synchronizer ( .i_CLK(i_CLK), .i_RSTN(
+        i_RSTN), .o_RST(w_rst) );
   had1_hd add_x_3_U2 ( .A(r_Bit_Index[1]), .B(r_Bit_Index[0]), .CO(add_x_3_n1), 
         .S(N85) );
   nr2d1_hd lt_x_2_U9 ( .A(lt_x_2_n9), .B(lt_x_2_n7), .Y(lt_x_2_n5) );
-  fd3qd1_hd r_Rx_Data_R_reg ( .D(i_Rx_Serial), .CK(i_CLK), .SN(n25), .Q(
+  fd3qd1_hd r_Rx_Data_R_reg ( .D(i_Rx_Serial), .CK(i_CLK), .SN(n1), .Q(
         r_Rx_Data_R) );
-  ivd1_hd U3 ( .A(i_RST), .Y(n1) );
-  ivd1_hd U4 ( .A(i_RST), .Y(n2) );
-  ivd1_hd U5 ( .A(i_RST), .Y(n3) );
-  ivd1_hd U6 ( .A(i_RST), .Y(n4) );
-  ivd1_hd U7 ( .A(i_RST), .Y(n5) );
-  ivd1_hd U8 ( .A(i_RST), .Y(n6) );
-  ivd1_hd U9 ( .A(i_RST), .Y(n7) );
-  ivd1_hd U10 ( .A(i_RST), .Y(n8) );
-  ivd1_hd U11 ( .A(i_RST), .Y(n9) );
-  ivd1_hd U12 ( .A(i_RST), .Y(n10) );
-  ivd1_hd U13 ( .A(i_RST), .Y(n11) );
-  ivd1_hd U14 ( .A(i_RST), .Y(n12) );
-  ivd1_hd U15 ( .A(i_RST), .Y(n13) );
-  ivd1_hd U16 ( .A(i_RST), .Y(n14) );
-  ivd1_hd U17 ( .A(i_RST), .Y(n15) );
-  ivd1_hd U18 ( .A(i_RST), .Y(n16) );
-  ivd1_hd U19 ( .A(i_RST), .Y(n17) );
-  ivd1_hd U20 ( .A(i_RST), .Y(n18) );
-  ivd1_hd U21 ( .A(i_RST), .Y(n19) );
-  ivd1_hd U22 ( .A(i_RST), .Y(n20) );
-  ivd1_hd U23 ( .A(i_RST), .Y(n21) );
-  ivd1_hd U24 ( .A(i_RST), .Y(n22) );
-  ivd1_hd U25 ( .A(i_RST), .Y(n23) );
-  ivd1_hd U26 ( .A(i_RST), .Y(n24) );
-  ivd1_hd U27 ( .A(i_RST), .Y(n25) );
-  ad2d1_hd U32 ( .A(N176), .B(n26), .Y(N153) );
-  ad2d1_hd U33 ( .A(N178), .B(n26), .Y(N152) );
-  ad2d1_hd U34 ( .A(N180), .B(n26), .Y(N151) );
-  ad2d1_hd U35 ( .A(N182), .B(n26), .Y(N150) );
-  ad2d1_hd U36 ( .A(N184), .B(n26), .Y(N149) );
-  ad2d1_hd U37 ( .A(N186), .B(n26), .Y(N148) );
-  ad2d1_hd U38 ( .A(N188), .B(n26), .Y(N147) );
-  ad2d1_hd U39 ( .A(N190), .B(n26), .Y(N146) );
-  oa211d1_hd U40 ( .A(N165), .B(n28), .C(n29), .D(n30), .Y(N144) );
-  scg7d1_hd U42 ( .A(n26), .B(n66), .C(N35), .D(n31), .E(n32), .Y(N143) );
-  nr2bd1_hd U43 ( .AN(N86), .B(n33), .Y(N142) );
-  nr2bd1_hd U44 ( .AN(N85), .B(n33), .Y(N141) );
-  nr2d1_hd U45 ( .A(r_Bit_Index[0]), .B(n33), .Y(N140) );
-  or2d1_hd U46 ( .A(n66), .B(n30), .Y(n33) );
-  or2d1_hd U47 ( .A(n26), .B(N35), .Y(N139) );
-  nr2d1_hd U48 ( .A(N71), .B(n30), .Y(n26) );
-  ivd1_hd U49 ( .A(n64), .Y(n30) );
-  nr2bd1_hd U50 ( .AN(N59), .B(n35), .Y(N138) );
-  nr2bd1_hd U51 ( .AN(N58), .B(n35), .Y(N137) );
-  nr2bd1_hd U52 ( .AN(N57), .B(n35), .Y(N136) );
-  nr2bd1_hd U53 ( .AN(N56), .B(n35), .Y(N135) );
-  nr2bd1_hd U54 ( .AN(N55), .B(n35), .Y(N134) );
-  nr2bd1_hd U55 ( .AN(N54), .B(n35), .Y(N133) );
-  nr2bd1_hd U56 ( .AN(N53), .B(n35), .Y(N132) );
-  nr2bd1_hd U57 ( .AN(N52), .B(n35), .Y(N131) );
-  ao21d1_hd U58 ( .A(n64), .B(N71), .C(n32), .Y(n35) );
-  scg17d1_hd U62 ( .A(n62), .B(n31), .C(N172), .D(n36), .Y(N130) );
-  or2d1_hd U65 ( .A(N169), .B(n63), .Y(N129) );
+  ad2d1_hd U8 ( .A(N176), .B(n2), .Y(N153) );
+  ad2d1_hd U9 ( .A(N178), .B(n2), .Y(N152) );
+  ad2d1_hd U10 ( .A(N180), .B(n2), .Y(N151) );
+  ad2d1_hd U11 ( .A(N182), .B(n2), .Y(N150) );
+  ad2d1_hd U12 ( .A(N184), .B(n2), .Y(N149) );
+  ad2d1_hd U13 ( .A(N186), .B(n2), .Y(N148) );
+  ad2d1_hd U14 ( .A(N188), .B(n2), .Y(N147) );
+  ad2d1_hd U15 ( .A(N190), .B(n2), .Y(N146) );
+  oa211d1_hd U16 ( .A(n39), .B(n4), .C(n5), .D(n6), .Y(N144) );
+  scg7d1_hd U18 ( .A(n2), .B(n42), .C(N35), .D(n7), .E(n8), .Y(N143) );
+  nr2bd1_hd U19 ( .AN(N86), .B(n9), .Y(N142) );
+  nr2bd1_hd U20 ( .AN(N85), .B(n9), .Y(N141) );
+  nr2d1_hd U21 ( .A(r_Bit_Index[0]), .B(n9), .Y(N140) );
+  or2d1_hd U22 ( .A(n42), .B(n6), .Y(n9) );
+  or2d1_hd U23 ( .A(n2), .B(N35), .Y(N139) );
+  nr2d1_hd U24 ( .A(N71), .B(n6), .Y(n2) );
+  ivd1_hd U25 ( .A(n40), .Y(n6) );
+  nr2bd1_hd U26 ( .AN(N59), .B(n11), .Y(N138) );
+  nr2bd1_hd U27 ( .AN(N58), .B(n11), .Y(N137) );
+  nr2bd1_hd U28 ( .AN(N57), .B(n11), .Y(N136) );
+  nr2bd1_hd U29 ( .AN(N56), .B(n11), .Y(N135) );
+  nr2bd1_hd U30 ( .AN(N55), .B(n11), .Y(N134) );
+  nr2bd1_hd U31 ( .AN(N54), .B(n11), .Y(N133) );
+  nr2bd1_hd U32 ( .AN(N53), .B(n11), .Y(N132) );
+  nr2bd1_hd U33 ( .AN(N52), .B(n11), .Y(N131) );
+  ao21d1_hd U34 ( .A(n40), .B(N71), .C(n8), .Y(n11) );
+  scg17d1_hd U38 ( .A(n37), .B(n7), .C(N172), .D(n12), .Y(N130) );
+  or2d1_hd U41 ( .A(N169), .B(n38), .Y(N129) );
   uart_rx_DW01_inc_0 add_x_1 ( .A(r_Clock_Count), .SUM({N59, N58, N57, N56, 
         N55, N54, N53, N52}) );
-  fd2d1_hd r_Bit_Index_reg_0_ ( .D(n57), .CK(i_CLK), .RN(n23), .Q(
+  fd2d1_hd r_Bit_Index_reg_0_ ( .D(n33), .CK(i_CLK), .RN(n1), .Q(
         r_Bit_Index[0]), .QN(lt_x_2_n13) );
-  fd2d1_hd r_Bit_Index_reg_1_ ( .D(n48), .CK(i_CLK), .RN(n11), .Q(
+  fd2d1_hd r_Bit_Index_reg_1_ ( .D(n24), .CK(i_CLK), .RN(n1), .Q(
         r_Bit_Index[1]), .QN(lt_x_2_n9) );
-  fd2d1_hd r_Bit_Index_reg_2_ ( .D(n47), .CK(i_CLK), .RN(n10), .Q(
+  fd2d1_hd r_Bit_Index_reg_2_ ( .D(n23), .CK(i_CLK), .RN(n1), .Q(
         r_Bit_Index[2]), .QN(lt_x_2_n7) );
-  fd2d1_hd r_SM_Main_reg_2_ ( .D(n63), .CK(i_CLK), .RN(n12), .Q(r_SM_Main[2]), 
-        .QN(N31) );
-  fd2d1_hd r_Rx_DV_reg ( .D(n38), .CK(i_CLK), .RN(n1), .Q(o_Rx_DV) );
-  fd2d1_hd r_SM_Main_reg_1_ ( .D(N144), .CK(i_CLK), .RN(n13), .Q(r_SM_Main[1]), 
-        .QN(N32) );
-  fd2d1_hd r_Rx_Byte_reg_7_ ( .D(n46), .CK(i_CLK), .RN(n9), .Q(o_Rx_Byte[7])
+  fd2qd1_hd r_SM_Main_reg_2_ ( .D(n38), .CK(i_CLK), .RN(n1), .Q(r_SM_Main[2])
          );
-  fd2d1_hd r_Rx_Byte_reg_6_ ( .D(n45), .CK(i_CLK), .RN(n8), .Q(o_Rx_Byte[6])
+  fd2qd1_hd r_Rx_DV_reg ( .D(n14), .CK(i_CLK), .RN(n1), .Q(o_Rx_DV) );
+  fd2qd1_hd r_SM_Main_reg_1_ ( .D(N144), .CK(i_CLK), .RN(n1), .Q(r_SM_Main[1])
          );
-  fd2d1_hd r_Rx_Byte_reg_5_ ( .D(n44), .CK(i_CLK), .RN(n7), .Q(o_Rx_Byte[5])
+  fd2qd1_hd r_Rx_Byte_reg_7_ ( .D(n22), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[7])
          );
-  fd2d1_hd r_Rx_Byte_reg_4_ ( .D(n43), .CK(i_CLK), .RN(n6), .Q(o_Rx_Byte[4])
+  fd2qd1_hd r_Rx_Byte_reg_6_ ( .D(n21), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[6])
          );
-  fd2d1_hd r_Rx_Byte_reg_3_ ( .D(n42), .CK(i_CLK), .RN(n5), .Q(o_Rx_Byte[3])
+  fd2qd1_hd r_Rx_Byte_reg_5_ ( .D(n20), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[5])
          );
-  fd2d1_hd r_Rx_Byte_reg_2_ ( .D(n41), .CK(i_CLK), .RN(n4), .Q(o_Rx_Byte[2])
+  fd2qd1_hd r_Rx_Byte_reg_4_ ( .D(n19), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[4])
          );
-  fd2d1_hd r_Rx_Byte_reg_1_ ( .D(n40), .CK(i_CLK), .RN(n3), .Q(o_Rx_Byte[1])
+  fd2qd1_hd r_Rx_Byte_reg_3_ ( .D(n18), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[3])
          );
-  fd2d1_hd r_Rx_Byte_reg_0_ ( .D(n39), .CK(i_CLK), .RN(n2), .Q(o_Rx_Byte[0])
+  fd2qd1_hd r_Rx_Byte_reg_2_ ( .D(n17), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[2])
          );
-  fd2d1_hd r_Clock_Count_reg_7_ ( .D(n56), .CK(i_CLK), .RN(n21), .Q(
+  fd2qd1_hd r_Rx_Byte_reg_1_ ( .D(n16), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[1])
+         );
+  fd2qd1_hd r_Rx_Byte_reg_0_ ( .D(n15), .CK(i_CLK), .RN(n1), .Q(o_Rx_Byte[0])
+         );
+  fd2qd1_hd r_Clock_Count_reg_7_ ( .D(n32), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[7]) );
-  fd2d1_hd r_Clock_Count_reg_4_ ( .D(n51), .CK(i_CLK), .RN(n16), .Q(
+  fd2qd1_hd r_Clock_Count_reg_4_ ( .D(n27), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[4]) );
-  fd2d1_hd r_Clock_Count_reg_1_ ( .D(n54), .CK(i_CLK), .RN(n19), .Q(
+  fd2qd1_hd r_Clock_Count_reg_1_ ( .D(n30), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[1]) );
-  fd2d1_hd r_Clock_Count_reg_0_ ( .D(n55), .CK(i_CLK), .RN(n20), .Q(
+  fd2qd1_hd r_Clock_Count_reg_0_ ( .D(n31), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[0]) );
-  fd4qd1_hd r_SM_Main_reg_0_ ( .D(N143), .CK(i_CLK), .SN(1'b1), .RN(n22), .Q(
-        r_SM_Main[0]) );
-  fd2d1_hd r_Clock_Count_reg_2_ ( .D(n53), .CK(i_CLK), .RN(n18), .Q(
+  fd2qd1_hd r_SM_Main_reg_0_ ( .D(N143), .CK(i_CLK), .RN(n1), .Q(r_SM_Main[0])
+         );
+  fd2d1_hd r_Clock_Count_reg_2_ ( .D(n29), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[2]), .QN(N158) );
-  fd2d1_hd r_Clock_Count_reg_3_ ( .D(n52), .CK(i_CLK), .RN(n17), .Q(
+  fd2d1_hd r_Clock_Count_reg_3_ ( .D(n28), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[3]), .QN(N157) );
-  fd2d1_hd r_Clock_Count_reg_5_ ( .D(n50), .CK(i_CLK), .RN(n15), .Q(
+  fd2d1_hd r_Clock_Count_reg_5_ ( .D(n26), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[5]), .QN(N156) );
-  fd2d1_hd r_Clock_Count_reg_6_ ( .D(n49), .CK(i_CLK), .RN(n14), .Q(
+  fd2d1_hd r_Clock_Count_reg_6_ ( .D(n25), .CK(i_CLK), .RN(n1), .Q(
         r_Clock_Count[6]), .QN(N155) );
-  fd3qd1_hd r_Rx_Data_reg ( .D(r_Rx_Data_R), .CK(i_CLK), .SN(n24), .Q(
-        r_Rx_Data) );
-  or2d1_hd U90 ( .A(r_Clock_Count[4]), .B(N160), .Y(N161) );
-  or2d1_hd U91 ( .A(N156), .B(N159), .Y(N160) );
-  or2d1_hd U92 ( .A(N155), .B(r_Clock_Count[7]), .Y(N159) );
-  clknd2d1_hd U93 ( .A(n62), .B(N165), .Y(n36) );
-  or2d1_hd U94 ( .A(r_SM_Main[2]), .B(N32), .Y(N39) );
-  clknd2d1_hd U95 ( .A(n29), .B(n36), .Y(n32) );
-  or2d1_hd U96 ( .A(r_Clock_Count[1]), .B(N163), .Y(N164) );
-  or2d1_hd U97 ( .A(N158), .B(N162), .Y(N163) );
-  or2d1_hd U98 ( .A(N157), .B(N161), .Y(N162) );
-  clknd2d1_hd U99 ( .A(n61), .B(N71), .Y(n29) );
-  or2d1_hd U100 ( .A(r_SM_Main[2]), .B(r_SM_Main[1]), .Y(N36) );
-  or2d1_hd U101 ( .A(N31), .B(r_SM_Main[1]), .Y(N45) );
-  ad2d1_hd U102 ( .A(N34), .B(N33), .Y(N35) );
-  ad2d1_hd U103 ( .A(N31), .B(N32), .Y(N34) );
-  or2d1_hd U104 ( .A(r_SM_Main[2]), .B(N32), .Y(N42) );
-  mx2d1_hd U105 ( .D0(r_Clock_Count[0]), .D1(N131), .S(N130), .Y(n55) );
-  mx2d1_hd U106 ( .D0(r_Clock_Count[1]), .D1(N132), .S(N130), .Y(n54) );
-  mx2d1_hd U107 ( .D0(r_Clock_Count[4]), .D1(N135), .S(N130), .Y(n51) );
-  mx2d1_hd U108 ( .D0(r_Clock_Count[7]), .D1(N138), .S(N130), .Y(n56) );
-  mx2d1_hd U109 ( .D0(o_Rx_Byte[0]), .D1(r_Rx_Data), .S(N146), .Y(n39) );
-  ad2d1_hd U110 ( .A(N189), .B(lt_x_2_n7), .Y(N190) );
-  ad2d1_hd U111 ( .A(lt_x_2_n13), .B(lt_x_2_n9), .Y(N189) );
-  mx2d1_hd U112 ( .D0(o_Rx_Byte[1]), .D1(r_Rx_Data), .S(N147), .Y(n40) );
-  ad2d1_hd U113 ( .A(N187), .B(lt_x_2_n7), .Y(N188) );
-  ad2d1_hd U114 ( .A(r_Bit_Index[0]), .B(lt_x_2_n9), .Y(N187) );
-  mx2d1_hd U115 ( .D0(o_Rx_Byte[2]), .D1(r_Rx_Data), .S(N148), .Y(n41) );
-  ad2d1_hd U116 ( .A(N185), .B(lt_x_2_n7), .Y(N186) );
-  ad2d1_hd U117 ( .A(lt_x_2_n13), .B(r_Bit_Index[1]), .Y(N185) );
-  mx2d1_hd U118 ( .D0(o_Rx_Byte[3]), .D1(r_Rx_Data), .S(N149), .Y(n42) );
-  ad2d1_hd U119 ( .A(N183), .B(lt_x_2_n7), .Y(N184) );
-  ad2d1_hd U120 ( .A(r_Bit_Index[0]), .B(r_Bit_Index[1]), .Y(N183) );
-  mx2d1_hd U121 ( .D0(o_Rx_Byte[4]), .D1(r_Rx_Data), .S(N150), .Y(n43) );
-  ad2d1_hd U122 ( .A(N181), .B(r_Bit_Index[2]), .Y(N182) );
-  ad2d1_hd U123 ( .A(lt_x_2_n13), .B(lt_x_2_n9), .Y(N181) );
-  mx2d1_hd U124 ( .D0(o_Rx_Byte[5]), .D1(r_Rx_Data), .S(N151), .Y(n44) );
-  ad2d1_hd U125 ( .A(N179), .B(r_Bit_Index[2]), .Y(N180) );
-  ad2d1_hd U126 ( .A(r_Bit_Index[0]), .B(lt_x_2_n9), .Y(N179) );
-  mx2d1_hd U127 ( .D0(o_Rx_Byte[6]), .D1(r_Rx_Data), .S(N152), .Y(n45) );
-  ad2d1_hd U128 ( .A(N177), .B(r_Bit_Index[2]), .Y(N178) );
-  ad2d1_hd U129 ( .A(lt_x_2_n13), .B(r_Bit_Index[1]), .Y(N177) );
-  mx2d1_hd U130 ( .D0(o_Rx_Byte[7]), .D1(r_Rx_Data), .S(N153), .Y(n46) );
-  ad2d1_hd U131 ( .A(N175), .B(r_Bit_Index[2]), .Y(N176) );
-  ad2d1_hd U132 ( .A(r_Bit_Index[0]), .B(r_Bit_Index[1]), .Y(N175) );
-  clknd2d1_hd U133 ( .A(n62), .B(n31), .Y(n28) );
-  mx2d1_hd U134 ( .D0(o_Rx_DV), .D1(n61), .S(N129), .Y(n38) );
-  mx2d1_hd U135 ( .D0(r_Bit_Index[2]), .D1(N142), .S(N139), .Y(n47) );
-  xo2d1_hd U136 ( .A(add_x_3_n1), .B(r_Bit_Index[2]), .Y(N86) );
-  mx2d1_hd U137 ( .D0(r_Bit_Index[1]), .D1(N141), .S(N139), .Y(n48) );
-  mx2d1_hd U138 ( .D0(r_Bit_Index[0]), .D1(N140), .S(N139), .Y(n57) );
-  mx2d1_hd U139 ( .D0(r_Clock_Count[6]), .D1(N137), .S(N130), .Y(n49) );
-  mx2d1_hd U140 ( .D0(r_Clock_Count[5]), .D1(N136), .S(N130), .Y(n50) );
-  mx2d1_hd U141 ( .D0(r_Clock_Count[3]), .D1(N134), .S(N130), .Y(n52) );
-  mx2d1_hd U142 ( .D0(r_Clock_Count[2]), .D1(N133), .S(N130), .Y(n53) );
-  ivd1_hd U143 ( .A(r_SM_Main[0]), .Y(N33) );
-  ivd1_hd U145 ( .A(r_Rx_Data), .Y(n31) );
-  ivd1_hd U146 ( .A(N71), .Y(N72) );
-  nr2d1_hd U147 ( .A(N42), .B(N33), .Y(n61) );
-  nr2d1_hd U148 ( .A(N36), .B(N33), .Y(n62) );
-  ad2d1_hd U149 ( .A(N72), .B(n61), .Y(n63) );
-  or2d1_hd U150 ( .A(r_Clock_Count[0]), .B(N164), .Y(N165) );
-  nr2d1_hd U151 ( .A(N39), .B(r_SM_Main[0]), .Y(n64) );
-  or3d1_hd U152 ( .A(N35), .B(n64), .C(n61), .Y(N172) );
-  nr2d1_hd U153 ( .A(N45), .B(r_SM_Main[0]), .Y(n65) );
-  or2d1_hd U154 ( .A(N35), .B(n65), .Y(N169) );
-  ad2d1_hd U155 ( .A(lt_x_2_n5), .B(r_Bit_Index[0]), .Y(n66) );
-  ad2d1_hd U156 ( .A(r_Clock_Count[3]), .B(r_Clock_Count[4]), .Y(n67) );
-  oa211d1_hd U157 ( .A(n67), .B(r_Clock_Count[5]), .C(r_Clock_Count[6]), .D(
+  fd3qd1_hd r_Rx_Data_reg ( .D(r_Rx_Data_R), .CK(i_CLK), .SN(n1), .Q(r_Rx_Data) );
+  or2d1_hd U66 ( .A(r_Clock_Count[4]), .B(N160), .Y(N161) );
+  or2d1_hd U67 ( .A(N156), .B(N159), .Y(N160) );
+  or2d1_hd U68 ( .A(N155), .B(r_Clock_Count[7]), .Y(N159) );
+  ivd1_hd U69 ( .A(r_SM_Main[2]), .Y(N31) );
+  ivd1_hd U70 ( .A(r_SM_Main[1]), .Y(N32) );
+  clknd2d1_hd U71 ( .A(n37), .B(n39), .Y(n12) );
+  or2d1_hd U72 ( .A(r_SM_Main[2]), .B(N32), .Y(N39) );
+  clknd2d1_hd U73 ( .A(n5), .B(n12), .Y(n8) );
+  or2d1_hd U74 ( .A(r_Clock_Count[1]), .B(N163), .Y(N164) );
+  or2d1_hd U75 ( .A(N158), .B(N162), .Y(N163) );
+  or2d1_hd U76 ( .A(N157), .B(N161), .Y(N162) );
+  clknd2d1_hd U77 ( .A(n36), .B(N71), .Y(n5) );
+  or2d1_hd U78 ( .A(r_SM_Main[2]), .B(r_SM_Main[1]), .Y(N36) );
+  or2d1_hd U79 ( .A(N31), .B(r_SM_Main[1]), .Y(N45) );
+  ad2d1_hd U80 ( .A(N34), .B(N33), .Y(N35) );
+  ad2d1_hd U81 ( .A(N31), .B(N32), .Y(N34) );
+  or2d1_hd U82 ( .A(r_SM_Main[2]), .B(N32), .Y(N42) );
+  mx2d1_hd U83 ( .D0(r_Clock_Count[0]), .D1(N131), .S(N130), .Y(n31) );
+  mx2d1_hd U84 ( .D0(r_Clock_Count[1]), .D1(N132), .S(N130), .Y(n30) );
+  mx2d1_hd U85 ( .D0(r_Clock_Count[4]), .D1(N135), .S(N130), .Y(n27) );
+  mx2d1_hd U86 ( .D0(r_Clock_Count[7]), .D1(N138), .S(N130), .Y(n32) );
+  mx2d1_hd U87 ( .D0(o_Rx_Byte[0]), .D1(r_Rx_Data), .S(N146), .Y(n15) );
+  ad2d1_hd U88 ( .A(N189), .B(lt_x_2_n7), .Y(N190) );
+  ad2d1_hd U89 ( .A(lt_x_2_n13), .B(lt_x_2_n9), .Y(N189) );
+  mx2d1_hd U90 ( .D0(o_Rx_Byte[1]), .D1(r_Rx_Data), .S(N147), .Y(n16) );
+  ad2d1_hd U91 ( .A(N187), .B(lt_x_2_n7), .Y(N188) );
+  ad2d1_hd U92 ( .A(r_Bit_Index[0]), .B(lt_x_2_n9), .Y(N187) );
+  mx2d1_hd U93 ( .D0(o_Rx_Byte[2]), .D1(r_Rx_Data), .S(N148), .Y(n17) );
+  ad2d1_hd U94 ( .A(N185), .B(lt_x_2_n7), .Y(N186) );
+  ad2d1_hd U95 ( .A(lt_x_2_n13), .B(r_Bit_Index[1]), .Y(N185) );
+  mx2d1_hd U96 ( .D0(o_Rx_Byte[3]), .D1(r_Rx_Data), .S(N149), .Y(n18) );
+  ad2d1_hd U97 ( .A(N183), .B(lt_x_2_n7), .Y(N184) );
+  ad2d1_hd U98 ( .A(r_Bit_Index[0]), .B(r_Bit_Index[1]), .Y(N183) );
+  mx2d1_hd U99 ( .D0(o_Rx_Byte[4]), .D1(r_Rx_Data), .S(N150), .Y(n19) );
+  ad2d1_hd U100 ( .A(N181), .B(r_Bit_Index[2]), .Y(N182) );
+  ad2d1_hd U101 ( .A(lt_x_2_n13), .B(lt_x_2_n9), .Y(N181) );
+  mx2d1_hd U102 ( .D0(o_Rx_Byte[5]), .D1(r_Rx_Data), .S(N151), .Y(n20) );
+  ad2d1_hd U103 ( .A(N179), .B(r_Bit_Index[2]), .Y(N180) );
+  ad2d1_hd U104 ( .A(r_Bit_Index[0]), .B(lt_x_2_n9), .Y(N179) );
+  mx2d1_hd U105 ( .D0(o_Rx_Byte[6]), .D1(r_Rx_Data), .S(N152), .Y(n21) );
+  ad2d1_hd U106 ( .A(N177), .B(r_Bit_Index[2]), .Y(N178) );
+  ad2d1_hd U107 ( .A(lt_x_2_n13), .B(r_Bit_Index[1]), .Y(N177) );
+  mx2d1_hd U108 ( .D0(o_Rx_Byte[7]), .D1(r_Rx_Data), .S(N153), .Y(n22) );
+  ad2d1_hd U109 ( .A(N175), .B(r_Bit_Index[2]), .Y(N176) );
+  ad2d1_hd U110 ( .A(r_Bit_Index[0]), .B(r_Bit_Index[1]), .Y(N175) );
+  clknd2d1_hd U111 ( .A(n37), .B(n7), .Y(n4) );
+  mx2d1_hd U112 ( .D0(o_Rx_DV), .D1(n36), .S(N129), .Y(n14) );
+  mx2d1_hd U113 ( .D0(r_Bit_Index[2]), .D1(N142), .S(N139), .Y(n23) );
+  xo2d1_hd U114 ( .A(add_x_3_n1), .B(r_Bit_Index[2]), .Y(N86) );
+  mx2d1_hd U115 ( .D0(r_Bit_Index[1]), .D1(N141), .S(N139), .Y(n24) );
+  mx2d1_hd U116 ( .D0(r_Bit_Index[0]), .D1(N140), .S(N139), .Y(n33) );
+  mx2d1_hd U117 ( .D0(r_Clock_Count[6]), .D1(N137), .S(N130), .Y(n25) );
+  mx2d1_hd U118 ( .D0(r_Clock_Count[5]), .D1(N136), .S(N130), .Y(n26) );
+  mx2d1_hd U119 ( .D0(r_Clock_Count[3]), .D1(N134), .S(N130), .Y(n28) );
+  mx2d1_hd U120 ( .D0(r_Clock_Count[2]), .D1(N133), .S(N130), .Y(n29) );
+  ivd2_hd U121 ( .A(w_rst), .Y(n1) );
+  ivd1_hd U122 ( .A(r_SM_Main[0]), .Y(N33) );
+  ivd1_hd U123 ( .A(r_Rx_Data), .Y(n7) );
+  ivd1_hd U124 ( .A(N71), .Y(N72) );
+  nr2d1_hd U125 ( .A(N42), .B(N33), .Y(n36) );
+  nr2d1_hd U126 ( .A(N36), .B(N33), .Y(n37) );
+  ad2d1_hd U127 ( .A(N72), .B(n36), .Y(n38) );
+  or2d1_hd U128 ( .A(r_Clock_Count[0]), .B(N164), .Y(n39) );
+  nr2d1_hd U129 ( .A(N39), .B(r_SM_Main[0]), .Y(n40) );
+  or3d1_hd U130 ( .A(N35), .B(n40), .C(n36), .Y(N172) );
+  nr2d1_hd U131 ( .A(N45), .B(r_SM_Main[0]), .Y(n41) );
+  or2d1_hd U132 ( .A(N35), .B(n41), .Y(N169) );
+  ad2d1_hd U133 ( .A(lt_x_2_n5), .B(r_Bit_Index[0]), .Y(n42) );
+  ad2d1_hd U134 ( .A(r_Clock_Count[3]), .B(r_Clock_Count[4]), .Y(n43) );
+  oa211d1_hd U135 ( .A(n43), .B(r_Clock_Count[5]), .C(r_Clock_Count[6]), .D(
         r_Clock_Count[7]), .Y(N71) );
 endmodule
 

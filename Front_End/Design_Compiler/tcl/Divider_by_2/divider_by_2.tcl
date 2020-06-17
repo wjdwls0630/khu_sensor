@@ -16,6 +16,7 @@ current_design $design
 # The link command locates the reference for each cell in the design.
 link
 
+set clk_main_period 10
 source "${tcl_path}default_constraints.tcl"
 
 echo "***********************************************************************"
@@ -24,6 +25,7 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
+remove_output_delay [get_ports o_CLK_DIV_2]
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -31,7 +33,7 @@ echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra -no_autoungroup -incremental
+compile_ultra -only_design_rule -incremental
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -45,4 +47,3 @@ write_sdf "${db_path}${dir}${t_w_path}${design}.sdf"
 write_sdc "${db_path}${dir}${t_w_path}${design}.sdc"
 write_parasitics -output "${db_path}${dir}${t_w_path}${design}_parasitics"
 
-source "${tcl_path}report.tcl"

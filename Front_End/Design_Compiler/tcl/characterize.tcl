@@ -6,6 +6,22 @@ echo "                        characterize.tcl                               "
 echo "                                                                       "
 echo "***********************************************************************"
 
+# Reset
+current_design iir_lpf
+characterize -constraint async_rstn_synchronizer
+current_design async_rstn_synchronizer
+write_script > "${tcl_path}Reset/async_rstn_synchronizer/async_rstn_synchronizer.wtcl"
+
+current_design iir_lpf
+characterize -constraint async_rst_synchronizer
+current_design async_rst_synchronizer
+write_script > "${tcl_path}Reset/async_rst_synchronizer/async_rst_synchronizer.wtcl"
+
+current_design khu_sensor_top
+characterize -constraint async_rstn_glitch_synchronizer
+current_design async_rstn_glitch_synchronizer
+write_script > "${tcl_path}Reset/async_rstn_glitch_synchronizer/async_rstn_glitch_synchronizer.wtcl"
+
 # MPR121
 current_design mpr121_controller
 characterize -constraint i2c_master

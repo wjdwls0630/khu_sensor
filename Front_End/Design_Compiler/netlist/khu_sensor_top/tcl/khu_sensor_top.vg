@@ -8,15 +8,15 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
   output UART_TXD, MPR121_SCL_OUT, MPR121_SDA_OUT, MPR121_SCL_EN,
          MPR121_SDA_EN, ADS1292_SCLK, ADS1292_MOSI, ADS1292_RESET,
          ADS1292_START, ADS1292_CSN;
-  wire   w_CLOCK_HALF, w_uart_data_tx_valid, w_uart_data_tx_ready,
-         w_uart_data_rx_valid, n_0_net_, w_mpr121_write_enable,
-         w_mpr121_read_enable, w_mpr121_init_set, w_mpr121_busy, w_mpr121_fail,
-         w_ads1292_init_set, w_ads1292_filtered_data_valid,
-         w_ads1292_filtered_data_ack, w_ads1292_busy, n_1_net_,
-         w_ads1292_data_valid, SYNOPSYS_UNCONNECTED_1, SYNOPSYS_UNCONNECTED_2,
-         SYNOPSYS_UNCONNECTED_3, SYNOPSYS_UNCONNECTED_4,
-         SYNOPSYS_UNCONNECTED_5, SYNOPSYS_UNCONNECTED_6,
-         SYNOPSYS_UNCONNECTED_7, SYNOPSYS_UNCONNECTED_8;
+  wire   w_rstn, w_CLOCK_HALF, w_uart_data_tx_valid, w_uart_data_tx_ready,
+         w_uart_data_rx_valid, w_mpr121_write_enable, w_mpr121_read_enable,
+         w_mpr121_init_set, w_mpr121_busy, w_mpr121_fail, w_ads1292_init_set,
+         w_ads1292_filtered_data_valid, w_ads1292_filtered_data_ack,
+         w_ads1292_busy, w_ads1292_data_valid, n1, SYNOPSYS_UNCONNECTED_1,
+         SYNOPSYS_UNCONNECTED_2, SYNOPSYS_UNCONNECTED_3,
+         SYNOPSYS_UNCONNECTED_4, SYNOPSYS_UNCONNECTED_5,
+         SYNOPSYS_UNCONNECTED_6, SYNOPSYS_UNCONNECTED_7,
+         SYNOPSYS_UNCONNECTED_8;
   wire   [55:0] w_uart_data_tx;
   wire   [15:0] w_uart_data_rx;
   wire   [7:0] w_mpr121_data_out;
@@ -29,7 +29,8 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
   wire   [7:0] w_ads1292_reg_data_out;
   wire   [23:0] w_ads1292_data_out;
 
-  divider_by_2 divider_by_2 ( .i_CLK(i_CLK), .i_RSTN(i_RSTN), .o_CLK_DIV_2(
+  async_rstn_glitch_synchronizer async_rstn_glitch_synchronizer ( .i_CLK(i_CLK), .i_RSTN(i_RSTN), .o_RSTN(w_rstn) );
+  divider_by_2 divider_by_2 ( .i_CLK(i_CLK), .i_RSTN(w_rstn), .o_CLK_DIV_2(
         w_CLOCK_HALF) );
   uart_controller uart_controller ( .i_UART_DATA_TX({w_uart_data_tx[55:53], 
         1'b0, w_uart_data_tx[51:24], 1'b0, 1'b0, 1'b0, 1'b0, 
@@ -38,7 +39,7 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
         .o_UART_DATA_TX_READY(w_uart_data_tx_ready), .o_UART_DATA_RX(
         w_uart_data_rx), .o_UART_DATA_RX_VALID(w_uart_data_rx_valid), 
         .i_CORE_BUSY(1'b0), .i_UART_RXD(UART_RXD), .o_UART_TXD(UART_TXD), 
-        .i_CLK(w_CLOCK_HALF), .i_RST(n_0_net_) );
+        .i_CLK(w_CLOCK_HALF), .i_RSTN(n1) );
   sensor_core sensor_core ( .o_UART_DATA_TX({w_uart_data_tx[55:53], 
         SYNOPSYS_UNCONNECTED_1, w_uart_data_tx[51:24], SYNOPSYS_UNCONNECTED_2, 
         SYNOPSYS_UNCONNECTED_3, SYNOPSYS_UNCONNECTED_4, SYNOPSYS_UNCONNECTED_5, 
@@ -59,7 +60,7 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
         w_ads1292_init_set), .i_ADS1292_FILTERED_DATA_VALID(
         w_ads1292_filtered_data_valid), .o_ADS1292_FILTERED_DATA_ACK(
         w_ads1292_filtered_data_ack), .i_ADS1292_BUSY(w_ads1292_busy), .i_CLK(
-        w_CLOCK_HALF), .i_RST(n_1_net_) );
+        w_CLOCK_HALF), .i_RSTN(n1) );
   mpr121_controller mpr121_controller ( .o_MPR121_DATA_OUT(w_mpr121_data_out), 
         .o_MPR121_REG_ADDR(w_mpr121_reg_addr), .i_MPR121_DATA_IN({
         w_mpr121_data_in[7:6], 1'b0, w_mpr121_data_in[4:0]}), 
@@ -69,12 +70,12 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
         .i_I2C_SCL_IN(MPR121_SCL_IN), .i_I2C_SDA_IN(MPR121_SDA_IN), 
         .o_I2C_SCL_OUT(MPR121_SCL_OUT), .o_I2C_SDA_OUT(MPR121_SDA_OUT), 
         .o_I2C_SCL_EN(MPR121_SCL_EN), .o_I2C_SDA_EN(MPR121_SDA_EN), .i_CLK(
-        i_CLK), .i_RSTN(i_RSTN) );
+        i_CLK), .i_RSTN(n1) );
   ads1292_filter ads1292_filter ( .i_ADS1292_DATA_OUT(w_ads1292_data_out), 
         .i_ADS1292_DATA_VALID(w_ads1292_data_valid), .o_ADS1292_FILTERED_DATA(
         w_ads1292_filtered_data), .o_ADS1292_FILTERED_DATA_VALID(
         w_ads1292_filtered_data_valid), .i_ADS1292_FILTERED_DATA_ACK(
-        w_ads1292_filtered_data_ack), .i_CLK(i_CLK), .i_RSTN(i_RSTN) );
+        w_ads1292_filtered_data_ack), .i_CLK(i_CLK), .i_RSTN(w_rstn) );
   ads1292_controller ads1292_controller ( .o_ADS1292_DATA_OUT(
         w_ads1292_data_out), .i_ADS1292_CONTROL(w_ads1292_control), 
         .i_ADS1292_REG_ADDR(w_ads1292_reg_addr), .i_ADS1292_DATA_IN(
@@ -83,8 +84,7 @@ module khu_sensor_top ( i_CLK, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL_IN,
         w_ads1292_data_valid), .o_ADS1292_BUSY(w_ads1292_busy), .o_SPI_CLK(
         ADS1292_SCLK), .i_SPI_MISO(ADS1292_MISO), .o_SPI_MOSI(ADS1292_MOSI), 
         .i_ADS1292_DRDY(ADS1292_DRDY), .o_ADS1292_RESET(ADS1292_RESET), 
-        .o_ADS1292_START(ADS1292_START), .o_SPI_CSN(ADS1292_CSN), .i_CLK(i_CLK), .i_RSTN(i_RSTN) );
-  ivd8_hd I_1 ( .A(i_RSTN), .Y(n_1_net_) );
-  ivd8_hd I_0 ( .A(i_RSTN), .Y(n_0_net_) );
+        .o_ADS1292_START(ADS1292_START), .o_SPI_CSN(ADS1292_CSN), .i_CLK(i_CLK), .i_RSTN(n1) );
+  nid1_hd U1 ( .A(w_rstn), .Y(n1) );
 endmodule
 

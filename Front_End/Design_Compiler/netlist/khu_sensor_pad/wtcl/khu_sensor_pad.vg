@@ -10,7 +10,7 @@ module khu_sensor_pad ( i_CLK, CLK_OUT, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL,
          w_mpr121_scl_en_p, w_mpr121_sda_en_p, w_mpr121_sda_out_p,
          w_mpr121_sda_in_p, w_uart_rx_p, w_uart_tx_p, w_ads1292_sclk_p,
          w_ads1292_miso_p, w_ads1292_mosi_p, w_ads1292_drdy_p,
-         w_ads1292_reset_p, w_ads1292_start_p, w_ads1292_csn_p;
+         w_ads1292_reset_p, w_ads1292_start_p, w_ads1292_csn_p, w_rstn, n1;
 
   vssoh pad1 (  );
   vssoh pad2 (  );
@@ -28,7 +28,7 @@ module khu_sensor_pad ( i_CLK, CLK_OUT, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL,
   vssoh pad14 (  );
   vssoh pad15 (  );
   vssoh pad16 (  );
-  phic pad17 ( .PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p) );
+  phis pad17 ( .PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p) );
   vssoh pad18 (  );
   vssoh pad19 (  );
   vssiph pad20 (  );
@@ -81,7 +81,7 @@ module khu_sensor_pad ( i_CLK, CLK_OUT, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL,
   vssoh pad66 (  );
   vssoh pad68 (  );
   vssoh pad69 (  );
-  phbct12 pad ( .TN(n_2_net_), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), 
+  phbct12 pad70 ( .TN(n_2_net_), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), 
         .PAD(MPR121_SCL), .Y(w_mpr121_scl_in_p) );
   vssoh pad71 (  );
   vssoh pad72 (  );
@@ -146,7 +146,7 @@ module khu_sensor_pad ( i_CLK, CLK_OUT, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL,
   vssiph pad130 (  );
   vssoh pad131 (  );
   vssoh pad132 (  );
-  phob12 pad133 ( .A(w_uart_tx_p), .PAD(UART_TXD) );
+  phob12 pad133 ( .A(n1), .PAD(UART_TXD) );
   vssoh pad134 (  );
   vssoh pad135 (  );
   vssiph pad136 (  );
@@ -222,15 +222,15 @@ module khu_sensor_pad ( i_CLK, CLK_OUT, i_RSTN, UART_RXD, UART_TXD, MPR121_SCL,
   vdd33oph pad206 (  );
   vssoh pad207 (  );
   vssoh pad208 (  );
-  khu_sensor_top khu_sensor_top ( .i_CLK(w_clk_p), .i_RSTN(w_rstn_p), 
-        .UART_RXD(w_uart_rx_p), .UART_TXD(w_uart_tx_p), .MPR121_SCL_IN(
-        w_mpr121_scl_in_p), .MPR121_SDA_IN(w_mpr121_sda_in_p), 
-        .MPR121_SCL_OUT(w_mpr121_scl_out_p), .MPR121_SDA_OUT(
-        w_mpr121_sda_out_p), .MPR121_SCL_EN(w_mpr121_scl_en_p), 
+  async_rstn_glitch_synchronizer async_rstn_glitch_synchronizer ( .i_CLK(i_CLK), .i_RSTN(w_rstn_p), .o_RSTN(w_rstn) );
+  khu_sensor_top khu_sensor_top ( .i_CLK(w_clk_p), .i_RSTN(w_rstn), .UART_RXD(
+        w_uart_rx_p), .UART_TXD(w_uart_tx_p), .MPR121_SCL_IN(w_mpr121_scl_in_p), .MPR121_SDA_IN(w_mpr121_sda_in_p), .MPR121_SCL_OUT(w_mpr121_scl_out_p), 
+        .MPR121_SDA_OUT(w_mpr121_sda_out_p), .MPR121_SCL_EN(w_mpr121_scl_en_p), 
         .MPR121_SDA_EN(w_mpr121_sda_en_p), .ADS1292_SCLK(w_ads1292_sclk_p), 
         .ADS1292_MISO(w_ads1292_miso_p), .ADS1292_MOSI(w_ads1292_mosi_p), 
         .ADS1292_DRDY(w_ads1292_drdy_p), .ADS1292_RESET(w_ads1292_reset_p), 
         .ADS1292_START(w_ads1292_start_p), .ADS1292_CSN(w_ads1292_csn_p) );
-  ivd1_hd U3 ( .A(w_mpr121_scl_en_p), .Y(n_2_net_) );
+  nid6_hd U3 ( .A(w_uart_tx_p), .Y(n1) );
+  ivd1_hd U4 ( .A(w_mpr121_scl_en_p), .Y(n_2_net_) );
 endmodule
 

@@ -422,6 +422,16 @@ module khu_sensor_pad (
   vssoh pad207();
   vssoh pad208();
   //============================================================================
+	/****************************************************************************
+	*                           async_rstn_glitch_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer with glitch filter for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_glitch_synchronizer async_rstn_glitch_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(w_rstn_p),
+    .o_RSTN(w_rstn)
+    );
   /****************************************************************************
   *                           khu_sensor_top   		                          	*
   *****************************************************************************/
@@ -429,7 +439,7 @@ module khu_sensor_pad (
   khu_sensor_top khu_sensor_top(
   	// System I/O
   	.i_CLK(w_clk_p), // Clock
-  	.i_RSTN(w_rstn_p), // Reset
+  	.i_RSTN(w_rstn), // Reset
 
   	// RS232 UART
   	.UART_RXD(w_uart_rx_p),

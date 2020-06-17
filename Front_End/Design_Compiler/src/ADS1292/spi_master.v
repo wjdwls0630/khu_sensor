@@ -96,10 +96,20 @@ module spi_master
 	//SPI_TRAILING_EDGE 		0                  |0                                       |1|   0
 	//
 
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
 
- always @(posedge i_CLK or negedge i_RSTN)
+ always @(posedge i_CLK or negedge w_rstn)
   begin
-    if (~i_RSTN)
+    if (!w_rstn)
     begin
       o_TX_Ready      <= 1'b0;
       r_SPI_Clk_Edges <= 0;
@@ -155,9 +165,9 @@ module spi_master
 
   // Purpose: Register i_TX_Byte when Data Valid is pulsed.
   // Keeps local storage of byte in case higher level module changes the data
-  always @(posedge i_CLK or negedge i_RSTN)
+  always @(posedge i_CLK or negedge w_rstn)
   begin
-    if (~i_RSTN)
+    if (!w_rstn)
     begin
       r_TX_Byte <= 8'h00;
       r_TX_DV   <= 1'b0;
@@ -175,9 +185,9 @@ module spi_master
 
   // Purpose: Generate MOSI data
   // Works with both CPHA=0 and CPHA=1
-  always @(posedge i_CLK or negedge i_RSTN)
+  always @(posedge i_CLK or negedge w_rstn)
   begin
-    if (~i_RSTN)
+    if (!w_rstn)
     begin
       o_SPI_MOSI     <= 1'b0;
       r_TX_Bit_Count <= 3'b111; // send MSb first
@@ -205,9 +215,9 @@ module spi_master
 
 
   // Purpose: Read in MISO data.
-  always @(posedge i_CLK or negedge i_RSTN)
+  always @(posedge i_CLK or negedge w_rstn)
   begin
-    if (~i_RSTN)
+    if (!w_rstn)
     begin
       o_RX_Byte      <= 8'h00;
       o_RX_DV        <= 1'b0;
@@ -238,9 +248,9 @@ module spi_master
 
 
   // Purpose: Add clock delay to signals for alignment.
-  always @(posedge i_CLK or negedge i_RSTN)
+  always @(posedge i_CLK or negedge w_rstn)
   begin
-    if (~i_RSTN)
+    if (!w_rstn)
     begin
       o_SPI_Clk  <= w_CPOL;
     end

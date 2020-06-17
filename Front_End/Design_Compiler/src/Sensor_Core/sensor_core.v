@@ -43,7 +43,7 @@ module sensor_core(
 
 	// System I/O
 	input i_CLK,
-	input i_RST
+	input i_RSTN
 	);
 
 	/*****************************************************************************
@@ -82,11 +82,22 @@ module sensor_core(
 	reg [7:0] r_mpr_reg_data;
 	reg [7:0] r_ads_reg_addr;
 	reg [7:0] r_ads_reg_data;
+	reg [3:0] r_uart_clk_counter;
 	//============================================================================
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) begin
 			o_UART_DATA_TX <= 56'b0;
 			o_UART_DATA_TX_VALID <= 1'b0;
 			r_uart_data_rx <= 16'b0;
@@ -94,7 +105,7 @@ module sensor_core(
 			r_run_mode <= 1'b0;
 			r_mpr_read_reg_mode <= 1'b0;
 			r_ads_read_reg_mode <= 1'b0;
-
+			r_uart_clk_counter <= 4'b0;
 			// state
 			r_uart_pstate <= ST_UART_IDLE;
 		end else begin
@@ -105,7 +116,15 @@ module sensor_core(
 					r_run_mode <= 1'b0;
 					r_mpr_read_reg_mode <= 1'b0;
 					r_ads_read_reg_mode <= 1'b0;
-					r_uart_pstate <= ST_UART_STANDBY;
+					// wait for other modules 
+					// due to reset synchronizer
+					if(r_uart_clk_counter == 4'b1111) begin 
+						r_uart_clk_counter <= 4'b0;
+						r_uart_pstate <= ST_UART_STANDBY;
+					end else begin 
+						r_uart_clk_counter <= r_uart_clk_counter + 1'b1;
+						r_uart_pstate <= ST_UART_IDLE;
+					end
 				end
 
 				ST_UART_STANDBY:
@@ -173,8 +192,8 @@ module sensor_core(
 	reg r_ads_chip_set; // signal that change ads setting state
 	reg r_ads_chip_set_done; // signal that ads chip setting process is done
 	reg r_chip_set;
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) r_chip_set <= 1'b0;
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) r_chip_set <= 1'b0;
 		else r_chip_set <= r_mpr_chip_set_done & r_ads_chip_set_done;
 	end
 
@@ -185,8 +204,8 @@ module sensor_core(
 	reg r_ads_run_set; // signal that change ads run state
 	reg r_ads_run_set_done; // signal that turning on ads run state process is done
 	reg r_run_set;
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) r_run_set <= 1'b0;
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) r_run_set <= 1'b0;
 		else r_run_set <= r_mpr_run_set_done & r_ads_run_set_done;
 	end
 
@@ -209,8 +228,8 @@ module sensor_core(
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) begin
 			// MPR121 State Control
 			r_mpr_chip_set <= 1'b0;
 			r_mpr_run_set <= 1'b0;
@@ -373,8 +392,8 @@ module sensor_core(
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) begin
 
 			// i_MPR121_DATA_OUT,  // received data from MPR121 (read data)
 			o_MPR121_REG_ADDR <= 8'b0;   // transmitted register address to MPR121 (write data)
@@ -756,8 +775,8 @@ module sensor_core(
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, posedge i_RST ) begin
-		if(i_RST) begin
+	always @ ( posedge i_CLK, posedge w_rst ) begin
+		if(w_rst) begin
 			// ADS1292 port
 			o_ADS1292_CONTROL <= 3'b0; // ADS1292 Control
 			o_ADS1292_REG_ADDR <= 8'b0; // ADS1292 register address

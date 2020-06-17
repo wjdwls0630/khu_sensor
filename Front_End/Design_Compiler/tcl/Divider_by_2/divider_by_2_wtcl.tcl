@@ -13,6 +13,7 @@ set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 read_file -format verilog -netlist ${netlist_path}${dir}tcl/${design}.vg
 
 current_design $design
+link
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                          Apply ${design}.wtcl                         "
@@ -20,7 +21,9 @@ echo "                                                                       "
 echo "***********************************************************************"
 source "${tcl_path}${dir}${design}.wtcl"
 remove_attribute [current_design] dont_touch
+set clk_main_period 10
 source "${tcl_path}default_constraints.tcl"
+remove_output_delay [get_ports o_CLK_DIV_2]
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -28,7 +31,7 @@ echo "                       compile_ultra ${design}                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
-compile_ultra -no_autoungroup -retime -gate_clock -incremental
+compile_ultra -only_design_rule -incremental
 
 echo "***********************************************************************"
 echo "                                                                       "

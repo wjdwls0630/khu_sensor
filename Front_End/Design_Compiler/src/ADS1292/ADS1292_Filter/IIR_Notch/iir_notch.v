@@ -34,6 +34,26 @@ module iir_notch(
 	input i_CLK, // clock
 	input i_RSTN // reset activate Low(0)
 	);
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
 
 	/****************************************************************************
 	*                           	   float_adder                               	*
@@ -61,7 +81,7 @@ module iir_notch(
 		.o_Z_STB(w_add_1_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_add_1_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
-		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
+		.i_RST(w_rst) // reset activate High(1)(asynchronous)
 		);
 	float_adder add_2(
 		.i_A(r_add_2_A), // input a
@@ -72,7 +92,7 @@ module iir_notch(
 		.o_Z_STB(w_add_2_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_add_2_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
-		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
+		.i_RST(w_rst) // reset activate High(1)(asynchronous)
 		);
 
 	//============================================================================
@@ -103,7 +123,7 @@ module iir_notch(
 		.o_Z_STB(w_mult_1_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_mult_1_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
-		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
+		.i_RST(w_rst) // reset activate High(1)(asynchronous)
 		);
 	float_multiplier mult_2(
 		.i_A(r_mult_2_A),
@@ -114,7 +134,7 @@ module iir_notch(
 		.o_Z_STB(w_mult_2_Z_STB),
 		.i_Z_ACK(r_mult_2_Z_ACK),
 		.i_CLK(i_CLK),
-		.i_RST(~i_RSTN)
+		.i_RST(w_rst)
 		);
 	float_multiplier mult_3(
 		.i_A(r_mult_3_A),
@@ -125,7 +145,7 @@ module iir_notch(
 		.o_Z_STB(w_mult_3_Z_STB),
 		.i_Z_ACK(r_mult_3_Z_ACK),
 		.i_CLK(i_CLK),
-		.i_RST(~i_RSTN)
+		.i_RST(w_rst)
 		);
 
 
@@ -169,8 +189,8 @@ module iir_notch(
   reg [2:0] r_counter;
 
 	//TODO Tried direct connect x_data not using ii_x_data, but failed due to multiple net expression issue
-	always @ (posedge i_CLK, negedge i_RSTN) begin
-		if (!i_RSTN) begin
+	always @ (posedge i_CLK, negedge w_rstn) begin
+		if (!w_rstn) begin
 			r_x_data <= 160'b0;
 			r_y_data <= 128'b0;
 		end else if (i_X_DATA_VALID && o_X_DATA_READY) begin
@@ -184,8 +204,8 @@ module iir_notch(
   //============================================================================
 
   //=============================Sequential Logic===============================
-	always @ (posedge i_CLK, negedge i_RSTN) begin
-		if (!i_RSTN) begin
+	always @ (posedge i_CLK, negedge w_rstn) begin
+		if (!w_rstn) begin
 			// output pin
 			o_Y_DATA <= 32'b0; // output y (float)
 			o_Y_DATA_VALID <= 1'b0; // output data is valid

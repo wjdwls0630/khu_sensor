@@ -338,7 +338,7 @@ module ads1292_controller (
 					Set PWDN/RESET(N) High(1), and wait for 1s for Power_On Reset
 					*/
 					o_ADS1292_RESET <= 1'b1;
-					r_pstate <= ST_RESET_WAIT;
+					r_pstate <= ST_POWER_ON_RESET_WAIT;
 				end
 
 				ST_POWER_ON_RESET_WAIT:
@@ -353,7 +353,7 @@ module ads1292_controller (
 						r_pstate <= ST_RESET;
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
-						r_pstate <= ST_RESET_WAIT;
+						r_pstate <= ST_POWER_ON_RESET_WAIT;
 					end
 				end
 

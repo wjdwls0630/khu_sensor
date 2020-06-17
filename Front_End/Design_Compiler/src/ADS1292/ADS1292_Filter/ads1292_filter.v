@@ -33,6 +33,26 @@ module ads1292_filter (
   input i_CLK, // clock
   input i_RSTN //reset
   );
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
 
   //=========================Internal Connection===============================
   // CHANGED Direct connection is failed by timing of crossing stb and ack
@@ -98,7 +118,7 @@ module ads1292_filter (
     .i_Z_ACK(r_converter_i2f_z_ack), // A flag that external module get data, so, o_Z is going to meaningless
     // it can be used as elongating o_Z_STB High (1)
     .i_CLK(i_CLK), // clock
-    .i_RST(!i_RSTN) // reset activate High(1)(asynchronous)
+    .i_RST(w_rst) // reset activate High(1)(asynchronous)
     );
 
   iir_lpf iir_lpf(
@@ -109,7 +129,7 @@ module ads1292_filter (
     .o_Y_DATA_VALID(w_iir_lpf_y_valid), // output data is valid
     .i_Y_ACK(r_iir_lpf_y_ack), // A flag that external module got Y Data
     .i_CLK(i_CLK), // clock
-    .i_RSTN(i_RSTN) // reset activate Low(0)
+    .i_RSTN(w_rstn) // reset activate Low(0)
     );
 
   iir_notch iir_notch(
@@ -120,7 +140,7 @@ module ads1292_filter (
     .o_Y_DATA_VALID(w_iir_notch_y_valid), // output data is valid
     .i_Y_ACK(r_iir_notch_y_ack),
     .i_CLK(i_CLK), // clock
-    .i_RSTN(i_RSTN) // reset activate Low(0)
+    .i_RSTN(w_rstn) // reset activate Low(0)
   );
 
   iir_hpf iir_hpf(
@@ -131,7 +151,7 @@ module ads1292_filter (
     .o_Y_DATA_VALID(w_iir_hpf_y_valid), // output data is valid
     .i_Y_ACK(r_iir_hpf_y_ack),
     .i_CLK(i_CLK), // clock
-    .i_RSTN(i_RSTN) // reset activate Low(0)
+    .i_RSTN(w_rstn) // reset activate Low(0)
     );
 
   converter_f2i converter_f2i(
@@ -143,7 +163,7 @@ module ads1292_filter (
     .i_Z_ACK(r_converter_f2i_z_ack), // A flag that external module get data, so, o_Z is going to meaningless
     // it can be used as elongating o_Z_STB High (1)
     .i_CLK(i_CLK), // clock
-    .i_RST(!i_RSTN) // reset activate High(1)(asynchronous)
+    .i_RST(w_rst) // reset activate High(1)(asynchronous)
     );
   //============================================================================
   //==============================State=========================================
@@ -157,8 +177,8 @@ module ads1292_filter (
   reg [7:0] r_counter;
   //============================================================================
   //=============================Sequential Logic===============================
-  always @ ( posedge i_CLK, negedge i_RSTN ) begin
-    if(!i_RSTN) begin
+  always @ ( posedge i_CLK, negedge w_rstn ) begin
+    if(!w_rstn) begin
       o_ADS1292_FILTERED_DATA <= 24'b0;
       o_ADS1292_FILTERED_DATA_VALID <= 1'b0;
 

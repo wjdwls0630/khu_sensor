@@ -26,13 +26,23 @@ module khu_sensor_top(
 	output ADS1292_CSN
 	);
 	/****************************************************************************
+	*                           async_rstn_glitch_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer with glitch filter for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_glitch_synchronizer async_rstn_glitch_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
+	/****************************************************************************
 	*                           divider_by_2		                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
 	wire w_CLOCK_HALF;
 	divider_by_2 divider_by_2 (
 	  .i_CLK(i_CLK),
-	  .i_RSTN(i_RSTN),
+	  .i_RSTN(w_rstn),
 	  .o_CLK_DIV_2(w_CLOCK_HALF)
 	  );
 
@@ -96,7 +106,7 @@ module khu_sensor_top(
 		.i_UART_RXD(UART_RXD), // external_interface.RXD
 		.o_UART_TXD(UART_TXD), // external_interface.TXD
 		.i_CLK(w_CLOCK_HALF),
-		.i_RST(!i_RSTN)
+		.i_RSTN(w_rstn)
 		);
 	//============================================================================
 
@@ -141,7 +151,7 @@ module khu_sensor_top(
 
 		// System I/O
 		.i_CLK(w_CLOCK_HALF),
-		.i_RST(!i_RSTN)
+		.i_RSTN(w_rstn)
 	);
 	//============================================================================
 
@@ -169,7 +179,7 @@ module khu_sensor_top(
 		.o_I2C_SDA_EN(MPR121_SDA_EN),
 
 		.i_CLK(i_CLK), // clock
-		.i_RSTN(i_RSTN) // reset
+		.i_RSTN(w_rstn) // reset
 		);
 	//============================================================================
 	/****************************************************************************
@@ -183,7 +193,7 @@ module khu_sensor_top(
 	  .o_ADS1292_FILTERED_DATA_VALID(w_ads1292_filtered_data_valid),
 	  .i_ADS1292_FILTERED_DATA_ACK(w_ads1292_filtered_data_ack),
 	  .i_CLK(i_CLK), // clock
-	  .i_RSTN(i_RSTN) //reset
+	  .i_RSTN(w_rstn) //reset
 	  );
 	/****************************************************************************
 	*                           	ads1292_controller		   		                 	*
@@ -211,7 +221,7 @@ module khu_sensor_top(
 		// When CS is taken high, the serial interface is reset, SCLK and DIN are ignored, and DOUT enters a high-impedance state
 
 		.i_CLK(i_CLK), // clock
-		.i_RSTN(i_RSTN) //reset
+		.i_RSTN(w_rstn) //reset
 		);
 	//============================================================================
 endmodule

@@ -27,6 +27,26 @@ module iir_hpf(
 	input i_RSTN // reset activate Low(0)
 	);
 	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
+	/****************************************************************************
 	*                           	   float_adder                               	*
 	*****************************************************************************/
 	//=========================Internal Connection===============================
@@ -47,7 +67,7 @@ module iir_hpf(
 		.o_Z_STB(w_add_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_add_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
-		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
+		.i_RST(w_rst) // reset activate High(1)(asynchronous)
 		//CHANGED : .rst(rstn)X
 		);
 	//============================================================================
@@ -72,7 +92,7 @@ module iir_hpf(
 		.o_Z_STB(w_mult_Z_STB), // Calculation is done, and output data is valid
 		.i_Z_ACK(r_mult_Z_ACK), // A flag that external module get data,
 		.i_CLK(i_CLK), // clock
-		.i_RST(~i_RSTN) // reset activate High(1)(asynchronous)
+		.i_RST(w_rst) // reset activate High(1)(asynchronous)
 		//CHANGED : .rst(rstn)X
 		);
 	//============================================================================
@@ -104,8 +124,8 @@ module iir_hpf(
   reg [1:0] r_counter;
 
 	//TODO Tried direct connect x_data not using i_X_DATA, but failed due to multiple net expression issue
-	always @ (posedge i_CLK, negedge i_RSTN) begin
-		if (!i_RSTN) begin
+	always @ (posedge i_CLK, negedge w_rstn) begin
+		if (!w_rstn) begin
 			r_x_data <= 64'b0;
 			r_y_data <= 32'b0;
 		end else if (i_X_DATA_VALID && o_X_DATA_READY) begin
@@ -119,8 +139,8 @@ module iir_hpf(
   //============================================================================
 
   //=============================Sequential Logic===============================
-	always @ (posedge i_CLK, negedge i_RSTN) begin
-		if (!i_RSTN) begin
+	always @ (posedge i_CLK, negedge w_rstn) begin
+		if (!w_rstn) begin
 			// output pin
 			o_Y_DATA <= 32'b0; // output y (float)
 			o_Y_DATA_VALID <= 1'b0; // output data is valid

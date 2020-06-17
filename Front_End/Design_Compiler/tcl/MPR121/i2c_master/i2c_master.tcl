@@ -16,6 +16,7 @@ current_design $design
 # The link command locates the reference for each cell in the design.
 link
 
+set clk_main_period 10
 source "${tcl_path}default_constraints.tcl"
 
 echo "***********************************************************************"
@@ -23,6 +24,10 @@ echo "                                                                       "
 echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
+
+set_false_path -to [get_cells async_rstn_synchronizer/o_RSTN_reg]
+set_disable_timing [get_cells async_rstn_synchronizer]
+set_dont_touch async_rstn_synchronizer
 
 echo "***********************************************************************"
 echo "                                                                       "
@@ -32,13 +37,6 @@ echo "***********************************************************************"
 
 compile_ultra -no_autoungroup -incremental 
 
-echo "***********************************************************************"
-echo "                                                                       "
-echo "                      Fix ${design}_Violation                          "
-echo "                                                                       "
-echo "***********************************************************************"
-# increasing drive strength for max transition violation
-size_cell [get_cells U33] ivd2_hd
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                    write ${design} output file                        "

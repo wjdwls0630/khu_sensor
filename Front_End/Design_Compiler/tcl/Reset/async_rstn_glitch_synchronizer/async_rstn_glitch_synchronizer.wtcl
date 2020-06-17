@@ -1,0 +1,64 @@
+###################################################################
+
+# Created by write_script -format dctcl on Wed Jun 17 13:08:11 2020
+
+###################################################################
+
+# Set the current_design #
+current_design async_rstn_glitch_synchronizer
+
+set_units -time ns -resistance kOhm -capacitance pF -power mW -voltage V       \
+-current mA
+set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125\
+                         -min V135BTN0400 -min_library std150e_bst_135_n040
+set_wire_load_mode enclosed
+set_dont_touch [current_design] 
+set_wire_load_selection_group 4LM
+set_max_leakage_power 0
+set_local_link_library {std150e_wst_105_p125.db}
+set_max_area 0
+set_fix_multiple_port_nets -all -buffer_constants
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports i_CLK]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports i_CLK]
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports i_RSTN]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports i_RSTN]
+set_wire_load_model -name l13_e_100k_4lm -library std150e_wst_105_p125         \
+[get_ports o_RSTN]
+set_wire_load_model -min -name l13_e_100k_4lm -library std150e_bst_135_n040    \
+[get_ports o_RSTN]
+set_connection_class "default" [get_ports i_CLK]
+set_connection_class "default" [get_ports i_RSTN]
+set_connection_class "default" [get_ports o_RSTN]
+set_disable_timing [get_ports i_RSTN]
+set_dont_touch_network [get_ports i_RSTN]
+set_fanout_load 6 [get_ports o_RSTN]
+set_port_fanout_number 5009 [get_ports i_CLK]
+set_port_fanout_number 6 [get_ports o_RSTN]
+set_load -pin_load 10.1468 [get_ports i_CLK]
+set_load -pin_load 0.0181 [get_ports o_RSTN]
+set_map_only [get_cells u__tmp100] 
+set_max_transition 1.5 [get_ports o_RSTN]
+set_load -min -pin_load 10.511 [get_ports i_CLK]
+set_load -min -pin_load 0.01816 [get_ports o_RSTN]
+set_ideal_network [get_ports i_RSTN]
+create_clock [get_ports i_CLK]  -name clk  -period 10  -waveform {0 5}
+set_clock_uncertainty 0.0804  [get_clocks clk]
+set_dont_touch_network [get_clocks clk]
+set_clock_transition -min -fall 1.2 [get_clocks clk]
+set_clock_transition -min -rise 0.9 [get_clocks clk]
+set_clock_transition -max -fall 1.2 [get_clocks clk]
+set_clock_transition -max -rise 0.9 [get_clocks clk]
+set_false_path   -to [get_cells async_rstn_synchronizer/o_RSTN_reg]
+set_input_delay -clock clk  -rise 0  [get_ports i_CLK]
+set_input_delay -clock clk  -clock_fall  -fall 0  -add_delay  [get_ports i_CLK]
+set_input_delay 0  [get_ports i_RSTN]
+set_output_delay -clock clk  -max -rise 0.01  [get_ports o_RSTN]
+set_output_delay -clock clk  -min -rise -0.125716  [get_ports o_RSTN]
+set_load 0  [get_nets i_CLK]
+set_resistance 0  [get_nets i_RSTN]
+set_resistance 0  [get_nets async_rstn_synchronizer/i_CLK]
+1

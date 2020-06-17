@@ -18,6 +18,7 @@ current_design $design
 # The link command locates the reference for each cell in the design.
 #link
 
+set clk_main_period 10
 source "${tcl_path}default_constraints.tcl"
 
 echo "***********************************************************************"
@@ -26,6 +27,7 @@ echo "                    Apply ${design}_constraints.tcl                    "
 echo "                                                                       "
 echo "***********************************************************************"
 
+set hdlin_ff_always_sync_set_reset true
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                       compile_ultra ${design}                         "

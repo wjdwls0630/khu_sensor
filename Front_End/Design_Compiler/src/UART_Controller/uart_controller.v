@@ -23,8 +23,28 @@ module uart_controller (
   input i_UART_RXD, // external_interface.RXD
   output o_UART_TXD,
   input i_CLK,
-  input i_RST
+  input i_RSTN
   );
+	/****************************************************************************
+	*                           async_rst_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rst;
+async_rst_synchronizer async_rst_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RST(w_rst)
+    );
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
 
   /****************************************************************************
   *                           	   uart                                	*
@@ -44,7 +64,7 @@ module uart_controller (
    //2020.05.13 : Unused Port removed
   uart_tx uart_tx(
    .i_CLK(i_CLK),
-   .i_RST(i_RST),
+   .i_RSTN(w_rstn),
    .i_Tx_DV(r_uart_data_tx_valid),
    .i_Tx_Byte(r_uart_data_tx),
    .o_Tx_Serial(o_UART_TXD),
@@ -53,7 +73,7 @@ module uart_controller (
 
   uart_rx uart_rx(
     .i_CLK(i_CLK),
-    .i_RST(i_RST),
+    .i_RSTN(w_rstn),
     .i_Rx_Serial(i_UART_RXD),
     .o_Rx_DV(w_uart_data_rx_valid),
     .o_Rx_Byte(w_uart_data_rx)
@@ -97,8 +117,8 @@ module uart_controller (
   //============================================================================
 
   //=============================Sequential Logic===============================
-  always @ ( posedge i_CLK, posedge i_RST ) begin
-    if(i_RST) begin
+  always @ ( posedge i_CLK, posedge w_rst ) begin
+    if(w_rst) begin
       // TX
       o_UART_DATA_TX_READY <= 1'b0;
       // RX

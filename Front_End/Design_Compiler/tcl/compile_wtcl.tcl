@@ -5,6 +5,10 @@ echo "                           compile_wtcl.tcl                            "
 echo "                                                                       "
 echo "***********************************************************************"
 
+# Reset
+source "${tcl_path}Reset/async_rstn_synchronizer/async_rstn_synchronizer_wtcl.tcl"
+source "${tcl_path}Reset/async_rst_synchronizer/async_rst_synchronizer_wtcl.tcl"
+source "${tcl_path}Reset/async_rstn_glitch_synchronizer/async_rstn_glitch_synchronizer_wtcl.tcl"
 
 # MPR121
 source "${tcl_path}MPR121/i2c_master/i2c_master_wtcl.tcl"

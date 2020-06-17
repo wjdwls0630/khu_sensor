@@ -13,6 +13,7 @@ set_svf "${svf_path}${dir}${t_w_path}${design}.svf"
 read_file -format verilog -netlist ${netlist_path}${dir}tcl/${design}.vg
 
 current_design $design
+link
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                          Apply ${design}.wtcl                         "
@@ -20,8 +21,10 @@ echo "                                                                       "
 echo "***********************************************************************"
 source "${tcl_path}${dir}${design}.wtcl"
 remove_attribute [current_design] dont_touch
+set clk_main_period 10
 source "${tcl_path}default_constraints.tcl"
 
+set hdlin_ff_always_sync_set_reset true
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                       compile_ultra ${design}                         "

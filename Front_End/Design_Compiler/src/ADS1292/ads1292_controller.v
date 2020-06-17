@@ -49,6 +49,16 @@ module ads1292_controller (
 	and DOUT enters a high-impedance state. DRDY asserts when data conversion is complete, regardless of
 	whether CS is high or low.
 	*/
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
 
 	/****************************************************************************
 	*                           		spi_master                                   *
@@ -89,7 +99,7 @@ module ads1292_controller (
 	/* default #(.SPI_MODE(0), .CLKS_PER_HALF_BIT(2)) 64*/
 	spi_master spi_master( // following default setting of spi
 		// Control/Data Signals,
-		.i_RSTN(i_RSTN),     // FPGA Reset (i_Rst_L - active low)
+		.i_RSTN(w_rstn),     // FPGA Reset (i_Rst_L - active low)
 		.i_CLK(i_CLK),       // FPGA Clock
 
 		// TX(Master Transimit) (MOSI) Signals (write)
@@ -222,8 +232,8 @@ module ads1292_controller (
 	reg r_sdatac_mode;
 
 	// For turn on/off mode
-	always @ ( posedge i_CLK, negedge i_RSTN ) begin
-		if(!i_RSTN) begin
+	always @ ( posedge i_CLK, negedge w_rstn ) begin
+		if(!w_rstn) begin
 			r_idle_mode <= 1'b0;
 			r_syscmd_mode <= 1'b0;
 			r_wreg_mode <= 1'b0;
@@ -264,8 +274,8 @@ module ads1292_controller (
 	//===========================negedge detector=================================
 	reg r_ldrdy; // last drdy
 	wire w_drdy_negedge_detect; // if detect posedge of drdy, then value go up to the high(1)
-	always @ ( posedge i_CLK, negedge i_RSTN ) begin
-		if(!i_RSTN) r_ldrdy <= 1'b0;
+	always @ ( posedge i_CLK, negedge w_rstn ) begin
+		if(!w_rstn) r_ldrdy <= 1'b0;
 		else r_ldrdy <= i_ADS1292_DRDY;
 	end
 	assign w_drdy_negedge_detect = (~i_ADS1292_DRDY) && (r_ldrdy^i_ADS1292_DRDY);
@@ -274,8 +284,8 @@ module ads1292_controller (
 
 
 	//=============================Sequential Logic===============================
-	always @ ( posedge i_CLK, negedge i_RSTN ) begin
-		if(!i_RSTN) begin
+	always @ ( posedge i_CLK, negedge w_rstn ) begin
+		if(!w_rstn) begin
 			// SPI interface
 
 			// Master (SPI)(write)(transmit) - Slave (ADS1292)(receive)
@@ -336,8 +346,17 @@ module ads1292_controller (
 					Reference-ADS1292-ADS1292.pdf p.63
 					Set PWDN/RESET(N) High(1), and wait for 1s for Power_On Reset
 					*/
-					o_ADS1292_RESET <= 1'b1;
-					r_pstate <= ST_RESET_WAIT;
+					//wait for releasing
+					//spi_master reset due to
+					//reset synchronizer 
+					if(r_clk_counter > 32'd15) begin
+						r_clk_counter <= 32'b0;
+					  	o_ADS1292_RESET <= 1'b1;
+						r_pstate <= ST_POWER_ON_RESET_WAIT;
+					end else begin
+						r_clk_counter <= r_clk_counter + 1'b1;
+						r_pstate <= ST_POWER_ON_RESET;
+					end
 				end
 
 				ST_POWER_ON_RESET_WAIT:
@@ -352,7 +371,7 @@ module ads1292_controller (
 						r_pstate <= ST_RESET;
 					end else begin
 						r_clk_counter <= r_clk_counter + 1'b1;
-						r_pstate <= ST_RESET_WAIT;
+						r_pstate <= ST_POWER_ON_RESET_WAIT;
 					end
 				end
 

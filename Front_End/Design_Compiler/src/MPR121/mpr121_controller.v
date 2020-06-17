@@ -151,6 +151,18 @@ module mpr121_controller (
 	Read mode of Slave Address in our case
 	I2C_MPR121_addr_Read -> 8'b1011_0111
 	*/
+
+
+	/****************************************************************************
+	*                           async_rstn_synchronizer                                   *
+	*****************************************************************************/
+// reset synchronizer for Reset recovery time and dont fall to metastability  
+wire w_rstn;
+async_rstn_synchronizer async_rstn_synchronizer (
+    .i_CLK(i_CLK),
+    .i_RSTN(i_RSTN),
+    .o_RSTN(w_rstn)
+    );
 	/****************************************************************************
 	*                           		i2c_master                                   *
 	*****************************************************************************/
@@ -207,7 +219,7 @@ module mpr121_controller (
         
 	i2c_master i2c_master(
     .i_CLK(i_CLK),
-    .i_RSTN(i_RSTN),
+    .i_RSTN(w_rstn),
 
     // Host interface
     //.cmd_address(I2C_MPR121_ADDR), // MPR121 (slave) address
@@ -296,8 +308,8 @@ module mpr121_controller (
 	//============================================================================
 
 	//=============================Sequential Logic===============================
-	always @ (posedge i_CLK or negedge i_RSTN) begin
-		if(!i_RSTN) begin
+	always @ (posedge i_CLK or negedge w_rstn) begin
+		if(!w_rstn) begin
 
 				// Host interface
 				r_i2c_start <= 1'b0;
@@ -354,18 +366,31 @@ module mpr121_controller (
 					o_MPR121_INIT_SET <= 1'b0;
 					o_MPR121_BUSY <= 1'b0;
 
-					//r_clk_counter <= 10'b0;
+					r_clk_counter <= 10'b0;
 					r_lstate <= ST_IDLE;
 					r_pstate <= ST_RESET;
 				end
 
 				ST_RESET:
 				begin
-					// Soft Reset(0x80)
-					r_i2c_reg_addr <= 8'h80;
-					r_i2c_reg_data_in <= 8'h63;
-					r_lstate <= ST_RESET;
-					r_pstate <= ST_WRITE_INIT;
+					if(r_clk_counter > 10'd63) begin
+						//wait for releasing
+						//i2c_master reset due to
+						//reset synchronizer 
+						// Soft Reset(0x80)
+						r_clk_counter <= 10'b0;
+						r_i2c_reg_addr <= 8'h80;
+						r_i2c_reg_data_in <= 8'h63;
+						r_lstate <= ST_RESET;
+						r_pstate <= ST_WRITE_INIT;
+					end else begin
+						r_clk_counter <= r_clk_counter + 1'b1; 
+						r_i2c_reg_addr <= 8'h00;
+						r_i2c_reg_data_in <= 8'h00;
+						r_lstate <= ST_IDLE;
+						r_pstate <= ST_RESET;
+					end
+
 				end
 
 				ST_STANDBY:

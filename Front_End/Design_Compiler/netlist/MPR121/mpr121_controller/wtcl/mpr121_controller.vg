@@ -11,520 +11,376 @@ module mpr121_controller ( o_MPR121_DATA_OUT, o_MPR121_REG_ADDR,
          i_I2C_SDA_IN, i_CLK, i_RSTN;
   output o_MPR121_INIT_SET, o_MPR121_BUSY, o_MPR121_FAIL, o_I2C_SCL_OUT,
          o_I2C_SDA_OUT, o_I2C_SCL_EN, o_I2C_SDA_EN;
-  wire   r_i2c_start, r_i2c_read, r_i2c_write, r_i2c_write_multiple,
+  wire   w_rstn, r_i2c_start, r_i2c_read, r_i2c_write, r_i2c_write_multiple,
          r_i2c_stop, r_i2c_cmd_valid, r_i2c_data_in_valid, w_i2c_data_in_ready,
          r_i2c_data_in_last, w_i2c_data_out_valid, r_i2c_data_out_ready,
-         r_lstate_0_, N47, N48, N49, N50, N51, N52, N53, N54, N55, N56, N57,
-         N58, N59, N60, N61, N64, N65, N66, N67, N70, N71, N72, N73, N76, N77,
-         N78, N79, N82, N83, N84, N85, N88, N89, N90, N91, N94, N95, N96, N97,
-         N100, N101, N102, N103, N106, N107, N108, N109, N110, N112, N113,
-         N114, N115, N118, N119, N120, N121, N124, N125, N126, N127, N130,
-         N131, N132, N133, N136, N137, N138, N139, N142, N143, N144, N145,
-         N148, N149, N150, N151, N154, N155, N156, N157, N179, N181, N185,
-         N187, N189, N190, N191, N192, N193, N194, N195, N196, N197, N198,
-         N199, N200, N201, N202, N203, N204, N205, N206, N207, N208, N212,
-         N213, N216, N218, N219, N220, N221, N222, N223, N224, N225, N227,
-         N229, N232, N241, N242, N243, N244, N245, N246, N247, N248, N249,
-         N250, N251, N252, N253, N254, N255, N256, N258, N259, N261, N262,
-         N263, N264, N265, N266, N267, N268, N270, N271, N272, N273, N275,
-         N277, N279, N280, N286, N287, N288, N290, N295, N296, N316, N320,
-         N321, N322, N330, N340, N341, N342, N348, alt5_n106, n1, n2, n3, n4,
-         n7, n9, n10, n12, n13, n14, n15, n16, n17, n18, n20, n22, n23, n24,
-         n25, n26, n28, n29, n30, n39, n40, n45, n46, n55, n56, n57, n58, n59,
-         n72, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144,
-         n145, n146, n147, n148, n149, n150, n151, n152, n153, n154, n155,
-         n156, n157, n158, n159, n160, n161, n162, n163, n164, n165, n166, n5,
-         n6, n8, n11, n19, n21, n27, n70, n71, n73, n74, n75, n76, n77, n78,
-         n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92,
-         n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105,
-         n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116,
-         n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127,
-         n128, n129, n130, n131, n132, n133, n167, n168, n169, n170, n171,
-         n172, n173, n174, n175, n176, n177, n178, n179, n180, n181, n182,
-         n183, n184, n185, n186, n187, n188, n189, n190, n191, n192, n193,
-         n194, n195, n197, n198, n200, n202, n204, n206;
+         r_lstate_0_, N183, N184, N185, N186, N187, N188, N189, N190, N191,
+         N192, N279, N280, N281, N282, N283, N284, N285, N286, N287, N288,
+         N289, N290, N291, N292, N293, N294, N307, N308, N309, N310, N311,
+         N312, N315, N324, n40, n46, n47, n78, n80, n81, n82, n83, n84, n85,
+         n86, n87, n88, n89, n92, n93, n96, n97, n99, n100, n101, n102, n103,
+         n104, n105, n106, n107, n108, n109, n110, n111, n112, n114, n115,
+         n116, n117, n118, n119, n120, n121, n122, n123, n127, n128, n129,
+         n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140,
+         n141, n142, n143, n144, n145, n146, n147, n148, n149, n150, n151,
+         n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n23,
+         n26, n185, n197, n198, n199, n200, n201, n202, n203, n204, n205, n206,
+         n207, n208, n209, n210, n211, n212, n213, n214, n215, n216, n217,
+         n218, n219, n220, n221, n222, n223, n224, n225, n226, n227, n228,
+         n229, n230, n231, n232, n233, n234, n235, n236, n237, n238, n239,
+         n240, n241, n242, n243, n244, n245, n246, n247, n248, n249, n251,
+         n253, n254, n255, n256, n257, n258, n259, n260, n262, n263, n264,
+         n265, n266, n267, n268, n269, n270, n271, n273;
   wire   [7:0] r_i2c_data_in;
   wire   [7:0] w_i2c_data_out;
   wire   [5:0] r_pstate;
-  wire   [7:0] r_i2c_reg_addr;
   wire   [9:0] r_clk_counter;
+  wire   [7:0] r_i2c_reg_addr;
   wire   [7:0] r_i2c_reg_data_in;
 
-  i2c_master i2c_master ( .i_CLK(i_CLK), .i_RSTN(i_RSTN), .cmd_start(
-        r_i2c_start), .cmd_read(r_i2c_read), .cmd_write(r_i2c_write), 
-        .cmd_write_multiple(r_i2c_write_multiple), .cmd_stop(r_i2c_stop), 
-        .cmd_valid(r_i2c_cmd_valid), .data_in(r_i2c_data_in), .data_in_valid(
+  async_rstn_synchronizer async_rstn_synchronizer ( .i_CLK(i_CLK), .i_RSTN(
+        i_RSTN), .o_RSTN(w_rstn) );
+  i2c_master i2c_master ( .i_CLK(i_CLK), .i_RSTN(n26), .cmd_start(r_i2c_start), 
+        .cmd_read(r_i2c_read), .cmd_write(r_i2c_write), .cmd_write_multiple(
+        r_i2c_write_multiple), .cmd_stop(r_i2c_stop), .cmd_valid(
+        r_i2c_cmd_valid), .data_in(r_i2c_data_in), .data_in_valid(
         r_i2c_data_in_valid), .data_in_ready(w_i2c_data_in_ready), 
         .data_in_last(r_i2c_data_in_last), .data_out(w_i2c_data_out), 
         .data_out_valid(w_i2c_data_out_valid), .data_out_ready(
         r_i2c_data_out_ready), .scl_i(i_I2C_SCL_IN), .scl_o(o_I2C_SCL_OUT), 
         .scl_t(o_I2C_SCL_EN), .sda_i(i_I2C_SDA_IN), .sda_o(o_I2C_SDA_OUT), 
         .sda_t(o_I2C_SDA_EN), .missed_ack(o_MPR121_FAIL) );
-  or4d1_hd U3 ( .A(n149), .B(n138), .C(n142), .D(n1), .Y(N340) );
-  or4d1_hd U4 ( .A(n137), .B(n156), .C(n141), .D(n1), .Y(N330) );
-  or2d1_hd U5 ( .A(n150), .B(n144), .Y(n1) );
-  nr4d1_hd U7 ( .A(n134), .B(n146), .C(n149), .D(n138), .Y(n2) );
-  ivd1_hd U9 ( .A(n148), .Y(n3) );
-  nr4d1_hd U10 ( .A(N57), .B(n151), .C(n150), .D(n137), .Y(n4) );
-  nr2d1_hd U27 ( .A(n7), .B(N316), .Y(n12) );
-  ivd1_hd U28 ( .A(n14), .Y(n7) );
-  ao211d1_hd U31 ( .A(n157), .B(n135), .C(n20), .D(N342), .Y(n15) );
-  scg17d1_hd U35 ( .A(w_i2c_data_out_valid), .B(n72), .C(N212), .D(n14), .Y(
-        n23) );
-  nr2d1_hd U37 ( .A(n24), .B(n25), .Y(n20) );
-  nr2d1_hd U41 ( .A(n145), .B(N110), .Y(n18) );
-  ao21d1_hd U43 ( .A(w_i2c_data_in_ready), .B(n28), .C(N265), .Y(n26) );
-  nd2bd1_hd U46 ( .AN(n24), .B(n25), .Y(n13) );
-  nr2d1_hd U47 ( .A(n146), .B(n156), .Y(n24) );
-  or2d1_hd U49 ( .A(n28), .B(n136), .Y(n22) );
-  or2d1_hd U50 ( .A(n149), .B(n144), .Y(n28) );
-  ivd1_hd U52 ( .A(w_i2c_data_in_ready), .Y(n25) );
-  ivd1_hd U58 ( .A(n30), .Y(N259) );
-  ivd1_hd U60 ( .A(N110), .Y(N258) );
-  ad2d1_hd U62 ( .A(i_MPR121_DATA_IN[7]), .B(n135), .Y(N256) );
-  scg6d1_hd U63 ( .A(n135), .B(i_MPR121_DATA_IN[6]), .C(n141), .Y(N255) );
-  scg6d1_hd U64 ( .A(n135), .B(i_MPR121_DATA_IN[5]), .C(n141), .Y(N254) );
-  ad2d1_hd U65 ( .A(i_MPR121_DATA_IN[4]), .B(n135), .Y(N253) );
-  ad2d1_hd U66 ( .A(i_MPR121_DATA_IN[3]), .B(n135), .Y(N252) );
-  ad2d1_hd U67 ( .A(i_MPR121_DATA_IN[2]), .B(n135), .Y(N251) );
-  scg6d1_hd U68 ( .A(n135), .B(i_MPR121_DATA_IN[1]), .C(n141), .Y(N250) );
-  scg6d1_hd U69 ( .A(n135), .B(i_MPR121_DATA_IN[0]), .C(n141), .Y(N249) );
-  scg6d1_hd U70 ( .A(n135), .B(o_MPR121_REG_ADDR[7]), .C(n141), .Y(N248) );
-  ad2d1_hd U71 ( .A(o_MPR121_REG_ADDR[6]), .B(n135), .Y(N247) );
-  ad2d1_hd U72 ( .A(o_MPR121_REG_ADDR[5]), .B(n135), .Y(N246) );
-  ad2d1_hd U73 ( .A(o_MPR121_REG_ADDR[4]), .B(n135), .Y(N245) );
-  ad2d1_hd U74 ( .A(o_MPR121_REG_ADDR[3]), .B(n135), .Y(N244) );
-  ad2d1_hd U75 ( .A(o_MPR121_REG_ADDR[2]), .B(n135), .Y(N243) );
-  ad2d1_hd U76 ( .A(o_MPR121_REG_ADDR[1]), .B(n135), .Y(N242) );
-  ad2d1_hd U77 ( .A(o_MPR121_REG_ADDR[0]), .B(n135), .Y(N241) );
-  ad2d1_hd U78 ( .A(N179), .B(n135), .Y(N232) );
-  nr2bd1_hd U87 ( .AN(N198), .B(n10), .Y(N208) );
-  nr2bd1_hd U88 ( .AN(N197), .B(n10), .Y(N207) );
-  nr2bd1_hd U89 ( .AN(N196), .B(n10), .Y(N206) );
-  nr2bd1_hd U90 ( .AN(N195), .B(n10), .Y(N205) );
-  nr2bd1_hd U91 ( .AN(N194), .B(n10), .Y(N204) );
-  nr2bd1_hd U92 ( .AN(N193), .B(n10), .Y(N203) );
-  nr2bd1_hd U93 ( .AN(N192), .B(n10), .Y(N202) );
-  nr2bd1_hd U94 ( .AN(N191), .B(n10), .Y(N201) );
-  nr2bd1_hd U95 ( .AN(N190), .B(n10), .Y(N200) );
-  nr2bd1_hd U96 ( .AN(N189), .B(n10), .Y(N199) );
-  ivd1_hd U97 ( .A(n145), .Y(n10) );
-  or2d1_hd U139 ( .A(N280), .B(N286), .Y(N287) );
-  or2d1_hd U140 ( .A(N51), .B(N52), .Y(N132) );
-  or2d1_hd U141 ( .A(N130), .B(N131), .Y(N133) );
-  or2d1_hd U142 ( .A(N51), .B(N52), .Y(N90) );
-  or2d1_hd U143 ( .A(N88), .B(N89), .Y(N91) );
-  ad2d1_hd U144 ( .A(N49), .B(N50), .Y(N54) );
-  ivd1_hd U145 ( .A(r_pstate[4]), .Y(N48) );
-  or2d1_hd U146 ( .A(N49), .B(r_pstate[2]), .Y(N107) );
-  or2d1_hd U147 ( .A(N51), .B(N52), .Y(N156) );
-  or2d1_hd U148 ( .A(N154), .B(N155), .Y(N157) );
-  ivd1_hd U149 ( .A(r_pstate[2]), .Y(N50) );
-  ivd1_hd U150 ( .A(r_pstate[1]), .Y(N51) );
-  ivd1_hd U151 ( .A(r_pstate[0]), .Y(N52) );
-  or2d1_hd U152 ( .A(N82), .B(N83), .Y(N85) );
-  or2d1_hd U153 ( .A(N124), .B(N125), .Y(N127) );
-  or2d1_hd U154 ( .A(n144), .B(n149), .Y(N290) );
-  clknd2d1_hd U155 ( .A(n155), .B(n162), .Y(N263) );
-  clknd2d1_hd U156 ( .A(w_i2c_data_in_ready), .B(n22), .Y(n162) );
-  clknd2d1_hd U157 ( .A(n136), .B(w_i2c_data_in_ready), .Y(n17) );
-  ad2d1_hd U158 ( .A(N185), .B(N287), .Y(N279) );
-  ivd1_hd U159 ( .A(N287), .Y(N288) );
-  or2d1_hd U160 ( .A(N340), .B(N341), .Y(N342) );
-  or2d1_hd U161 ( .A(n72), .B(n139), .Y(N341) );
-  clknd2d1_hd U162 ( .A(n29), .B(n30), .Y(N261) );
-  clknd2d1_hd U163 ( .A(n17), .B(n29), .Y(N265) );
-  or2d1_hd U164 ( .A(r_pstate[1]), .B(N52), .Y(N78) );
-  or2d1_hd U165 ( .A(N76), .B(N77), .Y(N79) );
-  or2d1_hd U166 ( .A(r_pstate[1]), .B(N52), .Y(N120) );
-  or2d1_hd U167 ( .A(N118), .B(N119), .Y(N121) );
-  clknd2d1_hd U168 ( .A(n4), .B(n3), .Y(N295) );
-  or3d1_hd U169 ( .A(n138), .B(n134), .C(n142), .Y(N296) );
-  clknd2d1_hd U170 ( .A(n72), .B(w_i2c_data_out_valid), .Y(n30) );
-  clknd2d1_hd U171 ( .A(n139), .B(i_MPR121_READ_ENABLE), .Y(n14) );
-  or2d1_hd U172 ( .A(r_pstate[1]), .B(N52), .Y(N144) );
-  or2d1_hd U173 ( .A(N142), .B(N143), .Y(N145) );
-  nr2d1_hd U174 ( .A(N151), .B(N150), .Y(n72) );
-  or2d1_hd U175 ( .A(N148), .B(N149), .Y(N151) );
-  nr2ad1_hd U176 ( .A(N97), .B(N96), .Y(n136) );
-  or2d1_hd U177 ( .A(N94), .B(N95), .Y(N97) );
-  or2d1_hd U178 ( .A(N70), .B(N71), .Y(N73) );
-  or2d1_hd U179 ( .A(N112), .B(N113), .Y(N115) );
-  nr2d1_hd U180 ( .A(N139), .B(N138), .Y(n134) );
-  or2d1_hd U181 ( .A(N136), .B(N137), .Y(N139) );
-  or4d1_hd U182 ( .A(N57), .B(n137), .C(n148), .D(n134), .Y(N212) );
-  ad2d1_hd U183 ( .A(N56), .B(N55), .Y(N57) );
-  ad2d1_hd U184 ( .A(N51), .B(N52), .Y(N55) );
-  ad2d1_hd U185 ( .A(N53), .B(N54), .Y(N56) );
-  ad2d1_hd U186 ( .A(N47), .B(N48), .Y(N53) );
-  clknd2d1_hd U187 ( .A(n18), .B(N288), .Y(n164) );
-  or2d1_hd U188 ( .A(N109), .B(N108), .Y(N110) );
-  or2d1_hd U189 ( .A(N106), .B(N107), .Y(N109) );
-  ad2d1_hd U190 ( .A(i_MPR121_READ_ENABLE), .B(N185), .Y(N181) );
-  ivd1_hd U191 ( .A(n18), .Y(n165) );
-  or2d1_hd U192 ( .A(N51), .B(N52), .Y(N102) );
-  or2d1_hd U193 ( .A(N100), .B(N101), .Y(N103) );
-  or2d1_hd U194 ( .A(N185), .B(N288), .Y(alt5_n106) );
-  nr2d2_hd U195 ( .A(N67), .B(N66), .Y(n135) );
-  or2d1_hd U196 ( .A(N64), .B(N65), .Y(N67) );
-  nr2d1_hd U197 ( .A(N61), .B(N60), .Y(n141) );
-  or2d1_hd U198 ( .A(r_pstate[1]), .B(N52), .Y(N60) );
-  or2d1_hd U199 ( .A(N58), .B(N59), .Y(N61) );
-  or3d1_hd U200 ( .A(N57), .B(n141), .C(n135), .Y(N268) );
-  mx2d1_hd U210 ( .D0(r_i2c_data_in_valid), .D1(N227), .S(N264), .Y(n55) );
-  or3d1_hd U211 ( .A(n144), .B(n136), .C(n149), .Y(N227) );
-  clknd2d1_hd U212 ( .A(n13), .B(n26), .Y(N264) );
-  scg2d1_hd U214 ( .A(n136), .B(r_i2c_reg_data_in[0]), .C(N290), .D(
-        r_i2c_reg_addr[0]), .Y(N218) );
-  scg2d1_hd U216 ( .A(n136), .B(r_i2c_reg_data_in[1]), .C(N290), .D(
-        r_i2c_reg_addr[1]), .Y(N219) );
-  scg2d1_hd U218 ( .A(n136), .B(r_i2c_reg_data_in[2]), .C(N290), .D(
-        r_i2c_reg_addr[2]), .Y(N220) );
-  scg2d1_hd U220 ( .A(n136), .B(r_i2c_reg_data_in[3]), .C(N290), .D(
-        r_i2c_reg_addr[3]), .Y(N221) );
-  scg2d1_hd U222 ( .A(n136), .B(r_i2c_reg_data_in[4]), .C(N290), .D(
-        r_i2c_reg_addr[4]), .Y(N222) );
-  scg2d1_hd U224 ( .A(n136), .B(r_i2c_reg_data_in[5]), .C(N290), .D(
-        r_i2c_reg_addr[5]), .Y(N223) );
-  scg2d1_hd U226 ( .A(n136), .B(r_i2c_reg_data_in[6]), .C(N290), .D(
-        r_i2c_reg_addr[6]), .Y(N224) );
-  scg2d1_hd U228 ( .A(n136), .B(r_i2c_reg_data_in[7]), .C(N290), .D(
-        r_i2c_reg_addr[7]), .Y(N225) );
-  nd3d1_hd U230 ( .A(n16), .B(n17), .C(n15), .Y(N270) );
-  clknd2d1_hd U231 ( .A(n18), .B(N187), .Y(n16) );
-  or2d1_hd U232 ( .A(N288), .B(N279), .Y(N187) );
-  mx2d1_hd U233 ( .D0(r_i2c_data_out_ready), .D1(n72), .S(N261), .Y(n57) );
-  mx2d1_hd U234 ( .D0(r_i2c_stop), .D1(n72), .S(N261), .Y(n40) );
-  mx2d1_hd U235 ( .D0(r_i2c_data_in_last), .D1(N229), .S(N265), .Y(n56) );
-  or2d1_hd U236 ( .A(n136), .B(n148), .Y(N229) );
-  mx2d1_hd U237 ( .D0(r_i2c_cmd_valid), .D1(N216), .S(N262), .Y(n39) );
-  or3d1_hd U238 ( .A(n150), .B(n138), .C(n142), .Y(N216) );
-  clknd2d1_hd U239 ( .A(n154), .B(n30), .Y(N262) );
-  or2d1_hd U240 ( .A(n142), .B(n72), .Y(N321) );
-  clknd2d1_hd U241 ( .A(n2), .B(n3), .Y(N320) );
-  clknd2d1_hd U243 ( .A(n12), .B(n13), .Y(N271) );
-  or4d1_hd U244 ( .A(n136), .B(n134), .C(n142), .D(n72), .Y(N316) );
-  nd3d1_hd U252 ( .A(n140), .B(n153), .C(n9), .Y(N273) );
-  clknd2d1_hd U253 ( .A(n135), .B(i_MPR121_WRITE_ENABLE), .Y(n9) );
-  or2d1_hd U254 ( .A(n136), .B(n151), .Y(N348) );
-  or3d1_hd U259 ( .A(n137), .B(n148), .C(n134), .Y(N213) );
-  mx2d1_hd U260 ( .D0(o_MPR121_INIT_SET), .D1(N258), .S(N266), .Y(n45) );
-  clknd2d1_hd U261 ( .A(n163), .B(n164), .Y(N266) );
-  ivd1_hd U262 ( .A(N57), .Y(n163) );
-  mx2d1_hd U263 ( .D0(o_MPR121_BUSY), .D1(N232), .S(N267), .Y(n46) );
-  clknd2d1_hd U264 ( .A(n152), .B(n165), .Y(N267) );
-  or2d1_hd U265 ( .A(i_MPR121_WRITE_ENABLE), .B(N181), .Y(N179) );
-  clknd2d1_hd U266 ( .A(n166), .B(n140), .Y(N272) );
-  ivd1_hd U267 ( .A(n151), .Y(n166) );
-  mx2d1_hd U268 ( .D0(N286), .D1(n135), .S(N268), .Y(n58) );
-  ad2d2_hd U269 ( .A(N275), .B(i_RSTN), .Y(N277) );
-  or2d1_hd U270 ( .A(n141), .B(n135), .Y(N275) );
-  mx2d1_hd U271 ( .D0(r_lstate_0_), .D1(n141), .S(N268), .Y(n59) );
-  ivd1_hd U272 ( .A(i_MPR121_WRITE_ENABLE), .Y(N185) );
-  or2d1_hd U273 ( .A(r_pstate[5]), .B(N48), .Y(N88) );
-  or2d1_hd U274 ( .A(r_pstate[5]), .B(N48), .Y(N106) );
-  or2d1_hd U275 ( .A(r_pstate[5]), .B(N48), .Y(N100) );
-  or2d1_hd U276 ( .A(r_pstate[5]), .B(N48), .Y(N76) );
-  ivd1_hd U277 ( .A(r_pstate[5]), .Y(N47) );
-  or2d1_hd U278 ( .A(r_pstate[5]), .B(N48), .Y(N82) );
-  or2d1_hd U279 ( .A(r_pstate[5]), .B(N48), .Y(N94) );
-  or2d1_hd U280 ( .A(r_pstate[5]), .B(N48), .Y(N70) );
-  or2d1_hd U281 ( .A(N51), .B(r_pstate[0]), .Y(N66) );
-  or2d1_hd U282 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(N108) );
-  or2d1_hd U283 ( .A(N51), .B(r_pstate[0]), .Y(N84) );
-  or2d1_hd U284 ( .A(N51), .B(r_pstate[0]), .Y(N126) );
-  or2d1_hd U285 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(N72) );
-  or2d1_hd U286 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(N96) );
-  or2d1_hd U287 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(N138) );
-  or2d1_hd U288 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(N114) );
-  or2d1_hd U289 ( .A(N51), .B(r_pstate[0]), .Y(N150) );
-  or2d1_hd U290 ( .A(N47), .B(r_pstate[4]), .Y(N154) );
-  or2d1_hd U291 ( .A(r_pstate[5]), .B(r_pstate[4]), .Y(N64) );
-  or2d1_hd U292 ( .A(N47), .B(r_pstate[4]), .Y(N130) );
-  or2d1_hd U293 ( .A(r_pstate[5]), .B(r_pstate[4]), .Y(N58) );
-  or2d1_hd U294 ( .A(N47), .B(r_pstate[4]), .Y(N118) );
-  or2d1_hd U295 ( .A(N47), .B(r_pstate[4]), .Y(N142) );
-  or2d1_hd U296 ( .A(N47), .B(r_pstate[4]), .Y(N124) );
-  or2d1_hd U297 ( .A(N47), .B(r_pstate[4]), .Y(N136) );
-  or2d1_hd U298 ( .A(N47), .B(r_pstate[4]), .Y(N112) );
-  or2d1_hd U299 ( .A(N47), .B(r_pstate[4]), .Y(N148) );
-  or2d1_hd U300 ( .A(r_pstate[3]), .B(N50), .Y(N155) );
-  or2d1_hd U301 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N89) );
-  or2d1_hd U302 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N65) );
-  or2d1_hd U303 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N131) );
-  or2d1_hd U304 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N59) );
-  or2d1_hd U305 ( .A(r_pstate[3]), .B(N50), .Y(N101) );
-  or2d1_hd U306 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N119) );
-  ivd1_hd U307 ( .A(r_pstate[3]), .Y(N49) );
-  or2d1_hd U308 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N77) );
-  or2d1_hd U309 ( .A(r_pstate[3]), .B(N50), .Y(N143) );
-  or2d1_hd U310 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N83) );
-  or2d1_hd U311 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N125) );
-  or2d1_hd U312 ( .A(r_pstate[3]), .B(N50), .Y(N95) );
-  or2d1_hd U313 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N71) );
-  or2d1_hd U314 ( .A(r_pstate[3]), .B(N50), .Y(N137) );
-  or2d1_hd U315 ( .A(r_pstate[3]), .B(r_pstate[2]), .Y(N113) );
-  or2d1_hd U316 ( .A(r_pstate[3]), .B(N50), .Y(N149) );
-  ivd1_hd U377 ( .A(r_lstate_0_), .Y(N280) );
-  nr2d1_hd U379 ( .A(N73), .B(N72), .Y(n137) );
-  nr2d1_hd U380 ( .A(N121), .B(N120), .Y(n138) );
-  ivd1_hd U381 ( .A(N212), .Y(n29) );
-  nr2d1_hd U382 ( .A(N157), .B(N156), .Y(n139) );
-  scg6d1_hd U383 ( .A(alt5_n106), .B(n10), .C(N110), .Y(n140) );
-  nr2d1_hd U384 ( .A(N145), .B(N144), .Y(n142) );
-  scg8d1_hd U385 ( .A(n135), .B(N181), .C(n7), .D(N322), .Y(n143) );
-  nr2d1_hd U386 ( .A(N85), .B(N84), .Y(n144) );
-  ao21d1_hd U387 ( .A(r_clk_counter[6]), .B(n161), .C(r_clk_counter[9]), .Y(
-        n145) );
-  nr2d1_hd U388 ( .A(N133), .B(N132), .Y(n146) );
-  scg8d1_hd U389 ( .A(w_i2c_data_in_ready), .B(n22), .C(n20), .D(n23), .Y(n147) );
-  nr2d1_hd U390 ( .A(N115), .B(N114), .Y(n148) );
-  nr2d1_hd U391 ( .A(N127), .B(N126), .Y(n149) );
-  nr2d1_hd U392 ( .A(N79), .B(N78), .Y(n150) );
-  nr2d1_hd U393 ( .A(N103), .B(N102), .Y(n151) );
-  nr3d1_hd U394 ( .A(N57), .B(n135), .C(n139), .Y(n152) );
-  nr2d1_hd U395 ( .A(N330), .B(N348), .Y(n153) );
-  nr2d1_hd U396 ( .A(N295), .B(N296), .Y(n154) );
-  nr2d1_hd U397 ( .A(N57), .B(n134), .Y(n155) );
-  nr2d1_hd U398 ( .A(N91), .B(N90), .Y(n156) );
-  or2d1_hd U399 ( .A(N320), .B(N321), .Y(N322) );
-  nr2d1_hd U400 ( .A(i_MPR121_READ_ENABLE), .B(i_MPR121_WRITE_ENABLE), .Y(n157) );
-  ivd1_hd U401 ( .A(r_clk_counter[3]), .Y(n160) );
-  oa21d1_hd U402 ( .A(r_clk_counter[1]), .B(r_clk_counter[0]), .C(
-        r_clk_counter[2]), .Y(n159) );
-  nd4d1_hd U403 ( .A(r_clk_counter[8]), .B(r_clk_counter[4]), .C(
-        r_clk_counter[7]), .D(r_clk_counter[5]), .Y(n158) );
-  ao21d1_hd U404 ( .A(n160), .B(n159), .C(n158), .Y(n161) );
-  ivd1_hd U1 ( .A(n109), .Y(n5) );
-  ivd1_hd U2 ( .A(n110), .Y(n6) );
-  ivd1_hd U6 ( .A(n111), .Y(n8) );
-  ivd1_hd U8 ( .A(n112), .Y(n11) );
-  ivd1_hd U11 ( .A(n113), .Y(n19) );
-  ivd1_hd U12 ( .A(n114), .Y(n21) );
-  ivd1_hd U13 ( .A(n115), .Y(n27) );
-  ivd1_hd U14 ( .A(n116), .Y(n70) );
-  ivd1_hd U15 ( .A(n117), .Y(n71) );
-  ivd1_hd U16 ( .A(n118), .Y(n73) );
-  ivd1_hd U17 ( .A(n119), .Y(n74) );
-  ivd1_hd U18 ( .A(n120), .Y(n75) );
-  ivd1_hd U19 ( .A(n121), .Y(n76) );
-  ivd1_hd U20 ( .A(n122), .Y(n77) );
-  ivd1_hd U21 ( .A(n123), .Y(n78) );
-  ivd1_hd U22 ( .A(n124), .Y(n79) );
-  ivd1_hd U23 ( .A(n125), .Y(n80) );
-  ivd1_hd U24 ( .A(n126), .Y(n81) );
-  ivd1_hd U25 ( .A(n127), .Y(n82) );
-  ivd1_hd U26 ( .A(n128), .Y(n83) );
-  ivd1_hd U29 ( .A(n129), .Y(n84) );
-  ivd1_hd U30 ( .A(n130), .Y(n85) );
-  ivd1_hd U32 ( .A(n131), .Y(n86) );
-  ivd1_hd U33 ( .A(n132), .Y(n87) );
-  ivd1_hd U34 ( .A(n133), .Y(n88) );
-  ivd1_hd U36 ( .A(n167), .Y(n89) );
-  ivd1_hd U38 ( .A(n168), .Y(n90) );
-  ivd1_hd U39 ( .A(n169), .Y(n91) );
-  ivd1_hd U40 ( .A(n170), .Y(n92) );
-  ivd1_hd U42 ( .A(n171), .Y(n93) );
-  ivd1_hd U44 ( .A(n172), .Y(n94) );
-  ivd1_hd U45 ( .A(n173), .Y(n95) );
-  ivd1_hd U48 ( .A(n174), .Y(n96) );
-  ivd1_hd U51 ( .A(n175), .Y(n97) );
-  ivd1_hd U53 ( .A(n176), .Y(n98) );
-  ivd1_hd U54 ( .A(n177), .Y(n99) );
-  ivd1_hd U55 ( .A(n178), .Y(n100) );
-  ivd1_hd U56 ( .A(n179), .Y(n101) );
-  ivd1_hd U57 ( .A(n180), .Y(n102) );
-  ivd1_hd U59 ( .A(n181), .Y(n103) );
-  ivd1_hd U61 ( .A(n182), .Y(n104) );
-  ivd1_hd U79 ( .A(n183), .Y(n105) );
-  ivd1_hd U80 ( .A(n184), .Y(n106) );
-  ivd1_hd U81 ( .A(n185), .Y(n107) );
-  ivd1_hd U82 ( .A(n186), .Y(n108) );
-  ivd1_hd U83 ( .A(i_RSTN), .Y(n109) );
-  ivd1_hd U84 ( .A(i_RSTN), .Y(n110) );
-  ivd1_hd U85 ( .A(i_RSTN), .Y(n111) );
-  ivd1_hd U86 ( .A(i_RSTN), .Y(n112) );
-  ivd1_hd U98 ( .A(i_RSTN), .Y(n113) );
-  ivd1_hd U99 ( .A(i_RSTN), .Y(n114) );
-  ivd1_hd U100 ( .A(i_RSTN), .Y(n115) );
-  ivd1_hd U101 ( .A(i_RSTN), .Y(n116) );
-  ivd1_hd U102 ( .A(i_RSTN), .Y(n117) );
-  ivd1_hd U103 ( .A(i_RSTN), .Y(n118) );
-  ivd1_hd U104 ( .A(i_RSTN), .Y(n119) );
-  ivd1_hd U105 ( .A(i_RSTN), .Y(n120) );
-  ivd1_hd U106 ( .A(i_RSTN), .Y(n121) );
-  ivd1_hd U107 ( .A(i_RSTN), .Y(n122) );
-  ivd1_hd U108 ( .A(i_RSTN), .Y(n123) );
-  ivd1_hd U109 ( .A(i_RSTN), .Y(n124) );
-  ivd1_hd U110 ( .A(i_RSTN), .Y(n125) );
-  ivd1_hd U111 ( .A(i_RSTN), .Y(n126) );
-  ivd1_hd U112 ( .A(i_RSTN), .Y(n127) );
-  ivd1_hd U113 ( .A(i_RSTN), .Y(n128) );
-  ivd1_hd U114 ( .A(i_RSTN), .Y(n129) );
-  ivd1_hd U115 ( .A(i_RSTN), .Y(n130) );
-  ivd1_hd U116 ( .A(i_RSTN), .Y(n131) );
-  ivd1_hd U117 ( .A(i_RSTN), .Y(n132) );
-  ivd1_hd U118 ( .A(i_RSTN), .Y(n133) );
-  ivd1_hd U119 ( .A(i_RSTN), .Y(n167) );
-  ivd1_hd U120 ( .A(i_RSTN), .Y(n168) );
-  ivd1_hd U121 ( .A(i_RSTN), .Y(n169) );
-  ivd1_hd U122 ( .A(i_RSTN), .Y(n170) );
-  ivd1_hd U123 ( .A(i_RSTN), .Y(n171) );
-  ivd1_hd U124 ( .A(i_RSTN), .Y(n172) );
-  ivd1_hd U125 ( .A(i_RSTN), .Y(n173) );
-  ivd1_hd U126 ( .A(i_RSTN), .Y(n174) );
-  ivd1_hd U127 ( .A(i_RSTN), .Y(n175) );
-  ivd1_hd U128 ( .A(i_RSTN), .Y(n176) );
-  ivd1_hd U129 ( .A(i_RSTN), .Y(n177) );
-  ivd1_hd U130 ( .A(i_RSTN), .Y(n178) );
-  ivd1_hd U131 ( .A(i_RSTN), .Y(n179) );
-  ivd1_hd U132 ( .A(i_RSTN), .Y(n180) );
-  ivd1_hd U133 ( .A(i_RSTN), .Y(n181) );
-  ivd1_hd U134 ( .A(i_RSTN), .Y(n182) );
-  ivd1_hd U135 ( .A(i_RSTN), .Y(n183) );
-  ivd1_hd U136 ( .A(i_RSTN), .Y(n184) );
-  ivd1_hd U137 ( .A(i_RSTN), .Y(n185) );
-  ivd1_hd U138 ( .A(i_RSTN), .Y(n186) );
-  mpr121_controller_DW01_inc_0 add_x_2 ( .A(r_clk_counter), .SUM({N198, N197, 
-        N196, N195, N194, N193, N192, N191, N190, N189}) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_0 clk_gate_r_i2c_reg_data_in_reg_7_ ( 
-        .CLK(i_CLK), .EN(N277), .ENCLK(n206), .TE(1'b0) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_1 clk_gate_r_clk_counter_reg_6_ ( 
-        .CLK(i_CLK), .EN(N258), .ENCLK(n204), .TE(1'b0) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_2 clk_gate_r_i2c_data_in_reg_7_ ( 
-        .CLK(i_CLK), .EN(N263), .ENCLK(n202), .TE(1'b0) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_3 clk_gate_o_MPR121_DATA_OUT_reg_7_ ( 
-        .CLK(i_CLK), .EN(N259), .ENCLK(n200), .TE(1'b0) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_4 clk_gate_r_i2c_start_reg ( .CLK(
-        i_CLK), .EN(N212), .ENCLK(n198), .TE(1'b0) );
-  SNPS_CLOCK_GATE_HIGH_mpr121_controller_5 clk_gate_r_lstate_reg_0_ ( .CLK(
-        i_CLK), .EN(n197), .ENCLK(n195), .TE(1'b0) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_5_ ( .D(N254), .CK(n206), .Q(
+  clknd2d1_hd U141 ( .A(r_pstate[2]), .B(n114), .Y(n129) );
+  clknd2d1_hd U142 ( .A(n161), .B(n84), .Y(n128) );
+  clknd2d1_hd U143 ( .A(r_pstate[1]), .B(n161), .Y(n119) );
+  clknd2d1_hd U144 ( .A(n83), .B(n146), .Y(n158) );
+  clknd2d1_hd U145 ( .A(r_pstate[4]), .B(n160), .Y(n134) );
+  clknd2d1_hd U146 ( .A(w_i2c_data_in_ready), .B(n136), .Y(n145) );
+  clknd2d1_hd U147 ( .A(n160), .B(n148), .Y(n107) );
+  clknd2d1_hd U148 ( .A(n116), .B(n147), .Y(n137) );
+  clknd2d1_hd U149 ( .A(i_MPR121_WRITE_ENABLE), .B(n111), .Y(n138) );
+  clknd2d1_hd U150 ( .A(n139), .B(n85), .Y(n82) );
+  clknd2d1_hd U151 ( .A(n120), .B(n141), .Y(n108) );
+  clknd2d1_hd U152 ( .A(n112), .B(n102), .Y(n121) );
+  clknd2d1_hd U153 ( .A(n112), .B(n145), .Y(n96) );
+  clknd2d1_hd U154 ( .A(r_lstate_0_), .B(n86), .Y(n111) );
+  clknd2d1_hd U157 ( .A(n123), .B(n145), .Y(n144) );
+  clknd2d1_hd U158 ( .A(n105), .B(i_MPR121_READ_ENABLE), .Y(n131) );
+  scg2d1_hd U169 ( .A(n103), .B(n109), .C(o_MPR121_INIT_SET), .D(n89), .Y(n46)
+         );
+  clknd2d1_hd U184 ( .A(n127), .B(n93), .Y(n97) );
+  ivd1_hd U193 ( .A(n96), .Y(n92) );
+  oa22ad1_hd U195 ( .A(n103), .B(n104), .C(n105), .D(n106), .Y(n47) );
+  oa211d1_hd U196 ( .A(r_pstate[0]), .B(n107), .C(n108), .D(o_MPR121_BUSY), 
+        .Y(n104) );
+  ivd1_hd U197 ( .A(n110), .Y(n89) );
+  ivd1_hd U198 ( .A(n111), .Y(n109) );
+  scg22d1_hd U206 ( .A(r_i2c_cmd_valid), .B(n122), .C(n121), .D(n123), .Y(n40)
+         );
+  nr2d1_hd U217 ( .A(n107), .B(n128), .Y(n110) );
+  nr2d1_hd U218 ( .A(n129), .B(n128), .Y(n117) );
+  ivd1_hd U219 ( .A(n130), .Y(n127) );
+  nr2d1_hd U220 ( .A(n105), .B(n81), .Y(n88) );
+  oa211d1_hd U221 ( .A(i_MPR121_WRITE_ENABLE), .B(n131), .C(n132), .D(n133), 
+        .Y(N312) );
+  scg18d1_hd U222 ( .A(n105), .B(i_MPR121_WRITE_ENABLE), .C(N310), .D(n134), 
+        .E(n135), .Y(N311) );
+  nr2d1_hd U223 ( .A(n136), .B(n78), .Y(n135) );
+  oa211d1_hd U224 ( .A(n137), .B(n138), .C(n122), .D(n82), .Y(N310) );
+  ivd1_hd U225 ( .A(n137), .Y(n85) );
+  nd2bd1_hd U226 ( .AN(n140), .B(n141), .Y(n122) );
+  oa211d1_hd U227 ( .A(w_i2c_data_in_ready), .B(n99), .C(n132), .D(n93), .Y(
+        N309) );
+  ivd1_hd U228 ( .A(n136), .Y(n93) );
+  scg22d1_hd U229 ( .A(r_pstate[0]), .B(r_pstate[1]), .C(i_MPR121_READ_ENABLE), 
+        .D(n120), .Y(n132) );
+  oa211d1_hd U230 ( .A(n87), .B(n106), .C(n142), .D(n143), .Y(N308) );
+  ao21d1_hd U231 ( .A(n103), .B(n138), .C(n144), .Y(n143) );
+  oa21d1_hd U232 ( .A(n114), .B(n115), .C(n146), .Y(n123) );
+  ivd1_hd U233 ( .A(N324), .Y(n86) );
+  nr2d1_hd U234 ( .A(n139), .B(n137), .Y(n103) );
+  nr4d1_hd U235 ( .A(r_pstate[5]), .B(r_pstate[2]), .C(n148), .D(n149), .Y(
+        n147) );
+  nr2d1_hd U236 ( .A(n150), .B(r_clk_counter[9]), .Y(n139) );
+  ao211d1_hd U237 ( .A(n151), .B(n152), .C(n153), .D(n154), .Y(n150) );
+  nd4d1_hd U238 ( .A(r_clk_counter[5]), .B(r_clk_counter[4]), .C(
+        r_clk_counter[8]), .D(r_clk_counter[7]), .Y(n154) );
+  ivd1_hd U239 ( .A(r_clk_counter[6]), .Y(n153) );
+  ivd1_hd U240 ( .A(r_clk_counter[3]), .Y(n152) );
+  oa21d1_hd U241 ( .A(r_clk_counter[1]), .B(r_clk_counter[0]), .C(
+        r_clk_counter[2]), .Y(n151) );
+  ao211d1_hd U242 ( .A(n120), .B(r_pstate[1]), .C(n155), .D(n130), .Y(n142) );
+  or2d1_hd U243 ( .A(i_MPR121_WRITE_ENABLE), .B(i_MPR121_READ_ENABLE), .Y(n106) );
+  oa211d1_hd U244 ( .A(n156), .B(n108), .C(n100), .D(n157), .Y(N307) );
+  ao211d1_hd U245 ( .A(n80), .B(n81), .C(n155), .D(n101), .Y(n157) );
+  ivd1_hd U246 ( .A(n102), .Y(n101) );
+  nd3bd1_hd U247 ( .AN(n119), .B(w_i2c_data_out_valid), .C(n120), .Y(n102) );
+  nr2bd1_hd U248 ( .AN(w_i2c_data_in_ready), .B(n99), .Y(n155) );
+  oa21d1_hd U249 ( .A(n118), .B(n115), .C(n141), .Y(n99) );
+  ivd1_hd U250 ( .A(n134), .Y(n115) );
+  ivd1_hd U251 ( .A(n158), .Y(n81) );
+  ao21d1_hd U252 ( .A(w_i2c_data_in_ready), .B(n130), .C(n96), .Y(n100) );
+  nr2d1_hd U253 ( .A(n128), .B(n140), .Y(n136) );
+  nd3d1_hd U254 ( .A(r_pstate[4]), .B(r_pstate[2]), .C(n159), .Y(n140) );
+  nr2d1_hd U255 ( .A(r_pstate[5]), .B(r_pstate[3]), .Y(n159) );
+  oa21d1_hd U256 ( .A(n160), .B(n114), .C(n116), .Y(n112) );
+  ivd1_hd U257 ( .A(n128), .Y(n116) );
+  ao21d1_hd U258 ( .A(n133), .B(n134), .C(n119), .Y(n130) );
+  ivd1_hd U259 ( .A(n118), .Y(n133) );
+  nr2d1_hd U260 ( .A(n162), .B(r_pstate[2]), .Y(n118) );
+  nr2d1_hd U261 ( .A(n161), .B(n84), .Y(n141) );
+  ivd1_hd U262 ( .A(r_pstate[1]), .Y(n84) );
+  ivd1_hd U263 ( .A(n129), .Y(n120) );
+  ivd1_hd U264 ( .A(n162), .Y(n114) );
+  nd3d1_hd U265 ( .A(r_pstate[5]), .B(n148), .C(n149), .Y(n162) );
+  ivd1_hd U266 ( .A(r_pstate[3]), .Y(n149) );
+  ivd1_hd U267 ( .A(i_MPR121_READ_ENABLE), .Y(n156) );
+  nr2bd1_hd U268 ( .AN(i_MPR121_DATA_IN[7]), .B(n87), .Y(N294) );
+  scg6d1_hd U269 ( .A(n105), .B(i_MPR121_DATA_IN[6]), .C(n78), .Y(N293) );
+  scg6d1_hd U270 ( .A(n105), .B(i_MPR121_DATA_IN[5]), .C(n78), .Y(N292) );
+  nr2bd1_hd U271 ( .AN(i_MPR121_DATA_IN[4]), .B(n87), .Y(N291) );
+  nr2bd1_hd U272 ( .AN(i_MPR121_DATA_IN[3]), .B(n87), .Y(N290) );
+  nr2bd1_hd U273 ( .AN(i_MPR121_DATA_IN[2]), .B(n87), .Y(N289) );
+  scg6d1_hd U274 ( .A(n105), .B(i_MPR121_DATA_IN[1]), .C(n78), .Y(N288) );
+  scg6d1_hd U275 ( .A(n105), .B(i_MPR121_DATA_IN[0]), .C(n78), .Y(N287) );
+  scg6d1_hd U276 ( .A(n105), .B(o_MPR121_REG_ADDR[7]), .C(n78), .Y(N286) );
+  nr2d1_hd U277 ( .A(n80), .B(n158), .Y(n78) );
+  nr2d1_hd U278 ( .A(r_pstate[1]), .B(n161), .Y(n146) );
+  ivd1_hd U279 ( .A(n107), .Y(n83) );
+  nr2bd1_hd U281 ( .AN(o_MPR121_REG_ADDR[6]), .B(n87), .Y(N285) );
+  nr2bd1_hd U282 ( .AN(o_MPR121_REG_ADDR[5]), .B(n87), .Y(N284) );
+  nr2bd1_hd U283 ( .AN(o_MPR121_REG_ADDR[4]), .B(n87), .Y(N283) );
+  nr2bd1_hd U284 ( .AN(o_MPR121_REG_ADDR[3]), .B(n87), .Y(N282) );
+  nr2bd1_hd U285 ( .AN(o_MPR121_REG_ADDR[2]), .B(n87), .Y(N281) );
+  nr2bd1_hd U286 ( .AN(o_MPR121_REG_ADDR[1]), .B(n87), .Y(N280) );
+  ivd1_hd U287 ( .A(n105), .Y(n87) );
+  ad2d1_hd U288 ( .A(o_MPR121_REG_ADDR[0]), .B(n105), .Y(N279) );
+  ivd1_hd U290 ( .A(r_pstate[4]), .Y(n148) );
+  nr3d1_hd U291 ( .A(r_pstate[2]), .B(r_pstate[5]), .C(r_pstate[3]), .Y(n160)
+         );
+  ivd1_hd U292 ( .A(r_pstate[0]), .Y(n161) );
+  ivd1_hd U23 ( .A(n185), .Y(n23) );
+  ivd1_hd U26 ( .A(n185), .Y(n26) );
+  ivd1_hd U57 ( .A(w_rstn), .Y(n185) );
+  mpr121_controller_DW01_inc_0 add_x_2 ( .A(r_clk_counter), .SUM({N192, N191, 
+        N190, N189, N188, N187, N186, N185, N184, N183}) );
+  SNPS_CLOCK_GATE_HIGH_mpr121_controller_10 clk_gate_r_i2c_write_reg_0 ( .CLK(
+        i_CLK), .EN(n251), .ENCLK(n203), .TE(1'b0) );
+  SNPS_CLOCK_GATE_HIGH_mpr121_controller_11 clk_gate_o_MPR121_DATA_OUT_reg_7__0 ( 
+        .CLK(i_CLK), .EN(n101), .ENCLK(n202), .TE(1'b0) );
+  SNPS_CLOCK_GATE_HIGH_mpr121_controller_12 clk_gate_r_i2c_data_in_reg_0__0 ( 
+        .CLK(i_CLK), .EN(n198), .ENCLK(n201), .TE(1'b0) );
+  SNPS_CLOCK_GATE_HIGH_mpr121_controller_13 clk_gate_r_clk_counter_reg_8__0 ( 
+        .CLK(i_CLK), .EN(n273), .ENCLK(n200), .TE(1'b0) );
+  SNPS_CLOCK_GATE_HIGH_mpr121_controller_14 clk_gate_r_i2c_reg_addr_reg_0__0 ( 
+        .CLK(i_CLK), .EN(N315), .ENCLK(n199), .TE(1'b0) );
+  fd2qd1_hd r_lstate_reg_0_ ( .D(n204), .CK(i_CLK), .RN(n26), .Q(r_lstate_0_)
+         );
+  fd1qd1_hd r_i2c_reg_data_in_reg_5_ ( .D(N292), .CK(n199), .Q(
         r_i2c_reg_data_in[5]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_7_ ( .D(N256), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_7_ ( .D(N294), .CK(n199), .Q(
         r_i2c_reg_data_in[7]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_4_ ( .D(N253), .CK(n206), .Q(
-        r_i2c_reg_data_in[4]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_3_ ( .D(N252), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_3_ ( .D(N290), .CK(n199), .Q(
         r_i2c_reg_data_in[3]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_2_ ( .D(N251), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_2_ ( .D(N289), .CK(n199), .Q(
         r_i2c_reg_data_in[2]) );
-  fd1qd1_hd r_i2c_reg_addr_reg_6_ ( .D(N247), .CK(n206), .Q(r_i2c_reg_addr[6])
+  fd1qd1_hd r_i2c_reg_addr_reg_6_ ( .D(N285), .CK(n199), .Q(r_i2c_reg_addr[6])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_5_ ( .D(N246), .CK(n206), .Q(r_i2c_reg_addr[5])
+  fd1qd1_hd r_i2c_reg_addr_reg_4_ ( .D(N283), .CK(n199), .Q(r_i2c_reg_addr[4])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_4_ ( .D(N245), .CK(n206), .Q(r_i2c_reg_addr[4])
+  fd1qd1_hd r_i2c_reg_addr_reg_2_ ( .D(N281), .CK(n199), .Q(r_i2c_reg_addr[2])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_3_ ( .D(N244), .CK(n206), .Q(r_i2c_reg_addr[3])
+  fd1qd1_hd r_i2c_reg_data_in_reg_4_ ( .D(N291), .CK(n199), .Q(
+        r_i2c_reg_data_in[4]) );
+  fd1qd1_hd r_i2c_reg_addr_reg_5_ ( .D(N284), .CK(n199), .Q(r_i2c_reg_addr[5])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_2_ ( .D(N243), .CK(n206), .Q(r_i2c_reg_addr[2])
+  fd1qd1_hd r_i2c_reg_addr_reg_3_ ( .D(N282), .CK(n199), .Q(r_i2c_reg_addr[3])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_1_ ( .D(N242), .CK(n206), .Q(r_i2c_reg_addr[1])
+  fd1qd1_hd r_i2c_reg_addr_reg_1_ ( .D(N280), .CK(n199), .Q(r_i2c_reg_addr[1])
          );
-  fd1qd1_hd r_i2c_reg_addr_reg_0_ ( .D(N241), .CK(n206), .Q(r_i2c_reg_addr[0])
+  fd1qd1_hd r_i2c_reg_addr_reg_0_ ( .D(N279), .CK(n199), .Q(r_i2c_reg_addr[0])
          );
-  fd1qd1_hd r_i2c_reg_data_in_reg_6_ ( .D(N255), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_6_ ( .D(N293), .CK(n199), .Q(
         r_i2c_reg_data_in[6]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_1_ ( .D(N250), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_1_ ( .D(N288), .CK(n199), .Q(
         r_i2c_reg_data_in[1]) );
-  fd1qd1_hd r_i2c_reg_data_in_reg_0_ ( .D(N249), .CK(n206), .Q(
+  fd1qd1_hd r_i2c_reg_data_in_reg_0_ ( .D(N287), .CK(n199), .Q(
         r_i2c_reg_data_in[0]) );
-  fd1qd1_hd r_i2c_reg_addr_reg_7_ ( .D(N248), .CK(n206), .Q(r_i2c_reg_addr[7])
+  fd1qd1_hd r_i2c_reg_addr_reg_7_ ( .D(N286), .CK(n199), .Q(r_i2c_reg_addr[7])
          );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_7_ ( .D(w_i2c_data_out[7]), .CK(n200), .RN(
-        n101), .Q(o_MPR121_DATA_OUT[7]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_6_ ( .D(w_i2c_data_out[6]), .CK(n200), .RN(
-        n102), .Q(o_MPR121_DATA_OUT[6]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_5_ ( .D(w_i2c_data_out[5]), .CK(n200), .RN(
-        n103), .Q(o_MPR121_DATA_OUT[5]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_4_ ( .D(w_i2c_data_out[4]), .CK(n200), .RN(
-        n104), .Q(o_MPR121_DATA_OUT[4]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_3_ ( .D(w_i2c_data_out[3]), .CK(n200), .RN(
-        n105), .Q(o_MPR121_DATA_OUT[3]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_2_ ( .D(w_i2c_data_out[2]), .CK(n200), .RN(
-        n106), .Q(o_MPR121_DATA_OUT[2]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_1_ ( .D(w_i2c_data_out[1]), .CK(n200), .RN(
-        n107), .Q(o_MPR121_DATA_OUT[1]) );
-  fd2qd1_hd o_MPR121_DATA_OUT_reg_0_ ( .D(w_i2c_data_out[0]), .CK(n200), .RN(
-        n108), .Q(o_MPR121_DATA_OUT[0]) );
-  fd2qd1_hd r_clk_counter_reg_4_ ( .D(N203), .CK(n204), .RN(n76), .Q(
-        r_clk_counter[4]) );
-  fd2qd1_hd r_clk_counter_reg_3_ ( .D(N202), .CK(n204), .RN(n77), .Q(
-        r_clk_counter[3]) );
-  fd2qd1_hd r_clk_counter_reg_2_ ( .D(N201), .CK(n204), .RN(n78), .Q(
-        r_clk_counter[2]) );
-  fd2qd1_hd r_clk_counter_reg_1_ ( .D(N200), .CK(n204), .RN(n79), .Q(
-        r_clk_counter[1]) );
-  fd2qd1_hd r_clk_counter_reg_0_ ( .D(N199), .CK(n204), .RN(n80), .Q(
-        r_clk_counter[0]) );
-  fd2qd1_hd r_i2c_write_reg ( .D(n148), .CK(n198), .RN(n71), .Q(r_i2c_write)
-         );
-  fd2qd1_hd r_i2c_write_multiple_reg ( .D(n137), .CK(n198), .RN(n70), .Q(
+  fd2qd1_hd r_i2c_write_multiple_reg ( .D(n115), .CK(n203), .RN(w_rstn), .Q(
         r_i2c_write_multiple) );
-  fd2qd1_hd r_clk_counter_reg_5_ ( .D(N204), .CK(n204), .RN(n75), .Q(
-        r_clk_counter[5]) );
-  fd2qd1_hd r_i2c_read_reg ( .D(n134), .CK(n198), .RN(n27), .Q(r_i2c_read) );
-  fd2qd1_hd r_clk_counter_reg_6_ ( .D(N205), .CK(n204), .RN(n74), .Q(
-        r_clk_counter[6]) );
-  fd2qd1_hd r_i2c_start_reg ( .D(N213), .CK(n198), .RN(n21), .Q(r_i2c_start)
+  fd2qd1_hd r_i2c_write_reg ( .D(n118), .CK(n203), .RN(n23), .Q(r_i2c_write)
          );
-  fd2qd1_hd r_clk_counter_reg_7_ ( .D(N206), .CK(n204), .RN(n82), .Q(
-        r_clk_counter[7]) );
-  fd2qd1_hd r_pstate_reg_2_ ( .D(N271), .CK(i_CLK), .RN(n81), .Q(r_pstate[2])
+  fd2qd1_hd r_i2c_read_reg ( .D(r_pstate[2]), .CK(n203), .RN(n23), .Q(
+        r_i2c_read) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_6_ ( .D(w_i2c_data_out[6]), .CK(n202), .RN(
+        n23), .Q(o_MPR121_DATA_OUT[6]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_4_ ( .D(w_i2c_data_out[4]), .CK(n202), .RN(
+        n23), .Q(o_MPR121_DATA_OUT[4]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_2_ ( .D(w_i2c_data_out[2]), .CK(n202), .RN(
+        n23), .Q(o_MPR121_DATA_OUT[2]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_0_ ( .D(w_i2c_data_out[0]), .CK(n202), .RN(
+        n23), .Q(o_MPR121_DATA_OUT[0]) );
+  fd2qd1_hd r_i2c_start_reg ( .D(n249), .CK(n203), .RN(n26), .Q(r_i2c_start)
          );
-  fd2qd1_hd r_pstate_reg_4_ ( .D(N273), .CK(i_CLK), .RN(n73), .Q(r_pstate[4])
-         );
-  fd2qd1_hd r_clk_counter_reg_8_ ( .D(N207), .CK(n204), .RN(n90), .Q(
-        r_clk_counter[8]) );
-  fd2qd1_hd o_MPR121_BUSY_reg ( .D(n46), .CK(n195), .RN(n11), .Q(o_MPR121_BUSY) );
-  fd2qd1_hd o_MPR121_INIT_SET_reg ( .D(n45), .CK(n195), .RN(n19), .Q(
-        o_MPR121_INIT_SET) );
-  fd2qd1_hd r_lstate_reg_0_ ( .D(n59), .CK(n195), .RN(n5), .Q(r_lstate_0_) );
-  fd2qd1_hd r_lstate_reg_1_ ( .D(n58), .CK(n195), .RN(n6), .Q(N286) );
-  fd2qd1_hd r_pstate_reg_5_ ( .D(n143), .CK(i_CLK), .RN(n84), .Q(r_pstate[5])
-         );
-  fd2qd1_hd r_i2c_data_in_reg_7_ ( .D(N225), .CK(n202), .RN(n91), .Q(
-        r_i2c_data_in[7]) );
-  fd2qd1_hd r_i2c_data_in_reg_6_ ( .D(N224), .CK(n202), .RN(n92), .Q(
-        r_i2c_data_in[6]) );
-  fd2qd1_hd r_i2c_data_in_reg_5_ ( .D(N223), .CK(n202), .RN(n93), .Q(
-        r_i2c_data_in[5]) );
-  fd2qd1_hd r_i2c_data_in_reg_4_ ( .D(N222), .CK(n202), .RN(n94), .Q(
-        r_i2c_data_in[4]) );
-  fd2qd1_hd r_i2c_data_in_reg_3_ ( .D(N221), .CK(n202), .RN(n95), .Q(
-        r_i2c_data_in[3]) );
-  fd2qd1_hd r_i2c_data_in_reg_2_ ( .D(N220), .CK(n202), .RN(n96), .Q(
-        r_i2c_data_in[2]) );
-  fd2qd1_hd r_i2c_data_in_reg_1_ ( .D(N219), .CK(n202), .RN(n97), .Q(
-        r_i2c_data_in[1]) );
-  fd2qd1_hd r_i2c_data_in_reg_0_ ( .D(N218), .CK(n202), .RN(n98), .Q(
-        r_i2c_data_in[0]) );
-  fd2qd1_hd r_pstate_reg_1_ ( .D(N270), .CK(i_CLK), .RN(n89), .Q(r_pstate[1])
-         );
-  fd2qd1_hd r_i2c_cmd_valid_reg ( .D(n39), .CK(n195), .RN(n85), .Q(
-        r_i2c_cmd_valid) );
-  fd2qd1_hd r_pstate_reg_0_ ( .D(n147), .CK(i_CLK), .RN(n83), .Q(r_pstate[0])
-         );
-  fd2qd1_hd r_clk_counter_reg_9_ ( .D(N208), .CK(n204), .RN(n100), .Q(
-        r_clk_counter[9]) );
-  fd2qd1_hd r_i2c_data_in_last_reg ( .D(n56), .CK(n195), .RN(n86), .Q(
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_7_ ( .D(w_i2c_data_out[7]), .CK(n202), .RN(
+        n26), .Q(o_MPR121_DATA_OUT[7]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_5_ ( .D(w_i2c_data_out[5]), .CK(n202), .RN(
+        n26), .Q(o_MPR121_DATA_OUT[5]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_3_ ( .D(w_i2c_data_out[3]), .CK(n202), .RN(
+        n26), .Q(o_MPR121_DATA_OUT[3]) );
+  fd2qd1_hd o_MPR121_DATA_OUT_reg_1_ ( .D(w_i2c_data_out[1]), .CK(n202), .RN(
+        n26), .Q(o_MPR121_DATA_OUT[1]) );
+  fd2qd1_hd r_i2c_data_in_last_reg ( .D(n210), .CK(i_CLK), .RN(n26), .Q(
         r_i2c_data_in_last) );
-  fd2qd1_hd r_i2c_stop_reg ( .D(n40), .CK(n195), .RN(n87), .Q(r_i2c_stop) );
-  fd2qd1_hd r_i2c_data_out_ready_reg ( .D(n57), .CK(n195), .RN(n88), .Q(
-        r_i2c_data_out_ready) );
-  fd2qd1_hd r_i2c_data_in_valid_reg ( .D(n55), .CK(n195), .RN(n99), .Q(
-        r_i2c_data_in_valid) );
-  fd2qd2_hd r_pstate_reg_3_ ( .D(N272), .CK(i_CLK), .RN(n8), .Q(r_pstate[3])
+  fd2qd1_hd r_i2c_data_in_reg_0_ ( .D(n260), .CK(n201), .RN(n23), .Q(
+        r_i2c_data_in[0]) );
+  fd2qd1_hd r_i2c_cmd_valid_reg ( .D(n40), .CK(i_CLK), .RN(n26), .Q(
+        r_i2c_cmd_valid) );
+  fd2qd1_hd r_i2c_stop_reg ( .D(n206), .CK(i_CLK), .RN(w_rstn), .Q(r_i2c_stop)
          );
-  clknd2d1_hd U201 ( .A(N47), .B(r_pstate[4]), .Y(n193) );
-  clknd2d1_hd U202 ( .A(r_pstate[1]), .B(r_pstate[0]), .Y(n191) );
-  clknd2d1_hd U203 ( .A(n191), .B(n194), .Y(n190) );
-  scg16d1_hd U204 ( .A(n187), .B(r_pstate[1]), .C(n188), .Y(n197) );
-  oa22d1_hd U205 ( .A(n189), .B(n190), .C(n191), .D(n192), .Y(n188) );
-  oa21d1_hd U206 ( .A(n193), .B(r_pstate[3]), .C(n194), .Y(n192) );
-  scg13d1_hd U207 ( .A(r_pstate[4]), .B(r_pstate[3]), .C(r_pstate[5]), .Y(n194) );
-  ao211d1_hd U208 ( .A(r_pstate[4]), .B(r_pstate[5]), .C(r_pstate[3]), .D(
-        r_pstate[2]), .Y(n189) );
-  ao211d1_hd U209 ( .A(r_pstate[3]), .B(r_pstate[2]), .C(r_pstate[0]), .D(n193), .Y(n187) );
+  fd2qd1_hd r_i2c_data_out_ready_reg ( .D(n207), .CK(i_CLK), .RN(n23), .Q(
+        r_i2c_data_out_ready) );
+  fd2qd1_hd r_i2c_data_in_valid_reg ( .D(n209), .CK(i_CLK), .RN(n23), .Q(
+        r_i2c_data_in_valid) );
+  fd2qd1_hd o_MPR121_INIT_SET_reg ( .D(n46), .CK(n200), .RN(n23), .Q(
+        o_MPR121_INIT_SET) );
+  fd2qd1_hd r_clk_counter_reg_7_ ( .D(n270), .CK(n200), .RN(n26), .Q(
+        r_clk_counter[7]) );
+  fd2qd1_hd r_clk_counter_reg_6_ ( .D(n269), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[6]) );
+  fd2qd1_hd r_i2c_data_in_reg_7_ ( .D(n259), .CK(n201), .RN(w_rstn), .Q(
+        r_i2c_data_in[7]) );
+  fd2qd1_hd r_i2c_data_in_reg_6_ ( .D(n258), .CK(n201), .RN(w_rstn), .Q(
+        r_i2c_data_in[6]) );
+  fd2qd1_hd r_i2c_data_in_reg_5_ ( .D(n257), .CK(n201), .RN(n26), .Q(
+        r_i2c_data_in[5]) );
+  fd2qd1_hd r_i2c_data_in_reg_4_ ( .D(n256), .CK(n201), .RN(n26), .Q(
+        r_i2c_data_in[4]) );
+  fd2qd1_hd r_i2c_data_in_reg_3_ ( .D(n255), .CK(n201), .RN(w_rstn), .Q(
+        r_i2c_data_in[3]) );
+  fd2qd1_hd r_i2c_data_in_reg_2_ ( .D(n254), .CK(n201), .RN(w_rstn), .Q(
+        r_i2c_data_in[2]) );
+  fd2qd1_hd r_i2c_data_in_reg_1_ ( .D(n253), .CK(n201), .RN(w_rstn), .Q(
+        r_i2c_data_in[1]) );
+  fd2qd1_hd r_clk_counter_reg_5_ ( .D(n268), .CK(n200), .RN(n26), .Q(
+        r_clk_counter[5]) );
+  fd2qd1_hd r_clk_counter_reg_4_ ( .D(n267), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[4]) );
+  fd2qd1_hd r_clk_counter_reg_3_ ( .D(n266), .CK(n200), .RN(n26), .Q(
+        r_clk_counter[3]) );
+  fd2qd1_hd r_clk_counter_reg_2_ ( .D(n265), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[2]) );
+  fd2qd1_hd r_clk_counter_reg_1_ ( .D(n264), .CK(n200), .RN(n26), .Q(
+        r_clk_counter[1]) );
+  fd2qd1_hd r_clk_counter_reg_0_ ( .D(n263), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[0]) );
+  fd2qd1_hd r_clk_counter_reg_9_ ( .D(n262), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[9]) );
+  fd2qd1_hd r_clk_counter_reg_8_ ( .D(n271), .CK(n200), .RN(n23), .Q(
+        r_clk_counter[8]) );
+  fd2qd1_hd r_lstate_reg_1_ ( .D(n205), .CK(i_CLK), .RN(n26), .Q(N324) );
+  fd2qd1_hd r_pstate_reg_0_ ( .D(N307), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[0]) );
+  fd2qd1_hd r_pstate_reg_2_ ( .D(N309), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[2]) );
+  fd2qd1_hd r_pstate_reg_5_ ( .D(N312), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[5]) );
+  fd2qd1_hd o_MPR121_BUSY_reg ( .D(n47), .CK(i_CLK), .RN(w_rstn), .Q(
+        o_MPR121_BUSY) );
+  fd2qd1_hd r_pstate_reg_1_ ( .D(N308), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[1]) );
+  fd2qd1_hd r_pstate_reg_4_ ( .D(N311), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[4]) );
+  fd2qd1_hd r_pstate_reg_3_ ( .D(n208), .CK(i_CLK), .RN(w_rstn), .Q(
+        r_pstate[3]) );
+  nr2bd1_hd U1 ( .AN(w_rstn), .B(n88), .Y(N315) );
+  mx2d1_hd U2 ( .D0(r_pstate[3]), .D1(n245), .S(n246), .Y(n208) );
+  scg2d1_hd U3 ( .A(n136), .B(r_i2c_reg_data_in[1]), .C(r_i2c_reg_addr[1]), 
+        .D(n215), .Y(n253) );
+  scg2d1_hd U4 ( .A(n136), .B(r_i2c_reg_data_in[2]), .C(r_i2c_reg_addr[2]), 
+        .D(n215), .Y(n254) );
+  scg2d1_hd U5 ( .A(n136), .B(r_i2c_reg_data_in[3]), .C(r_i2c_reg_addr[3]), 
+        .D(n215), .Y(n255) );
+  scg2d1_hd U6 ( .A(n136), .B(r_i2c_reg_data_in[4]), .C(r_i2c_reg_addr[4]), 
+        .D(n215), .Y(n256) );
+  scg2d1_hd U7 ( .A(n136), .B(r_i2c_reg_data_in[5]), .C(r_i2c_reg_addr[5]), 
+        .D(n215), .Y(n257) );
+  scg2d1_hd U8 ( .A(n136), .B(r_i2c_reg_data_in[6]), .C(r_i2c_reg_addr[6]), 
+        .D(n215), .Y(n258) );
+  scg2d1_hd U9 ( .A(r_i2c_reg_addr[7]), .B(n215), .C(r_i2c_reg_data_in[7]), 
+        .D(n136), .Y(n259) );
+  clknd2d1_hd U10 ( .A(r_pstate[1]), .B(n137), .Y(n233) );
+  clknd2d1_hd U11 ( .A(r_pstate[1]), .B(n137), .Y(n236) );
+  mx2d1_hd U12 ( .D0(r_i2c_data_in_valid), .D1(n97), .S(n244), .Y(n209) );
+  mx2d1_hd U13 ( .D0(r_i2c_data_out_ready), .D1(n247), .S(n121), .Y(n207) );
+  mx2d1_hd U14 ( .D0(r_i2c_stop), .D1(n247), .S(n121), .Y(n206) );
+  mx2d1_hd U15 ( .D0(r_i2c_data_in_last), .D1(n242), .S(n243), .Y(n210) );
+  mx2d1_hd U16 ( .D0(n136), .D1(n116), .S(n118), .Y(n242) );
+  mx2d1_hd U17 ( .D0(r_lstate_0_), .D1(n78), .S(n248), .Y(n204) );
+  mx2d1_hd U18 ( .D0(N324), .D1(n105), .S(n248), .Y(n205) );
+  nr2ad1_hd U19 ( .A(n119), .B(n107), .Y(n105) );
+  nr4d2_hd U20 ( .A(r_clk_counter[6]), .B(r_clk_counter[8]), .C(
+        r_clk_counter[7]), .D(r_clk_counter[9]), .Y(n80) );
+  ad2d1_hd U21 ( .A(n88), .B(n89), .Y(n197) );
+  scg8d1_hd U22 ( .A(w_i2c_data_in_ready), .B(n97), .C(n117), .D(n110), .Y(
+        n198) );
+  scg14d1_hd U24 ( .A(n116), .B(n118), .C(n92), .Y(n243) );
+  oa21d1_hd U25 ( .A(w_i2c_data_in_ready), .B(n99), .C(n211), .Y(n244) );
+  ao21d1_hd U27 ( .A(n130), .B(w_i2c_data_in_ready), .C(n96), .Y(n211) );
+  nr2d1_hd U28 ( .A(r_pstate[5]), .B(n212), .Y(n245) );
+  nd4d1_hd U29 ( .A(r_pstate[2]), .B(n141), .C(r_pstate[4]), .D(n149), .Y(n212) );
+  oa211d1_hd U30 ( .A(n139), .B(n213), .C(n116), .D(n214), .Y(n246) );
+  nr3d1_hd U31 ( .A(r_pstate[2]), .B(r_pstate[5]), .C(n148), .Y(n214) );
+  ivd1_hd U32 ( .A(n138), .Y(n213) );
+  nr2bd1_hd U33 ( .AN(n120), .B(n119), .Y(n247) );
+  nd2bd1_hd U34 ( .AN(n78), .B(n197), .Y(n248) );
+  or2d1_hd U35 ( .A(n114), .B(n115), .Y(n249) );
+  scg9d1_hd U36 ( .A(n160), .B(n114), .C(n116), .Y(n251) );
+  ivd1_hd U37 ( .A(n127), .Y(n215) );
+  oa22d1_hd U38 ( .A(n127), .B(n216), .C(n93), .D(n217), .Y(n260) );
+  ivd1_hd U39 ( .A(r_i2c_reg_data_in[0]), .Y(n217) );
+  ivd1_hd U40 ( .A(r_i2c_reg_addr[0]), .Y(n216) );
+  ao21d1_hd U41 ( .A(n218), .B(n219), .C(n220), .Y(n262) );
+  ivd1_hd U42 ( .A(N192), .Y(n220) );
+  scg17d1_hd U43 ( .A(r_clk_counter[5]), .B(n221), .C(r_clk_counter[9]), .D(
+        n85), .Y(n219) );
+  ao21d1_hd U44 ( .A(n151), .B(n152), .C(n222), .Y(n221) );
+  nd4d1_hd U45 ( .A(r_clk_counter[8]), .B(r_clk_counter[6]), .C(
+        r_clk_counter[7]), .D(r_clk_counter[4]), .Y(n222) );
+  scg18d1_hd U46 ( .A(n223), .B(r_clk_counter[9]), .C(r_clk_counter[8]), .D(
+        n224), .E(n146), .Y(n218) );
+  nr2d1_hd U47 ( .A(r_clk_counter[6]), .B(r_clk_counter[7]), .Y(n224) );
+  nd2bd1_hd U48 ( .AN(n85), .B(r_pstate[1]), .Y(n223) );
+  nr2bd1_hd U49 ( .AN(N183), .B(n225), .Y(n263) );
+  ao22d1_hd U50 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n225) );
+  nr2bd1_hd U51 ( .AN(N184), .B(n226), .Y(n264) );
+  ao22d1_hd U52 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n226) );
+  nr2bd1_hd U53 ( .AN(N185), .B(n227), .Y(n265) );
+  ao22d1_hd U54 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n227) );
+  nr2bd1_hd U55 ( .AN(N186), .B(n228), .Y(n266) );
+  ao22d1_hd U56 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n228) );
+  nr2bd1_hd U58 ( .AN(N187), .B(n229), .Y(n267) );
+  ao22d1_hd U59 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n229) );
+  nr2bd1_hd U60 ( .AN(N188), .B(n230), .Y(n268) );
+  ao22d1_hd U61 ( .A(n139), .B(n85), .C(n80), .D(n81), .Y(n230) );
+  scg12d1_hd U62 ( .A(n231), .B(N189), .C(r_clk_counter[9]), .Y(n269) );
+  oa22d1_hd U63 ( .A(r_clk_counter[7]), .B(n232), .C(n150), .D(n137), .Y(n231)
+         );
+  scg18d1_hd U64 ( .A(n233), .B(r_clk_counter[6]), .C(r_clk_counter[8]), .D(
+        n146), .E(n83), .Y(n232) );
+  scg12d1_hd U65 ( .A(n234), .B(N190), .C(r_clk_counter[9]), .Y(n270) );
+  oa22d1_hd U66 ( .A(r_clk_counter[8]), .B(n235), .C(n150), .D(n137), .Y(n234)
+         );
+  scg18d1_hd U67 ( .A(n236), .B(r_clk_counter[7]), .C(r_clk_counter[6]), .D(
+        n146), .E(n83), .Y(n235) );
+  scg12d1_hd U68 ( .A(N191), .B(n237), .C(r_clk_counter[9]), .Y(n271) );
+  scg16d1_hd U69 ( .A(n85), .B(n150), .C(n238), .Y(n237) );
+  nd4d1_hd U70 ( .A(n83), .B(n146), .C(n239), .D(n240), .Y(n238) );
+  oa21d1_hd U71 ( .A(n85), .B(n84), .C(r_clk_counter[8]), .Y(n240) );
+  nr2d1_hd U72 ( .A(r_clk_counter[7]), .B(r_clk_counter[6]), .Y(n239) );
+  scg17d1_hd U73 ( .A(n83), .B(n84), .C(n85), .D(n241), .Y(n273) );
+  nd3d1_hd U74 ( .A(n81), .B(N188), .C(n80), .Y(n241) );
 endmodule
 
