@@ -1,0 +1,1067 @@
+###################################################################
+
+# Created by write_script -format dctcl on Wed Jun 17 13:08:47 2020
+
+###################################################################
+
+# Set the current_design #
+current_design khu_sensor_pad
+
+set_units -time ns -resistance kOhm -capacitance pF -power mW -voltage V       \
+-current mA
+set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125\
+                         -min V135BTN0400 -min_library std150e_bst_135_n040
+remove_wire_load_model
+set_local_link_library {std150e_wst_105_p125.db}
+set_max_area 1.6e+07
+set_fix_multiple_port_nets -all -buffer_constants
+set_disable_timing [get_ports i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/i_RSTN]
+set_disable_timing [get_pins pad17/Y]
+set_disable_timing [get_pins khu_sensor_top/ads1292_controller/i_RSTN]
+set_disable_timing [get_pins                                                   \
+khu_sensor_top/ads1292_controller/spi_master/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/ads1292_filter/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/ads1292_filter/iir_hpf/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/ads1292_filter/iir_notch/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/ads1292_filter/iir_lpf/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/mpr121_controller/i_RSTN]
+set_disable_timing [get_pins                                                   \
+khu_sensor_top/mpr121_controller/i2c_master/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/sensor_core/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/uart_controller/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/uart_controller/uart_rx/i_RSTN]
+set_disable_timing [get_pins khu_sensor_top/uart_controller/uart_tx/i_RSTN]
+set_disable_timing [get_cells async_rstn_glitch_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_controller/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/ads1292_filter/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/mpr121_controller/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/sensor_core/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/uart_controller/async_rstn_synchronizer]
+set_disable_timing [get_cells                                                  \
+khu_sensor_top/uart_controller/async_rst_synchronizer]
+set_disable_timing [get_cells khu_sensor_top/async_rstn_glitch_synchronizer]
+set_dont_touch [get_cells khu_sensor_top] 
+set_dont_touch [get_cells async_rstn_glitch_synchronizer] 
+set_dont_touch [get_nets ADS1292_CSN] 
+set_dont_touch [get_nets ADS1292_START] 
+set_dont_touch [get_nets ADS1292_RESET] 
+set_dont_touch [get_nets ADS1292_DRDY] 
+set_dont_touch [get_nets ADS1292_MOSI] 
+set_dont_touch [get_nets ADS1292_MISO] 
+set_dont_touch [get_nets ADS1292_SCLK] 
+set_dont_touch [get_nets MPR121_SDA] 
+set_dont_touch [get_nets MPR121_SCL] 
+set_dont_touch [get_nets UART_TXD] 
+set_dont_touch [get_nets UART_RXD] 
+set_dont_touch [get_nets i_RSTN] 
+set_dont_touch [get_nets CLK_OUT] 
+set_dont_touch [get_nets i_CLK] 
+set_dont_touch_network [get_ports i_RSTN]
+set_dont_touch_network [get_pins pad17/Y]
+set_load -pin_load 0 [get_ports i_CLK]
+set_load -pin_load 0.01035 [get_ports CLK_OUT]
+set_load -pin_load 0.01035 [get_ports UART_TXD]
+set_load -pin_load 0.01035 [get_ports MPR121_SCL]
+set_load -pin_load 0.01035 [get_ports MPR121_SDA]
+set_load -pin_load 0.01035 [get_ports ADS1292_SCLK]
+set_load -pin_load 0.01035 [get_ports ADS1292_MOSI]
+set_load -pin_load 0.01035 [get_ports ADS1292_RESET]
+set_load -pin_load 0.01035 [get_ports ADS1292_START]
+set_load -pin_load 0.01035 [get_ports ADS1292_CSN]
+set_load -min -pin_load 0 [get_ports i_CLK]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad208/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad207/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad206/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad205/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad204/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad203/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad202/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad201/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad200/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad199/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad195/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad194/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad193/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad192/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad191/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad190/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad189/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad188/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad187/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad186/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad185/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad184/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad183/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad182/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad181/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad180/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad179/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad178/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad177/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad175/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad174/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad173/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad172/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad171/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad170/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad169/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad168/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad167/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad166/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad164/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad163/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad162/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad161/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad160/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad159/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad158/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad157/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad156/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad155/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad154/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad153/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad152/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad151/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad150/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad149/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad148/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad147/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad146/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad145/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad144/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad143/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad142/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad141/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad140/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad139/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad138/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad137/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad136/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad135/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad134/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad132/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad131/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad130/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad129/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad128/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad127/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad126/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad125/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad124/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad123/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad122/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad121/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad120/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad119/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad118/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad117/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad116/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad115/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad114/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad113/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad112/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad111/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad110/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad109/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad108/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad107/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad106/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad105/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad104/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad103/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad102/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad101/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad100/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad99/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad98/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad97/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad96/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad95/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad94/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad93/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad92/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad91/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad90/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad89/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad88/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad87/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad86/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad85/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad84/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad83/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad82/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad81/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad80/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad79/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad78/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad77/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad76/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad75/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad74/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad73/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad72/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad71/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad70/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad69/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad68/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad66/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad65/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad64/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad63/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad62/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad61/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad60/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad59/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad58/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad57/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad56/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad55/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad54/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad53/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad52/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad51/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad50/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad49/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad48/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad47/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad46/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad45/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad44/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad43/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad42/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad41/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad40/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad39/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad38/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad37/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad36/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad35/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad34/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad33/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad32/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad31/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad30/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad29/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad28/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad27/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad26/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad25/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad24/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad23/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad22/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad21/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad20/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad19/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad18/CDL]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins pad17/PO]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad16/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad15/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad14/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad13/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad12/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad11/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad10/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad9/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad8/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad7/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad6/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad5/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad4/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad3/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad2/CDL]
+set_switching_activity -period 1 -toggle_rate 0.01 -static_probability 0.5     \
+[get_pins pad1/CDL]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_31_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_30_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_29_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_28_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_27_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_26_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_9_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_10_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_11_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_12_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_13_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_14_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_15_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_16_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_17_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_18_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_19_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_20_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_21_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_22_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_23_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_24_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_25_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_26_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_27_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_28_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_29_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_30_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_reg_31_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_25_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_9_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_10_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_11_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_12_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_13_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_14_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_15_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_16_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_17_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_18_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_19_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_20_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_21_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_22_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_23_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/z_reg_24_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_e_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_9_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_10_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_11_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_12_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_13_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_14_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_15_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_16_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_17_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_18_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_19_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_20_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_21_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_22_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_23_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_24_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_25_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_26_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_27_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_28_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_29_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_30_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_m_reg_31_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_9_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_10_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_11_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_12_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_13_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_14_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_15_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_16_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_17_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_18_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_19_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_20_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_21_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_22_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_23_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_24_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_25_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_26_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_27_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_28_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_29_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_30_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/o_Z_reg_31_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/converter_f2i/a_s_reg/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/converter_f2i/sub_x_3/CO]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/EQ_NE]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/EQ_NE]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/iir_notch/add_1/gte_x_3/EQ_NE]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_e_reg_8_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_e_reg_9_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_27_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_26_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_25_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_24_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/EQ_NE]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/ads1292_filter/converter_i2f/sub_x_1/CO]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.998505 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.998505 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.998505 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.998505 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.998505 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 0.000140381 -static_probability  \
+0.999542 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_16_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.999573 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.999359 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.999359 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 0.00010376 -static_probability   \
+0.999359 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 0.000115967 -static_probability  \
+0.999573 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/data_in_ready_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 0.00823975 -static_probability   \
+0.598999 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/cmd_ready_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/data_out_valid_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 0          \
+[get_pins khu_sensor_top/mpr121_controller/i2c_master/scl_o_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/bus_control_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 9.76563e-05 -static_probability  \
+0.999756 [get_pins                                                             \
+khu_sensor_top/mpr121_controller/i2c_master/missed_ack_reg_reg/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_7_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_0_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_1_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_2_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_3_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_4_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_5_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_6_/QN]
+set_switching_activity -period 1 -toggle_rate 0 -static_probability 1          \
+[get_pins khu_sensor_top/uart_controller/uart_tx/r_Tx_Done_reg/QN]
+set_switching_activity -period 1 -toggle_rate 0.0494171 -static_probability    \
+0.241211 [get_pins khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/QN]
+set_ideal_network [get_ports i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/ads1292_controller/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/ads1292_filter/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/mpr121_controller/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/sensor_core/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/uart_controller/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/uart_controller/uart_rx/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/uart_controller/uart_tx/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/mpr121_controller/i2c_master/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/ads1292_filter/iir_hpf/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/ads1292_filter/iir_notch/i_RSTN]
+set_ideal_network [get_pins khu_sensor_top/ads1292_filter/iir_lpf/i_RSTN]
+set_ideal_network [get_pins                                                    \
+khu_sensor_top/ads1292_controller/spi_master/i_RSTN]
+create_clock [get_ports i_CLK]  -name clk  -period 10  -waveform {0 5}
+set_clock_uncertainty 0.0804  [get_clocks clk]
+set_dont_touch_network [get_clocks clk]
+set_clock_transition -max -rise 0.9 [get_clocks clk]
+set_clock_transition -min -rise 0.9 [get_clocks clk]
+set_clock_transition -max -fall 1.2 [get_clocks clk]
+set_clock_transition -min -fall 1.2 [get_clocks clk]
+create_generated_clock [get_pins pad29/YN]  -name clk_pad  -source [get_ports  \
+i_CLK]  -edges {1 2 3}
+set_clock_uncertainty 0.0804  [get_clocks clk_pad]
+set_dont_touch_network [get_clocks clk_pad]
+set_clock_transition -max -rise 0.9 [get_clocks clk_pad]
+set_clock_transition -min -rise 0.9 [get_clocks clk_pad]
+set_clock_transition -max -fall 1.2 [get_clocks clk_pad]
+set_clock_transition -min -fall 1.2 [get_clocks clk_pad]
+create_generated_clock [get_pins khu_sensor_top/divider_by_2/o_CLK_DIV_2]      \
+-name clk_half  -source [get_pins khu_sensor_top/divider_by_2/i_CLK]  -edges   \
+{1 3 5}
+set_clock_latency 0.66  [get_clocks clk_half]
+set_clock_uncertainty 0.0804  [get_clocks clk_half]
+set_dont_touch_network [get_clocks clk_half]
+set_clock_transition -max -rise 0.9 [get_clocks clk_half]
+set_clock_transition -min -rise 0.9 [get_clocks clk_half]
+set_clock_transition -max -fall 1.2 [get_clocks clk_half]
+set_clock_transition -min -fall 1.2 [get_clocks clk_half]
+set_false_path   -from [get_pins pad17/Y]
+set_false_path   -from [get_ports i_RSTN]
+set_false_path   -to [get_cells                                                \
+async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -through [list [get_pins khu_sensor_top/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/uart_controller/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/uart_controller/uart_rx/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/uart_controller/uart_tx/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins khu_sensor_top/sensor_core/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_filter/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_filter/iir_lpf/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_filter/iir_hpf/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_filter/iir_notch/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/o_RST_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_controller/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/ads1292_controller/spi_master/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/mpr121_controller/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg]
+set_false_path   -through [list [get_pins                                      \
+khu_sensor_top/mpr121_controller/i2c_master/i_RSTN]]
+set_false_path   -to [get_cells                                                \
+khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg]
+set_input_delay -clock clk  -max 1  [get_ports UART_RXD]
+set_input_delay -clock clk  -max 1  [get_ports MPR121_SCL]
+set_input_delay -clock clk  -max 1  [get_ports MPR121_SDA]
+set_input_delay -clock clk  -max 1  [get_ports ADS1292_MISO]
+set_input_delay -clock clk  -max 1  [get_ports ADS1292_DRDY]
+set_output_delay -clock clk  -max 1  [get_ports MPR121_SCL]
+set_output_delay -clock clk  -max 1  [get_ports MPR121_SDA]
+set_output_delay -clock clk  -max 1  [get_ports CLK_OUT]
+set_output_delay -clock clk  -max 1  [get_ports UART_TXD]
+set_output_delay -clock clk  -max 1  [get_ports ADS1292_SCLK]
+set_output_delay -clock clk  -max 1  [get_ports ADS1292_MOSI]
+set_output_delay -clock clk  -max 1  [get_ports ADS1292_RESET]
+set_output_delay -clock clk  -max 1  [get_ports ADS1292_START]
+set_output_delay -clock clk  -max 1  [get_ports ADS1292_CSN]
+set_load 0  [get_nets i_CLK]
+set_resistance 0  [get_nets i_CLK]
+set_load 0  [get_nets CLK_OUT]
+set_resistance 0  [get_nets CLK_OUT]
+set_load 0  [get_nets i_RSTN]
+set_resistance 0  [get_nets i_RSTN]
+set_load 0  [get_nets UART_RXD]
+set_resistance 0  [get_nets UART_RXD]
+set_load 0  [get_nets UART_TXD]
+set_resistance 0  [get_nets UART_TXD]
+set_load 0  [get_nets MPR121_SCL]
+set_resistance 0  [get_nets MPR121_SCL]
+set_load 0  [get_nets MPR121_SDA]
+set_resistance 0  [get_nets MPR121_SDA]
+set_load 0  [get_nets ADS1292_SCLK]
+set_resistance 0  [get_nets ADS1292_SCLK]
+set_load 0  [get_nets ADS1292_MISO]
+set_resistance 0  [get_nets ADS1292_MISO]
+set_load 0  [get_nets ADS1292_MOSI]
+set_resistance 0  [get_nets ADS1292_MOSI]
+set_load 0  [get_nets ADS1292_DRDY]
+set_resistance 0  [get_nets ADS1292_DRDY]
+set_load 0  [get_nets ADS1292_RESET]
+set_resistance 0  [get_nets ADS1292_RESET]
+set_load 0  [get_nets ADS1292_START]
+set_resistance 0  [get_nets ADS1292_START]
+set_load 0  [get_nets ADS1292_CSN]
+set_resistance 0  [get_nets ADS1292_CSN]
+set_load 0  [get_nets w_rstn_p]
+set_resistance 0  [get_nets w_rstn_p]
+set_load 0  [get_nets w_clk_p]
+set_resistance 0  [get_nets w_clk_p]
+set_load 0  [get_nets khu_sensor_top/w_CLOCK_HALF]
+set_resistance 0  [get_nets khu_sensor_top/w_CLOCK_HALF]
+1
