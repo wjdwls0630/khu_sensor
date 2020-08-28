@@ -1,0 +1,24 @@
+/*
+ * This is dc_shell script setting dont_touch attribute port of nand tree. 
+ * 2000. 3. 29
+ * Written by Hae-jin Song
+ * Version : v1.1
+ */
+ 
+ PI_pins = find(pin -hier, "*/PI")
+ foreach (each_pin, PI_pins) {
+        all_connected each_pin
+	net = dc_shell_status
+	if ( net != {} ) {
+        	set_dont_touch net
+	}
+ }
+ 
+ PO_pins = find(pin -hier, "*/PO")
+ foreach (each_pin, PO_pins) {
+        all_connected each_pin
+	net = dc_shell_status
+	if ( net != {} ) {
+        	set_dont_touch net
+	}
+ }

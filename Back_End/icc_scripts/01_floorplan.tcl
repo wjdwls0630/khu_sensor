@@ -28,11 +28,15 @@ copy_mw_lib -from ./mw_db/${TOP_MODULE}_read_design -to $_mw_lib
 set_mw_technology_file -technology $TECH_FILE $_mw_lib
 set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
 open_mw_lib $_mw_lib
-remove_mw_cel [remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] \
--all_versions -all_view -verbose
+remove_mw_cel \
+	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] \
+	-all_versions -all_view -verbose
 open_mw_cel $TOP_MODULE
 link
 current_design $TOP_MODULE
+
+# Setting up Time constraints
+remove_ideal_network -all
 
 # Read scenario file 
 # TODO make scenario!
@@ -46,6 +50,17 @@ remove_scenario -all
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
 # Instead of scenario 
 source $FUNC1_SDC
+set_tlu_plus_files \
+	-max_tluplus $TLUP_MAX_FILE \
+	-min_tluplus $TLUP_MIN_FILE \
+	-tech2itf_map $MAP_FILE
+
+echo "***********************************************************************"
+echo "                                                                       "
+echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "                                                                       "
+echo "***********************************************************************"
+check_tlu_plus_files
 
 # call pad place (.tdf)
 source $ICC_IN_IO_CONST_FILE
@@ -132,13 +147,16 @@ set_ignored_layers -max_routing_layer MET6
 #*******************************************************************************************
 
 # hard blockage for macro
-
-create_placement_blockage -coordinate {{522.410 472.410} {639.895 714.855}} -name placement_blockage_1 -type hard -no_snap 
+# In case of hard, Any macro cannot place in an area of blockage.
+# In case of soft, a few buffers can place in an area of blockage.
+create_placement_blockage -coordinate {{468.686 3228.000} {772.000 3560.000}} -name block_1 -type hard -no_snap
+create_placement_blockage -coordinate {{468.686 440.000} {772.000 772.000}} -name block_2 -type hard -no_snap
+create_placement_blockage -coordinate {{3228.000 440.000} {3531.314 772.000}} -name block_3 -type hard -no_snap
+create_placement_blockage -coordinate {{3228.000 3228.000} {3531.314 3560.000}} -name block_4 -type hard -no_snap
 #remove_placement_blockage -all
 
 # Unplace all standard cells 
-# remove_placement -object_type standard_cell
-
+remove_placement -object_type standard_cell
 
 #*******************************************************************************************
 # In this library, well edge cell and tap cell is not existed.
@@ -159,12 +177,12 @@ create_placement_blockage -coordinate {{522.410 472.410} {639.895 714.855}} -nam
 #*******************************************************************************************
 
 # Save
-#change_names -rule verilog -hier
-#set verilogout_no_tri true
-#save_mw_cel -as ${TOP_MODULE}
+change_names -rule verilog -hier
+set verilogout_no_tri true
+save_mw_cel -as ${TOP_MODULE}
 
 # close lib
-#close_mw_lib
+close_mw_lib
 
 # Reset sdc file for applying sdc
 sh rm -f $FUNC1_SDC

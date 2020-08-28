@@ -1,0 +1,15 @@
+/*
+ * This is a pt_shell script to remove load and resistance of port's net.
+ * 2000. 3. 29
+ * Written by Hae-jin Song.
+ * Version : v1.1
+ */
+find(port,"*")
+foreach ( each_port, dc_shell_status ) {
+        all_connected each_port
+        each_net = dc_shell_status
+        if ( each_net != {} ) {
+                set_load 0 each_net
+                set_resistance 0 each_net
+        }
+}

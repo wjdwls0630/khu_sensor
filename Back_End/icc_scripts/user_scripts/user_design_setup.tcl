@@ -1,4 +1,6 @@
-
+#******************************************************************************
+#**                          user design settings                           **
+#******************************************************************************
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                      user_design_setup.tcl                            "
@@ -17,9 +19,10 @@ set LEAKAGE_POWER_PSYN             true              ;# set to true when enablin
 set ICC_NUM_CPUS                   "1"                ;# used during placement & routing
 set qor_effort                     "high"           ;# low | medium | high. place optimization effort, default is medium.
 set INOUT_OPT                      true               ;# set to true when optimizing i2r and r2o paths
-set GL_BASED_PLACE                 true              ;#(ekyoo) set to true when using high congested design
-set GEN_GL_CONG_MAP                true              ;#(ekyoo ) set to true, to see global route based congestion map
-set INTER_CLK_GROUPS               "clk clk_half"                 ;# Define to balance clocks during CTS. "clkA clkB"
+set GL_BASED_PLACE                 true              ;# set to true when using high congested design
+
+set GEN_GL_CONG_MAP                true              ;# set to true, to see global route based congestion map
+set INTER_CLK_GROUPS               "clk clk_pad clk_half"    ;# Define to balance clocks during CTS. "clkA clkB"
 set TIECELL_INSERT                 true              ;# true | false, if true, ICC will insert TIE cells.
 set SPARE_INSERT                   false              ;# true | false, if true, the followings must be defined.
 set SPARE_PREFIX                   spares             ;# default is spares
@@ -37,10 +40,10 @@ set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_200827_L13_68um.tdf"  ;#
 # (e.g. vssoh -> vssoh_p)
 set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"  
 
-set CLOCK_MAX_TRAN                 "1.2"              ;# clock path max transtion time.
-set MAX_ROUTING_LAYER              "MET6"              
-set MIN_ROUTING_LAYER              "MET1"
-set CLK_MAX_ROUTING_LAYER          "MET5"
+set CLOCK_MAX_TRAN                 "0.9"              ;# clock path max transtion time.
+set MAX_ROUTING_LAYER              "MET4"              
+set MIN_ROUTING_LAYER              ""
+set CLK_MAX_ROUTING_LAYER          "MET4"
 set CLK_MIN_ROUTING_LAYER          "MET3"
 
 #######################################################
@@ -189,3 +192,4 @@ set_message_info -id PSYN-025   -limit 5
 set_message_info -id PSYN-039   -limit 5
 set_message_info -id PSYN-523   -limit 5
 set_message_info -id PSYN-900   -limit 1
+set_message_info -id CTS-102    -limit 1

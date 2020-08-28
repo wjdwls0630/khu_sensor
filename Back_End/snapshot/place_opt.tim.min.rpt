@@ -1,0 +1,110 @@
+Warning: Clock network timing may not be up-to-date since only 33.333332 percentage of clock nets are routed. (TIM-233)
+ 
+****************************************
+Report : timing
+        -path full_clock
+        -delay min
+        -physical
+        -derate
+        -input_pins
+        -nets
+        -max_paths 1
+        -transition_time
+        -crosstalk_delta
+        -capacitance
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Fri Aug 28 07:08:22 2020
+****************************************
+
+ * Some/all delay information is back-annotated.
+
+Operating Conditions: V135BTN0400   Library: std150e_bst_135_n040
+	Parasitic source    : LPE
+	Parasitic mode      : RealRVirtualC
+	Extraction mode     : MIN_MAX
+	Extraction derating : -40/25/125
+
+Information: Percent of Arnoldi-based delays =  0.00%
+
+  Startpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg
+              (rising edge-triggered flip-flop clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+Attributes:
+    d - dont_touch
+    u - dont_use
+   mo - map_only
+   so - size_only
+    i - ideal_net or ideal_network
+
+  Point                                       Fanout       Cap     DTran     Trans     Delta     Derate      Incr       Path      Location / Load        Attributes
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk_half (rise edge)                                                                               5.0000     5.0000
+  clock network delay (ideal)                                                                              0.6600     5.6600
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
+                                                                  0.0000    0.9000    0.0000     0.9250    0.0000     5.6600 r    (3384.55,1089.96)
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/Q (fd3qd1_hd)      0.0697               0.9250    0.1541     5.8141 f    (3376.78,1090.36)
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R (net)
+                                                1       0.0094                                   0.9250    0.0000     5.8141 f    [0.01,0.01]
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/D (fd3qd1_hd)
+                                                                  0.0000    0.0697    0.0000     0.9250    0.0000 *   5.8141 f    (3381.63,1068.71)
+  data arrival time                                                                                                   5.8141
+
+  clock clk_half (rise edge)                                                                               5.0000     5.0000
+  clock network delay (ideal)                                                                              0.6600     5.6600
+  clock uncertainty                                                                                        0.2400     5.9000
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/CK (fd3qd1_hd)                                      0.0000     5.9000 r
+  library hold time                                                                                        0.0049     5.9049
+  data required time                                                                                                  5.9049
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                  5.9049
+  data arrival time                                                                                                  -5.8141
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                   -0.0908
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/z_reg_25_
+              (rising edge-triggered flip-flop clocked by clk_pad)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_25_
+            (rising edge-triggered flip-flop clocked by clk_pad)
+  Path Group: clk_pad
+  Path Type: min
+
+Attributes:
+    d - dont_touch
+    u - dont_use
+   mo - map_only
+   so - size_only
+    i - ideal_net or ideal_network
+
+  Point                                       Fanout       Cap     DTran     Trans     Delta     Derate      Incr       Path      Location / Load        Attributes
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk_pad (rise edge)                                                                                0.0000     0.0000
+  clock network delay (ideal)                                                                              0.0000     0.0000
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/z_reg_25_/CK (fd1eqd2_hd)
+                                                                  0.0000    0.9000    0.0000     0.9250    0.0000     0.0000 r    (1862.28,1406.77)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/z_reg_25_/Q (fd1eqd2_hd)   0.0381               0.9250    0.1219     0.1219 f    (1863.12,1406.51)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/z[25] (net)
+                                                1       0.0042                                   0.9250    0.0000     0.1219 f    [0.00,0.00]
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_25_/D (fd1eqd1_hd)
+                                                                  0.0000    0.0381    0.0000     0.9250    0.0000 *   0.1219 f    (2157.86,1395.94)
+  data arrival time                                                                                                   0.1219
+
+  clock clk_pad (rise edge)                                                                                0.0000     0.0000
+  clock network delay (ideal)                                                                              0.0000     0.0000
+  clock uncertainty                                                                                        0.2400     0.2400
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_25_/CK (fd1eqd1_hd)                               0.0000     0.2400 r
+  library hold time                                                                                        0.0100     0.2500
+  data required time                                                                                                  0.2500
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                  0.2500
+  data arrival time                                                                                                  -0.1219
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                   -0.1281
+
+
+1

@@ -1,3 +1,6 @@
+#******************************************************************************
+#**                          common library settings                         **
+#******************************************************************************
 echo "***********************************************************************"
 echo "                                                                       "
 echo "                       common_lib_setup.tcl                            "
@@ -90,10 +93,10 @@ if { $step != "read_design" } {
 #******************************************************************************
 
 set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
-set TLUP_DIR ./TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUP_N/L13G
-set MAP_FILE "$TLUP_DIR/MAP/L13_CELL_6LM.map"
-set TLUP_MAX_FILE "$TLUP_DIR/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_Rvari_Hole_Rev3.0.tlup"
-set TLUP_MIN_FILE "$TLUP_DIR/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_Rvari_Hole_Rev3.0.tlup"
+set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
+set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
 
 #******************************************************************************
 
@@ -111,8 +114,8 @@ set STREAM_OUT_MAP "./TECH/layer.map"
 
 # Reference/Back_End/KHU_ASTRO User Guide p.86 and samsung65 TECH antenna_rules
 # IC User Guide p.457
-# make anntenna_rule.tcl
-#set ANNTENA_RULE "./TECH/std150e_prim713_antenna.clf"
+# make antenna_rule.tcl
+set ANTENNA_RULE "./TECH/std150e_prim713_antenna_200827.tcl"
 
 #******************************************************************************
 
@@ -120,7 +123,14 @@ set STREAM_OUT_MAP "./TECH/layer.map"
 #**                           Set IO FILLERS                                 **
 #******************************************************************************
 set IO_FILLER "iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p"
-set IO_FILLER_OVERLAP       
+set IO_FILLER_OVERLAP ""       
+
+#******************************************************************************
+#**                        Set Clock Tree Layers                             **
+#******************************************************************************
+
+# clock tree layers
+set ICC_CTS_RULE_NAME "shield_130nm_rule"
 
 #******************************************************************************
 #**                    Default Timing Environment Setting                   **
