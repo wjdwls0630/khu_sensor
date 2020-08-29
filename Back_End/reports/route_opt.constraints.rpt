@@ -1,0 +1,366 @@
+Information: Updating graph... (UID-83)
+
+************************************************************
+SI options:
+Delta Delay Computation:           true
+Static Noise Computation:          true
+Timing window analysis for SI:     false
+Min Delta Delay for SI:            true
+Analysis Effort:                   medium
+Max Transition Mode:               normal_slew
+Static Noise Thresholds:           0.35 (0.37V) above low
+                                   0.35 (0.37V) below high
+Route xtalk prevention:            true
+Route xtalk prevention threshold:  0.25
+************************************************************
+
+Information: Updating design information... (UID-85)
+
+************************************************************
+SI options:
+Delta Delay Computation:           true
+Static Noise Computation:          true
+Timing window analysis for SI:     false
+Min Delta Delay for SI:            true
+Analysis Effort:                   medium
+Max Transition Mode:               normal_slew
+Static Noise Thresholds:           0.35 (0.37V) above low
+                                   0.35 (0.37V) below high
+Route xtalk prevention:            true
+Route xtalk prevention threshold:  0.25
+************************************************************
+
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Fri Aug 28 07:32:45 2020
+****************************************
+
+	Parasitic source    : LPE
+	Parasitic mode      : RealRC
+	Extraction mode     : MIN_MAX
+	Extraction derating : -40/25/125
+
+   max_delay/setup ('clk_pad' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/product_reg_48_/D  12.5914  12.6098 f  -0.0183 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/product_reg_49_/D  12.6087  12.6190 f  -0.0103 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_2/product_reg_48_/D  12.3528  12.3549 f  -0.0021 (VIOLATED)
+
+
+   min_delay/hold ('clk_half' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/sensor_core/r_ads_run_set_reg/D   2.2167   2.2067 f  -0.0101 (VIOLATED)
+
+
+   min_delay/hold ('clk_pad' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_lpf/add/a_m_reg_19_/D   2.2216   2.1801 f  -0.0415 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/r_mult_2_B_reg_0_/D   2.1643   2.1471 f  -0.0172 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/z_reg_19_/D   2.2512   2.2343 f  -0.0169 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_30_/D   2.2039   2.1923 f  -0.0115 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/r_x_data_reg_154_/D   2.1787   2.1730 f  -0.0057 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/r_mult_1_B_reg_12_/D   2.2917   2.2871 f  -0.0046 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_34_/D   2.1922   2.1893 f  -0.0029 (VIOLATED)
+   khu_sensor_top/ads1292_filter/converter_i2f/value_reg_30_/D   2.1862   2.1848 f  -0.0014 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_1/z_m_reg_6_/D   2.1855   2.1844 f  -0.0011 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/z_reg_31_/D   2.2138   2.2131 f  -0.0008 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_28_/D   2.1728   2.1723 f  -0.0006 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_m_reg_11_/D   2.1891   2.1888 f  -0.0003 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_m_reg_2_/D   2.1987   2.1984 f  -0.0003 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_reg_13_/D   2.1950   2.1947 f  -0.0002 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/r_y_data_reg_25_/D   2.1974   2.1973 f  -0.0001 (VIOLATED)
+   khu_sensor_top/ads1292_filter/converter_i2f/value_reg_13_/D   2.2105   2.2103 f  -0.0001 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_m_reg_15_/D   2.1965   2.1965 f   0.0000 (VIOLATED: increase significant digits)
+   khu_sensor_top/ads1292_filter/iir_hpf/r_y_data_reg_20_/D   2.1408   2.1408 f   0.0000 (VIOLATED: increase significant digits)
+
+
+   max_transition
+
+                             Required        Actual
+   Net                      Transition     Transition        Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n56   0.9000   1.8749  -0.9749 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_9_/D   0.9000   1.8749  -0.9749 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place8/Y   0.9000   1.8749  -0.9749 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n285   0.9000   1.8338  -0.9338 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_3_/D   0.9000   1.8338  -0.9338 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place99/Y   0.9000   1.8338  -0.9338 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n160   0.9000   1.7988  -0.8988 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_16_/D   0.9000   1.7988  -0.8988 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place29/Y   0.9000   1.7988  -0.8988 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n243   0.9000   1.7874  -0.8874 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_14_/D   0.9000   1.7874  -0.8874 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place57/Y   0.9000   1.7874  -0.8874 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n244   0.9000   1.7353  -0.8353 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_8_/D   0.9000   1.7353  -0.8353 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place58/Y   0.9000   1.7353  -0.8353 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n55   0.9000   1.6976  -0.7976 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_11_/D   0.9000   1.6976  -0.7976 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place7/Y   0.9000   1.6976  -0.7976 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n284   0.9000   1.6948  -0.7948 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_10_/D   0.9000   1.6948  -0.7948 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place98/Y   0.9000   1.6948  -0.7948 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n219   0.9000   1.6345  -0.7345 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_1_/D   0.9000   1.6345  -0.7345 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place33/Y   0.9000   1.6345  -0.7345 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n58   0.9000   1.6079  -0.7079 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_5_/D   0.9000   1.6079  -0.7079 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place10/Y   0.9000   1.6079  -0.7079 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n246   0.9000   1.5532  -0.6532 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_22_/D   0.9000   1.5532  -0.6532 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place60/Y   0.9000   1.5532  -0.6532 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n68   0.9000   1.4731  -0.5731 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_2_/D   0.9000   1.4731  -0.5731 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place20/Y   0.9000   1.4731  -0.5731 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n370   0.9000   1.4553  -0.5553 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/b_reg_12_/D   0.9000   1.4553  -0.5553 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place161/Y   0.9000   1.4553  -0.5553 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/n5   0.9000   1.2080  -0.3080 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U1701/B   0.9000   1.2080  -0.3080 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U1608/C   0.9000   1.2080  -0.3080 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U644/H   0.9000   1.2080  -0.3080 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/icc_place3/Y   0.9000   1.2080  -0.3080 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/N450   0.9000   1.0111  -0.1111 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/z_reg_19_/D   0.9000   1.0111  -0.1111 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/U438/Y   0.9000   1.0111  -0.1111 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n261   0.9000   0.9895  -0.0895 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/U237/B   0.9000   0.9895  -0.0895 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/icc_place81/Y   0.9000   0.9895  -0.0895 (VIOLATED)
+   khu_sensor_top/sensor_core/r_mpr_reg_addr[7]   0.9000   0.9518  -0.0518 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/U1359/D0   0.9000   0.9518  -0.0518 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/U399/B   0.9000   0.9518  -0.0518 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_7_/Q   0.9000   0.9518  -0.0518 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n69   0.9000   0.9299  -0.0299 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/o_Z_reg_0_/D   0.9000   0.9299  -0.0299 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/icc_place21/Y   0.9000   0.9299  -0.0299 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/N462   0.9000   0.9274  -0.0274 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/z_reg_31_/D   0.9000   0.9274  -0.0274 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/mult/U249/Y   0.9000   0.9274  -0.0274 (VIOLATED)
+   khu_sensor_top/sensor_core/n618   0.9000   0.9139       -0.0139  (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/U1359/D1   0.9000   0.9139  -0.0139 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/icc_place120/Y   0.9000   0.9139  -0.0139 (VIOLATED)
+   khu_sensor_top/sensor_core/r_ads_ch2_data_out[18]   0.9000   0.9081  -0.0081 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/U1333/D0   0.9000   0.9081  -0.0081 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/U404/D   0.9000   0.9081  -0.0081 (VIOLATED)
+       PIN :   khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_18_/Q   0.9000   0.9081  -0.0081 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/add/N627   0.9000   0.9038  -0.0038 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_lpf/add/z_reg_30_/D   0.9000   0.9038  -0.0038 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_lpf/add/U345/Y   0.9000   0.9038  -0.0038 (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      21               -9.9902  
+
+   max_capacitance
+
+                             Required        Actual
+   Net                      Capacitance    Capacitance       Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n56   0.0820   0.1027  -0.0207 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n285   0.0820   0.1004  -0.0184 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n160   0.0820   0.0984  -0.0164 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n243   0.0820   0.0978  -0.0158 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n244   0.0820   0.0949  -0.0129 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n55   0.0820   0.0927  -0.0107 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n284   0.0820   0.0926  -0.0106 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n219   0.0820   0.0892  -0.0072 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n58   0.0820   0.0877  -0.0057 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n246   0.0820   0.0847  -0.0027 (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      10               -0.1210  
+
+   max_net_length
+
+                             Required        Actual
+   Net                      Net length     Net length        Slack
+   -----------------------------------------------------------------
+   khu_sensor_top/w_clk_p_G2B15I82 (dont_touch) 800.0000 2169.6799 -1369.6799 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I78 (dont_touch) 800.0000 2134.4900 -1334.4900 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I4 (dont_touch) 800.0000 2108.0000 -1308.0000 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I3 (dont_touch) 800.0000 2069.5000 -1269.5000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I107 (dont_touch) 800.0000 2035.8800 -1235.8800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I55 (dont_touch) 800.0000 2024.1200 -1224.1200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I72 (dont_touch) 800.0000 2022.0400 -1222.0400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I39 (dont_touch) 800.0000 1971.0400 -1171.0400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I70 (dont_touch) 800.0000 1941.5200 -1141.5200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I96 (dont_touch) 800.0000 1938.3199 -1138.3199 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I65 (dont_touch) 800.0000 1931.8550 -1131.8550 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I92 (dont_touch) 800.0000 1928.3700 -1128.3700 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I108 (dont_touch) 800.0000 1909.0400 -1109.0400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I91 (dont_touch) 800.0000 1908.4900 -1108.4900 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I31 (dont_touch) 800.0000 1888.3000 -1088.3000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I43 (dont_touch) 800.0000 1880.1200 -1080.1200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I22 (dont_touch) 800.0000 1873.5000 -1073.5000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I32 (dont_touch) 800.0000 1868.1899 -1068.1899 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I5 (dont_touch) 800.0000 1858.3600 -1058.3600 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I84 (dont_touch) 800.0000 1851.3800 -1051.3800 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I2 (dont_touch) 800.0000 1849.0400 -1049.0400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/add/w_clk_p_G2B15I49 (dont_touch) 800.0000 1845.4399 -1045.4399 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I69 (dont_touch) 800.0000 1842.7000 -1042.7000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/w_clk_p_G2B15I17 (dont_touch) 800.0000 1842.2000 -1042.2000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I54 (dont_touch) 800.0000 1837.0000 -1037.0000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I105 (dont_touch) 800.0000 1835.5601 -1035.5601 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I88 (dont_touch) 800.0000 1794.9000 -994.9000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/w_clk_p_G2B15I57 (dont_touch) 800.0000 1771.0601 -971.0601 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I15 (dont_touch) 800.0000 1751.7650 -951.7650 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I68 (dont_touch) 800.0000 1745.0000 -945.0000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I53 (dont_touch) 800.0000 1733.5699 -933.5699 (VIOLATED)
+   n51                      800.0000       1723.9399      -923.9399 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I47 (dont_touch) 800.0000 1720.9200 -920.9200 (VIOLATED)
+   n53                      800.0000       1719.4600      -919.4600 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I8 (dont_touch) 800.0000 1717.7400 -917.7400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I9 (dont_touch) 800.0000 1714.8800 -914.8800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I66 (dont_touch) 800.0000 1699.7600 -899.7600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I5 (dont_touch) 800.0000 1681.6801 -881.6801 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I26 (dont_touch) 800.0000 1679.3199 -879.3199 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I45 (dont_touch) 800.0000 1678.2800 -878.2800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I62 (dont_touch) 800.0000 1677.2000 -877.2000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I37 (dont_touch) 800.0000 1674.0800 -874.0800 (VIOLATED)
+   n43                      800.0000       1672.3800      -872.3800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I21 (dont_touch) 800.0000 1659.4650 -859.4650 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I29 (dont_touch) 800.0000 1648.1200 -848.1200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I12 (dont_touch) 800.0000 1647.8800 -847.8800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I50 (dont_touch) 800.0000 1647.2200 -847.2200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I60 (dont_touch) 800.0000 1634.7400 -834.7400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I35 (dont_touch) 800.0000 1634.2800 -834.2800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I87 (dont_touch) 800.0000 1628.4000 -828.4000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I74 (dont_touch) 800.0000 1617.6801 -817.6801 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I77 (dont_touch) 800.0000 1608.9900 -808.9900 (VIOLATED)
+   n6                       800.0000       1600.8400      -800.8400 (VIOLATED)
+   n52                      800.0000       1597.9500      -797.9500 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I41 (dont_touch) 800.0000 1597.8400 -797.8400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I81 (dont_touch) 800.0000 1597.1200 -797.1200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I4 (dont_touch) 800.0000 1595.1000 -795.1000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I64 (dont_touch) 800.0000 1594.7000 -794.7000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I89 (dont_touch) 800.0000 1590.2400 -790.2400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I28 (dont_touch) 800.0000 1587.0000 -787.0000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I42 (dont_touch) 800.0000 1586.1600 -786.1600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I59 (dont_touch) 800.0000 1573.6200 -773.6200 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I6 (dont_touch) 800.0000 1571.6400 -771.6400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I75 (dont_touch) 800.0000 1570.8600 -770.8600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I16 (dont_touch) 800.0000 1569.1200 -769.1200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I97 (dont_touch) 800.0000 1563.3199 -763.3199 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I85 (dont_touch) 800.0000 1561.1801 -761.1801 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I24 (dont_touch) 800.0000 1557.0800 -757.0800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I104 (dont_touch) 800.0000 1551.8400 -751.8400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I20 (dont_touch) 800.0000 1550.5601 -750.5601 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I46 (dont_touch) 800.0000 1548.7600 -748.7600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I61 (dont_touch) 800.0000 1540.6801 -740.6801 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I8 (dont_touch) 800.0000 1527.7200 -727.7200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I25 (dont_touch) 800.0000 1518.5200 -718.5200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I48 (dont_touch) 800.0000 1499.8800 -699.8800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I80 (dont_touch) 800.0000 1497.2600 -697.2600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I14 (dont_touch) 800.0000 1496.7900 -696.7900 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I90 (dont_touch) 800.0000 1493.7400 -693.7400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I101 (dont_touch) 800.0000 1476.5000 -676.5000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I67 (dont_touch) 800.0000 1468.4000 -668.4000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I10 (dont_touch) 800.0000 1459.0400 -659.0400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I71 (dont_touch) 800.0000 1421.5601 -621.5601 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I30 (dont_touch) 800.0000 1417.5350 -617.5350 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I34 (dont_touch) 800.0000 1415.2000 -615.2000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I23 (dont_touch) 800.0000 1414.1400 -614.1400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I94 (dont_touch) 800.0000 1413.6000 -613.6000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I7 (dont_touch) 800.0000 1400.0000 -600.0000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I51 (dont_touch) 800.0000 1394.0400 -594.0400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I100 (dont_touch) 800.0000 1384.4000 -584.4000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I106 (dont_touch) 800.0000 1383.3300 -583.3300 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I2 (dont_touch) 800.0000 1377.2800 -577.2800 (VIOLATED)
+   khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B4I7 (dont_touch) 800.0000 1376.2000 -576.2000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I52 (dont_touch) 800.0000 1342.2000 -542.2000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I103 (dont_touch) 800.0000 1313.4399 -513.4399 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I13 (dont_touch) 800.0000 1312.2400 -512.2400 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I18 (dont_touch) 800.0000 1307.6150 -507.6150 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I83 (dont_touch) 800.0000 1295.0800 -495.0800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I44 (dont_touch) 800.0000 1289.9200 -489.9200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I73 (dont_touch) 800.0000 1287.6000 -487.6000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I86 (dont_touch) 800.0000 1257.8000 -457.8000 (VIOLATED)
+   n26                      800.0000       1253.6500      -453.6500 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I3 (dont_touch) 800.0000 1250.8000 -450.8000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I38 (dont_touch) 800.0000 1238.2400 -438.2400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I76 (dont_touch) 800.0000 1227.3600 -427.3600 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I99 (dont_touch) 800.0000 1216.4800 -416.4800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I1 (dont_touch) 800.0000 1215.4000 -415.4000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/w_clk_p_G2B15I11 (dont_touch) 800.0000 1208.4000 -408.4000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I93 (dont_touch) 800.0000 1179.2800 -379.2800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I11 (dont_touch) 800.0000 1175.6200 -375.6200 (VIOLATED)
+   khu_sensor_top/divider_by_2/w_clk_p_G2B5I1 (dont_touch) 800.0000 1166.3000 -366.3000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/n242 800.0000 1153.9000 -353.9000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I27 (dont_touch) 800.0000 1151.3199 -351.3199 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B4I1 (dont_touch) 800.0000 1150.6600 -350.6600 (VIOLATED)
+   i_CLK (dont_touch)       800.0000       1146.7800      -346.7800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I56 (dont_touch) 800.0000 1136.6801 -336.6801 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B13I6 (dont_touch) 800.0000 1136.1200 -336.1200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/n271 800.0000 1134.5200  -334.5200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B15I63 (dont_touch) 800.0000 1133.9700 -333.9700 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I6 (dont_touch) 800.0000 1125.9600 -325.9600 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B15I40 (dont_touch) 800.0000 1114.6801 -314.6801 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B13I10 (dont_touch) 800.0000 1080.5601 -280.5601 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I15 (dont_touch) 800.0000 1078.0699 -278.0699 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B3I1 (dont_touch) 800.0000 1073.7400 -273.7400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I79 (dont_touch) 800.0000 1046.4600 -246.4600 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I36 (dont_touch) 800.0000 1030.6000 -230.6000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/n811 800.0000 961.4200 -161.4200 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I16 (dont_touch) 800.0000 951.4100 -151.4100 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I95 (dont_touch) 800.0000 947.0400 -147.0400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I98 (dont_touch) 800.0000 941.2800 -141.2800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B15I33 (dont_touch) 800.0000 937.9400 -137.9400 (VIOLATED)
+   khu_sensor_top/divider_by_2/w_clk_p_G2B4I1 (dont_touch) 800.0000 932.7400 -132.7400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I102 (dont_touch) 800.0000 932.2000 -132.2000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B15I109 (dont_touch) 800.0000 912.6800 -112.6800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B7I1 (dont_touch) 800.0000 903.1900 -103.1900 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/n717 800.0000 900.1000 -100.1000 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I12 (dont_touch) 800.0000 897.7400 -97.7400 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B13I4 (dont_touch) 800.0000 893.9800 -93.9800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I18 (dont_touch) 800.0000 873.8800 -73.8800 (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I6 (dont_touch) 800.0000 859.4100 -59.4100 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/n417 800.0000 852.1500 -52.1500 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/N199 800.0000 845.1200 -45.1200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/n646 800.0000 843.6400   -43.6400  (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B14I17 (dont_touch) 800.0000 841.6800 -41.6800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_lpf/n906 800.0000 824.9700 -24.9700 (VIOLATED)
+   khu_sensor_top/ads1292_filter/n314 800.0000 824.9600   -24.9600  (VIOLATED)
+   khu_sensor_top/ads1292_filter/n399 800.0000 820.8000   -20.8000  (VIOLATED)
+   khu_sensor_top/ads1292_filter/n307 800.0000 817.2400   -17.2400  (VIOLATED)
+   khu_sensor_top/w_clk_p_G2B6I1 (dont_touch) 800.0000 815.5700 -15.5700 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/mult/n62 800.0000 809.1800  -9.1800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/n230 800.0000 808.2800  -8.2800 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/mult_1/n224 800.0000 807.2000  -7.2000 (VIOLATED)
+   khu_sensor_top/w_CLOCK_HALF_G4B3I2 (dont_touch) 800.0000 806.7200  -6.7200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/n250 800.0000 804.6900    -4.6900  (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/w_rstn 800.0000 803.7200  -3.7200 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/n432 800.0000 802.4000  -2.4000 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/n1692 800.0000 802.4000  -2.4000 (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      156             -95794.7500
+
+1

@@ -8,7 +8,7 @@ set_attribute -type boolean [get_pins pad165/PAD] is_pad true
 set_attribute -type boolean [get_pins pad133/PAD] is_pad true
 set_attribute -type boolean [get_pins pad121/PAD] is_pad true
 set_attribute -type boolean [get_pins pad82/PAD] is_pad true
-set_attribute -type boolean [get_pins pad/PAD] is_pad true
+set_attribute -type boolean [get_pins pad70/PAD] is_pad true
 set_attribute -type boolean [get_pins pad29/PADA] is_pad true
 set_attribute -type boolean [get_pins pad29/PADY] is_pad true
 set_attribute -type boolean [get_pins pad17/PAD] is_pad true

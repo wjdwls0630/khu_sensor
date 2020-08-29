@@ -1,13 +1,13 @@
 ###################################################################
 
-# Created by write_sdc on Wed Jun 17 13:07:57 2020
+# Created by write_sdc on Thu Aug 27 13:04:37 2020
 
 ###################################################################
 set sdc_version 1.9
 
 set_units -time ns -resistance kOhm -capacitance pF -power mW -voltage V       \
 -current mA
-set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125\
+set_operating_conditions -max V105WTP1250 -max_library std150e_wst_105_p125.db:std150e_wst_105_p125\
                          -min V135BTN0400 -min_library std150e_bst_135_n040
 set_max_area 1.6e+07
 set_disable_timing [get_ports i_RSTN]

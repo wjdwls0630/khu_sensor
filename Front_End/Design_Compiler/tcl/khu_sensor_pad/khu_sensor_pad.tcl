@@ -64,11 +64,20 @@ echo "                    write ${design} output file                        "
 echo "                                                                       "
 echo "***********************************************************************"
 
-change_names -rules verilog -hierarchy -verbose
+#Samsung rule
+#change_names -rules sec_verilog -hierarchy 
+change_names -rules verilog -hierarchy 
 write_file -format verilog -output "${netlist_path}${dir}${t_w_path}${design}.vg"
 write_file -format verilog -hierarchy -output "${netlist_path}${dir}${t_w_path}${design}_hierarchy.vg"
+
+# Make netlist backup file
+sh cp ${netlist_path}${dir}${t_w_path}${design}_hierarchy.vg ${netlist_path}${dir}${t_w_path}${design}_hierarchy.vg.bak
+
 write_sdf "${db_path}${dir}${t_w_path}${design}.sdf"
 write_sdc "${db_path}${dir}${t_w_path}${design}.sdc"
 write_parasitics -output "${db_path}${dir}${t_w_path}${design}_parasitics"
+
+# Make sdc backup file
+sh cp ${db_path}${dir}${t_w_path}${design}.sdc ${db_path}${dir}${t_w_path}${design}.sdc.bak
 
 source "${tcl_path}report.tcl"
