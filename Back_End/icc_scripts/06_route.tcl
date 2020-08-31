@@ -11,7 +11,7 @@ echo "***********************************************************************"
 # Set Step
 set step "route"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -37,7 +37,7 @@ current_design $TOP_MODULE
 # Setting up Time constraints
 remove_ideal_network -all
 
-# Read scenario file 
+# Read scenario file
 # TODO make scenario!
 # On behalf of making scenarino, source sdc file
 
@@ -47,7 +47,7 @@ remove_scenario -all
 #set_active_scenario $FP_SCN
 
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# Instead of scenario 
+# Instead of scenario
 source $FUNC1_SDC
 set_tlu_plus_files \
 	-max_tluplus $TLUP_MAX_FILE \
@@ -57,7 +57,7 @@ set_tlu_plus_files \
 # If you have scenario file, use this block instead of above one.
 # Read scenario file
 #if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
-#	remove_sdc 
+#	remove_sdc
 #	remove_scenario -all
 #	source $ICC_MCMM_SCENARIOS_FILE
 #}
@@ -65,14 +65,14 @@ set_tlu_plus_files \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
 echo "                                                                       "
 echo "***********************************************************************"
 check_tlu_plus_files
 
 # Optimization Common Session Options - set in all sessions
-source ./icc_scripts/common_route_opt_env.tcl 
-set_route_zrt_detail_options -default_gate_size 0.02    
+source ./icc_scripts/common_route_opt_env.tcl
+set_route_zrt_detail_options -default_gate_size 0.02
 
 #Source antenna rule
 source $ANTENNA_RULE
@@ -85,7 +85,7 @@ set_route_zrt_detail_options -antenna true
 route_zrt_group -all_clock_nets -reuse_existing_global_route true
 
 ## Unset Antenna rule (ekyoo)
-set_route_zrt_detail_options -antenna false 
+set_route_zrt_detail_options -antenna false
 
 ## Initial Route
 route_opt -initial_route_only
@@ -147,17 +147,18 @@ redirect -file $REPORTS_DIR/${step}.check_legality { check_legality -verbose }
 redirect -file $REPORTS_DIR/${step}.constraints.rpt { report_constraint \
 	-all_violators -nosplit -significant_digits 4 }
 redirect -file $REPORTS_DIR/${step}.max.timing.rpt {
-	report_timing $REPORTS_DIR/${step}.max.timing.rpt -significant_digits 4 \
+	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
 	-physical -attributes -nosplit -derate
 }
-redirect -file $REPORTS_DIR/${step}.min.timing.rpt{ 
+redirect -file $REPORTS_DIR/${step}.min.timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+
 
 # Save
 change_names -rule verilog -hier

@@ -14,7 +14,7 @@ echo "***********************************************************************"
 # Set Step
 set step "chip_finish"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -40,7 +40,7 @@ current_design $TOP_MODULE
 # Setting up Time constraints
 remove_ideal_network -all
 
-# Read scenario file 
+# Read scenario file
 # TODO make scenario!
 # On behalf of making scenarino, source sdc file
 
@@ -50,7 +50,7 @@ remove_scenario -all
 #set_active_scenario $FP_SCN
 
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# Instead of scenario 
+# Instead of scenario
 source $FUNC1_SDC
 set_tlu_plus_files \
 	-max_tluplus $TLUP_MAX_FILE \
@@ -60,7 +60,7 @@ set_tlu_plus_files \
 # If you have scenario file, use this block instead of above one.
 # Read scenario file
 #if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
-#	remove_sdc 
+#	remove_sdc
 #	remove_scenario -all
 #	source $ICC_MCMM_SCENARIOS_FILE
 #}
@@ -68,19 +68,19 @@ set_tlu_plus_files \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
 echo "                                                                       "
 echo "***********************************************************************"
 check_tlu_plus_files
 
 # Optimization Common Session Options - set in all sessions
-source ./icc_scripts/common_route_opt_env.tcl 
+source ./icc_scripts/common_route_opt_env.tcl
 
 #Source antenna rule
 source $ANTENNA_RULE
 report_antenna_rules
 
-set_route_zrt_detail_options -antenna true    
+set_route_zrt_detail_options -antenna true
 
 #Source antenna rule
 source $ANTENNA_RULE
@@ -96,11 +96,11 @@ derive_pg_connection -ground_net $MW_R_GROUND_NET   -ground_pin $MW_GROUND_PORT
 derive_pg_connection -power_net  $MW_R_POWER_NET    -ground_net $MW_R_GROUND_NET -tie
 
 # Intermediate Save
-# Use timing driven SnR. 
+# Use timing driven SnR.
 set_route_zrt_global_options -timing_driven true
 set_route_zrt_track_options  -timing_driven true
 set_route_zrt_detail_options -timing_driven true
-save_mw_cel 
+save_mw_cel
 puts "SEC_INFO: CEL was saved. You can open CEL with read_only !!"
 
 # Running extraction and updating the timing
@@ -120,14 +120,13 @@ redirect -file $REPORTS_DIR/${step}.vth_use.rpt -tee { report_threshold_voltage_
 redirect -file $REPORTS_DIR/${step}.check_legality { check_legality -verbose }
 redirect -file $REPORTS_DIR/${step}.constraints.rpt { report_constraint \
 	-all_violators -nosplit -significant_digits 4 }
-report_zrt_shield -with_ground $MW_R_GROUND_NET -output $REPORTS_DIR/${step}.shield.ratio.rpt
 redirect -file $REPORTS_DIR/${step}.max.timing.rpt {
-	report_timing $REPORTS_DIR/${step}.max.timing.rpt -significant_digits 4 \
+	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
 	-physical -attributes -nosplit -derate
 }
-redirect -file $REPORTS_DIR/${step}.min.timing.rpt{ 
+redirect -file $REPORTS_DIR/${step}.min.timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins \
@@ -157,7 +156,7 @@ set_write_stream_options -child_depth 0 -map_layer $STREAM_OUT_MAP \
 	-output_pin {geometry text} \
 	-keep_data_type -max_name_length 128
 
-write_stream -lib_name ./mdb/${TOP_MODULE}_${step} -format gds -cells $TOP_MODULE \
+write_stream -lib_name ./mw_db/${TOP_MODULE}_${step} -format gds -cells $TOP_MODULE \
 	./outputs/${TOP_MODULE}.${step}.gds_depth0
 
 set_write_stream_options -child_depth 30 -map_layer $STREAM_OUT_MAP \

@@ -10,9 +10,9 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # Set Step
-set step "floorplan"
+set step "01_floorplan"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -21,7 +21,7 @@ set _mw_lib ./mw_db/${TOP_MODULE}_${step}
 if {[file exist $_mw_lib]} {
 	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
 }
-copy_mw_lib -from ./mw_db/${TOP_MODULE}_read_design -to $_mw_lib
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_00_read_design -to $_mw_lib
 
 # Open Library and Cell
 
@@ -38,7 +38,7 @@ current_design $TOP_MODULE
 # Setting up Time constraints
 remove_ideal_network -all
 
-# Read scenario file 
+# Read scenario file
 # TODO make scenario!
 # On behalf of making scenarino, source sdc file
 
@@ -48,7 +48,7 @@ remove_scenario -all
 #set_active_scenario $FP_SCN
 
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# Instead of scenario 
+# Instead of scenario
 source $FUNC1_SDC
 set_tlu_plus_files \
 	-max_tluplus $TLUP_MAX_FILE \
@@ -57,7 +57,7 @@ set_tlu_plus_files \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
 echo "                                                                       "
 echo "***********************************************************************"
 check_tlu_plus_files
@@ -75,12 +75,12 @@ create_floorplan -control_type boundary -start_first_row -flip_first_row \
 # VDDQ/VSSQ : Voltage which is supplied to PAD (Pre-Driver 3.3V)
 # For Samsung Library, Voltage of Pre-Driver and Output-Driver is connected automatically(PAD_Ring)
 # when PAD Filler is inserted, consider only VDD and VSS which are core voltage in this process
-# Insert Filler in order from big to small for the sake of reducing the number of fillers. 
+# Insert Filler in order from big to small for the sake of reducing the number of fillers.
 insert_pad_filler -cell $IO_FILLER
 
 # Define ignored layers
 set_ignored_layers -max_routing_layer MET6
- 
+
 #*******************************************************************************************
 ## NOTE for FloorPlan ######################################################################
 #
@@ -101,7 +101,7 @@ set_ignored_layers -max_routing_layer MET6
 ##    if {[all_macro_cells] != "" } {
 ##         set_dont_touch_placement [all_macro_cells]
 ##    }
-##    
+##
 ##    ## Physical Cells Placement
 ##    ## Add well edge cell
 ##    add_end_cap -respect_blockage -ignore_soft_blockage -lib_cell $WELL_EDGE_CELL
@@ -155,7 +155,7 @@ create_placement_blockage -coordinate {{3228.000 440.000} {3531.314 772.000}} -n
 create_placement_blockage -coordinate {{3228.000 3228.000} {3531.314 3560.000}} -name block_4 -type hard -no_snap
 #remove_placement_blockage -all
 
-# Unplace all standard cells 
+# Unplace all standard cells
 remove_placement -object_type standard_cell
 
 #*******************************************************************************************
@@ -189,4 +189,3 @@ sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
 #exit
-
