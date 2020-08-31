@@ -20,12 +20,12 @@ endif
 @ i = 1
 while ($i <= $#rm_files)
 	if ($rm_files[$i] =~ sainstall.DK) then
-	else 
+	else
 		rm -f $rm_files[$i]
 	endif
 	@ i++
 
-# Copy TAR File from Home Directory 
+# Copy TAR File from Home Directory
 
 cp $LIB_HOME_DIR$MW_DB_TAR_FILE ./
 cp $LIB_HOME_DIR$TLUP_TAR_FILE ./
@@ -72,7 +72,7 @@ set pwd_files = `\ls`
 set tar_files = ("");
 while ($i <= $#pwd_files)
 	if ($pwd_files[$i] =~ sainstall.DK) then
-	else 
+	else
 		set tar_files = ($tar_files $pwd_files[$i])
 	endif
 	@ i++
@@ -99,9 +99,9 @@ if (!(-e $zip_cmd)) then
 	goto ABORT
 endif
 
-# Install 
+# Install
 
-set MW_DB_DIR = ../MilkyWay 
+set MW_DB_DIR = ../MilkyWay
 set TECH_DIR = ../TECH
 set TLUP_DIR = ../TLUP
 
@@ -115,19 +115,19 @@ if ($install_ans == "q" || $install_ans == "Q" || $install_ans =~ [qQ][uU][iI][t
 	goto ABORT
 endif
 
-if ($install_ans != "n" && $install_ans != "N") then		
+if ($install_ans != "n" && $install_ans != "N") then
 	if (-e $MW_DB_DIR) then
 		rm -rf $MW_DB_DIR
 	endif
-	
+
 	if (-e $TECH_DIR) then
 		rm -rf $TECH_DIR
 	endif
-	
+
 	if (-e $TLUP_DIR) then
 		rm -rf $TLUP_DIR
 	endif
-	
+
 	echo ""
 	echo "*****<< SAMSUNG 130nm Physical Design Library Structure >>*****"
 	echo "*                                                             *"
@@ -148,17 +148,17 @@ if ($install_ans != "n" && $install_ans != "N") then
 	echo "*                                   +--  ...                  *"
 	echo "*                                                             *"
 	echo "***************************************************************"
-	
+
 	@ i = 1
 	while ($i <= $#tar_files)
 		if($tar_files[$i] =~ $MW_DB_TAR_FILE) then
-			$tar_cmd -xf $MW_DB_TAR_FILE -C ../ 
+			$tar_cmd -xf $MW_DB_TAR_FILE -C ../
 			mv ../Astro_PHA_lib/TECH ../
-			mv ../Astro_PHA_lib $MW_DB_DIR 
+			mv ../Astro_PHA_lib $MW_DB_DIR
 		else if($tar_files[$i] =~ $TLUP_TAR_FILE) then
 			$tar_cmd -xf $TLUP_TAR_FILE -C ../
 			mv ../TLU+ $TLUP_DIR
-		else 
+		else
 		endif
 		@ i++
 	end
@@ -167,12 +167,10 @@ if ($install_ans != "n" && $install_ans != "N") then
 	mkdir ../outputs
 	mkdir ../reports
 	mkdir ../results
-	mv ../padplace_ICC_200827_L13_68um.tdf ../TECH
-	mv ../std150e_prim713_antenna_200827.tcl ../TECH
+	mv ../padplace_ICC_200827_L13_68um.tdf $TECH_DIR
+	mv ../std150e_prim713_antenna_200827.tcl $TECH_DIR 
 else
 	echo "Do not install"
 	echo "Good Bye...   "
 	goto ABORT
 endif
-
-
