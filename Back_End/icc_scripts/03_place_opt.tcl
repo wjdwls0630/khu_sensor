@@ -9,9 +9,9 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # Set Step
-set step "place_opt"
+set step "03_place_opt"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -20,7 +20,7 @@ set _mw_lib ./mw_db/${TOP_MODULE}_${step}
 if {[file exist $_mw_lib]} {
 	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
 }
-copy_mw_lib -from ./mw_db/${TOP_MODULE}_powerplan -to $_mw_lib
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_02_powerplan -to $_mw_lib
 
 # Open Library and Cell
 
@@ -37,7 +37,7 @@ current_design $TOP_MODULE
 # Setting up Time constraints
 remove_ideal_network -all
 
-# Read scenario file 
+# Read scenario file
 # TODO make scenario!
 # On behalf of making scenarino, source sdc file
 
@@ -47,7 +47,7 @@ remove_scenario -all
 #set_active_scenario $FP_SCN
 
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# Instead of scenario 
+# Instead of scenario
 source $FUNC1_SDC
 set_tlu_plus_files \
 	-max_tluplus $TLUP_MAX_FILE \
@@ -56,7 +56,7 @@ set_tlu_plus_files \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
 echo "                                                                       "
 echo "***********************************************************************"
 check_tlu_plus_files
@@ -75,7 +75,7 @@ if { !$INOUT_OPT } {
 
 
 # Optimization Common Session Options - set in all sessions
-source ./icc_scripts/common_place_opt_env.tcl 
+source ./icc_scripts/common_place_opt_env.tcl
 
 source ./icc_scripts/rules/shield_130nm_rule.tcl
 
@@ -86,7 +86,7 @@ set_clock_tree_options -clock_trees [all_clocks] \
 # Unplace all standard cells except for tap and well_edge cells
 remove_placement -object_type standard_cell
 
-# Improved congestion analysis by using Global Route info 
+# Improved congestion analysis by using Global Route info
 if { $GL_BASED_PLACE } {
 	set placer_enable_enhanced_router true
 	set placer_enable_high_effort_congestion true
@@ -97,7 +97,7 @@ if { $GL_BASED_PLACE } {
 
 # Placement Optimization
 if {$LEAKAGE_POWER_PLACE} {
-	#Optimize Power 
+	#Optimize Power
 	if {$ICC_STRATEGY == "ttr" } {
 		place_opt -effort low -power
 	}
@@ -127,27 +127,33 @@ if { $GEN_GL_CONG_MAP } {
 # Running extraction and updating the timing
 extract_rc
 update_timing
-    
+
 # Report
+set REPORTS_STEP_DIR $REPORTS_DIR/${step}
+if {[file exist $REPORTS_STEP_DIR]} {
+	sh rm -rf $REPORTS_STEP_DIR
+}
+sh mkdir $REPORTS_STEP_DIR
+
 set legalize_support_phys_only_cell true
 create_qor_snapshot -show_all -significant_digits 4 -name $step
-redirect -file $REPORTS_DIR/${step}.snap.rpt \
-	{ report_qor_snapshot -name $step -save_as $step.snap.rpt }
-redirect -file $REPORTS_DIR/${step}.hfn.rpt { report_net_fanout -threshold 100 }
-redirect -file $REPORTS_DIR/${step}.qor.rpt -tee \
+redirect -file $REPORTS_STEP_DIR/snap.rpt \
+	{ report_qor_snapshot -name $step -save_as snap.rpt }
+redirect -file $REPORTS_STEP_DIR/hfn.rpt { report_net_fanout -threshold 100 }
+redirect -file $REPORTS_STEP_DIR/qor.rpt -tee \
 	{ report_qor -significant_digits 4 }
-redirect -file $REPORTS_DIR/${step}.physical.sum -tee { report_design -physical -nosplit }
-redirect -file $REPORTS_DIR/${step}.vth_use.rpt -tee { report_threshold_voltage_group }
-redirect -file $REPORTS_DIR/${step}.check_legality { check_legality -verbose }
-redirect -file $REPORTS_DIR/${step}.constraints.rpt { report_constraint \
+redirect -file $REPORTS_STEP_DIR/physical.sum -tee { report_design -physical -nosplit }
+redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_group }
+redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
+redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint \
 	-all_violators -nosplit -significant_digits 4 }
-redirect -file $REPORTS_DIR/${step}.max.timing.rpt {
+redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
 	-physical -attributes -nosplit -derate
 }
-redirect -file $REPORTS_DIR/${step}.min.timing.rpt { 
+redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins \
@@ -167,4 +173,3 @@ sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
 #exit
-

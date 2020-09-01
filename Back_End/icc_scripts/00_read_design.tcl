@@ -10,9 +10,9 @@ echo "                                                                       "
 echo "***********************************************************************"
 
 # Set Step
-set step "read_design"
+set step "00_read_design"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -25,7 +25,7 @@ if {[file exist $_mw_lib]} {
 # Create a Milkyway Design DB
 echo "***********************************************************************"
 echo "                                                                       "
-echo "                   Creating a Milkyway Design DB                       "   
+echo "                   Creating a Milkyway Design DB                       "
 echo "                                                                       "
 echo "***********************************************************************"
 
@@ -40,7 +40,7 @@ create_mw_lib ./mw_db/${TOP_MODULE}_${step} \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "                   Reporting the Milkyway Design Library               "   
+echo "                   Reporting the Milkyway Design Library               "
 echo "                                                                       "
 echo "***********************************************************************"
 report_mw_lib -mw_reference_library khu_sensor_mw_lib
