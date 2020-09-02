@@ -1,0 +1,1406 @@
+define designName   "std150"
+define techFile     "Tech/std150_6m_IDEC.techgen.tf"
+define refLib1      "RefLib/ACORE/pll150"
+define refLib2      "RefLib/DCORE/sam185"
+define refLib3      "RefLib/DCORE/teaklite150"
+define refLib4      "RefLib/IO/OSC"
+define refLib5      "RefLib/IO/USB"
+define refLib6      "RefLib/IO/phbcud4"
+define refLib7      "RefLib/IO/s5n8957x_l13g"
+define refLib8      "RefLib/MEM/memory"
+define refLib9      "RefLib/PRIM/std150_chip_id"
+define refLib10     "RefLib/PRIM/std150_prim"
+define netlist      "Netlist/IDEC_0408_layout.v"
+define sdc          "SDC/IDEC.sdc"
+define ioTdf        "TDF/IOconf/IDEC.tdf"
+define tmRptDir     "Rpt/Timing/"
+define skewRptDir   "Rpt/Skew/"
+define noiseRptDir  "Rpt/Noise/"
+
+;4-1. Design Preparation
+
+cmCreateLib
+setFormField "Create Library" "Library Name" designName
+setFormField "Create Library" "Technology File Name" techFile
+setFormField "Create Library" "Set Case Sensitive" "1"
+formOK "Create Library"
+
+cmRefLib
+setFormField "Ref Library" "Library Name" designName
+setFormField "Ref Library" "Ref Library Name" refLib1
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib2
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib3
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib4
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib5
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib6
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib7
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib8
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib9
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" refLib10
+formOK "Ref Library"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+auVerilogIn
+setFormField "Verilog In Data File" "Verilog File Name" netlist
+setFormField "Verilog In Data File" "Library Name" designName
+setFormField "Verilog In Data File" "Tech File Name" techFile
+setFormField "Verilog In Data File" "Bus Naming Style" "[%d]"
+setFormField "Verilog In Data File" "No Backslash Insertion to avoid Hier Name Collisions" "1"
+formOK "Verilog In Data File"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+cmCmdExpand
+setFormField "Expand Netlist" "Library Name" designName
+setFormField "Expand Netlist" "Unexpanded Cell Name" (string-append designName".NETL")
+setFormField "Expand Netlist" "Expanded Cell Name" (string-append designName".EXP")
+formButton "Expand Netlist" "globalNetOptions"
+setFormField "Expand Netlist" "Net Name" "VDD"
+setFormField "Expand Netlist" "Port Pattern" "VDD.*"
+formButton "Expand Netlist" "apply"
+setFormField "Expand Netlist" "Net Name" "VSS"
+setFormField "Expand Netlist" "Port Pattern" "VSS.*"
+formButton "Expand Netlist" "apply"
+subFormHide "Expand Netlist" 1
+formOK "Expand Netlist"
+
+; 4-2. Floorplanning
+
+geOpenLib
+setFormField "Open Library" "Library Name" designName
+formOK "Open Library"
+
+geCreateCell
+setFormField "Create Cell" "Cell Name" designName
+formOK "Create Cell"
+
+axgBindNetlist
+setFormField "Bind Netlist" "Net Cell" (string-append designName".EXP")
+formOK "Bind Netlist"
+
+axgLoadTDF
+setFormField "Load TDF File" "Cell Name" designName
+setFormField "Load TDF File" "TDF File Name" ioTdf
+formOK "Load TDF File"
+
+;#- axgPlanner
+;#- setFormField "Floor Planning" "Core Utilization" "0.7"
+;#- setFormField "Floor Planning" "Row/Core Ratio" "1"
+;#- setFormField "Floor Planning" "Double Back""1"
+;#- setFormField "Floor Planning" "Start form first row" "1"
+;#- setFormField "Floor Planning" "Flip first row" "1"
+;#- setFormField "Floor Planning" "Core To Left" "250"
+;#- setFormField "Floor Planning" "Core To Right" "250"
+;#- setFormField "Floor Planning" "Core To Bottom" "250"
+;#- setFormField "Floor Planning" "Core To Top" "250"
+;#- formOK "Floor Planning"
+;#- 
+;#- aprPGConnect
+;#- setFormField "Connect/Disconnect PG" "Net Name" "VDD"
+;#- setFormField "Connect/Disconnect PG" "Port Pattern" "VDD.*"
+;#- setFormField "Connect/Disconnect PG" "Net Type" "Power"
+;#- setFormField "Connect/Disconnect PG" "Net Name" "Net Types" "Pad" 1
+;#- setFormField "Connect/Disconnect PG" "Net SubType" "Pad" 1
+;#- formApply "Connect/Disconnect PG"
+;#- setFormField "Connect/Disconnect PG" "Net Name" "VSS"
+;#- setFormField "Connect/Disconnect PG" "Port Pattern" "VSS.*"
+;#- setFormField "Connect/Disconnect PG" "Net Type" "Ground"
+;#- formApply "Connect/Disconnect PG"
+;#- setFormField "Connect/Disconnect PG" "Net Name" "PLL_VDDA"
+;#- setFormField "Connect/Disconnect PG" "Port Pattern" "AVDD12A:P"
+;#- setFormField "Connect/Disconnect PG" "Cell Instance Pattern" "astlib_main/astlib_pll/spll"
+;#- setFormField "Connect/Disconnect PG" "Net Type" "Power"
+;#- setFormField "Connect/Disconnect PG" "Net Name" "PLL_VSSA"
+;#- setFormField "Connect/Disconnect PG" "Port Pattern" "AVSS12A:G"
+;#- setFormField "Connect/Disconnect PG" "Cell Instance Pattern" "astlib_main/astlib_pll/spll"
+;#- setFormField "Connect/Disconnect PG" "Net Type" "Ground"
+;#- .....
+;#- formOK "Connect/Disconnect PG"
+;#- 
+;#- axgCreateRectangularRings
+;#- setFormField "Create Rectangular Rings" "Net Name(s)" "VDD,VSS"
+;#- setFormField "Create Rectangular Rings" "L-width" "100"
+;#- setFormField "Create Rectangular Rings" "R-width" "100"
+;#- setFormField "Create Rectangular Rings" "B-Width" "100"
+;#- setFormField "Create Rectangular Rings" "T-Width" "100"
+;#- setFormField "Create Rectangular Rings" "B-Layer" "30"
+;#- setFormField "Create Rectangular Rings" "T-Layer" "30"
+;#- setFormField "Create Rectangular Rings" "Left" "20"
+;#- setFormField "Create Rectangular Rings" "Right" "20"
+;#- setFormField "Create Rectangular Rings" "Bottom" "20"
+;#- setFormField "Create Rectangular Rings" "Top" "20"
+;#- formOK "Create Rectangular Rings"
+;#- 
+;#- axgCreatesStraps
+;#- ...
+;#- formCancel "Create Straps"
+;#- 
+;#- axgPrerouteInstances
+;#- setFormField "Preroute Instances" "Nets" "PG & Tieup/Tiedown"
+;#- formOK "Preroute Instances"
+
+load "FPdata/fp.scm"
+load "FPdata/PGnet.scm"
+axgUpdatePlaceMap
+
+;4-3. Load Timing Constraint
+
+astInitHierPreservation
+setFormField "Init Hierarchy Preservation" "Flat Cell Name" designName
+setFormField "Init Hierarchy Preservation" "Hier. Net Cell Name" designName
+formOK "Init Hierarchy Preservation"
+
+astMarkHierAsPreserved
+setFormField "Mark Module Instances As Preserved" "Flattened Cell Name" designName
+formOK "Mark Module Instances As Preserved"
+
+ataLoadSDC
+setFormField "Load SDC File" "SDC File Name" sdc
+formOK "Load SDC File"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "FP"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;4-4. Pre Placement Optimization
+
+astPlaceOptions
+setFormField "AstroPlace Options" "Cong Driven" "1"
+setFormField "AstroPlace Options" "Timing Driven" "1"
+formOK "AstroPlace Options"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Ignore Interconnect" "0"
+atCmdSetField "Enable Time Borrowing" "1"
+atCmdSetField "Enable Preset/Clear Arcs" "0"
+atCmdSetField "Enable Recovery/Removal Arcs" "1"
+atCmdSetField "Enable Mixed Clock/Signal Edges" "0"
+atCmdSetField "Enable Scan Enable" "1"
+atCmdSetField "Enable Inter Clock" "1"
+atCmdSetField "Enable Default Clock" "0"
+atCmdSetField "Include Library Max Tran" "1"
+atCmdSetField "Include Library Max Cap" "0"
+atCmdSetField "Enable Multi-Clocks Per Reg" "0"
+atCmdSetField "Ignore Clock Uncertainty" "0"
+atCmdSetField "Ignore Propagated Clock" "1"
+atCmdSetField "Set IO Clock Latency" "0"
+atCmdSetField "Enable Ideal Network Delay" "0"
+atCmdSetField "Enable Gated Clock Checks" "0"
+atCmdSetField "Enable CrossTalk Effects" "0"
+atCmdSetField "Set Useful Skew" "0"
+atCmdSetField "Include Non Propagated Nets" "1"
+atCmdSetField "Include SyncPort PhaseDelay" "1"
+atCmdSetField "Enable Trace Mode" "0"
+atCmdSetEnvModel 
+atTimingSetupGoto "Optimization" 
+atCmdSetField "Optimization Max Transition" "1.1"
+atCmdSetField "Optimization Target Utilization" "50"
+atCmdSetField "Optimization Max Utilization" "85"
+atCmdSetOptModel 
+atTimingSetupGoto "Parasitics" 
+atCmdSetField "Parasitic Model Operating Conditions" "max min"
+atCmdSetParaModel 
+atTimingSetupGoto "Model" 
+atCmdSetField "Delay Model Cell Rise Start" "10"
+atCmdSetField "Delay Model Cell Rise End" "90"
+atCmdSetField "Delay Model Cell Fall Start" "90"
+atCmdSetField "Delay Model Cell Fall End" "10"
+atCmdSetField "Delay Model Net Delay Model" "awe"
+atCmdSetModels 
+atTimingSetupGoto "Xtalk" 
+atCmdSetField "Crosstalk Aggressor Relative Threshold" "20"
+atCmdSetField "Crosstalk Aggressor Absolute Threshold" "20"
+atCmdSetXtalk 
+atTimingSetupHide
+
+(axSetIntParam "ata" "driving_cell_include_cell_delay" 0)
+(axSetIntParam "ata" "case_analysis_disable_entire_path" 0)
+(axSetIntParam "place" "macroNetWeight" 20)
+;;      range [1,100], default=1;
+(axSetIntParam "place" "IOnetWeight" 20)
+;;      range [1,100], default=1;
+(axSetIntParam "place" "instPadding" 1)
+;;      range [-1,1], default=-1;
+;;     -1: automatically determine whether to use instance padding or not,
+;;      0: no padding on instance in congested area,
+;;      1: pad instances in congested area - requires two passes.
+
+;#- (axSetRealParam "ek" "capMultiplier" 1.150)
+;#- ;;      range [0.000,10.000], default=1.050, stored in cell;
+;#- ;;     R: capacitance multipler for Pre-Routing estimation.
+;#- (axSetRealParam "ek" "resMultiplier" 1.050)
+;#- ;;      range [0.000,10.000], default=1.050, stored in cell;
+;#- ;;     R: resistance multipler for Pre-Routing estimation.
+;#- 
+;#- axgLoadTDF
+;#- setFormField "Load TDF File" "TDF File Name" "TDF/NorConst/netWeight.list"
+;#- formOK "Load TDF File"
+;#- 
+;#- astSetDontTouch "TDF/NorConst/dont_touch.list" #t
+;#- astSetDontTouch "CTSconst/dont_touch.list" #t
+;#- 
+;#- axgAddBlockage
+;#- axgAddSoftBlockage
+
+aprSetDensity
+setFormField "Set Utilization" "Utilization (%)" "80"
+addPoint 2 '(201.180000 5045.420000)
+addPoint 2 '(4981.490000 186.740000)
+formCancel "Set Utilization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPrePS
+setFormField "Pre-Placement Optimization" "High-Fanout Collapse" "1"
+setFormField "Pre-Placement Optimization" "High-Fanout Collapse Fanout" "10"
+setFormField "Pre-Placement Optimization" "Cell Downsize" "0"
+setFormField "Pre-Placement Optimization" "Area Recovery" "1"
+setFormField "Pre-Placement Optimization" "Remove Buffers" "0"
+setFormField "Pre-Placement Optimization" "Enforce Place" "1"
+setFormField "Pre-Placement Optimization" "High-Fanout Synthesis" "1"
+setFormField "Pre-Placement Optimization" "Ideal Optimization" "1"
+setFormField "Pre-Placement Optimization" "Logic-Remapping" "1"
+formOK "Pre-Placement Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+;#- geNameSelect
+;#- setFormField "Name Select" "Type" "cell instance"
+;#- setFormField "Name Select" "Name" "u_s5n7270x01_main/CLOCK_GEN_0/dl2d2_1"
+;#- formApply "Name Select"
+;#- ....
+;#- formOK "Name Select"
+;#- aprCmdFixCell
+;#- setFormField "Set Fixed Status" "Mark Object" "fixed"
+;#- formOK "Set Fixed Status"
+;#- geDeselectAll
+
+aprPGConnect
+formDefault "Connect/Disconnect PG"
+setFormField "Connect/Disconnect PG" "Net Name" "VDD"
+setFormField "Connect/Disconnect PG" "Port Pattern" "VDD"
+setFormField "Connect/Disconnect PG" "Update Tie Up/Down" "1"
+formApply "Connect/Disconnect PG"
+setFormField "Connect/Disconnect PG" "Net Name" "VSS"
+setFormField "Connect/Disconnect PG" "Port Pattern" "VSS"
+setFormField "Connect/Disconnect PG" "Net Type" "Ground"
+formOK "Connect/Disconnect PG"
+
+axgPrerouteStandardCells
+formOK "Preroute Standard Cells"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "PrePS"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;4-5. IR-drop Analysis
+
+;4-6. Timing Feasibility Check
+
+(axSetRealParam "ata" "rpt_max_tran_multiplier" 1)
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Ignore Interconnect" "1"
+atCmdSetEnvModel
+atTimingSetupHide
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "0"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "0"
+setFormField "Report Timing" "Report Clock Trans" "0"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"ideal_slack.tm_rpt")
+formOK "Report Timing"
+
+;4-7. In-Placement Optimization
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Ignore Interconnect" "0"
+atCmdSetEnvModel 
+atTimingSetupGoto "Optimization"
+atCmdSetField "Optimization Target Utilization" "65"
+atCmdSetField "Optimization Max Utilization" "85"
+atCmdSetOptModel 
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPlaceDesign
+setFormField "AstroPlace - Design" "Speed:" "medium"
+setFormField "AstroPlace - Design" "Optimize Netlist" "1"
+setFormField "AstroPlace - Design" "timing/routability" "5"
+setFormField "AstroPlace - Design" "Incremental" "0"
+formOK "AstroPlace - Design"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"InPlace.rpt")
+formOK "Report Timing"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "InPlace"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;4-8. PPO (Post Placement Optimization)
+
+atTimingSetup
+atCmdSetEnvModel
+atTimingSetupGoto "Optimization"
+atCmdSetField "Optimization Target Utilization" "65"
+atCmdSetField "Optimization Max Utilization" "85"
+atCmdSetOptModel
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostPS1
+formDefault "Post-Placement Optimization Phase 1"
+setFormField "Post-Placement Optimization Phase 1" "Redo HFN" "1"
+setFormField "Post-Placement Optimization Phase 1" "Max Fanouts" "30"
+ setFormField "Post-Placement Optimization Phase 1" "Design Rule Fixing" "1"
+setFormField "Post-Placement Optimization Phase 1" "Use Global Routing" "0"
+setFormField "Post-Placement Optimization Phase 1" "Fix Max Length" "0"
+setFormField "Post-Placement Optimization Phase 1" "Fix Tran/Cap" "1"
+setFormField "Post-Placement Optimization Phase 1" "Prevent Xtalk" "0"
+formOK "Post-Placement Optimization Phase 1"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostPS1.tm_rpt")
+formOK "Report Timing"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "PostPS1"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;(axSetIntParam "pds" "large_mv_in_ppo" 1)
+;(axSetIntParam "pds" "move_flip_flop" 1)
+;(axSetIntParam "pds" "effort" 2)
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostPS
+setFormField "Post-Placement Optimization" "Setup Fixing" "1"
+setFormField "Post-Placement Optimization" "Hold Fixing" "0"
+setFormField "Post-Placement Optimization" "Max Tran Fixing" "1"
+setFormField "Post-Placement Optimization" "Max Cap Fixing" "0"
+setFormField "Post-Placement Optimization" "Area Recovery" "1"
+setFormField "Post-Placement Optimization" "Remove Buffers" "0"
+setFormField "Post-Placement Optimization" "Logic-Remapping" "1"
+formOK "Post-Placement Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostPS2.tm_rpt")
+formOK "Report Timing"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "PostPS2"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;4-9. CTS
+
+(axSetIntParam "acts" "CTA" 0)
+;;      range [0,1], default=1;
+(axSetRealParam "acts" "target: clock insertion delay" 0.000)
+;;      range [0.000,999999.000], default=0.000;
+;;      target clock insertion delay
+(axSetRealParam "acts" "target: clock skew") 0.000)
+;;      range [0.000,999999.000], default=0.000;
+;;      target clock skew
+(axSetRealParam "acts" "target: transition delay rise" 0.500)
+;;      range [0.000,999999.000], default=0.000;
+;;      target transition delay of rise
+(axSetRealParam "acts" "target: transition delay fall" 0.500)
+;;      range [0.000,999999.000], default=0.000;
+;;      target transition delay of fall
+(axSetRealParam "acts" "target: load capacitance" 1000)
+;;      range [0.000,999999.000], default=0.000;
+;;      target load capacitance
+(axSetIntParam "acts" "target fanout" 1000)
+;;      range [0,999999], default=32;
+
+astClockOptions
+formDefault "Clock Common Options"
+setFormField "Clock Common Options" "Buffer Relocation" "0"
+setFormField "Clock Common Options" "Level Adjustment" "0"
+setFormField "Clock Common Options" "Gate Relocation" "0"
+setFormField "Clock Common Options" "Delay Insertion" "0"
+setFormField "Clock Common Options" "Gate Sizing" "1"
+setFormField "Clock Common Options" "Buffer Sizing" "1"
+setFormField "Clock Common Options" "Clock Nets" "IDECcore/u_dvdp_clk_rst_gen/u_clk_mode_ctrl/U374/n5 IDECcore/sysclk_vec_22_0 IDECcore/sysclk_vec_18_0 IDECcore/sysclk_vec_17_0 IDECcore/sysclk_vec_16_0 IDECcore/sysclk_vec_13_0 IDECcore/sysclk_vec_12_0 IDECcore/sysclk_vec_11_0 IDECcore/sysclk_vec_9_0 IDECcore/sysclk_vec_8_0 IDECcore/sysclk_vec_7_0 IDECcore/sysclk_vec_6_0 IDECcore/sysclk_vec_5_0 IDECcore/sysclk_vec_3_0 IDECcore/sysclk_vec_2_0 IDECcore/sysclk_vec_1_0 IDECcore/sysclk_vec_0_0 IDECcore/u_dvdp_clk_rst_gen/n997 IDECcore/aclk IDECcore/vclk IDECcore/feuclk IDECcore/sysclk_pre IDECcore/u_cdfe/o_C16M IDECcore/u_cdfe/c_clk16M_svo"
+setFormField "Clock Common Options" "Buffers/Inverters" "ivd8,ivd16"
+formOK "Clock Common Options"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astCTS
+formOK "Clock Tree Synthesis"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astSkewAnalysis
+setFormField "Skew Analysis" "Clock Names" "IDECcore/u_dvdp_clk_rst_gen/u_clk_mode_ctrl/U374/n5 IDECcore/sysclk_vec_22_0 IDECcore/sysclk_vec_18_0 IDECcore/sysclk_vec_17_0 IDECcore/sysclk_vec_16_0 IDECcore/sysclk_vec_13_0 IDECcore/sysclk_vec_12_0 IDECcore/sysclk_vec_11_0 IDECcore/sysclk_vec_9_0 IDECcore/sysclk_vec_8_0 IDECcore/sysclk_vec_7_0 IDECcore/sysclk_vec_6_0 IDECcore/sysclk_vec_5_0 IDECcore/sysclk_vec_3_0 IDECcore/sysclk_vec_2_0 IDECcore/sysclk_vec_1_0 IDECcore/sysclk_vec_0_0 IDECcore/u_dvdp_clk_rst_gen/n997 IDECcore/aclk IDECcore/vclk IDECcore/feuclk IDECcore/sysclk_pre IDECcore/u_cdfe/o_C16M IDECcore/u_cdfe/c_clk16M_svo"
+setFormField "Skew Analysis" "Operating Condition" "Worst"
+setFormField "Skew Analysis" "Global Clock Skew" "1"
+setFormField "Skew Analysis" "Local Clock Skew" "0"
+setFormField "Skew Analysis" "Detailed Report" "1"
+setFormField "Skew Analysis" "Inter Clock Skew" "0"
+setFormField "Skew Analysis" "Output To" "File"
+setFormField "Skew Analysis" "File Name" (string-append skewRptDir"CTS1.skew")
+formOK "Skew Analysis"
+
+ataDumpIgnorePin (geGetEditCell) "Dump/CTS1.ignore.dump"
+ataPurgeIgnorePin (geGetEditCell) "*"
+ataDumpIgnorePin (geGetEditCell) "Dump/CTS1.ignore_purge.dump"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "CTS1"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;#- ataRemoveTC
+;#- ataLoadSDC
+;#- setFormField "Load SDC File" "SDC File Name" "SDC/astlib.test.sdc"
+;#- formOK "Load SDC File"
+;#- 
+;#- astClockOptions
+;#- setFormField "Clock Common Options" "Buffer Relocation" "0"
+;#- setFormField "Clock Common Options" "Level Adjustment" "0"
+;#- setFormField "Clock Common Options" "Gate Relocation" "0"
+;#- setFormField "Clock Common Options" "Delay Insertion" "0"
+;#- setFormField "Clock Common Options" "Gate Sizing" "1"
+;#- setFormField "Clock Common Options" "Buffer Sizing" "1"
+;#- setFormField "Clock Common Options" "Clock Nets" "PXCLK"
+;#- setFormField "Clock Common Options" "Buffers/Inverters" "ivd8,ivd16"
+;#- formOK "Clock Common Options"
+;#- 
+;#- astCTS
+;#- formOK "Clock Tree Synthesis"
+;#- 
+;#- astSkewAnalysis
+;#- setFormField "Skew Analysis" "Clock Names" "PXCLK"
+;#- setFormField "Skew Analysis" "Operating Condition" "Worst"
+;#- setFormField "Skew Analysis" "Global Clock Skew" "1"
+;#- setFormField "Skew Analysis" "Detailed Report" "1"
+;#- setFormField "Skew Analysis" "Local Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Inter Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Output To" "File"
+;#- setFormField "Skew Analysis" "File Name" "SKEW/TEST_CTS1.skew")
+;#- formOK "Skew Analysis"
+;#-
+;#- ataDumpIgnorePin (geGetEditCell) "Dump/TEST_CTS1.ignore.dump"
+;#- ataPurgeIgnorePin (geGetEditCell) "*"
+;#- ataDumpIgnorePin (geGetEditCell) "Dump/TEST_CTS1.ignore_purge.dump"
+;#- 
+;#- geSaveAs
+;#- setFormField "Save As" "Cell Name" "TEST_CTS1"
+;#- setFormField "Save As" "overwrite" "1"
+;#- formOK "Save As"
+;#- 
+;#- ataRemoveTC
+;#- ataLoadSDC
+;#- setFormField "Load SDC File" "SDC File Name" "SDC/astlib.sdc"
+;#- formOK "Load SDC File"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Ignore Clock Uncertainty" "1"
+atCmdSetField "Ignore Propagated Clock" "0"
+atCmdSetEnvModel 
+atTimingSetupHide
+
+;#- astSkewAnalysis
+;#- setFormField "Skew Analysis" "Clock Names" ""
+;#- setFormField "Skew Analysis" "Operating Condition" "Worst"
+;#- setFormField "Skew Analysis" "Global Clock Skew" "1"
+;#- setFormField "Skew Analysis" "Local Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Detailed Report" "1"
+;#- setFormField "Skew Analysis" "Inter Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Output To" "File"
+;#- setFormField "Skew Analysis" "File Name" (string-append skewRptDir"TEST_CTS.func.skew")
+;#- formOK "Skew Analysis"
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"CTS.tm_rpt")
+formOK "Report Timing"
+
+;#- astClockOptions
+;#- setFormField "Clock Common Options" "Clock Nets" "astlib/MCLK"
+;#- setFormField "Clock Common Options" "Buffers/Inverters" "ivd6,ivd8,ivd16"
+;#- formOK "Clock Common Options"
+;#- 
+;#- astCTO
+;#- setFormField "Clock Tree Optimization" "Buffer Sizing" "1"
+;#- setFormField "Clock Tree Optimization" "Gate Sizing" "1"
+;#- setFormField "Clock Tree Optimization" "Level Adjustment" "1"
+;#- setFormField "Clock Tree Optimization" "Delay Insertion" "1"
+;#- setFormField "Clock Tree Optimization" "Buffer Relocation" "1"
+;#- setFormField "Clock Tree Optimization" "Gate Relocation" "1"
+;#- setFormField "Clock Tree Optimization" "Reconfiguration" "0"
+;#- setFormField "Clock Tree Optimization" "Dummy Load" "0"
+;#- formOK "Clock Tree Optimization"
+;#- 
+;#- astSkewAnalysis
+;#- setFormField "Skew Analysis" "Clock Names" ""
+;#- setFormField "Skew Analysis" "Operating Condition" "Worst"
+;#- setFormField "Skew Analysis" "Global Clock Skew" "1"
+;#- setFormField "Skew Analysis" "Local Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Detailed Report" "1"
+;#- setFormField "Skew Analysis" "Inter Clock Skew" "0"
+;#- setFormField "Skew Analysis" "Output To" "File"
+;#- setFormField "Skew Analysis" "File Name" (string-append skewRptDir"CTO1.skew")
+;#- formOK "Skew Analysis"
+;#- 
+;#- astReportTiming
+;#- formDefault "Report Timing"
+;#- setFormField "Report Timing" "Max" "1"
+;#- setFormField "Report Timing" "Min" "1"
+;#- setFormField "Report Timing" "Report Paths" "Slack Threshold"
+;#- setFormField "Report Timing" "Slack Threshold" "0.0"
+;#- setFormField "Report Timing" "Report Max Trans" "1"
+;#- setFormField "Report Timing" "Report Max Cap" "0"
+;#- setFormField "Report Timing" "Report Net Based" "1"
+;#- setFormField "Report Timing" "Report Clock Trans" "1"
+;#- setFormField "Report Timing" "Print Histogram" "1"
+;#- setFormField "Report Timing" "Force Running" "0"
+;#- setFormField "Report Timing" "Show Clock Path" "0"
+;#- setFormField "Report Timing" "Output To" "File"
+;#- setFormField "Report Timing" "File Name" (string-append tmRptDir"CT01.tm_rpt")
+;#- formOK "Report Timing"
+;#- .....
+;#- .....
+
+axSetIntParam "acts" "fix clock tree" 1
+axSetIntParam "acts" "fix sink" 0
+
+;#- geSaveAs
+;#- setFormField "Save As" "Cell Name" "CTO"
+;#- setFormField "Save As" "overwrite" "1"
+;#- formOK "Save As"
+
+;4-10. Post-CTS PPO
+
+atTimingSetup
+atTimingSetupGoto "Optimization"
+atCmdSetField "Optimization Target Utilization" "70"
+atCmdSetField "Optimization Max Utilization" "85"
+atCmdSetOptModel
+atTimingSetupGoto "Parasitics"
+atCmdSetField "Parasitic Moded Operating Conditions" "max min"
+atCmdSetParaModel
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostPS
+setFormField "Post-Placement Optimization" "Setup Fixing" "1"
+setFormField "Post-Placement Optimization" "Hold Fixing" "1"
+setFormField "Post-Placement Optimization" "Max Tran Fixing" "1"
+setFormField "Post-Placement Optimization" "Max Cap Fixing" "0"
+setFormField "Post-Placement Optimization" "Area Recovery" "1"
+setFormField "Post-Placement Optimization" "Remove Buffers" "0"
+setFormField "Post-Placement Optimization" "Logic-Remapping" "1"
+formOK "Post-Placement Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"Post-CTS_PostPS2.tm_rpt")
+formOK "Report Timing"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+(axSetRealParam "pds" "slack_range_setup_max" 0.500)
+pdsCROptimization
+(axSetRealParam "pds" "slack_range_setup_max" 0.100)
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"CROpt.tm_rpt")
+formOK "Report Timing"
+
+aprPGConnect
+formDefault "Connect/Disconnect PG"
+setFormField "Connect/Disconnect PG" "Net Name" "VDD"
+setFormField "Connect/Disconnect PG" "Port Pattern" "VDD"
+setFormField "Connect/Disconnect PG" "Update Tie Up/Down" "1"
+formApply "Connect/Disconnect PG"
+setFormField "Connect/Disconnect PG" "Net Name" "VSS"
+setFormField "Connect/Disconnect PG" "Port Pattern" "VSS"
+setFormField "Connect/Disconnect PG" "Net Type" "Ground"
+formOK "Connect/Disconnect PG"
+axgPrerouteStandardCells
+formOK "Preroute Standard Cells"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "Post-CTS_PPO"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+;4-11. Route
+
+axgSetRouteOptions
+setFormField "Route Common Options" "Timing Driven" "0"
+setFormField "Route Common Options" "Track Assign Timing Driven" "1"
+setFormField "Route Common Options" "Clock Routing" "balanced"
+formOK "Route Common Options"
+
+axgSetXtalkRouteOptions
+setFormField "Crosstalk Route Options" "Reduce potential noise & crosstalk-induced delay" "1"
+setFormField "Crosstalk Route Options" "Minimize noise & crosstalk-induced delay" "1"
+formOK "Crosstalk Route Options"
+
+atTimingSetup
+atTimingSetupGoto "Optimization"
+atCmdSetField "Optimization Target Utilization" "70"
+atCmdSetField "Optimization Max Utilization" "85"
+atCmdSetOptModel 
+atTimingSetupHide
+
+ataDumpClockNets "CTSconst/clockNet.list"
+
+axgSetNetConstraint
+formDefault "Set Net Constraint"
+setFormField "Set Net Constraint" "Net Name From" "File"
+setFormField "Set Net Constraint" "File Name" "CTSconst/clockNet.list"
+setFormField "Set Net Constraint" "MinMax Layer" "1"
+setFormField "Set Net Constraint" "Min Layer" "34"
+setFormField "Set Net Constraint" "Max Layer" "36"
+setFormField "Set Net Constraint" "Timing-Driven Spacing" "1"
+formOK "Set Net Constraint"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgRouteGroup
+setFormField "Route Net Group" "Net Name(s) From" "All clock nets"
+formOK "Route Net Group"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+geSaveAs
+setFormField "Save As" "Cell Name" "clkRoute"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgGlobalRoute
+formOK "Global Route"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"GR.tm_rpt")
+formOK "Report Timing"
+
+axgSetXtalkRouteOptions
+formDefault "Crosstalk Route Options"
+setFormField "Crosstalk Route Options" "Reduce potential noise & crosstalk-induced delay" "0"
+setFormField "Crosstalk Route Options" "Minimize noise & crosstalk-induced delay" "0"
+formOK "Crosstalk Route Options"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostGR
+formDefault "Post-GlobalRoute Optimization"
+ setFormField "Post-GlobalRoute Optimization" "Topology-Based" "1"
+setFormField "Post-GlobalRoute Optimization" "Fix Max Length" "0"
+setFormField "Post-GlobalRoute Optimization" "Fix Tran/Cap" "1"
+ setFormField "Post-GlobalRoute Optimization" "Topo Setup" "0"
+ setFormField "Post-GlobalRoute Optimization" "Topo Hold" "0"
+ setFormField "Post-GlobalRoute Optimization" "Detailed" "1"
+setFormField "Post-GlobalRoute Optimization" "Setup Fixing" "0"
+setFormField "Post-GlobalRoute Optimization" "Hold Fixing" "0"
+setFormField "Post-GlobalRoute Optimization" "Max Tran Fixing" "1"
+setFormField "Post-GlobalRoute Optimization" "Max Cap Fixing" "0"
+setFormField "Post-GlobalRoute Optimization" "Preserve" "1"
+setFormField "Post-GlobalRoute Optimization" "Area Recovery" "0"
+setFormField "Post-GlobalRoute Optimization" "ECO Route" "1"
+formOK "Post-GlobalRoute Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostGR_MTTV.tm_rpt")
+formOK "Report Timing"
+
+axgSetXtalkRouteOptions
+setFormField "Crosstalk Route Options" "Reduce potential noise & crosstalk-induced delay" "1"
+setFormField "Crosstalk Route Options" "Minimize noise & crosstalk-induced delay" "1"
+formOK "Crosstalk Route Options"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Include Non Propagated Nets" "0"
+atCmdSetEnvModel
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostGR
+formDefault "Post-GlobalRoute Optimization"
+setFormField "Post-GlobalRoute Optimization" "Fix Max Length" "0"
+setFormField "Post-GlobalRoute Optimization" "Fix Tran/Cap" "0"
+setFormField "Post-GlobalRoute Optimization" "Setup Fixing" "1"
+setFormField "Post-GlobalRoute Optimization" "Hold Fixing" "1"
+setFormField "Post-GlobalRoute Optimization" "Max Tran Fixing" "0"
+setFormField "Post-GlobalRoute Optimization" "Max Cap Fixing" "0"
+setFormField "Post-GlobalRoute Optimization" "Preserve" "1"
+setFormField "Post-GlobalRoute Optimization" "Area Recovery" "0"
+setFormField "Post-GlobalRoute Optimization" "ECO Route" "1"
+formOK "Post-GlobalRoute Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+geSaveAs
+setFormField "Save As" "Cell Name" "PostGR"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "1"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostGR.tm_rpt")
+formOK "Report Timing"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgAssignToTracks
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgDetailRoute
+formOK "Detail Route"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+dbResetAllNetTimingSpacing (geGetEditCell)
+axgSearchRepair
+setFormField "Search & Repair" "Search & Repair Loop" "10"
+formOK "Search & Repair"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "DR"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"DR.tm_rpt")
+formOK "Report Timing"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Enable CrossTalk Effects" "1"
+atCmdSetEnvModel
+atTimingSetupHide
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"DR_xtalk.tm_rpt")
+formOK "Report Timing"
+
+;4-12. PRO (Post Route Optimization)
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgRoutOpt
+setFormField "Routing Optimization" "Search & Repair Loop" "20"
+setFormField "Routing Optimization" "Run Time Limit (min)" "-1"
+setFormField "Routing Optimization" "Distributed Routing" "0"
+formOK "Routing Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+;#- atTimingSetup
+;#- atTimingSetupGoto "Environment"
+;#- atCmdSetField "Enable CrossTalk Effects" "0"
+;#- atCmdSetField "Include Non Propagated Nets" "1"
+;#- atCmdSetEnvModel
+;#- atTimingSetupHide
+;#- 
+;#- display(strftime"### %c \n"(localtime(current-time)))
+;#- 
+;#- axgAdvRouteOpt
+;#- formDefault "Advanced Route Optimization"
+;#- setFormField "Advanced Route Optimization" "Set-up Slack Effort" "preserve"
+;#- setFormField "Advanced Route Optimization" "Fix Transition Time Violations" "1"
+;#- setFormField "Advanced Route Optimization" "Fix Max Capacitance Violations" "0"
+;#- setFormField "Advanced Route Optimization" "Optimize Crosstalk Noise Constraints" "0"
+;#- setFormField "Advanced Route Optimization" "Optimize Crosstalk-induced Delay" "0"
+;#- setFormField "Advanced Route Optimization" "Buffer Insertion/Bypass" "1"
+;#- setFormField "Advanced Route Optimization" "Gate Sizing" "1"
+;#- setFormField "Advanced Route Optimization" "R/C Reduction" "1"
+;#- setFormField "Advanced Route Optimization" "Search & Repair Loop" "5"
+;#- setFormField "Advanced Route Optimization" "Run Time Limit (min)" "-1"
+;#- setFormField "Advanced Route Optimization" "Rerun Timer after finished" "0"
+;#- formOK "Advanced Route Optimization"
+;#- 
+;#- display(strftime"### %c \n"(localtime(current-time)))
+;#- 
+;#- axgSearchRepair
+;#- setFormField "Search & Repair" "Search & Repair Loop" "10"
+;#- formOK "Search & Repair"
+;#- 
+;#- astReportTiming
+;#- formDefault "Report Timing"
+;#- setFormField "Report Timing" "Max" "0"
+;#- setFormField "Report Timing" "Min" "0"
+;#- setFormField "Report Timing" "Report Paths" "Slack Threshold"
+;#- setFormField "Report Timing" "Slack Threshold" "0.0"
+;#- setFormField "Report Timing" "Report Max Trans" "1"
+;#- setFormField "Report Timing" "Report Max Cap" "0"
+;#- setFormField "Report Timing" "Report Net Based" "1"
+;#- setFormField "Report Timing" "Report Clock Trans" "1"
+;#- setFormField "Report Timing" "Print Histogram" "0"
+;#- setFormField "Report Timing" "Force Running" "0"
+;#- setFormField "Report Timing" "Show Clock Path" "0"
+;#- setFormField "Report Timing" "Output To" "File"
+;#- setFormField "Report Timing" "File Name" (string-append tmRptDir"AdvRouteOpt_MTTV.rpt")
+;#- formOK "Report Timing"
+;#- 
+;#- atTimingSetup
+;#- atTimingSetupGoto "Environment"
+;#- atCmdSetField "Enable CrossTalk Effects" "1"
+;#- atCmdSetField "Include Non Propagated Nets" "0"
+;#- atCmdSetEnvModel
+;#- atTimingSetupHide
+;#- 
+;#- display(strftime"### %c \n"(localtime(current-time)))
+;#- 
+;#- axgAdvRouteOpt
+;#- formDefault "Advanced Route Optimization"
+;#- setFormField "Advanced Route Optimization" "Set-up Slack Effort" "optimize"
+;#- setFormField "Advanced Route Optimization" "Fix Transition Time Violations" "0"
+;#- setFormField "Advanced Route Optimization" "Fix Max Capacitance Violations" "0"
+;#- setFormField "Advanced Route Optimization" "Optimize Crosstalk Noise Constraints" "0"
+;#- setFormField "Advanced Route Optimization" "Optimize Crosstalk-induced Delay" "1"
+;#- setFormField "Advanced Route Optimization" "Buffer Insertion/Bypass" "1"
+;#- setFormField "Advanced Route Optimization" "Gate Sizing" "1"
+;#- setFormField "Advanced Route Optimization" "R/C Reduction" "1"
+;#- setFormField "Advanced Route Optimization" "Search & Repair Loop" "5"
+;#- setFormField "Advanced Route Optimization" "Run Time Limit (min)" "-1"
+;#- setFormField "Advanced Route Optimization" "Rerun Timer after finished" "0"
+;#- formOK "Advanced Route Optimization"
+;#- 
+;#- display(strftime"### %c \n"(localtime(current-time)))
+;#- 
+;#- axgSearchRepair
+;#- setFormField "Search & Repair" "Search & Repair Loop" "10"
+;#- formOK "Search & Repair"
+;#- 
+;#- geSaveAs
+;#- setFormField "Save As" "Cell Name" "AdvRT"
+;#- setFormField "Save As" "overwrite" "1"
+;#- formOK "Save As"
+;#- 
+;#- astReportTiming
+;#- formDefault "Report Timing"
+;#- setFormField "Report Timing" "Max" "1"
+;#- setFormField "Report Timing" "Min" "1"
+;#- setFormField "Report Timing" "Report Paths" "Slack Threshold"
+;#- setFormField "Report Timing" "Slack Threshold" "0.0"
+;#- setFormField "Report Timing" "Report Max Trans" "1"
+;#- setFormField "Report Timing" "Report Max Cap" "0"
+;#- setFormField "Report Timing" "Report Net Based" "1"
+;#- setFormField "Report Timing" "Report Clock Trans" "1"
+;#- setFormField "Report Timing" "Print Histogram" "1"
+;#- setFormField "Report Timing" "Force Running" "0"
+;#- setFormField "Report Timing" "Show Clock Path" "0"
+;#- setFormField "Report Timing" "Output To" "File"
+;#- setFormField "Report Timing" "File Name" (string-append tmRptDir"AdvRouteOpt.rpt")
+;#- formOK "Report Timing"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Enable CrossTalk Effects" "0"
+atCmdSetField "Include Non Propagated Nets" "1"
+atCmdSetEnvModel
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostRT
+formDefault "Post-Route Optimization"
+setFormField "Post-Route Optimization" "Num Loops" "3"
+setFormField "Post-Route Optimization" "Max Iterations" "1000"
+setFormField "Post-Route Optimization" "Fast Extraction" "0"
+setFormField "Post-Route Optimization" "Topology-Based" "1"
+setFormField "Post-Route Optimization" "Fix Max Length" "0"
+setFormField "Post-Route Optimization" "Fix Tran/Cap" "1"
+setFormField "Post-Route Optimization" "Detailed" "1"
+setFormField "Post-Route Optimization" "Setup Fixing" "0"
+setFormField "Post-Route Optimization" "Setup BI" "0"
+setFormField "Post-Route Optimization" "Hold Fixing" "0"
+setFormField "Post-Route Optimization" "Hold BI" "0"
+setFormField "Post-Route Optimization" "Max Tran Fixing" "1"
+setFormField "Post-Route Optimization" "Max Tran BI" "1"
+setFormField "Post-Route Optimization" "Max Cap Fixing" "0"
+setFormField "Post-Route Optimization" "Max Cap BI" "0"
+setFormField "Post-Route Optimization" "Preserve" "1"
+setFormField "Post-Route Optimization" "Search & Repair" "1"
+setFormField "Post-Route Optimization" "Loop" "5"
+formOK "Post-Route Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostRT_MTTV.rpt")
+formOK "Report Timing"
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Enable CrossTalk Effects" "1"
+atCmdSetField "Include Non Propagated Nets" "0"
+atCmdSetEnvModel
+atTimingSetupHide
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astPostRT
+formDefault "Post-Route Optimization"
+setFormField "Post-Route Optimization" "Num Loops" "3"
+setFormField "Post-Route Optimization" "Max Iterations" "1000"
+setFormField "Post-Route Optimization" "Fast Extraction" "0"
+setFormField "Post-Route Optimization" "Topology-Based" "0"
+setFormField "Post-Route Optimization" "Detailed" "1"
+setFormField "Post-Route Optimization" "Setup Fixing" "1"
+setFormField "Post-Route Optimization" "Setup BI" "1"
+setFormField "Post-Route Optimization" "Hold Fixing" "1"
+setFormField "Post-Route Optimization" "Hold BI" "1"
+setFormField "Post-Route Optimization" "Max Tran Fixing" "0"
+setFormField "Post-Route Optimization" "Max Tran BI" "0"
+setFormField "Post-Route Optimization" "Max Cap Fixing" "0"
+setFormField "Post-Route Optimization" "Max Cap BI" "0"
+setFormField "Post-Route Optimization" "Preserve" "1"
+setFormField "Post-Route Optimization" "Search & Repair" "1"
+setFormField "Post-Route Optimization" "Loop" "5"
+formOK "Post-Route Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"PostRT.rpt")
+formOK "Report Timing"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "PostRT"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+xtXTalkAnalysis
+formDefault "Crosstalk Analysis"
+setFormField "Crosstalk Analysis" "Rise Threshold" "0.43"
+setFormField "Crosstalk Analysis" "Fall Threshold" "0.43"
+setFormField "Crosstalk Analysis" "Report" "200"
+setFormField "Crosstalk Analysis" "To" "File"
+setFormField "Crosstalk Analysis" "File Name" (string-append noiseRptDir"noise1.rpt")
+setFormField "Crosstalk Analysis" "Generate Crosstalk Constraints" "1"
+setFormField "Crosstalk Analysis" "Over Constraint" "90"
+formOK "Crosstalk Analysis"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgAdvRouteOpt
+setFormField "Advanced Route Optimization" "Set-up Slack Effort" "preserve"
+setFormField "Advanced Route Optimization" "Fix Transition Time Violations" "0"
+setFormField "Advanced Route Optimization" "Fix Max Capacitance Violations" "0"
+setFormField "Advanced Route Optimization" "Optimize Crosstalk Noise Constraints" "1"
+setFormField "Advanced Route Optimization" "Buffer Insertion/Bypass" "0"
+setFormField "Advanced Route Optimization" "Gate Sizing" "0"
+setFormField "Advanced Route Optimization" "R/C Reduction" "1"
+setFormField "Advanced Route Optimization" "Search & Repair Loop" "5"
+setFormField "Advanced Route Optimization" "Run Time Limit (min)" "-1"
+setFormField "Advanced Route Optimization" "Rerun Timer after finished" "0"
+formOK "Advanced Route Optimization"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+axgSearchRepair
+setFormField "Search & Repair" "Search & Repair Loop" "10"
+formOK "Search & Repair"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+xtXTalkAnalysis
+setFormField "Crosstalk Analysis" "Rise Threshold" "0.45"
+setFormField "Crosstalk Analysis" "Fall Threshold" "0.45"
+setFormField "Crosstalk Analysis" "To" "File"
+setFormField "Crosstalk Analysis" "Report" "200"
+setFormField "Crosstalk Analysis" "File Name" (string-append noiseRptDir"noise2.rpt")
+setFormField "Crosstalk Analysis" "Generate Crosstalk Constraints" "0"
+setFormField "Crosstalk Analysis" "Over Constraint" "90"
+formOK "Crosstalk Analysis"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "0"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "0"
+setFormField "Report Timing" "Report Clock Trans" "0"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"noise.tm_rpt")
+formOK "Report Timing"
+
+display(strftime"### %c \n"(localtime(current-time)))
+
+atTimingSetup
+atTimingSetupGoto "Environment"
+atCmdSetField "Enable CrossTalk Effects" "0"
+atCmdSetField "Include Non Propagated Nets" "1"
+atCmdSetEnvModel
+atTimingSetupHide
+
+astReportTiming
+formDefault "Report Timing"
+setFormField "Report Timing" "Max" "1"
+setFormField "Report Timing" "Min" "1"
+setFormField "Report Timing" "Report Paths" "Slack Threshold"
+setFormField "Report Timing" "Slack Threshold" "0.0"
+setFormField "Report Timing" "Report Max Trans" "1"
+setFormField "Report Timing" "Report Max Cap" "0"
+setFormField "Report Timing" "Report Net Based" "1"
+setFormField "Report Timing" "Report Clock Trans" "1"
+setFormField "Report Timing" "Print Histogram" "1"
+setFormField "Report Timing" "Force Running" "0"
+setFormField "Report Timing" "Show Clock Path" "0"
+setFormField "Report Timing" "Output To" "File"
+setFormField "Report Timing" "File Name" (string-append tmRptDir"8-5.noisefix.rpt.SIEffectOff")
+formOK "Report Timing"
+
+geSaveAs
+setFormField "Save As" "Cell Name" "noiseFix"
+setFormField "Save As" "overwrite" "1"
+formOK "Save As"
+
+(dbSaveCell (geGetEditCell))
+
+;############### 5. ECO #################
+cmCreateLib
+setFormField "Create Library" "Library Name" "std150"
+setFormField "Create Library" "Technology File Name" "../TECH/std150_prim_6m.techgen.tf"
+setFormField "Create Library" "Set Case Sensitive" "1"
+formOK "Create Library"
+;
+menuReload "astro_data_prep"
+;
+auLoadCLF
+setFormField "Load CLF File" "Library Name" "std150"
+setFormField "Load CLF File" "Best CLF File Name" "../TECH/std150_prim.clf"
+setFormField "Load CLF File" "Typical CLF File Name" "../TECH/std150_prim.clf"
+setFormField "Load CLF File" "Worst CLF File Name" "../TECH/std150_prim.clf"
+formOK "Load CLF File"
+;
+cmRefLib
+setFormField "Ref Library" "Library Name" "std150"
+setFormField "Ref Library" "Ref Library Name" "/user/s5l9908x/2_BACKEND/ASTRO/LIB/LIB_0624/std150_lib"
+formApply "Ref Library"
+setFormField "Ref Library" "Ref Library Name" "/user/s5l9908x/2_BACKEND/ASTRO/LIB/sec040504_0031_STD150_Normal_FP_Apollo_N/LDB/CASESENSE_1.35V_-40C/std150_prim"
+formOK "Ref Library"
+;
+auVerilogIn
+setFormField "Verilog In Data File" "Verilog File Name" "/user/s5l9908x/4_INTERFACE/1_FrontToBack/Q_0719/IDEC_eco_0719_layout.v"
+setFormField "Verilog In Data File" "Library Name" "std150"
+setFormField "Verilog In Data File" "Tech File Name" "../TECH/std150_prim_6m.techgen.tf"
+setFormField "Verilog In Data File" "Bus Naming Style" "[%d]"
+setFormField "Verilog In Data File" "Set Case Sensitive" "1"
+setFormField "Verilog In Data File" "No Backslash Insertion to avoid Hier Name Collisions" "1"
+setFormField "Verilog In Data File" "Remove All First Backslash Of Escaped Identifier" "1"
+formOK "Verilog In Data File"
+;
+cmCmdExpand
+setFormField "Expand Netlist" "Library Name" "std150"
+setFormField "Expand Netlist" "Unexpanded Cell Name" "IDEC.NETL"
+setFormField "Expand Netlist" "Expanded Cell Name" "IDEC.EXP"
+formButton "Expand Netlist" "globalNetOptions"
+setFormField "Expand Netlist" "Net Name" "VDD"
+setFormField "Expand Netlist" "Port Pattern" "VDD"
+formButton "Expand Netlist" "apply"
+setFormField "Expand Netlist" "Net Name" "VSS"
+setFormField "Expand Netlist" "Port Pattern" "VSS"
+formButton "Expand Netlist" "apply"
+subFormHide "Expand Netlist" 1
+formOK "Expand Netlist"
+
+;;;;;;;;;;;;;;;;;;; ECO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+geOpenLib
+setFormField "Open Library" "Library Name" "std150"
+formOK "Open Library"
+
+geCopyCell
+setFormField "Copy Cell" "From Library Name" "../7_0713/std150"
+setFormField "Copy Cell" "From Cell Name" "gds_out.CEL"
+setFormField "Copy Cell" "To Cell Name" "top.CEL"
+formOK "Copy Cell"
+
+geConfirmCloseLib
+formYes "Dialog Box"
+
+auECOByNetCmp
+setFormField "ECO By Netlist Compare" "Library Name" "std150"
+setFormField "ECO By Netlist Compare" "Design Cell Name" "top.CEL"
+setFormField "ECO By Netlist Compare" "ECO Net Cell Name" "IDEC.EXP"
+setFormField "ECO By Netlist Compare" "Freeze Synthesized Clock Nets" "0"
+setFormField "ECO By Netlist Compare" "Soft Freeze Synthesized Clock Nets" "0"
+setFormField "ECO By Netlist Compare" "Freeze Pad Ring" "1"
+;setFormField "ECO By Netlist Compare" "Delete Cell Instance Immediately" "1"
+formOK "ECO By Netlist Compare"
+
+cmCmdECODump
+setFormField "Dump ECO" "Library Name" "std150"
+setFormField "Dump ECO" "Cell Name" "top.CEL"
+setFormField "Dump ECO" "ECO Number" "3"
+setFormField "Dump ECO" "File Name" "eco3.dump"
+formOK "Dump ECO"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+geOpenLib
+setFormField "Open Library" "Library Name" "std150"
+formOK "Open Library"
+
+;geCreateCell
+;setFormField "Create Cell" "Cell Name" "md2503"
+;formOK "Create Cell"
+;
+;axgBindNetlist
+;setFormField "Bind Netlist" "Net Cell" "md2503.EXP"
+;formOK "Bind Netlist"
+;
+;axgLoadTDF
+;setFormField "Load TDF File" "TDF File Name" "TDF/md2503.tdf"
+;formOK "Load TDF File"
+;
+;;load "Fp_data/fp.scm"
+;;load "Fp_data/POWER_ANALOG.dump"
+;;load "Fp_data/block.dump"
+
+astDeleteHierPreservation
+setFormField "Clean Up Hierarchy Preservation" "Flat Cell Name" "top.CEL"
+formOK "Clean Up Hierarchy Preservation"
+
+astInitHierPreservation
+setFormField "Init Hierarchy Preservation" "Flat Cell Name" "top"
+setFormField "Init Hierarchy Preservation" "Hier. Net Cell Name" "IDEC"
+formOK "Init Hierarchy Preservation"
+
+astMarkHierAsPreserved
+setFormField "Mark Module Instances As Preserved" "Flattened Cell Name" "top"
+;setFormField "Mark Module Instances As Preserved" "Restrict buf/inv bypass to avoid assign statements" "1"
+formOK "Mark Module Instances As Preserved"
+
+;geSaveAs
+;setFormField "Save As" "Cell Name" "1_BindNet"
+;setFormField "Save As" "overwrite" "1"
+;formOK "Save As"
+
+;exit
+;formOK "Save Cells"

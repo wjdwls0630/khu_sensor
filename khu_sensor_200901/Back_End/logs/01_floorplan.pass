@@ -1,0 +1,1045 @@
+
+                                IC Compiler (TM)
+                              IC Compiler-PC (TM)
+                              IC Compiler-XP (TM)
+                              IC Compiler-DP (TM)
+                              IC Compiler-AG (TM)
+
+                 Version N-2017.09 for linux64 - Aug 17, 2017 
+
+                    Copyright (c) 1988 - 2017 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+***********************************************************************
+                                                                       
+                     synopsys_dc_setup.tcl                             
+                                                                       
+***********************************************************************
+***********************************************************************
+       NOTE>>> You MUST fix the design which have multiple ports
+               Use the following command
+               set_fix_multiple_port_nets -all -buffer_constants
+************************************************************************
+***********************************************************************
+       NOTE>>> Use the old compile_fix_multiple_port_nets
+               because reoptimize_design does not honor
+               the set_fix_multiple_port_nets command
+************************************************************************
+Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
+#******************************************************************************
+#**                           01_floorplan                                   **
+#**                     floorplan and virtual placement                      **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                           01_floorplan.tcl                            "
+                           01_floorplan.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+# Set Step
+set step "01_floorplan"
+01_floorplan
+# source the user_design_setup & common_lib_setup
+source -echo -v ./icc_scripts/user_scripts/user_design_setup.tcl
+#******************************************************************************
+#**                          user design settings                           **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                      user_design_setup.tcl                            "
+                      user_design_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                         General ICC Varialbes                            **
+#******************************************************************************
+set TOP_MODULE                     "khu_sensor_pad"    ;# set design top module name
+khu_sensor_pad
+set ICC_STRATEGY                   "qor"              ;# ttr | qor
+qor
+set LEAKAGE_POWER_PLACE            true              ;# set to true when enabling leakage Flow in place_opt step.
+true
+set LEAKAGE_POWER_PSYN             true              ;# set to true when enabling leakage Flow in clock_opt_psyn step. runtime will be effected.
+true
+set ICC_NUM_CPUS                   "1"                ;# used during placement & routing
+1
+set qor_effort                     "high"           ;# low | medium | high. place optimization effort, default is medium.
+high
+set INOUT_OPT                      true               ;# set to true when optimizing i2r and r2o paths
+true
+set GL_BASED_PLACE                 true              ;# set to true when using high congested design
+true
+set GEN_GL_CONG_MAP                true              ;# set to true, to see global route based congestion map
+true
+set INTER_CLK_GROUPS               "clk clk_pad clk_half"    ;# Define to balance clocks during CTS. "clkA clkB"
+clk clk_pad clk_half
+set TIECELL_INSERT                 true              ;# true | false, if true, ICC will insert TIE cells.
+true
+set SPARE_INSERT                   false              ;# true | false, if true, the followings must be defined.
+false
+set SPARE_PREFIX                   spares             ;# default is spares
+spares
+set SPARE_CELL_n_NUM               ""                 ;# example) "BUF_X1M_A9TH 100 AOI22_X1M_A9TH 100 INV_X1M_A9TH 200"
+set USER_DIE_SIZE                  false              ;# true | false, if you know chip size, define true.
+false
+;# Then write bellow variables.
+set DIE_WIDTH                      ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set DIE_HEIGHT                     ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_200827_L13_68um.tdf"  ;# This is tdf format.
+./TECH/padplace_ICC_200827_L13_68um.tdf
+# This is a tcl file that changes pad names in logic library to in physical library. 
+# The tcl file functions appending "_p" to a last character of the pad names. 
+# (e.g. vssoh -> vssoh_p)
+set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"  
+./icc_scripts/rules/pad_naming_rule.tcl
+set CLOCK_MAX_TRAN                 "0.9"              ;# clock path max transtion time.
+0.9
+set MAX_ROUTING_LAYER              "MET4"              
+MET4
+set MIN_ROUTING_LAYER              ""
+set CLK_MAX_ROUTING_LAYER          "MET4"
+MET4
+set CLK_MIN_ROUTING_LAYER          "MET3"
+MET3
+#######################################################
+## For Power Definition
+#######################################################
+set MW_R_POWER_NET         "VDD"                 ;# This is real power net name.
+VDD
+set MW_R_GROUND_NET        "VSS"                 ;# This is real ground net name.
+VSS
+set mw_logic1_net          $MW_R_POWER_NET       ;# Default
+VDD
+set mw_logic0_net          $MW_R_GROUND_NET      ;# Default
+VSS
+set MW_POWER_PORT          "VDD"                 ;# This is standard cell power pin name.
+VDD
+set MW_GROUND_PORT         "VSS"                 ;# This is standard cell ground pin name.
+VSS
+#######################################################
+## Input Files
+#######################################################
+set ICC_IN_VERILOG_NETLIST_FILE "../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg"
+../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg
+#######################################################
+## Define Init Utilization
+#######################################################
+set CORE_UTIL                      "0.6"              ;# Define initial core utilization. 
+0.6
+;# example) 0.6 means 60% utilization.
+set IO2L                           "400"               ;# This means space from IO to core boundary in left side.
+400
+set IO2B                           "360"               ;# This means space from IO to core boundary in bottom side.
+360
+set IO2R                           "400"               ;# This means space from IO to core boundary in right side.
+400
+set IO2T                           "360"               ;# This means space from IO to core boundary in top side.
+360
+#####################################################################################################
+##
+#
+# scenario naming convention :  mode_corner
+# - mode   : func1,func2,scan1,scan2,bist1,bist2,jtag
+#            funccts,scancts,bistcts,jtagcts
+# - corner : wst, wstti, bst, bstti
+#
+# (scenario example)
+#  func1_wst func1_wstti func1_bst func1_bstti
+#  func2_wst func2_wstti func2_bst func2_bstti
+#  scan1_wst scan1_wstti scan1_bst scan1_bstti
+#  scan2_wst scan2_wstti scan2_bst scan2_bstti
+#  bist1_wst bist1_wstti bist1_bst bist1_bstti
+#  bist2_wst bist2_wstti bist2_bst bist2_bstti
+#  jtag_wst  jtag_wstti  jtag_bst  jtag_bstti
+#  funccts_wstti scancts_wstti bistcts_wstti jtagcts_wstti
+#
+#####################################################################################################
+#TODO make sceniario tcl script
+#set ICC_MCMM_SCENARIOS_FILE        "./icc_scripts/mcmm_scenario/scenarios.tcl"
+####### Define scenarios
+## This is example, modify this according to your scenarios.
+##
+## Generally, FP_SCN, PLACE_OPT_SNC and ROUTE_SCN uses worst function mode scenario such as func1_wstti.
+## CLOCK_OPT_CTS_SCN uses all cts scenario such as funccts_wstti,scantcts_wstti,bistcts_wstti,jtagcts_wstti.
+## CLOCK_OPT_PSYN_SCN, ROUTE_OPT_SCN and CHIP_FINISH_SCN uses all scenarios except for CLOCK_OPT_CTS_SCN.
+## HOLD_ONLY_SCN optimizes only hold time and mttv. 
+## So, you uses best corner scenarios such as func1_bst,scan1_bst,bist1_bst and jtag_bst.
+##
+#set scenarios                      "func1_wst func1_bst"
+#set scenarios                      "func1_wst func1_bst funccts_wst"
+#set FP_SCN                         "func1_wst"
+#set PLACE_OPT_SCN                  "func1_wst"
+#set CLOCK_OPT_CTS_SCN              "funccts_wst"
+#set CLOCK_OPT_PSYN_SCN             "func1_bst"
+#set CLOCK_OPT_PSYN_SCN             "func1_wst func1_bst"
+#set ROUTE_SCN                      "func1_wst"
+#set ROUTE_OPT_SCN                  "func1_bst"
+#set ROUTE_OPT_SCN                  "func1_wst func1_bst"
+#set CHIP_FINISH_SCN                "func1_bst"
+#set CHIP_FINISH_SCN                "func1_wst func1_bst"
+#set CLOCK_OPT_CTS_SCN_READ_AGAIN   true              ;# If true, ICC will create scenario again.  ekyoo
+#set CLOCK_OPT_PSYN_SCN_READ_AGAIN  false              ;# If true, ICC will create scenario again.  ekyoo
+#set ROUTE_SCN_READ_AGAIN           false              ;# If true, ICC will create scenario again.
+#set ROUTE_OPT_SCN_READ_AGAIN       false              ;# If true, ICC will create scenario again.
+set HOLD_FIX                       true		      ;# If you want to fix hold violation then set true.
+true
+####### Define SDC Files
+## If you have only FUNC1_SDC, Write the sdc file in FUNC1_SDC field.
+## If FUNC1_SDC and FUNCTS_SDC is same, Write the sdc file in FUNC1_SDC and FUNCCTS_SDC field.
+## If you don't have BIST1_SDC, Remain with blank.
+set FUNC1_SDC          "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set FUNC2_SDC          ""
+set SCAN1_SDC          ""
+set SCAN2_SDC          ""
+set BIST1_SDC          ""
+set BIST2_SDC          ""
+set JTAG_SDC           ""
+set FUNCCTS_SDC        "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set SCANCTS_SDC        ""
+set BISTCTS_SDC        ""
+set JTAGCTS_SDC        ""
+####### Define Default Operating Conditions
+##
+## You have to write the default operation condition name and library name of standard cell.
+## If some instances of your design have other operation condition (PVT) such as IO, 
+## You have to define the operation condition name and library name in user_opcond.tcl.
+##
+set OPCOND_WST          V105WTP1250
+V105WTP1250
+set OPCOND_WST_LIB      $STD_WST 
+std150e_wst_105_p125
+set OPCOND_WST_TIV      ""
+set OPCOND_WST_LIB_TIV  ""
+set OPCOND_BST          V135BTN0400 
+V135BTN0400
+set OPCOND_BST_LIB      $STD_BST
+std150e_bst_135_n040
+set OPCOND_BST_TIV      ""
+set OPCOND_BST_LIB_TIV  ""
+#########################   DO NOT CHANGE BELOW THIS LINE   ##############################
+##########################################################################################
+set REPORTS_DIR                 "./reports"
+./reports
+## Avoiding too many messages
+set_message_info -id PSYN-040   -limit 5
+1
+set_message_info -id PSYN-087   -limit 5
+1
+set_message_info -id LINT-8     -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id RT-065     -limit 5
+1
+set_message_info -id TIM-128    -limit 5
+1
+set_message_info -id TIM-141    -limit 5
+1
+set_message_info -id PSYN-267   -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id MWUI-040   -limit 5
+1
+set_message_info -id PSYN-024   -limit 5
+1
+set_message_info -id MWLIBP-300 -limit 5
+1
+set_message_info -id MWLIBP-314 -limit 5
+1
+set_message_info -id PSYN-058   -limit 5
+1
+set_message_info -id PSYN-025   -limit 5
+1
+set_message_info -id PSYN-039   -limit 5
+1
+set_message_info -id PSYN-523   -limit 5
+1
+set_message_info -id PSYN-900   -limit 1
+1
+set_message_info -id CTS-102    -limit 1
+1
+1
+source -echo -v ./icc_scripts/common_lib_setup.tcl
+#******************************************************************************
+#**                          common library settings                         **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                       common_lib_setup.tcl                            "
+                       common_lib_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                Set 'search_path'                                         **
+#******************************************************************************
+set search_path [list . [format "%s%s"  $synopsys_root /libraries/syn]     [format "%s%s"  $dc_home /syn/STD150E] $dc_home_aux] 
+. /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E env(SEC_SYNOPSYS)/aux
+#******************************************************************************
+#**                Set Logical Libraries                                     **
+#******************************************************************************
+# Reference/Front_End/samsung013/sec150e_synopsys/readme/SynopsysDKGuide.pdf p.14
+# Typical (TT / 1.20V / 25 Celcius)
+set STD_TYP std150e_typ_120_p025
+std150e_typ_120_p025
+set STD_TYP_MEM std150e_typ_120_p025_memory
+std150e_typ_120_p025_memory
+# Worst (SS / 1.05V / 125 Celcius)
+set STD_WST std150e_wst_105_p125
+std150e_wst_105_p125
+# Best (FF / 1.35V / -40 Celcius)
+set STD_BST std150e_bst_135_n040
+std150e_bst_135_n040
+set target_library [list         $STD_WST.db 
+       #$STD_TYP_MEM.db
+]
+std150e_wst_105_p125.db
+set synthetic_library dw_foundation.sldb
+dw_foundation.sldb
+# * : all designs which are in dc_shell 
+set link_library [list {*}         $target_library 	$synthetic_library
+]
+* std150e_wst_105_p125.db dw_foundation.sldb
+set link_path $link_library
+* std150e_wst_105_p125.db dw_foundation.sldb
+set symbol_library [list std150e_veri.sdb]
+std150e_veri.sdb
+# TODO after coding for scenario, delete
+set_min_library $STD_WST.db -min_version $STD_BST.db
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
+1
+list_libs
+Logical Libraries:
+-------------------------------------------------------------------------
+Library		File			Path
+-------		----			----
+M std150e_wst_105_p125 std150e_wst_105_p125.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+m std150e_bst_135_n040 std150e_bst_135_n040.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+1
+echo "------------------------------------------------------------------------"
+------------------------------------------------------------------------
+#******************************************************************************
+#**                         Common Setup File                                **
+#******************************************************************************
+set_host_options -max_cores $ICC_NUM_CPUS
+1
+set_route_mode_options -zroute true
+1
+#******************************************************************************
+#******************************************************************************
+#**                         Set Library Parameter                            **
+#******************************************************************************
+setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+#******************************************************************************
+#******************************************************************************
+#**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
+#******************************************************************************
+set icc_home [getenv SEC_SYNOPSYS_ICC]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011 
+	      ]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+set MW_REF_LIB_DIRS "$all_milky"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+# Since I/O pad name is different between logical and physical, we should add
+# LM cell db for ICC to search I/O pad cell properly 
+if { $step != "read_design" } {
+	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_WST}_astro.db
+}
+* std150e_wst_105_p125.db dw_foundation.sldb /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+#******************************************************************************
+#******************************************************************************
+#**                       Set TECH and TLUP Files                           **
+#******************************************************************************
+set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
+./TECH/std150e_prim_6m.techgen.tf
+set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+#******************************************************************************
+#******************************************************************************
+#**                        Set Stream Out Map File                           **
+#******************************************************************************
+set STREAM_OUT_MAP "./TECH/layer.map"
+./TECH/layer.map
+#******************************************************************************
+#******************************************************************************
+#**                           Set Antenna_Rule                               **
+#******************************************************************************
+# Reference/Back_End/KHU_ASTRO User Guide p.86 and samsung65 TECH antenna_rules
+# IC User Guide p.457
+# make antenna_rule.tcl
+set ANTENNA_RULE "./TECH/std150e_prim713_antenna_200827.tcl"
+./TECH/std150e_prim713_antenna_200827.tcl
+#******************************************************************************
+#******************************************************************************
+#**                           Set IO FILLERS                                 **
+#******************************************************************************
+set IO_FILLER "iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p"
+iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p
+set IO_FILLER_OVERLAP ""       
+#******************************************************************************
+#**                        Set Clock Tree Layers                             **
+#******************************************************************************
+# clock tree layers
+set ICC_CTS_RULE_NAME "shield_130nm_rule"
+shield_130nm_rule
+#******************************************************************************
+#**                    Default Timing Environment Setting                   **
+#******************************************************************************
+set timing_enable_multiple_clocks_per_reg true
+true
+set timing_enable_non_sequential_checks true
+true
+set case_analysis_with_logic_constants true
+true
+set disable_auto_time_borrow false   
+false
+set legalize_support_phys_only_cell true
+true
+set_separate_process_options -placement false
+1
+set_separate_process_options -routing false
+1
+set_separate_process_options -extraction false
+1
+#******************************************************************************
+#******************************************************************************
+#**                               ETC                                        **
+#******************************************************************************
+set sh_enable_page_mode false
+false
+setenv TMPDIR [sh pwd]/TMP
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TMP
+set back [sh date +%m%d_%H:%M:%S]
+0831_21:10:32
+#******************************************************************************
+# Clear existing mw library and re-make dir
+set _mw_lib ./mw_db/${TOP_MODULE}_${step}
+./mw_db/khu_sensor_pad_01_floorplan
+if {[file exist $_mw_lib]} {
+	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
+}
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_00_read_design -to $_mw_lib
+1
+# Open Library and Cell
+set_mw_technology_file -technology $TECH_FILE $_mw_lib
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_01_floorplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_01_floorplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Technology data dumped to ./mw_db/khu_sensor_pad_01_floorplan.tf_replaced completely.
+Start to load technology file ./TECH/std150e_prim_6m.techgen.tf.
+Warning: Layer 'ACT' is missing the attribute 'minSpacing'. (line 173) (TFCHK-014)
+Warning: Layer 'ACT' is missing the attribute 'minWidth'. (line 173) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minSpacing'. (line 236) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minWidth'. (line 236) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minSpacing'. (line 246) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minWidth'. (line 246) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minSpacing'. (line 287) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minWidth'. (line 287) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minSpacing'. (line 297) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minWidth'. (line 297) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minSpacing'. (line 687) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minWidth'. (line 687) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minSpacing'. (line 697) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minWidth'. (line 697) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minSpacing'. (line 707) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minWidth'. (line 707) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minSpacing'. (line 717) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minWidth'. (line 717) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minSpacing'. (line 727) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minWidth'. (line 727) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minSpacing'. (line 737) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minWidth'. (line 737) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minSpacing'. (line 747) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minWidth'. (line 747) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minSpacing'. (line 757) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minWidth'. (line 757) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minSpacing'. (line 767) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minWidth'. (line 767) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minSpacing'. (line 777) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minWidth'. (line 777) (TFCHK-014)
+Warning: FringeCap 1 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 992) (TFCHK-067)
+Warning: FringeCap 3 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1010) (TFCHK-067)
+Warning: FringeCap 6 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1037) (TFCHK-067)
+Warning: FringeCap 10 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1073) (TFCHK-067)
+Warning: FringeCap 15 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1118) (TFCHK-067)
+Warning: FringeCap 21 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1171) (TFCHK-067)
+Warning: Layer 'MET1' has a pitch 0.4 that does not match the recommended wire-to-via pitch 0.34. (TFCHK-049)
+Warning: Layer 'MET2' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET3' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the doubled pitch 0.88 or tripled pitch 1.32. (TFCHK-050)
+Warning: Layer 'MET5' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Technology file ./TECH/std150e_prim_6m.techgen.tf has been loaded successfully.
+1
+set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_01_floorplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_01_floorplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+1
+open_mw_lib $_mw_lib
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_01_floorplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_01_floorplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+{khu_sensor_pad_01_floorplan}
+remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
+0
+open_mw_cel $TOP_MODULE
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_01_floorplan" library. (MWUI-068)
+{khu_sensor_pad}
+link
+1
+current_design $TOP_MODULE
+khu_sensor_pad
+# Setting up Time constraints
+remove_ideal_network -all
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
+Loading db file '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Note - message 'PSYN-039' limit (5) exceeded.  Remainder will be suppressed.
+Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+1
+# Read scenario file
+# TODO make scenario!
+# On behalf of making scenarino, source sdc file
+remove_sdc
+1
+remove_scenario -all
+1
+#source $ICC_MCMM_SCENARIOS_FILE
+#set_active_scenario $FP_SCN
+sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
+# Instead of scenario
+source $FUNC1_SDC
+Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Error: Can't find the specified library 'std150e_wst_105_p125.db:std150e_wst_105_p125.db:std150e_wst_105_p125' in memory. (UID-131)
+Error: Cannot find operating condition V105WTP1250 in library std150e_wst_105_p125.db:std150e_wst_105_p125.db:std150e_wst_105_p125. (UID-1220)
+Warning: Object 'link25' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link45' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link220' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4247' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4381' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4544' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4621' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4652' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4312' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link492' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link1244' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link2961' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link159' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+1
+set_tlu_plus_files 	-max_tluplus $TLUP_MAX_FILE 	-min_tluplus $TLUP_MIN_FILE 	-tech2itf_map $MAP_FILE
+1
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
+    Check consistency between the Milkyway library and the TLUPlus     
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+check_tlu_plus_files
+
+Sanity check for TLU+ vs MW-Tech files:
+ max_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ min_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ mapping_file: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ max_emul_tlu+: **NONE**
+ min_emul_tlu+: **NONE**
+ MW design lib: khu_sensor_pad_01_floorplan
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+1
+# call pad place (.tdf)
+source $ICC_IN_IO_CONST_FILE
+Warning: Cell pad49 is of type padFiller, CornerPad, flipChip or Tap cellbut do not have location. (PSYN-900)
+Note - message 'PSYN-900' limit (1) exceeded.  Remainder will be suppressed.
+Creating cell 'CORNLT' in design 'khu_sensor_pad'.
+Creating cell 'CORNRT' in design 'khu_sensor_pad'.
+Creating cell 'CORNRB' in design 'khu_sensor_pad'.
+Creating cell 'CORNLB' in design 'khu_sensor_pad'.
+1
+create_floorplan -control_type boundary -start_first_row -flip_first_row -left_io2core $IO2L -bottom_io2core $IO2B -right_io2core $IO2R -top_io2core $IO2T -core_utilization $CORE_UTIL
+209 pads are constrained in TDF table
+There are 211 IO pads 0 corner pads in total
+Core aspect ratio adjusted to 1.027
+Core Utilization adjusted to 0.052
+Increase core to right distance by 0.08 to 400.08
+Increase core to top distance by 2.36 to 362.36
+Start to create wire tracks ...
+Start to place pads/pins ...
+Information: The orientation of Library cell "phbct12_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "phsoscm3_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "phis_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vssoh_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vdd33oph_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "phob12_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vssiph_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vdd12ih_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "phic_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vdd12ih_core_p" is "E". (APLUI-043)
+ERROR : No such pad/pin pad67; Constraint ignored.
+There are 0 pads constrained by min IO spacing.
+Relaxed location constraint on side LeftSide pad pad28
+Relaxed location constraint on side LeftSide pad pad27
+Relaxed location constraint on side LeftSide pad pad26
+Relaxed location constraint on side LeftSide pad pad25
+Relaxed location constraint on side LeftSide pad pad24
+Relaxed location constraint on side LeftSide pad pad23
+Relaxed location constraint on side LeftSide pad pad22
+
+Running IO Placement Refinement...
+WARNING: inconsistent tdf pad offset constraint (pad22)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad23)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad24)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad25)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad26)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad27)/floor plan.
+WARNING: inconsistent tdf pad offset constraint (pad28)/floor plan.
+
+IO Placement Refinement Completed Successfully.
+
+Place pads/pins successfully
+Warning: Pad cells edges are now open for terminal placement (FPHSM-0019)
+Information: During terminal creation, some port-connected pins were detected as possible or likely candidates to be a PAD-type pin.  A tcl script, set_pad_attributes_on_cell_khu_sensor_pad.tcl, has been created with a set_attribute command for each possible pin candidate. Some pins in this script may not actually be PAD-type pins.  Please edit this fileand correct any lines which are not correctly setting the value (true or false).  Then source this tcl script and then re-run the command which produced this message (place_fp_pins, initialize_floorplan, or initialize_rectilinear_block) again so that terminals are correctly processed.  The command has assumed that all candidate pins which are on padcells or bumpcells are to have terminals stacked onto the corresponding pins.  It has also assumed that all candidate pins which are on hard macros are to to have terminals created on the cell boundary.  If you are happy with these assumptions, you may forego the sourcing of the generated script and just accept the initial results .  If that does not give you satisfactory results, then use set_pin_physical_constraints to explicitly specify terminal locations. (FPHSM-1854)
+Number of terminals created: 14.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Name             Original Ports
+khu_sensor_pad               14
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Completed pin assignment.
+Elapsed =    0:00:00, CPU =    0:00:00
+Planner Summary:
+This floorplan is created by using tile name (unit).
+	Row Direction = HORIZONTAL
+	Control Parameter =  Cell Boundary
+	Core Utilization = 0.052
+	Number Of Rows = 834
+	Core Width = 2924.68
+	Core Height = 3002.4
+	Aspect Ratio = 1.027
+	Double Back ON
+	Flip First Row = YES
+	Start From First Row = YES
+Planner run through successfully.
+1
+# Add I/O Filler
+# VDD/VSS : Voltage which is supplied to core (Internal 1.2V)
+# VDDO/VSSO : Voltage which is supplied to PAD (Output-Driver 3.3V)
+# VDDQ/VSSQ : Voltage which is supplied to PAD (Pre-Driver 3.3V)
+# For Samsung Library, Voltage of Pre-Driver and Output-Driver is connected automatically(PAD_Ring)
+# when PAD Filler is inserted, consider only VDD and VSS which are core voltage in this process
+# Insert Filler in order from big to small for the sake of reducing the number of fillers.
+insert_pad_filler -cell $IO_FILLER
+Reading reference libraries ...
+Hierarchical pad insertion...
+Information: The orientation of Library cell "iofillerh30_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "iofillerh10_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "iofillerh5_p" is "E". (APLUI-043)
+WARNING : Cannot find filler cells for bottom gap (198810 0) (200000 0)
+.... first pad filler name is pfiller0
+WARNING : Cannot find filler cells for bottom gap (500000 0) (508000 0)
+WARNING : Cannot find filler cells for bottom gap (568000 0) (576000 0)
+WARNING : Cannot find filler cells for bottom gap (636000 0) (644000 0)
+WARNING : Cannot find filler cells for bottom gap (704000 0) (712000 0)
+WARNING : Cannot find filler cells for bottom gap (772000 0) (780000 0)
+WARNING : Cannot find filler cells for bottom gap (840000 0) (848000 0)
+WARNING : Cannot find filler cells for bottom gap (908000 0) (916000 0)
+WARNING : Cannot find filler cells for bottom gap (976000 0) (984000 0)
+WARNING : Cannot find filler cells for bottom gap (1044000 0) (1052000 0)
+WARNING : Cannot find filler cells for bottom gap (1112000 0) (1120000 0)
+WARNING : Cannot find filler cells for bottom gap (1180000 0) (1256000 0)
+WARNING : Cannot find filler cells for bottom gap (1316000 0) (1324000 0)
+WARNING : Cannot find filler cells for bottom gap (1384000 0) (1392000 0)
+WARNING : Cannot find filler cells for bottom gap (1452000 0) (1460000 0)
+WARNING : Cannot find filler cells for bottom gap (1520000 0) (1528000 0)
+WARNING : Cannot find filler cells for bottom gap (1588000 0) (1596000 0)
+WARNING : Cannot find filler cells for bottom gap (1656000 0) (1664000 0)
+WARNING : Cannot find filler cells for bottom gap (1724000 0) (1732000 0)
+WARNING : Cannot find filler cells for bottom gap (1792000 0) (1800000 0)
+WARNING : Cannot find filler cells for bottom gap (1860000 0) (1868000 0)
+WARNING : Cannot find filler cells for bottom gap (1928000 0) (1936000 0)
+WARNING : Cannot find filler cells for bottom gap (1996000 0) (2004000 0)
+WARNING : Cannot find filler cells for bottom gap (2064000 0) (2072000 0)
+WARNING : Cannot find filler cells for bottom gap (2132000 0) (2140000 0)
+WARNING : Cannot find filler cells for bottom gap (2200000 0) (2208000 0)
+WARNING : Cannot find filler cells for bottom gap (2268000 0) (2276000 0)
+WARNING : Cannot find filler cells for bottom gap (2336000 0) (2344000 0)
+WARNING : Cannot find filler cells for bottom gap (2404000 0) (2412000 0)
+WARNING : Cannot find filler cells for bottom gap (2472000 0) (2480000 0)
+WARNING : Cannot find filler cells for bottom gap (2540000 0) (2548000 0)
+WARNING : Cannot find filler cells for bottom gap (2608000 0) (2616000 0)
+WARNING : Cannot find filler cells for bottom gap (2676000 0) (2684000 0)
+WARNING : Cannot find filler cells for bottom gap (2744000 0) (2752000 0)
+WARNING : Cannot find filler cells for bottom gap (2812000 0) (2820000 0)
+WARNING : Cannot find filler cells for bottom gap (2880000 0) (2888000 0)
+WARNING : Cannot find filler cells for bottom gap (2948000 0) (2956000 0)
+WARNING : Cannot find filler cells for bottom gap (3016000 0) (3024000 0)
+WARNING : Cannot find filler cells for bottom gap (3084000 0) (3092000 0)
+WARNING : Cannot find filler cells for bottom gap (3152000 0) (3160000 0)
+WARNING : Cannot find filler cells for bottom gap (3220000 0) (3228000 0)
+WARNING : Cannot find filler cells for bottom gap (3288000 0) (3296000 0)
+WARNING : Cannot find filler cells for bottom gap (3356000 0) (3364000 0)
+WARNING : Cannot find filler cells for bottom gap (3424000 0) (3432000 0)
+WARNING : Cannot find filler cells for bottom gap (3492000 0) (3500000 0)
+WARNING : Cannot find filler cells for bottom gap (3800000 0) (3801190 0)
+WARNING : Cannot find filler cells for top gap (198810 4000000) (200000 4000000)
+WARNING : Cannot find filler cells for top gap (500000 4000000) (508000 4000000)
+WARNING : Cannot find filler cells for top gap (568000 4000000) (576000 4000000)
+WARNING : Cannot find filler cells for top gap (636000 4000000) (644000 4000000)
+WARNING : Cannot find filler cells for top gap (704000 4000000) (712000 4000000)
+WARNING : Cannot find filler cells for top gap (772000 4000000) (780000 4000000)
+WARNING : Cannot find filler cells for top gap (840000 4000000) (848000 4000000)
+WARNING : Cannot find filler cells for top gap (908000 4000000) (916000 4000000)
+WARNING : Cannot find filler cells for top gap (976000 4000000) (984000 4000000)
+WARNING : Cannot find filler cells for top gap (1044000 4000000) (1052000 4000000)
+WARNING : Cannot find filler cells for top gap (1112000 4000000) (1120000 4000000)
+WARNING : Cannot find filler cells for top gap (1180000 4000000) (1188000 4000000)
+WARNING : Cannot find filler cells for top gap (1248000 4000000) (1256000 4000000)
+WARNING : Cannot find filler cells for top gap (1316000 4000000) (1324000 4000000)
+WARNING : Cannot find filler cells for top gap (1384000 4000000) (1392000 4000000)
+WARNING : Cannot find filler cells for top gap (1452000 4000000) (1460000 4000000)
+WARNING : Cannot find filler cells for top gap (1520000 4000000) (1528000 4000000)
+WARNING : Cannot find filler cells for top gap (1588000 4000000) (1596000 4000000)
+WARNING : Cannot find filler cells for top gap (1656000 4000000) (1664000 4000000)
+WARNING : Cannot find filler cells for top gap (1724000 4000000) (1732000 4000000)
+WARNING : Cannot find filler cells for top gap (1792000 4000000) (1800000 4000000)
+WARNING : Cannot find filler cells for top gap (1860000 4000000) (1868000 4000000)
+WARNING : Cannot find filler cells for top gap (1928000 4000000) (1936000 4000000)
+WARNING : Cannot find filler cells for top gap (1996000 4000000) (2004000 4000000)
+WARNING : Cannot find filler cells for top gap (2064000 4000000) (2072000 4000000)
+WARNING : Cannot find filler cells for top gap (2132000 4000000) (2140000 4000000)
+WARNING : Cannot find filler cells for top gap (2200000 4000000) (2208000 4000000)
+WARNING : Cannot find filler cells for top gap (2268000 4000000) (2276000 4000000)
+WARNING : Cannot find filler cells for top gap (2336000 4000000) (2344000 4000000)
+WARNING : Cannot find filler cells for top gap (2404000 4000000) (2412000 4000000)
+WARNING : Cannot find filler cells for top gap (2472000 4000000) (2480000 4000000)
+WARNING : Cannot find filler cells for top gap (2540000 4000000) (2548000 4000000)
+WARNING : Cannot find filler cells for top gap (2608000 4000000) (2616000 4000000)
+WARNING : Cannot find filler cells for top gap (2676000 4000000) (2684000 4000000)
+WARNING : Cannot find filler cells for top gap (2744000 4000000) (2752000 4000000)
+WARNING : Cannot find filler cells for top gap (2812000 4000000) (2820000 4000000)
+WARNING : Cannot find filler cells for top gap (2880000 4000000) (2888000 4000000)
+WARNING : Cannot find filler cells for top gap (2948000 4000000) (2956000 4000000)
+WARNING : Cannot find filler cells for top gap (3016000 4000000) (3024000 4000000)
+WARNING : Cannot find filler cells for top gap (3084000 4000000) (3092000 4000000)
+WARNING : Cannot find filler cells for top gap (3152000 4000000) (3160000 4000000)
+WARNING : Cannot find filler cells for top gap (3220000 4000000) (3228000 4000000)
+WARNING : Cannot find filler cells for top gap (3288000 4000000) (3296000 4000000)
+WARNING : Cannot find filler cells for top gap (3356000 4000000) (3364000 4000000)
+WARNING : Cannot find filler cells for top gap (3424000 4000000) (3432000 4000000)
+WARNING : Cannot find filler cells for top gap (3492000 4000000) (3500000 4000000)
+WARNING : Cannot find filler cells for left gap (0 198810) (0 200000)
+WARNING : Cannot find filler cells for left gap (0 500000) (0 508000)
+WARNING : Cannot find filler cells for left gap (0 568000) (0 576000)
+WARNING : Cannot find filler cells for left gap (0 636000) (0 644000)
+WARNING : Cannot find filler cells for left gap (0 704000) (0 712000)
+WARNING : Cannot find filler cells for left gap (0 772000) (0 780000)
+WARNING : Cannot find filler cells for left gap (0 840000) (0 848000)
+WARNING : Cannot find filler cells for left gap (0 908000) (0 916000)
+WARNING : Cannot find filler cells for left gap (0 976000) (0 984000)
+WARNING : Cannot find filler cells for left gap (0 1044000) (0 1052000)
+WARNING : Cannot find filler cells for left gap (0 1112000) (0 1120000)
+WARNING : Cannot find filler cells for left gap (0 1180000) (0 1188000)
+WARNING : Cannot find filler cells for left gap (0 1248000) (0 1256000)
+WARNING : Cannot find filler cells for left gap (0 1316000) (0 1324000)
+WARNING : Cannot find filler cells for left gap (0 1384000) (0 1392000)
+WARNING : Cannot find filler cells for left gap (0 1452000) (0 1460000)
+WARNING : Cannot find filler cells for left gap (0 1520000) (0 1528000)
+WARNING : Cannot find filler cells for left gap (0 1588000) (0 1596000)
+WARNING : Cannot find filler cells for left gap (0 1656000) (0 1664000)
+WARNING : Cannot find filler cells for left gap (0 1724000) (0 1732000)
+WARNING : Cannot find filler cells for left gap (0 1792000) (0 1800000)
+WARNING : Cannot find filler cells for left gap (0 1920000) (0 1920500)
+WARNING : Cannot find filler cells for left gap (0 1980500) (0 1981000)
+WARNING : Cannot find filler cells for left gap (0 2041000) (0 2041500)
+WARNING : Cannot find filler cells for left gap (0 2101500) (0 2102000)
+WARNING : Cannot find filler cells for left gap (0 2162000) (0 2162500)
+WARNING : Cannot find filler cells for left gap (0 2222500) (0 2223000)
+WARNING : Cannot find filler cells for left gap (0 2283000) (0 2284000)
+WARNING : Cannot find filler cells for left gap (0 2404000) (0 2412000)
+WARNING : Cannot find filler cells for left gap (0 2472000) (0 2480000)
+WARNING : Cannot find filler cells for left gap (0 2540000) (0 2548000)
+WARNING : Cannot find filler cells for left gap (0 2608000) (0 2616000)
+WARNING : Cannot find filler cells for left gap (0 2676000) (0 2684000)
+WARNING : Cannot find filler cells for left gap (0 2744000) (0 2752000)
+WARNING : Cannot find filler cells for left gap (0 2812000) (0 2820000)
+WARNING : Cannot find filler cells for left gap (0 2880000) (0 2888000)
+WARNING : Cannot find filler cells for left gap (0 2948000) (0 2956000)
+WARNING : Cannot find filler cells for left gap (0 3016000) (0 3024000)
+WARNING : Cannot find filler cells for left gap (0 3084000) (0 3092000)
+WARNING : Cannot find filler cells for left gap (0 3152000) (0 3160000)
+WARNING : Cannot find filler cells for left gap (0 3220000) (0 3228000)
+WARNING : Cannot find filler cells for left gap (0 3288000) (0 3296000)
+WARNING : Cannot find filler cells for left gap (0 3356000) (0 3364000)
+WARNING : Cannot find filler cells for left gap (0 3424000) (0 3432000)
+WARNING : Cannot find filler cells for left gap (0 3492000) (0 3500000)
+WARNING : Cannot find filler cells for right gap (4000000 198810) (4000000 200000)
+WARNING : Cannot find filler cells for right gap (4000000 340000) (4000000 378670)
+WARNING : Cannot find filler cells for right gap (4000000 438670) (4000000 516000)
+WARNING : Cannot find filler cells for right gap (4000000 636000) (4000000 644000)
+WARNING : Cannot find filler cells for right gap (4000000 704000) (4000000 712000)
+WARNING : Cannot find filler cells for right gap (4000000 772000) (4000000 780000)
+WARNING : Cannot find filler cells for right gap (4000000 840000) (4000000 848000)
+WARNING : Cannot find filler cells for right gap (4000000 908000) (4000000 916000)
+WARNING : Cannot find filler cells for right gap (4000000 976000) (4000000 984000)
+WARNING : Cannot find filler cells for right gap (4000000 1044000) (4000000 1052000)
+WARNING : Cannot find filler cells for right gap (4000000 1112000) (4000000 1120000)
+WARNING : Cannot find filler cells for right gap (4000000 1180000) (4000000 1188000)
+WARNING : Cannot find filler cells for right gap (4000000 1248000) (4000000 1256000)
+WARNING : Cannot find filler cells for right gap (4000000 1316000) (4000000 1324000)
+WARNING : Cannot find filler cells for right gap (4000000 1384000) (4000000 1392000)
+WARNING : Cannot find filler cells for right gap (4000000 1452000) (4000000 1460000)
+WARNING : Cannot find filler cells for right gap (4000000 1520000) (4000000 1528000)
+WARNING : Cannot find filler cells for right gap (4000000 1588000) (4000000 1596000)
+WARNING : Cannot find filler cells for right gap (4000000 1656000) (4000000 1664000)
+WARNING : Cannot find filler cells for right gap (4000000 1724000) (4000000 1732000)
+WARNING : Cannot find filler cells for right gap (4000000 1792000) (4000000 1800000)
+WARNING : Cannot find filler cells for right gap (4000000 1860000) (4000000 1868000)
+WARNING : Cannot find filler cells for right gap (4000000 1928000) (4000000 1936000)
+WARNING : Cannot find filler cells for right gap (4000000 1996000) (4000000 2004000)
+WARNING : Cannot find filler cells for right gap (4000000 2064000) (4000000 2072000)
+WARNING : Cannot find filler cells for right gap (4000000 2132000) (4000000 2140000)
+WARNING : Cannot find filler cells for right gap (4000000 2200000) (4000000 2208000)
+WARNING : Cannot find filler cells for right gap (4000000 2268000) (4000000 2276000)
+WARNING : Cannot find filler cells for right gap (4000000 2336000) (4000000 2344000)
+WARNING : Cannot find filler cells for right gap (4000000 2404000) (4000000 2412000)
+WARNING : Cannot find filler cells for right gap (4000000 2472000) (4000000 2480000)
+WARNING : Cannot find filler cells for right gap (4000000 2540000) (4000000 2548000)
+WARNING : Cannot find filler cells for right gap (4000000 2608000) (4000000 2616000)
+WARNING : Cannot find filler cells for right gap (4000000 2676000) (4000000 2684000)
+WARNING : Cannot find filler cells for right gap (4000000 2744000) (4000000 2752000)
+WARNING : Cannot find filler cells for right gap (4000000 2812000) (4000000 2820000)
+WARNING : Cannot find filler cells for right gap (4000000 2880000) (4000000 2888000)
+WARNING : Cannot find filler cells for right gap (4000000 2948000) (4000000 2956000)
+WARNING : Cannot find filler cells for right gap (4000000 3016000) (4000000 3024000)
+WARNING : Cannot find filler cells for right gap (4000000 3084000) (4000000 3092000)
+WARNING : Cannot find filler cells for right gap (4000000 3152000) (4000000 3160000)
+WARNING : Cannot find filler cells for right gap (4000000 3220000) (4000000 3228000)
+WARNING : Cannot find filler cells for right gap (4000000 3288000) (4000000 3296000)
+WARNING : Cannot find filler cells for right gap (4000000 3356000) (4000000 3364000)
+WARNING : Cannot find filler cells for right gap (4000000 3424000) (4000000 3432000)
+WARNING : Cannot find filler cells for right gap (4000000 3492000) (4000000 3500000)
+.... last pad filler name is pfiller223
+.... total of 224 pad filler inserted
+# Define ignored layers
+set_ignored_layers -max_routing_layer MET6
+1
+#*******************************************************************************************
+## NOTE for FloorPlan ######################################################################
+#
+##    ## IO adjustment using GUI
+##    ##
+##    ##
+##
+##    ## Fix analog IP / digital IP / memories placement in TOP.
+##    ## You can use the command "set_dont_touch_placement" or GUI
+##    ## Do not place and fix for block memories.
+##    ##
+##    ##
+##
+##    ## First, Do manual placement for hard macros excepting memories.
+##    ## Then, Fix the hard macros after initial placement.
+##
+##    ## Then, Fix all memories.
+##    if {[all_macro_cells] != "" } {
+##         set_dont_touch_placement [all_macro_cells]
+##    }
+##
+##    ## Physical Cells Placement
+##    ## Add well edge cell
+##    add_end_cap -respect_blockage -ignore_soft_blockage -lib_cell $WELL_EDGE_CELL
+##
+##    ## Add tap cell
+##    add_tap_cell_array  -master_cell_name $TAP_CELL ##              -pattern stagger_every_other_row ##              -distance $TAP_DIST ##              -ignore_soft_blockage true ##              -skip_fixed_cells true
+##
+##    ## Save
+##    sec_StartTimer saving
+##    change_names -rule verilog -hier
+##    set verilogout_no_tri true
+##    save_mw_cel -as $TOP_MODULE
+##    sec_ReportResourceUtil saving
+##
+##    ## Exit
+##    sec_ReportResourceUtil total_$step
+##    exit
+#
+# memory placement
+#report_fp_strategy_ment
+#set_fp_placement_strategy -sliver_size 10
+#create_fp_placement -timing_driven -no_hierarchy_gravity
+#report_congestion -grc_based -by_layer -routing_stage global
+#Reducing cell density hotspots
+#set_congestion_options -max_util 0.4 -cordinate {x1 y1 x2 y2}
+#set_fp_placement_strategy #	-auto_grouping high #	-macros_on_edge on #	-sliver_size 10 #	-virtual_IPO on
+#set_keepout_margin -type hard -all_macros -outer {10 10 10 10}
+#create_fp_placement -timing_driven -no_hierarchy_gravity
+#report_congestion -grc_based -by_layer -routing_stage global
+#set_dont_touch_placement [all_macro_cells]
+#set physopt_hard_keepout_distance 10
+#*******************************************************************************************
+# hard blockage for macro
+# In case of hard, Any macro cannot place in an area of blockage.
+# In case of soft, a few buffers can place in an area of blockage.
+create_placement_blockage -coordinate {{468.686 3228.000} {772.000 3560.000}} -name block_1 -type hard -no_snap
+{block_1}
+create_placement_blockage -coordinate {{468.686 440.000} {772.000 772.000}} -name block_2 -type hard -no_snap
+{block_2}
+create_placement_blockage -coordinate {{3228.000 440.000} {3531.314 772.000}} -name block_3 -type hard -no_snap
+{block_3}
+create_placement_blockage -coordinate {{3228.000 3228.000} {3531.314 3560.000}} -name block_4 -type hard -no_snap
+{block_4}
+#remove_placement_blockage -all
+# Unplace all standard cells
+remove_placement -object_type standard_cell
+1
+#*******************************************************************************************
+# In this library, well edge cell and tap cell is not existed.
+# Physical Cells Placement
+# Add well edge cell
+#add_end_cap -respect_blockage -ignore_soft_blockage -lib_cell $WELL_EDGE_CELL
+#
+#get_cells -all *cap*
+#remove_cell [get_cells -all *cap*]
+#
+#Add tap cell
+#add_tap_cell_array  -master_cell_name $TAP_CELL #	-pattern stagger_every_other_row #	-distance $TAP_DIST #	-ignore_soft_blockage true #	-skip_fixed_cells true
+#remove_stdcell_filler  -tap
+#*******************************************************************************************
+# Save
+change_names -rule verilog -hier
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+Information: Updating database...
+Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)
+Warning: Undo stack cleared by command 'change_names' (HDUEDIT-104)
+1
+set verilogout_no_tri true
+true
+save_mw_cel -as ${TOP_MODULE}
+Information: Performing CEL netlist consistency check. (MWDC-118)
+Information: CEL consistency check PASSED. (MWDC-119)
+Information: Saved design named khu_sensor_pad. (UIG-5)
+1
+# close lib
+close_mw_lib
+Removing physical design 'khu_sensor_pad'
+1
+# Reset sdc file for applying sdc
+sh rm -f $FUNC1_SDC
+sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+exit
+
+Thank you...
+Exit IC Compiler!

@@ -1,0 +1,573 @@
+ 
+****************************************
+Report : timing
+        -path full_clock
+        -delay max
+        -physical
+        -derate
+        -input_pins
+        -nets
+        -max_paths 1
+        -transition_time
+        -crosstalk_delta
+        -capacitance
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Tue Sep  1 18:48:35 2020
+****************************************
+
+ * Some/all delay information is back-annotated.
+
+Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
+	Parasitic source    : LPE
+	Parasitic mode      : RealRVirtualC
+	Extraction mode     : MIN_MAX
+	Extraction derating : -40/25/125
+
+Information: Percent of Arnoldi-based delays =  4.93%
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_SPI_CSN_reg
+              (rising edge-triggered flip-flop clocked by clk_pad)
+  Endpoint: ADS1292_CSN
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+Attributes:
+    d - dont_touch
+    u - dont_use
+   mo - map_only
+   so - size_only
+    i - ideal_net or ideal_network
+
+  Point                                       Fanout       Cap     DTran     Trans     Delta     Derate      Incr       Path      Location / Load        Attributes
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk_pad (rise edge)                                                                                0.0000     0.0000
+  clock source latency                                                                                     1.6243     1.6243 r
+  pad29/YN (phsoscm3_p)                                                     0.2849               1.0650    0.0000     1.6243 r    (132.06,1831.83)       d u 
+  w_clk_p (net)                                 1       0.1793                                   1.0650    0.0000     1.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/i_CLK (khu_sensor_top)                                                          1.0650    0.0000     1.6243 r    (netlink)
+  khu_sensor_top/i_CLK (net)                            0.1793                                   1.0650    0.0000     1.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd)                   0.0000    0.2849    0.0000     1.0650    0.0204 *   1.6446 r    (544.12,1838.82)       d 
+  khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd)                             0.1191               1.0650    0.1039 @   1.7485 f    (544.97,1838.80)       d 
+  khu_sensor_top/w_clk_p_G2B1I1 (net)           1       0.1149                                   1.0650    0.0000     1.7485 f    [0.08,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)                    0.0000    0.1201    0.0000     1.0650    0.0083 @   1.7568 f    (664.98,1961.22)       d 
+  khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)                              0.1529               1.0650    0.1006 @   1.8574 r    (665.93,1961.15)       d 
+  khu_sensor_top/w_clk_p_G2B2I1 (net)           1       0.1275                                   1.0650    0.0000     1.8574 r    [0.08,0.13]            d 
+  khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)                    0.0000    0.1541    0.0000     1.0650    0.0100 @   1.8674 r    (758.59,2122.82)       d 
+  khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)                              0.1985               1.0650    0.1052 @   1.9727 f    (757.75,2122.84)       d 
+  khu_sensor_top/w_clk_p_G2B3I1 (net)           1       0.3689                                   1.0650    0.0000     1.9727 f    [0.35,0.37]            d 
+  khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)                     0.0000    0.2682    0.0000     1.0650    0.0820 @   2.0547 f    (1582.48,2389.22)      d 
+  khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)                               0.2054               1.0650    0.1601 @   2.2148 r    (1583.09,2389.26)      d 
+  khu_sensor_top/w_clk_p_G2B6I1 (net)           2       0.0672                                   1.0650    0.0000     2.2148 r    [0.03,0.07]            d 
+  khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)                    0.0000    0.2054    0.0000     1.0650    0.0011 @   2.2159 r    (1590.87,2393.22)      d 
+  khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)                              0.1720               1.0650    0.1371 @   2.3530 f    (1591.51,2393.14)      d 
+  khu_sensor_top/w_clk_p_G2B11I1 (net)          1       0.1645                                   1.0650    0.0000     2.3530 f    [0.13,0.16]            d 
+  khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)                    0.0000    0.1753    0.0000     1.0650    0.0177 @   2.3707 f    (1389.70,2202.02)      d 
+  khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)                              0.2498               1.0650    0.1539 @   2.5246 r    (1388.75,2202.09)      d 
+  khu_sensor_top/w_clk_p_G2B12I1 (net)          2       0.2295                                   1.0650    0.0000     2.5246 r    [0.18,0.23]            d 
+  khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)                    0.0000    0.2512    0.0000     1.0650    0.0043 @   2.5289 r    (1391.03,2170.04)      d 
+  khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)                              0.1877               1.0650    0.1499 @   2.6789 f    (1391.63,2169.96)      d 
+  khu_sensor_top/w_clk_p_G2B15I1 (net)          2       0.2224                                   1.0650    0.0000     2.6789 f    [0.16,0.22]            d 
+  khu_sensor_top/ivd24_hd_G2B55I1/A (ivd16_hd)                    0.0000    0.1938    0.0000     1.0650    0.0246 @   2.7034 f    (1705.19,1982.84)      d 
+  khu_sensor_top/ivd24_hd_G2B55I1/Y (ivd16_hd)                              0.2293               1.0650    0.1513 @   2.8547 r    (1705.79,1982.76)      d 
+  khu_sensor_top/w_clk_p_G2B16I1 (net)          1       0.1628                                   1.0650    0.0000     2.8547 r    [0.13,0.16]            d 
+  khu_sensor_top/ivd8_hd_G2B50I1/A (ivd16_hd)                     0.0000    0.2315    0.0000     1.0650    0.0172 @   2.8719 r    (2113.90,1986.00)      d 
+  khu_sensor_top/ivd8_hd_G2B50I1/Y (ivd16_hd)                               0.1421               1.0650    0.1221 @   2.9940 f    (2113.29,1986.08)      d 
+  khu_sensor_top/w_clk_p_G2B21I1 (net)          2       0.1478                                   1.0650    0.0000     2.9940 f    [0.10,0.15]            d 
+  khu_sensor_top/ivd6_hd_G2B49I1/A (ivd6_hd)                      0.0000    0.1440    0.0000     1.0650    0.0085 @   3.0025 f    (2267.59,1986.01)      d 
+  khu_sensor_top/ivd6_hd_G2B49I1/Y (ivd6_hd)                                0.2473               1.0650    0.1586 @   3.1612 r    (2268.15,1986.06)      d 
+  khu_sensor_top/w_clk_p_G2B22I1 (net)          1       0.0739                                   1.0650    0.0000     3.1612 r    [0.03,0.07]            d 
+  khu_sensor_top/ivd24_hd_G2B48I1/A (ivd24_hd)                    0.0000    0.2479    0.0000     1.0650    0.0029 @   3.1641 r    (2332.73,2011.62)      d 
+  khu_sensor_top/ivd24_hd_G2B48I1/Y (ivd24_hd)                              0.2195               1.0650    0.1363 @   3.3004 f    (2333.57,2011.60)      d 
+  khu_sensor_top/w_clk_p_G2B23I1 (net)          2       0.3523                                   1.0650    0.0000     3.3004 f    [0.30,0.35]            d 
+  khu_sensor_top/ivd20_hd_G2B31I3/A (ivd16_hd)                    0.0000    0.2686    0.0000     1.0650    0.0701 @   3.3705 f    (2361.18,2886.00)      d 
+  khu_sensor_top/ivd20_hd_G2B31I3/Y (ivd16_hd)                              0.2441               1.0650    0.1711 @   3.5416 r    (2360.57,2886.08)      d 
+  khu_sensor_top/w_clk_p_G2B40I3 (net)          1       0.1596                                   1.0650    0.0000     3.5416 r    [0.14,0.16]            d 
+  khu_sensor_top/ivd12_hd_G2B10I1/A (ivd12_hd)                    0.0000    0.2459    0.0000     1.0650    0.0167 @   3.5583 r    (2786.13,2886.02)      d 
+  khu_sensor_top/ivd12_hd_G2B10I1/Y (ivd12_hd)                              0.1381               1.0650    0.1256 @   3.6838 f    (2785.49,2886.10)      d 
+  khu_sensor_top/w_clk_p_G2B61I1 (net)          1       0.1077                                   1.0650    0.0000     3.6838 f    [0.08,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B9I4/A (ivd16_hd)                     0.0000    0.1391    0.0000     1.0650    0.0075 @   3.6913 f    (3012.81,2900.40)      d 
+  khu_sensor_top/ivd24_hd_G2B9I4/Y (ivd16_hd)                               0.1571               1.0650    0.1110 @   3.8023 r    (3012.21,2900.48)      d 
+  khu_sensor_top/w_clk_p_G2B62I4 (net)          2       0.1075                                   1.0650    0.0000     3.8023 r    [0.07,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B4I30/A (ivd12_hd)                    0.0000    0.1572    0.0000     1.0650    0.0008 @   3.8031 r    (3042.65,2900.42)      d 
+  khu_sensor_top/ivd24_hd_G2B4I30/Y (ivd12_hd)                              0.1314               1.0650    0.1133 @   3.9164 f    (3042.01,2900.50)      d 
+  khu_sensor_top/w_clk_p_G2B67I30 (net)         2       0.1318                                   1.0650    0.0000     3.9164 f    [0.10,0.13]            d 
+  khu_sensor_top/ivd16_hd_G2B3I20/A (ivd12_hd)                    0.0000    0.1324    0.0000     1.0650    0.0079 @   3.9243 f    (3232.51,2825.22)      d 
+  khu_sensor_top/ivd16_hd_G2B3I20/Y (ivd12_hd)                              0.1741               1.0650    0.1178 @   4.0421 r    (3233.15,2825.14)      d 
+  khu_sensor_top/w_clk_p_G2B68I20 (net)         2       0.0943                                   1.0650    0.0000     4.0421 r    [0.07,0.09]            d 
+  khu_sensor_top/ivd16_hd_G2B2I23/A (ivd8_hd)                     0.0000    0.1743    0.0000     1.0650    0.0048 @   4.0468 r    (3286.44,2681.22)      d 
+  khu_sensor_top/ivd16_hd_G2B2I23/Y (ivd8_hd)                               0.1679               1.0650    0.1416 @   4.1884 f    (3285.83,2681.18)      d 
+  khu_sensor_top/w_clk_p_G2B69I23 (net)         2       0.1231                                   1.0650    0.0000     4.1884 f    [0.07,0.12]            d 
+  khu_sensor_top/ivd24_hd_G2B1I57/A (ivd16_hd)                    0.0000    0.1680    0.0000     1.0650    0.0020 @   4.1905 f    (3214.33,2684.40)      d 
+  khu_sensor_top/ivd24_hd_G2B1I57/Y (ivd16_hd)                              0.2700               1.0650    0.1736 @   4.3641 r    (3213.73,2684.48)      d 
+  khu_sensor_top/w_clk_p_G2B70I57 (net)        31       0.2153                                   1.0650    0.0000     4.3641 r    [0.15,0.22]            d 
+  khu_sensor_top/ads1292_controller/i_CLK_cts_5_1 (ads1292_controller)                           1.0650    0.0000     4.3641 r    (netlink)
+  khu_sensor_top/ads1292_controller/i_CLK_cts_5_1 (net)
+                                                        0.2153                                   1.0650    0.0000     4.3641 r    [0.15,0.22]            d 
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/CK (fd3qd1_hd)
+                                                                  0.0000    0.2701    0.0000     1.0650    0.0023 @   4.3664 r    (3230.29,2738.76)      d 
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/CK (fd3qd1_hd)
+                                                                  0.0000    0.2701    0.0000     1.1440    0.0000     4.3664 r    (3230.29,2738.76)      d 
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/Q (fd3qd1_hd)            10.5790               1.1440    5.8380    10.2044 r    (3238.06,2739.17)      d 
+  khu_sensor_top/ads1292_controller/o_SPI_CSN (net)
+                                                1       0.5902                                   1.1440    0.0000    10.2044 r    [0.58,0.59]
+  khu_sensor_top/ads1292_controller/o_SPI_CSN (ads1292_controller)                               1.1440    0.0000    10.2044 r    (netlink)
+  khu_sensor_top/ADS1292_CSN (net)                      0.5902                                   1.1440    0.0000    10.2044 r    [0.58,0.59]
+  khu_sensor_top/ADS1292_CSN (khu_sensor_top)                                                    1.1440    0.0000    10.2044 r    (netlink)
+  w_ads1292_csn_p (net)                                 0.5902                                   1.1440    0.0000    10.2044 r    [0.58,0.59]
+  icc_place10/A (nid8_hd)                                         0.0000   10.5790    0.0000     1.1440    0.0000 &  10.2044 r    (3241.28,2742.04)
+  icc_place10/Y (nid8_hd)                                                   0.4614               1.1440    1.2709    11.4753 r    (3243.52,2742.03)
+  n10 (net)                                     2       0.0385                                   1.1440    0.0000    11.4753 r    [0.01,0.04]
+  icc_cpts1/A (ivd16_hd)                                          0.0000    0.4614    0.0000     1.1440    0.0006 *  11.4759 r    (3220.05,2746.04)
+  icc_cpts1/Y (ivd16_hd)                                                    0.2769               1.1440    0.2836    11.7595 f    (3219.45,2745.96)
+  n53 (net)                                     1       0.3575                                   1.1440    0.0000    11.7595 f    [0.31,0.36]
+  icc_cpts11/A (ivd24_hd)                                         0.0000    0.4081    0.0000     1.1440    0.1537 *  11.9131 f    (1565.56,2756.42)
+  icc_cpts11/Y (ivd24_hd)                                                   0.3118               1.1440    0.2586    12.1717 r    (1564.71,2756.44)
+  n52 (net)                                     1       0.3197                                   1.1440    0.0000    12.1717 r    [0.28,0.32]
+  pad198/A (phob12_p)                                             0.0000    0.4146    0.0000     1.1440    0.1418 *  12.3136 r    (956.48,3862.48)       d u 
+  pad198/PAD (phob12_p)                                                     0.5344               1.1440    2.7979    15.1114 r    (946.00,3941.60)       d u 
+  ADS1292_CSN (net)                             1       0.0218                                   1.1440    0.0000    15.1114 r    [0.01,0.02]
+  ADS1292_CSN (out)                                               0.0000    0.5344    0.0000     1.1440    0.0002 *  15.1117 r    (918.00,3896.60)
+  data arrival time                                                                                                  15.1117
+
+  clock clk (rise edge)                                                                                   10.0000    10.0000
+  clock network delay (ideal)                                                                              0.0000    10.0000
+  clock reconvergence pessimism                                                                            0.0000    10.0000
+  clock uncertainty                                                                                       -0.4000     9.6000
+  output external delay                                                                                   -1.0000     8.6000
+  data required time                                                                                                  8.6000
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                  8.6000
+  data arrival time                                                                                                 -15.1117
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                   -6.5117
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_ADS1292_BUSY_reg
+              (rising edge-triggered flip-flop clocked by clk_pad)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_pstate_reg_0_
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+Attributes:
+    d - dont_touch
+    u - dont_use
+   mo - map_only
+   so - size_only
+    i - ideal_net or ideal_network
+
+  Point                                       Fanout       Cap     DTran     Trans     Delta     Derate      Incr       Path      Location / Load        Attributes
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk_pad (rise edge)                                                                               10.0000    10.0000
+  clock source latency                                                                                     1.6243    11.6243 r
+  pad29/YN (phsoscm3_p)                                                     0.2849               1.0650    0.0000    11.6243 r    (132.06,1831.83)       d u 
+  w_clk_p (net)                                 1       0.1793                                   1.0650    0.0000    11.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/i_CLK (khu_sensor_top)                                                          1.0650    0.0000    11.6243 r    (netlink)
+  khu_sensor_top/i_CLK (net)                            0.1793                                   1.0650    0.0000    11.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd)                   0.0000    0.2849    0.0000     1.0650    0.0204 *  11.6446 r    (544.12,1838.82)       d 
+  khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd)                             0.1191               1.0650    0.1039 @  11.7485 f    (544.97,1838.80)       d 
+  khu_sensor_top/w_clk_p_G2B1I1 (net)           1       0.1149                                   1.0650    0.0000    11.7485 f    [0.08,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)                    0.0000    0.1201    0.0000     1.0650    0.0083 @  11.7568 f    (664.98,1961.22)       d 
+  khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)                              0.1529               1.0650    0.1006 @  11.8574 r    (665.93,1961.15)       d 
+  khu_sensor_top/w_clk_p_G2B2I1 (net)           1       0.1275                                   1.0650    0.0000    11.8574 r    [0.08,0.13]            d 
+  khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)                    0.0000    0.1541    0.0000     1.0650    0.0100 @  11.8674 r    (758.59,2122.82)       d 
+  khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)                              0.1985               1.0650    0.1052 @  11.9727 f    (757.75,2122.84)       d 
+  khu_sensor_top/w_clk_p_G2B3I1 (net)           1       0.3689                                   1.0650    0.0000    11.9727 f    [0.35,0.37]            d 
+  khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)                     0.0000    0.2682    0.0000     1.0650    0.0820 @  12.0547 f    (1582.48,2389.22)      d 
+  khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)                               0.2054               1.0650    0.1601 @  12.2148 r    (1583.09,2389.26)      d 
+  khu_sensor_top/w_clk_p_G2B6I1 (net)           2       0.0672                                   1.0650    0.0000    12.2148 r    [0.03,0.07]            d 
+  khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)                    0.0000    0.2054    0.0000     1.0650    0.0011 @  12.2159 r    (1590.87,2393.22)      d 
+  khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)                              0.1720               1.0650    0.1371 @  12.3530 f    (1591.51,2393.14)      d 
+  khu_sensor_top/w_clk_p_G2B11I1 (net)          1       0.1645                                   1.0650    0.0000    12.3530 f    [0.13,0.16]            d 
+  khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)                    0.0000    0.1753    0.0000     1.0650    0.0177 @  12.3707 f    (1389.70,2202.02)      d 
+  khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)                              0.2498               1.0650    0.1539 @  12.5246 r    (1388.75,2202.09)      d 
+  khu_sensor_top/w_clk_p_G2B12I1 (net)          2       0.2295                                   1.0650    0.0000    12.5246 r    [0.18,0.23]            d 
+  khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)                    0.0000    0.2512    0.0000     1.0650    0.0043 @  12.5289 r    (1391.03,2170.04)      d 
+  khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)                              0.1877               1.0650    0.1499 @  12.6789 f    (1391.63,2169.96)      d 
+  khu_sensor_top/w_clk_p_G2B15I1 (net)          2       0.2224                                   1.0650    0.0000    12.6789 f    [0.16,0.22]            d 
+  khu_sensor_top/ivd24_hd_G2B55I1/A (ivd16_hd)                    0.0000    0.1938    0.0000     1.0650    0.0246 @  12.7034 f    (1705.19,1982.84)      d 
+  khu_sensor_top/ivd24_hd_G2B55I1/Y (ivd16_hd)                              0.2293               1.0650    0.1513 @  12.8547 r    (1705.79,1982.76)      d 
+  khu_sensor_top/w_clk_p_G2B16I1 (net)          1       0.1628                                   1.0650    0.0000    12.8547 r    [0.13,0.16]            d 
+  khu_sensor_top/ivd8_hd_G2B50I1/A (ivd16_hd)                     0.0000    0.2315    0.0000     1.0650    0.0172 @  12.8719 r    (2113.90,1986.00)      d 
+  khu_sensor_top/ivd8_hd_G2B50I1/Y (ivd16_hd)                               0.1421               1.0650    0.1221 @  12.9940 f    (2113.29,1986.08)      d 
+  khu_sensor_top/w_clk_p_G2B21I1 (net)          2       0.1478                                   1.0650    0.0000    12.9940 f    [0.10,0.15]            d 
+  khu_sensor_top/ivd24_hd_G2B49I2/A (ivd20_hd)                    0.0000    0.1441    0.0000     1.0650    0.0127 @  13.0067 f    (2304.46,1870.82)      d 
+  khu_sensor_top/ivd24_hd_G2B49I2/Y (ivd20_hd)                              0.2635               1.0650    0.1452 @  13.1519 r    (2303.51,1870.89)      d 
+  khu_sensor_top/w_clk_p_G2B22I2 (net)          2       0.2421                                   1.0650    0.0000    13.1519 r    [0.23,0.24]            d 
+  khu_sensor_top/ivd24_hd_G2B34I1/A (ivd6_hd)                     0.0000    0.2726    0.0000     1.0650    0.0337 @  13.1857 r    (2356.69,1399.64)      d 
+  khu_sensor_top/ivd24_hd_G2B34I1/Y (ivd6_hd)                               0.1728               1.0650    0.1579 @  13.3436 f    (2356.13,1399.58)      d 
+  khu_sensor_top/w_clk_p_G2B37I1 (net)          1       0.0778                                   1.0650    0.0000    13.3436 f    [0.05,0.08]            d 
+  khu_sensor_top/ivd24_hd_G2B33I1/A (ivd16_hd)                    0.0000    0.1731    0.0000     1.0650    0.0040 @  13.3476 f    (2432.50,1471.64)      d 
+  khu_sensor_top/ivd24_hd_G2B33I1/Y (ivd16_hd)                              0.1740               1.0650    0.1234 @  13.4710 r    (2433.11,1471.56)      d 
+  khu_sensor_top/w_clk_p_G2B38I1 (net)          1       0.1153                                   1.0650    0.0000    13.4710 r    [0.09,0.12]            d 
+  khu_sensor_top/ivd20_hd_G2B10I2/A (ivd16_hd)                    0.0000    0.1751    0.0000     1.0650    0.0087 @  13.4797 r    (2473.43,1694.84)      d 
+  khu_sensor_top/ivd20_hd_G2B10I2/Y (ivd16_hd)                              0.1726               1.0650    0.1365 @  13.6162 f    (2474.03,1694.76)      d 
+  khu_sensor_top/w_clk_p_G2B61I2 (net)          3       0.2418                                   1.0650    0.0000    13.6162 f    [0.16,0.24]            d 
+  khu_sensor_top/ivd24_hd_G2B9I3/A (ivd20_hd)                     0.0000    0.1758    0.0000     1.0650    0.0182 @  13.6344 f    (2641.50,1921.22)      d 
+  khu_sensor_top/ivd24_hd_G2B9I3/Y (ivd20_hd)                               0.1851               1.0650    0.1253 @  13.7597 r    (2640.55,1921.29)      d 
+  khu_sensor_top/w_clk_p_G2B62I3 (net)          1       0.1512                                   1.0650    0.0000    13.7597 r    [0.13,0.15]            d 
+  khu_sensor_top/ivd24_hd_G2B4I5/A (ivd12_hd)                     0.0000    0.1871    0.0000     1.0650    0.0151 @  13.7748 r    (2687.79,2270.82)      d 
+  khu_sensor_top/ivd24_hd_G2B4I5/Y (ivd12_hd)                               0.1715               1.0650    0.1337 @  13.9085 f    (2688.43,2270.74)      d 
+  khu_sensor_top/w_clk_p_G2B67I5 (net)          1       0.1697                                   1.0650    0.0000    13.9085 f    [0.13,0.17]            d 
+  khu_sensor_top/ivd24_hd_G2B3I33/A (ivd20_hd)                    0.0000    0.1751    0.0000     1.0650    0.0185 @  13.9270 f    (3037.94,2331.62)      d 
+  khu_sensor_top/ivd24_hd_G2B3I33/Y (ivd20_hd)                              0.1885               1.0650    0.1286 @  14.0556 r    (3036.99,2331.69)      d 
+  khu_sensor_top/w_clk_p_G2B68I33 (net)         2       0.1607                                   1.0650    0.0000    14.0556 r    [0.13,0.16]            d 
+  khu_sensor_top/ivd20_hd_G2B2I62/A (ivd8_hd)                     0.0000    0.1898    0.0000     1.0650    0.0116 @  14.0672 r    (3192.72,2522.82)      d 
+  khu_sensor_top/ivd20_hd_G2B2I62/Y (ivd8_hd)                               0.1970               1.0650    0.1637 @  14.2309 f    (3192.11,2522.78)      d 
+  khu_sensor_top/w_clk_p_G2B69I62 (net)         3       0.1517                                   1.0650    0.0000    14.2309 f    [0.06,0.15]            d 
+  khu_sensor_top/ads1292_controller/i_CLK_cts_8_1 (ads1292_controller)                           1.0650    0.0000    14.2309 f    (netlink)
+  khu_sensor_top/ads1292_controller/i_CLK_cts_8_1 (net)
+                                                        0.1517                                   1.0650    0.0000    14.2309 f    [0.06,0.15]            d 
+  khu_sensor_top/ads1292_controller/ivd20_hd_G2B1I118/A (ivd16_hd)
+                                                                  0.0000    0.1971    0.0000     1.0650    0.0031 @  14.2340 f    (3290.90,2526.00)      d 
+  khu_sensor_top/ads1292_controller/ivd20_hd_G2B1I118/Y (ivd16_hd)          0.2394               1.0650    0.1654 @  14.3994 r    (3290.29,2526.08)      d 
+  khu_sensor_top/ads1292_controller/w_clk_p_G2B70I118 (net)
+                                               27       0.1811                                   1.0650    0.0000    14.3994 r    [0.13,0.18]            d 
+  khu_sensor_top/ads1292_controller/o_ADS1292_BUSY_reg/CK (fd2qd1_hd)
+                                                                  0.0000    0.2395    0.0000     1.0650    0.0013 @  14.4008 r    (3292.79,2508.52)      d 
+  khu_sensor_top/ads1292_controller/o_ADS1292_BUSY_reg/CK (fd2qd1_hd)
+                                                                  0.0000    0.2395    0.0000     1.1440    0.0000    14.4008 r    (3292.79,2508.52)      d 
+  khu_sensor_top/ads1292_controller/o_ADS1292_BUSY_reg/Q (fd2qd1_hd)        4.3436               1.1440    2.6623    17.0631 r    (3301.92,2508.02)      d 
+  khu_sensor_top/ads1292_controller/o_ADS1292_BUSY (net)
+                                                1       0.2414                                   1.1440    0.0000    17.0631 r    [0.24,0.24]
+  khu_sensor_top/ads1292_controller/o_ADS1292_BUSY (ads1292_controller)                          1.1440    0.0000    17.0631 r    (netlink)
+  khu_sensor_top/w_ads1292_busy (net)                   0.2414                                   1.1440    0.0000    17.0631 r    [0.24,0.24]
+  khu_sensor_top/icc_place8/A (nid2_hd)                           0.0000    4.3436    0.0000     1.1440    0.0000 &  17.0631 r    (3307.56,2504.43)
+  khu_sensor_top/icc_place8/Y (nid2_hd)                                     0.6957               1.1440    0.9472    18.0103 r    (3308.53,2504.48)
+  khu_sensor_top/n12 (net)                      5       0.0728                                   1.1440    0.0000    18.0103 r    [0.06,0.07]
+  khu_sensor_top/sensor_core/i_ADS1292_BUSY (sensor_core)                                        1.1440    0.0000    18.0103 r    (netlink)
+  khu_sensor_top/sensor_core/i_ADS1292_BUSY (net)       0.0728                                   1.1440    0.0000    18.0103 r    [0.06,0.07]
+  khu_sensor_top/sensor_core/icc_place2/A (ivd1_hd)               0.0000    0.6957    0.0000     1.1440    0.0044 *  18.0147 r    (3283.44,2259.63)
+  khu_sensor_top/sensor_core/icc_place2/Y (ivd1_hd)                         0.1648               1.1440    0.1406    18.1553 f    (3283.00,2259.77)
+  khu_sensor_top/sensor_core/n33 (net)          1       0.0025                                   1.1440    0.0000    18.1553 f    [0.00,0.00]
+  khu_sensor_top/sensor_core/U911/B (ad2d1_hd)                    0.0000    0.1648    0.0000     1.1440    0.0000 *  18.1553 f    (3284.62,2256.08)
+  khu_sensor_top/sensor_core/U911/Y (ad2d1_hd)                              0.1937               1.1440    0.3462    18.5014 f    (3283.64,2256.28)
+  khu_sensor_top/sensor_core/N915 (net)         2       0.0150                                   1.1440    0.0000    18.5014 f    [0.01,0.02]
+  khu_sensor_top/sensor_core/U887/B (or2d1_hd)                    0.0000    0.1937    0.0000     1.1440    0.0001 &  18.5015 f    (3280.78,2263.62)
+  khu_sensor_top/sensor_core/U887/Y (or2d1_hd)                              0.0944               1.1440    0.2652    18.7668 f    (3281.65,2263.54)
+  khu_sensor_top/sensor_core/N914 (net)         1       0.0025                                   1.1440    0.0000    18.7668 f    [0.00,0.00]
+  khu_sensor_top/sensor_core/U1075/B (clknd2d1_hd)                0.0000    0.0944    0.0000     1.1440    0.0000 &  18.7668 f    (3285.94,2266.49)
+  khu_sensor_top/sensor_core/U1075/Y (clknd2d1_hd)                          0.2079               1.1440    0.1185    18.8853 r    (3285.40,2266.89)
+  khu_sensor_top/sensor_core/n569 (net)         1       0.0054                                   1.1440    0.0000    18.8853 r    [0.00,0.01]
+  khu_sensor_top/sensor_core/U1074/B (clknd2d1_hd)                0.0000    0.2079    0.0000     1.1440    0.0000 &  18.8853 r    (3286.67,2266.49)
+  khu_sensor_top/sensor_core/U1074/Y (clknd2d1_hd)                          1.3517               1.1440    0.8511    19.7364 f    (3287.20,2266.89)
+  khu_sensor_top/sensor_core/N1021 (net)        4       0.0613                                   1.1440    0.0000    19.7364 f    [0.05,0.06]
+  khu_sensor_top/sensor_core/U1344/S (mx2d1_hd)                   0.0000    1.3517    0.0000     1.1440    0.0000 &  19.7364 f    (3276.27,2263.25)
+  khu_sensor_top/sensor_core/U1344/Y (mx2d1_hd)                             0.1872               1.1440    0.6648    20.4012 f    (3273.79,2263.53)
+  khu_sensor_top/sensor_core/n399 (net)         1       0.0063                                   1.1440    0.0000    20.4012 f    [0.00,0.01]
+  khu_sensor_top/sensor_core/icc_cpts166/A (nid1_hd)              0.0000    0.1872    0.0000     1.1440    0.0000 &  20.4012 f    (3270.75,2249.22)
+  khu_sensor_top/sensor_core/icc_cpts166/Y (nid1_hd)                        0.0885               1.1440    0.2139    20.6151 f    (3269.80,2249.16)
+  khu_sensor_top/sensor_core/n792 (net)         1       0.0047                                   1.1440    0.0000    20.6151 f    [0.00,0.00]
+  khu_sensor_top/sensor_core/r_ads_pstate_reg_0_/D (fd3qd2_hd)    0.0000    0.0885    0.0000     1.1440    0.0000 *  20.6151 f    (3265.77,2235.11)      d 
+  data arrival time                                                                                                  20.6151
+
+  clock clk_half (rise edge)                                                                              20.0000    20.0000
+  clock source latency                                                                                     2.9396    22.9396 r
+  khu_sensor_top/divider_by_2/o_CLK_DIV_2 (divider_by_2)                                         0.9250    0.0000    22.9396 r    (netlink)
+  khu_sensor_top/w_CLOCK_HALF (net)                     0.0407                                   0.9250    0.0000    22.9396 r    [0.00,0.04]            d 
+  khu_sensor_top/ivd24_hd_G4B11I11/A (ivd20_hd)                   0.0000    0.0826    0.0000     0.9250    0.0004    22.9400 r    (3197.66,2446.82)      d 
+  khu_sensor_top/ivd24_hd_G4B11I11/Y (ivd20_hd)                             0.0728               0.9250    0.0541 @  22.9941 f    (3196.71,2446.89)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B1I1 (net)      2       0.1088                                   0.9250    0.0000    22.9941 f    [0.05,0.11]            d 
+  khu_sensor_top/ivd8_hd_G4B9I1/A (ivd16_hd)                      0.0000    0.0735    0.0000     0.9250    0.0028 @  22.9969 f    (3217.85,2410.80)      d 
+  khu_sensor_top/ivd8_hd_G4B9I1/Y (ivd16_hd)                                0.0848               0.9250    0.0555 @  23.0524 r    (3217.25,2410.88)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B4I1 (net)      1       0.0516                                   0.9250    0.0000    23.0524 r    [0.03,0.05]            d 
+  khu_sensor_top/ivd12_hd_G4B6I1/A (ivd12_hd)                     0.0000    0.0849    0.0000     0.9250    0.0011 @  23.0535 r    (3256.05,2360.42)      d 
+  khu_sensor_top/ivd12_hd_G4B6I1/Y (ivd12_hd)                               0.0840               0.9250    0.0626 @  23.1161 f    (3255.41,2360.50)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B7I1 (net)      2       0.0848                                   0.9250    0.0000    23.1161 f    [0.03,0.08]            d 
+  khu_sensor_top/ivd20_hd_G4B5I1/A (ivd20_hd)                     0.0000    0.0841    0.0000     0.9250    0.0010 @  23.1170 f    (3251.74,2335.62)      d 
+  khu_sensor_top/ivd20_hd_G4B5I1/Y (ivd20_hd)                               0.1639               0.9250    0.0840 @  23.2010 r    (3252.69,2335.55)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B8I1 (net)      1       0.1473                                   0.9250    0.0000    23.2010 r    [0.14,0.15]            d 
+  khu_sensor_top/ivd12_hd_G4B4I3/A (ivd6_hd)                      0.0000    0.1660    0.0000     0.9250    0.0126 @  23.2137 r    (3307.75,1971.60)      d 
+  khu_sensor_top/ivd12_hd_G4B4I3/Y (ivd6_hd)                                0.1990               0.9250    0.1373 @  23.3509 f    (3308.31,1971.66)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B9I3 (net)      2       0.1161                                   0.9250    0.0000    23.3509 f    [0.07,0.12]            d 
+  khu_sensor_top/ivd20_hd_G4B3I1/A (ivd12_hd)                     0.0000    0.1990    0.0000     0.9250    0.0006 @  23.3515 f    (3310.83,1975.62)      d 
+  khu_sensor_top/ivd20_hd_G4B3I1/Y (ivd12_hd)                               0.2199               0.9250    0.1346 @  23.4861 r    (3311.47,1975.54)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B10I1 (net)     2       0.1202                                   0.9250    0.0000    23.4861 r    [0.08,0.12]            d 
+  khu_sensor_top/ivd16_hd_G4B2I8/A (ivd8_hd)                      0.0000    0.2200    0.0000     0.9250    0.0012 @  23.4873 r    (3313.45,2022.02)      d 
+  khu_sensor_top/ivd16_hd_G4B2I8/Y (ivd8_hd)                                0.1785               0.9250    0.1344 @  23.6217 f    (3314.05,2022.06)      d 
+  khu_sensor_top/w_CLOCK_HALF_G4B11I8 (net)     3       0.1229                                   0.9250    0.0000    23.6217 f    [0.07,0.12]            d 
+  khu_sensor_top/sensor_core/i_CLK_cts_9 (sensor_core)                                           0.9250    0.0000    23.6217 f    (netlink)
+  khu_sensor_top/sensor_core/i_CLK_cts_9 (net)          0.1229                                   0.9250    0.0000    23.6217 f    [0.07,0.12]            d 
+  khu_sensor_top/sensor_core/ivd12_hd_G4B1I1/A (ivd8_hd)          0.0000    0.1787    0.0000     0.9250    0.0036 @  23.6253 f    (3316.79,2155.62)      d 
+  khu_sensor_top/sensor_core/ivd12_hd_G4B1I1/Y (ivd8_hd)                    0.2588               0.9250    0.1503 @  23.7755 r    (3316.19,2155.58)      d 
+  khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B12I1 (net)
+                                               14       0.1032                                   0.9250    0.0000    23.7755 r    [0.07,0.10]            d 
+  khu_sensor_top/sensor_core/r_ads_pstate_reg_0_/CK (fd3qd2_hd)   0.0000    0.2593    0.0000     0.9250    0.0020 @  23.7775 r    (3264.17,2234.76)      d 
+  clock reconvergence pessimism                                                                            0.2911    24.0688
+  clock uncertainty                                                                                       -0.8000    23.2688
+  khu_sensor_top/sensor_core/r_ads_pstate_reg_0_/CK (fd3qd2_hd)                                            0.0000    23.2688 r
+  library setup time                                                                                      -0.0238    23.2450
+  data required time                                                                                                 23.2450
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                 23.2450
+  data arrival time                                                                                                 -20.6151
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                                         2.6298
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_
+              (rising edge-triggered flip-flop clocked by clk_pad)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/r_add_1_B_reg_17_
+            (rising edge-triggered flip-flop clocked by clk_pad)
+  Path Group: clk_pad
+  Path Type: max
+
+Attributes:
+    d - dont_touch
+    u - dont_use
+   mo - map_only
+   so - size_only
+    i - ideal_net or ideal_network
+
+  Point                                       Fanout       Cap     DTran     Trans     Delta     Derate      Incr       Path      Location / Load        Attributes
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk_pad (rise edge)                                                                                0.0000     0.0000
+  clock source latency                                                                                     1.6243     1.6243 r
+  pad29/YN (phsoscm3_p)                                                     0.2849               1.0650    0.0000     1.6243 r    (132.06,1831.83)       d u 
+  w_clk_p (net)                                 1       0.1793                                   1.0650    0.0000     1.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/i_CLK (khu_sensor_top)                                                          1.0650    0.0000     1.6243 r    (netlink)
+  khu_sensor_top/i_CLK (net)                            0.1793                                   1.0650    0.0000     1.6243 r    [0.14,0.18]            d 
+  khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd)                   0.0000    0.2849    0.0000     1.0650    0.0204 *   1.6446 r    (544.12,1838.82)       d 
+  khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd)                             0.1191               1.0650    0.1039 @   1.7485 f    (544.97,1838.80)       d 
+  khu_sensor_top/w_clk_p_G2B1I1 (net)           1       0.1149                                   1.0650    0.0000     1.7485 f    [0.08,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)                    0.0000    0.1201    0.0000     1.0650    0.0083 @   1.7568 f    (664.98,1961.22)       d 
+  khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)                              0.1529               1.0650    0.1006 @   1.8574 r    (665.93,1961.15)       d 
+  khu_sensor_top/w_clk_p_G2B2I1 (net)           1       0.1275                                   1.0650    0.0000     1.8574 r    [0.08,0.13]            d 
+  khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)                    0.0000    0.1541    0.0000     1.0650    0.0100 @   1.8674 r    (758.59,2122.82)       d 
+  khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)                              0.1985               1.0650    0.1052 @   1.9727 f    (757.75,2122.84)       d 
+  khu_sensor_top/w_clk_p_G2B3I1 (net)           1       0.3689                                   1.0650    0.0000     1.9727 f    [0.35,0.37]            d 
+  khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)                     0.0000    0.2682    0.0000     1.0650    0.0820 @   2.0547 f    (1582.48,2389.22)      d 
+  khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)                               0.2054               1.0650    0.1601 @   2.2148 r    (1583.09,2389.26)      d 
+  khu_sensor_top/w_clk_p_G2B6I1 (net)           2       0.0672                                   1.0650    0.0000     2.2148 r    [0.03,0.07]            d 
+  khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)                    0.0000    0.2054    0.0000     1.0650    0.0011 @   2.2159 r    (1590.87,2393.22)      d 
+  khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)                              0.1720               1.0650    0.1371 @   2.3530 f    (1591.51,2393.14)      d 
+  khu_sensor_top/w_clk_p_G2B11I1 (net)          1       0.1645                                   1.0650    0.0000     2.3530 f    [0.13,0.16]            d 
+  khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)                    0.0000    0.1753    0.0000     1.0650    0.0177 @   2.3707 f    (1389.70,2202.02)      d 
+  khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)                              0.2498               1.0650    0.1539 @   2.5246 r    (1388.75,2202.09)      d 
+  khu_sensor_top/w_clk_p_G2B12I1 (net)          2       0.2295                                   1.0650    0.0000     2.5246 r    [0.18,0.23]            d 
+  khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)                    0.0000    0.2512    0.0000     1.0650    0.0043 @   2.5289 r    (1391.03,2170.04)      d 
+  khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)                              0.1877               1.0650    0.1499 @   2.6789 f    (1391.63,2169.96)      d 
+  khu_sensor_top/w_clk_p_G2B15I1 (net)          2       0.2224                                   1.0650    0.0000     2.6789 f    [0.16,0.22]            d 
+  khu_sensor_top/ivd24_hd_G2B55I1/A (ivd16_hd)                    0.0000    0.1938    0.0000     1.0650    0.0246 @   2.7034 f    (1705.19,1982.84)      d 
+  khu_sensor_top/ivd24_hd_G2B55I1/Y (ivd16_hd)                              0.2293               1.0650    0.1513 @   2.8547 r    (1705.79,1982.76)      d 
+  khu_sensor_top/w_clk_p_G2B16I1 (net)          1       0.1628                                   1.0650    0.0000     2.8547 r    [0.13,0.16]            d 
+  khu_sensor_top/ivd8_hd_G2B50I1/A (ivd16_hd)                     0.0000    0.2315    0.0000     1.0650    0.0172 @   2.8719 r    (2113.90,1986.00)      d 
+  khu_sensor_top/ivd8_hd_G2B50I1/Y (ivd16_hd)                               0.1421               1.0650    0.1221 @   2.9940 f    (2113.29,1986.08)      d 
+  khu_sensor_top/w_clk_p_G2B21I1 (net)          2       0.1478                                   1.0650    0.0000     2.9940 f    [0.10,0.15]            d 
+  khu_sensor_top/ivd24_hd_G2B49I2/A (ivd20_hd)                    0.0000    0.1441    0.0000     1.0650    0.0127 @   3.0067 f    (2304.46,1870.82)      d 
+  khu_sensor_top/ivd24_hd_G2B49I2/Y (ivd20_hd)                              0.2635               1.0650    0.1452 @   3.1519 r    (2303.51,1870.89)      d 
+  khu_sensor_top/w_clk_p_G2B22I2 (net)          2       0.2421                                   1.0650    0.0000     3.1519 r    [0.23,0.24]            d 
+  khu_sensor_top/ivd12_hd_G2B22I1/A (ivd2_hd)                     0.0000    0.2734    0.0000     1.0650    0.0355 @   3.1874 r    (2294.81,1237.23)      d 
+  khu_sensor_top/ivd12_hd_G2B22I1/Y (ivd2_hd)                               0.1746               1.0650    0.1650 @   3.3524 f    (2294.32,1237.38)      d 
+  khu_sensor_top/w_clk_p_G2B49I1 (net)          1       0.0276                                   1.0650    0.0000     3.3524 f    [0.01,0.03]            d 
+  khu_sensor_top/ivd24_hd_G2B21I1/A (ivd12_hd)                    0.0000    0.1746    0.0000     1.0650    0.0003 @   3.3527 f    (2298.17,1244.42)      d 
+  khu_sensor_top/ivd24_hd_G2B21I1/Y (ivd12_hd)                              0.2154               1.0650    0.1500 @   3.5027 r    (2297.53,1244.50)      d 
+  khu_sensor_top/w_clk_p_G2B50I1 (net)          2       0.1225                                   1.0650    0.0000     3.5027 r    [0.07,0.12]            d 
+  khu_sensor_top/ivd24_hd_G2B8I10/A (ivd12_hd)                    0.0000    0.2155    0.0000     1.0650    0.0041 @   3.5067 r    (2240.31,1349.22)      d 
+  khu_sensor_top/ivd24_hd_G2B8I10/Y (ivd12_hd)                              0.1527               1.0650    0.1337 @   3.6404 f    (2240.95,1349.14)      d 
+  khu_sensor_top/w_clk_p_G2B63I10 (net)         2       0.1432                                   1.0650    0.0000     3.6404 f    [0.08,0.14]            d 
+  khu_sensor_top/ivd20_hd_G2B7I13/A (ivd16_hd)                    0.0000    0.1530    0.0000     1.0650    0.0011 @   3.6415 f    (2225.66,1352.40)      d 
+  khu_sensor_top/ivd20_hd_G2B7I13/Y (ivd16_hd)                              0.1658               1.0650    0.1179 @   3.7594 r    (2225.05,1352.48)      d 
+  khu_sensor_top/w_clk_p_G2B64I13 (net)         2       0.1134                                   1.0650    0.0000     3.7594 r    [0.08,0.11]            d 
+  khu_sensor_top/ivd20_hd_G2B4I11/A (ivd8_hd)                     0.0000    0.1659    0.0000     1.0650    0.0010 @   3.7605 r    (2170.76,1352.42)      d 
+  khu_sensor_top/ivd20_hd_G2B4I11/Y (ivd8_hd)                               0.1399               1.0650    0.1229 @   3.8834 f    (2171.37,1352.46)      d 
+  khu_sensor_top/w_clk_p_G2B67I11 (net)         2       0.0966                                   1.0650    0.0000     3.8834 f    [0.05,0.10]            d 
+  khu_sensor_top/ads1292_filter/i_CLK_cts_2_12 (ads1292_filter)                                  1.0650    0.0000     3.8834 f    (netlink)
+  khu_sensor_top/ads1292_filter/i_CLK_cts_2_12 (net)    0.0966                                   1.0650    0.0000     3.8834 f    [0.05,0.10]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/i_CLK_cts_1_12 (iir_notch)                             1.0650    0.0000     3.8834 f    (netlink)
+  khu_sensor_top/ads1292_filter/iir_notch/i_CLK_cts_1_12 (net)
+                                                        0.0966                                   1.0650    0.0000     3.8834 f    [0.05,0.10]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B3I1/A (ivd12_hd)
+                                                                  0.0000    0.1401    0.0000     1.0650    0.0032 @   3.8866 f    (2221.61,1266.02)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B3I1/Y (ivd12_hd)      0.2151               1.0650    0.1352 @   4.0218 r    (2220.97,1266.10)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B68I1 (net)
+                                                1       0.1215                                   1.0650    0.0000     4.0218 r    [0.10,0.12]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I47/A (ivd12_hd)
+                                                                  0.0000    0.2162    0.0000     1.0650    0.0101 @   4.0319 r    (2521.91,1262.82)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I47/Y (ivd12_hd)     0.1752               1.0650    0.1537 @   4.1856 f    (2522.55,1262.74)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B69I47 (net)
+                                                4       0.1836                                   1.0650    0.0000     4.1856 f    [0.10,0.18]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd16_hd_G2B1I23/A (ivd12_hd)
+                                                                  0.0000    0.1753    0.0000     1.0650    0.0027 @   4.1883 f    (2415.21,1266.02)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd16_hd_G2B1I23/Y (ivd12_hd)     0.2513               1.0650    0.1684 @   4.3566 r    (2414.57,1266.10)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B70I23 (net)
+                                               19       0.1496                                   1.0650    0.0000     4.3566 r    [0.11,0.15]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_/CK (fd4qd1_hd)
+                                                                  0.0000    0.2520    0.0000     1.0650    0.0015 @   4.3581 r    (2377.12,1251.59)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_/CK (fd4qd1_hd)
+                                                                  0.0000    0.2520    0.0000     1.1440    0.0000     4.3581 r    (2377.12,1251.59)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_/Q (fd4qd1_hd)    0.6431               1.1440    0.7651     5.1232 r    (2387.16,1251.94)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/r_counter[1] (net)
+                                                1       0.0335                                   1.1440    0.0000     5.1232 r    [0.03,0.03]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place291/A (nid2_hd)
+                                                                  0.0000    0.6431    0.0000     1.1440    0.0000 &   5.1232 r    (2399.84,1266.03)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place291/Y (nid2_hd)          0.4396               1.1440    0.4446     5.5678 r    (2400.81,1266.08)
+  khu_sensor_top/ads1292_filter/iir_notch/n1144 (net)
+                                                9       0.0471                                   1.1440    0.0000     5.5678 r    [0.03,0.05]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place292/A (ivd1_hd)
+                                                                  0.0000    0.4396    0.0000     1.1440    0.0022 *   5.5700 r    (2424.56,1352.43)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place292/Y (ivd1_hd)          0.2232               1.1440    0.2358     5.8058 f    (2424.12,1352.57)
+  khu_sensor_top/ads1292_filter/iir_notch/n1145 (net)
+                                                6       0.0150                                   1.1440    0.0000     5.8058 f    [0.00,0.02]
+  khu_sensor_top/ads1292_filter/iir_notch/U1236/B (ad2d1_hd)      0.0000    0.2232    0.0000     1.1440    0.0001 *   5.8058 f    (2418.70,1352.76)
+  khu_sensor_top/ads1292_filter/iir_notch/U1236/Y (ad2d1_hd)                0.1443               1.1440    0.3305     6.1364 f    (2417.72,1352.56)
+  khu_sensor_top/ads1292_filter/iir_notch/N714 (net)
+                                                1       0.0091                                   1.1440    0.0000     6.1364 f    [0.01,0.01]
+  khu_sensor_top/ads1292_filter/iir_notch/U1235/A (ad2d2_hd)      0.0000    0.1443    0.0000     1.1440    0.0000 &   6.1364 f    (2417.07,1363.26)
+  khu_sensor_top/ads1292_filter/iir_notch/U1235/Y (ad2d2_hd)                0.2205               1.1440    0.3067     6.4431 f    (2415.52,1363.59)
+  khu_sensor_top/ads1292_filter/iir_notch/N715 (net)
+                                                5       0.0381                                   1.1440    0.0000     6.4431 f    [0.02,0.04]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place441/A (ivd4_hd)
+                                                                  0.0000    0.2205    0.0000     1.1440    0.0000 &   6.4431 f    (2408.24,1414.05)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place441/Y (ivd4_hd)          0.6717               1.1440    0.4147     6.8578 r    (2407.76,1414.30)
+  khu_sensor_top/ads1292_filter/iir_notch/n1325 (net)
+                                               13       0.1519                                   1.1440    0.0000     6.8578 r    [0.11,0.15]
+  khu_sensor_top/ads1292_filter/iir_notch/U2715/B (nr2d6_hd)      0.0000    0.6717    0.0000     1.1440    0.0026 *   6.8604 r    (2411.45,1464.54)
+  khu_sensor_top/ads1292_filter/iir_notch/U2715/Y (nr2d6_hd)                1.2162               1.1440    0.9542     7.8146 f    (2411.11,1464.45)
+  khu_sensor_top/ads1292_filter/iir_notch/n314 (net)
+                                                8       0.7750                                   1.1440    0.0000     7.8146 f    [0.76,0.78]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place478/A (nid3_hd)
+                                                                  0.0000    1.2162    0.0000     1.1440    0.0000 &   7.8146 f    (2415.22,1464.09)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place478/Y (nid3_hd)          0.4203               1.1440    0.6183     8.4328 f    (2416.18,1464.27)
+  khu_sensor_top/ads1292_filter/iir_notch/n1362 (net)
+                                                9       0.1247                                   1.1440    0.0000     8.4328 f    [0.10,0.12]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place15/A (nid2_hd)
+                                                                  0.0000    0.4203    0.0000     1.1440    0.0010 *   8.4338 f    (2479.04,1406.81)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place15/Y (nid2_hd)           0.3455               1.1440    0.4547     8.8885 f    (2480.01,1406.76)
+  khu_sensor_top/ads1292_filter/iir_notch/n1655 (net)
+                                               10       0.0692                                   1.1440    0.0000     8.8885 f    [0.05,0.07]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place479/A (ivd2_hd)
+                                                                  0.0000    0.3455    0.0000     1.1440    0.0018 *   8.8903 f    (2480.05,1356.41)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place479/Y (ivd2_hd)          0.7103               1.1440    0.4706     9.3609 r    (2479.56,1356.27)
+  khu_sensor_top/ads1292_filter/iir_notch/n1363 (net)
+                                                9       0.0788                                   1.1440    0.0000     9.3609 r    [0.06,0.08]
+  khu_sensor_top/ads1292_filter/iir_notch/U1972/A (scg9d4_hd)     0.0000    0.7103    0.0000     1.1440    0.0021 *   9.3630 r    (2435.48,1363.66)
+  khu_sensor_top/ads1292_filter/iir_notch/U1972/Y (scg9d4_hd)               0.4264               1.1440    0.4730     9.8360 r    (2437.04,1363.31)
+  khu_sensor_top/ads1292_filter/iir_notch/n845 (net)
+                                                4       0.0911                                   1.1440    0.0000     9.8360 r    [0.07,0.09]
+  khu_sensor_top/ads1292_filter/iir_notch/U1974/B (clkad2d4_hd)   0.0000    0.4264    0.0000     1.1440    0.0000 &   9.8360 r    (2390.63,1373.97)
+  khu_sensor_top/ads1292_filter/iir_notch/U1974/Y (clkad2d4_hd)             0.1888               1.1440    0.3409    10.1769 r    (2391.55,1374.05)
+  khu_sensor_top/ads1292_filter/iir_notch/n847 (net)
+                                                5       0.0306                                   1.1440    0.0000    10.1769 r    [0.01,0.03]
+  khu_sensor_top/ads1292_filter/iir_notch/U1973/C (scg9d2_hd)     0.0000    0.1888    0.0000     1.1440    0.0000 &  10.1769 r    (2432.48,1373.99)
+  khu_sensor_top/ads1292_filter/iir_notch/U1973/Y (scg9d2_hd)               0.6294               1.1440    0.4946    10.6715 r    (2431.38,1374.36)
+  khu_sensor_top/ads1292_filter/iir_notch/n846 (net)
+                                                3       0.0694                                   1.1440    0.0000    10.6715 r    [0.05,0.07]
+  khu_sensor_top/ads1292_filter/iir_notch/U1244/A (clknd2d1_hd)   0.0000    0.6294    0.0000     1.1440    0.0000 &  10.6715 r    (2430.67,1421.31)
+  khu_sensor_top/ads1292_filter/iir_notch/U1244/Y (clknd2d1_hd)            10.6127               1.1440    6.3553    17.0268 f    (2430.08,1421.15)
+  khu_sensor_top/ads1292_filter/iir_notch/N1399 (net)
+                                                1       0.5055                                   1.1440    0.0000    17.0268 f    [0.50,0.51]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place480/A (nid2_hd)
+                                                                  0.0000   10.6127    0.0000     1.1440    0.0000 &  17.0268 f    (2430.21,1507.61)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place480/Y (nid2_hd)          0.5849               1.1440    2.1427    19.1695 f    (2431.17,1507.56)
+  khu_sensor_top/ads1292_filter/iir_notch/n1694 (net)
+                                                4       0.0762                                   1.1440    0.0000    19.1695 f    [0.06,0.08]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place525/A (nid6_hd)
+                                                                  0.0000    0.5849    0.0000     1.1440    0.0073 *  19.1768 f    (2428.93,1853.24)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place525/Y (nid6_hd)          0.2909               1.1440    0.4248    19.6016 f    (2426.79,1853.19)
+  khu_sensor_top/ads1292_filter/iir_notch/n1409 (net)
+                                               23       0.1692                                   1.1440    0.0000    19.6016 f    [0.10,0.17]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place252/A (nid3_hd)
+                                                                  0.0000    0.2909    0.0000     1.1440    0.0111 *  19.6128 f    (2346.34,2007.95)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_place252/Y (nid3_hd)          0.3185               1.1440    0.3938    20.0066 f    (2345.38,2007.77)
+  khu_sensor_top/ads1292_filter/iir_notch/n1412 (net)
+                                               16       0.0954                                   1.1440    0.0000    20.0066 f    [0.04,0.10]
+  khu_sensor_top/ads1292_filter/iir_notch/U1344/S (mx2d1_hd)      0.0000    0.3185    0.0000     1.1440    0.0046 *  20.0112 f    (2316.63,1971.98)
+  khu_sensor_top/ads1292_filter/iir_notch/U1344/Y (mx2d1_hd)                0.2077               1.1440    0.3999    20.4111 r    (2314.15,1971.71)
+  khu_sensor_top/ads1292_filter/iir_notch/n600 (net)
+                                                1       0.0080                                   1.1440    0.0000    20.4111 r    [0.01,0.01]
+  khu_sensor_top/ads1292_filter/iir_notch/icc_cpts144/A (nid1_hd)
+                                                                  0.0000    0.2077    0.0000     1.1440    0.0000 &  20.4111 r    (2311.99,1971.62)
+  khu_sensor_top/ads1292_filter/iir_notch/icc_cpts144/Y (nid1_hd)           0.1283               1.1440    0.1947    20.6058 r    (2311.04,1971.68)
+  khu_sensor_top/ads1292_filter/iir_notch/n1119 (net)
+                                                1       0.0046                                   1.1440    0.0000    20.6058 r    [0.00,0.00]
+  khu_sensor_top/ads1292_filter/iir_notch/r_add_1_B_reg_17_/D (fd4qd2_hd)
+                                                                  0.0000    0.1283    0.0000     1.1440    0.0000 *  20.6059 r    (2308.75,1982.40)      d 
+  data arrival time                                                                                                  20.6059
+
+  clock clk_pad (rise edge)                                                                               10.0000    10.0000
+  clock source latency                                                                                     1.4107    11.4107 r
+  pad29/YN (phsoscm3_p)                                                     0.2849               0.9250    0.0000    11.4107 r    (132.06,1831.83)       d u 
+  w_clk_p (net)                                 1       0.1793                                   0.9250    0.0000    11.4107 r    [0.14,0.18]            d 
+  khu_sensor_top/i_CLK (khu_sensor_top)                                                          0.9250    0.0000    11.4107 r    (netlink)
+  khu_sensor_top/i_CLK (net)                            0.1793                                   0.9250    0.0000    11.4107 r    [0.14,0.18]            d 
+  khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd)                   0.0000    0.2849    0.0000     0.9250    0.0177 *  11.4284 r    (544.12,1838.82)       d 
+  khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd)                             0.1191               0.9250    0.0902 @  11.5187 f    (544.97,1838.80)       d 
+  khu_sensor_top/w_clk_p_G2B1I1 (net)           1       0.1149                                   0.9250    0.0000    11.5187 f    [0.08,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)                    0.0000    0.1201    0.0000     0.9250    0.0072 @  11.5259 f    (664.98,1961.22)       d 
+  khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)                              0.1529               0.9250    0.0874 @  11.6132 r    (665.93,1961.15)       d 
+  khu_sensor_top/w_clk_p_G2B2I1 (net)           1       0.1275                                   0.9250    0.0000    11.6132 r    [0.08,0.13]            d 
+  khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)                    0.0000    0.1541    0.0000     0.9250    0.0087 @  11.6219 r    (758.59,2122.82)       d 
+  khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)                              0.1985               0.9250    0.0914 @  11.7134 f    (757.75,2122.84)       d 
+  khu_sensor_top/w_clk_p_G2B3I1 (net)           1       0.3689                                   0.9250    0.0000    11.7134 f    [0.35,0.37]            d 
+  khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)                     0.0000    0.2682    0.0000     0.9250    0.0713 @  11.7846 f    (1582.48,2389.22)      d 
+  khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)                               0.2054               0.9250    0.1390 @  11.9236 r    (1583.09,2389.26)      d 
+  khu_sensor_top/w_clk_p_G2B6I1 (net)           2       0.0672                                   0.9250    0.0000    11.9236 r    [0.03,0.07]            d 
+  khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)                    0.0000    0.2054    0.0000     0.9250    0.0010 @  11.9246 r    (1590.87,2393.22)      d 
+  khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)                              0.1720               0.9250    0.1191 @  12.0437 f    (1591.51,2393.14)      d 
+  khu_sensor_top/w_clk_p_G2B11I1 (net)          1       0.1645                                   0.9250    0.0000    12.0437 f    [0.13,0.16]            d 
+  khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)                    0.0000    0.1753    0.0000     0.9250    0.0154 @  12.0591 f    (1389.70,2202.02)      d 
+  khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)                              0.2498               0.9250    0.1337 @  12.1928 r    (1388.75,2202.09)      d 
+  khu_sensor_top/w_clk_p_G2B12I1 (net)          2       0.2295                                   0.9250    0.0000    12.1928 r    [0.18,0.23]            d 
+  khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)                    0.0000    0.2512    0.0000     0.9250    0.0037 @  12.1965 r    (1391.03,2170.04)      d 
+  khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)                              0.1877               0.9250    0.1302 @  12.3267 f    (1391.63,2169.96)      d 
+  khu_sensor_top/w_clk_p_G2B15I1 (net)          2       0.2224                                   0.9250    0.0000    12.3267 f    [0.16,0.22]            d 
+  khu_sensor_top/ivd24_hd_G2B55I2/A (ivd16_hd)                    0.0000    0.1898    0.0000     0.9250    0.0044 @  12.3311 f    (1440.26,2173.20)      d 
+  khu_sensor_top/ivd24_hd_G2B55I2/Y (ivd16_hd)                              0.2132               0.9250    0.1246 @  12.4557 r    (1439.65,2173.28)      d 
+  khu_sensor_top/w_clk_p_G2B16I2 (net)          1       0.1487                                   0.9250    0.0000    12.4557 r    [0.13,0.15]            d 
+  khu_sensor_top/ivd4_hd_G2B42I1/A (ivd12_hd)                     0.0000    0.2148    0.0000     0.9250    0.0127 @  12.4685 r    (1639.93,2360.42)      d 
+  khu_sensor_top/ivd4_hd_G2B42I1/Y (ivd12_hd)                               0.1795               0.9250    0.1287 @  12.5972 f    (1639.29,2360.50)      d 
+  khu_sensor_top/w_clk_p_G2B29I1 (net)          2       0.1817                                   0.9250    0.0000    12.5972 f    [0.10,0.18]            d 
+  khu_sensor_top/ivd8_hd_G2B41I2/A (ivd24_hd)                     0.0000    0.1800    0.0000     0.9250    0.0014 @  12.5985 f    (1606.92,2360.42)      d 
+  khu_sensor_top/ivd8_hd_G2B41I2/Y (ivd24_hd)                               0.1299               0.9250    0.0868 @  12.6854 r    (1606.07,2360.44)      d 
+  khu_sensor_top/w_clk_p_G2B30I2 (net)          1       0.0996                                   0.9250    0.0000    12.6854 r    [0.09,0.10]            d 
+  khu_sensor_top/ivd6_hd_G2B32I1/A (ivd8_hd)                      0.0000    0.1308    0.0000     0.9250    0.0059 @  12.6912 r    (1788.23,2285.22)      d 
+  khu_sensor_top/ivd6_hd_G2B32I1/Y (ivd8_hd)                                0.1415               0.9250    0.0981 @  12.7893 f    (1787.63,2285.18)      d 
+  khu_sensor_top/w_clk_p_G2B39I1 (net)          1       0.1024                                   0.9250    0.0000    12.7893 f    [0.07,0.10]            d 
+  khu_sensor_top/ivd20_hd_G2B31I2/A (ivd16_hd)                    0.0000    0.1424    0.0000     0.9250    0.0059 @  12.7953 f    (1907.09,2180.40)      d 
+  khu_sensor_top/ivd20_hd_G2B31I2/Y (ivd16_hd)                              0.1499               0.9250    0.0904 @  12.8857 r    (1906.49,2180.48)      d 
+  khu_sensor_top/w_clk_p_G2B40I2 (net)          1       0.0962                                   0.9250    0.0000    12.8857 r    [0.07,0.10]            d 
+  khu_sensor_top/ivd24_hd_G2B8I8/A (ivd12_hd)                     0.0000    0.1505    0.0000     0.9250    0.0056 @  12.8913 r    (1967.29,2014.82)      d 
+  khu_sensor_top/ivd24_hd_G2B8I8/Y (ivd12_hd)                               0.1171               0.9250    0.0875 @  12.9788 f    (1966.65,2014.90)      d 
+  khu_sensor_top/w_clk_p_G2B63I8 (net)          1       0.1086                                   0.9250    0.0000    12.9788 f    [0.07,0.11]            d 
+  khu_sensor_top/ivd24_hd_G2B7I10/A (ivd20_hd)                    0.0000    0.1179    0.0000     0.9250    0.0062 @  12.9850 f    (2185.66,2014.82)      d 
+  khu_sensor_top/ivd24_hd_G2B7I10/Y (ivd20_hd)                              0.2022               0.9250    0.1077 @  13.0928 r    (2184.71,2014.89)      d 
+  khu_sensor_top/w_clk_p_G2B64I10 (net)         2       0.1910                                   0.9250    0.0000    13.0928 r    [0.15,0.19]            d 
+  khu_sensor_top/ivd24_hd_G2B4I29/A (ivd16_hd)                    0.0000    0.2036    0.0000     0.9250    0.0105 @  13.1032 r    (2476.95,2040.44)      d 
+  khu_sensor_top/ivd24_hd_G2B4I29/Y (ivd16_hd)                              0.1479               0.9250    0.1102 @  13.2134 f    (2477.55,2040.36)      d 
+  khu_sensor_top/w_clk_p_G2B67I29 (net)         2       0.1796                                   0.9250    0.0000    13.2134 f    [0.13,0.18]            d 
+  khu_sensor_top/ads1292_filter/i_CLK_cts_8_11 (ads1292_filter)                                  0.9250    0.0000    13.2134 f    (netlink)
+  khu_sensor_top/ads1292_filter/i_CLK_cts_8_11 (net)    0.1796                                   0.9250    0.0000    13.2134 f    [0.13,0.18]            d 
+  khu_sensor_top/ads1292_filter/ivd20_hd_G2B3I21/A (ivd12_hd)     0.0000    0.1481    0.0000     0.9250    0.0012 @  13.2146 f    (2476.37,2079.62)      d 
+  khu_sensor_top/ads1292_filter/ivd20_hd_G2B3I21/Y (ivd12_hd)               0.1912               0.9250    0.1149 @  13.3294 r    (2475.73,2079.70)      d 
+  khu_sensor_top/ads1292_filter/w_clk_p_G2B68I21 (net)
+                                                2       0.1077                                   0.9250    0.0000    13.3294 r    [0.06,0.11]            d 
+  khu_sensor_top/ads1292_filter/ivd20_hd_G2B2I73/A (ivd12_hd)     0.0000    0.1919    0.0000     0.9250    0.0020 @  13.3315 r    (2363.73,2079.62)      d 
+  khu_sensor_top/ads1292_filter/ivd20_hd_G2B2I73/Y (ivd12_hd)               0.1393               0.9250    0.1097 @  13.4412 f    (2363.09,2079.70)      d 
+  khu_sensor_top/ads1292_filter/w_clk_p_G2B69I73 (net)
+                                                3       0.1348                                   0.9250    0.0000    13.4412 f    [0.06,0.13]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/i_CLK_cts_5_9 (iir_notch)                              0.9250    0.0000    13.4412 f    (netlink)
+  khu_sensor_top/ads1292_filter/iir_notch/i_CLK_cts_5_9 (net)
+                                                        0.1348                                   0.9250    0.0000    13.4412 f    [0.06,0.13]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I83/A (ivd16_hd)
+                                                                  0.0000    0.1395    0.0000     0.9250    0.0013 @  13.4425 f    (2352.86,2054.84)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I83/Y (ivd16_hd)     0.2281               0.9250    0.1284 @  13.5709 r    (2353.47,2054.76)      d 
+  khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B70I83 (net)
+                                               23       0.1799                                   0.9250    0.0000    13.5709 r    [0.13,0.18]            d 
+  khu_sensor_top/ads1292_filter/iir_notch/r_add_1_B_reg_17_/CK (fd4qd2_hd)
+                                                                  0.0000    0.2283    0.0000     0.9250    0.0030 @  13.5739 r    (2307.59,1982.44)      d 
+  clock reconvergence pessimism                                                                            0.3522    13.9260
+  clock uncertainty                                                                                       -0.4000    13.5260
+  khu_sensor_top/ads1292_filter/iir_notch/r_add_1_B_reg_17_/CK (fd4qd2_hd)                                 0.0000    13.5260 r
+  library setup time                                                                                      -0.0802    13.4458
+  data required time                                                                                                 13.4458
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                 13.4458
+  data arrival time                                                                                                 -20.6059
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                   -7.1601
+
+
+1

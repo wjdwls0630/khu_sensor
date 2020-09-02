@@ -1,0 +1,61 @@
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+Warning: Design has unannotated black box outputs. (PWR-428)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : khu_sensor_pad
+Version: F-2011.09-SP5-3
+Date   : Thu Sep  3 02:17:55 2020
+****************************************
+
+
+Library(s) Used:
+
+    std150e_wst_105_p125 (File: /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db)
+
+
+Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+async_rstn_glitch_synchronizer
+                       l13_e_5000_4lm    std150e_wst_105_p125
+async_rstn_synchronizer
+                       l13_e_5000_4lm    std150e_wst_105_p125
+async_rst_synchronizer l13_e_5000_4lm    std150e_wst_105_p125
+
+
+Global Operating Voltage = 1.05 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1mW
+
+
+  Cell Internal Power  =  19.7940 mW    (8%)
+  Net Switching Power  = 229.9573 mW   (92%)
+                         ---------
+Total Dynamic Power    = 249.7513 mW  (100%)
+
+Cell Leakage Power     = 168.8457 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             6.9978          229.9175        5.9241e-03          236.9213  (  94.80%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register          12.7750        1.1437e-02        4.4652e-02           12.8311  (   5.13%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational  2.0874e-02        2.8352e-02            0.1183            0.1675  (   0.07%)
+--------------------------------------------------------------------------------------------------
+Total             19.7937 mW       229.9573 mW         0.1688 mW       249.9198 mW
+1

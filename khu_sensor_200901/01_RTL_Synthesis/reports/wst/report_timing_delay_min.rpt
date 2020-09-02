@@ -1,0 +1,699 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -nworst 10
+        -max_paths 10
+Design : khu_sensor_pad
+Version: F-2011.09-SP5-3
+Date   : Thu Sep  3 02:27:47 2020
+****************************************
+
+ * Some/all delay information is back-annotated.
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
+Wire Load Model Mode: enclosed
+
+  Startpoint: async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00       0.75 r
+  async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_controller/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_filter/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_filter/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/mpr121_controller/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/mpr121_controller/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/mpr121_controller/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.34       1.09 f
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.09 f
+  data arrival time                                                  1.09
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.04       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.08       1.07
+  data required time                                                 1.07
+  --------------------------------------------------------------------------
+  data required time                                                 1.07
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.08
+
+
+  Startpoint: khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.08       1.07
+  data required time                                                 1.07
+  --------------------------------------------------------------------------
+  data required time                                                 1.07
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.08
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.08       1.07
+  data required time                                                 1.07
+  --------------------------------------------------------------------------
+  data required time                                                 1.07
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.08
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.08       1.07
+  data required time                                                 1.07
+  --------------------------------------------------------------------------
+  data required time                                                 1.07
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.08
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg
+              (rising edge-triggered flip-flop clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/Q (fd3qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/D (fd3qd1_hd)
+                                                          0.00       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.20       0.95
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/CK (fd3qd1_hd)
+                                                          0.00       0.95 r
+  library hold time                                       0.08       1.03
+  data required time                                                 1.03
+  --------------------------------------------------------------------------
+  data required time                                                 1.03
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.12
+
+
+  Startpoint: khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK (fd2qd4_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/Q (fd2qd4_hd)
+                                                          0.43       1.18 r
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/D (fd2qd4_hd)
+                                                          0.00       1.18 r
+  data arrival time                                                  1.18
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.01       1.00
+  data required time                                                 1.00
+  --------------------------------------------------------------------------
+  data required time                                                 1.00
+  data arrival time                                                 -1.18
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.18
+
+
+  Startpoint: khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.50       1.25 r
+  khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.25 r
+  data arrival time                                                  1.25
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.01       1.00
+  data required time                                                 1.00
+  --------------------------------------------------------------------------
+  data required time                                                 1.00
+  data arrival time                                                 -1.25
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.50       1.25 r
+  khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.25 r
+  data arrival time                                                  1.25
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.01       1.00
+  data required time                                                 1.00
+  --------------------------------------------------------------------------
+  data required time                                                 1.00
+  data arrival time                                                 -1.25
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK
+              (internal path startpoint clocked by clk_half)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/Q (fd3qd1_hd)
+                                                          0.50       1.25 r
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/D (fd3qd1_hd)
+                                                          0.00       1.25 r
+  data arrival time                                                  1.25
+
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  clock uncertainty                                       0.24       0.99
+  khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/CK (fd3qd1_hd)
+                                                          0.00       0.99 r
+  library hold time                                       0.01       1.00
+  data required time                                                 1.00
+  --------------------------------------------------------------------------
+  data required time                                                 1.00
+  data arrival time                                                 -1.25
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+1

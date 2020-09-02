@@ -1,0 +1,4179 @@
+
+                                IC Compiler (TM)
+                              IC Compiler-PC (TM)
+                              IC Compiler-XP (TM)
+                              IC Compiler-DP (TM)
+                              IC Compiler-AG (TM)
+
+                 Version N-2017.09 for linux64 - Aug 17, 2017 
+
+                    Copyright (c) 1988 - 2017 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+***********************************************************************
+                                                                       
+                     synopsys_dc_setup.tcl                             
+                                                                       
+***********************************************************************
+***********************************************************************
+       NOTE>>> You MUST fix the design which have multiple ports
+               Use the following command
+               set_fix_multiple_port_nets -all -buffer_constants
+************************************************************************
+***********************************************************************
+       NOTE>>> Use the old compile_fix_multiple_port_nets
+               because reoptimize_design does not honor
+               the set_fix_multiple_port_nets command
+************************************************************************
+Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
+#******************************************************************************
+#**                           04_clock_opt_cts                               **
+#**                          Clock Tree Synthesis                            **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                       04_clock_opt_cts.tcl                            "
+                       04_clock_opt_cts.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+# Set Step
+set step "04_clock_opt_cts"
+04_clock_opt_cts
+# source the user_design_setup & common_lib_setup
+source -echo -v ./icc_scripts/user_scripts/user_design_setup.tcl
+#******************************************************************************
+#**                          user design settings                           **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                      user_design_setup.tcl                            "
+                      user_design_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                         General ICC Varialbes                            **
+#******************************************************************************
+set TOP_MODULE                     "khu_sensor_pad"    ;# set design top module name
+khu_sensor_pad
+set ICC_STRATEGY                   "qor"              ;# ttr | qor
+qor
+set LEAKAGE_POWER_PLACE            true              ;# set to true when enabling leakage Flow in place_opt step.
+true
+set LEAKAGE_POWER_PSYN             true              ;# set to true when enabling leakage Flow in clock_opt_psyn step. runtime will be effected.
+true
+set ICC_NUM_CPUS                   "1"                ;# used during placement & routing
+1
+set qor_effort                     "high"           ;# low | medium | high. place optimization effort, default is medium.
+high
+set INOUT_OPT                      true               ;# set to true when optimizing i2r and r2o paths
+true
+set GL_BASED_PLACE                 true              ;# set to true when using high congested design
+true
+set GEN_GL_CONG_MAP                true              ;# set to true, to see global route based congestion map
+true
+set INTER_CLK_GROUPS               "clk clk_pad clk_half"    ;# Define to balance clocks during CTS. "clkA clkB"
+clk clk_pad clk_half
+set TIECELL_INSERT                 true              ;# true | false, if true, ICC will insert TIE cells.
+true
+set SPARE_INSERT                   false              ;# true | false, if true, the followings must be defined.
+false
+set SPARE_PREFIX                   spares             ;# default is spares
+spares
+set SPARE_CELL_n_NUM               ""                 ;# example) "BUF_X1M_A9TH 100 AOI22_X1M_A9TH 100 INV_X1M_A9TH 200"
+set USER_DIE_SIZE                  false              ;# true | false, if you know chip size, define true.
+false
+;# Then write bellow variables.
+set DIE_WIDTH                      ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set DIE_HEIGHT                     ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_200827_L13_68um.tdf"  ;# This is tdf format.
+./TECH/padplace_ICC_200827_L13_68um.tdf
+# This is a tcl file that changes pad names in logic library to in physical library. 
+# The tcl file functions appending "_p" to a last character of the pad names. 
+# (e.g. vssoh -> vssoh_p)
+set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"  
+./icc_scripts/rules/pad_naming_rule.tcl
+set CLOCK_MAX_TRAN                 "0.3"              ;# clock path max transtion time.
+0.3
+set MAX_ROUTING_LAYER              "MET4"              
+MET4
+set MIN_ROUTING_LAYER              ""
+set CLK_MAX_ROUTING_LAYER          "MET4"
+MET4
+set CLK_MIN_ROUTING_LAYER          "MET3"
+MET3
+#######################################################
+## For Power Definition
+#######################################################
+set MW_R_POWER_NET         "VDD"                 ;# This is real power net name.
+VDD
+set MW_R_GROUND_NET        "VSS"                 ;# This is real ground net name.
+VSS
+set mw_logic1_net          $MW_R_POWER_NET       ;# Default
+VDD
+set mw_logic0_net          $MW_R_GROUND_NET      ;# Default
+VSS
+set MW_POWER_PORT          "VDD"                 ;# This is standard cell power pin name.
+VDD
+set MW_GROUND_PORT         "VSS"                 ;# This is standard cell ground pin name.
+VSS
+#######################################################
+## Input Files
+#######################################################
+set ICC_IN_VERILOG_NETLIST_FILE "../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg"
+../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg
+#######################################################
+## Define Init Utilization
+#######################################################
+set CORE_UTIL                      "0.6"              ;# Define initial core utilization. 
+0.6
+;# example) 0.6 means 60% utilization.
+set IO2L                           "400"               ;# This means space from IO to core boundary in left side.
+400
+set IO2B                           "360"               ;# This means space from IO to core boundary in bottom side.
+360
+set IO2R                           "400"               ;# This means space from IO to core boundary in right side.
+400
+set IO2T                           "360"               ;# This means space from IO to core boundary in top side.
+360
+#####################################################################################################
+##
+#
+# scenario naming convention :  mode_corner
+# - mode   : func1,func2,scan1,scan2,bist1,bist2,jtag
+#            funccts,scancts,bistcts,jtagcts
+# - corner : wst, wstti, bst, bstti
+#
+# (scenario example)
+#  func1_wst func1_wstti func1_bst func1_bstti
+#  func2_wst func2_wstti func2_bst func2_bstti
+#  scan1_wst scan1_wstti scan1_bst scan1_bstti
+#  scan2_wst scan2_wstti scan2_bst scan2_bstti
+#  bist1_wst bist1_wstti bist1_bst bist1_bstti
+#  bist2_wst bist2_wstti bist2_bst bist2_bstti
+#  jtag_wst  jtag_wstti  jtag_bst  jtag_bstti
+#  funccts_wstti scancts_wstti bistcts_wstti jtagcts_wstti
+#
+#####################################################################################################
+#TODO make sceniario tcl script
+#set ICC_MCMM_SCENARIOS_FILE        "./icc_scripts/mcmm_scenario/scenarios.tcl"
+####### Define scenarios
+## This is example, modify this according to your scenarios.
+##
+## Generally, FP_SCN, PLACE_OPT_SNC and ROUTE_SCN uses worst function mode scenario such as func1_wstti.
+## CLOCK_OPT_CTS_SCN uses all cts scenario such as funccts_wstti,scantcts_wstti,bistcts_wstti,jtagcts_wstti.
+## CLOCK_OPT_PSYN_SCN, ROUTE_OPT_SCN and CHIP_FINISH_SCN uses all scenarios except for CLOCK_OPT_CTS_SCN.
+## HOLD_ONLY_SCN optimizes only hold time and mttv. 
+## So, you uses best corner scenarios such as func1_bst,scan1_bst,bist1_bst and jtag_bst.
+##
+#set scenarios                      "func1_wst func1_bst"
+#set scenarios                      "func1_wst func1_bst funccts_wst"
+#set FP_SCN                         "func1_wst"
+#set PLACE_OPT_SCN                  "func1_wst"
+#set CLOCK_OPT_CTS_SCN              "funccts_wst"
+#set CLOCK_OPT_PSYN_SCN             "func1_bst"
+#set CLOCK_OPT_PSYN_SCN             "func1_wst func1_bst"
+#set ROUTE_SCN                      "func1_wst"
+#set ROUTE_OPT_SCN                  "func1_bst"
+#set ROUTE_OPT_SCN                  "func1_wst func1_bst"
+#set CHIP_FINISH_SCN                "func1_bst"
+#set CHIP_FINISH_SCN                "func1_wst func1_bst"
+#set CLOCK_OPT_CTS_SCN_READ_AGAIN   true              ;# If true, ICC will create scenario again.  ekyoo
+#set CLOCK_OPT_PSYN_SCN_READ_AGAIN  false              ;# If true, ICC will create scenario again.  ekyoo
+#set ROUTE_SCN_READ_AGAIN           false              ;# If true, ICC will create scenario again.
+#set ROUTE_OPT_SCN_READ_AGAIN       false              ;# If true, ICC will create scenario again.
+set HOLD_FIX                       true		      ;# If you want to fix hold violation then set true.
+true
+####### Define SDC Files
+## If you have only FUNC1_SDC, Write the sdc file in FUNC1_SDC field.
+## If FUNC1_SDC and FUNCTS_SDC is same, Write the sdc file in FUNC1_SDC and FUNCCTS_SDC field.
+## If you don't have BIST1_SDC, Remain with blank.
+set FUNC1_SDC          "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set FUNC2_SDC          ""
+set SCAN1_SDC          ""
+set SCAN2_SDC          ""
+set BIST1_SDC          ""
+set BIST2_SDC          ""
+set JTAG_SDC           ""
+set FUNCCTS_SDC        "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set SCANCTS_SDC        ""
+set BISTCTS_SDC        ""
+set JTAGCTS_SDC        ""
+####### Define Default Operating Conditions
+##
+## You have to write the default operation condition name and library name of standard cell.
+## If some instances of your design have other operation condition (PVT) such as IO, 
+## You have to define the operation condition name and library name in user_opcond.tcl.
+##
+set OPCOND_WST          V105WTP1250
+V105WTP1250
+set OPCOND_WST_LIB      $STD_WST 
+std150e_wst_105_p125
+set OPCOND_WST_TIV      ""
+set OPCOND_WST_LIB_TIV  ""
+set OPCOND_BST          V135BTN0400 
+V135BTN0400
+set OPCOND_BST_LIB      $STD_BST
+std150e_bst_135_n040
+set OPCOND_BST_TIV      ""
+set OPCOND_BST_LIB_TIV  ""
+#########################   DO NOT CHANGE BELOW THIS LINE   ##############################
+##########################################################################################
+set REPORTS_DIR                 "./reports"
+./reports
+## Avoiding too many messages
+set_message_info -id PSYN-040   -limit 5
+1
+set_message_info -id PSYN-087   -limit 5
+1
+set_message_info -id LINT-8     -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id RT-065     -limit 5
+1
+set_message_info -id TIM-128    -limit 5
+1
+set_message_info -id TIM-141    -limit 5
+1
+set_message_info -id PSYN-267   -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id MWUI-040   -limit 5
+1
+set_message_info -id PSYN-024   -limit 5
+1
+set_message_info -id MWLIBP-300 -limit 5
+1
+set_message_info -id MWLIBP-314 -limit 5
+1
+set_message_info -id PSYN-058   -limit 5
+1
+set_message_info -id PSYN-025   -limit 5
+1
+set_message_info -id PSYN-039   -limit 5
+1
+set_message_info -id PSYN-523   -limit 5
+1
+set_message_info -id PSYN-900   -limit 1
+1
+set_message_info -id CTS-102    -limit 1
+1
+1
+source -echo -v ./icc_scripts/common_lib_setup.tcl
+#******************************************************************************
+#**                          common library settings                         **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                       common_lib_setup.tcl                            "
+                       common_lib_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                Set 'search_path'                                         **
+#******************************************************************************
+set search_path [list . [format "%s%s"  $synopsys_root /libraries/syn]     [format "%s%s"  $dc_home /syn/STD150E] $dc_home_aux] 
+. /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E env(SEC_SYNOPSYS)/aux
+#******************************************************************************
+#**                Set Logical Libraries                                     **
+#******************************************************************************
+# Reference/Front_End/samsung013/sec150e_synopsys/readme/SynopsysDKGuide.pdf p.14
+# Typical (TT / 1.20V / 25 Celcius)
+set STD_TYP std150e_typ_120_p025
+std150e_typ_120_p025
+set STD_TYP_MEM std150e_typ_120_p025_memory
+std150e_typ_120_p025_memory
+# Worst (SS / 1.05V / 125 Celcius)
+set STD_WST std150e_wst_105_p125
+std150e_wst_105_p125
+# Best (FF / 1.35V / -40 Celcius)
+set STD_BST std150e_bst_135_n040
+std150e_bst_135_n040
+set target_library [list         $STD_WST.db 
+       #$STD_TYP_MEM.db
+]
+std150e_wst_105_p125.db
+set synthetic_library dw_foundation.sldb
+dw_foundation.sldb
+# * : all designs which are in dc_shell 
+set link_library [list {*}         $target_library 	$synthetic_library
+]
+* std150e_wst_105_p125.db dw_foundation.sldb
+set link_path $link_library
+* std150e_wst_105_p125.db dw_foundation.sldb
+set symbol_library [list std150e_veri.sdb]
+std150e_veri.sdb
+# TODO after coding for scenario, delete
+set_min_library $STD_WST.db -min_version $STD_BST.db
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
+1
+list_libs
+Logical Libraries:
+-------------------------------------------------------------------------
+Library		File			Path
+-------		----			----
+M std150e_wst_105_p125 std150e_wst_105_p125.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+m std150e_bst_135_n040 std150e_bst_135_n040.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+1
+echo "------------------------------------------------------------------------"
+------------------------------------------------------------------------
+#******************************************************************************
+#**                         Common Setup File                                **
+#******************************************************************************
+set_host_options -max_cores $ICC_NUM_CPUS
+1
+set_route_mode_options -zroute true
+1
+#******************************************************************************
+#******************************************************************************
+#**                         Set Library Parameter                            **
+#******************************************************************************
+setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+#******************************************************************************
+#******************************************************************************
+#**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
+#******************************************************************************
+set icc_home [getenv SEC_SYNOPSYS_ICC]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011 
+	      ]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+set MW_REF_LIB_DIRS "$all_milky"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+# Since I/O pad name is different between logical and physical, we should add
+# LM cell db for ICC to search I/O pad cell properly 
+if { $step != "read_design" } {
+	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_WST}_astro.db
+}
+* std150e_wst_105_p125.db dw_foundation.sldb /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+#******************************************************************************
+#******************************************************************************
+#**                       Set TECH and TLUP Files                           **
+#******************************************************************************
+set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
+./TECH/std150e_prim_6m.techgen.tf
+set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+#******************************************************************************
+#******************************************************************************
+#**                        Set Stream Out Map File                           **
+#******************************************************************************
+set STREAM_OUT_MAP "./TECH/layer.map"
+./TECH/layer.map
+#******************************************************************************
+#******************************************************************************
+#**                           Set Antenna_Rule                               **
+#******************************************************************************
+# Reference/Back_End/KHU_ASTRO User Guide p.86 and samsung65 TECH antenna_rules
+# IC User Guide p.457
+# make antenna_rule.tcl
+set ANTENNA_RULE "./TECH/std150e_prim713_antenna_200827.tcl"
+./TECH/std150e_prim713_antenna_200827.tcl
+#******************************************************************************
+#******************************************************************************
+#**                           Set IO FILLERS                                 **
+#******************************************************************************
+set IO_FILLER "iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p"
+iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p
+set IO_FILLER_OVERLAP ""       
+#******************************************************************************
+#**                        Set Clock Tree Layers                             **
+#******************************************************************************
+# clock tree layers
+set ICC_CTS_RULE_NAME "shield_130nm_rule"
+shield_130nm_rule
+#******************************************************************************
+#**                    Default Timing Environment Setting                   **
+#******************************************************************************
+set timing_enable_multiple_clocks_per_reg true
+true
+set timing_enable_non_sequential_checks true
+true
+set case_analysis_with_logic_constants true
+true
+set disable_auto_time_borrow false   
+false
+set legalize_support_phys_only_cell true
+true
+set_separate_process_options -placement false
+1
+set_separate_process_options -routing false
+1
+set_separate_process_options -extraction false
+1
+#******************************************************************************
+#******************************************************************************
+#**                               ETC                                        **
+#******************************************************************************
+set sh_enable_page_mode false
+false
+setenv TMPDIR [sh pwd]/TMP
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TMP
+set back [sh date +%m%d_%H:%M:%S]
+0901_12:27:36
+#******************************************************************************
+# Clear existing mw library and re-make dir
+set _mw_lib ./mw_db/${TOP_MODULE}_${step}
+./mw_db/khu_sensor_pad_04_clock_opt_cts
+if {[file exist $_mw_lib]} {
+	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
+}
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_03_place_opt -to $_mw_lib
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_04_clock_opt_cts' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts'. (MW-212)
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_04_clock_opt_cts' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts'. (MW-212)
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+Successfully updated library ./mw_db/khu_sensor_pad_04_clock_opt_cts ref-control-file
+1
+# Open Library and Cell
+set_mw_technology_file -technology $TECH_FILE $_mw_lib
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_04_clock_opt_cts' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts'. (MW-212)
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_04_clock_opt_cts)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_04_clock_opt_cts)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Technology data dumped to ./mw_db/khu_sensor_pad_04_clock_opt_cts.tf_replaced completely.
+Start to load technology file ./TECH/std150e_prim_6m.techgen.tf.
+Warning: Layer 'ACT' is missing the attribute 'minSpacing'. (line 173) (TFCHK-014)
+Warning: Layer 'ACT' is missing the attribute 'minWidth'. (line 173) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minSpacing'. (line 236) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minWidth'. (line 236) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minSpacing'. (line 246) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minWidth'. (line 246) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minSpacing'. (line 287) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minWidth'. (line 287) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minSpacing'. (line 297) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minWidth'. (line 297) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minSpacing'. (line 687) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minWidth'. (line 687) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minSpacing'. (line 697) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minWidth'. (line 697) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minSpacing'. (line 707) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minWidth'. (line 707) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minSpacing'. (line 717) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minWidth'. (line 717) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minSpacing'. (line 727) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minWidth'. (line 727) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minSpacing'. (line 737) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minWidth'. (line 737) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minSpacing'. (line 747) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minWidth'. (line 747) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minSpacing'. (line 757) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minWidth'. (line 757) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minSpacing'. (line 767) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minWidth'. (line 767) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minSpacing'. (line 777) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minWidth'. (line 777) (TFCHK-014)
+Warning: FringeCap 1 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 992) (TFCHK-067)
+Warning: FringeCap 3 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1010) (TFCHK-067)
+Warning: FringeCap 6 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1037) (TFCHK-067)
+Warning: FringeCap 10 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1073) (TFCHK-067)
+Warning: FringeCap 15 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1118) (TFCHK-067)
+Warning: FringeCap 21 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1171) (TFCHK-067)
+Warning: Layer 'MET1' has a pitch 0.4 that does not match the recommended wire-to-via pitch 0.34. (TFCHK-049)
+Warning: Layer 'MET2' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET3' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the doubled pitch 0.88 or tripled pitch 1.32. (TFCHK-050)
+Warning: Layer 'MET5' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Technology file ./TECH/std150e_prim_6m.techgen.tf has been loaded successfully.
+1
+set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+1
+open_mw_lib $_mw_lib
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_04_clock_opt_cts)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_04_clock_opt_cts)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+{khu_sensor_pad_04_clock_opt_cts}
+remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
+0
+open_mw_cel $TOP_MODULE
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_04_clock_opt_cts" library. (MWUI-068)
+{khu_sensor_pad}
+link
+1
+current_design $TOP_MODULE
+khu_sensor_pad
+# Setting up Time constraints
+remove_ideal_network -all
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
+Loading db file '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Note - message 'PSYN-039' limit (5) exceeded.  Remainder will be suppressed.
+Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
+Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
+Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
+Information: Loading local_link_library attribute {std150e_wst_105_p125.db}. (MWDC-290)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+1
+# Read scenario file
+# TODO make scenario!
+# On behalf of making scenarino, source sdc file
+remove_sdc
+1
+remove_scenario -all
+1
+#source $ICC_MCMM_SCENARIOS_FILE
+#set_active_scenario $FP_SCN
+sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
+# Instead of scenario
+source $FUNC1_SDC
+Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Using operating conditions 'V135BTN0400' found in library 'std150e_bst_135_n040'.
+Warning: Object 'link32' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link56' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link258' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4577' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4742' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4908' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4988' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link5029' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4661' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link548' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link1372' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link3193' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link180' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+1
+set_tlu_plus_files 	-max_tluplus $TLUP_MAX_FILE 	-min_tluplus $TLUP_MIN_FILE 	-tech2itf_map $MAP_FILE
+1
+# If you have scenario file, use this block instead of above one.
+# Read scenario file
+#if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
+#	remove_sdc
+#	remove_scenario -all
+#	source $ICC_MCMM_SCENARIOS_FILE
+#}
+#    set_active_scenario $CLOCK_OPT_CTS_SCN
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
+    Check consistency between the Milkyway library and the TLUPlus     
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+check_tlu_plus_files
+
+Sanity check for TLU+ vs MW-Tech files:
+ max_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ min_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ mapping_file: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ max_emul_tlu+: **NONE**
+ min_emul_tlu+: **NONE**
+ MW design lib: khu_sensor_pad_04_clock_opt_cts
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+1
+#******************************************************************************
+# Note Checklist prior to CTS
+# 1. Placement must be finished clearly.
+# 2. Verify P/G nets are prerouted properly.
+# 3. Verify Congestion value. Congestion value must be lower than 4.
+# 4. After placement, ideal situation is that there is no timing violation.
+# However, if it is, it can be fixed.
+# 5. Check your high fan out nets (hfn)
+#******************************************************************************
+# Optimization Common Session Options - set in all sessions
+source ./icc_scripts/common_clock_opt_cts_env.tcl
+***********************************************************************
+                                                                       
+                    common_clock_opt_cts_env.tcl                       
+                                                                       
+***********************************************************************
+Warning: The design has already been assigned layer constraints and we will overwrite the constraints. (RT-064)
+***********************************************************************
+                                                                       
+                   130nm_ocv_margin.pnr.tcl                            
+                                                                       
+***********************************************************************
+Current design is 'khu_sensor_pad'.
+Information: Updating graph... (UID-83)
+Current design is 'khu_sensor_pad'.
+1
+# Improved congestion analysis by using Global Route info
+if { $GL_BASED_PLACE } {
+	set placer_enable_enhanced_router true
+	set placer_enable_high_effort_congestion true
+} else {
+	set placer_enable_enhanced_router false
+	set placer_enable_high_effort_congestion false
+}
+true
+# Variables
+set cts_fix_drc_beyond_exceptions true
+true
+set cts_fix_drc_on_data true
+true
+set cts_upsize_for_drc_beyond_exception true
+true
+set cts_remove_buffers_inserted_by_fixing_drc false
+false
+# Source shielding rule
+source ./icc_scripts/rules/shield_130nm_rule.tcl
+Error: Routing rule shield_130nm_rule already exists. (RTC-314)
+================================================================================
+
+Nondefault routing rule name ( shield_130nm_rule ):
+================================================================================
+
+   Layers:
+   ----------------------------------------------------------------------------
+   layer     width     spacing   Extension      shield_width   shield_spacing
+   ----------------------------------------------------------------------------
+   MET1      160       160       DEFAULT        0              0
+   MET2      200       200       DEFAULT        0              0
+   MET3      200       200       DEFAULT        200            200
+   MET4      200       200       DEFAULT        200            200
+   MET5      200       200       DEFAULT        200            400
+   MET6      440       440       DEFAULT        440            800
+
+   Spacing weights:
+   ----------------------------------------------------------------------------
+   layer     spacing   weight    spc_len_thresh
+   ----------------------------------------------------------------------------
+   MET1      160       1.00      0
+   MET2      200       1.00      0
+   MET3      200       1.00      0
+   MET4      200       1.00      0
+   MET5      200       1.00      0
+   MET6      440       1.00      0
+
+   Vias:
+
+   Same net spacing:
+   ----------------------------------------------------------------------------
+   layer1    layer2    spacing   is_stack
+   ----------------------------------------------------------------------------
+
+Info: Total 1 nondrules are reported
+1
+# CTS options
+set_clock_tree_options 	-max_transition $CLOCK_MAX_TRAN 	-ocv_clustering true 	-gate_sizing true 	-routing_rule $ICC_CTS_RULE_NAME 	-use_default_routing_for_sinks 1
+Setting global CTS options...
+1
+# Run CTS
+if {$LEAKAGE_POWER_PLACE} {
+	#Optimize Power
+	clock_opt -only_cts -no_clock_route -power
+} else {
+	#Default clock_opt
+	clock_opt -only_cts -no_clock_route
+}
+
+The options for clock_opt:
+--------------------------
+COPT:  Clock Tree Synthesis                 : Yes
+COPT:  Post CTS Optimization                : No
+COPT:  Concurrent Clock/Data Optimization   : No
+COPT:  Operation Condition                  : max
+COPT:  Balance Inter Clock Delay            : No
+COPT:  Route Clock Nets                     : No
+COPT:  Update Clock Latency                 : No
+COPT:  Optimize Power                       : Yes
+COPT:  Optimize Power Mode                  : Unknown
+---------------------------------------------------
+
+Executing ICC clock_opt...
+medium
+*
+Information: Ignoring the optimize_pre_cts_power command because no power optimizations are enabled. (CTS-650)
+Building clock tree...
+Operating Condition is max
+Information: There is no scenario with cts_mode set to true, CTS will use old cts_scenario flow. (CTS-1115)
+CTS Operating Condition(s): MAX(Worst) 
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+
+
+Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Setting the GR Options
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+
+TLU+ File = /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+TLU+ File = /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00059 0.0003 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00023 0.00021 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00047 0.00024 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00036 0.00018 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.12
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.11
+LR: Clock routing service standing by
+Using cts integrated global router
+CTS: Blockage Aware Algorithm
+OCV-aware clustering being initialized...
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+Information: Replaced the library cell of khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg from fj4d1_hd to fj4d4_hd. (CTS-152)
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+Warning: Net w_clk_p has been marked as synthesized. (CTS-232)
+Warning: Net khu_sensor_top/w_CLOCK_HALF has been marked as synthesized. (CTS-232)
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Enable Top-Level OCV Path Sharing.
+CTS: BA: Net 'w_clk_p'
+CTS: BA: Root net includes 1 sinks.
+CTS: BA: Max delay at toplevel pins = 0.000000
+CTS: BA: Max skew at toplevel pins = 0.000000
+BA: Refreshing blockage map size.
+BA: Refreshing blockage map size.
+CTS: BA: Net 'w_clk_p'
+CTS: BA: Root net includes 1 sinks.
+CTS: BA: Max delay at toplevel pins = 0.000000
+CTS: BA: Max skew at toplevel pins = 0.000000
+
+CTS: Starting clock tree synthesis ...
+CTS:   Conditions       = worst(1)
+CTS: Global design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = worst[0.900 0.900]
+CTS:   leaf max trans   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = worst[0.900 0.900]
+CTS:   max capacitance  = worst[0.600 0.600]     GUI = worst[0.600 0.600]     SDC = undefined/ignored
+CTS:   max fanout       = 2000                   GUI = 2000                   SDC = undefined/ignored
+CTS: Global timing/clock tree constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   insertion delay  = worst[0.000]
+CTS:   levels per net   = 400
+CTS: Design infomation
+CTS:  total gate levels = 4
+CTS: Root clock net i_CLK
+CTS:  clock gate levels = 4
+CTS:    clock sink pins = 5438
+CTS:    level  4: gates = 1
+CTS:    level  3: gates = 1
+CTS:    level  2: gates = 1
+CTS:    level  1: gates = 1
+CTS: Buffer/Inverter list for CTS for clock net i_CLK:
+CTS:   nid24_hd
+CTS:   ivd24_hd
+CTS:   nid20_hd
+CTS:   ivd20_hd
+CTS:   nid16_hd
+CTS:   ivd16_hd
+CTS: Buffer/Inverter list for DelayInsertion for clock net i_CLK:
+CTS:   ivd24_hd
+CTS:   ivd20_hd
+CTS:   ivd16_hd
+CTS:   nid24_hd
+CTS:   nid20_hd
+CTS:   nid16_hd
+CTS:   ivd12_hd
+CTS:   nid12_hd
+CTS:   ivd8_hd
+CTS:   nid8_hd
+CTS:   ivd6_hd
+CTS:   nid6_hd
+CTS:   ivd2_hd
+CTS:   ivd4_hd
+CTS:   ivd3_hd
+CTS:   ivd1_hd
+CTS:   nid4_hd
+CTS:   nid2_hd
+CTS:   nid3_hd
+CTS:   nid1_hd
+Information: Removing clock transition on clock clk ... (CTS-103)
+Information: Removing clock transition on clock clk ... (CTS-103)
+Information: Removing clock uncertainty on pin async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK ... (CTS-102)
+Note - message 'CTS-102' limit (1) exceeded.  Remainder will be suppressed.
+Information: Removing clock transition on clock clk_pad ... (CTS-103)
+Information: Removing clock source latency on clock clk_pad ... (CTS-289)
+Information: Removing clock transition on clock clk ... (CTS-103)
+Information: Removing clock transition on clock clk_pad ... (CTS-103)
+Information: Removing clock source latency on clock clk_pad ... (CTS-289)
+Information: Removing clock transition on clock clk_half ... (CTS-103)
+Information: Removing clock source latency on clock clk_half ... (CTS-289)
+
+CTS: gate level 4 clock tree synthesis
+CTS:          clock net = khu_sensor_top/w_CLOCK_HALF
+CTS:        driving pin = khu_sensor_top/divider_by_2/o_CLK_DIV_2
+CTS: gate level 4 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 4 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
+CTS: nominal transition = 0.12309
+
+CTS: gate level 3 clock tree synthesis
+CTS:          clock net = khu_sensor_top/divider_by_2/o_CLK_DIV_2
+CTS:        driving pin = khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q
+CTS: gate level 3 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 3 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
+
+CTS: gate level 2 clock tree synthesis
+CTS:          clock net = w_clk_p
+CTS:        driving pin = pad29/YN
+CTS: gate level 2 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 2 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
+
+CTS: gate level 1 clock tree synthesis
+CTS:          clock net = i_CLK
+CTS:        driving pin = i_CLK
+CTS: gate level 1 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 1 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   insertion delay  = worst[0.000]
+CTS:   levels per net   = 400
+Information: no clock tree synthesis on don't touch net i_CLK. (CTS-614)
+
+CTS: Clock tree synthesis completed successfully
+CTS:   CPU time:     4 seconds
+CTS: Reporting clock tree violations ...
+CTS:   Global design rules:
+CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
+CTS:     maximum capacitance = 0.6
+CTS:     maximum fanout = 2000
+CTS:     maximum buffer levels per net = 400
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I3/Y
+CTS:   transition delay = worst[0.327 0.185] worst[0.327 0.182]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B2I6/Y
+CTS:   transition delay = worst[0.339 0.191] worst[0.339 0.188]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_hpf/ivd24_hd_G2B2I9/Y
+CTS:   transition delay = worst[0.346 0.194] worst[0.346 0.190]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I10/Y
+CTS:   transition delay = worst[0.335 0.189] worst[0.335 0.185]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I11/Y
+CTS:   transition delay = worst[0.329 0.190] worst[0.328 0.186]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I14/Y
+CTS:   transition delay = worst[0.331 0.192] worst[0.331 0.189]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I16/Y
+CTS:   transition delay = worst[0.342 0.189] worst[0.342 0.186]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I21/Y
+CTS:   transition delay = worst[0.314 0.180] worst[0.314 0.176]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I28/Y
+CTS:   transition delay = worst[0.339 0.190] worst[0.338 0.187]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I34/Y
+CTS:   transition delay = worst[0.310 0.176] worst[0.310 0.173]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I40/Y
+CTS:   transition delay = worst[0.319 0.183] worst[0.319 0.181]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/mult_2/ivd24_hd_G2B2I52/Y
+CTS:   transition delay = worst[0.327 0.187] worst[0.326 0.184]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I56/Y
+CTS:   transition delay = worst[0.320 0.181] worst[0.319 0.177]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ivd24_hd_G2B2I82/Y
+CTS:   transition delay = worst[0.356 0.198] worst[0.356 0.195]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd16_hd_G2B1I45/A
+CTS:   transition delay = worst[0.430 0.332] worst[0.430 0.332]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I84/A
+CTS:   transition delay = worst[0.435 0.335] worst[0.435 0.335]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B1I87/A
+CTS:   transition delay = worst[0.429 0.331] worst[0.429 0.331]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ivd12_hd_G2B1I88/A
+CTS:   transition delay = worst[0.463 0.362] worst[0.463 0.362]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I101/A
+CTS:   transition delay = worst[0.422 0.325] worst[0.422 0.325]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I114/A
+CTS:   transition delay = worst[0.391 0.298] worst[0.391 0.298]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/mult_2/ivd16_hd_G2B1I130/A
+CTS:   transition delay = worst[0.404 0.310] worst[0.404 0.310]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_hpf/ivd24_hd_G2B1I133/A
+CTS:   transition delay = worst[0.442 0.343] worst[0.442 0.343]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I146/A
+CTS:   transition delay = worst[0.382 0.289] worst[0.382 0.289]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I157/A
+CTS:   transition delay = worst[0.405 0.310] worst[0.405 0.310]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I174/A
+CTS:   transition delay = worst[0.393 0.299] worst[0.393 0.299]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I192/A
+CTS:   transition delay = worst[0.407 0.313] worst[0.407 0.313]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I201/A
+CTS:   transition delay = worst[0.411 0.317] worst[0.411 0.317]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I218/A
+CTS:   transition delay = worst[0.375 0.282] worst[0.375 0.282]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I219/A
+CTS:   transition delay = worst[0.341 0.252] worst[0.341 0.252]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G4B2I2/Y
+CTS:   transition delay = worst[0.337 0.188] worst[0.336 0.185]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G4B1I17/A
+CTS:   transition delay = worst[0.423 0.325] worst[0.423 0.325]
+CTS:   constraint = worst[0.300 0.300]
+CTS: Target transition delay on net khu_sensor_top/w_CLOCK_HALF is not cleared
+CTS:  
+CTS: Summary of clock tree violations: 
+CTS:  Total number of transition violations  = 31 
+CTS:  Total number of capacitance violations = 0 
+CTS: ------------------------------------------------
+CTS: Clock Tree Synthesis Summary
+CTS: ------------------------------------------------
+CTS:       1 clock domain synthesized
+CTS:       4 gated clock nets synthesized
+CTS:       3 buffer trees inserted
+CTS:     559 buffers used (total size = 11301.8)
+CTS:     563 clock nets total capacitance = worst[95.659 95.659]
+CTS: ------------------------------------------------
+CTS: Clock-by-Clock Summary
+CTS: ------------------------------------------------
+CTS: Root clock net i_CLK
+CTS:       4 gated clock nets synthesized
+CTS:       3 buffer trees inserted
+CTS:     559 buffers used (total size = 11301.8)
+CTS:     563 clock nets total capacitance = worst[95.659 95.659]
+
+CTS: ==================================================
+CTS:   Elapsed time: 5 seconds
+CTS:   CPU time:     4 seconds on vlsi-dist.khu.ac.kr
+CTS: ==================================================
+CTS: Reporting clock tree violations ...
+CTS:   Global design rules:
+CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
+CTS:     maximum capacitance = 0.6
+CTS:     maximum fanout = 2000
+CTS:     maximum buffer levels per net = 400
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I3/Y
+CTS:   transition delay = worst[0.327 0.185] worst[0.327 0.182]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B2I6/Y
+CTS:   transition delay = worst[0.339 0.191] worst[0.339 0.188]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_hpf/ivd24_hd_G2B2I9/Y
+CTS:   transition delay = worst[0.346 0.194] worst[0.346 0.190]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I10/Y
+CTS:   transition delay = worst[0.335 0.189] worst[0.335 0.185]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I11/Y
+CTS:   transition delay = worst[0.329 0.190] worst[0.328 0.186]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I14/Y
+CTS:   transition delay = worst[0.331 0.192] worst[0.331 0.189]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I16/Y
+CTS:   transition delay = worst[0.342 0.189] worst[0.342 0.186]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I21/Y
+CTS:   transition delay = worst[0.314 0.180] worst[0.314 0.176]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I28/Y
+CTS:   transition delay = worst[0.339 0.190] worst[0.338 0.187]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I34/Y
+CTS:   transition delay = worst[0.310 0.176] worst[0.310 0.173]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B2I40/Y
+CTS:   transition delay = worst[0.319 0.183] worst[0.319 0.181]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/mult_2/ivd24_hd_G2B2I52/Y
+CTS:   transition delay = worst[0.327 0.187] worst[0.326 0.184]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B2I56/Y
+CTS:   transition delay = worst[0.320 0.181] worst[0.319 0.177]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ivd24_hd_G2B2I82/Y
+CTS:   transition delay = worst[0.356 0.198] worst[0.356 0.195]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd16_hd_G2B1I45/A
+CTS:   transition delay = worst[0.430 0.332] worst[0.430 0.332]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I84/A
+CTS:   transition delay = worst[0.435 0.335] worst[0.435 0.335]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B1I87/A
+CTS:   transition delay = worst[0.429 0.331] worst[0.429 0.331]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ivd12_hd_G2B1I88/A
+CTS:   transition delay = worst[0.463 0.362] worst[0.463 0.362]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I101/A
+CTS:   transition delay = worst[0.422 0.325] worst[0.422 0.325]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/ivd24_hd_G2B1I114/A
+CTS:   transition delay = worst[0.391 0.298] worst[0.391 0.298]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_notch/mult_2/ivd16_hd_G2B1I130/A
+CTS:   transition delay = worst[0.404 0.310] worst[0.404 0.310]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/iir_hpf/ivd24_hd_G2B1I133/A
+CTS:   transition delay = worst[0.442 0.343] worst[0.442 0.343]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I146/A
+CTS:   transition delay = worst[0.382 0.289] worst[0.382 0.289]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I157/A
+CTS:   transition delay = worst[0.405 0.310] worst[0.405 0.310]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I174/A
+CTS:   transition delay = worst[0.393 0.299] worst[0.393 0.299]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I192/A
+CTS:   transition delay = worst[0.407 0.313] worst[0.407 0.313]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I201/A
+CTS:   transition delay = worst[0.411 0.317] worst[0.411 0.317]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I218/A
+CTS:   transition delay = worst[0.375 0.282] worst[0.375 0.282]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G2B1I219/A
+CTS:   transition delay = worst[0.341 0.252] worst[0.341 0.252]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G4B2I2/Y
+CTS:   transition delay = worst[0.337 0.188] worst[0.336 0.185]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/ivd24_hd_G4B1I17/A
+CTS:   transition delay = worst[0.423 0.325] worst[0.423 0.325]
+CTS:   constraint = worst[0.300 0.300]
+CTS: Target transition delay on net khu_sensor_top/w_CLOCK_HALF is not cleared
+CTS:  
+CTS: Summary of clock tree violations: 
+CTS:  Total number of transition violations  = 31 
+CTS:  Total number of capacitance violations = 0 
+CTS: ==================================================
+CTS: Start DRC fixing beyond exceptions
+CTS: Blockage Aware Algorithm
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+Warning: Net w_clk_p has been marked as synthesized. (CTS-232)
+Warning: Net khu_sensor_top/w_CLOCK_HALF has been marked as synthesized. (CTS-232)
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Top-Level OCV Path Sharing not effective with Logic Level Balance, High-Fanout Synthesis or in DRC beyond exception.
+BA: Refreshing blockage map size.
+BA: Refreshing blockage map size.
+CTS: BA: Net 'w_clk_p'
+CTS: BA: Root net includes 1 sinks.
+CTS: BA: Max delay at toplevel pins = 2.700049
+CTS: BA: Max skew at toplevel pins = 0.267664
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk
+
+CTS: ==================================================
+CTS: DRC fixing beyond exceptions completed successfully
+CTS:   Elapsed time: 1 seconds
+CTS:   CPU time:     1 seconds on vlsi-dist.khu.ac.kr
+CTS: ==================================================
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00059 0.0003 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00023 0.00021 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00047 0.00024 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00036 0.00018 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+ CTS Successful 
+Optimizing clock tree...
+Operating Condition is max
+No valid clocks specified, all clocks will be optimized
+CTS: CTS Operating Condition(s): MAX(Worst) 
+Clock name : clk 
+enable delay detour in ctdn
+Information: Design is global routed.
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ Cannot find specified mesh net 
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk
+CTS: Prepare sources for clock domain clk
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.272245.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.272245.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Enable Top-Level OCV Path Sharing.
+CTO-ID:    
+Choosing the following cells for CTO Delay Insertion and ICDB: 
+CTO-  :     ivd12_hd, 
+CTO-  :     ivd16_hd, 
+CTO-  :     ivd1_hd, 
+CTO-  :     ivd20_hd, 
+CTO-  :     ivd24_hd, 
+CTO-  :     ivd2_hd, 
+CTO-  :     ivd3_hd, 
+CTO-  :     ivd4_hd, 
+CTO-  :     ivd6_hd, 
+CTO-  :     ivd8_hd, 
+CTO-  :     nid12_hd, 
+CTO-  :     nid16_hd, 
+CTO-  :     nid1_hd, 
+CTO-  :     nid20_hd, 
+CTO-  :     nid24_hd, 
+CTO-  :     nid2_hd, 
+CTO-  :     nid3_hd, 
+CTO-  :     nid4_hd, 
+CTO-  :     nid6_hd, 
+CTO-  :     nid8_hd, 
+CTO-  :     
+
+Initializing multicorner optimizer...
+Using primary buffers equivalent to 'nid2_hd'.
+Using primary inverters equivalent to 'ivd1_hd'.
+Technology-based gate delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Technology-based wire delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Information: Float pin scale factor for the 'max' operating condition of scenario 'default' is set to 1.000 (CTS-375)
+Information: Float pin scale factor for the 'min' operating condition of scenario 'default' is set to 0.466 (CTS-375)
+Using the following scale factors for float pins:
+  Corner 'max': 1.000
+Worst clock corner:  max
+Worst RC delay corner:  max
+Using normal effort optimization
+Using pre-route mode
+Using non-mv_mode
+Target max transition = 0.246176
+Using the CTS integrated router
+
+Selecting library cells for optimization
+    Pruning weak driver nid1_hd.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+    Pruning weak driver ivd1_hd.
+    Final pruned inverter set (9 inverters):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+setting ndr shield_130nm_rule to clock clk_half
+setting ndr shield_130nm_rule to clock clk_pad
+setting ndr shield_130nm_rule to clock clk
+CTS: Marking Net i_CLK as cts DontTouch : It is a PAD Net
+CTS: Marking Net i_CLK as cts DontTouch : It is a PAD Net
+
+
+Initializing parameters for clock clk_half:
+Root pin: khu_sensor_top/divider_by_2/o_CLK_DIV_2
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk_half: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  on
+  gate relocation               :  on
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+
+
+Initializing parameters for clock clk_pad:
+Root pin: pad29/YN
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk_pad: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  on
+  gate relocation               :  on
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+
+
+Initializing parameters for clock clk:
+Root pin: i_CLK
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  on
+  gate relocation               :  on
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_half : 0.300 ns
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_pad : 0.300 ns
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+
+
+Starting optimization for clock clk.
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+
+****************************************
+* Preoptimization report (clock 'clk') *
+****************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.000 0.316 4.208)
+    Estimated Insertion Delay (r/f/b) = (0.020 4.228 4.228)
+  Corner 'RC-ONLY'
+    Estimated Skew (r/f/b) = (0.000 0.184 0.332)
+    Estimated Insertion Delay (r/f/b) = (0.020 0.352 0.352)
+  Wire capacitance =  64.0 pf
+  Total capacitance = 95.3 pf
+  Max transition = 0.381 ns
+  Cells = 562 (area=2391.667236)
+  Inverters = 559 (area=2378.333984)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd20_hd: 156
+    ivd16_hd: 80
+    ivd12_hd: 56
+    ivd24_hd: 243
+    ivd8_hd: 15
+    ivd6_hd: 8
+    ivd4_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+Report DRC violations for clock clk (initial)
+Total 5 DRC violations for clock clk (initial)
+Deleting cells (khu_sensor_top/ivd8_hd_G2B41I1, khu_sensor_top/ivd24_hd_G2B36I2) and output nets (khu_sensor_top/w_clk_p_G2B30I1, khu_sensor_top/w_clk_p_G2B35I2).
+ iteration 1: (4.211789, 4.237867) [1]
+Deleting cells (khu_sensor_top/ivd24_hd_G2B57I1, khu_sensor_top/ivd24_hd_G2B54I1) and output nets (khu_sensor_top/w_clk_p_G2B14I1, khu_sensor_top/w_clk_p_G2B17I1).
+ iteration 2: (4.174316, 4.200395) [1]
+ Total 2 buffers removed on clock clk  (corner 1)
+ Start (0.026, 4.273), End (0.026, 4.200) 
+
+RC optimization for clock 'clk'
+Corner sensitivity to RC skew (normalized to the first corner):
+  Corner 'max': +0.000
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+Coarse optimization for clock 'clk'
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+ No back-to-back buffer chains found
+ Start (0.026, 4.190), End (0.026, 4.190) 
+
+Detailed optimization for clock 'clk'
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+Starting optimization pass for clock clk:
+Start path based optimization 
+Deleting cells (khu_sensor_top/ivd24_hd_G2B67I1, khu_sensor_top/ivd24_hd_G2B66I1) and output nets (khu_sensor_top/w_clk_p_G2B4I1, khu_sensor_top/w_clk_p_G2B5I1).
+ iteration 1: (4.120775, 4.140634) [0]
+Deleting cells (khu_sensor_top/ivd24_hd_G4B11I1, khu_sensor_top/ivd6_hd_G4B10I1) and output nets (khu_sensor_top/w_CLOCK_HALF_G4B2I1, khu_sensor_top/w_CLOCK_HALF_G4B3I1).
+ iteration 2: (4.033418, 4.053276) [0]
+ Total 2 buffers removed on clock clk  (corner 0)
+ Start (0.020, 4.196), End (0.020, 4.053) 
+
+ Start (0.020, 4.053), End (0.020, 4.053) 
+
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+ Start (0.020, 4.053), End (0.020, 4.053) 
+
+ Start (0.020, 4.053), End (0.020, 4.053) 
+
+ Start (0.020, 4.053), End (0.020, 4.082) 
+
+ Start (0.020, 4.082), End (0.020, 4.082) 
+
+ Start (0.020, 4.082), End (0.020, 4.082) 
+
+ Start (0.020, 4.082), End (0.020, 4.082) 
+
+Start area recovery: (0.019858, 4.082249)
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+Switch to low metal layer for clock 'clk':
+
+ Total 538 out of 576 nets switched to low metal layer for clock 'clk' with largest cap change 35.41 percent
+Switch metal layer for area recovery: (0.019858, 4.078337)
+Deleting cells (khu_sensor_top/ivd6_hd_G2B36I3, khu_sensor_top/ivd12_hd_G2B35I4) and output nets (khu_sensor_top/w_clk_p_G2B35I3, khu_sensor_top/w_clk_p_G2B36I4).
+ iteration 1: (4.029088, 4.048946) [0]
+Deleting cells (khu_sensor_top/ivd24_hd_G2B46I1, khu_sensor_top/ivd16_hd_G2B45I1) and output nets (khu_sensor_top/w_clk_p_G2B25I1, khu_sensor_top/w_clk_p_G2B26I1).
+ iteration 2: (4.025636, 4.045494) [0]
+Deleting cells (khu_sensor_top/ivd24_hd_G2B47I1, khu_sensor_top/ivd8_hd_G2B32I2) and output nets (khu_sensor_top/w_clk_p_G2B24I1, khu_sensor_top/w_clk_p_G2B39I2).
+ iteration 3: (4.011689, 4.031548) [0]
+ Total 3 buffers removed on clock clk  (corner 0)
+ Start (0.020, 4.078), End (0.020, 4.032) 
+
+Buffer removal for area recovery: (0.019858, 4.019365)
+Area recovery optimization for clock 'clk':
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+Sizing for area recovery: (0.019858, 4.048731)
+
+ Total 12 buffers removed (all paths) for clock 'clk'
+Path buffer removal for area recovery: (0.019858, 4.069811)
+Buffer pair removal for area recovery: (0.019858, 4.069811)
+End area recovery: (0.019858, 4.069811)
+
+*************************************************
+* Multicorner optimization report (clock 'clk') *
+*************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.000 0.475 4.050)
+    Estimated Insertion Delay (r/f/b) = (0.020 4.070 4.070)
+  Corner 'RC-ONLY'
+    Estimated Skew (r/f/b) = (0.000 0.086 0.193)
+    Estimated Insertion Delay (r/f/b) = (0.020 0.213 0.213)
+  Wire capacitance =  54.7 pf
+  Total capacitance = 78.1 pf
+  Max transition = 0.307 ns
+  Cells = 560 (area=1568.997314)
+  Inverters = 557 (area=1555.663940)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 147
+    ivd8_hd: 94
+    ivd12_hd: 211
+    ivd6_hd: 51
+    ivd4_hd: 17
+    ivd20_hd: 23
+    ivd24_hd: 11
+    ivd3_hd: 2
+    ivd2_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+
+++ Longest path for clock clk in corner 'max':
+ object                               fan cap  trn inc  arr r location
+ i_CLK (port)                                   31   0    0 f (  13 1862) 
+ i_CLK (port)                                    0   0    0 f (  13 1862) 
+ i_CLK (net)                            3 182                 
+ pad29/PADA (phsoscm3_p)                        12   2    2 f (  58 1890) 
+ pad29/YN (phsoscm3_p)                         303 1511 1514 r ( 132 1831) 
+ w_clk_p (net)                          1 173                 
+ khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd) 307  19 1532 r ( 544 1838) 
+ khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd) 122 100 1632 f ( 544 1838) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    1 111                 
+ khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)  123   7 1640 f ( 664 1961) 
+ khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)  150  94 1734 r ( 665 1961) 
+ khu_sensor_top/w_clk_p_G2B2I1 (net)    1 123                 
+ khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)  151   9 1742 r ( 758 2122) 
+ khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)  191  97 1839 f ( 757 2122) 
+ khu_sensor_top/w_clk_p_G2B3I1 (net)    1 353                 
+ khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)   252  71 1910 f (1582 2389) 
+ khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)   201 144 2054 r (1583 2389) 
+ khu_sensor_top/w_clk_p_G2B6I1 (net)    2  65                 
+ khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)  202   1 2055 r (1590 2393) 
+ khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)  166 126 2181 f (1591 2393) 
+ khu_sensor_top/w_clk_p_G2B11I1 (net)   1 158                 
+ khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)  169  15 2196 f (1389 2202) 
+ khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)  241 140 2336 r (1388 2202) 
+ khu_sensor_top/w_clk_p_G2B12I1 (net)   2 221                 
+ khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)  242   4 2340 r (1391 2170) 
+ khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)  181 137 2476 f (1391 2169) 
+ khu_sensor_top/w_clk_p_G2B15I1 (net)   2 215                 
+ khu_sensor_top/ivd24_hd_G2B55I2/A (ivd16_hd)  183   5 2481 f (1440 2173) 
+ khu_sensor_top/ivd24_hd_G2B55I2/Y (ivd16_hd)  205 130 2611 r (1439 2173) 
+ khu_sensor_top/w_clk_p_G2B16I2 (net)   1 143                 
+ khu_sensor_top/ivd4_hd_G2B42I1/A (ivd12_hd)   207  13 2624 r (1639 2360) 
+ khu_sensor_top/ivd4_hd_G2B42I1/Y (ivd12_hd)   174 135 2759 f (1639 2360) 
+ khu_sensor_top/w_clk_p_G2B29I1 (net)   2 177                 
+ khu_sensor_top/ivd20_hd_G2B35I3/A (ivd20_hd)  175  10 2769 f (1843 2436) 
+ khu_sensor_top/ivd20_hd_G2B35I3/Y (ivd20_hd)  194 126 2895 r (1844 2436) 
+ khu_sensor_top/w_clk_p_G2B36I3 (net)   2 170                 
+ khu_sensor_top/ivd12_hd_G2B30I2/A (ivd8_hd)   196  12 2907 r (1969 2710) 
+ khu_sensor_top/ivd12_hd_G2B30I2/Y (ivd8_hd)   167 133 3040 f (1968 2709) 
+ khu_sensor_top/w_clk_p_G2B41I2 (net)   3 115                 
+ khu_sensor_top/ivd12_hd_G2B29I1/A (ivd6_hd)   167   1 3041 f (1971 2706) 
+ khu_sensor_top/ivd12_hd_G2B29I1/Y (ivd6_hd)   247 154 3195 r (1972 2706) 
+ khu_sensor_top/w_clk_p_G2B42I1 (net)   1  72                 
+ khu_sensor_top/ivd8_hd_G2B14I2/A (ivd4_hd)    247   4 3198 r (1972 2497) 
+ khu_sensor_top/ivd8_hd_G2B14I2/Y (ivd4_hd)    125 113 3312 f (1973 2496) 
+ khu_sensor_top/w_clk_p_G2B57I2 (net)   2  31                 
+ khu_sensor_top/ivd16_hd_G2B13I1/A (ivd8_hd)   125   0 3312 f (1974 2490) 
+ khu_sensor_top/ivd16_hd_G2B13I1/Y (ivd8_hd)   224 132 3444 r (1975 2490) 
+ khu_sensor_top/w_clk_p_G2B58I1 (net)   1  88                 
+ khu_sensor_top/ivd24_hd_G2B4I1/A (ivd6_hd)    225   5 3449 r (2189 2454) 
+ khu_sensor_top/ivd24_hd_G2B4I1/Y (ivd6_hd)    176 143 3593 f (2189 2454) 
+ khu_sensor_top/w_clk_p_G2B67I1 (net)   1  88                 
+ khu_sensor_top/ivd20_hd_G2B3I19/A (ivd8_hd)   176   5 3598 f (2421 2454) 
+ khu_sensor_top/ivd20_hd_G2B3I19/Y (ivd8_hd)   219 144 3742 r (2422 2454) 
+ khu_sensor_top/w_clk_p_G2B68I19 (net)  2  84                 
+ khu_sensor_top/ivd20_hd_G2B2I88/A (ivd8_hd)   219   1 3742 r (2408 2482) 
+ khu_sensor_top/ivd20_hd_G2B2I88/Y (ivd8_hd)   190 154 3896 f (2409 2482) 
+ khu_sensor_top/w_clk_p_G2B69I88 (net)  3 137                 
+ khu_sensor_top/ivd20_hd_G2B1I85/A (ivd12_hd)  190   1 3897 f (2413 2439) 
+ khu_sensor_top/ivd20_hd_G2B1I85/Y (ivd12_hd)  272 170 4068 r (2412 2439) 
+ khu_sensor_top/w_clk_p_G2B70I85 (net) 23 163                 
+ khu_sensor_top/ads1292_filter/r_converter_f2i_a_reg_0_/CK (fd4qd1_hd)
+                                               273   3 4070 r (2395 2324) 
+
+
+++ Shortest path for clock clk in corner 'max':
+ object                               fan cap  trn inc  arr r location
+ i_CLK (port)                                   31   0    0 r (  13 1862) 
+ i_CLK (port)                                    0   0    0 r (  13 1862) 
+ i_CLK (net)                            3 182                 
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd1_hd)
+                                                48  20   20 r ( 544 2245) 
+
+
+++ Longest path for clock clk in corner 'RC-ONLY':
+ object                               fan cap  trn inc  arr r location
+ i_CLK (port)                                   31   0    0 f (  13 1862) 
+ i_CLK (port)                                    0   0    0 f (  13 1862) 
+ i_CLK (net)                            3 182                 
+ pad29/PADA (phsoscm3_p)                         7   2    2 f (  58 1890) 
+ pad29/YN (phsoscm3_p)                           0   0    2 r ( 132 1831) 
+ w_clk_p (net)                          1 173                 
+ khu_sensor_top/ivd24_hd_G2B69I11/A (ivd24_hd)  39  12   15 r ( 544 1838) 
+ khu_sensor_top/ivd24_hd_G2B69I11/Y (ivd24_hd)   0   0   15 f ( 544 1838) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    1 111                 
+ khu_sensor_top/ivd24_hd_G2B69I1/A (ivd20_hd)   18   6   20 f ( 664 1961) 
+ khu_sensor_top/ivd24_hd_G2B69I1/Y (ivd20_hd)    0   0   20 r ( 665 1961) 
+ khu_sensor_top/w_clk_p_G2B2I1 (net)    1 123                 
+ khu_sensor_top/ivd24_hd_G2B68I1/A (ivd24_hd)   21   7   27 r ( 758 2122) 
+ khu_sensor_top/ivd24_hd_G2B68I1/Y (ivd24_hd)    0   0   27 f ( 757 2122) 
+ khu_sensor_top/w_clk_p_G2B3I1 (net)    1 353                 
+ khu_sensor_top/ivd12_hd_G2B65I1/A (ivd8_hd)   186  59   85 f (1582 2389) 
+ khu_sensor_top/ivd12_hd_G2B65I1/Y (ivd8_hd)     0   0   85 r (1583 2389) 
+ khu_sensor_top/w_clk_p_G2B6I1 (net)    2  65                 
+ khu_sensor_top/ivd24_hd_G2B60I1/A (ivd12_hd)    1   0   86 r (1590 2393) 
+ khu_sensor_top/ivd24_hd_G2B60I1/Y (ivd12_hd)    0   0   86 f (1591 2393) 
+ khu_sensor_top/w_clk_p_G2B11I1 (net)   1 158                 
+ khu_sensor_top/ivd24_hd_G2B59I1/A (ivd20_hd)   37  12   97 f (1389 2202) 
+ khu_sensor_top/ivd24_hd_G2B59I1/Y (ivd20_hd)    0   0   97 r (1388 2202) 
+ khu_sensor_top/w_clk_p_G2B12I1 (net)   2 221                 
+ khu_sensor_top/ivd24_hd_G2B56I1/A (ivd16_hd)    4   1   99 r (1391 2170) 
+ khu_sensor_top/ivd24_hd_G2B56I1/Y (ivd16_hd)    0   0   99 f (1391 2169) 
+ khu_sensor_top/w_clk_p_G2B15I1 (net)   2 215                 
+ khu_sensor_top/ivd24_hd_G2B55I1/A (ivd16_hd)   53  17  115 f (1705 1982) 
+ khu_sensor_top/ivd24_hd_G2B55I1/Y (ivd16_hd)    0   0  115 r (1705 1982) 
+ khu_sensor_top/w_clk_p_G2B16I1 (net)   1 156                 
+ khu_sensor_top/ivd8_hd_G2B50I1/A (ivd16_hd)    36  11  127 r (2113 1986) 
+ khu_sensor_top/ivd8_hd_G2B50I1/Y (ivd16_hd)     0   0  127 f (2113 1986) 
+ khu_sensor_top/w_clk_p_G2B21I1 (net)   2 142                 
+ khu_sensor_top/ivd6_hd_G2B49I1/A (ivd6_hd)     15   5  131 f (2267 1986) 
+ khu_sensor_top/ivd6_hd_G2B49I1/Y (ivd6_hd)      0   0  131 r (2268 1986) 
+ khu_sensor_top/w_clk_p_G2B22I1 (net)   1  72                 
+ khu_sensor_top/ivd24_hd_G2B48I1/A (ivd24_hd)    6   2  133 r (2332 2011) 
+ khu_sensor_top/ivd24_hd_G2B48I1/Y (ivd24_hd)    0   0  133 f (2333 2011) 
+ khu_sensor_top/w_clk_p_G2B23I1 (net)   2 338                 
+ khu_sensor_top/ivd20_hd_G2B31I3/A (ivd16_hd)  157  50  183 f (2361 2886) 
+ khu_sensor_top/ivd20_hd_G2B31I3/Y (ivd16_hd)    0   0  183 r (2360 2886) 
+ khu_sensor_top/w_clk_p_G2B40I3 (net)   1 153                 
+ khu_sensor_top/ivd12_hd_G2B10I1/A (ivd12_hd)   35  11  194 r (2786 2886) 
+ khu_sensor_top/ivd12_hd_G2B10I1/Y (ivd12_hd)    0   0  194 f (2785 2886) 
+ khu_sensor_top/w_clk_p_G2B61I1 (net)   1 103                 
+ khu_sensor_top/ivd24_hd_G2B9I4/A (ivd16_hd)    16   5  199 f (3012 2900) 
+ khu_sensor_top/ivd24_hd_G2B9I4/Y (ivd16_hd)     0   0  199 r (3012 2900) 
+ khu_sensor_top/w_clk_p_G2B62I4 (net)   2 104                 
+ khu_sensor_top/ivd24_hd_G2B4I30/A (ivd12_hd)    1   0  199 r (3042 2900) 
+ khu_sensor_top/ivd24_hd_G2B4I30/Y (ivd12_hd)    0   0  199 f (3042 2900) 
+ khu_sensor_top/w_clk_p_G2B67I30 (net)  2 127                 
+ khu_sensor_top/ivd16_hd_G2B3I20/A (ivd12_hd)   17   5  204 f (3232 2825) 
+ khu_sensor_top/ivd16_hd_G2B3I20/Y (ivd12_hd)    0   0  204 r (3233 2825) 
+ khu_sensor_top/w_clk_p_G2B68I20 (net)  2  90                 
+ khu_sensor_top/ivd16_hd_G2B2I23/A (ivd8_hd)    10   3  207 r (3286 2681) 
+ khu_sensor_top/ivd16_hd_G2B2I23/Y (ivd8_hd)     0   0  207 f (3285 2681) 
+ khu_sensor_top/w_clk_p_G2B69I23 (net)  2 120                 
+ khu_sensor_top/ivd24_hd_G2B1I180/A (ivd16_hd)   7   2  210 f (3393 2666) 
+ khu_sensor_top/ivd24_hd_G2B1I180/Y (ivd16_hd)   0   0  210 r (3394 2666) 
+ khu_sensor_top/w_clk_p_G2B70I180 (net)
+                                       28 188                 
+ khu_sensor_top/ads1292_controller/spi_master/r_TX_Byte_reg_7_/CK (fd2qd1_hd)
+                                                10   3  213 r (3390 2796) 
+
+
+++ Shortest path for clock clk in corner 'RC-ONLY':
+ object                               fan cap  trn inc  arr r location
+ i_CLK (port)                                   31   0    0 r (  13 1862) 
+ i_CLK (port)                                    0   0    0 r (  13 1862) 
+ i_CLK (net)                            3 182                 
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd1_hd)
+                                                63  20   20 r ( 544 2245) 
+
+Report DRC violations for clock clk (final)
+Total 1 DRC violations for clock clk (final)
+
+  Legalizing Placement
+  --------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:21 2020
+****************************************
+Std cell utilization: 6.11%  (328736/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 6.03%  (324029/(5543598-167805))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        328736   sites, (non-fixed:324029 fixed:4707)
+                      32320    cells, (non-fixed:31762  fixed:558)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      167805   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       218 
+Avg. std cell width:  5.20 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:21 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       partial     7.20        1.80        via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+Legalizing 54 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Legalization complete (1 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:22 2020
+****************************************
+
+avg cell displacement:    2.475 um ( 0.69 row height)
+max cell displacement:    3.600 um ( 1.00 row height)
+std deviation:            1.264 um ( 0.35 row height)
+number of cell moved:        55 cells (out of 31762 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+
+  Placement Legalization Complete
+  -------------------------------
+
+Information: Updating database...
+Unsetting the GR Options
+LR: 26 out of 557 clock nets rerouted
+LR: Clock routing service terminated
+Invalidate design extracted status
+Optimize clock tree Successful...
+clock_opt completed Successfully
+1
+# To do inter clock balancing
+if { $INTER_CLK_GROUPS != "" } {
+	foreach balance_clock $INTER_CLK_GROUPS {
+		balance_inter_clock_delay -clock_trees "$balance_clock"
+	}
+}
+CTS: CTS Operating Condition(s): MAX(Worst) 
+
+ Enabling arnoldi support in ICDB flow 
+CTS: CTS Operating Condition(s): MAX(Worst) 
+Clocks considered for balancing are specified using the -clock_trees option in balance_inter_clock_delay command.
+Clock name : clk 	Balance group name : None
+enable delay detour in ctdn
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+
+
+Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Setting the GR Options
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00059 0.0003 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00023 0.00021 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00047 0.00024 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00036 0.00018 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.12
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.11
+LR: 18895 initial glinks on 559 nets
+LR: 557 nets fully connected by initial glinks
+LR: Clock routing service standing by
+Using cts integrated global router
+Information: Design is global routed.
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ Cannot find specified mesh net 
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk
+CTS: Prepare sources for clock domain clk
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27281.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.27281.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27281.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.27281.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Enable Top-Level OCV Path Sharing.
+CTO-ID:    
+Choosing the following cells for CTO Delay Insertion and ICDB: 
+CTO-  :     ivd12_hd, 
+CTO-  :     ivd16_hd, 
+CTO-  :     ivd1_hd, 
+CTO-  :     ivd20_hd, 
+CTO-  :     ivd24_hd, 
+CTO-  :     ivd2_hd, 
+CTO-  :     ivd3_hd, 
+CTO-  :     ivd4_hd, 
+CTO-  :     ivd6_hd, 
+CTO-  :     ivd8_hd, 
+CTO-  :     nid12_hd, 
+CTO-  :     nid16_hd, 
+CTO-  :     nid1_hd, 
+CTO-  :     nid20_hd, 
+CTO-  :     nid24_hd, 
+CTO-  :     nid2_hd, 
+CTO-  :     nid3_hd, 
+CTO-  :     nid4_hd, 
+CTO-  :     nid6_hd, 
+CTO-  :     nid8_hd, 
+CTO-  :     
+
+Initializing multicorner optimizer...
+Using primary buffers equivalent to 'nid2_hd'.
+Using primary inverters equivalent to 'ivd1_hd'.
+Technology-based gate delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Technology-based wire delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Using the following scale factors for float pins:
+  Corner 'max': 1.000
+Worst clock corner:  max
+Worst RC delay corner:  max
+Using normal effort optimization
+Using pre-route mode
+Using non-mv_mode
+Target max transition = 0.246176
+Using the CTS integrated router
+
+Selecting library cells for optimization
+    Pruning weak driver nid1_hd.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+    Pruning weak driver ivd1_hd.
+    Final pruned inverter set (9 inverters):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+setting ndr shield_130nm_rule to clock clk
+CTS: Marking Net i_CLK as cts DontTouch : It is a PAD Net
+CTS: Marking Net i_CLK as cts DontTouch : It is a PAD Net
+
+
+Initializing parameters for clock clk:
+Root pin: i_CLK
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  off
+  gate relocation               :  off
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk : 0.300 ns
+
+**********************************************************
+* Initial Inter-clock delay balance report (clock 'clk') *
+**********************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.000 0.477 4.058)
+    Estimated Insertion Delay (r/f/b) = (0.020 4.078 4.078)
+  Wire capacitance =  56.3 pf
+  Total capacitance = 79.7 pf
+  Max transition = 0.307 ns
+  Cells = 560 (area=1568.997314)
+  Inverters = 557 (area=1555.663940)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 147
+    ivd8_hd: 94
+    ivd6_hd: 51
+    ivd20_hd: 23
+    ivd12_hd: 211
+    ivd4_hd: 17
+    ivd24_hd: 11
+    ivd3_hd: 2
+    ivd2_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+***************************************
+* Target Delay settings for ICDB flow *
+***************************************
+Clock_Name Settings                                         Target_delay_Value
+--------------------------------------------------------------------
+clk       Max Insertion delay among all clocks              4.078
+Warning: : Some or all clocks are not in any user defined balance groups. These will be included in default group for ICDB. (CTS-993)
+
+********************************************************
+* Final Inter-clock delay balance report (clock 'clk') *
+********************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.000 0.477 4.058)
+    Estimated Insertion Delay (r/f/b) = (0.020 4.078 4.078)
+  Wire capacitance =  56.3 pf
+  Total capacitance = 79.7 pf
+  Max transition = 0.307 ns
+  Cells = 560 (area=1568.997314)
+  Inverters = 557 (area=1555.663940)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 147
+    ivd8_hd: 94
+    ivd6_hd: 51
+    ivd20_hd: 23
+    ivd12_hd: 211
+    ivd4_hd: 17
+    ivd24_hd: 11
+    ivd3_hd: 2
+    ivd2_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+  Legalizing Placement
+  --------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:40 2020
+****************************************
+Std cell utilization: 6.11%  (328736/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 6.03%  (324029/(5543598-167805))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        328736   sites, (non-fixed:324029 fixed:4707)
+                      32320    cells, (non-fixed:31762  fixed:558)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      167805   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       218 
+Avg. std cell width:  5.20 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:40 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       partial     7.20        1.80        via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:40 2020
+****************************************
+
+No cell displacement.
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+
+  Placement Legalization Complete
+  -------------------------------
+
+Information: Updating database...
+Unsetting the GR Options
+LR: 0 out of 559 clock nets rerouted
+LR: Clock routing service terminated
+Invalidate design extracted status
+CTS: CTS Operating Condition(s): MAX(Worst) 
+
+ Enabling arnoldi support in ICDB flow 
+CTS: CTS Operating Condition(s): MAX(Worst) 
+Clocks considered for balancing are specified using the -clock_trees option in balance_inter_clock_delay command.
+Clock name : clk_pad 	Balance group name : None
+enable delay detour in ctdn
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+
+
+Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Setting the GR Options
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00059 0.0003 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00023 0.00021 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00047 0.00024 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00036 0.00018 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.12
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.11
+LR: 10781 initial glinks on 557 nets
+LR: 557 nets fully connected by initial glinks
+LR: Clock routing service standing by
+Using cts integrated global router
+Information: Design is global routed.
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ Cannot find specified mesh net 
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk_pad
+CTS: Prepare sources for clock domain clk_pad
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27272.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.27272.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27272.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.27272.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Enable Top-Level OCV Path Sharing.
+CTO-ID:    
+Choosing the following cells for CTO Delay Insertion and ICDB: 
+CTO-  :     ivd12_hd, 
+CTO-  :     ivd16_hd, 
+CTO-  :     ivd1_hd, 
+CTO-  :     ivd20_hd, 
+CTO-  :     ivd24_hd, 
+CTO-  :     ivd2_hd, 
+CTO-  :     ivd3_hd, 
+CTO-  :     ivd4_hd, 
+CTO-  :     ivd6_hd, 
+CTO-  :     ivd8_hd, 
+CTO-  :     nid12_hd, 
+CTO-  :     nid16_hd, 
+CTO-  :     nid1_hd, 
+CTO-  :     nid20_hd, 
+CTO-  :     nid24_hd, 
+CTO-  :     nid2_hd, 
+CTO-  :     nid3_hd, 
+CTO-  :     nid4_hd, 
+CTO-  :     nid6_hd, 
+CTO-  :     nid8_hd, 
+CTO-  :     
+
+Initializing multicorner optimizer...
+Using primary buffers equivalent to 'nid2_hd'.
+Using primary inverters equivalent to 'ivd1_hd'.
+Technology-based gate delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Technology-based wire delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Using the following scale factors for float pins:
+  Corner 'max': 1.000
+Worst clock corner:  max
+Worst RC delay corner:  max
+Using normal effort optimization
+Using pre-route mode
+Using non-mv_mode
+Target max transition = 0.246176
+Using the CTS integrated router
+
+Selecting library cells for optimization
+    Pruning weak driver nid1_hd.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+    Pruning weak driver ivd1_hd.
+    Final pruned inverter set (9 inverters):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+setting ndr shield_130nm_rule to clock clk_pad
+
+
+Initializing parameters for clock clk_pad:
+Root pin: pad29/YN
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk_pad: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  off
+  gate relocation               :  off
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_pad : 0.300 ns
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_pad : 0.300 ns
+
+**************************************************************
+* Initial Inter-clock delay balance report (clock 'clk_pad') *
+**************************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.477 0.000 0.477)
+    Estimated Insertion Delay (r/f/b) = (2.564  -inf 2.564)
+  Wire capacitance =  56.1 pf
+  Total capacitance = 79.4 pf
+  Max transition = 0.307 ns
+  Cells = 559 (area=1568.997314)
+  Inverters = 557 (area=1555.663940)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 147
+    ivd8_hd: 94
+    ivd6_hd: 51
+    ivd20_hd: 23
+    ivd12_hd: 211
+    ivd4_hd: 17
+    ivd24_hd: 11
+    ivd3_hd: 2
+    ivd2_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+***************************************
+* Target Delay settings for ICDB flow *
+***************************************
+Clock_Name Settings                                         Target_delay_Value
+--------------------------------------------------------------------
+clk_pad   Max Insertion delay among all clocks              2.564
+Warning: : Some or all clocks are not in any user defined balance groups. These will be included in default group for ICDB. (CTS-993)
+
+************************************************************
+* Final Inter-clock delay balance report (clock 'clk_pad') *
+************************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.477 0.000 0.477)
+    Estimated Insertion Delay (r/f/b) = (2.564  -inf 2.564)
+  Wire capacitance =  56.1 pf
+  Total capacitance = 79.4 pf
+  Max transition = 0.307 ns
+  Cells = 559 (area=1568.997314)
+  Inverters = 557 (area=1555.663940)
+  Others = 1 (area=13.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 147
+    ivd8_hd: 94
+    ivd6_hd: 51
+    ivd20_hd: 23
+    ivd12_hd: 211
+    ivd4_hd: 17
+    ivd24_hd: 11
+    ivd3_hd: 2
+    ivd2_hd: 1
+  Other Cells
+  ===========
+    fj4d4_hd: 1
+
+  Legalizing Placement
+  --------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:57 2020
+****************************************
+Std cell utilization: 6.11%  (328736/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 6.03%  (324029/(5543598-167805))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        328736   sites, (non-fixed:324029 fixed:4707)
+                      32320    cells, (non-fixed:31762  fixed:558)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      167805   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       218 
+Avg. std cell width:  5.20 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:57 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       partial     7.20        1.80        via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:28:57 2020
+****************************************
+
+No cell displacement.
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+
+  Placement Legalization Complete
+  -------------------------------
+
+Information: Updating database...
+Unsetting the GR Options
+LR: 0 out of 557 clock nets rerouted
+LR: Clock routing service terminated
+Invalidate design extracted status
+CTS: CTS Operating Condition(s): MAX(Worst) 
+
+ Enabling arnoldi support in ICDB flow 
+CTS: CTS Operating Condition(s): MAX(Worst) 
+Clocks considered for balancing are specified using the -clock_trees option in balance_inter_clock_delay command.
+Clock name : clk_half 	Balance group name : None
+enable delay detour in ctdn
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+
+
+Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Setting the GR Options
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00059 0.0003 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00032 0.00028 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00036 0.00018 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00023 0.00021 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00047 0.00024 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00036 0.00018 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.12
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.11
+LR: 10781 initial glinks on 557 nets
+LR: 557 nets fully connected by initial glinks
+LR: Clock routing service standing by
+Using cts integrated global router
+Information: Design is global routed.
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ Cannot find specified mesh net 
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+CTS: all inverters have too large rise/fall delay skew
+CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000) 
+CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
+CTS: Prepare sources for clock domain clk_half
+CTS: Prepare sources for clock domain clk_half
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27272.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.27272.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+Pruning library cells (r/f, pwr)
+    Min drive = 0.27272.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.27272.
+    Final pruned buffer set (9 buffers):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+CTS: Enable Top-Level OCV Path Sharing.
+CTO-ID:    
+Choosing the following cells for CTO Delay Insertion and ICDB: 
+CTO-  :     ivd12_hd, 
+CTO-  :     ivd16_hd, 
+CTO-  :     ivd1_hd, 
+CTO-  :     ivd20_hd, 
+CTO-  :     ivd24_hd, 
+CTO-  :     ivd2_hd, 
+CTO-  :     ivd3_hd, 
+CTO-  :     ivd4_hd, 
+CTO-  :     ivd6_hd, 
+CTO-  :     ivd8_hd, 
+CTO-  :     nid12_hd, 
+CTO-  :     nid16_hd, 
+CTO-  :     nid1_hd, 
+CTO-  :     nid20_hd, 
+CTO-  :     nid24_hd, 
+CTO-  :     nid2_hd, 
+CTO-  :     nid3_hd, 
+CTO-  :     nid4_hd, 
+CTO-  :     nid6_hd, 
+CTO-  :     nid8_hd, 
+CTO-  :     
+
+Initializing multicorner optimizer...
+Using primary buffers equivalent to 'nid2_hd'.
+Using primary inverters equivalent to 'ivd1_hd'.
+Technology-based gate delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Technology-based wire delay scale factors (normalized to the highest):
+  Corner 'max': 1.000
+Using the following scale factors for float pins:
+  Corner 'max': 1.000
+Worst clock corner:  max
+Worst RC delay corner:  max
+Using normal effort optimization
+Using pre-route mode
+Using non-mv_mode
+Target max transition = 0.246176
+Using the CTS integrated router
+
+Selecting library cells for optimization
+    Pruning weak driver nid1_hd.
+    Final pruned buffer set (9 buffers):
+	nid2_hd
+	nid3_hd
+	nid4_hd
+	nid6_hd
+	nid8_hd
+	nid12_hd
+	nid16_hd
+	nid20_hd
+	nid24_hd
+
+    Pruning weak driver ivd1_hd.
+    Final pruned inverter set (9 inverters):
+	ivd2_hd
+	ivd3_hd
+	ivd4_hd
+	ivd6_hd
+	ivd8_hd
+	ivd12_hd
+	ivd16_hd
+	ivd20_hd
+	ivd24_hd
+setting ndr shield_130nm_rule to clock clk_half
+
+
+Initializing parameters for clock clk_half:
+Root pin: khu_sensor_top/divider_by_2/o_CLK_DIV_2
+Using max_transition: 0.300 ns
+Using leaf_max_transition for clock clk_half: 0.300 ns
+Using the following target skews for global optimization:
+  Corner 'max': 0.089 ns
+Using the following target skews for incremental optimization:
+  Corner 'max': 0.000 ns
+Using the following optimization options:
+  gate sizing                   :  off
+  gate relocation               :  off
+  preserve levels               :  off
+  area recovery                 :  on
+  relax insertion delay         :  off
+  balance rc                    :  off
+Information: The -balance_rc option is set to false by default, because there are single CTS corner(s). (CTS-1121)
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_half : 0.300 ns
+Using max_transition 0.300 ns
+Using leaf_max_transition for clock clk_half : 0.300 ns
+
+***************************************************************
+* Initial Inter-clock delay balance report (clock 'clk_half') *
+***************************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.143 0.000 0.143)
+    Estimated Insertion Delay (r/f/b) = (0.910  -inf 0.910)
+  Wire capacitance =  3.9 pf
+  Total capacitance = 5.7 pf
+  Max transition = 0.287 ns
+  Cells = 44 (area=121.000114)
+  Inverters = 44 (area=121.000114)
+  Inverter Types
+  ==============
+    ivd16_hd: 10
+    ivd8_hd: 9
+    ivd6_hd: 5
+    ivd20_hd: 3
+    ivd12_hd: 14
+    ivd4_hd: 2
+    ivd24_hd: 1
+
+***************************************
+* Target Delay settings for ICDB flow *
+***************************************
+Clock_Name Settings                                         Target_delay_Value
+--------------------------------------------------------------------
+clk_half  Max Insertion delay among all clocks              0.910
+Warning: : Some or all clocks are not in any user defined balance groups. These will be included in default group for ICDB. (CTS-993)
+
+*************************************************************
+* Final Inter-clock delay balance report (clock 'clk_half') *
+*************************************************************
+  Corner 'max'
+    Estimated Skew (r/f/b) = (0.143 0.000 0.143)
+    Estimated Insertion Delay (r/f/b) = (0.910  -inf 0.910)
+  Wire capacitance =  3.9 pf
+  Total capacitance = 5.7 pf
+  Max transition = 0.287 ns
+  Cells = 44 (area=121.000114)
+  Inverters = 44 (area=121.000114)
+  Inverter Types
+  ==============
+    ivd16_hd: 10
+    ivd8_hd: 9
+    ivd6_hd: 5
+    ivd20_hd: 3
+    ivd12_hd: 14
+    ivd4_hd: 2
+    ivd24_hd: 1
+
+  Legalizing Placement
+  --------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:29:13 2020
+****************************************
+Std cell utilization: 6.11%  (328736/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 6.03%  (324029/(5543598-167805))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        328736   sites, (non-fixed:324029 fixed:4707)
+                      32320    cells, (non-fixed:31762  fixed:558)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      167805   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       218 
+Avg. std cell width:  5.20 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:29:13 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       partial     7.20        1.80        via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Tue Sep  1 12:29:13 2020
+****************************************
+
+No cell displacement.
+
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+
+  Placement Legalization Complete
+  -------------------------------
+
+Information: Updating database...
+Unsetting the GR Options
+LR: 0 out of 557 clock nets rerouted
+LR: Clock routing service terminated
+Invalidate design extracted status
+# set dont touch on clock tree
+set_clock_tree_exception 	-dont_touch_subtrees [remove_from_collection [all_fanout -flat -clock_tree] [get_ports [all_outputs]]]
+Error: defining dont_touch_subtree for hierarchical pin <khu_sensor_top/divider_by_2/o_CLK_DIV_2> is not supported
+0
+# Source shielding rule
+mark_clock_tree -clock_synthesized -fix_sinks 	-routing_rule $ICC_CTS_RULE_NAME -use_default_routing_for_sinks 1
+Marking clock tree from khu_sensor_top/divider_by_2/o_CLK_DIV_2...
+Marking clock tree from pad29/YN...
+Source pin pad29/YN is an exception pin
+Marking clock tree from i_CLK...
+Source pin i_CLK is an exception pin
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    857 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Warning: root net khu_sensor_top/w_CLOCK_HALF is global routed. (CTS-246)
+1
+# Report
+redirect -file $REPORTS_DIR/${step}.clock_tree_settings 	{report_clock_tree -settings}
+EKL_MT: total threadable CPU 1.48 seconds
+EKL_MT: elapsed time 1 seconds
+redirect -file $REPORTS_DIR/${step}.clock_tree_exceptions {report_clock_tree -exceptions}
+redirect -file $REPORTS_DIR/${step}.skew                  {report_clock_tree}
+redirect -file $REPORTS_DIR/${step}.skew.summary          {report_clock_tree -summary}
+redirect -file $REPORTS_DIR/${step}.clock_structure       {report_clock_tree -structure}
+# Connect Power & Grounding in extraction and update timing
+derive_pg_connection -power_net  $MW_R_POWER_NET    -power_pin  $MW_POWER_PORT
+Information: connected 557 power ports and 0 ground ports
+1
+derive_pg_connection -ground_net $MW_R_GROUND_NET   -ground_pin $MW_GROUND_PORT
+Information: connected 0 power ports and 557 ground ports
+1
+derive_pg_connection -power_net  $MW_R_POWER_NET    -ground_net $MW_R_GROUND_NET -tie
+reconnected total 0 tie highs and 0 tie lows
+1
+# Running extraction and updating the timing
+extract_rc
+1
+update_timing
+	Parasitic source    : LPE
+	Parasitic mode      : RealRVirtualC
+	Extraction mode     : MIN_MAX
+	Extraction derating : -40/25/125
+Information: Updating design information... (UID-85)
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_pad' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (rise_edge) is not satisfied. (TIM-255)
+Warning: Sense relationship for generated clock (clk_pad with source pin pad29/YN) (fall_edge) is not satisfied. (TIM-255)
+1
+# Remove all clock tree exceptions after CTS
+remove_clock_tree_exceptions -all
+1
+# dump shieldin net list
+report_net_routing_rules [get_flat_nets *] -output $REPORTS_DIR/shielding_nets.dump
+
+****************************************
+Report : net routing rules
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Tue Sep  1 12:29:36 2020
+****************************************
+
+1
+# Report
+set REPORTS_STEP_DIR $REPORTS_DIR/${step}
+./reports/04_clock_opt_cts
+if {[file exist $REPORTS_STEP_DIR]} {
+	sh rm -rf $REPORTS_STEP_DIR
+}
+sh mkdir $REPORTS_STEP_DIR
+set legalize_support_phys_only_cell true
+true
+create_qor_snapshot -show_all -significant_digits 4 -name $step
+Information: Timer is not in zero interconnect delay mode. (TIM-176)
+***********************************************
+Report          : create_qor_snapshot (04_clock_opt_cts)
+Design          : khu_sensor_pad
+Version         : N-2017.09
+Date            : Tue Sep  1 12:29:38 2020
+Time unit       : 1.0e-09 Second(ns)
+Capacitance unit: 1.0e-12 Farad(pF)
+Voltage unit    : 1 Volt
+Power unit      : 1.0e-03 Watt(mW)
+Location        : /home/graduation_project3/2015103977/khu_sensor/Back_End/snapshot
+***********************************************
+No. of scenario = 1
+--------------------------------------------------
+WNS of each timing group:                
+--------------------------------------------------
+clk_pad                                    -7.7456 
+clk_half                                    2.4696 
+clk                                        -9.0370 
+--------------------------------------------------
+Setup WNS:                                 -9.0370 
+Setup TNS:                               -2970.6189
+Number of setup violations:                   1512  
+Hold WNS:                                  -0.5318  
+Hold TNS:                                -1137.3757  
+Number of hold violations:                    5841  
+Number of max trans violations:               4329  
+Number of max cap violations:                 1504  
+Number of min pulse width violations:            0  
+Route drc violations:                            0
+--------------------------------------------------
+Area:                                       109579
+Cell count:                                  32531
+Buf/inv cell count:                           6836
+Std cell utilization:                        6.11%
+CPU/ELAPSE(hr):                          0.03/0.06
+Mem(Mb):                                       939
+Host name:                               vlsi-dist.khu.ac.kr
+--------------------------------------------------
+Histogram:           
+--------------------------------------------------
+Max violations:      1512 
+   above ~ -0.7  --- 1154 
+    -0.6 ~ -0.7  ---   76 
+    -0.5 ~ -0.6  ---   45 
+    -0.4 ~ -0.5  ---   38 
+    -0.3 ~ -0.4  ---   51 
+    -0.2 ~ -0.3  ---   57 
+    -0.1 ~ -0.2  ---   22 
+       0 ~ -0.1  ---   69 
+--------------------------------------------------
+Min violations:      5841 
+  -0.06 ~ above  --- 5075 
+  -0.05 ~ -0.06  ---  148 
+  -0.04 ~ -0.05  ---  144 
+  -0.03 ~ -0.04  ---  154 
+  -0.02 ~ -0.03  ---   88 
+  -0.01 ~ -0.02  ---  141 
+      0 ~ -0.01  ---   91 
+--------------------------------------------------
+Snapshot (04_clock_opt_cts) is created and stored under "/home/graduation_project3/2015103977/khu_sensor/Back_End/snapshot" directory
+1
+redirect -file $REPORTS_STEP_DIR/snap.rpt 	{ report_qor_snapshot -name $step -save_as snap.rpt }
+redirect -file $REPORTS_STEP_DIR/hfn.rpt { report_net_fanout -threshold 100 }
+redirect -file $REPORTS_STEP_DIR/qor.rpt -tee 	{ report_qor -significant_digits 4 }
+ 
+****************************************
+Report : qor
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Tue Sep  1 12:29:39 2020
+****************************************
+
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:             7.0000
+  Critical Path Length:       13.2706
+  Critical Path Slack:        -9.0370
+  Critical Path Clk Period:   10.0000
+  Total Negative Slack:      -37.0296
+  No. of Violating Paths:      7.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Timing Path Group 'clk_half'
+  -----------------------------------
+  Levels of Logic:             7.0000
+  Critical Path Length:        6.0412
+  Critical Path Slack:         2.4696
+  Critical Path Clk Period:   20.0000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:       -0.4100
+  Total Hold Violation:     -136.2514
+  No. of Hold Violations:    645.0000
+  -----------------------------------
+
+  Timing Path Group 'clk_pad'
+  -----------------------------------
+  Levels of Logic:            17.0000
+  Critical Path Length:       16.4616
+  Critical Path Slack:        -7.7456
+  Critical Path Clk Period:   10.0000
+  Total Negative Slack:    -2933.5894
+  No. of Violating Paths:   1505.0000
+  Worst Hold Violation:       -0.5318
+  Total Hold Violation:    -1001.1240
+  No. of Hold Violations:   5196.0000
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:        110
+  Hierarchical Port Count:       5647
+  Leaf Cell Count:              32531
+  Buf/Inv Cell Count:            6836
+  Buf Cell Count:                3085
+  Inv Cell Count:                3751
+  CT Buf/Inv Cell Count:          557
+  Combinational Cell Count:     27092
+  Sequential Cell Count:         5439
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:      68287.3608
+  Noncombinational Area:   41291.3304
+  Buf/Inv Area:            10206.0066
+  Total Buffer Area:        5861.6650
+  Total Inverter Area:      4344.3416
+  Macro/Black Box Area:        0.0000
+  Net Area:                 1066.2240
+  Net XLength        :  20978754.0000
+  Net YLength        :  43246536.0000
+  -----------------------------------
+  Cell Area:              109578.6912
+  Design Area:            110644.9152
+  Net Length        :   64225288.0000
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         34464
+  Nets With Violations:         23787
+  Max Trans Violations:          4329
+  Max Cap Violations:            1504
+  Max Net Length Violations:    23370
+  -----------------------------------
+
+
+  Hostname: vlsi-dist.khu.ac.kr
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                  0.0000
+  Logic Optimization:                0.0000
+  Mapping Optimization:            269.9000
+  -----------------------------------------
+  Overall Compile Time:            270.7289
+  Overall Compile Wall Clock Time: 271.0721
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 9.0370  TNS: 2970.6189  Number of Violating Paths: 1512
+
+
+  Design (Hold)  WNS: 0.5318  TNS: 1137.3757  Number of Violating Paths: 5841
+
+  --------------------------------------------------------------------
+
+
+1
+redirect -file $REPORTS_STEP_DIR/physical.sum -tee { report_design -physical -nosplit }
+ 
+****************************************
+Report : design
+        -physical
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Tue Sep  1 12:29:39 2020
+****************************************
+
+	Parasitic source    : LPE
+	Parasitic mode      : RealRVirtualC
+	Extraction mode     : MIN_MAX
+	Extraction derating : -40/25/125
+****************************** P&R Summary ********************************
+Date : Tue Sep  1 12:29:39 2020
+Machine Host Name: vlsi-dist.khu.ac.kr
+Working Directory: /home/graduation_project3/2015103977/khu_sensor/Back_End
+Library Name:      khu_sensor_pad_04_clock_opt_cts
+Cell Name:         khu_sensor_pad.CEL;1
+Design Statistics:
+    Number of Module Cells:        32320
+    Number of Pins:                184549
+    Number of IO Pad Cells:        211
+    Number of IO Pins:             14
+    Number of Nets:                34322
+    Average Pins Per Net (Signal): 3.28033
+
+Chip Utilization:
+    Total Std Cell Area:           520717.82
+    Total Blockage Area:           258347.23
+    Total Pad Cell Area:           1750526.40
+    Core Size:     width 2924.68, height 3002.40; area 8781059.23
+    Pad Core Size: width 3724.76, height 3724.76; area 13873837.06
+    Chip Size:     width 4000.00, height 4000.00; area 16000000.00
+    Std cells utilization:         6.11% 
+    Cell/Core Ratio:               5.93%
+    Cell/Chip Ratio:               14.20%
+    Number of Cell Rows:            834
+
+Master Instantiation:
+	MasterName	Type	InstCount
+	=================================
+	ivd1_hd		STD	2303
+	fd1eqd1_hd	STD	2073
+	scg2d1_hd	STD	1536
+	fd4qd1_hd	STD	1422
+	nid2_hd		STD	1399
+	mx2d1_hd	STD	1350
+	xo2d1_hd	STD	1310
+	oa21d1_hd	STD	1152
+	nd2d1_hd	STD	1079
+	or2d1_hd	STD	858
+	ao22d1_hd	STD	821
+	ao222d1_hd	STD	821
+	clknd2d1_hd	STD	795
+	nr2d1_hd	STD	751
+	ad2d1_hd	STD	704
+	nid3_hd		STD	669
+	fad1_hd		STD	660
+	fd2qd1_hd	STD	562
+	fds2eqd1_hd	STD	549
+	had1_hd		STD	532
+	oa21d2_hd	STD	389
+	ivd2_hd		STD	342
+	scg4d1_hd	STD	311
+	fad2_hd		STD	295
+	ivd12_hd	STD	289
+	nid4_hd		STD	288
+	clknd2d2_hd	STD	258
+	fad4_hd		STD	253
+	fd1eqd2_hd	STD	234
+	scg5d1_hd	STD	231
+	nid1_hd		STD	228
+	nr4d1_hd	STD	227
+	ao222d2_hd	STD	227
+	clknd2d4_hd	STD	224
+	ivd4_hd		STD	223
+	oa21d4_hd	STD	219
+	nr2d4_hd	STD	214
+	ao21d1_hd	STD	203
+	nd2d2_hd	STD	201
+	nr2bd1_hd	STD	196
+	nr2ad1_hd	STD	191
+	xo2d2_hd	STD	182
+	fd1ed1_hd	STD	177
+	scg6d1_hd	STD	174
+	ivd3_hd		STD	168
+	mx2id1_hd	STD	164
+	oa211d1_hd	STD	163
+	nd4d1_hd	STD	156
+	ivd16_hd	STD	156
+	nid12_hd	STD	149
+	nd2d4_hd	STD	133
+	xn2d1_hd	STD	128
+	nr2d2_hd	STD	122
+	ivd8_hd		STD	121
+	scg14d1_hd	STD	119
+	xo2d4_hd	STD	118
+	ivd6_hd		STD	110
+	nid6_hd		STD	109
+	scg15d1_hd	STD	103
+	nid24_hd	STD	103
+	nd3d1_hd	STD	97
+	fd1eqd4_hd	STD	93
+	ao21d4_hd	STD	92
+	oa22d1_hd	STD	89
+	or2d2_hd	STD	84
+	xn2d4_hd	STD	82
+	nd2bd1_hd	STD	80
+	xo3d1_hd	STD	76
+	or2d4_hd	STD	76
+	fd1ed4_hd	STD	75
+	nd2d6_hd	STD	71
+	ao21d2_hd	STD	70
+	nr2d6_hd	STD	66
+	fd4qd2_hd	STD	66
+	had2_hd		STD	65
+	ad2d2_hd	STD	62
+	nid8_hd		STD	62
+	nd3d6_hd	STD	62
+	xn2d2_hd	STD	54
+	nr3d1_hd	STD	53
+	ao211d1_hd	STD	49
+	clknd2d6_hd	STD	46
+	clknd2d3_hd	STD	45
+	nid20_hd	STD	45
+	had4_hd		STD	45
+	clkxo2d2_hd	STD	44
+	ad2bd1_hd	STD	43
+	fd2d1_hd	STD	42
+	fd3qd1_hd	STD	39
+	or4d1_hd	STD	38
+	clkxo2d1_hd	STD	38
+	fd3d1_hd	STD	35
+	ad2d4_hd	STD	35
+	nr4d2_hd	STD	34
+	nid16_hd	STD	33
+	fds2eqd2_hd	STD	32
+	ao22d4_hd	STD	30
+	nd2d8_hd	STD	29
+	mx2id2_hd	STD	26
+	ivd20_hd	STD	26
+	or3d1_hd	STD	25
+	scg17d1_hd	STD	23
+	or2bd4_hd	STD	22
+	nd3d2_hd	STD	22
+	ad3d4_hd	STD	21
+	nd3bd1_hd	STD	19
+	scg18d1_hd	STD	19
+	ad4d1_hd	STD	19
+	oa211d2_hd	STD	19
+	ad2bd4_hd	STD	19
+	ao22d2_hd	STD	19
+	clkad2d4_hd	STD	18
+	scg13d1_hd	STD	16
+	fd2qd2_hd	STD	16
+	fd1ed2_hd	STD	16
+	scg12d1_hd	STD	15
+	scg9d1_hd	STD	15
+	ad3d6_hd	STD	15
+	scg9d4_hd	STD	15
+	nr2bd2_hd	STD	14
+	xo2d8_hd	STD	14
+	oa22ad1_hd	STD	13
+	xn2d8_hd	STD	13
+	ad2d8_hd	STD	13
+	ivd24_hd	STD	13
+	scg16d1_hd	STD	12
+	scg22d1_hd	STD	12
+	nr2bd4_hd	STD	12
+	mx2id6_hd	STD	12
+	xo3d2_hd	STD	12
+	nd3d4_hd	STD	12
+	scg20d1_hd	STD	11
+	clkad2d1_hd	STD	11
+	scg9d2_hd	STD	11
+	oa21d8_hd	STD	10
+	nd4d2_hd	STD	10
+	scg10d1_hd	STD	9
+	scg2d2_hd	STD	9
+	mx2id4_hd	STD	9
+	ao21d8_hd	STD	8
+	ad2bd8_hd	STD	8
+	nd2bd4_hd	STD	8
+	ad2bd6_hd	STD	8
+	ao211d2_hd	STD	7
+	clkad2d3_hd	STD	7
+	or2d6_hd	STD	7
+	scg12d4_hd	STD	7
+	nr2bd6_hd	STD	7
+	scg12d2_hd	STD	7
+	or2bd2_hd	STD	6
+	scg20d4_hd	STD	6
+	nr4d4_hd	STD	6
+	scg18d4_hd	STD	6
+	clkxo2d3_hd	STD	6
+	ad3d2_hd	STD	5
+	ad2bd2_hd	STD	5
+	nd2bd2_hd	STD	5
+	scg6d4_hd	STD	5
+	scg14d2_hd	STD	5
+	ad2d6_hd	STD	5
+	or2bd6_hd	STD	5
+	clknd2d8_hd	STD	5
+	mx4d1_hd	STD	4
+	scg3d1_hd	STD	4
+	scg6d2_hd	STD	4
+	scg7d1_hd	STD	4
+	fd3qd2_hd	STD	4
+	nr3ad1_hd	STD	4
+	nd2bd6_hd	STD	4
+	scg14d4_hd	STD	4
+	or2bd8_hd	STD	3
+	scg1d1_hd	STD	3
+	or2d8_hd	STD	3
+	scg13d2_hd	STD	3
+	scg8d1_hd	STD	3
+	oa22d2_hd	STD	3
+	scg17d2_hd	STD	3
+	nd3bd2_hd	STD	3
+	nd2bd8_hd	STD	3
+	nd3d8_hd	STD	3
+	scg22d4_hd	STD	3
+	scg20d2_hd	STD	2
+	nr3d4_hd	STD	2
+	ao22ad1_hd	STD	2
+	scg21d1_hd	STD	2
+	ad3d1_hd	STD	2
+	nr2d8_hd	STD	2
+	nr3d6_hd	STD	2
+	scg22d2_hd	STD	2
+	or4d2_hd	STD	2
+	mx2d4_hd	STD	2
+	scg15d4_hd	STD	2
+	xo3d4_hd	STD	2
+	ao222d4_hd	STD	2
+	had8_hd		STD	2
+	fad8_hd		STD	2
+	oa211d4_hd	STD	1
+	scg11d1_hd	STD	1
+	oa31d1_hd	STD	1
+	clkad2d6_hd	STD	1
+	scg13d4_hd	STD	1
+	ao211d4_hd	STD	1
+	or3d2_hd	STD	1
+	fd3d4_hd	STD	1
+	nd4d4_hd	STD	1
+	scg18d2_hd	STD	1
+	scg1d2_hd	STD	1
+	scg15d2_hd	STD	1
+	scg16d2_hd	STD	1
+	fd3d2_hd	STD	1
+	scg16d4_hd	STD	1
+	ad3d8_hd	STD	1
+	fj4d4_hd	STD	1
+	scg6d8_hd	STD	1
+	fd2d2_hd	STD	1
+	nr2bd8_hd	STD	1
+	mx2d8_hd	STD	1
+	oa22ad2_hd	STD	1
+	ao222d8_hd	STD	1
+	iofillerh5_p	IO	175
+	vssoh_p		IO	124
+	vssiph_p	IO	48
+	iofillerh10_p	IO	44
+	vdd33oph_p	IO	18
+	phob12_p	IO	6
+	vdd12ih_p	IO	5
+	iofillerh30_p	IO	5
+	vdd12ih_core_p	IO	3
+	phic_p		IO	3
+	phbct12_p	IO	2
+	phis_p		IO	1
+	phsoscm3_p	IO	1
+	=================================
+
+Timing/Optimization Information:
+
+Global Routing Information:
+
+Track Assignment Information:
+
+Detailed Routing Information:
+
+DRC information: 
+      Total error number: 0
+
+Ring Wiring Statistics:
+    metal5 Wire Length(count):              14740.48(4)
+    metal6 Wire Length(count):              14811.20(4)
+  ==============================================
+    Total Wire Length(count):               29551.68(8)
+    Number of via5 Contacts:              8
+  ==============================================
+    Total Number of Contacts:        8
+
+Stripe Wiring Statistics:
+    metal5 Wire Length(count):              14748.48(4)
+    metal6 Wire Length(count):              14819.20(4)
+  ==============================================
+    Total Wire Length(count):               29567.68(8)
+    Number of via5 Contacts:             24
+  ==============================================
+    Total Number of Contacts:       24
+
+User Wiring Statistics:
+
+PG follow-pin Wiring Statistics:
+    metal1 Wire Length(count):            3086358.00(845)
+    metal2 Wire Length(count):                 18.00(4)
+    metal3 Wire Length(count):                 18.00(4)
+    metal4 Wire Length(count):                 18.00(4)
+    metal5 Wire Length(count):                 26.52(16)
+  ==============================================
+    Total Wire Length(count):             3086438.52(873)
+    Number of via1 Contacts:           3329
+    Number of via2 Contacts:           3329
+    Number of via3 Contacts:           3329
+    Number of via4 Contacts:           3329
+    Number of via5 Contacts:           3327
+  ==============================================
+    Total Number of Contacts:    16643
+
+Signal Wiring Statistics:
+      Mask Name      Contact Code    Number Of Contacts    Percentage
+
+  Horizontal/Vertical Wire Distribution:
+    Layer      Hor. Wire (% of Hor.)     Ver. Wire (% of Ver.)
+  ==============================================================
+    Total              0.00                      0.00
+1
+redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_group }
+********************************************************************************
+                        Threshold Voltage Group Report                         
+
+Vth Group                All                Blackbox           Non-blackbox
+Name                    cells                cells                cells
+********************************************************************************
+undefined           32531 (100.00%)        198 (100.00%)      32333 (100.00%)   
+********************************************************************************
+
+Vth Group                All                Blackbox           Non-blackbox
+Name                  cell area            cell area            cell area
+********************************************************************************
+undefined       109578.69 (100.00%)       0.00   (0.00%)  109578.69 (100.00%)   
+********************************************************************************
+1
+redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
+redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint 	-all_violators -nosplit -significant_digits 4 }
+redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
+	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 	-physical -attributes -nosplit -derate
+}
+redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
+	report_timing -significant_digits 4 	-delay min -transition_time  -capacitance 	-max_paths 100 -nets -input_pins 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
+}
+# delete "snapshot" directory called by create_qor_snapshot command
+sh rm -rf snapshot/
+#******************************************************************************
+# Note Checklist after CTS
+# 1. Check Timing Violation.
+# 2. Verify Congestion value. Congestion value must be lower than 4.
+# 3. View Clock Tree.
+# 4. Check report file of cts.
+#******************************************************************************
+# Save
+change_names -rule verilog -hier
+Information: Updating database...
+Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)
+1
+set verilogout_no_tri true
+true
+save_mw_cel -as ${TOP_MODULE}
+Information: Performing CEL netlist consistency check. (MWDC-118)
+Information: CEL consistency check PASSED. (MWDC-119)
+Information: Saved design named khu_sensor_pad. (UIG-5)
+1
+# close lib
+close_mw_lib
+Removing physical design 'khu_sensor_pad'
+1
+# Reset sdc file for applying sdc
+sh rm -f $FUNC1_SDC
+sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+exit
+
+Thank you...
+Exit IC Compiler!

@@ -1,0 +1,3075 @@
+
+                                IC Compiler (TM)
+                              IC Compiler-PC (TM)
+                              IC Compiler-XP (TM)
+                              IC Compiler-DP (TM)
+                              IC Compiler-AG (TM)
+
+                 Version N-2017.09 for linux64 - Aug 17, 2017 
+
+                    Copyright (c) 1988 - 2017 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+***********************************************************************
+                                                                       
+                     synopsys_dc_setup.tcl                             
+                                                                       
+***********************************************************************
+***********************************************************************
+       NOTE>>> You MUST fix the design which have multiple ports
+               Use the following command
+               set_fix_multiple_port_nets -all -buffer_constants
+************************************************************************
+***********************************************************************
+       NOTE>>> Use the old compile_fix_multiple_port_nets
+               because reoptimize_design does not honor
+               the set_fix_multiple_port_nets command
+************************************************************************
+Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
+#******************************************************************************
+#**                           02_powerplan                                   **
+#**              power planning, preroute and global route                   **
+#******************************************************************************
+# Power Network Synthesis (PNS)
+# Creates macro power rings since all macro which needs to supply voltage cannot
+# route to core power pad directly
+# Creates the power grid 
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                           02_powerplan.tcl                            "
+                           02_powerplan.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+# Set Step
+set step "02_powerplan"
+02_powerplan
+# source the user_design_setup & common_lib_setup 
+source -echo -v ./icc_scripts/user_scripts/user_design_setup.tcl
+#******************************************************************************
+#**                          user design settings                           **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                      user_design_setup.tcl                            "
+                      user_design_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                         General ICC Varialbes                            **
+#******************************************************************************
+set TOP_MODULE                     "khu_sensor_pad"    ;# set design top module name
+khu_sensor_pad
+set ICC_STRATEGY                   "qor"              ;# ttr | qor
+qor
+set LEAKAGE_POWER_PLACE            true              ;# set to true when enabling leakage Flow in place_opt step.
+true
+set LEAKAGE_POWER_PSYN             true              ;# set to true when enabling leakage Flow in clock_opt_psyn step. runtime will be effected.
+true
+set ICC_NUM_CPUS                   "1"                ;# used during placement & routing
+1
+set qor_effort                     "high"           ;# low | medium | high. place optimization effort, default is medium.
+high
+set INOUT_OPT                      true               ;# set to true when optimizing i2r and r2o paths
+true
+set GL_BASED_PLACE                 true              ;# set to true when using high congested design
+true
+set GEN_GL_CONG_MAP                true              ;# set to true, to see global route based congestion map
+true
+set INTER_CLK_GROUPS               "clk clk_pad clk_half"    ;# Define to balance clocks during CTS. "clkA clkB"
+clk clk_pad clk_half
+set TIECELL_INSERT                 true              ;# true | false, if true, ICC will insert TIE cells.
+true
+set SPARE_INSERT                   false              ;# true | false, if true, the followings must be defined.
+false
+set SPARE_PREFIX                   spares             ;# default is spares
+spares
+set SPARE_CELL_n_NUM               ""                 ;# example) "BUF_X1M_A9TH 100 AOI22_X1M_A9TH 100 INV_X1M_A9TH 200"
+set USER_DIE_SIZE                  false              ;# true | false, if you know chip size, define true.
+false
+;# Then write bellow variables.
+set DIE_WIDTH                      ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set DIE_HEIGHT                     ""                 ;# If USER_DIE_SIZW is true, define this variable.
+set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_200827_L13_68um.tdf"  ;# This is tdf format.
+./TECH/padplace_ICC_200827_L13_68um.tdf
+# This is a tcl file that changes pad names in logic library to in physical library. 
+# The tcl file functions appending "_p" to a last character of the pad names. 
+# (e.g. vssoh -> vssoh_p)
+set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"  
+./icc_scripts/rules/pad_naming_rule.tcl
+set CLOCK_MAX_TRAN                 "0.9"              ;# clock path max transtion time.
+0.9
+set MAX_ROUTING_LAYER              "MET4"              
+MET4
+set MIN_ROUTING_LAYER              ""
+set CLK_MAX_ROUTING_LAYER          "MET4"
+MET4
+set CLK_MIN_ROUTING_LAYER          "MET3"
+MET3
+#######################################################
+## For Power Definition
+#######################################################
+set MW_R_POWER_NET         "VDD"                 ;# This is real power net name.
+VDD
+set MW_R_GROUND_NET        "VSS"                 ;# This is real ground net name.
+VSS
+set mw_logic1_net          $MW_R_POWER_NET       ;# Default
+VDD
+set mw_logic0_net          $MW_R_GROUND_NET      ;# Default
+VSS
+set MW_POWER_PORT          "VDD"                 ;# This is standard cell power pin name.
+VDD
+set MW_GROUND_PORT         "VSS"                 ;# This is standard cell ground pin name.
+VSS
+#######################################################
+## Input Files
+#######################################################
+set ICC_IN_VERILOG_NETLIST_FILE "../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg"
+../Front_End/Design_Compiler/netlist/khu_sensor_pad/tcl/khu_sensor_pad_hierarchy.vg
+#######################################################
+## Define Init Utilization
+#######################################################
+set CORE_UTIL                      "0.6"              ;# Define initial core utilization. 
+0.6
+;# example) 0.6 means 60% utilization.
+set IO2L                           "400"               ;# This means space from IO to core boundary in left side.
+400
+set IO2B                           "360"               ;# This means space from IO to core boundary in bottom side.
+360
+set IO2R                           "400"               ;# This means space from IO to core boundary in right side.
+400
+set IO2T                           "360"               ;# This means space from IO to core boundary in top side.
+360
+#####################################################################################################
+##
+#
+# scenario naming convention :  mode_corner
+# - mode   : func1,func2,scan1,scan2,bist1,bist2,jtag
+#            funccts,scancts,bistcts,jtagcts
+# - corner : wst, wstti, bst, bstti
+#
+# (scenario example)
+#  func1_wst func1_wstti func1_bst func1_bstti
+#  func2_wst func2_wstti func2_bst func2_bstti
+#  scan1_wst scan1_wstti scan1_bst scan1_bstti
+#  scan2_wst scan2_wstti scan2_bst scan2_bstti
+#  bist1_wst bist1_wstti bist1_bst bist1_bstti
+#  bist2_wst bist2_wstti bist2_bst bist2_bstti
+#  jtag_wst  jtag_wstti  jtag_bst  jtag_bstti
+#  funccts_wstti scancts_wstti bistcts_wstti jtagcts_wstti
+#
+#####################################################################################################
+#TODO make sceniario tcl script
+#set ICC_MCMM_SCENARIOS_FILE        "./icc_scripts/mcmm_scenario/scenarios.tcl"
+####### Define scenarios
+## This is example, modify this according to your scenarios.
+##
+## Generally, FP_SCN, PLACE_OPT_SNC and ROUTE_SCN uses worst function mode scenario such as func1_wstti.
+## CLOCK_OPT_CTS_SCN uses all cts scenario such as funccts_wstti,scantcts_wstti,bistcts_wstti,jtagcts_wstti.
+## CLOCK_OPT_PSYN_SCN, ROUTE_OPT_SCN and CHIP_FINISH_SCN uses all scenarios except for CLOCK_OPT_CTS_SCN.
+## HOLD_ONLY_SCN optimizes only hold time and mttv. 
+## So, you uses best corner scenarios such as func1_bst,scan1_bst,bist1_bst and jtag_bst.
+##
+#set scenarios                      "func1_wst func1_bst"
+#set scenarios                      "func1_wst func1_bst funccts_wst"
+#set FP_SCN                         "func1_wst"
+#set PLACE_OPT_SCN                  "func1_wst"
+#set CLOCK_OPT_CTS_SCN              "funccts_wst"
+#set CLOCK_OPT_PSYN_SCN             "func1_bst"
+#set CLOCK_OPT_PSYN_SCN             "func1_wst func1_bst"
+#set ROUTE_SCN                      "func1_wst"
+#set ROUTE_OPT_SCN                  "func1_bst"
+#set ROUTE_OPT_SCN                  "func1_wst func1_bst"
+#set CHIP_FINISH_SCN                "func1_bst"
+#set CHIP_FINISH_SCN                "func1_wst func1_bst"
+#set CLOCK_OPT_CTS_SCN_READ_AGAIN   true              ;# If true, ICC will create scenario again.  ekyoo
+#set CLOCK_OPT_PSYN_SCN_READ_AGAIN  false              ;# If true, ICC will create scenario again.  ekyoo
+#set ROUTE_SCN_READ_AGAIN           false              ;# If true, ICC will create scenario again.
+#set ROUTE_OPT_SCN_READ_AGAIN       false              ;# If true, ICC will create scenario again.
+set HOLD_FIX                       true		      ;# If you want to fix hold violation then set true.
+true
+####### Define SDC Files
+## If you have only FUNC1_SDC, Write the sdc file in FUNC1_SDC field.
+## If FUNC1_SDC and FUNCTS_SDC is same, Write the sdc file in FUNC1_SDC and FUNCCTS_SDC field.
+## If you don't have BIST1_SDC, Remain with blank.
+set FUNC1_SDC          "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set FUNC2_SDC          ""
+set SCAN1_SDC          ""
+set SCAN2_SDC          ""
+set BIST1_SDC          ""
+set BIST2_SDC          ""
+set JTAG_SDC           ""
+set FUNCCTS_SDC        "../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc"
+../Front_End/Design_Compiler/db/khu_sensor_pad/tcl/khu_sensor_pad.sdc
+set SCANCTS_SDC        ""
+set BISTCTS_SDC        ""
+set JTAGCTS_SDC        ""
+####### Define Default Operating Conditions
+##
+## You have to write the default operation condition name and library name of standard cell.
+## If some instances of your design have other operation condition (PVT) such as IO, 
+## You have to define the operation condition name and library name in user_opcond.tcl.
+##
+set OPCOND_WST          V105WTP1250
+V105WTP1250
+set OPCOND_WST_LIB      $STD_WST 
+std150e_wst_105_p125
+set OPCOND_WST_TIV      ""
+set OPCOND_WST_LIB_TIV  ""
+set OPCOND_BST          V135BTN0400 
+V135BTN0400
+set OPCOND_BST_LIB      $STD_BST
+std150e_bst_135_n040
+set OPCOND_BST_TIV      ""
+set OPCOND_BST_LIB_TIV  ""
+#########################   DO NOT CHANGE BELOW THIS LINE   ##############################
+##########################################################################################
+set REPORTS_DIR                 "./reports"
+./reports
+## Avoiding too many messages
+set_message_info -id PSYN-040   -limit 5
+1
+set_message_info -id PSYN-087   -limit 5
+1
+set_message_info -id LINT-8     -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id RT-065     -limit 5
+1
+set_message_info -id TIM-128    -limit 5
+1
+set_message_info -id TIM-141    -limit 5
+1
+set_message_info -id PSYN-267   -limit 5
+1
+set_message_info -id RT-104     -limit 5
+1
+set_message_info -id MWUI-040   -limit 5
+1
+set_message_info -id PSYN-024   -limit 5
+1
+set_message_info -id MWLIBP-300 -limit 5
+1
+set_message_info -id MWLIBP-314 -limit 5
+1
+set_message_info -id PSYN-058   -limit 5
+1
+set_message_info -id PSYN-025   -limit 5
+1
+set_message_info -id PSYN-039   -limit 5
+1
+set_message_info -id PSYN-523   -limit 5
+1
+set_message_info -id PSYN-900   -limit 1
+1
+set_message_info -id CTS-102    -limit 1
+1
+1
+source -echo -v ./icc_scripts/common_lib_setup.tcl
+#******************************************************************************
+#**                          common library settings                         **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                       common_lib_setup.tcl                            "
+                       common_lib_setup.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+#******************************************************************************
+#**                Set 'search_path'                                         **
+#******************************************************************************
+set search_path [list . [format "%s%s"  $synopsys_root /libraries/syn]     [format "%s%s"  $dc_home /syn/STD150E] $dc_home_aux] 
+. /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E env(SEC_SYNOPSYS)/aux
+#******************************************************************************
+#**                Set Logical Libraries                                     **
+#******************************************************************************
+# Reference/Front_End/samsung013/sec150e_synopsys/readme/SynopsysDKGuide.pdf p.14
+# Typical (TT / 1.20V / 25 Celcius)
+set STD_TYP std150e_typ_120_p025
+std150e_typ_120_p025
+set STD_TYP_MEM std150e_typ_120_p025_memory
+std150e_typ_120_p025_memory
+# Worst (SS / 1.05V / 125 Celcius)
+set STD_WST std150e_wst_105_p125
+std150e_wst_105_p125
+# Best (FF / 1.35V / -40 Celcius)
+set STD_BST std150e_bst_135_n040
+std150e_bst_135_n040
+set target_library [list         $STD_WST.db 
+       #$STD_TYP_MEM.db
+]
+std150e_wst_105_p125.db
+set synthetic_library dw_foundation.sldb
+dw_foundation.sldb
+# * : all designs which are in dc_shell 
+set link_library [list {*}         $target_library 	$synthetic_library
+]
+* std150e_wst_105_p125.db dw_foundation.sldb
+set link_path $link_library
+* std150e_wst_105_p125.db dw_foundation.sldb
+set symbol_library [list std150e_veri.sdb]
+std150e_veri.sdb
+# TODO after coding for scenario, delete
+set_min_library $STD_WST.db -min_version $STD_BST.db
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
+1
+list_libs
+Logical Libraries:
+-------------------------------------------------------------------------
+Library		File			Path
+-------		----			----
+M std150e_wst_105_p125 std150e_wst_105_p125.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+m std150e_bst_135_n040 std150e_bst_135_n040.db	/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E
+1
+echo "------------------------------------------------------------------------"
+------------------------------------------------------------------------
+#******************************************************************************
+#**                         Common Setup File                                **
+#******************************************************************************
+set_host_options -max_cores $ICC_NUM_CPUS
+1
+set_route_mode_options -zroute true
+1
+#******************************************************************************
+#******************************************************************************
+#**                         Set Library Parameter                            **
+#******************************************************************************
+setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+#******************************************************************************
+#******************************************************************************
+#**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
+#******************************************************************************
+set icc_home [getenv SEC_SYNOPSYS_ICC]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay
+set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011 
+	      ]
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+set MW_REF_LIB_DIRS "$all_milky"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+# Since I/O pad name is different between logical and physical, we should add
+# LM cell db for ICC to search I/O pad cell properly 
+if { $step != "read_design" } {
+	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_WST}_astro.db
+}
+* std150e_wst_105_p125.db dw_foundation.sldb /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+#******************************************************************************
+#******************************************************************************
+#**                       Set TECH and TLUP Files                           **
+#******************************************************************************
+set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
+./TECH/std150e_prim_6m.techgen.tf
+set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+#******************************************************************************
+#******************************************************************************
+#**                        Set Stream Out Map File                           **
+#******************************************************************************
+set STREAM_OUT_MAP "./TECH/layer.map"
+./TECH/layer.map
+#******************************************************************************
+#******************************************************************************
+#**                           Set Antenna_Rule                               **
+#******************************************************************************
+# Reference/Back_End/KHU_ASTRO User Guide p.86 and samsung65 TECH antenna_rules
+# IC User Guide p.457
+# make antenna_rule.tcl
+set ANTENNA_RULE "./TECH/std150e_prim713_antenna_200827.tcl"
+./TECH/std150e_prim713_antenna_200827.tcl
+#******************************************************************************
+#******************************************************************************
+#**                           Set IO FILLERS                                 **
+#******************************************************************************
+set IO_FILLER "iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p"
+iofillerh30_p iofillerh10_p iofillerh5_p iofiller1_p
+set IO_FILLER_OVERLAP ""       
+#******************************************************************************
+#**                        Set Clock Tree Layers                             **
+#******************************************************************************
+# clock tree layers
+set ICC_CTS_RULE_NAME "shield_130nm_rule"
+shield_130nm_rule
+#******************************************************************************
+#**                    Default Timing Environment Setting                   **
+#******************************************************************************
+set timing_enable_multiple_clocks_per_reg true
+true
+set timing_enable_non_sequential_checks true
+true
+set case_analysis_with_logic_constants true
+true
+set disable_auto_time_borrow false   
+false
+set legalize_support_phys_only_cell true
+true
+set_separate_process_options -placement false
+1
+set_separate_process_options -routing false
+1
+set_separate_process_options -extraction false
+1
+#******************************************************************************
+#******************************************************************************
+#**                               ETC                                        **
+#******************************************************************************
+set sh_enable_page_mode false
+false
+setenv TMPDIR [sh pwd]/TMP
+/home/graduation_project3/2015103977/khu_sensor/Back_End/TMP
+set back [sh date +%m%d_%H:%M:%S]
+0831_21:26:52
+#******************************************************************************
+# Clear existing mw library and re-make dir
+set _mw_lib ./mw_db/${TOP_MODULE}_${step}
+./mw_db/khu_sensor_pad_02_powerplan
+if {[file exist $_mw_lib]} {
+	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
+}
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_01_floorplan -to $_mw_lib
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+Successfully updated library ./mw_db/khu_sensor_pad_02_powerplan ref-control-file
+1
+# Open Library and Cell
+set_mw_technology_file -technology $TECH_FILE $_mw_lib
+Warning: Top library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_02_powerplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_02_powerplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Technology data dumped to ./mw_db/khu_sensor_pad_02_powerplan.tf_replaced completely.
+Start to load technology file ./TECH/std150e_prim_6m.techgen.tf.
+Warning: Layer 'ACT' is missing the attribute 'minSpacing'. (line 173) (TFCHK-014)
+Warning: Layer 'ACT' is missing the attribute 'minWidth'. (line 173) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minSpacing'. (line 236) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minWidth'. (line 236) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minSpacing'. (line 246) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minWidth'. (line 246) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minSpacing'. (line 287) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minWidth'. (line 287) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minSpacing'. (line 297) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minWidth'. (line 297) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minSpacing'. (line 687) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minWidth'. (line 687) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minSpacing'. (line 697) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minWidth'. (line 697) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minSpacing'. (line 707) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minWidth'. (line 707) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minSpacing'. (line 717) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minWidth'. (line 717) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minSpacing'. (line 727) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minWidth'. (line 727) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minSpacing'. (line 737) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minWidth'. (line 737) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minSpacing'. (line 747) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minWidth'. (line 747) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minSpacing'. (line 757) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minWidth'. (line 757) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minSpacing'. (line 767) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minWidth'. (line 767) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minSpacing'. (line 777) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minWidth'. (line 777) (TFCHK-014)
+Warning: FringeCap 1 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 992) (TFCHK-067)
+Warning: FringeCap 3 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1010) (TFCHK-067)
+Warning: FringeCap 6 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1037) (TFCHK-067)
+Warning: FringeCap 10 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1073) (TFCHK-067)
+Warning: FringeCap 15 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1118) (TFCHK-067)
+Warning: FringeCap 21 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1171) (TFCHK-067)
+Warning: Layer 'MET1' has a pitch 0.4 that does not match the recommended wire-to-via pitch 0.34. (TFCHK-049)
+Warning: Layer 'MET2' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET3' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the doubled pitch 0.88 or tripled pitch 1.32. (TFCHK-050)
+Warning: Layer 'MET5' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Technology file ./TECH/std150e_prim_6m.techgen.tf has been loaded successfully.
+1
+set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+
+Library    /home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+1
+open_mw_lib $_mw_lib
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_02_powerplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_02_powerplan)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+{khu_sensor_pad_02_powerplan}
+remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
+0
+open_mw_cel $TOP_MODULE
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/graduation_project3/2015103977/khu_sensor/Back_End/mw_db/khu_sensor_pad_02_powerplan" library. (MWUI-068)
+{khu_sensor_pad}
+link
+1
+current_design $TOP_MODULE
+khu_sensor_pad
+# Setting up Time constraints
+remove_ideal_network -all
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
+Loading db file '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Note - message 'PSYN-039' limit (5) exceeded.  Remainder will be suppressed.
+Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+1
+# Read scenario file 
+# TODO make scenario!
+# On behalf of making scenarino, source sdc file
+remove_sdc
+1
+remove_scenario -all
+1
+#source $ICC_MCMM_SCENARIOS_FILE
+#set_active_scenario $FP_SCN
+sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
+# Instead of scenario 
+source $FUNC1_SDC
+Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Using operating conditions 'V135BTN0400' found in library 'std150e_bst_135_n040'.
+Warning: Object 'link25' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link45' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link220' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4247' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4381' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4544' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4621' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4652' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link4312' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link492' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link1244' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link2961' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+Warning: Object 'link159' is invalid. It must be a pin of a leaf cell or a port. (OPT-812)
+1
+set_tlu_plus_files 	-max_tluplus $TLUP_MAX_FILE 	-min_tluplus $TLUP_MIN_FILE 	-tech2itf_map $MAP_FILE
+1
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+    Check consistency between the Milkyway library and the TLUPlus     
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+check_tlu_plus_files
+
+Sanity check for TLU+ vs MW-Tech files:
+ max_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ min_tlu+: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+ mapping_file: /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ max_emul_tlu+: **NONE**
+ min_emul_tlu+: **NONE**
+ MW design lib: khu_sensor_pad_02_powerplan
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+1
+#set_dont_touch_placement [all_macro_cells]
+# Describe VDD and VSS used by the standard cell
+derive_pg_connection 	-power_net VDD 	-power_pin VDD 	-ground_net VSS 	-ground_pin VSS 
+Information: connected 27091 power ports and 27091 ground ports
+1
+#******************************************************************************
+# Memory P/G ring
+#set_fp_rail_region_constraints #	-polygon {{533.180 700.495} {533.180 485.855} {627.370 485.855} {627.370 700.495}}
+#create_fp_group_block_ring #	-nets  {$MW_R_POWER_NET $MW_R_GROUND_NET} #	-horizontal_ring_layer MET3 
+#	-horizontal_ring_offset 5 
+#	-horizontal_ring_width 5 
+#	-vertical_ring_layer MET4 
+#	-vertical_ring_offset 5 
+#	-vertical_ring_width 5 
+#	-horizontal_strap_layer MET3 
+#	-horizontal_strap_width 5 
+#	-vertical_strap_layer MET4 
+#	-vertical_strap_width 5 
+#	-output_directory ./pns_outputs
+#commit_fp_group_block_ring
+#preroute_instances  -ignore_pads -ignore_cover_cells -primary_routing_layer pin
+#******************************************************************************
+#******************************************************************************
+# power rail
+#set_fp_rail_constraints #	-add_layer -layer MET5 -direction horizontal #	-max_strap 50 -min_strap 16 -max_width 3 -min_width 0.400 #	-spacing minimum
+#set_fp_rail_constraints #	-add_layer  -layer MET4 -direction vertical #	-max_strap 50 -min_strap 16 -max_width 3 -min_width 0.200 #	-spacing minimum
+#set_fp_rail_region_constraints 	-polygon {{169.070 1035.925} {169.070 172.595} {1019.810 172.595} {1019.810 1035.925}}
+#set_fp_rail_constraints  -set_ring -nets {VDD VSS} 	-horizontal_ring_layer { MET3 } -vertical_ring_layer { MET2 } 
+#set_fp_rail_constraints -set_global -no_routing_over_hard_macros
+#synthesize_fp_rail 	-nets {VDD VSS} -voltage_supply 1.35 	-synthesize_power_plan -power_budget 350 -pad_masters {  vdd12ih vssih  }
+#commit_fp_rail
+#******************************************************************************
+# creates power ring
+# power rings help all macro cells to be supplied voltage.
+create_rectangular_rings 	-nets {VDD VSS} 	-left_offset 375 -left_segment_layer MET6 -left_segment_width 5 	-right_offset 375 -right_segment_layer MET6 -right_segment_width 5 	-bottom_offset 345 -bottom_segment_layer MET5 -bottom_segment_width 5 	-top_offset 345 -top_segment_layer MET5 -top_segment_width 5
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      578M Data =        1M
+1
+# creates power strap
+# additional power net robustness
+#******************************************************************************
+# Note Voltage noise induced by inductance 
+#
+# In Reality, current flows in loops. In this case, we only deal in terms of power,
+# not fast-switching signal, such as clock. We use wide, thick, upper-level metal 
+# because of preventing IC Chip from IR-Drop. (The  wider and thicker metal, the less resistance)
+# In addition, in order to minimize the effect of IR-Drop, Designers frequently
+# draw power lines by shape of mesh. However, this shape make a plethora of loops which yield
+# producing or changing magnetic fields. 
+# (If there is return path of currents, metals have inductance)
+# Changing magnetic fields in turn current in other loops(mutual inductive coupling).
+# Inductance take a toll on delay and power. (Even if resistance is 0, 
+# delay(edge rates) would not 0 since resonant factor(LC) is existed.) 
+# In power case, when turning on chips voltage will switch simultaneously and flow substantial
+# currents.(A role of Power PAD is also impact on it since most of PADs tend to charge quickly)
+# By following the formula of V_drop = L*di/dt, Simultaneously Switching leads to Voltage change
+# which is often called 'Ground Bounce' or 'Inductive voltage noise'. Granted, most of PADs have
+# preventing these phenomenons but we should care about it. 
+#
+# Return to our design, we placed mesh power straps for the sake of effective supplying voltage.
+# Moreover, given aforementioned risk, we placed straps at moderate intervals.
+# (The effect of mutual inductive coupling is greatly increasing especially when the return path
+# is far from conductor.)
+#******************************************************************************
+create_power_strap 	-direction horizontal 	-nets {VDD VSS} 	-layer MET5 	-width 3 	-start_at 1385 
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:01
+	Peak Memory =      578M Data =        1M
+1
+create_power_strap 	-direction horizontal 	-nets {VDD VSS} 	-layer MET5 	-width 3 	-start_at 2674 
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      578M Data =        1M
+1
+create_power_strap 	-direction vertical 	-nets {VDD VSS} 	-layer MET6 	-width 3 	-start_at 1385 
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      578M Data =        1M
+1
+create_power_strap 	-direction vertical 	-nets {VDD VSS} 	-layer MET6 	-width 3 	-start_at 2674 
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      578M Data =        1M
+1
+create_fp_placement -timing_driven -no_hierarchy_gravity
+Warning: No scan chain found. (VFP-425)
+CPU time for freeing timing design =    0:00:00
+Elapsed time for freeing timing design =    0:00:00
+num_cpus = 1
+Reference Point: Lower Left-hand corner of Core Base Array
+Reference Point: Lower Left-hand corner of Core Base Array
+Reference Point: Lower Left-hand corner of Core Base Array
+Reference Point: Lower Left-hand corner of Core Base Array
+Reference Point: Lower Left-hand corner of Core Base Array
+flip_chip = 0
+*** Performing global placement...
+Transferring Data From Milkyway...
+Number of plan group pins = 0
+  28 blocks freed
+  0 bytes freed
+Placement Effort Level: Low
+Placement Design Stats
+Num std     cells  = 27091 (fixed = 0)
+Num macros  cells  = 0 (fixed = 0)
+Num IOs     cells  = 211
+Num bump    cells  = 0
+Num LS/ISO  cells  = 0
+Num no type cells  = 0
+Num other   cells  = 0
+Num cells with no net connections = 0
+Num non-zero wt nets = 29120
+Num     zero wt nets = 0
+A net with highest fanout (427) is khu_sensor_top/w_CLOCK_HALF
+grouping macros ...
+0 macro arrays generated automatically.
+0 array cells created
+No large HMs were processed
+coarse place 0% done.
+coarse place 20% done.
+coarse place 40% done.
+coarse place 60% done.
+coarse place 80% done.
+coarse place 100% done.
+Transferring Data to Milkyway ...
+Calculating timing weight ...
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
+Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+(Running rc extraction with virtual route...)
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+
+  Loading design 'khu_sensor_pad'
+
+
+Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+
+TLU+ File = /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+TLU+ File = /home/graduation_project3/2015103977/khu_sensor/Back_End/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00026 0.00023 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00061 0.00031 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.0003 0.00026 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00038 0.00019 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00033 0.00029 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00038 0.00019 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.0003 0.00026 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00038 0.00019 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00033 0.00029 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00038 0.00019 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00024 0.00022 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 7.4e-05 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00031 0.00027 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.00046 0.00023 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.00028 0.00025 (RCEX-011)
+Information: Library Derived Vertical Res : 0.0003 0.00015 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.00077 (RCEX-011)
+
+29142 nets processed. 
+Router succeeded.
+rc extraction finished.
+CPU time for rc extraction =    0:00:05
+Elapsed time for rc extraction =    0:00:06
+Warning: High fanout net synthesis has not performed on the design yet. (VFP-432)
+Information: Updating design information... (UID-85)
+
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:               2.00
+  Critical Path Length:          4.61
+  Critical Path Slack:          -1.35
+  Critical Path Clk Period:     10.00
+  Total Negative Slack:         -4.12
+  No. of Violating Paths:        4.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'clk_half'
+  -----------------------------------
+  Levels of Logic:               6.00
+  Critical Path Length:          3.86
+  Critical Path Slack:           1.67
+  Critical Path Clk Period:     20.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'clk_pad'
+  -----------------------------------
+  Levels of Logic:              34.00
+  Critical Path Length:         15.93
+  Critical Path Slack:          -6.16
+  Critical Path Clk Period:     10.00
+  Total Negative Slack:       -953.75
+  No. of Violating Paths:      541.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:        110
+  Hierarchical Port Count:       4909
+  Leaf Cell Count:              27302
+  Buf/Inv Cell Count:            2725
+  Buf Cell Count:                  92
+  Inv Cell Count:                2633
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     21863
+  Sequential Cell Count:         5439
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:        55285.36
+  Noncombinational Area:     40997.00
+  Buf/Inv Area:               2036.01
+  Total Buffer Area:           134.67
+  Total Inverter Area:        1901.34
+  Macro/Black Box Area:          0.00
+  Net Area:                    899.70
+  Net XLength        :     2088376.25
+  Net YLength        :     1886660.38
+  -----------------------------------
+  Cell Area:                 96282.36
+  Design Area:               97182.06
+  Net Length        :      3975036.50
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         29175
+  Nets With Violations:          1441
+  Max Trans Violations:          1437
+  Max Cap Violations:            1211
+  -----------------------------------
+
+CPU time for timing report =    0:00:01
+Elapsed time for timing report =    0:00:02
+Info: worst slack in the design is -6.161438
+CPU time for net weight calculation =    0:00:00
+Elapsed time for net weight calculation =    0:00:00
+Timing weight calculated.
+CPU time for freeing timing design =    0:00:01
+Elapsed time for freeing timing design =    0:00:01
+Number of plan group pins = 0
+net weight set.
+29120 timing weight set.
+max net weight: 3.640016
+min net weight: 0.280001
+0 net set to minimum weight 0.280001.
+  28 blocks freed
+  0 bytes freed
+Doing Incremental Timing Driven Placement...
+grouping macros ...
+0 macro arrays generated automatically.
+0 array cells created
+No large HMs were processed
+coarse place 40% done.
+coarse place 60% done.
+coarse place 80% done.
+coarse place 100% done.
+*********************************************
+Report     : Virtual Flat Placement
+Design     : khu_sensor_pad
+Version    : N-2017.09
+Date       : Mon Aug 31 21:27:16 2020
+*********************************************
+
+Total wirelength: 3486285.54
+Number of 100x100 tracks cell density regions: 5475
+Number of low (< 10%) cell density regions: 5624 (1.027%)
+Number of high (> 200%) cell density regions: 0 (0.000%)
+Maximum cell density: 9.54% (at 2158 2551 2197 2591)
+Checking hard macro to hard macro overlaps...
+Number of hard macro to hard macro overlaps: 0
+Checking hard macro to std cell overlaps...
+Number of hard macro to std cell overlaps: 0
+Checking plan group to plan group overlaps...
+Number of plan group to plan group overlaps: 0
+Number of TL cells overlapping PG: 0
+Number of cells violating core area: 0
+Total number of cells violating plan group or core area: 0
+Transferring Data to Milkyway ...
+*** global placement done.
+Begin Overlap Removal...
+Reference Point: Lower Left-hand corner of Core Base Array
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal6
+    This is considered as a 6-metal-layer design
+    Reading library information from DB ...
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    16 pre-routes for placement blockage/checking
+    16 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+[end initializing data for legality checker]
+Information: Running legalization in Fast-Mode! (DPI-029)
+Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vssiph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phsoscm3_p" of size (273 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phis_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phbct12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:16 2020
+****************************************
+Std cell utilization: 5.37%  (288847/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 5.37%  (288847/(5543598-163098))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        288847   sites, (non-fixed:288847 fixed:0)
+                      27091    cells, (non-fixed:27091  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      163098   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       151 
+Avg. std cell width:  9.00 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:16 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       none          ---         ---       via additive      ---
+MET3       none          ---         ---       via additive      ---
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+Legalizing 27091 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.9 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.9 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.9 sec)
+Legalization complete (3 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:19 2020
+****************************************
+
+avg cell displacement:    0.930 um ( 0.26 row height)
+max cell displacement:    3.344 um ( 0.93 row height)
+std deviation:            0.509 um ( 0.14 row height)
+number of cell moved:     27091 cells (out of 27091 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Information: Fast-Mode Legalization Done! (DPI-030)
+Completed Overlap Removal.
+1
+# route_guide
+create_route_guide 	-name route_guide_0 	-no_signal_layers {MET4 MET5 MET6} 	-preferred_direction_only_layers {MET1 MET2 MET3} 	-coordinate {{540.710 780.910} {640.710 980.510}} -no_snap
+{route_guide_0}
+# connect P/G (I/O STD)
+set_preroute_drc_strategy  -treat_fat_blockage_as_fat_wire  -min_layer MET1  -max_layer MET6
+1
+preroute_instances  -ignore_macros -primary_routing_layer pin
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+Instance being processed:
+ [1] CORNRT
+ [2] pad208
+ [3] pfiller60
+ [4] pfiller61
+ [5] pad207
+ [6] pfiller62
+ [7] pfiller63
+ [8] pad206
+ [9] pfiller64
+ [10] pfiller65
+ [11] pad205
+ [12] pfiller66
+ [13] pad204
+ [14] pfiller67
+ [15] pad203
+ [16] pfiller68
+ [17] pad202
+ [18] pfiller69
+ [19] pad201
+ [20] pfiller70
+ [21] pad200
+ [22] pfiller71
+ [23] pad199
+ [24] pfiller72
+ [25] pad198
+ [26] pfiller73
+ [27] pad197
+ [28] pfiller74
+ [29] pad196
+ [30] pfiller75
+ [31] pad195
+ [32] pfiller76
+ [33] pad194
+ [34] pfiller77
+ [35] pad193
+ [36] pfiller78
+ [37] pad192
+ [38] pfiller79
+ [39] pad191
+ [40] pfiller80
+ [41] pad190
+ [42] pfiller81
+ [43] pad189
+ [44] pfiller82
+ [45] pad188
+ [46] pfiller83
+ [47] pad187
+ [48] pfiller84
+ [49] pad186
+ [50] pfiller85
+ [51] pad185
+ [52] pfiller86
+ [53] pad184
+ [54] pfiller87
+ [55] pad183
+ [56] pfiller88
+ [57] pad182
+ [58] pfiller89
+ [59] pad181
+ [60] pfiller90
+ [61] pad180
+ [62] pfiller91
+ [63] pad179
+ [64] pfiller92
+ [65] pad178
+ [66] pfiller93
+ [67] pad177
+ [68] pfiller94
+ [69] pad176
+ [70] pfiller95
+ [71] pad175
+ [72] pfiller96
+ [73] pad174
+ [74] pfiller97
+ [75] pad173
+ [76] pfiller98
+ [77] pad172
+ [78] pfiller99
+ [79] pad171
+ [80] pfiller100
+ [81] pad170
+ [82] pfiller101
+ [83] pad169
+ [84] pfiller102
+ [85] pad168
+ [86] pfiller103
+ [87] pad167
+ [88] pfiller104
+ [89] pad166
+ [90] pfiller105
+ [91] pad165
+ [92] pfiller106
+ [93] pad164
+ [94] pfiller107
+ [95] pad163
+ [96] pfiller108
+ [97] pad162
+ [98] pfiller109
+ [99] pad161
+ [100] pfiller110
+ [101] pad160
+ [102] pfiller111
+ [103] pfiller112
+ [104] pad159
+ [105] pfiller113
+ [106] pfiller114
+ [107] pad158
+ [108] pfiller115
+ [109] pfiller116
+ [110] pad157
+ [111] pad155
+ [112] pad53
+ [113] pfiller0
+ [114] pfiller1
+ [115] pad54
+ [116] pfiller2
+ [117] pfiller3
+ [118] pad55
+ [119] pfiller4
+ [120] pfiller5
+ [121] pad56
+ [122] pfiller6
+ [123] pad57
+ [124] pfiller7
+ [125] pad58
+ [126] pfiller8
+ [127] pad59
+ [128] pfiller9
+ [129] pad60
+ [130] pfiller10
+ [131] pad61
+ [132] pfiller11
+ [133] pad62
+ [134] pfiller12
+ [135] pad63
+ [136] pfiller13
+ [137] pad64
+ [138] pfiller14
+ [139] pad65
+ [140] pfiller15
+ [141] pad66
+ [142] pfiller16
+ [143] pfiller17
+ [144] pfiller18
+ [145] pfiller19
+ [146] pfiller20
+ [147] pad68
+ [148] pfiller21
+ [149] pad69
+ [150] pfiller22
+ [151] pad70
+ [152] pfiller23
+ [153] pad71
+ [154] pfiller24
+ [155] pad72
+ [156] pfiller25
+ [157] pad73
+ [158] pfiller26
+ [159] pad74
+ [160] pfiller27
+ [161] pad75
+ [162] pfiller28
+ [163] pad76
+ [164] pfiller29
+ [165] pad77
+ [166] pfiller30
+ [167] pad78
+ [168] pfiller31
+ [169] pad79
+ [170] pfiller32
+ [171] pad80
+ [172] pfiller33
+ [173] pad81
+ [174] pfiller34
+ [175] pad82
+ [176] pfiller35
+ [177] pad83
+ [178] pfiller36
+ [179] pad84
+ [180] pfiller37
+ [181] pad85
+ [182] pfiller38
+ [183] pad86
+ [184] pfiller39
+ [185] pad87
+ [186] pfiller40
+ [187] pad88
+ [188] pfiller41
+ [189] pad89
+ [190] pfiller42
+ [191] pad90
+ [192] pfiller43
+ [193] pad91
+ [194] pfiller44
+ [195] pad92
+ [196] pfiller45
+ [197] pad93
+ [198] pfiller46
+ [199] pad94
+ [200] pfiller47
+ [201] pad95
+ [202] pfiller48
+ [203] pad96
+ [204] pfiller49
+ [205] pad97
+ [206] pfiller50
+ [207] pad98
+ [208] pfiller51
+ [209] pad99
+ [210] pfiller52
+ [211] pad100
+ [212] pfiller53
+ [213] pad101
+ [214] pfiller54
+ [215] pfiller55
+ [216] pad102
+ [217] pfiller56
+ [218] pfiller57
+ [219] pad103
+ [220] pfiller58
+ [221] pfiller59
+ [222] pad104
+ [223] CORNLB
+ [224] CORNRB
+ [225] pad105
+ [226] pfiller166
+ [227] pfiller167
+ [228] pad106
+ [229] pfiller168
+ [230] pfiller169
+ [231] pad156
+ [232] pfiller170
+ [233] pfiller171
+ [234] pfiller172
+ [235] pfiller173
+ [236] pfiller174
+ [237] pad154
+ [238] pad107
+ [239] pfiller175
+ [240] pad108
+ [241] pfiller176
+ [242] pad109
+ [243] pfiller177
+ [244] pad110
+ [245] pfiller178
+ [246] pad111
+ [247] pfiller179
+ [248] pad112
+ [249] pfiller180
+ [250] pad113
+ [251] pfiller181
+ [252] pad114
+ [253] pfiller182
+ [254] pad115
+ [255] pfiller183
+ [256] pad116
+ [257] pfiller184
+ [258] pad117
+ [259] pfiller185
+ [260] pad118
+ [261] pfiller186
+ [262] pad119
+ [263] pfiller187
+ [264] pad120
+ [265] pfiller188
+ [266] pad121
+ [267] pfiller189
+ [268] pad122
+ [269] pfiller190
+ [270] pad123
+ [271] pfiller191
+ [272] pad124
+ [273] pfiller192
+ [274] pad125
+ [275] pfiller193
+ [276] pad126
+ [277] pfiller194
+ [278] pad127
+ [279] pfiller195
+ [280] pad128
+ [281] pfiller196
+ [282] pad129
+ [283] pfiller197
+ [284] pad130
+ [285] pfiller198
+ [286] pad131
+ [287] pfiller199
+ [288] pad132
+ [289] pfiller200
+ [290] pad133
+ [291] pfiller201
+ [292] pad134
+ [293] pfiller202
+ [294] pad135
+ [295] pfiller203
+ [296] pad136
+ [297] pfiller204
+ [298] pad137
+ [299] pfiller205
+ [300] pad138
+ [301] pfiller206
+ [302] pad139
+ [303] pfiller207
+ [304] pad140
+ [305] pfiller208
+ [306] pad141
+ [307] pfiller209
+ [308] pad142
+ [309] pfiller210
+ [310] pad143
+ [311] pfiller211
+ [312] pad144
+ [313] pfiller212
+ [314] pad145
+ [315] pfiller213
+ [316] pad146
+ [317] pfiller214
+ [318] pad147
+ [319] pfiller215
+ [320] pad148
+ [321] pfiller216
+ [322] pad149
+ [323] pfiller217
+ [324] pad150
+ [325] pfiller218
+ [326] pfiller219
+ [327] pad151
+ [328] pfiller220
+ [329] pfiller221
+ [330] pad152
+ [331] pfiller222
+ [332] pfiller223
+ [333] pad153
+ [334] CORNLT
+ [335] pad52
+ [336] pfiller117
+ [337] pfiller118
+ [338] pad51
+ [339] pfiller119
+ [340] pfiller120
+ [341] pad50
+ [342] pfiller121
+ [343] pfiller122
+ [344] pad49
+ [345] pfiller123
+ [346] pad48
+ [347] pfiller124
+ [348] pad47
+ [349] pfiller125
+ [350] pad46
+ [351] pfiller126
+ [352] pad45
+ [353] pfiller127
+ [354] pad44
+ [355] pfiller128
+ [356] pad43
+ [357] pfiller129
+ [358] pad42
+ [359] pfiller130
+ [360] pad41
+ [361] pfiller131
+ [362] pad40
+ [363] pfiller132
+ [364] pad39
+ [365] pfiller133
+ [366] pad38
+ [367] pfiller134
+ [368] pad37
+ [369] pfiller135
+ [370] pad36
+ [371] pfiller136
+ [372] pad35
+ [373] pfiller137
+ [374] pad34
+ [375] pfiller138
+ [376] pad33
+ [377] pfiller139
+ [378] pad32
+ [379] pfiller140
+ [380] pad31
+ [381] pfiller141
+ [382] pad30
+ [383] pfiller142
+ [384] pad29
+ [385] pad28
+ [386] pad27
+ [387] pad26
+ [388] pad25
+ [389] pad24
+ [390] pad23
+ [391] pad22
+ [392] pad21
+ [393] pfiller143
+ [394] pad20
+ [395] pfiller144
+ [396] pad19
+ [397] pfiller145
+ [398] pad18
+ [399] pfiller146
+ [400] pad17
+ [401] pfiller147
+ [402] pad16
+ [403] pfiller148
+ [404] pad15
+ [405] pfiller149
+ [406] pad14
+ [407] pfiller150
+ [408] pad13
+ [409] pfiller151
+ [410] pad12
+ [411] pfiller152
+ [412] pad11
+ [413] pfiller153
+ [414] pad10
+ [415] pfiller154
+ [416] pad9
+ [417] pfiller155
+ [418] pad8
+ [419] pfiller156
+ [420] pad7
+ [421] pfiller157
+ [422] pad6
+ [423] pfiller158
+ [424] pad5
+ [425] pfiller159
+ [426] pad4
+ [427] pfiller160
+ [428] pfiller161
+ [429] pad3
+ [430] pfiller162
+ [431] pfiller163
+ [432] pad2
+ [433] pfiller164
+ [434] pfiller165
+ [435] pad1
+ [done] 
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      785M Data =        1M
+1
+preroute_standard_cells 	-connect horizontal -skip_macro_pins -skip_pad_pins  -remove_floating_pieces 	-do_not_route_over_macros 	-port_filter_mode off 	-cell_master_filter_mode off 	-cell_instance_filter_mode off 	-voltage_area_filter_mode off 	-route_type {P/G Std. Cell Pin Conn}
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+Prerouting standard cells horizontally: 
+Warning: wire dropped because obstruction, ((1387.110 1386.880) (1389.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1387.110 1386.880) (1389.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1387.110 1386.880) (1389.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 1386.880) (2678.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 1386.880) (2678.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 1386.880) (2678.770 1389.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 1383.500) (3842.300 1386.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+ [10.14%]  
+Warning: wire dropped because obstruction, ((1387.110 2675.620) (1389.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1387.110 2675.620) (1389.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1387.110 2675.620) (1389.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 2675.620) (2678.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 2675.620) (2678.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2676.110 2675.620) (2678.770 2678.900)) (Net: VSS) (Layer: MET5 [34]) is blocked by ((157.620 2672.500) (3842.300 2675.500)) (Net: VDD) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1383.670 2679.120) (1386.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1383.670 2679.120) (1386.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((1383.670 2679.120) (1386.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2672.670 2679.120) (2675.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2672.670 2679.120) (2675.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2672.670 2679.120) (2675.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+Warning: wire dropped because obstruction, ((2672.670 2679.120) (2675.330 2679.320)) (Net: VDD) (Layer: MET5 [34]) is blocked by ((152.180 2675.900) (3847.740 2678.900)) (Net: VSS) (Layer: MET5 [34]). (PGRT-030)
+ [20.25%]  
+ [30.28%]  
+ [40.44%]  
+ [50.49%]  
+ [60.71%]  
+ [70.86%]  
+ [81.05%]  
+ [91.14%]  
+ [100.00%] [done] 
+WARNING: 2 floating rail segments removed 
+
+[Prerouter] CPU = 00:00:01, Elapsed = 00:00:01
+	Peak Memory =      785M Data =        5M
+Warning: Undo stack cleared by command 'preroute_standard_cells' (HDUEDIT-104)
+1
+preroute_instances  -ignore_macros -ignore_cover_cells 	-select_net_by_type specified 	-nets  {VDD VSS}
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+Instance being processed:
+ [1] CORNRT
+ [2] pad208
+ [3] pfiller60
+ [4] pfiller61
+ [5] pad207
+ [6] pfiller62
+ [7] pfiller63
+ [8] pad206
+ [9] pfiller64
+ [10] pfiller65
+ [11] pad205
+ [12] pfiller66
+ [13] pad204
+ [14] pfiller67
+ [15] pad203
+ [16] pfiller68
+ [17] pad202
+ [18] pfiller69
+ [19] pad201
+ [20] pfiller70
+ [21] pad200
+ [22] pfiller71
+ [23] pad199
+ [24] pfiller72
+ [25] pad198
+ [26] pfiller73
+ [27] pad197
+ [28] pfiller74
+ [29] pad196
+ [30] pfiller75
+ [31] pad195
+ [32] pfiller76
+ [33] pad194
+ [34] pfiller77
+ [35] pad193
+ [36] pfiller78
+ [37] pad192
+ [38] pfiller79
+ [39] pad191
+ [40] pfiller80
+ [41] pad190
+ [42] pfiller81
+ [43] pad189
+ [44] pfiller82
+ [45] pad188
+ [46] pfiller83
+ [47] pad187
+ [48] pfiller84
+ [49] pad186
+ [50] pfiller85
+ [51] pad185
+ [52] pfiller86
+ [53] pad184
+ [54] pfiller87
+ [55] pad183
+ [56] pfiller88
+ [57] pad182
+ [58] pfiller89
+ [59] pad181
+ [60] pfiller90
+ [61] pad180
+ [62] pfiller91
+ [63] pad179
+ [64] pfiller92
+ [65] pad178
+ [66] pfiller93
+ [67] pad177
+ [68] pfiller94
+ [69] pad176
+ [70] pfiller95
+ [71] pad175
+ [72] pfiller96
+ [73] pad174
+ [74] pfiller97
+ [75] pad173
+ [76] pfiller98
+ [77] pad172
+ [78] pfiller99
+ [79] pad171
+ [80] pfiller100
+ [81] pad170
+ [82] pfiller101
+ [83] pad169
+ [84] pfiller102
+ [85] pad168
+ [86] pfiller103
+ [87] pad167
+ [88] pfiller104
+ [89] pad166
+ [90] pfiller105
+ [91] pad165
+ [92] pfiller106
+ [93] pad164
+ [94] pfiller107
+ [95] pad163
+ [96] pfiller108
+ [97] pad162
+ [98] pfiller109
+ [99] pad161
+ [100] pfiller110
+ [101] pad160
+ [102] pfiller111
+ [103] pfiller112
+ [104] pad159
+ [105] pfiller113
+ [106] pfiller114
+ [107] pad158
+ [108] pfiller115
+ [109] pfiller116
+ [110] pad157
+ [111] pad155
+ [112] pad53
+ [113] pfiller0
+ [114] pfiller1
+ [115] pad54
+ [116] pfiller2
+ [117] pfiller3
+ [118] pad55
+ [119] pfiller4
+ [120] pfiller5
+ [121] pad56
+ [122] pfiller6
+ [123] pad57
+ [124] pfiller7
+ [125] pad58
+ [126] pfiller8
+ [127] pad59
+ [128] pfiller9
+ [129] pad60
+ [130] pfiller10
+ [131] pad61
+ [132] pfiller11
+ [133] pad62
+ [134] pfiller12
+ [135] pad63
+ [136] pfiller13
+ [137] pad64
+ [138] pfiller14
+ [139] pad65
+ [140] pfiller15
+ [141] pad66
+ [142] pfiller16
+ [143] pfiller17
+ [144] pfiller18
+ [145] pfiller19
+ [146] pfiller20
+ [147] pad68
+ [148] pfiller21
+ [149] pad69
+ [150] pfiller22
+ [151] pad70
+ [152] pfiller23
+ [153] pad71
+ [154] pfiller24
+ [155] pad72
+ [156] pfiller25
+ [157] pad73
+ [158] pfiller26
+ [159] pad74
+ [160] pfiller27
+ [161] pad75
+ [162] pfiller28
+ [163] pad76
+ [164] pfiller29
+ [165] pad77
+ [166] pfiller30
+ [167] pad78
+ [168] pfiller31
+ [169] pad79
+ [170] pfiller32
+ [171] pad80
+ [172] pfiller33
+ [173] pad81
+ [174] pfiller34
+ [175] pad82
+ [176] pfiller35
+ [177] pad83
+ [178] pfiller36
+ [179] pad84
+ [180] pfiller37
+ [181] pad85
+ [182] pfiller38
+ [183] pad86
+ [184] pfiller39
+ [185] pad87
+ [186] pfiller40
+ [187] pad88
+ [188] pfiller41
+ [189] pad89
+ [190] pfiller42
+ [191] pad90
+ [192] pfiller43
+ [193] pad91
+ [194] pfiller44
+ [195] pad92
+ [196] pfiller45
+ [197] pad93
+ [198] pfiller46
+ [199] pad94
+ [200] pfiller47
+ [201] pad95
+ [202] pfiller48
+ [203] pad96
+ [204] pfiller49
+ [205] pad97
+ [206] pfiller50
+ [207] pad98
+ [208] pfiller51
+ [209] pad99
+ [210] pfiller52
+ [211] pad100
+ [212] pfiller53
+ [213] pad101
+ [214] pfiller54
+ [215] pfiller55
+ [216] pad102
+ [217] pfiller56
+ [218] pfiller57
+ [219] pad103
+ [220] pfiller58
+ [221] pfiller59
+ [222] pad104
+ [223] CORNLB
+ [224] CORNRB
+ [225] pad105
+ [226] pfiller166
+ [227] pfiller167
+ [228] pad106
+ [229] pfiller168
+ [230] pfiller169
+ [231] pad156
+ [232] pfiller170
+ [233] pfiller171
+ [234] pfiller172
+ [235] pfiller173
+ [236] pfiller174
+ [237] pad154
+ [238] pad107
+ [239] pfiller175
+ [240] pad108
+ [241] pfiller176
+ [242] pad109
+ [243] pfiller177
+ [244] pad110
+ [245] pfiller178
+ [246] pad111
+ [247] pfiller179
+ [248] pad112
+ [249] pfiller180
+ [250] pad113
+ [251] pfiller181
+ [252] pad114
+ [253] pfiller182
+ [254] pad115
+ [255] pfiller183
+ [256] pad116
+ [257] pfiller184
+ [258] pad117
+ [259] pfiller185
+ [260] pad118
+ [261] pfiller186
+ [262] pad119
+ [263] pfiller187
+ [264] pad120
+ [265] pfiller188
+ [266] pad121
+ [267] pfiller189
+ [268] pad122
+ [269] pfiller190
+ [270] pad123
+ [271] pfiller191
+ [272] pad124
+ [273] pfiller192
+ [274] pad125
+ [275] pfiller193
+ [276] pad126
+ [277] pfiller194
+ [278] pad127
+ [279] pfiller195
+ [280] pad128
+ [281] pfiller196
+ [282] pad129
+ [283] pfiller197
+ [284] pad130
+ [285] pfiller198
+ [286] pad131
+ [287] pfiller199
+ [288] pad132
+ [289] pfiller200
+ [290] pad133
+ [291] pfiller201
+ [292] pad134
+ [293] pfiller202
+ [294] pad135
+ [295] pfiller203
+ [296] pad136
+ [297] pfiller204
+ [298] pad137
+ [299] pfiller205
+ [300] pad138
+ [301] pfiller206
+ [302] pad139
+ [303] pfiller207
+ [304] pad140
+ [305] pfiller208
+ [306] pad141
+ [307] pfiller209
+ [308] pad142
+ [309] pfiller210
+ [310] pad143
+ [311] pfiller211
+ [312] pad144
+ [313] pfiller212
+ [314] pad145
+ [315] pfiller213
+ [316] pad146
+ [317] pfiller214
+ [318] pad147
+ [319] pfiller215
+ [320] pad148
+ [321] pfiller216
+ [322] pad149
+ [323] pfiller217
+ [324] pad150
+ [325] pfiller218
+ [326] pfiller219
+ [327] pad151
+ [328] pfiller220
+ [329] pfiller221
+ [330] pad152
+ [331] pfiller222
+ [332] pfiller223
+ [333] pad153
+ [334] CORNLT
+ [335] pad52
+ [336] pfiller117
+ [337] pfiller118
+ [338] pad51
+ [339] pfiller119
+ [340] pfiller120
+ [341] pad50
+ [342] pfiller121
+ [343] pfiller122
+ [344] pad49
+ [345] pfiller123
+ [346] pad48
+ [347] pfiller124
+ [348] pad47
+ [349] pfiller125
+ [350] pad46
+ [351] pfiller126
+ [352] pad45
+ [353] pfiller127
+ [354] pad44
+ [355] pfiller128
+ [356] pad43
+ [357] pfiller129
+ [358] pad42
+ [359] pfiller130
+ [360] pad41
+ [361] pfiller131
+ [362] pad40
+ [363] pfiller132
+ [364] pad39
+ [365] pfiller133
+ [366] pad38
+ [367] pfiller134
+ [368] pad37
+ [369] pfiller135
+ [370] pad36
+ [371] pfiller136
+ [372] pad35
+ [373] pfiller137
+ [374] pad34
+ [375] pfiller138
+ [376] pad33
+ [377] pfiller139
+ [378] pad32
+ [379] pfiller140
+ [380] pad31
+ [381] pfiller141
+ [382] pad30
+ [383] pfiller142
+ [384] pad29
+ [385] pad28
+ [386] pad27
+ [387] pad26
+ [388] pad25
+ [389] pad24
+ [390] pad23
+ [391] pad22
+ [392] pad21
+ [393] pfiller143
+ [394] pad20
+ [395] pfiller144
+ [396] pad19
+ [397] pfiller145
+ [398] pad18
+ [399] pfiller146
+ [400] pad17
+ [401] pfiller147
+ [402] pad16
+ [403] pfiller148
+ [404] pad15
+ [405] pfiller149
+ [406] pad14
+ [407] pfiller150
+ [408] pad13
+ [409] pfiller151
+ [410] pad12
+ [411] pfiller152
+ [412] pad11
+ [413] pfiller153
+ [414] pad10
+ [415] pfiller154
+ [416] pad9
+ [417] pfiller155
+ [418] pad8
+ [419] pfiller156
+ [420] pad7
+ [421] pfiller157
+ [422] pad6
+ [423] pfiller158
+ [424] pad5
+ [425] pfiller159
+ [426] pad4
+ [427] pfiller160
+ [428] pfiller161
+ [429] pad3
+ [430] pfiller162
+ [431] pfiller163
+ [432] pad2
+ [433] pfiller164
+ [434] pfiller165
+ [435] pad1
+ [done] 
+
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      785M Data =        2M
+1
+verify_pg_nets  -error_cell test
+Create error cell test.err ...
+Using [3 x 3] Fat Wire Table for MET1
+Using [3 x 3] Fat Wire Table for MET2
+Using [3 x 3] Fat Wire Table for MET3
+Using [3 x 3] Fat Wire Table for MET4
+Using [3 x 3] Fat Wire Table for MET5
+Checking [VSS]:
+	There are no floating shapes
+	All the pins are connected.
+	No errors are found.
+Checking [VDD]:
+	There are no floating shapes
+	ERROR: There are 75 floating pins
+Checked 2 nets, 1 have Errors
+Update error cell ...
+1
+# short checking under MET4
+set_pnet_options -partial "MET1 MET2 MET3"
+1
+# legalize
+# To resolve cell placement conflicts after doing initial placement, such as violating Standard(STD)
+# cells away from the power straps, overlaps, legalize placement. 
+# command "legalize_fp_placement" is obsolete
+legalize_placement
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal6
+    This is considered as a 6-metal-layer design
+    Reading library information from DB ...
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    16 pre-routes for placement blockage/checking
+    889 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Information: Running legalization in Fast-Mode! (DPI-029)
+Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vssiph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phsoscm3_p" of size (273 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phis_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phbct12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:22 2020
+****************************************
+Std cell utilization: 5.37%  (288847/(5543598-163098))
+(Non-fixed + Fixed)
+Std cell utilization: 5.37%  (288847/(5543598-163098))
+(Non-fixed only)
+Chip area:            5543598  sites, bbox (537.62 497.62 3462.30 3500.02) um
+Std cell area:        288847   sites, (non-fixed:288847 fixed:0)
+                      27091    cells, (non-fixed:27091  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  163098   sites, (excluding fixed std cells)
+                      163098   sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       151 
+Avg. std cell width:  9.00 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 834)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:22 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       partial     9.00        1.80        via additive      0.00
+MET2       partial     9.00        1.80        via additive      0.00
+MET3       partial     10000.00    10000.00    via additive      0.00
+MET4       none          ---         ---       via additive      ---
+MET5       none          ---         ---       via additive      ---
+MET6       none          ---         ---       via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Mon Aug 31 21:27:22 2020
+****************************************
+
+No cell displacement.
+
+Information: Fast-Mode Legalization Done! (DPI-030)
+1
+# Perform actual global routing to make sure the congestion
+route_zrt_global
+Start Global Route ... 
+[Init] Elapsed real time: 0:00:00 
+[Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Init] Total (MB): Used    6  Alloctr    6  Proc 2348 
+Printing options for 'set_route_zrt_common_options'
+
+Printing options for 'set_route_zrt_global_options'
+
+Begin global routing.
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Turn off antenna since no rule is specified
+Cell Min-Routing-Layer = MET1
+Cell Max-Routing-Layer = MET6
+Current Stage stats:
+[End of Read DB] Elapsed real time: 0:00:00 
+[End of Read DB] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Read DB] Stage (MB): Used   38  Alloctr   38  Proc    0 
+[End of Read DB] Total (MB): Used   44  Alloctr   45  Proc 2348 
+Constructing data structure ...
+Design statistics:
+Design Bounding Box (0.00,0.00,4000.00,4000.00)
+Number of routing layers = 6
+layer MET1, dir Hor, min width = 0.16, min space = 0.16 pitch = 0.40
+layer MET2, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET3, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET4, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET5, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
+Current Stage stats:
+[End of Build Tech Data] Elapsed real time: 0:00:00 
+[End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Tech Data] Stage (MB): Used   56  Alloctr   57  Proc    0 
+[End of Build Tech Data] Total (MB): Used  101  Alloctr  103  Proc 2348 
+Net statistics:
+Total number of nets     = 29169
+Number of nets to route  = 29109
+Number of single or zero port nets = 45
+15 nets are fully connected,
+ of which 15 are detail routed and 0 are global routed.
+Current Stage stats:
+[End of Build All Nets] Elapsed real time: 0:00:00 
+[End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build All Nets] Stage (MB): Used    9  Alloctr    9  Proc    0 
+[End of Build All Nets] Total (MB): Used  111  Alloctr  113  Proc 2348 
+Average gCell capacity  5.64	 on layer (1)	 MET1
+Average gCell capacity  7.15	 on layer (2)	 MET2
+Average gCell capacity  7.89	 on layer (3)	 MET3
+Average gCell capacity  7.24	 on layer (4)	 MET4
+Average gCell capacity  7.91	 on layer (5)	 MET5
+Average gCell capacity  3.58	 on layer (6)	 MET6
+Average number of tracks per gCell 9.00	 on layer (1)	 MET1
+Average number of tracks per gCell 8.19	 on layer (2)	 MET2
+Average number of tracks per gCell 9.00	 on layer (3)	 MET3
+Average number of tracks per gCell 8.19	 on layer (4)	 MET4
+Average number of tracks per gCell 9.00	 on layer (5)	 MET5
+Average number of tracks per gCell 4.10	 on layer (6)	 MET6
+Number of gCells = 7399260
+Current Stage stats:
+[End of Build Congestion map] Elapsed real time: 0:00:02 
+[End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Build Congestion map] Stage (MB): Used   13  Alloctr   14  Proc    0 
+[End of Build Congestion map] Total (MB): Used  124  Alloctr  127  Proc 2348 
+Total stats:
+[End of Build Data] Elapsed real time: 0:00:02 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Build Data] Stage (MB): Used   80  Alloctr   81  Proc    0 
+[End of Build Data] Total (MB): Used  124  Alloctr  127  Proc 2348 
+Current Stage stats:
+[End of Blocked Pin Detection] Elapsed real time: 0:00:01 
+[End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Blocked Pin Detection] Total (MB): Used  124  Alloctr  127  Proc 2348 
+Information: Using 1 threads for routing. (ZRT-444)
+multi gcell levels ON
+
+Start GR phase 0
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+30% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
+40% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
+50% of nets complete Elapsed cpu time: 0:00:03 Elapsed real time: 0:00:03
+60% of nets complete Elapsed cpu time: 0:00:03 Elapsed real time: 0:00:03
+70% of nets complete Elapsed cpu time: 0:00:04 Elapsed real time: 0:00:04
+80% of nets complete Elapsed cpu time: 0:00:04 Elapsed real time: 0:00:04
+90% of nets complete Elapsed cpu time: 0:00:05 Elapsed real time: 0:00:05
+Current Stage stats:
+[End of Initial Routing] Elapsed real time: 0:00:08 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
+[End of Initial Routing] Stage (MB): Used   23  Alloctr   23  Proc    0 
+[End of Initial Routing] Total (MB): Used  148  Alloctr  150  Proc 2348 
+Initial. Routing result:
+Initial. Both Dirs: Overflow =    78 Max = 2 GRCs =   132 (0.01%)
+Initial. H routing: Overflow =    16 Max = 1 (GRCs = 13) GRCs =    20 (0.00%)
+Initial. V routing: Overflow =    61 Max = 2 (GRCs =  1) GRCs =   112 (0.01%)
+Initial. MET1       Overflow =    12 Max = 1 (GRCs =  9) GRCs =    16 (0.00%)
+Initial. MET2       Overflow =    61 Max = 2 (GRCs =  1) GRCs =   112 (0.01%)
+Initial. MET3       Overflow =     4 Max = 1 (GRCs =  4) GRCs =     4 (0.00%)
+Initial. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+Initial. Total Wire Length = 4256870.89
+Initial. Layer MET1 wire length = 338458.00
+Initial. Layer MET2 wire length = 1996164.48
+Initial. Layer MET3 wire length = 1906267.31
+Initial. Layer MET4 wire length = 15977.92
+Initial. Layer MET5 wire length = 3.18
+Initial. Layer MET6 wire length = 0.00
+Initial. Total Number of Contacts = 221195
+Initial. Via VIA12 count = 119713
+Initial. Via VIA23 count = 101222
+Initial. Via VIA34 count = 259
+Initial. Via VIA45 count = 1
+Initial. Via VIA56 count = 0
+Initial. completed.
+
+Start GR phase 1
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase1 Routing] Elapsed real time: 0:00:00 
+[End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase1 Routing] Total (MB): Used  148  Alloctr  150  Proc 2348 
+phase1. Routing result:
+phase1. Both Dirs: Overflow =    13 Max = 1 GRCs =    26 (0.00%)
+phase1. H routing: Overflow =     5 Max = 1 (GRCs =  2) GRCs =     9 (0.00%)
+phase1. V routing: Overflow =     7 Max = 1 (GRCs =  1) GRCs =    17 (0.00%)
+phase1. MET1       Overflow =     5 Max = 1 (GRCs =  2) GRCs =     9 (0.00%)
+phase1. MET2       Overflow =     7 Max = 1 (GRCs =  1) GRCs =    17 (0.00%)
+phase1. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase1. Total Wire Length = 4256927.72
+phase1. Layer MET1 wire length = 339104.51
+phase1. Layer MET2 wire length = 1992329.19
+phase1. Layer MET3 wire length = 1905729.45
+phase1. Layer MET4 wire length = 19761.39
+phase1. Layer MET5 wire length = 3.18
+phase1. Layer MET6 wire length = 0.00
+phase1. Total Number of Contacts = 221278
+phase1. Via VIA12 count = 119718
+phase1. Via VIA23 count = 101253
+phase1. Via VIA34 count = 306
+phase1. Via VIA45 count = 1
+phase1. Via VIA56 count = 0
+phase1. completed.
+
+Start GR phase 2
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase2 Routing] Elapsed real time: 0:00:00 
+[End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase2 Routing] Stage (MB): Used   -2  Alloctr   -2  Proc    0 
+[End of Phase2 Routing] Total (MB): Used  145  Alloctr  148  Proc 2348 
+phase2. Routing result:
+phase2. Both Dirs: Overflow =    11 Max = 1 GRCs =    20 (0.00%)
+phase2. H routing: Overflow =     8 Max = 1 (GRCs =  1) GRCs =    15 (0.00%)
+phase2. V routing: Overflow =     3 Max = 0 (GRCs =  5) GRCs =     5 (0.00%)
+phase2. MET1       Overflow =     8 Max = 1 (GRCs =  1) GRCs =    15 (0.00%)
+phase2. MET2       Overflow =     3 Max = 0 (GRCs =  5) GRCs =     5 (0.00%)
+phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase2. Total Wire Length = 4256927.72
+phase2. Layer MET1 wire length = 339104.51
+phase2. Layer MET2 wire length = 1992293.72
+phase2. Layer MET3 wire length = 1905729.45
+phase2. Layer MET4 wire length = 19796.86
+phase2. Layer MET5 wire length = 3.18
+phase2. Layer MET6 wire length = 0.00
+phase2. Total Number of Contacts = 221281
+phase2. Via VIA12 count = 119718
+phase2. Via VIA23 count = 101254
+phase2. Via VIA34 count = 308
+phase2. Via VIA45 count = 1
+phase2. Via VIA56 count = 0
+phase2. completed.
+
+Start GR phase 3
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase3 Routing] Elapsed real time: 0:00:00 
+[End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase3 Routing] Total (MB): Used  145  Alloctr  148  Proc 2348 
+phase3. Routing result:
+phase3. Both Dirs: Overflow =    10 Max = 1 GRCs =    19 (0.00%)
+phase3. H routing: Overflow =     8 Max = 1 (GRCs =  1) GRCs =    15 (0.00%)
+phase3. V routing: Overflow =     2 Max = 0 (GRCs =  4) GRCs =     4 (0.00%)
+phase3. MET1       Overflow =     8 Max = 1 (GRCs =  1) GRCs =    15 (0.00%)
+phase3. MET2       Overflow =     2 Max = 0 (GRCs =  4) GRCs =     4 (0.00%)
+phase3. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase3. Total Wire Length = 4256927.72
+phase3. Layer MET1 wire length = 339104.51
+phase3. Layer MET2 wire length = 1992293.72
+phase3. Layer MET3 wire length = 1905729.45
+phase3. Layer MET4 wire length = 19796.86
+phase3. Layer MET5 wire length = 3.18
+phase3. Layer MET6 wire length = 0.00
+phase3. Total Number of Contacts = 221283
+phase3. Via VIA12 count = 119719
+phase3. Via VIA23 count = 101255
+phase3. Via VIA34 count = 308
+phase3. Via VIA45 count = 1
+phase3. Via VIA56 count = 0
+phase3. completed.
+[End of Whole Chip Routing] Elapsed real time: 0:00:14 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:14 total=0:00:14
+[End of Whole Chip Routing] Stage (MB): Used  101  Alloctr  102  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used  145  Alloctr  148  Proc 2348 
+
+Congestion utilization per direction:
+Average vertical track utilization   =  2.83 %
+Peak    vertical track utilization   = 100.00 %
+Average horizontal track utilization =  2.54 %
+Peak    horizontal track utilization = 77.78 %
+
+Current Stage stats:
+[GR: Done] Elapsed real time: 0:00:00 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[GR: Done] Stage (MB): Used  -55  Alloctr  -55  Proc    0 
+[GR: Done] Total (MB): Used  139  Alloctr  143  Proc 2348 
+GR Total stats:
+[GR: Done] Elapsed real time: 0:00:15 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:15 total=0:00:15
+[GR: Done] Stage (MB): Used  132  Alloctr  136  Proc    0 
+[GR: Done] Total (MB): Used  139  Alloctr  143  Proc 2348 
+Updating the database ...
+Final total stats:
+[End of Global Routing] Elapsed real time: 0:00:17 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:17 total=0:00:17
+[End of Global Routing] Stage (MB): Used    3  Alloctr    4  Proc    0 
+[End of Global Routing] Total (MB): Used   10  Alloctr   11  Proc 2348 
+Information: RC extraction has been freed. (PSYN-503)
+1
+report_congestion -grc_based -by_layer -routing_stage global
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
+Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
+Information: Loading local_link_library attribute {std150e_wst_105_p125.db}. (MWDC-290)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (111 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library)
+                              /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  dw_foundation.sldb (library)
+                              /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library)
+                              /home/graduation_project3/2015103977/khu_sensor/Back_End/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal6
+    This is considered as a 6-metal-layer design
+    Reading library information from DB ...
+  Reading misc information ...
+    array <unit> has 0 vertical and 834 horizontal rows
+    4 hard placement blockages
+    1 route guides
+    16 pre-routes for placement blockage/checking
+    889 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Running global router for congestion map ...
+Start Global Route ... 
+[Init] Elapsed real time: 0:00:00 
+[Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Init] Total (MB): Used   10  Alloctr   11  Proc 2348 
+Printing options for 'set_route_zrt_common_options'
+
+Printing options for 'set_route_zrt_global_options'
+
+Begin global routing.
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Turn off antenna since no rule is specified
+Cell Min-Routing-Layer = MET1
+Cell Max-Routing-Layer = MET6
+Current Stage stats:
+[End of Read DB] Elapsed real time: 0:00:01 
+[End of Read DB] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Read DB] Stage (MB): Used   59  Alloctr   59  Proc    0 
+[End of Read DB] Total (MB): Used   69  Alloctr   70  Proc 2348 
+Constructing data structure ...
+Design statistics:
+Design Bounding Box (0.00,0.00,4000.00,4000.00)
+Number of routing layers = 6
+layer MET1, dir Hor, min width = 0.16, min space = 0.16 pitch = 0.40
+layer MET2, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET3, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET4, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET5, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
+Current Stage stats:
+[End of Build Tech Data] Elapsed real time: 0:00:00 
+[End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Tech Data] Stage (MB): Used   56  Alloctr   57  Proc    0 
+[End of Build Tech Data] Total (MB): Used  126  Alloctr  127  Proc 2348 
+Net statistics:
+Total number of nets     = 29169
+Number of nets to route  = 29109
+Number of single or zero port nets = 45
+29124 nets are fully connected,
+ of which 15 are detail routed and 29109 are global routed.
+Current Stage stats:
+[End of Build All Nets] Elapsed real time: 0:00:00 
+[End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build All Nets] Stage (MB): Used   -9  Alloctr   -1  Proc    0 
+[End of Build All Nets] Total (MB): Used  116  Alloctr  126  Proc 2348 
+Average gCell capacity  5.64	 on layer (1)	 MET1
+Average gCell capacity  7.15	 on layer (2)	 MET2
+Average gCell capacity  7.89	 on layer (3)	 MET3
+Average gCell capacity  7.24	 on layer (4)	 MET4
+Average gCell capacity  7.91	 on layer (5)	 MET5
+Average gCell capacity  3.58	 on layer (6)	 MET6
+Average number of tracks per gCell 9.00	 on layer (1)	 MET1
+Average number of tracks per gCell 8.19	 on layer (2)	 MET2
+Average number of tracks per gCell 9.00	 on layer (3)	 MET3
+Average number of tracks per gCell 8.19	 on layer (4)	 MET4
+Average number of tracks per gCell 9.00	 on layer (5)	 MET5
+Average number of tracks per gCell 4.10	 on layer (6)	 MET6
+Number of gCells = 7399260
+Current Stage stats:
+[End of Build Congestion map] Elapsed real time: 0:00:02 
+[End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Build Congestion map] Stage (MB): Used   13  Alloctr    7  Proc    0 
+[End of Build Congestion map] Total (MB): Used  130  Alloctr  134  Proc 2348 
+Total stats:
+[End of Build Data] Elapsed real time: 0:00:02 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Build Data] Stage (MB): Used   60  Alloctr   63  Proc    0 
+[End of Build Data] Total (MB): Used  130  Alloctr  134  Proc 2348 
+Current Stage stats:
+[End of Blocked Pin Detection] Elapsed real time: 0:00:01 
+[End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Blocked Pin Detection] Total (MB): Used  130  Alloctr  134  Proc 2348 
+Information: Using 1 threads for routing. (ZRT-444)
+multi gcell levels ON
+
+Start GR phase 0
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+30% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
+40% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
+50% of nets complete Elapsed cpu time: 0:00:03 Elapsed real time: 0:00:03
+60% of nets complete Elapsed cpu time: 0:00:03 Elapsed real time: 0:00:03
+70% of nets complete Elapsed cpu time: 0:00:04 Elapsed real time: 0:00:04
+80% of nets complete Elapsed cpu time: 0:00:04 Elapsed real time: 0:00:04
+90% of nets complete Elapsed cpu time: 0:00:05 Elapsed real time: 0:00:05
+Current Stage stats:
+[End of Initial Routing] Elapsed real time: 0:00:08 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
+[End of Initial Routing] Stage (MB): Used   21  Alloctr   20  Proc    0 
+[End of Initial Routing] Total (MB): Used  152  Alloctr  154  Proc 2348 
+Initial. Routing result:
+Initial. Both Dirs: Overflow =    84 Max = 3 GRCs =   141 (0.01%)
+Initial. H routing: Overflow =    19 Max = 2 (GRCs =  1) GRCs =    26 (0.00%)
+Initial. V routing: Overflow =    64 Max = 3 (GRCs =  1) GRCs =   115 (0.01%)
+Initial. MET1       Overflow =    13 Max = 2 (GRCs =  1) GRCs =    16 (0.00%)
+Initial. MET2       Overflow =    64 Max = 3 (GRCs =  1) GRCs =   115 (0.01%)
+Initial. MET3       Overflow =     6 Max = 1 (GRCs =  6) GRCs =    10 (0.00%)
+Initial. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+Initial. Total Wire Length = 4257673.72
+Initial. Layer MET1 wire length = 347745.15
+Initial. Layer MET2 wire length = 1998548.69
+Initial. Layer MET3 wire length = 1896953.99
+Initial. Layer MET4 wire length = 14422.71
+Initial. Layer MET5 wire length = 3.18
+Initial. Layer MET6 wire length = 0.00
+Initial. Total Number of Contacts = 220757
+Initial. Via VIA12 count = 119793
+Initial. Via VIA23 count = 100749
+Initial. Via VIA34 count = 214
+Initial. Via VIA45 count = 1
+Initial. Via VIA56 count = 0
+Initial. completed.
+
+Start GR phase 1
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase1 Routing] Elapsed real time: 0:00:00 
+[End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase1 Routing] Total (MB): Used  152  Alloctr  154  Proc 2348 
+phase1. Routing result:
+phase1. Both Dirs: Overflow =    16 Max = 1 GRCs =    26 (0.00%)
+phase1. H routing: Overflow =     9 Max = 1 (GRCs =  5) GRCs =    13 (0.00%)
+phase1. V routing: Overflow =     7 Max = 1 (GRCs =  3) GRCs =    13 (0.00%)
+phase1. MET1       Overflow =     9 Max = 1 (GRCs =  5) GRCs =    13 (0.00%)
+phase1. MET2       Overflow =     7 Max = 1 (GRCs =  3) GRCs =    13 (0.00%)
+phase1. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase1. Total Wire Length = 4257669.80
+phase1. Layer MET1 wire length = 347678.48
+phase1. Layer MET2 wire length = 1994713.58
+phase1. Layer MET3 wire length = 1897065.49
+phase1. Layer MET4 wire length = 18209.07
+phase1. Layer MET5 wire length = 3.18
+phase1. Layer MET6 wire length = 0.00
+phase1. Total Number of Contacts = 220866
+phase1. Via VIA12 count = 119799
+phase1. Via VIA23 count = 100797
+phase1. Via VIA34 count = 269
+phase1. Via VIA45 count = 1
+phase1. Via VIA56 count = 0
+phase1. completed.
+
+Start GR phase 2
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase2 Routing] Elapsed real time: 0:00:00 
+[End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase2 Routing] Stage (MB): Used   -2  Alloctr   -2  Proc    0 
+[End of Phase2 Routing] Total (MB): Used  149  Alloctr  152  Proc 2348 
+phase2. Routing result:
+phase2. Both Dirs: Overflow =    16 Max = 1 GRCs =    27 (0.00%)
+phase2. H routing: Overflow =    14 Max = 1 (GRCs =  5) GRCs =    24 (0.00%)
+phase2. V routing: Overflow =     2 Max = 0 (GRCs =  3) GRCs =     3 (0.00%)
+phase2. MET1       Overflow =    14 Max = 1 (GRCs =  5) GRCs =    24 (0.00%)
+phase2. MET2       Overflow =     2 Max = 0 (GRCs =  3) GRCs =     3 (0.00%)
+phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase2. Total Wire Length = 4257665.40
+phase2. Layer MET1 wire length = 347842.61
+phase2. Layer MET2 wire length = 1994585.82
+phase2. Layer MET3 wire length = 1896896.96
+phase2. Layer MET4 wire length = 18336.83
+phase2. Layer MET5 wire length = 3.18
+phase2. Layer MET6 wire length = 0.00
+phase2. Total Number of Contacts = 220872
+phase2. Via VIA12 count = 119799
+phase2. Via VIA23 count = 100797
+phase2. Via VIA34 count = 275
+phase2. Via VIA45 count = 1
+phase2. Via VIA56 count = 0
+phase2. completed.
+[End of Whole Chip Routing] Elapsed real time: 0:00:14 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:14 total=0:00:14
+[End of Whole Chip Routing] Stage (MB): Used   80  Alloctr   82  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used  149  Alloctr  152  Proc 2348 
+
+Congestion utilization per direction:
+Average vertical track utilization   =  2.83 %
+Peak    vertical track utilization   = 100.00 %
+Average horizontal track utilization =  2.54 %
+Peak    horizontal track utilization = 77.78 %
+
+Current Stage stats:
+[GR: Done] Elapsed real time: 0:00:00 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[GR: Done] Stage (MB): Used  -55  Alloctr  -49  Proc    0 
+[GR: Done] Total (MB): Used  143  Alloctr  152  Proc 2348 
+GR Total stats:
+[GR: Done] Elapsed real time: 0:00:16 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:16 total=0:00:16
+[GR: Done] Stage (MB): Used  133  Alloctr  141  Proc    0 
+[GR: Done] Total (MB): Used  143  Alloctr  152  Proc 2348 
+Writing out congestion map...
+Updating congestion ...
+[DBOUT] Elapsed real time: 0:00:01 
+[DBOUT] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:01
+[DBOUT] Stage (MB): Used -118  Alloctr -128  Proc    0 
+[DBOUT] Total (MB): Used   13  Alloctr   14  Proc 2348 
+Final total stats:
+[End of Global Routing] Elapsed real time: 0:00:17 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:17 total=0:00:18
+[End of Global Routing] Stage (MB): Used    3  Alloctr    3  Proc    0 
+[End of Global Routing] Total (MB): Used   13  Alloctr   14  Proc 2348 
+
+Information: Reporting global route congestion data from Milkyway...
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET1 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  5 GRCs with overflow: 5 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {1743620 1455220 1747220 1458820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {1383620 2798020 1387220 2801620}: H routing capacity/demand =  2/3 (occupy rate = 1.50), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {2816420 2816020 2820020 2819620}: H routing capacity/demand =  2/3 (occupy rate = 1.50), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {735620 1901620 739220 1905220}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {2434820 3460420 2438420 3464020}: H routing capacity/demand =  2/3 (occupy rate = 1.50), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  6/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  6/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  6/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  6/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  6/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {2434820 3460420 2438420 3464020}: H routing capacity/demand =  2/3 (occupy rate = 1.50) with overflow 1
+ GRC {1743620 1455220 1747220 1458820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {1383620 2798020 1387220 2801620}: H routing capacity/demand =  2/3 (occupy rate = 1.50) with overflow 1
+ GRC {735620 1901620 739220 1905220}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {2816420 2816020 2820020 2819620}: H routing capacity/demand =  2/3 (occupy rate = 1.50) with overflow 1
+ GRC {3928820 3255220 3932420 3258820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3932420 3255220 3936020 3258820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3939620 3255220 3943220 3258820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3943220 3255220 3946820 3258820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3950420 3255220 3954020 3258820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET2 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/1 (occupy rate = 0.11) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/2 (occupy rate = 0.25) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/0 (occupy rate = 0.00) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/2 (occupy rate = 0.25) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {3975620 1304020 3979220 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3972020 1304020 3975620 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3968420 1304020 3972020 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3964820 1304020 3968420 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3961220 1304020 3964820 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3864020 1682020 3867620 1685620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3867620 1682020 3871220 1685620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3957620 1304020 3961220 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3954020 1304020 3957620 1307620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3871220 1682020 3874820 1685620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET3 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {3874820 418238 3878420 421843}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3871220 418238 3874820 421843}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3867620 418238 3871220 421843}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3864020 418238 3867620 421843}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3864020 3136420 3867620 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3867620 3136420 3871220 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3871220 3136420 3874820 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3874820 3136420 3878420 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3878420 3136420 3882020 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3882020 3136420 3885620 3140020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET4 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/0 (occupy rate = 0.00) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/0 (occupy rate = 0.00) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {33620 810820 37220 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {30020 810820 33620 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {26420 810820 30020 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {22820 810820 26420 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {19220 810820 22820 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {15620 810820 19220 814420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3982820 807220 3986420 810820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3979220 807220 3982820 810820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3975620 807220 3979220 810820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3972020 807220 3975620 810820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET5 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {3936020 742420 3939620 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3939620 742420 3943220 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3943220 742420 3946820 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3946820 742420 3950420 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3950420 742420 3954020 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3954020 742420 3957620 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3957620 742420 3961220 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3961220 742420 3964820 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3964820 742420 3968420 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3968420 742420 3972020 746020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+Layer MET6 Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/0 (occupy rate = 0.00) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {2485220 2664820 2488820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2488820 2664820 2492420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2492420 2664820 2496020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2496020 2664820 2499620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2499620 2664820 2503220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2503220 2664820 2506820 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2506820 2664820 2510420 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2510420 2664820 2514020 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2514020 2664820 2517620 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {2517620 2664820 2521220 2668420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {69620 1664020 73220 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {66020 1664020 69620 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {62420 1664020 66020 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {58820 1664020 62420 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {55220 1664020 58820 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {51620 1664020 55220 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {48020 1664020 51620 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {44420 1664020 48020 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {40820 1664020 44420 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {37220 1664020 40820 1667620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+++++++++++++++++++++++++++++++++++++++++++++++++
+ Overall Congestion Map Data:
+++++++++++++++++++++++++++++++++++++++++++++++++
+There are 1233210 GRCs (Global Route Cell) in this design
+****************************************************************
+****************** GRC based congestion report *****************
+****************************************************************
+  0 GRCs with overflow: 0 with H overflow and 0 with V overflow
+
+++++++++ Top 10 congested GRCs ++++++++
+ GRC {3921620 3719473 3925220 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3925220 3719473 3928820 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3928820 3719473 3932420 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3932420 3719473 3936020 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3936020 3719473 3939620 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3939620 3719473 3943220 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3943220 3719473 3946820 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3946820 3719473 3950420 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  1/0 (occupy rate = 0.00) 
+ GRC {3950420 3719473 3954020 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3954020 3719473 3957620 3723069}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 horizontally congested GRCs ++++++++
+ GRC {98420 2520820 102020 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {109220 2520820 112820 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {112820 2520820 116420 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {116420 2520820 120020 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {120020 2520820 123620 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {123620 2520820 127220 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {127220 2520820 130820 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {130820 2520820 134420 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {134420 2520820 138020 2524420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {3864020 1646020 3867620 1649620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+
+++++++++ Top 10 vertically congested GRCs ++++++++
+ GRC {123620 1368820 127220 1372420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {123620 969220 127220 972820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {120020 969220 123620 972820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {120020 1368820 123620 1372420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {116420 1368820 120020 1372420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {112820 1368820 116420 1372420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {116420 969220 120020 972820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {112820 969220 116420 972820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {109220 969220 112820 972820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {109220 1368820 112820 1372420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+
+1
+# Perform global route congestion map analysis from the GUI (no need to "Reload)
+# Perform timing analysis
+# Save
+change_names -rule verilog -hier
+Information: Updating database...
+Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)
+1
+set verilogout_no_tri true
+true
+save_mw_cel -as ${TOP_MODULE}
+Information: Performing CEL netlist consistency check. (MWDC-118)
+Information: CEL consistency check PASSED. (MWDC-119)
+Information: Saved design named khu_sensor_pad. (UIG-5)
+1
+# close lib
+close_mw_lib
+Removing physical design 'khu_sensor_pad'
+1
+# Reset sdc file for applying sdc
+sh rm -f $FUNC1_SDC
+sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+exit
+
+Thank you...
+Exit IC Compiler!

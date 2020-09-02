@@ -1,0 +1,248 @@
+; samsung 0.13um - Astro ( Example : Function description for TDF function)
+; TDF : Top Design Format file
+; By HONG, KI-IL / KAIST IDEC
+; revision history
+; DATE : 2009.02.  by Ki- iL , HONG
+; DATE : 2009.08.03  by Ki- iL , HONG
+
+
+; define Boundary
+define _cell (geGetEditCell)
+dbCreateCellBoundary _cell `(
+        (0.0000 0.0000) (4000.00 0.0000) (4000.00 4000.00) (0.0000 4000.00) (0.0000 0.0000))
+tdfPurgePadConstr
+
+; Pin creation command (dbCreatePin)
+;dbCreatePin (geGetEditCell) (dbGetNetByName(geGetEditCell) "vdd" "AL1" ((0,0)(0,0))
+
+
+;Corner Cell Create
+dbCreateCellInst(geGetEditCell) "" "lbcornerh_p.FRAM" "CORNLB"  "0" "NO" '(0 0)
+dbCreateCellInst(geGetEditCell) "" "rbcornerh_p.FRAM" "CORNRB"  "0" "NO" '(0 0)
+dbCreateCellInst(geGetEditCell) "" "ltcornerh_p.FRAM" "CORNLT"  "0" "NO" '(0 0)
+dbCreateCellInst(geGetEditCell) "" "rtcornerh_p.FRAM" "CORNRT"  "0" "NO" '(0 0)
+
+;Corner Cell Create
+
+pad "CORNLT" "left"
+pad "CORNRT" "top"
+pad "CORNRB" "right"
+pad "CORNLB" "bottom"
+
+;CORNER_OFFSET = 20.000000,
+;g_offset = 8.000000
+;fourth_offset = 440.000000
+
+
+;Left pad
+pad "pad52"	"left"	1	200.000
+pad "pad51"	"left"	2	280.000
+pad "pad50"	"left"	3	360.000
+pad "pad49"	"left"	4	440.000
+pad "pad48"	"left"	5	508.000
+pad "pad47"	"left"	6	576.000
+pad "pad46"	"left"	7	644.000
+pad "pad45"	"left"	8	712.000
+pad "pad44"	"left"	9	780.000
+pad "pad43"	"left"	10	848.000
+pad "pad42"	"left"	11	916.000
+pad "pad41"	"left"	12	984.000
+pad "pad40"	"left"	13	1052.000
+pad "pad39"	"left"	14	1120.000
+pad "pad38"	"left"	15	1188.000
+pad "pad37"	"left"	16	1256.000
+pad "pad36"	"left"	17	1324.000
+pad "pad35"	"left"	18	1392.000
+pad "pad34"	"left"	19	1460.000
+pad "pad33"	"left"	20	1528.000
+pad "pad32"	"left"	21	1596.000
+pad "pad31"	"left"	22	1664.000
+pad "pad30"	"left"	23	1732.000
+pad "pad29"	"left"	24	1800.000
+pad "pad28"	"left"	25	1868.000
+pad "pad27"	"left"	26	1936.000
+pad "pad26"	"left"	27	2004.000
+pad "pad25"	"left"	28	2072.000
+pad "pad24"	"left"	29	2140.000
+pad "pad23"	"left"	30	2208.000
+pad "pad22"	"left"	31	2276.000
+pad "pad21"	"left"	32	2344.000
+pad "pad20"	"left"	33	2412.000
+pad "pad19"	"left"	34	2480.000
+pad "pad18"	"left"	35	2548.000
+pad "pad17"	"left"	36	2616.000
+pad "pad16"	"left"	37	2684.000
+pad "pad15"	"left"	38	2752.000
+pad "pad14"	"left"	39	2820.000
+pad "pad13"	"left"	40	2888.000
+pad "pad12"	"left"	41	2956.000
+pad "pad11"	"left"	42	3024.000
+pad "pad10"	"left"	43	3092.000
+pad "pad9"	"left"	44	3160.000
+pad "pad8"	"left"	45	3228.000
+pad "pad7"	"left"	46	3296.000
+pad "pad6"	"left"	47	3364.000
+pad "pad5"	"left"	48	3432.000
+pad "pad4"	"left"	49	3500.000
+pad "pad3"	"left"	50	3580.000
+pad "pad2"	"left"	51	3660.000
+pad "pad1"	"left"	52	3740.000
+;Bottom pad
+pad "pad53"	"bottom"	53	200.000
+pad "pad54"	"bottom"	54	280.000
+pad "pad55"	"bottom"	55	360.000
+pad "pad56"	"bottom"	56	440.000
+pad "pad57"	"bottom"	57	508.000
+pad "pad58"	"bottom"	58	576.000
+pad "pad59"	"bottom"	59	644.000
+pad "pad60"	"bottom"	60	712.000
+pad "pad61"	"bottom"	61	780.000
+pad "pad62"	"bottom"	62	848.000
+pad "pad63"	"bottom"	63	916.000
+pad "pad64"	"bottom"	64	984.000
+pad "pad65"	"bottom"	65	1052.000
+pad "pad66"	"bottom"	66	1120.000
+pad "pad67"	"bottom"	67	1188.000
+pad "pad68"	"bottom"	68	1256.000
+pad "pad69"	"bottom"	69	1324.000
+pad "pad70"	"bottom"	70	1392.000
+pad "pad71"	"bottom"	71	1460.000
+pad "pad72"	"bottom"	72	1528.000
+pad "pad73"	"bottom"	73	1596.000
+pad "pad74"	"bottom"	74	1664.000
+pad "pad75"	"bottom"	75	1732.000
+pad "pad76"	"bottom"	76	1800.000
+pad "pad77"	"bottom"	77	1868.000
+pad "pad78"	"bottom"	78	1936.000
+pad "pad79"	"bottom"	79	2004.000
+pad "pad80"	"bottom"	80	2072.000
+pad "pad81"	"bottom"	81	2140.000
+pad "pad82"	"bottom"	82	2208.000
+pad "pad83"	"bottom"	83	2276.000
+pad "pad84"	"bottom"	84	2344.000
+pad "pad85"	"bottom"	85	2412.000
+pad "pad86"	"bottom"	86	2480.000
+pad "pad87"	"bottom"	87	2548.000
+pad "pad88"	"bottom"	88	2616.000
+pad "pad89"	"bottom"	89	2684.000
+pad "pad90"	"bottom"	90	2752.000
+pad "pad91"	"bottom"	91	2820.000
+pad "pad92"	"bottom"	92	2888.000
+pad "pad93"	"bottom"	93	2956.000
+pad "pad94"	"bottom"	94	3024.000
+pad "pad95"	"bottom"	95	3092.000
+pad "pad96"	"bottom"	96	3160.000
+pad "pad97"	"bottom"	97	3228.000
+pad "pad98"	"bottom"	98	3296.000
+pad "pad99"	"bottom"	99	3364.000
+pad "pad100"	"bottom"	100	3432.000
+pad "pad101"	"bottom"	101	3500.000
+pad "pad102"	"bottom"	102	3580.000
+pad "pad103"	"bottom"	103	3660.000
+pad "pad104"	"bottom"	104	3740.000
+;Right pad
+pad "pad105"	"right"	105	200.000
+pad "pad106"	"right"	106	280.000
+pad "pad107"	"right"	107	360.000
+pad "pad108"	"right"	108	440.000
+pad "pad109"	"right"	109	508.000
+pad "pad110"	"right"	110	576.000
+pad "pad111"	"right"	111	644.000
+pad "pad112"	"right"	112	712.000
+pad "pad113"	"right"	113	780.000
+pad "pad114"	"right"	114	848.000
+pad "pad115"	"right"	115	916.000
+pad "pad116"	"right"	116	984.000
+pad "pad117"	"right"	117	1052.000
+pad "pad118"	"right"	118	1120.000
+pad "pad119"	"right"	119	1188.000
+pad "pad120"	"right"	120	1256.000
+pad "pad121"	"right"	121	1324.000
+pad "pad122"	"right"	122	1392.000
+pad "pad123"	"right"	123	1460.000
+pad "pad124"	"right"	124	1528.000
+pad "pad125"	"right"	125	1596.000
+pad "pad126"	"right"	126	1664.000
+pad "pad127"	"right"	127	1732.000
+pad "pad128"	"right"	128	1800.000
+pad "pad129"	"right"	129	1868.000
+pad "pad130"	"right"	130	1936.000
+pad "pad131"	"right"	131	2004.000
+pad "pad132"	"right"	132	2072.000
+pad "pad133"	"right"	133	2140.000
+pad "pad134"	"right"	134	2208.000
+pad "pad135"	"right"	135	2276.000
+pad "pad136"	"right"	136	2344.000
+pad "pad137"	"right"	137	2412.000
+pad "pad138"	"right"	138	2480.000
+pad "pad139"	"right"	139	2548.000
+pad "pad140"	"right"	140	2616.000
+pad "pad141"	"right"	141	2684.000
+pad "pad142"	"right"	142	2752.000
+pad "pad143"	"right"	143	2820.000
+pad "pad144"	"right"	144	2888.000
+pad "pad145"	"right"	145	2956.000
+pad "pad146"	"right"	146	3024.000
+pad "pad147"	"right"	147	3092.000
+pad "pad148"	"right"	148	3160.000
+pad "pad149"	"right"	149	3228.000
+pad "pad150"	"right"	150	3296.000
+pad "pad151"	"right"	151	3364.000
+pad "pad152"	"right"	152	3432.000
+pad "pad153"	"right"	153	3500.000
+pad "pad154"	"right"	154	3580.000
+pad "pad155"	"right"	155	3660.000
+pad "pad156"	"right"	156	3740.000
+;Top pad
+pad "pad208"	"top"	157	200.000
+pad "pad207"	"top"	158	280.000
+pad "pad206"	"top"	159	360.000
+pad "pad205"	"top"	160	440.000
+pad "pad204"	"top"	161	508.000
+pad "pad203"	"top"	162	576.000
+pad "pad202"	"top"	163	644.000
+pad "pad201"	"top"	164	712.000
+pad "pad200"	"top"	165	780.000
+pad "pad199"	"top"	166	848.000
+pad "pad198"	"top"	167	916.000
+pad "pad197"	"top"	168	984.000
+pad "pad196"	"top"	169	1052.000
+pad "pad195"	"top"	170	1120.000
+pad "pad194"	"top"	171	1188.000
+pad "pad193"	"top"	172	1256.000
+pad "pad192"	"top"	173	1324.000
+pad "pad191"	"top"	174	1392.000
+pad "pad190"	"top"	175	1460.000
+pad "pad189"	"top"	176	1528.000
+pad "pad188"	"top"	177	1596.000
+pad "pad187"	"top"	178	1664.000
+pad "pad186"	"top"	179	1732.000
+pad "pad185"	"top"	180	1800.000
+pad "pad184"	"top"	181	1868.000
+pad "pad183"	"top"	182	1936.000
+pad "pad182"	"top"	183	2004.000
+pad "pad181"	"top"	184	2072.000
+pad "pad180"	"top"	185	2140.000
+pad "pad179"	"top"	186	2208.000
+pad "pad178"	"top"	187	2276.000
+pad "pad177"	"top"	188	2344.000
+pad "pad176"	"top"	189	2412.000
+pad "pad175"	"top"	190	2480.000
+pad "pad174"	"top"	191	2548.000
+pad "pad173"	"top"	192	2616.000
+pad "pad172"	"top"	193	2684.000
+pad "pad171"	"top"	194	2752.000
+pad "pad170"	"top"	195	2820.000
+pad "pad169"	"top"	196	2888.000
+pad "pad168"	"top"	197	2956.000
+pad "pad167"	"top"	198	3024.000
+pad "pad166"	"top"	199	3092.000
+pad "pad165"	"top"	200	3160.000
+pad "pad164"	"top"	201	3228.000
+pad "pad163"	"top"	202	3296.000
+pad "pad162"	"top"	203	3364.000
+pad "pad161"	"top"	204	3432.000
+pad "pad160"	"top"	205	3500.000
+pad "pad159"	"top"	206	3580.000
+pad "pad158"	"top"	207	3660.000
+pad "pad157"	"top"	208	3740.000

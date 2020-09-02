@@ -1,0 +1,306 @@
+ 
+****************************************
+Report : clock tree
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Tue Sep  1 12:29:31 2020
+****************************************
+
+Information: Float pin scale factor for the 'max' operating condition of scenario 'default' is set to 1.000 (CTS-375)
+
+============ Global Skew Report ================
+
+Clock Tree Name                : "clk"
+Clock Period                   : 10.00000       
+Clock Tree root pin            : "i_CLK"
+Number of Levels               : 1
+Number of Sinks                : 5438
+Number of CT Buffers           : 557
+Number of CTS added gates      : 0
+Number of Preexisting Gates    : 2
+Number of Preexisting Buf/Inv  : 0
+Total Number of Clock Cells    : 559
+Total Area of CT Buffers       : 7392.50146     
+Total Area of CT cells         : 23970.21289    
+Max Global Skew                : 4.14463   
+Number of MaxTran Violators    : 0
+Number of MaxCap Violators     : 0
+Number of MaxFanout Violators  : 0
+
+
+Operating Condition               worst
+Clock global Skew                 4.145
+Longest path delay                4.173
+Shortest path delay               0.029
+
+The longest path delay end pin: khu_sensor_top/ads1292_filter/iir_lpf/add/b_reg_4_/CK
+The shortest path delay end pin: async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+
+The longest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+i_CLK                                       0.000            1  0.000     0.000     0.000     f
+i_CLK                                       0.188            3  0.000     0.000     0.000     f
+pad29/PADA                                  0.188            2  0.013     0.006     0.006     f
+pad29/YN                                    0.179            1  0.285     1.519     1.525     r
+pad29/YN                                    0.179            2  0.285     0.000     1.525     r
+khu_sensor_top/ivd24_hd_G2B69I11/A          0.179            1  0.285     0.019     1.544     r
+khu_sensor_top/ivd24_hd_G2B69I11/Y          0.115            1  0.119     0.098     1.642     f
+khu_sensor_top/ivd24_hd_G2B69I1/A           0.115            1  0.120     0.008     1.650     f
+khu_sensor_top/ivd24_hd_G2B69I1/Y           0.128            1  0.153     0.094     1.744     r
+khu_sensor_top/ivd24_hd_G2B68I1/A           0.128            1  0.154     0.009     1.753     r
+khu_sensor_top/ivd24_hd_G2B68I1/Y           0.369            1  0.198     0.099     1.852     f
+khu_sensor_top/ivd12_hd_G2B65I1/A           0.369            1  0.268     0.077     1.929     f
+khu_sensor_top/ivd12_hd_G2B65I1/Y           0.067            2  0.205     0.150     2.080     r
+khu_sensor_top/ivd24_hd_G2B60I1/A           0.067            1  0.205     0.001     2.081     r
+khu_sensor_top/ivd24_hd_G2B60I1/Y           0.164            1  0.172     0.129     2.209     f
+khu_sensor_top/ivd24_hd_G2B59I1/A           0.164            1  0.175     0.017     2.226     f
+khu_sensor_top/ivd24_hd_G2B59I1/Y           0.229            2  0.250     0.145     2.371     r
+khu_sensor_top/ivd24_hd_G2B56I1/A           0.229            1  0.251     0.004     2.375     r
+khu_sensor_top/ivd24_hd_G2B56I1/Y           0.222            2  0.188     0.141     2.515     f
+khu_sensor_top/ivd24_hd_G2B55I2/A           0.222            1  0.190     0.005     2.520     f
+khu_sensor_top/ivd24_hd_G2B55I2/Y           0.149            1  0.213     0.135     2.655     r
+khu_sensor_top/ivd4_hd_G2B42I1/A            0.149            1  0.215     0.014     2.669     r
+khu_sensor_top/ivd4_hd_G2B42I1/Y            0.182            2  0.179     0.139     2.808     f
+khu_sensor_top/ivd20_hd_G2B35I3/A           0.182            1  0.181     0.010     2.818     f
+khu_sensor_top/ivd20_hd_G2B35I3/Y           0.177            2  0.201     0.130     2.947     r
+khu_sensor_top/ivd12_hd_G2B30I2/A           0.177            1  0.203     0.013     2.961     r
+khu_sensor_top/ivd12_hd_G2B30I2/Y           0.120            3  0.173     0.137     3.097     f
+khu_sensor_top/ivd20_hd_G2B29I2/A           0.120            1  0.174     0.007     3.104     f
+khu_sensor_top/ivd20_hd_G2B29I2/Y           0.034            1  0.185     0.128     3.232     r
+khu_sensor_top/ivd12_hd_G2B14I1/A           0.034            1  0.185     0.001     3.232     r
+khu_sensor_top/ivd12_hd_G2B14I1/Y           0.135            2  0.184     0.142     3.374     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B13I2/A
+                                            0.135            1  0.184     0.006     3.381     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B13I2/Y
+                                            0.091            1  0.240     0.152     3.533     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B4I25/A
+                                            0.091            1  0.240     0.006     3.538     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B4I25/Y
+                                            0.129            1  0.192     0.152     3.690     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B3I32/A
+                                            0.129            1  0.194     0.010     3.700     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B3I32/Y
+                                            0.115            2  0.214     0.139     3.839     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd12_hd_G2B2I12/A
+                                            0.115            1  0.215     0.002     3.841     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd12_hd_G2B2I12/Y
+                                            0.098            2  0.187     0.148     3.989     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B1I18/A
+                                            0.098            1  0.187     0.004     3.993     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B1I18/Y
+                                            0.226           32  0.285     0.173     4.167     r
+khu_sensor_top/ads1292_filter/iir_lpf/add/b_reg_4_/CK
+                                            0.226            0  0.285     0.006     4.173     r
+[clock delay]                                                                       4.173
+----------------------------------------------------------------------------------------------------
+
+The Shortest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+i_CLK                                       0.000            1  0.000     0.000     0.000     r
+i_CLK                                       0.188            3  0.000     0.000     0.000     r
+async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+                                            0.188            0  0.063     0.029     0.029     r
+[clock delay]                                                                       0.029
+----------------------------------------------------------------------------------------------------
+
+
+Clock Tree Name                : "clk_pad"
+Clock Period                   : 10.00000       
+Clock Tree root pin            : "pad29/YN"
+Number of Levels               : 21
+Number of Sinks                : 5436
+Number of CT Buffers           : 557
+Number of CTS added gates      : 0
+Number of Preexisting Gates    : 2
+Number of Preexisting Buf/Inv  : 0
+Total Number of Clock Cells    : 559
+Total Area of CT Buffers       : 7392.50146     
+Total Area of CT cells         : 23970.21289    
+Max Global Skew                : 0.49357   
+Number of MaxTran Violators    : 0
+Number of MaxCap Violators     : 0
+Number of MaxFanout Violators  : 0
+
+
+Operating Condition               worst
+Clock global Skew                 0.494
+Longest path delay                2.648
+Shortest path delay               2.154
+
+The longest path delay end pin: khu_sensor_top/ads1292_filter/iir_lpf/add/b_reg_4_/CK
+The shortest path delay end pin: khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_4_/CK
+
+The longest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+pad29/YN                                    0.179            2  0.285     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G2B69I11/A          0.179            1  0.285     0.019     0.019     r
+khu_sensor_top/ivd24_hd_G2B69I11/Y          0.115            1  0.119     0.098     0.117     f
+khu_sensor_top/ivd24_hd_G2B69I1/A           0.115            1  0.120     0.008     0.124     f
+khu_sensor_top/ivd24_hd_G2B69I1/Y           0.128            1  0.153     0.094     0.219     r
+khu_sensor_top/ivd24_hd_G2B68I1/A           0.128            1  0.154     0.009     0.228     r
+khu_sensor_top/ivd24_hd_G2B68I1/Y           0.369            1  0.198     0.099     0.327     f
+khu_sensor_top/ivd12_hd_G2B65I1/A           0.369            1  0.268     0.077     0.404     f
+khu_sensor_top/ivd12_hd_G2B65I1/Y           0.067            2  0.205     0.150     0.554     r
+khu_sensor_top/ivd24_hd_G2B60I1/A           0.067            1  0.205     0.001     0.556     r
+khu_sensor_top/ivd24_hd_G2B60I1/Y           0.164            1  0.172     0.129     0.684     f
+khu_sensor_top/ivd24_hd_G2B59I1/A           0.164            1  0.175     0.017     0.701     f
+khu_sensor_top/ivd24_hd_G2B59I1/Y           0.229            2  0.250     0.145     0.845     r
+khu_sensor_top/ivd24_hd_G2B56I1/A           0.229            1  0.251     0.004     0.849     r
+khu_sensor_top/ivd24_hd_G2B56I1/Y           0.222            2  0.188     0.141     0.990     f
+khu_sensor_top/ivd24_hd_G2B55I2/A           0.222            1  0.190     0.005     0.995     f
+khu_sensor_top/ivd24_hd_G2B55I2/Y           0.149            1  0.213     0.135     1.130     r
+khu_sensor_top/ivd4_hd_G2B42I1/A            0.149            1  0.215     0.014     1.143     r
+khu_sensor_top/ivd4_hd_G2B42I1/Y            0.182            2  0.179     0.139     1.283     f
+khu_sensor_top/ivd20_hd_G2B35I3/A           0.182            1  0.181     0.010     1.293     f
+khu_sensor_top/ivd20_hd_G2B35I3/Y           0.177            2  0.201     0.130     1.422     r
+khu_sensor_top/ivd12_hd_G2B30I2/A           0.177            1  0.203     0.013     1.435     r
+khu_sensor_top/ivd12_hd_G2B30I2/Y           0.120            3  0.173     0.137     1.572     f
+khu_sensor_top/ivd20_hd_G2B29I2/A           0.120            1  0.174     0.007     1.579     f
+khu_sensor_top/ivd20_hd_G2B29I2/Y           0.034            1  0.185     0.128     1.707     r
+khu_sensor_top/ivd12_hd_G2B14I1/A           0.034            1  0.185     0.001     1.707     r
+khu_sensor_top/ivd12_hd_G2B14I1/Y           0.135            2  0.184     0.142     1.849     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B13I2/A
+                                            0.135            1  0.184     0.006     1.856     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B13I2/Y
+                                            0.091            1  0.240     0.152     2.007     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B4I25/A
+                                            0.091            1  0.240     0.006     2.013     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B4I25/Y
+                                            0.129            1  0.192     0.152     2.165     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B3I32/A
+                                            0.129            1  0.194     0.010     2.175     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd20_hd_G2B3I32/Y
+                                            0.115            2  0.214     0.139     2.314     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd12_hd_G2B2I12/A
+                                            0.115            1  0.215     0.002     2.316     r
+khu_sensor_top/ads1292_filter/iir_lpf/ivd12_hd_G2B2I12/Y
+                                            0.098            2  0.187     0.148     2.464     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B1I18/A
+                                            0.098            1  0.187     0.004     2.468     f
+khu_sensor_top/ads1292_filter/iir_lpf/ivd24_hd_G2B1I18/Y
+                                            0.226           32  0.285     0.173     2.642     r
+khu_sensor_top/ads1292_filter/iir_lpf/add/b_reg_4_/CK
+                                            0.226            0  0.285     0.006     2.648     r
+[clock delay]                                                                       2.648
+----------------------------------------------------------------------------------------------------
+
+The Shortest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+pad29/YN                                    0.179            2  0.285     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G2B69I11/A          0.179            1  0.285     0.019     0.019     r
+khu_sensor_top/ivd24_hd_G2B69I11/Y          0.115            1  0.119     0.098     0.117     f
+khu_sensor_top/ivd24_hd_G2B69I1/A           0.115            1  0.120     0.008     0.124     f
+khu_sensor_top/ivd24_hd_G2B69I1/Y           0.128            1  0.153     0.094     0.219     r
+khu_sensor_top/ivd24_hd_G2B68I1/A           0.128            1  0.154     0.009     0.228     r
+khu_sensor_top/ivd24_hd_G2B68I1/Y           0.369            1  0.198     0.099     0.327     f
+khu_sensor_top/ivd12_hd_G2B65I1/A           0.369            1  0.268     0.077     0.404     f
+khu_sensor_top/ivd12_hd_G2B65I1/Y           0.067            2  0.205     0.150     0.554     r
+khu_sensor_top/ivd24_hd_G2B60I1/A           0.067            1  0.205     0.001     0.556     r
+khu_sensor_top/ivd24_hd_G2B60I1/Y           0.164            1  0.172     0.129     0.684     f
+khu_sensor_top/ivd24_hd_G2B59I1/A           0.164            1  0.175     0.017     0.701     f
+khu_sensor_top/ivd24_hd_G2B59I1/Y           0.229            2  0.250     0.145     0.845     r
+khu_sensor_top/ivd24_hd_G2B58I1/A           0.229            1  0.254     0.025     0.871     r
+khu_sensor_top/ivd24_hd_G2B58I1/Y           0.190            1  0.203     0.150     1.021     f
+khu_sensor_top/ivd16_hd_G2B53I1/A           0.190            1  0.208     0.022     1.042     f
+khu_sensor_top/ivd16_hd_G2B53I1/Y           0.089            3  0.127     0.095     1.137     r
+khu_sensor_top/ivd24_hd_G2B36I1/A           0.089            1  0.127     0.002     1.139     r
+khu_sensor_top/ivd24_hd_G2B36I1/Y           0.177            1  0.167     0.109     1.248     f
+khu_sensor_top/ivd24_hd_G2B35I1/A           0.177            1  0.172     0.019     1.267     f
+khu_sensor_top/ivd24_hd_G2B35I1/Y           0.163            2  0.277     0.161     1.428     r
+khu_sensor_top/ivd16_hd_G2B8I9/A            0.163            1  0.280     0.017     1.445     r
+khu_sensor_top/ivd16_hd_G2B8I9/Y            0.140            2  0.205     0.173     1.618     f
+khu_sensor_top/ads1292_filter/ivd16_hd_G2B7I7/A
+                                            0.140            1  0.205     0.004     1.622     f
+khu_sensor_top/ads1292_filter/ivd16_hd_G2B7I7/Y
+                                            0.110            2  0.281     0.176     1.798     r
+khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I21/A
+                                            0.110            1  0.281     0.005     1.803     r
+khu_sensor_top/ads1292_filter/ivd24_hd_G2B2I21/Y
+                                            0.190            1  0.209     0.158     1.961     f
+khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I146/A
+                                            0.190            1  0.214     0.022     1.983     f
+khu_sensor_top/ads1292_filter/ivd24_hd_G2B1I146/Y
+                                            0.225           25  0.265     0.150     2.133     r
+khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_4_/CK
+                                            0.225            0  0.273     0.022     2.154     r
+[clock delay]                                                                       2.154
+----------------------------------------------------------------------------------------------------
+
+
+Clock Tree Name                : "clk_half"
+Clock Period                   : 20.00000       
+Clock Tree root pin            : "khu_sensor_top/divider_by_2/o_CLK_DIV_2"
+Number of Levels               : 9
+Number of Sinks                : 426
+Number of CT Buffers           : 43
+Number of CTS added gates      : 0
+Number of Preexisting Gates    : 0
+Number of Preexisting Buf/Inv  : 0
+Total Number of Clock Cells    : 43
+Total Area of CT Buffers       : 551.23206      
+Total Area of CT cells         : 551.23206      
+Max Global Skew                : 0.14127   
+Number of MaxTran Violators    : 0
+Number of MaxCap Violators     : 0
+Number of MaxFanout Violators  : 0
+
+
+Operating Condition               worst
+Clock global Skew                 0.141
+Longest path delay                0.944
+Shortest path delay               0.803
+
+The longest path delay end pin: khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_0_/CK
+The shortest path delay end pin: khu_sensor_top/sensor_core/r_mpr_clk_counter_reg_3_/CK
+
+The longest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+khu_sensor_top/divider_by_2/o_CLK_DIV_2     0.041            1  0.083     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G4B11I11/A          0.041            1  0.083     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G4B11I11/Y          0.109            2  0.073     0.059     0.059     f
+khu_sensor_top/ivd8_hd_G4B9I1/A             0.109            1  0.073     0.003     0.062     f
+khu_sensor_top/ivd8_hd_G4B9I1/Y             0.052            1  0.085     0.060     0.122     r
+khu_sensor_top/ivd12_hd_G4B6I1/A            0.052            1  0.085     0.001     0.123     r
+khu_sensor_top/ivd12_hd_G4B6I1/Y            0.085            2  0.084     0.068     0.190     f
+khu_sensor_top/ivd20_hd_G4B5I2/A            0.085            1  0.084     0.001     0.192     f
+khu_sensor_top/ivd20_hd_G4B5I2/Y            0.091            2  0.223     0.124     0.316     r
+khu_sensor_top/ivd24_hd_G4B2I2/A            0.091            1  0.223     0.004     0.319     r
+khu_sensor_top/ivd24_hd_G4B2I2/Y            0.119            1  0.178     0.142     0.461     f
+khu_sensor_top/CTS_clk_CTO_route_inv1/A     0.119            1  0.179     0.009     0.470     f
+khu_sensor_top/CTS_clk_CTO_route_inv1/Y     0.129            1  0.229     0.144     0.614     r
+khu_sensor_top/CTS_clk_CTO_route_inv2/A     0.129            1  0.231     0.011     0.624     r
+khu_sensor_top/CTS_clk_CTO_route_inv2/Y     0.126            1  0.187     0.148     0.772     f
+khu_sensor_top/ivd24_hd_G4B1I17/A           0.126            1  0.189     0.010     0.782     f
+khu_sensor_top/ivd24_hd_G4B1I17/Y           0.190           27  0.250     0.155     0.937     r
+khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_0_/CK
+                                            0.190            0  0.250     0.007     0.944     r
+[clock delay]                                                                       0.944
+----------------------------------------------------------------------------------------------------
+
+The Shortest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+khu_sensor_top/divider_by_2/o_CLK_DIV_2     0.041            1  0.083     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G4B11I11/A          0.041            1  0.083     0.000     0.000     r
+khu_sensor_top/ivd24_hd_G4B11I11/Y          0.109            2  0.073     0.059     0.059     f
+khu_sensor_top/ivd16_hd_G4B9I2/A            0.109            1  0.073     0.005     0.063     f
+khu_sensor_top/ivd16_hd_G4B9I2/Y            0.085            1  0.124     0.074     0.138     r
+khu_sensor_top/ivd24_hd_G4B8I1/A            0.085            1  0.124     0.004     0.142     r
+khu_sensor_top/ivd24_hd_G4B8I1/Y            0.363            1  0.216     0.099     0.241     f
+khu_sensor_top/ivd20_hd_G4B3I3/A            0.363            1  0.278     0.076     0.317     f
+khu_sensor_top/ivd20_hd_G4B3I3/Y            0.094            2  0.263     0.181     0.497     r
+khu_sensor_top/sensor_core/ivd8_hd_G4B2I7/A 0.094            1  0.264     0.001     0.498     r
+khu_sensor_top/sensor_core/ivd8_hd_G4B2I7/Y 0.082            2  0.176     0.150     0.648     f
+khu_sensor_top/sensor_core/ivd6_hd_G4B1I6/A 0.082            1  0.177     0.002     0.650     f
+khu_sensor_top/sensor_core/ivd6_hd_G4B1I6/Y 0.068            8  0.234     0.151     0.801     r
+khu_sensor_top/sensor_core/r_mpr_clk_counter_reg_3_/CK
+                                            0.068            0  0.235     0.002     0.803     r
+[clock delay]                                                                       0.803
+----------------------------------------------------------------------------------------------------
+
+1
