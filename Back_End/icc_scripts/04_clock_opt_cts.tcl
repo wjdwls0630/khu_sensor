@@ -11,7 +11,7 @@ echo "***********************************************************************"
 # Set Step
 set step "clock_opt_cts"
 
-# source the user_design_setup & common_lib_setup 
+# source the user_design_setup & common_lib_setup
 source ./icc_scripts/user_scripts/user_design_setup.tcl
 source ./icc_scripts/common_lib_setup.tcl
 
@@ -37,7 +37,7 @@ current_design $TOP_MODULE
 # Setting up Time constraints
 remove_ideal_network -all
 
-# Read scenario file 
+# Read scenario file
 # TODO make scenario!
 # On behalf of making scenarino, source sdc file
 
@@ -47,7 +47,7 @@ remove_scenario -all
 #set_active_scenario $FP_SCN
 
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# Instead of scenario 
+# Instead of scenario
 source $FUNC1_SDC
 set_tlu_plus_files \
 	-max_tluplus $TLUP_MAX_FILE \
@@ -57,7 +57,7 @@ set_tlu_plus_files \
 # If you have scenario file, use this block instead of above one.
 # Read scenario file
 #if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
-#	remove_sdc 
+#	remove_sdc
 #	remove_scenario -all
 #	source $ICC_MCMM_SCENARIOS_FILE
 #}
@@ -65,7 +65,7 @@ set_tlu_plus_files \
 
 echo "***********************************************************************"
 echo "                                                                       "
-echo "    Check consistency between the Milkyway library and the TLUPlus     "   
+echo "    Check consistency between the Milkyway library and the TLUPlus     "
 echo "                                                                       "
 echo "***********************************************************************"
 check_tlu_plus_files
@@ -81,9 +81,9 @@ check_tlu_plus_files
 #******************************************************************************
 
 # Optimization Common Session Options - set in all sessions
-source ./icc_scripts/common_clock_opt_cts_env.tcl 
+source ./icc_scripts/common_clock_opt_cts_env.tcl
 
-# Improved congestion analysis by using Global Route info 
+# Improved congestion analysis by using Global Route info
 if { $GL_BASED_PLACE } {
 	set placer_enable_enhanced_router true
 	set placer_enable_high_effort_congestion true
@@ -108,10 +108,10 @@ set_clock_tree_options \
 	-gate_sizing true \
 	-routing_rule $ICC_CTS_RULE_NAME \
 	-use_default_routing_for_sinks 1
-	
+
 
 # Run CTS
-clock_opt -only_cts -no_clock_route 
+clock_opt -only_cts -no_clock_route
 
 # To do inter clock balancing
 if { $INTER_CLK_GROUPS != "" } {
@@ -123,7 +123,7 @@ if { $INTER_CLK_GROUPS != "" } {
 # set dont touch on clock tree
 set_clock_tree_exception \
 	-dont_touch_subtrees [remove_from_collection [all_fanout -flat -clock_tree] [get_ports [all_outputs]]]
- 
+
 # Source shielding rule
 mark_clock_tree -clock_synthesized -fix_sinks \
 	-routing_rule $ICC_CTS_RULE_NAME -use_default_routing_for_sinks 1
@@ -154,27 +154,29 @@ remove_clock_tree_exceptions -all
 report_net_routing_rules [get_flat_nets *] -output $REPORTS_DIR/shielding_nets.dump
 
 # Report
+redirect -file $REPORTS_DIR/${step}.hfn.rpt { report_net_fanout -threshold 100 }
 redirect -file $REPORTS_DIR/${step}.physical.sum -tee { report_design -physical -nosplit }
-redirect -file $REPORTS_DIR/${step}.hfn.rpt           { report_net_fanout -threshold 100 }
 redirect -file $REPORTS_DIR/${step}.max.timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
 	-physical -attributes -nosplit -derate
 }
-redirect -file $REPORTS_DIR/${step}.min.timing.rpt { 
+redirect -file $REPORTS_DIR/${step}.min.timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
 	-max_paths 100 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
 
+
+
 #******************************************************************************
 # Note Checklist after CTS
 # 1. Check Timing Violation.
 # 2. Verify Congestion value. Congestion value must be lower than 4.
 # 3. View Clock Tree.
-# 4. Check report file of cts. 
+# 4. Check report file of cts.
 #******************************************************************************
 
 # Save
@@ -190,4 +192,3 @@ sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
 #exit
-
