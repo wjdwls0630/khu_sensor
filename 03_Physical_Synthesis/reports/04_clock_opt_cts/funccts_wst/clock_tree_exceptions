@@ -1,0 +1,536 @@
+ 
+****************************************
+Report : clock tree
+Design : khu_sensor_pad
+Scenario(s): funccts_wst
+Version: N-2017.09
+Date   : Sat Sep  5 05:53:28 2020
+****************************************
+
+=============================Report for scenario (funccts_wst)=============================
+Information: Float pin scale factor for the 'max' operating condition of scenario 'funccts_wst' is set to 1.000 (CTS-375)
+
+============= Clock Tree Exception Pins =============
+
+Clock Tree Exceptions Summary
+=============================
+
+  1. Clock: clk
+     Clock root: i_CLK
+     Scenario name: funccts_wst
+     Clock net: i_CLK
+     Total sinks: 2
+     Explicit ignore pins: 0
+     Explicit sync pins: 0
+     Implicit ignore pins: 1
+     Default sink pins: 2
+     Explicit nonstop pins: 0
+     Implicit nonstop pins: 0
+     Dont touch subtree pins: 7
+     Dont buffer nets: 0
+     Dont size cells: 0
+     Size only cells: 0
+
+  2. Clock: clk_half
+     Clock root: khu_sensor_top/divider_by_2/o_CLK_DIV_2
+     Scenario name: funccts_wst
+     Clock net: khu_sensor_top/w_CLOCK_HALF
+     Total sinks: 421
+     Explicit ignore pins: 0
+     Explicit sync pins: 0
+     Implicit ignore pins: 0
+     Default sink pins: 421
+     Explicit nonstop pins: 0
+     Implicit nonstop pins: 0
+     Dont touch subtree pins: 421
+     Dont buffer nets: 0
+     Dont size cells: 0
+     Size only cells: 0
+
+
+=============================
+
+
+Clock Tree Exceptions 
+=====================
+
+
+Legends Used
+------------
+
+(P) = Default sink pin
+(F) = Explicit stop/float pin
+(I) = Implicit ignore pin
+(E) = Explicit ignore pin
+(J) = Implicit nonstop pin
+(T) = Explicit nonstop pin
+(D) = Dont touch subtree pin
+(B) = Dont buffer net
+(S) = Dont size cell
+
+(O) = Size only cell
+
+  1. Clock: clk
+     Clock root: i_CLK
+     Scenario name: funccts_wst
+     Clock net: i_CLK
+     Total sinks: 2
+     Explicit ignore pins: 0
+     Explicit sync pins: 0
+     Implicit ignore pins: 1
+         (I) pad1/PADA
+     Default sink pins: 2
+     Explicit nonstop pins: 0
+     Implicit nonstop pins: 0
+     Dont touch subtree pins: 7
+         (D) i_CLK
+         (D) async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK
+         (D) async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+         (D) pad1/PADA
+         (D) pad1/PADY
+         (D) pad1/YN
+         (D) pad1/PO
+     Dont buffer nets: 0
+     Dont size cells: 0
+     Size only cells: 0
+
+  2. Clock: clk_half
+     Clock root: khu_sensor_top/divider_by_2/o_CLK_DIV_2
+     Scenario name: funccts_wst
+     Clock net: khu_sensor_top/w_CLOCK_HALF
+     Total sinks: 421
+     Explicit ignore pins: 0
+     Explicit sync pins: 0
+     Implicit ignore pins: 0
+     Default sink pins: 421
+     Explicit nonstop pins: 0
+     Implicit nonstop pins: 0
+     Dont touch subtree pins: 421
+         (D) khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/CK
+         (D) khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK
+         (D) khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/CK
+         (D) khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/r_ff_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_SM_Main_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Bit_Index_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Done_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_SM_Main_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_SM_Main_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Tx_Data_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Bit_Index_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Bit_Index_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_tx/r_Clock_Count_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_SM_Main_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Bit_Index_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_SM_Main_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_DV_reg/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_SM_Main_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Clock_Count_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Bit_Index_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Bit_Index_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/uart_rx/r_Rx_Byte_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_TX_READY_reg/CK
+         (D) khu_sensor_top/uart_controller/r_lstate_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/r_lstate_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/r_pstate_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/r_data_counter_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/r_data_counter_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/r_data_counter_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_10_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_11_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_13_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_8_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_14_/CK
+         (D) khu_sensor_top/uart_controller/r_pstate_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_VALID_reg/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_9_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_12_/CK
+         (D) khu_sensor_top/uart_controller/o_UART_DATA_RX_reg_15_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_4_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_5_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_6_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_7_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_10_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_14_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_valid_reg/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_51_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_55_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_52_/CK
+         (D) khu_sensor_top/uart_controller/r_pstate_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_0_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_1_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_2_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_reg_3_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_21_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_22_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_23_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_48_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_53_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_54_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_49_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_50_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_41_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_42_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_43_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_44_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_45_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_46_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_47_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_20_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_33_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_34_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_35_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_36_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_37_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_38_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_39_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_40_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_25_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_26_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_27_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_28_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_29_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_30_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_31_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_32_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_12_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_13_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_15_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_16_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_17_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_18_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_19_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_24_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_8_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_9_/CK
+         (D) khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg_11_/CK
+         (D) khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/CK
+         (D) khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK
+         (D) khu_sensor_top/sensor_core/r_ads_lstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_pstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_pstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_clk_counter_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_core_pstate_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_12_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_lstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_clk_counter_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_read_reg_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_lstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_pstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_run_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_chip_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_lstate_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_chip_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_9_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_read_reg_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_chip_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_chip_set_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_run_mode_reg/CK
+         (D) khu_sensor_top/sensor_core/r_uart_clk_counter_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_clk_counter_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_run_set_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_ads_chip_set_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_uart_clk_counter_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_pstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_run_set_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_status_reg/CK
+         (D) khu_sensor_top/sensor_core/r_core_pstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_clk_counter_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_clk_counter_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_core_pstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_lstate_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_clk_counter_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_FILTERED_DATA_ACK_reg/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_set_counter_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_run_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_ads_run_set_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_clk_counter_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_set_counter_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_pstate_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_data_send_ready_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_set_counter_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_set_counter_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_clk_counter_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_CONTROL_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_set_counter_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_read_reg_mode_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_set_counter_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_set_counter_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_VALID_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_READ_ENABLE_reg/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_53_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_read_reg_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_pstate_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_WRITE_ENABLE_reg/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_set_counter_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_addr_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_second_param_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_14_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_15_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_CONTROL_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_8_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_10_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_11_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_13_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_1_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_1_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_1_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_1_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_uart_data_rx_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_ADS1292_CONTROL_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_addr_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_pstate_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_lstate_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_lstate_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_read_reg_mode_reg/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_49_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_55_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_50_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_28_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_29_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_30_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_31_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_51_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_48_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_54_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_16_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_17_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_18_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_19_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_24_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_25_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_26_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_27_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_8_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_9_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_10_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_11_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_12_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_13_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_14_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_15_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/o_MPR121_REG_ADDR_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_0_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_45_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_46_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_47_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_reg_data_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_37_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_38_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_39_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_40_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_41_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_42_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_43_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_44_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_32_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_33_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_34_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_35_/CK
+         (D) khu_sensor_top/sensor_core/o_UART_DATA_TX_reg_36_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_8_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_9_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_10_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_11_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_first_param_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_touch_status_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_5_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_read_reg_done_reg/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_22_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_23_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_mpr_first_param_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_second_param_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_reg_data_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_14_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_15_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_16_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_17_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_18_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_19_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_20_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_21_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_6_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_7_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_8_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_9_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_10_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_11_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_12_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_13_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_0_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_1_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_2_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_3_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_4_/CK
+         (D) khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_5_/CK
+     Dont buffer nets: 0
+     Dont size cells: 0
+     Size only cells: 0
+
+
+=====================================================
+1
