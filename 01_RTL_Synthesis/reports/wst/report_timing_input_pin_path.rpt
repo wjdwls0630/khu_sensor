@@ -1,0 +1,160 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -input_pins
+        -max_paths 1
+Design : khu_sensor_pad
+Version: F-2011.09-SP5-3
+Date   : Sat Sep  5 05:21:10 2020
+****************************************
+
+ * Some/all delay information is back-annotated.
+
+Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
+Wire Load Model Mode: enclosed
+
+  Startpoint: UART_RXD (input port clocked by clk)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   6.00       6.00
+  clock network delay (ideal)                             0.75       6.75
+  input external delay                                    0.35       7.10 f
+  UART_RXD (in)                                           0.00       7.10 f
+  pad29/PAD (phic)                                        0.00       7.10 f
+  pad29/Y (phic)                                          1.31       8.41 f
+  khu_sensor_top/UART_RXD (khu_sensor_top)                0.00       8.41 f
+  khu_sensor_top/uart_controller/i_UART_RXD (uart_controller)
+                                                          0.00       8.41 f
+  khu_sensor_top/uart_controller/uart_rx/i_Rx_Serial (uart_rx)
+                                                          0.00       8.41 f
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/D (fd3qd1_hd)
+                                                          0.00       8.41 f
+  data arrival time                                                  8.41
+
+  clock clk_half (rise edge)                             12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -3.96       8.79
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
+                                                          0.00       8.79 r
+  library setup time                                     -0.01       8.78
+  data required time                                                 8.78
+  --------------------------------------------------------------------------
+  data required time                                                 8.78
+  data arrival time                                                 -8.41
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.37
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg
+              (rising edge-triggered flip-flop clocked by clk_half)
+  Endpoint: UART_TXD (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg/CK (fd3qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg/Q (fd3qd1_hd)
+                                                          0.86       1.61 r
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial (uart_tx)
+                                                          0.00       1.61 r
+  khu_sensor_top/uart_controller/o_UART_TXD (uart_controller)
+                                                          0.00       1.61 r
+  khu_sensor_top/UART_TXD (khu_sensor_top)                0.00       1.61 r
+  pad27/A (phob12)                                        0.00       1.61 r
+  pad27/PAD (phob12)                                      2.58       4.19 r
+  UART_TXD (out)                                          0.00       4.19 r
+  data arrival time                                                  4.19
+
+  clock clk (rise edge)                                   6.00       6.00
+  clock network delay (ideal)                             0.75       6.75
+  clock uncertainty                                      -1.98       4.77
+  output external delay                                  -0.50       4.27
+  data required time                                                 4.27
+  --------------------------------------------------------------------------
+  data required time                                                 4.27
+  data arrival time                                                 -4.19
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.08
+
+
+  Startpoint: khu_sensor_top/sensor_core/r_mpr_pstate_reg[1]
+              (rising edge-triggered flip-flop clocked by clk_half)
+  Endpoint: khu_sensor_top/sensor_core/r_mpr_first_param_reg[1]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/sensor_core/r_mpr_pstate_reg[1]/CK (fd4qd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/sensor_core/r_mpr_pstate_reg[1]/Q (fd4qd1_hd)
+                                                          0.56       1.31 r
+  khu_sensor_top/sensor_core/U332/A (ivd1_hd)             0.00       1.31 r
+  khu_sensor_top/sensor_core/U332/Y (ivd1_hd)             0.07       1.38 f
+  khu_sensor_top/sensor_core/U337/A (ivd1_hd)             0.00       1.38 f
+  khu_sensor_top/sensor_core/U337/Y (ivd1_hd)             0.11       1.49 r
+  khu_sensor_top/sensor_core/U215/B (or2d1_hd)            0.00       1.49 r
+  khu_sensor_top/sensor_core/U215/Y (or2d1_hd)            0.18       1.68 r
+  khu_sensor_top/sensor_core/U313/A (ivd1_hd)             0.00       1.68 r
+  khu_sensor_top/sensor_core/U313/Y (ivd1_hd)             0.08       1.76 f
+  khu_sensor_top/sensor_core/U659/A (clknd2d1_hd)         0.00       1.76 f
+  khu_sensor_top/sensor_core/U659/Y (clknd2d1_hd)         0.13       1.89 r
+  khu_sensor_top/sensor_core/U545/A (ivd1_hd)             0.00       1.89 r
+  khu_sensor_top/sensor_core/U545/Y (ivd1_hd)             0.11       2.00 f
+  khu_sensor_top/sensor_core/U212/A (ad2d1_hd)            0.00       2.00 f
+  khu_sensor_top/sensor_core/U212/Y (ad2d1_hd)            0.21       2.21 f
+  khu_sensor_top/sensor_core/U246/A (ivd1_hd)             0.00       2.21 f
+  khu_sensor_top/sensor_core/U246/Y (ivd1_hd)             0.11       2.31 r
+  khu_sensor_top/sensor_core/U594/B (clknd2d1_hd)         0.00       2.31 r
+  khu_sensor_top/sensor_core/U594/Y (clknd2d1_hd)         0.15       2.47 f
+  khu_sensor_top/sensor_core/U224/B (or2d1_hd)            0.00       2.47 f
+  khu_sensor_top/sensor_core/U224/Y (or2d1_hd)            0.25       2.72 f
+  khu_sensor_top/sensor_core/U372/A (ivd1_hd)             0.00       2.72 f
+  khu_sensor_top/sensor_core/U372/Y (ivd1_hd)             0.10       2.82 r
+  khu_sensor_top/sensor_core/U45/A (clknd2d1_hd)          0.00       2.82 r
+  khu_sensor_top/sensor_core/U45/Y (clknd2d1_hd)          0.15       2.97 f
+  khu_sensor_top/sensor_core/U133/A (ivd1_hd)             0.00       2.97 f
+  khu_sensor_top/sensor_core/U133/Y (ivd1_hd)             0.11       3.08 r
+  khu_sensor_top/sensor_core/U392/A (ivd1_hd)             0.00       3.08 r
+  khu_sensor_top/sensor_core/U392/Y (ivd1_hd)             0.07       3.16 f
+  khu_sensor_top/sensor_core/U393/A (ivd1_hd)             0.00       3.16 f
+  khu_sensor_top/sensor_core/U393/Y (ivd1_hd)             0.11       3.27 r
+  khu_sensor_top/sensor_core/U117/C (ao211d1_hd)          0.00       3.27 r
+  khu_sensor_top/sensor_core/U117/Y (ao211d1_hd)          0.08       3.35 f
+  khu_sensor_top/sensor_core/U115/C (ad4d1_hd)            0.00       3.35 f
+  khu_sensor_top/sensor_core/U115/Y (ad4d1_hd)            0.27       3.62 f
+  khu_sensor_top/sensor_core/U114/C (scg18d1_hd)          0.00       3.62 f
+  khu_sensor_top/sensor_core/U114/Y (scg18d1_hd)          0.29       3.90 f
+  khu_sensor_top/sensor_core/r_mpr_first_param_reg[1]/D (fd4qd1_hd)
+                                                          0.00       3.90 f
+  data arrival time                                                  3.90
+
+  clock clk_half (rise edge)                             12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -3.96       8.79
+  khu_sensor_top/sensor_core/r_mpr_first_param_reg[1]/CK (fd4qd1_hd)
+                                                          0.00       8.79 r
+  library setup time                                     -0.01       8.78
+  data required time                                                 8.78
+  --------------------------------------------------------------------------
+  data required time                                                 8.78
+  data arrival time                                                 -3.90
+  --------------------------------------------------------------------------
+  slack (MET)                                                        4.88
+
+
+1

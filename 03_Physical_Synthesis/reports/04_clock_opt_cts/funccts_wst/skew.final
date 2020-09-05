@@ -1,0 +1,108 @@
+ 
+****************************************
+Report : clock tree
+Design : khu_sensor_pad
+Scenario(s): funccts_wst
+Version: N-2017.09
+Date   : Sat Sep  5 05:53:32 2020
+****************************************
+
+=============================Report for scenario (funccts_wst)=============================
+Information: Float pin scale factor for the 'max' operating condition of scenario 'funccts_wst' is set to 1.000 (CTS-375)
+
+============ Global Skew Report ================
+
+Clock Tree Name                : "clk"
+Scenario                       : "funccts_wst"
+Clock Period                   : 6.00000        
+Clock Tree root pin            : "i_CLK"
+Number of Levels               : 1
+Number of Sinks                : 2
+Number of CT Buffers           : 0
+Number of CTS added gates      : 0
+Number of Preexisting Gates    : 0
+Number of Preexisting Buf/Inv  : 0
+Total Number of Clock Cells    : 0
+Total Area of CT Buffers       : 0.00000        
+Total Area of CT cells         : 0.00000        
+Max Global Skew                : 0.00000   
+Number of MaxTran Violators    : 0
+Number of MaxCap Violators     : 0
+Number of MaxFanout Violators  : 0
+
+
+Operating Condition               worst
+Clock global Skew                 0.000
+Longest path delay                0.009
+Shortest path delay               0.009
+
+The longest path delay end pin: async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK
+The shortest path delay end pin: async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+
+The longest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+i_CLK                                       0.000            1  0.000     0.000     0.000     r
+i_CLK                                       0.969            3  0.000     0.000     0.000     r
+async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK
+                                            0.969            0  0.022     0.009     0.009     r
+[clock delay]                                                                       0.009
+----------------------------------------------------------------------------------------------------
+
+The Shortest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+i_CLK                                       0.000            1  0.000     0.000     0.000     r
+i_CLK                                       0.969            3  0.000     0.000     0.000     r
+async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
+                                            0.969            0  0.022     0.009     0.009     r
+[clock delay]                                                                       0.009
+----------------------------------------------------------------------------------------------------
+
+
+Clock Tree Name                : "clk_half"
+Scenario                       : "funccts_wst"
+Clock Period                   : 12.00000       
+Clock Tree root pin            : "khu_sensor_top/divider_by_2/o_CLK_DIV_2"
+Number of Levels               : 1
+Number of Sinks                : 421
+Number of CT Buffers           : 0
+Number of CTS added gates      : 0
+Number of Preexisting Gates    : 0
+Number of Preexisting Buf/Inv  : 0
+Total Number of Clock Cells    : 0
+Total Area of CT Buffers       : 0.00000        
+Total Area of CT cells         : 0.00000        
+Max Global Skew                : 0.00000   
+Number of MaxTran Violators    : 0
+Number of MaxCap Violators     : 0
+Number of MaxFanout Violators  : 0
+
+
+Operating Condition               worst
+Clock global Skew                 0.000
+Longest path delay                0.000
+Shortest path delay               0.000
+
+The longest path delay end pin: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_5_/CK
+The shortest path delay end pin: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_5_/CK
+
+The longest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+khu_sensor_top/divider_by_2/o_CLK_DIV_2     1.613          421  0.000     0.000     0.000     r
+khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_5_/CK
+                                            1.613            0  0.000     0.000     0.000     r
+[clock delay]                                                                       0.000
+----------------------------------------------------------------------------------------------------
+
+The Shortest Path:
+Pin                                         Cap       Fanout    Trans     Incr      Arri
+----------------------------------------------------------------------------------------------------
+khu_sensor_top/divider_by_2/o_CLK_DIV_2     1.613          421  0.000     0.000     0.000     r
+khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg_5_/CK
+                                            1.613            0  0.000     0.000     0.000     r
+[clock delay]                                                                       0.000
+----------------------------------------------------------------------------------------------------
+
+1
