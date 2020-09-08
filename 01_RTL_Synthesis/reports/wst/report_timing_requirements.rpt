@@ -4,7 +4,7 @@ Report : timing_requirements
         -attributes
 Design : khu_sensor_pad
 Version: F-2011.09-SP5-3
-Date   : Sat Sep  5 05:21:10 2020
+Date   : Tue Sep  8 19:13:11 2020
 ****************************************
 
 Description                            Setup               Hold
@@ -12,25 +12,49 @@ Description                            Setup               Hold
 TIMING EXCEPTION                       FALSE               FALSE
 	-from    i_RSTN
 TIMING EXCEPTION                       FALSE               FALSE
-	-from    async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/Q
+	-from    async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK
 TIMING EXCEPTION                       FALSE               FALSE
-	-to      async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/D
+	-from    async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK
 TIMING EXCEPTION                       FALSE               FALSE
 	-to      async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/RN
 TIMING EXCEPTION                       FALSE               FALSE
 	-to      async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/RN
 TIMING EXCEPTION                       FALSE               FALSE
-	-from    { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/Q }
+	-from    { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
-	-to      { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/D }
+	-from    { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/CK }
+TIMING EXCEPTION                       FALSE               FALSE
+	-to      { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/RN\
+		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/RN\
+		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/RN\
+		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/o_RSTN_reg/RN\
+		   khu_sensor_top/uart_controller/async_rstn_synchronizer/o_RSTN_reg/RN }
+TIMING EXCEPTION                       FALSE               FALSE
+	-to      { khu_sensor_top/ads1292_controller/async_rstn_synchronizer/r_ff_reg/RN\
+		   khu_sensor_top/ads1292_filter/async_rstn_synchronizer/r_ff_reg/RN\
+		   khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/RN\
+		   khu_sensor_top/mpr121_controller/async_rstn_synchronizer/r_ff_reg/RN\
+		   khu_sensor_top/uart_controller/async_rstn_synchronizer/r_ff_reg/RN }
+TIMING EXCEPTION                       FALSE               FALSE
+	-from    { khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/r_ff_reg/CK }
+TIMING EXCEPTION                       FALSE               FALSE
+	-from    { khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/CK\
+		   khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
 	-to      { khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/RN\
 		   khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/RN\
@@ -44,25 +68,13 @@ TIMING EXCEPTION                       FALSE               FALSE
 		   khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/r_ff_reg/RN\
 		   khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/r_ff_reg/RN }
 TIMING EXCEPTION                       FALSE               FALSE
-	-from    { khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/Q\
-		   khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg/Q }
+	-from    { khu_sensor_top/ads1292_filter/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
-	-to      { khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/D\
-		   khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/o_RSTN_reg/D }
-TIMING EXCEPTION                       FALSE               FALSE
-	-from    { khu_sensor_top/ads1292_filter/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/Q }
-TIMING EXCEPTION                       FALSE               FALSE
-	-to      { khu_sensor_top/ads1292_filter/async_rst_synchronizer/o_RST_reg/D\
-		   khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/D\
-		   khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/D }
+	-from    { khu_sensor_top/ads1292_filter/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/uart_controller/async_rst_synchronizer/o_RST_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
 	-to      { khu_sensor_top/ads1292_filter/async_rst_synchronizer/o_RST_reg/SN\
 		   khu_sensor_top/sensor_core/async_rst_synchronizer/o_RST_reg/SN\
@@ -72,17 +84,17 @@ TIMING EXCEPTION                       FALSE               FALSE
 		   khu_sensor_top/sensor_core/async_rst_synchronizer/r_ff_reg/SN\
 		   khu_sensor_top/uart_controller/async_rst_synchronizer/r_ff_reg/SN }
 TIMING EXCEPTION                       FALSE               FALSE
-	-from    { khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/Q }
+	-from    { khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/r_ff_reg/CK\
+		   khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/r_ff_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
-	-to      { khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/Q\
-		   khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/Q }
+	-from    { khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/o_RST_reg/CK\
+		   khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/o_RST_reg/CK }
 TIMING EXCEPTION                       FALSE               FALSE
 	-to      { khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg/SN\
 		   khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/o_RST_reg/SN\

@@ -30,9 +30,10 @@ set	FF_WST_HOLD_MARGIN      "0.240"
 set FF_BST_HOLD_MARGIN      "0.090"
 
 # Define max transition time
-
-set WST_MAX_TRAN        "0.9"    ;# library value is 2.250
-set BST_MAX_TRAN        "0.7"    ;# library value is 1.131
+# In real case, actual input slopes do not reach maximum slew rate almost case.
+# Thus, we should circumscribe max transition time that is shorter than library max transition time
+set WST_MAX_TRAN        "1.0"    ;# library value is 2.250
+set BST_MAX_TRAN        "0.8"    ;# library value is 1.131
 
 ####### Define max length
 

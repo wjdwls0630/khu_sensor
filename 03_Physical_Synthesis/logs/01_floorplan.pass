@@ -291,6 +291,10 @@ set_message_info -id CTS-102    -limit 1
 1
 set_message_info -id OPT-170    -limit 1
 1
+set_message_info -id TIM-178    -limit 1
+1
+set_message_info -id TIM-179    -limit 1
+1
 1
 source -echo -v ./icc_scripts/common_lib_setup.tcl
 #******************************************************************************
@@ -461,7 +465,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0905_05:41:33
+0908_18:47:08
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -658,15 +662,17 @@ Warning: You have provided ambiguous libraries:
   The latter library will be ignored. (MV-086)
   Ambiguity is evident at U3 in scenario func1_wst
 Information: Updating graph... (UID-83)
-Warning: Some objects from '_sel223' were of the incorrect class. (SEL-010)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
 Information: Updating graph... (UID-83)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Sat Sep  5 05:41:48 2020
+Date   : Tue Sep  8 18:47:21 2020
 ****************************************
 
 Attributes:
@@ -678,8 +684,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              6.00   {0 3}                         {i_CLK}   func1_wst
-clk_half        12.00   {0 6}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk              9.00   {0 4.5}                       {i_CLK}   func1_wst
+clk_half        18.00   {0 9}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 func1_wst
 --------------------------------------------------------------------------------
 
@@ -714,14 +720,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel455' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Sat Sep  5 05:41:49 2020
+Date   : Tue Sep  8 18:47:22 2020
 ****************************************
 
 Attributes:
@@ -733,8 +739,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              6.00   {0 3}                         {i_CLK}   funccts_wst
-clk_half        12.00   {0 6}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk              9.00   {0 4.5}                       {i_CLK}   funccts_wst
+clk_half        18.00   {0 9}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 funccts_wst
 --------------------------------------------------------------------------------
 
@@ -757,7 +763,7 @@ create_floorplan -control_type boundary -start_first_row -flip_first_row -left_i
 44 pads are constrained in TDF table
 There are 44 IO pads 0 corner pads in total
 Core aspect ratio adjusted to 1.000
-Core Utilization adjusted to 0.637
+Core Utilization adjusted to 0.647
 Increase core to right distance by 0.16 to 50.16
 Increase core to top distance by 3.56 to 53.56
 Start to create wire tracks ...
@@ -771,7 +777,7 @@ Information: The orientation of Library cell "phbct12_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "vdd12ih_core_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phic_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phob12_p" is "E". (APLUI-043)
-Information: The orientation of Library cell "phsoscm3_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "phbct24_p" is "E". (APLUI-043)
 There are 0 pads constrained by min IO spacing.
 Warning: All pads/pins have location constraints; No error checking will be performed
 Overlaps are possible
@@ -783,10 +789,10 @@ IO Placement Refinement Completed Successfully.
 Place pads/pins successfully
 Warning: Pad cells edges are now open for terminal placement (FPHSM-0019)
 Information: During terminal creation, some port-connected pins were detected as possible or likely candidates to be a PAD-type pin.  A tcl script, set_pad_attributes_on_cell_khu_sensor_pad.tcl, has been created with a set_attribute command for each possible pin candidate. Some pins in this script may not actually be PAD-type pins.  Please edit this fileand correct any lines which are not correctly setting the value (true or false).  Then source this tcl script and then re-run the command which produced this message (place_fp_pins, initialize_floorplan, or initialize_rectilinear_block) again so that terminals are correctly processed.  The command has assumed that all candidate pins which are on padcells or bumpcells are to have terminals stacked onto the corresponding pins.  It has also assumed that all candidate pins which are on hard macros are to to have terminals created on the cell boundary.  If you are happy with these assumptions, you may forego the sourcing of the generated script and just accept the initial results .  If that does not give you satisfactory results, then use set_pin_physical_constraints to explicitly specify terminal locations. (FPHSM-1854)
-Number of terminals created: 14.
+Number of terminals created: 13.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Name             Original Ports
-khu_sensor_pad               14
+khu_sensor_pad               13
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Completed pin assignment.
 Elapsed =    0:00:00, CPU =    0:00:00
@@ -794,7 +800,7 @@ Planner Summary:
 This floorplan is created by using tile name (unit).
 	Row Direction = HORIZONTAL
 	Control Parameter =  Cell Boundary
-	Core Utilization = 0.639
+	Core Utilization = 0.649
 	Number Of Rows = 227
 	Core Width = 820.6
 	Core Height = 817.2
