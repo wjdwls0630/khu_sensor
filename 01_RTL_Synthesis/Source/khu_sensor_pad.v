@@ -2,7 +2,7 @@ module khu_sensor_pad (
   // System I/O
   input i_CLK, // Clock
   input i_RSTN, // Reset
-  output CLK_OUT,
+  //output CLK_OUT,
   // RS232 UART
   input UART_RXD,
   output UART_TXD,
@@ -37,7 +37,7 @@ module khu_sensor_pad (
   // Actual Signal input to main core/module(khu_sensor_top)
   // System I/O
   wire w_clk_p; // Clock
-  wire w_clk_out_p; // Clock Out
+  //wire w_clk_out_p; // Clock Out
   wire w_rstn_p; // Reset
 
   wire w_clk_half_p;
@@ -80,8 +80,10 @@ module khu_sensor_pad (
   // vdd12ih : 1.2V internal for 3.3V interface
   // vdd12ih_core : 1.2V core only for 3.3V interface
   // vssiph : Internal and pre-driver GND for 3.3V interface
-
-  phsoscm3 pad1(.PADA(i_CLK), .E(1'b1), .PI(), .PO(), .YN(~w_clk_p), .PADY(CLK_OUT));
+  // if input does not require a big driver, input PAD or bi-directional PAD
+  // can be used for oscillator 
+  //phsoscm3 pad1(.PADA(i_CLK), .E(1'b1), .PI(), .PO(), .YN(~w_clk_p), .PADY(CLK_OUT));
+  phbct24 pad1(.PAD(i_CLK), .TN(1'b1), .EN(1'b1), .A(1'b0), .PI(1'b0), .PO(), .Y(w_clk_p));
   vssoh pad2();
   phob12 pad3(.A(w_ads1292_reset_p), .PAD(ADS1292_RESET));
   vssiph pad4();
@@ -129,10 +131,10 @@ module khu_sensor_pad (
   *                    TOP (pad34() ~ pad44())                                *
   *****************************************************************************/
   //============================================================================
-  phbct12 pad34(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
+  phbct12 pad34(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_in_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_out_p));
   vssoh pad35();
   vssiph pad36();
-  phbct12 pad37(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
+  phbct12 pad37(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_in_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_out_p));
   vssoh pad38();
   vssiph pad39();
   // schmitt trigger for global reset
