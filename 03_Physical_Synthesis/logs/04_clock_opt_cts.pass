@@ -291,6 +291,10 @@ set_message_info -id CTS-102    -limit 1
 1
 set_message_info -id OPT-170    -limit 1
 1
+set_message_info -id TIM-178    -limit 1
+1
+set_message_info -id TIM-179    -limit 1
+1
 1
 source -echo -v ./icc_scripts/common_lib_setup.tcl
 #******************************************************************************
@@ -461,7 +465,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0905_05:52:21
+0908_18:58:47
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -682,22 +686,21 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd2_hd).
+  and contain the same lib_cell names (e.g. ivd1_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place14 in scenario func1_wst
+  Ambiguity is evident at icc_place11 in scenario func1_wst
 Information: Updating graph... (UID-83)
-Warning: Some objects from '_sel223' were of the incorrect class. (SEL-010)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
 
 Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Loading design 'khu_sensor_pad'
 
 
-Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
@@ -723,7 +726,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-25015/25403 nets are routed
+28420/29791 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -742,49 +745,80 @@ Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-
 Information: The RC model used is global route TLU+. (RCEX-015)
 Information: Start mixed mode parasitic extraction. (RCEX-023)
 Information: Start rc extraction...
-EKL_MT: total threadable CPU 0.64 seconds
+EKL_MT: total threadable CPU 0.83 seconds
 EKL_MT: elapsed time 1 seconds
+Warning: Net 'w_clk_p' is exceeding threshold (over 1000 pins) and will be skipped. (RCEX-020)
 Warning: Net 'khu_sensor_top/w_CLOCK_HALF' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_controller/n239' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/n140' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/n327' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/N719' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/n340' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n65' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n125' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/n706' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n61' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n260' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n350' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n734' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n436' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n383' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n389' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n652' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n650' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n727' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n758' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n274' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n237' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n758' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n790' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n790' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n982' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n703' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n305' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n756' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n792' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/n277' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/mult_x_1/n286' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/mult_x_1/n551' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -822,14 +856,16 @@ Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 Information: End rc update.
 Information: The mixed mode parasitic extraction has been performed. (RCEX-202)
+Information: High fanout net 'w_clk_p' is not ideal_net. (OPT-934)
 Information: Updating graph... (UID-83)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Sat Sep  5 05:52:44 2020
+Date   : Tue Sep  8 18:59:12 2020
 ****************************************
 
 Attributes:
@@ -841,8 +877,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              6.00   {0 3}                         {i_CLK}   func1_wst
-clk_half        12.00   {0 6}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             12.00   {0 6}                         {i_CLK}   func1_wst
+clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 func1_wst
 --------------------------------------------------------------------------------
 
@@ -877,15 +913,16 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel455' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd2_hd).
+  and contain the same lib_cell names (e.g. ivd1_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place14 in scenario func1_wst
+  Ambiguity is evident at icc_place11 in scenario func1_wst
 Information: Start timing update for routes parasitic extraction. (RCEX-023)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 Information: End timing update for routes parasitic extraction. (RCEX-023)
 Information: Start rc update...
 ****************************************************************
@@ -919,7 +956,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Sat Sep  5 05:52:46 2020
+Date   : Tue Sep  8 18:59:15 2020
 ****************************************
 
 Attributes:
@@ -931,8 +968,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              6.00   {0 3}                         {i_CLK}   funccts_wst
-clk_half        12.00   {0 6}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             12.00   {0 6}                         {i_CLK}   funccts_wst
+clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 funccts_wst
 --------------------------------------------------------------------------------
 
@@ -952,7 +989,8 @@ Information: Scenario func1_wst is no longer active. (UID-1022)
 # 1. Placement must be finished clearly.
 # 2. Verify P/G nets are prerouted properly.
 # 3. Verify Congestion value. Congestion value must be lower than 4.
-# 4. After placement, there should be no timing violation.
+# 4. After placement, the ideal situaltion is that there is no timing violation.
+# If it has, it may be okay, but not recommend.
 # 5. Check your high fan out nets (hfn)
 #******************************************************************************
 # Optimization Common Session Options - set in all sessions
@@ -969,7 +1007,9 @@ Warning: The design has already been assigned layer constraints and we will over
                                                                        
 ***********************************************************************
 Current scenario is: funccts_wst
+Current design is 'khu_sensor_pad'.
 Information: Updating graph... (UID-83)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 Current design is 'khu_sensor_pad'.
 1
 # Improved congestion analysis by using Global Route info
@@ -1100,6 +1140,7 @@ Current scenario is: funccts_wst
 Building clock tree...
 Operating Condition is max
 Information: Scenario funccts_wst is the only cts_mode, per_clock exception will be honored in CTS (CTS-1112)
+Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 Information: Clock Synthesis/Optimization will follow this order: clk  (CTS-1113)
 CTS Operating Condition(s): MAX(Worst) 
 
@@ -1107,12 +1148,10 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Loading design 'khu_sensor_pad'
 
 
-Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
@@ -1142,8 +1181,7 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 [begin initializing data for legality checker]
 
 Initializing Data Structure ...
@@ -1157,12 +1195,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1201,7 +1238,7 @@ Information: Using derived R and C coefficients. (RCEX-008)
 Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.32
-LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.30
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.29
 LR: Clock routing service standing by
 Using cts integrated global router
 CTS: Blockage Aware Algorithm
@@ -1220,12 +1257,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1244,14 +1280,14 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
+Warning: Net khu_sensor_top/divider_by_2/o_CLK_DIV_2 is an Ideal Net, Removing the attribute. (CTS-260)
+Information: Replaced the library cell of khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg from ft2d1_hd to ft2d4_hd. (CTS-152)
 CTS: Prepare sources for clock domain clk
-Warning: Net i_CLK is an Ideal Net, Removing the attribute. (CTS-260)
-CTS: pad1/PADA is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.323032.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1263,9 +1299,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.323032.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1276,13 +1312,13 @@ Pruning library cells (r/f, pwr)
 	ivd20_hd
 	ivd24_hd
 CTS: Enable Top-Level OCV Path Sharing.
-CTS: BA: Net 'i_CLK'
+CTS: BA: Net 'w_clk_p'
 CTS: BA: Root net includes 1 sinks.
 CTS: BA: Max delay at toplevel pins = 0.000000
 CTS: BA: Max skew at toplevel pins = 0.000000
 BA: Refreshing blockage map size.
 BA: Refreshing blockage map size.
-CTS: BA: Net 'i_CLK'
+CTS: BA: Net 'w_clk_p'
 CTS: BA: Root net includes 1 sinks.
 CTS: BA: Max delay at toplevel pins = 0.000000
 CTS: BA: Max skew at toplevel pins = 0.000000
@@ -1290,8 +1326,8 @@ CTS: BA: Max skew at toplevel pins = 0.000000
 CTS: Starting clock tree synthesis ...
 CTS:   Conditions       = worst(1)
 CTS: Global design rule constraints [rise fall]
-CTS:   max transition   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = undefined/ignored
-CTS:   leaf max trans   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = undefined/ignored
+CTS:   max transition   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = worst[1.000 1.000]
+CTS:   leaf max trans   = worst[0.300 0.300]     GUI = worst[0.300 0.300]     SDC = worst[1.000 1.000]
 CTS:   max capacitance  = worst[0.600 0.600]     GUI = worst[0.600 0.600]     SDC = undefined/ignored
 CTS:   max fanout       = 2000                   GUI = 2000                   SDC = undefined/ignored
 CTS: Global timing/clock tree constraints
@@ -1299,10 +1335,13 @@ CTS:   clock skew       = worst[0.000]
 CTS:   insertion delay  = worst[0.000]
 CTS:   levels per net   = 400
 CTS: Design infomation
-CTS:  total gate levels = 1
+CTS:  total gate levels = 4
 CTS: Root clock net i_CLK
-CTS:  clock gate levels = 1
-CTS:    clock sink pins = 2
+CTS:  clock gate levels = 4
+CTS:    clock sink pins = 5376
+CTS:    level  4: gates = 1
+CTS:    level  3: gates = 1
+CTS:    level  2: gates = 1
 CTS:    level  1: gates = 1
 CTS: Buffer/Inverter list for CTS for clock net i_CLK:
 CTS:   std150e_wst_105_p125/nid24_hd
@@ -1350,6 +1389,50 @@ Information: Removing clock transition on clock clk ... (CTS-103)
 Information: Removing clock transition on clock clk ... (CTS-103)
 Information: Removing clock uncertainty on pin async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK ... (CTS-102)
 Note - message 'CTS-102' limit (1) exceeded.  Remainder will be suppressed.
+Information: Removing clock transition on clock clk ... (CTS-103)
+Information: Removing clock transition on clock clk_half ... (CTS-103)
+Information: Removing clock source latency on clock clk_half ... (CTS-289)
+
+CTS: gate level 4 clock tree synthesis
+CTS:          clock net = khu_sensor_top/w_CLOCK_HALF
+CTS:        driving pin = khu_sensor_top/divider_by_2/o_CLK_DIV_2
+CTS: gate level 4 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 4 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
+Information: Back-annotated pin delays for Net: async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK is ignored because net belongs to a clock mesh.  (OPT-860)
+Information: Back-annotated pin delays for Net: async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK is ignored because net belongs to a clock mesh.  (OPT-860)
+Information: Back-annotated pin delays for Net: async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK is ignored because net belongs to a clock mesh.  (OPT-860)
+ * Reached OPT-860 limit - remainder will be suppressed
+CTS: nominal transition = 0.12309
+
+CTS: gate level 3 clock tree synthesis
+CTS:          clock net = khu_sensor_top/divider_by_2/o_CLK_DIV_2
+CTS:        driving pin = khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q
+CTS: gate level 3 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 3 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
+
+CTS: gate level 2 clock tree synthesis
+CTS:          clock net = w_clk_p
+CTS:        driving pin = pad1/Y
+CTS: gate level 2 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   leaf max transition = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+CTS: gate level 2 timing constraints
+CTS:   clock skew       = worst[0.000]
+CTS:   levels per net   = 400
 
 CTS: gate level 1 clock tree synthesis
 CTS:          clock net = i_CLK
@@ -1366,37 +1449,43 @@ CTS:   levels per net   = 400
 Information: no clock tree synthesis on don't touch net i_CLK. (CTS-614)
 
 CTS: Clock tree synthesis completed successfully
-CTS:   CPU time:     0 seconds
+CTS:   CPU time:     2 seconds
 CTS: Reporting clock tree violations ...
 CTS:   Global design rules:
 CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
 CTS:     maximum capacitance = 0.6
 CTS:     maximum fanout = 2000
 CTS:     maximum buffer levels per net = 400
+CTS: transition delay violation at pad1/Y
+CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A
+CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   constraint = worst[0.300 0.300]
 CTS:  
 CTS: Summary of clock tree violations: 
-CTS:  Total number of transition violations  = 0 
+CTS:  Total number of transition violations  = 2 
 CTS:  Total number of capacitance violations = 0 
 CTS: ------------------------------------------------
 CTS: Clock Tree Synthesis Summary
 CTS: ------------------------------------------------
 CTS:       1 clock domain synthesized
-CTS:       1 gated clock nets synthesized
-CTS:       0 buffer trees inserted
-CTS:       0 buffers used (total size = 0)
-CTS:       1 clock nets total capacitance = worst[0.116 0.116]
+CTS:       4 gated clock nets synthesized
+CTS:       2 buffer trees inserted
+CTS:     202 buffers used (total size = 4055.04)
+CTS:     206 clock nets total capacitance = worst[34.791 34.791]
 CTS: ------------------------------------------------
 CTS: Clock-by-Clock Summary
 CTS: ------------------------------------------------
 CTS: Root clock net i_CLK
-CTS:       1 gated clock nets synthesized
-CTS:       0 buffer trees inserted
-CTS:       0 buffers used (total size = 0)
-CTS:       1 clock nets total capacitance = worst[0.116 0.116]
+CTS:       4 gated clock nets synthesized
+CTS:       2 buffer trees inserted
+CTS:     202 buffers used (total size = 4055.04)
+CTS:     206 clock nets total capacitance = worst[34.791 34.791]
 
 CTS: ==================================================
-CTS:   Elapsed time: 0 seconds
-CTS:   CPU time:     0 seconds on vlsi-dist.khu.ac.kr
+CTS:   Elapsed time: 2 seconds
+CTS:   CPU time:     2 seconds on vlsi-dist.khu.ac.kr
 CTS: ==================================================
 CTS: Reporting clock tree violations ...
 CTS:   Global design rules:
@@ -1404,9 +1493,15 @@ CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
 CTS:     maximum capacitance = 0.6
 CTS:     maximum fanout = 2000
 CTS:     maximum buffer levels per net = 400
+CTS: transition delay violation at pad1/Y
+CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   constraint = worst[0.300 0.300]
+CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A
+CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   constraint = worst[0.300 0.300]
 CTS:  
 CTS: Summary of clock tree violations: 
-CTS:  Total number of transition violations  = 0 
+CTS:  Total number of transition violations  = 2 
 CTS:  Total number of capacitance violations = 0 
 CTS: ==================================================
 CTS: Start DRC fixing beyond exceptions
@@ -1424,12 +1519,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1446,12 +1540,11 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
-CTS: pad1/PADA is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.323032.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1463,9 +1556,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.323032.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1478,16 +1571,16 @@ Pruning library cells (r/f, pwr)
 CTS: Top-Level OCV Path Sharing not effective with Logic Level Balance, High-Fanout Synthesis or in DRC beyond exception.
 BA: Refreshing blockage map size.
 BA: Refreshing blockage map size.
-CTS: BA: Net 'i_CLK'
+CTS: BA: Net 'w_clk_p'
 CTS: BA: Root net includes 1 sinks.
-CTS: BA: Max delay at toplevel pins = 0.000000
-CTS: BA: Max skew at toplevel pins = 0.000000
+CTS: BA: Max delay at toplevel pins = 1.335451
+CTS: BA: Max skew at toplevel pins = 0.132376
 CTS: Prepare sources for clock domain clk
 
 CTS: ==================================================
 CTS: DRC fixing beyond exceptions completed successfully
-CTS:   Elapsed time: 0 seconds
-CTS:   CPU time:     0 seconds on vlsi-dist.khu.ac.kr
+CTS:   Elapsed time: 1 seconds
+CTS:   CPU time:     1 seconds on vlsi-dist.khu.ac.kr
 CTS: ==================================================
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -1537,12 +1630,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1567,12 +1659,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1589,12 +1680,11 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
-CTS: pad1/PADA is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.323032.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1606,9 +1696,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.323032.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.323032.
+    Min drive = 0.356726.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1741,124 +1831,254 @@ Using leaf_max_transition for clock clk : 0.300 ns
 * Preoptimization report (clock 'clk') *
 ****************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
+    Estimated Skew (r/f/b) = (2.647 0.000 2.647)
+    Estimated Insertion Delay (r/f/b) = (2.663  -inf 2.663)
   Corner 'RC-ONLY'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
-  Wire capacitance =  0.1 pf
-  Total capacitance = 0.1 pf
-  Max transition = 0.012 ns
-  Cells = 1 (area=0.000000)
+    Estimated Skew (r/f/b) = (0.138 0.000 0.138)
+    Estimated Insertion Delay (r/f/b) = (0.162  -inf 0.162)
+  Wire capacitance =  15.4 pf
+  Total capacitance = 35.5 pf
+  Max transition = 0.295 ns
+  Cells = 205 (area=864.666565)
+  Inverters = 202 (area=853.333252)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd20_hd: 72
+    ivd16_hd: 57
+    ivd12_hd: 10
+    ivd24_hd: 60
+    ivd8_hd: 2
+    ivd6_hd: 1
+  Other Cells
+  ===========
+    ft2d4_hd: 1
 
 Report DRC violations for clock clk (initial)
 Total 0 DRC violations for clock clk (initial)
- Start (0.006, 0.006), End (0.006, 0.006) 
+Deleting cells (khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I2, khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1) and output nets (khu_sensor_top/w_clk_p_G2B4I2, khu_sensor_top/w_clk_p_G2B5I1).
+ iteration 1: (2.531235, 2.572810) [1]
+ Total 1 buffers removed on clock clk  (corner 1)
+ Start (0.042, 2.711), End (0.042, 2.573) 
 
 RC optimization for clock 'clk'
 Corner sensitivity to RC skew (normalized to the first corner):
   Corner ':max': +0.000
-100%   
-100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
 Coarse optimization for clock 'clk'
-100%   
-100%   
-100%   
-100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
  No back-to-back buffer chains found
- Start (0.006, 0.006), End (0.006, 0.006) 
+ iteration 1: (2.661513, 2.703088) [1]
+ iteration 2: (2.658262, 2.699837) [1]
+ Total 2 cells sized on clock clk (LP) (corner 1)
+ Start (0.042, 2.706), End (0.042, 2.700) 
 
 Detailed optimization for clock 'clk'
-100%   
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
 Using max_transition 0.300 ns
 Using leaf_max_transition for clock clk : 0.300 ns
 Starting optimization pass for clock clk:
 Start path based optimization 
- Start (0.005, 0.005), End (0.005, 0.005) 
+Deleting cells (khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I1, khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B10I1) and output nets (khu_sensor_top/w_clk_p_G2B2I1, khu_sensor_top/w_clk_p_G2B3I1).
+ iteration 1: (2.546824, 2.563293) [0]
+ Total 1 buffers removed on clock clk  (corner 0)
+ Start (0.016, 2.678), End (0.016, 2.563) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ Start (0.016, 2.563), End (0.016, 2.563) 
 
-100%   
- Start (0.005, 0.005), End (0.005, 0.005) 
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+ Start (0.016, 2.563), End (0.016, 2.563) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ iteration 2: (2.543927, 2.560396) [0]
+ Total 1 cells sized on clock clk (LP) (corner 0)
+ Start (0.016, 2.563), End (0.016, 2.560) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ Start (0.016, 2.560), End (0.016, 2.560) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ iteration 3: (2.540243, 2.556712) [0]
+ Total 1 cells sized on clock clk (LP) (corner 0)
+ Start (0.016, 2.560), End (0.016, 2.557) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ Start (0.016, 2.557), End (0.016, 2.557) 
 
- Start (0.005, 0.005), End (0.005, 0.005) 
+ Start (0.016, 2.557), End (0.016, 2.554) 
 
-Start area recovery: (0.004975, 0.005006)
+Start area recovery: (0.016469, 2.554246)
 Using max_transition 0.300 ns
 Using leaf_max_transition for clock clk : 0.300 ns
 Switch to low metal layer for clock 'clk':
 
- Total 0 out of 0 nets switched to low metal layer for clock 'clk' with largest cap change 0.00 percent
-Switch metal layer for area recovery: (0.004975, 0.005006)
- Start (0.005, 0.005), End (0.005, 0.005) 
+ Total 187 out of 200 nets switched to low metal layer for clock 'clk' with largest cap change 6.89 percent
+Switch metal layer for area recovery: (0.016469, 2.554246)
+ Start (0.016, 2.554), End (0.016, 2.554) 
 
-Buffer removal for area recovery: (0.004975, 0.005006)
+Buffer removal for area recovery: (0.016469, 2.554246)
 Area recovery optimization for clock 'clk':
-100%   
-Sizing for area recovery: (0.004975, 0.005006)
+10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
+Sizing for area recovery: (0.016469, 2.554246)
 
  Total 0 buffers removed (all paths) for clock 'clk'
-Path buffer removal for area recovery: (0.004975, 0.005006)
-Buffer pair removal for area recovery: (0.004975, 0.005006)
-End area recovery: (0.004975, 0.005006)
+Path buffer removal for area recovery: (0.016469, 2.554246)
+Buffer pair removal for area recovery: (0.016469, 2.554246)
+End area recovery: (0.016469, 2.554246)
 
 *************************************************
 * Multicorner optimization report (clock 'clk') *
 *************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
+    Estimated Skew (r/f/b) = (2.538 0.000 2.538)
+    Estimated Insertion Delay (r/f/b) = (2.554  -inf 2.554)
   Corner 'RC-ONLY'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
-  Wire capacitance =  0.1 pf
-  Total capacitance = 0.1 pf
-  Max transition = 0.012 ns
-  Cells = 1 (area=0.000000)
+    Estimated Skew (r/f/b) = (0.077 0.000 0.077)
+    Estimated Insertion Delay (r/f/b) = (0.101  -inf 0.101)
+  Wire capacitance =  14.6 pf
+  Total capacitance = 32.0 pf
+  Max transition = 0.294 ns
+  Cells = 201 (area=574.333191)
+  Inverters = 198 (area=562.999878)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd12_hd: 81
+    ivd16_hd: 64
+    ivd8_hd: 28
+    ivd4_hd: 5
+    ivd6_hd: 13
+    ivd20_hd: 5
+    ivd3_hd: 1
+    ivd24_hd: 1
+  Other Cells
+  ===========
+    ft2d4_hd: 1
 
 
 ++ Longest path for clock clk in corner ':max':
  object                               fan cap  trn inc  arr r location
- i_CLK (port)                                   31   0    0 r (  13 1006) 
- i_CLK (port)                                    0   0    0 r (  13 1006) 
- i_CLK (net)                            3 116                 
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
-                                                12   5    5 r ( 417  999) 
+ i_CLK (port)                                   31   0    0 r (  13  946) 
+ i_CLK (port)                                    0   0    0 r (  13  946) 
+ i_CLK (net)                            3 2067                
+ pad1/PAD (phbct24_p)                          138  44   44 r (  58  974) 
+ pad1/Y (phbct24_p)                            294 1293 1337 r
+                                                              ( 137  999) 
+ w_clk_p (net)                          1  61                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A (ivd24_hd)
+                                               293   2 1338 r ( 191  999) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/Y (ivd24_hd)
+                                               194 133 1471 f ( 190  999) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    2 274                 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
+                                               213  40 1511 f ( 285  384) 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
+                                               271 160 1671 r ( 286  383) 
+ khu_sensor_top/divider_by_2/w_clk_p_G2B4I1 (net)
+                                        1 195                 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/CK (ft2d4_hd)
+                                               274  23 1695 r ( 872  358) 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q (ft2d4_hd)
+                                                84 349 2043 r ( 861  358) 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2 (net)
+                                        1   9                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/A (ivd4_hd)
+                                                84   0 2043 r ( 863  362) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/Y (ivd4_hd)
+                                               129  93 2136 f ( 862  362) 
+ khu_sensor_top/w_CLOCK_HALF_G4B1I1 (net)
+                                        1  51                 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/A (ivd12_hd)
+                                               129   2 2138 f ( 941  376) 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/Y (ivd12_hd)
+                                               195 122 2260 r ( 941  376) 
+ khu_sensor_top/w_CLOCK_HALF_G4B2I1 (net)
+                                        3 113                 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd8_hd_G4B2I1/A (ivd4_hd)
+                                               195   1 2261 r ( 943  372) 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd8_hd_G4B2I1/Y (ivd4_hd)
+                                               183 145 2406 f ( 943  372) 
+ khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B3I1 (net)
+                                        1  67                 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd20_hd_G4B1I10/A (ivd16_hd)
+                                               183   3 2409 f ( 950  484) 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd20_hd_G4B1I10/Y (ivd16_hd)
+                                               213 141 2550 r ( 951  484) 
+ khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B4I10 (net)
+                                       40 158                 
+ khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_0_/CK (fd4qd1_hd)
+                                               214   3 2553 r (1007  523) 
 
 
 ++ Shortest path for clock clk in corner ':max':
  object                               fan cap  trn inc  arr r location
- i_CLK (port)                                   31   0    0 r (  13 1006) 
- i_CLK (port)                                    0   0    0 r (  13 1006) 
- i_CLK (net)                            3 116                 
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
-                                                12   5    5 r ( 409 1003) 
+ i_CLK (port)                                   31   0    0 r (  13  946) 
+ i_CLK (port)                                    0   0    0 r (  13  946) 
+ i_CLK (net)                            3 2067                
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
+                                               114  16   16 r ( 405  945) 
 
 
 ++ Longest path for clock clk in corner 'RC-ONLY':
  object                               fan cap  trn inc  arr r location
- i_CLK (port)                                   31   0    0 r (  13 1006) 
- i_CLK (port)                                    0   0    0 r (  13 1006) 
- i_CLK (net)                            3 116                 
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
-                                                15   5    5 r ( 417  999) 
+ i_CLK (port)                                   31   0    0 r (  13  946) 
+ i_CLK (port)                                    0   0    0 r (  13  946) 
+ i_CLK (net)                            3 2067                
+ pad1/PAD (phbct24_p)                          139  44   44 r (  58  974) 
+ pad1/Y (phbct24_p)                              0   0   44 r ( 137  999) 
+ w_clk_p (net)                          1  61                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A (ivd24_hd)
+                                                 3   1   45 r ( 191  999) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/Y (ivd24_hd)
+                                                 0   0   45 f ( 190  999) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    2 274                 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
+                                               100  32   76 f ( 285  384) 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
+                                                 0   0   76 r ( 286  383) 
+ khu_sensor_top/divider_by_2/w_clk_p_G2B4I1 (net)
+                                        1 195                 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/CK (ft2d4_hd)
+                                                57  18   94 r ( 872  358) 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q (ft2d4_hd)
+                                                 0   0   94 r ( 861  358) 
+ khu_sensor_top/divider_by_2/o_CLK_DIV_2 (net)
+                                        1   9                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/A (ivd4_hd)
+                                                 0   0   95 r ( 863  362) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/Y (ivd4_hd)
+                                                 0   0   95 f ( 862  362) 
+ khu_sensor_top/w_CLOCK_HALF_G4B1I1 (net)
+                                        1  51                 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/A (ivd12_hd)
+                                                 4   1   96 f ( 941  376) 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/Y (ivd12_hd)
+                                                 0   0   96 r ( 941  376) 
+ khu_sensor_top/w_CLOCK_HALF_G4B2I1 (net)
+                                        3 113                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I2/A (ivd16_hd)
+                                                 5   2   97 r ( 961  304) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I2/Y (ivd16_hd)
+                                                 0   0   97 f ( 962  304) 
+ khu_sensor_top/w_CLOCK_HALF_G4B3I2 (net)
+                                        5 171                 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I9/A (ivd16_hd)
+                                                 4   1   99 f ( 929  315) 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I9/Y (ivd16_hd)
+                                                 0   0   99 r ( 928  315) 
+ khu_sensor_top/w_CLOCK_HALF_G4B4I9 (net)
+                                       46 172                 
+ khu_sensor_top/sensor_core/r_ads_clk_counter_reg_2_/CK (fd4qd1_hd)
+                                                 7   2  101 r ( 864  365) 
 
 
 ++ Shortest path for clock clk in corner 'RC-ONLY':
  object                               fan cap  trn inc  arr r location
- i_CLK (port)                                   31   0    0 r (  13 1006) 
- i_CLK (port)                                    0   0    0 r (  13 1006) 
- i_CLK (net)                            3 116                 
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
-                                                15   5    5 r ( 409 1003) 
+ i_CLK (port)                                   31   0    0 r (  13  946) 
+ i_CLK (port)                                    0   0    0 r (  13  946) 
+ i_CLK (net)                            3 2067                
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
+                                                76  24   24 r ( 405  945) 
 
 Report DRC violations for clock clk (final)
 Total 0 DRC violations for clock clk (final)
@@ -1879,12 +2099,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1900,24 +2119,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:52:55 2020
+  Date   : Tue Sep  8 18:59:39 2020
 ****************************************
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 64.06%  (271208/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 63.91%  (269485/(423355-1723))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        249209   sites, (non-fixed:249209 fixed:0)
-                      22987    cells, (non-fixed:22987  fixed:0)
+Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
+                      28064    cells, (non-fixed:27865  fixed:199)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      0        sites, (include fixed std cells & chimney area)
+                      1723     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       100 
-Avg. std cell width:  4.23 um 
+Lib cell count:       143 
+Avg. std cell width:  4.80 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -1926,7 +2145,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:52:55 2020
+  Date   : Tue Sep  8 18:59:39 2020
 ****************************************
 
 
@@ -1939,29 +2158,40 @@ MET3       partial     10000.00    10000.00    via additive      ---
 MET4       partial     10000.00    10000.00    via additive      ---
 MET5       partial     10000.00    10000.00    via additive      ---
 MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 224 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Legalization complete (1 total sec)
  
 ****************************************
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:52:55 2020
+  Date   : Tue Sep  8 18:59:40 2020
 ****************************************
 
-No cell displacement.
+avg cell displacement:    2.012 um ( 0.56 row height)
+max cell displacement:    6.759 um ( 1.88 row height)
+std deviation:            1.362 um ( 0.38 row height)
+number of cell moved:       433 cells (out of 27865 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
 
 Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
   Placement Legalization Complete
   -------------------------------
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 0 out of 0 clock nets rerouted
+LR: 77 out of 199 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
 Optimize clock tree Successful...
@@ -1972,12 +2202,10 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Loading design 'khu_sensor_pad'
 
 
-Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
@@ -2002,7 +2230,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-25015/25403 nets are routed
+28618/29989 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -2010,49 +2238,78 @@ Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-
 Information: The RC model used is global route TLU+. (RCEX-015)
 Information: Start mixed mode parasitic extraction. (RCEX-023)
 Information: Start rc extraction...
-EKL_MT: total threadable CPU 0.66 seconds
+EKL_MT: total threadable CPU 0.94 seconds
 EKL_MT: elapsed time 1 seconds
-Warning: Net 'khu_sensor_top/w_CLOCK_HALF' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_controller/n239' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/n140' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/n327' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/N719' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/sensor_core/n340' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n65' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n125' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/n706' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n61' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n260' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n350' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n734' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n436' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n383' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n389' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n652' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n650' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n727' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n758' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n274' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n237' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n758' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n790' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n790' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n982' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n703' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n305' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n756' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n792' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/n277' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/mult_x_1/n286' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/mult_x_1/n551' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -2104,8 +2361,7 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Loading design 'khu_sensor_pad'
 Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
 Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
@@ -2113,7 +2369,6 @@ Information: Input delay ('rise') on clock port 'clk_half' will be added to the 
 Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
 
 
-Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
@@ -2142,8 +2397,7 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 [begin initializing data for legality checker]
 
 Initializing Data Structure ...
@@ -2157,12 +2411,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2201,9 +2454,9 @@ Information: Using derived R and C coefficients. (RCEX-008)
 Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.32
-LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.30
-LR: 7 initial glinks on 1 nets
-LR: 0 nets fully connected by initial glinks
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.29
+LR: 7655 initial glinks on 201 nets
+LR: 199 nets fully connected by initial glinks
 LR: Clock routing service standing by
 Using cts integrated global router
 Information: Design is global routed.
@@ -2220,12 +2473,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2250,12 +2502,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2272,12 +2523,11 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
-CTS: pad1/PADA is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.323032.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.323032.
+    Min drive = 0.35468.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.35468.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.35468.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -2289,9 +2539,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.323032.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.323032.
+    Min drive = 0.35468.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.35468.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.35468.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -2419,12 +2669,27 @@ Using leaf_max_transition for clock clk : 0.300 ns
 * Initial Inter-clock delay balance report (clock 'clk') *
 **********************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
-  Wire capacitance =  0.1 pf
-  Total capacitance = 0.1 pf
-  Max transition = 0.012 ns
-  Cells = 1 (area=0.000000)
+    Estimated Skew (r/f/b) = (2.539 0.000 2.539)
+    Estimated Insertion Delay (r/f/b) = (2.556  -inf 2.556)
+  Wire capacitance =  14.9 pf
+  Total capacitance = 32.3 pf
+  Max transition = 0.294 ns
+  Cells = 201 (area=574.333130)
+  Inverters = 198 (area=562.999817)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 64
+    ivd12_hd: 81
+    ivd8_hd: 28
+    ivd4_hd: 5
+    ivd20_hd: 5
+    ivd6_hd: 13
+    ivd3_hd: 1
+    ivd24_hd: 1
+  Other Cells
+  ===========
+    ft2d4_hd: 1
 Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-819)
 
 ********************************
@@ -2433,7 +2698,7 @@ Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-
 
 Clocks:  clk
   Corner ':max'
-    Insertion Delay for clocks: 0.005006  
+    Insertion Delay for clocks: 2.555954  
     Inter-clock skew  (0.000 )
 
 ******************************
@@ -2442,19 +2707,34 @@ Clocks:  clk
 
 Clocks:  clk
   Corner ':max'
-    Insertion Delay for clocks: 0.005006  
+    Insertion Delay for clocks: 2.555954  
     Inter-clock skew  (0.000 )
 
 ********************************************************
 * Final Inter-clock delay balance report (clock 'clk') *
 ********************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.000 0.000 0.000)
-    Estimated Insertion Delay (r/f/b) = (0.005  -inf 0.005)
-  Wire capacitance =  0.1 pf
-  Total capacitance = 0.1 pf
-  Max transition = 0.012 ns
-  Cells = 1 (area=0.000000)
+    Estimated Skew (r/f/b) = (2.539 0.000 2.539)
+    Estimated Insertion Delay (r/f/b) = (2.556  -inf 2.556)
+  Wire capacitance =  14.9 pf
+  Total capacitance = 32.3 pf
+  Max transition = 0.294 ns
+  Cells = 201 (area=574.333130)
+  Inverters = 198 (area=562.999817)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 64
+    ivd12_hd: 81
+    ivd8_hd: 28
+    ivd4_hd: 5
+    ivd20_hd: 5
+    ivd6_hd: 13
+    ivd3_hd: 1
+    ivd24_hd: 1
+  Other Cells
+  ===========
+    ft2d4_hd: 1
 
   Legalizing Placement
   --------------------
@@ -2472,12 +2752,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2493,24 +2772,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:11 2020
+  Date   : Tue Sep  8 19:00:02 2020
 ****************************************
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 64.06%  (271208/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 63.91%  (269485/(423355-1723))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        249209   sites, (non-fixed:249209 fixed:0)
-                      22987    cells, (non-fixed:22987  fixed:0)
+Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
+                      28064    cells, (non-fixed:27865  fixed:199)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      0        sites, (include fixed std cells & chimney area)
+                      1723     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       100 
-Avg. std cell width:  4.23 um 
+Lib cell count:       143 
+Avg. std cell width:  4.80 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -2519,7 +2798,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:11 2020
+  Date   : Tue Sep  8 19:00:02 2020
 ****************************************
 
 
@@ -2537,7 +2816,7 @@ MET6       partial     10000.00    10000.00    via additive      ---
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:11 2020
+  Date   : Tue Sep  8 19:00:02 2020
 ****************************************
 
 No cell displacement.
@@ -2546,15 +2825,14 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
   Placement Legalization Complete
   -------------------------------
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 0 out of 1 clock nets rerouted
+LR: 0 out of 201 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
 CTS: CTS Operating Condition(s): MAX(Worst) 
@@ -2569,8 +2847,7 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Loading design 'khu_sensor_pad'
 Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
 Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
@@ -2578,7 +2855,6 @@ Information: Input delay ('rise') on clock port 'clk_half' will be added to the 
 Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
 
 
-Information: Setting a dont_touch attribute on net 'CLK_OUT' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
 Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
@@ -2607,8 +2883,7 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 [begin initializing data for legality checker]
 
 Initializing Data Structure ...
@@ -2622,12 +2897,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2666,9 +2940,9 @@ Information: Using derived R and C coefficients. (RCEX-008)
 Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.32
-LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.30
-LR: 7 initial glinks on 1 nets
-LR: 0 nets fully connected by initial glinks
+LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.29
+LR: 7363 initial glinks on 199 nets
+LR: 199 nets fully connected by initial glinks
 LR: Clock routing service standing by
 Using cts integrated global router
 Information: Design is global routed.
@@ -2685,12 +2959,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2715,12 +2988,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2737,12 +3009,11 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk_half
 CTS: Prepare sources for clock domain clk_half
-Warning: Net khu_sensor_top/w_CLOCK_HALF is an Ideal Net, Removing the attribute. (CTS-260)
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.323032.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.323032.
+    Min drive = 0.354679.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.354679.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.354679.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -2754,9 +3025,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.323032.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.323032.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.323032.
+    Min drive = 0.354679.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.354679.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.354679.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -2882,16 +3153,23 @@ Using leaf_max_transition for clock clk_half : 0.300 ns
 * Initial Inter-clock delay balance report (clock 'clk_half') *
 ***************************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.080 0.000 0.080)
-    Estimated Insertion Delay (r/f/b) = (0.080  -inf 0.080)
-  Wire capacitance =  0.7 pf
-  Total capacitance = 1.6 pf
-  Max transition = 0.190 ns
-  Cells = 1 (area=7.666670)
-  Others = 1 (area=7.666670)
+    Estimated Skew (r/f/b) = (0.036 0.000 0.036)
+    Estimated Insertion Delay (r/f/b) = (0.512  -inf 0.512)
+  Wire capacitance =  1.0 pf
+  Total capacitance = 2.2 pf
+  Max transition = 0.275 ns
+  Cells = 16 (area=55.000031)
+  Inverters = 15 (area=43.666702)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 7
+    ivd12_hd: 5
+    ivd8_hd: 1
+    ivd4_hd: 2
   Other Cells
   ===========
-    ft2d1_hd: 1
+    ft2d4_hd: 1
 Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-819)
 
 ********************************
@@ -2900,7 +3178,7 @@ Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-
 
 Clocks:  clk_half
   Corner ':max'
-    Insertion Delay for clocks: 0.080475  
+    Insertion Delay for clocks: 0.512456  
     Inter-clock skew  (0.000 )
 
 ******************************
@@ -2909,23 +3187,30 @@ Clocks:  clk_half
 
 Clocks:  clk_half
   Corner ':max'
-    Insertion Delay for clocks: 0.080475  
+    Insertion Delay for clocks: 0.512456  
     Inter-clock skew  (0.000 )
 
 *************************************************************
 * Final Inter-clock delay balance report (clock 'clk_half') *
 *************************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.080 0.000 0.080)
-    Estimated Insertion Delay (r/f/b) = (0.080  -inf 0.080)
-  Wire capacitance =  0.7 pf
-  Total capacitance = 1.6 pf
-  Max transition = 0.190 ns
-  Cells = 1 (area=7.666670)
-  Others = 1 (area=7.666670)
+    Estimated Skew (r/f/b) = (0.036 0.000 0.036)
+    Estimated Insertion Delay (r/f/b) = (0.512  -inf 0.512)
+  Wire capacitance =  1.0 pf
+  Total capacitance = 2.2 pf
+  Max transition = 0.275 ns
+  Cells = 16 (area=55.000031)
+  Inverters = 15 (area=43.666702)
+  Others = 1 (area=11.333330)
+  Inverter Types
+  ==============
+    ivd16_hd: 7
+    ivd12_hd: 5
+    ivd8_hd: 1
+    ivd4_hd: 2
   Other Cells
   ===========
-    ft2d1_hd: 1
+    ft2d4_hd: 1
 
   Legalizing Placement
   --------------------
@@ -2943,12 +3228,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2964,24 +3248,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:18 2020
+  Date   : Tue Sep  8 19:00:13 2020
 ****************************************
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 64.06%  (271208/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 58.87%  (249209/(423355-0))
+Std cell utilization: 63.91%  (269485/(423355-1723))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        249209   sites, (non-fixed:249209 fixed:0)
-                      22987    cells, (non-fixed:22987  fixed:0)
+Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
+                      28064    cells, (non-fixed:27865  fixed:199)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      0        sites, (include fixed std cells & chimney area)
+                      1723     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       100 
-Avg. std cell width:  4.23 um 
+Lib cell count:       143 
+Avg. std cell width:  4.80 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -2990,7 +3274,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:18 2020
+  Date   : Tue Sep  8 19:00:13 2020
 ****************************************
 
 
@@ -3008,7 +3292,7 @@ MET6       partial     10000.00    10000.00    via additive      ---
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Sat Sep  5 05:53:18 2020
+  Date   : Tue Sep  8 19:00:13 2020
 ****************************************
 
 No cell displacement.
@@ -3017,15 +3301,14 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
   Placement Legalization Complete
   -------------------------------
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 0 out of 1 clock nets rerouted
+LR: 0 out of 199 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
 Error: defining dont_touch_subtree for hierarchical pin <khu_sensor_top/divider_by_2/o_CLK_DIV_2> is not supported
@@ -3045,12 +3328,11 @@ Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
-Warning: Pin PADA of reference cell phsoscm3_p has no physical location. (APL-028)
-Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    556 pre-routes for map congestion calculation
+    569 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -3061,10 +3343,8 @@ Warning: Pin PADY of reference cell phsoscm3_p has no physical location. (APL-02
 INFO:... use original rows...
 INFO: 0 pre-routes used for checking; 0 redundant shapes removed
 [end initializing data for legality checker]
-Warning: root net khu_sensor_top/w_CLOCK_HALF is global routed. (CTS-246)
-Warning: root net i_CLK is global routed. (CTS-246)
-EKL_MT: total threadable CPU 0.66 seconds
-EKL_MT: elapsed time 0 seconds
+EKL_MT: total threadable CPU 0.94 seconds
+EKL_MT: elapsed time 1 seconds
 Information: Performing CEL netlist consistency check. (MWDC-118)
 Information: CEL consistency check PASSED. (MWDC-119)
 Information: Saved design named funccts_wst_cts_fin. (UIG-5)
@@ -3072,10 +3352,10 @@ Warning: The default value of the -leakage_power and -dynamic_power options of t
 Information: -cts_corner is specified, while -cts_mode is not true yet.  (CTS-1093)
 # Connect Power & Grounding in extraction and update timing
 derive_pg_connection -power_net  $MW_R_POWER_NET    -power_pin  $MW_POWER_PORT
-Information: connected 0 power ports and 0 ground ports
+Information: connected 198 power ports and 0 ground ports
 1
 derive_pg_connection -ground_net $MW_R_GROUND_NET   -ground_pin $MW_GROUND_PORT
-Information: connected 0 power ports and 0 ground ports
+Information: connected 0 power ports and 198 ground ports
 1
 derive_pg_connection -power_net  $MW_R_POWER_NET    -ground_net $MW_R_GROUND_NET -tie
 reconnected total 0 tie highs and 0 tie lows
@@ -3117,7 +3397,7 @@ report_net_routing_rules [get_flat_nets *] -output $REPORTS_DIR/shielding_nets.d
 Report : net routing rules
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Sat Sep  5 05:53:32 2020
+Date   : Tue Sep  8 19:00:34 2020
 ****************************************
 
 1
@@ -3131,7 +3411,7 @@ Information: Timer is not in zero interconnect delay mode. (TIM-176)
 Report          : create_qor_snapshot (04_clock_opt_cts)
 Design          : khu_sensor_pad
 Version         : N-2017.09
-Date            : Sat Sep  5 05:53:33 2020
+Date            : Tue Sep  8 19:00:35 2020
 Time unit       : 1.0e-09 Second(ns)
 Capacitance unit: 1.0e-12 Farad(pF)
 Voltage unit    : 1 Volt
@@ -3143,49 +3423,50 @@ s1 = funccts_wst
 --------------------------------------------------
 WNS of each timing group:                       s1 
 --------------------------------------------------
-clk_half                                    6.9905 
-REGOUT                                      1.4616 
-REGIN                                       3.5382 
+REGIN                                      10.6796 
+clk_half                                    8.3255 
+REGOUT                                      0.6528 
+clk                                        -2.2952 
 --------------------------------------------------
-Setup WNS:                                  1.4616 
-Setup TNS:                                     0.0
-Number of setup violations:                      0  
-Hold WNS:                                  -0.2385  
-Hold TNS:                                 -18.3415  
-Number of hold violations:                     380  
-Number of max trans violations:                 18  
-Number of max cap violations:                   93  
+Setup WNS:                                 -2.2952 
+Setup TNS:                                -52.1901
+Number of setup violations:                     78  
+Hold WNS:                                  -0.2892  
+Hold TNS:                                -145.5075  
+Number of hold violations:                    1148  
+Number of max trans violations:                781  
+Number of max cap violations:                  216  
 Number of min pulse width violations:            0  
 Route drc violations:                            0
 --------------------------------------------------
-Area:                                        83070
-Cell count:                                  23031
-Buf/inv cell count:                           2625
-Std cell utilization:                       58.87%
-CPU/ELAPSE(hr):                          0.02/0.05
-Mem(Mb):                                       997
+Area:                                        90403
+Cell count:                                  28108
+Buf/inv cell count:                           3833
+Std cell utilization:                       64.06%
+CPU/ELAPSE(hr):                          0.03/0.06
+Mem(Mb):                                      1032
 Host name:                               vlsi-dist.khu.ac.kr
 --------------------------------------------------
 Histogram:             s1 
 --------------------------------------------------
-Max violations:         0 
-   above ~ -0.7  ---    0 
-    -0.6 ~ -0.7  ---    0 
-    -0.5 ~ -0.6  ---    0 
-    -0.4 ~ -0.5  ---    0 
-    -0.3 ~ -0.4  ---    0 
-    -0.2 ~ -0.3  ---    0 
-    -0.1 ~ -0.2  ---    0 
-       0 ~ -0.1  ---    0 
+Max violations:        78 
+   above ~ -0.7  ---   25 
+    -0.6 ~ -0.7  ---    5 
+    -0.5 ~ -0.6  ---    4 
+    -0.4 ~ -0.5  ---    7 
+    -0.3 ~ -0.4  ---    9 
+    -0.2 ~ -0.3  ---   12 
+    -0.1 ~ -0.2  ---    7 
+       0 ~ -0.1  ---    9 
 --------------------------------------------------
-Min violations:       380 
-  -0.06 ~ above  ---  115 
-  -0.05 ~ -0.06  ---   49 
-  -0.04 ~ -0.05  ---   59 
-  -0.03 ~ -0.04  ---   15 
-  -0.02 ~ -0.03  ---   49 
-  -0.01 ~ -0.02  ---   45 
-      0 ~ -0.01  ---   48 
+Min violations:      1148 
+  -0.06 ~ above  ---  895 
+  -0.05 ~ -0.06  ---   26 
+  -0.04 ~ -0.05  ---   33 
+  -0.03 ~ -0.04  ---   36 
+  -0.02 ~ -0.03  ---   43 
+  -0.01 ~ -0.02  ---   49 
+      0 ~ -0.01  ---   66 
 --------------------------------------------------
 Current scenario is: funccts_wst
 Snapshot (04_clock_opt_cts) is created and stored under "/home/graduation_project3/2015103977/03_Physical_Synthesis/snapshot" directory
@@ -3200,16 +3481,16 @@ Report : qor
 Design : khu_sensor_pad
 Scenario(s): func1_wst funccts_wst
 Version: N-2017.09
-Date   : Sat Sep  5 05:53:33 2020
+Date   : Tue Sep  8 19:00:36 2020
 ****************************************
 
 
   Scenario 'funccts_wst'
   Timing Path Group 'REGIN'
   -----------------------------------
-  Levels of Logic:             1.0000
-  Critical Path Length:        1.6197
-  Critical Path Slack:         3.5382
+  Levels of Logic:             5.0000
+  Critical Path Length:        3.0401
+  Critical Path Slack:        10.6796
   Critical Path Clk Period:   12.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -3221,10 +3502,10 @@ Date   : Sat Sep  5 05:53:33 2020
   Scenario 'funccts_wst'
   Timing Path Group 'REGOUT'
   -----------------------------------
-  Levels of Logic:             3.0000
-  Critical Path Length:        3.8253
-  Critical Path Slack:         1.4616
-  Critical Path Clk Period:    6.0000
+  Levels of Logic:             5.0000
+  Critical Path Length:        7.9583
+  Critical Path Slack:         0.6528
+  Critical Path Clk Period:   12.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
   Worst Hold Violation:        0.0000
@@ -3233,59 +3514,73 @@ Date   : Sat Sep  5 05:53:33 2020
   -----------------------------------
 
   Scenario 'funccts_wst'
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:            27.0000
+  Critical Path Length:       13.4914
+  Critical Path Slack:        -2.2952
+  Critical Path Clk Period:   12.0000
+  Total Negative Slack:      -52.1901
+  No. of Violating Paths:     78.0000
+  Worst Hold Violation:       -0.2892
+  Total Hold Violation:     -144.4349
+  No. of Hold Violations:   1117.0000
+  -----------------------------------
+
+  Scenario 'funccts_wst'
   Timing Path Group 'clk_half'
   -----------------------------------
-  Levels of Logic:            13.0000
-  Critical Path Length:        4.4854
-  Critical Path Slack:         6.9905
-  Critical Path Clk Period:   12.0000
+  Levels of Logic:             6.0000
+  Critical Path Length:        2.9050
+  Critical Path Slack:         8.3255
+  Critical Path Clk Period:   24.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
-  Worst Hold Violation:       -0.2385
-  Total Hold Violation:      -18.3415
-  No. of Hold Violations:    380.0000
+  Worst Hold Violation:       -0.2384
+  Total Hold Violation:       -1.0727
+  No. of Hold Violations:     31.0000
   -----------------------------------
 
 
   Cell Count
   -----------------------------------
   Hierarchical Cell Count:        110
-  Hierarchical Port Count:       5189
-  Leaf Cell Count:              23031
-  Buf/Inv Cell Count:            2625
-  Buf Cell Count:                  16
-  Inv Cell Count:                2609
-  CT Buf/Inv Cell Count:            0
-  Combinational Cell Count:     17651
-  Sequential Cell Count:         5380
+  Hierarchical Port Count:       5610
+  Leaf Cell Count:              28108
+  Buf/Inv Cell Count:            3833
+  Buf Cell Count:                  39
+  Inv Cell Count:                3794
+  CT Buf/Inv Cell Count:          198
+  Combinational Cell Count:     22731
+  Sequential Cell Count:         5377
   Macro Count:                      0
   -----------------------------------
 
 
   Area
   -----------------------------------
-  Combinational Area:      46935.3452
-  Noncombinational Area:   36134.3234
-  Buf/Inv Area:             1925.3406
-  Total Buffer Area:          22.0000
-  Total Inverter Area:      1903.3406
+  Combinational Area:      52221.3630
+  Noncombinational Area:   38181.3302
+  Buf/Inv Area:             3368.6760
+  Total Buffer Area:          55.9999
+  Total Inverter Area:      3312.6761
   Macro/Black Box Area:        0.0000
-  Net Area:                  806.9671
-  Net XLength        :   9717622.0000
-  Net YLength        :   8795571.0000
+  Net Area:                  922.2824
+  Net XLength        :   9998010.0000
+  Net YLength        :  17056600.0000
   -----------------------------------
-  Cell Area:               83069.6686
-  Design Area:             83876.6357
-  Net Length        :   18513192.0000
+  Cell Area:               90402.6932
+  Design Area:             91324.9756
+  Net Length        :   27054610.0000
 
 
   Design Rules
   -----------------------------------
-  Total Number of Nets:         25552
-  Nets With Violations:          6779
-  Max Trans Violations:            18
-  Max Cap Violations:              93
-  Max Net Length Violations:     6712
+  Total Number of Nets:         30144
+  Nets With Violations:         12314
+  Max Trans Violations:           781
+  Max Cap Violations:             216
+  Max Net Length Violations:    11970
   -----------------------------------
 
 
@@ -3295,19 +3590,19 @@ Date   : Sat Sep  5 05:53:33 2020
   -----------------------------------------
   Resource Sharing:                  0.0000
   Logic Optimization:                0.0000
-  Mapping Optimization:             31.5522
+  Mapping Optimization:             39.2920
   -----------------------------------------
-  Overall Compile Time:             32.2051
-  Overall Compile Wall Clock Time:  32.3059
+  Overall Compile Time:             39.9919
+  Overall Compile Wall Clock Time:  40.1742
 
   --------------------------------------------------------------------
 
-  Scenario: funccts_wst   WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
-  Design  WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
+  Scenario: funccts_wst   WNS: 2.2952  TNS: 52.1901  Number of Violating Paths: 78
+  Design  WNS: 2.2952  TNS: 52.1901  Number of Violating Paths: 78
 
 
-  Scenario: funccts_wst  (Hold)  WNS: 0.2385  TNS: 18.3415  Number of Violating Paths: 380
-  Design (Hold)  WNS: 0.2385  TNS: 18.3415  Number of Violating Paths: 380
+  Scenario: funccts_wst  (Hold)  WNS: 0.2892  TNS: 145.5075  Number of Violating Paths: 1148
+  Design (Hold)  WNS: 0.2892  TNS: 145.5075  Number of Violating Paths: 1148
 
   --------------------------------------------------------------------
 
@@ -3320,7 +3615,7 @@ Report : design
         -physical
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Sat Sep  5 05:53:33 2020
+Date   : Tue Sep  8 19:00:36 2020
 ****************************************
 
 	Scenario            : funccts_wst
@@ -3329,133 +3624,182 @@ Date   : Sat Sep  5 05:53:33 2020
 	Extraction mode     : MIN_MAX
 	Extraction derating : 125/125
 ****************************** P&R Summary ********************************
-Date : Sat Sep  5 05:53:33 2020
+Date : Tue Sep  8 19:00:36 2020
 Machine Host Name: vlsi-dist.khu.ac.kr
 Working Directory: /home/graduation_project3/2015103977/03_Physical_Synthesis
 Library Name:      khu_sensor_pad_04_clock_opt_cts
 Cell Name:         khu_sensor_pad.CEL;1
 Design Statistics:
-    Number of Module Cells:        22987
-    Number of Pins:                142264
+    Number of Module Cells:        28064
+    Number of Pins:                167117
     Number of IO Pad Cells:        44
-    Number of IO Pins:             14
-    Number of Nets:                25408
-    Average Pins Per Net (Signal): 3.55808
+    Number of IO Pins:             13
+    Number of Nets:                29990
+    Average Pins Per Net (Signal): 3.43356
 
 Chip Utilization:
-    Total Std Cell Area:           394747.06
-    Total Pad Cell Area:           371574.00
+    Total Std Cell Area:           429593.47
+    Total Pad Cell Area:           363316.80
     Core Size:     width 820.60, height 817.20; area 670594.32
     Pad Core Size: width 920.76, height 920.76; area 847798.98
     Chip Size:     width 1196.00, height 1196.00; area 1430416.00
-    Std cells utilization:         58.87% 
-    Cell/Core Ratio:               58.87%
-    Cell/Chip Ratio:               53.57%
+    Std cells utilization:         64.06% 
+    Cell/Core Ratio:               64.06%
+    Cell/Chip Ratio:               55.43%
     Number of Cell Rows:            227
 
 Master Instantiation:
 	MasterName	Type	InstCount
 	=================================
-	ao22d1_hd	STD	2331
-	ivd1_hd		STD	2208
-	fad1_hd		STD	1706
-	fd2qd1_hd	STD	1644
-	fd1eqd1_hd	STD	1632
-	fd1qd1_hd	STD	1529
-	clkxo2d2_hd	STD	1428
-	scg4d1_hd	STD	1376
-	nd2d1_hd	STD	1046
-	scg2d2_hd	STD	1022
-	nr2d1_hd	STD	748
-	oa21d1_hd	STD	660
-	had1_hd		STD	656
-	scg14d1_hd	STD	442
-	oa211d1_hd	STD	437
-	scg10d1_hd	STD	420
-	fd4qd1_hd	STD	393
-	ivd2_hd		STD	350
-	nr4d1_hd	STD	300
-	oa22d1_hd	STD	236
-	ao21d1_hd	STD	199
-	nd4d1_hd	STD	166
-	scg15d1_hd	STD	154
-	nd3d1_hd	STD	127
-	scg5d1_hd	STD	117
-	ao211d1_hd	STD	111
-	ad2d1_hd	STD	107
-	nd2bd1_hd	STD	95
-	ad2bd2_hd	STD	93
-	scg6d1_hd	STD	84
-	scg17d1_hd	STD	67
-	nr3d1_hd	STD	66
-	nr2ad1_hd	STD	65
-	or2d2_hd	STD	62
-	nr2d2_hd	STD	54
-	nr2bd1_hd	STD	44
-	ad2d2_hd	STD	43
-	fd2d1_hd	STD	42
-	or2d1_hd	STD	42
-	scg16d1_hd	STD	42
-	ad4d1_hd	STD	40
-	fds2eqd1_hd	STD	39
-	scg13d1_hd	STD	35
-	fd3qd1_hd	STD	33
-	fds2d1_hd	STD	33
-	ivd4_hd		STD	31
-	scg20d1_hd	STD	30
-	oa22ad1_hd	STD	30
-	or4d1_hd	STD	26
-	xo3d1_hd	STD	22
-	clknd2d2_hd	STD	21
-	nr2d4_hd	STD	21
-	ivd8_hd		STD	20
-	scg12d1_hd	STD	20
-	scg22d1_hd	STD	19
-	xo2d1_hd	STD	17
-	scg2d1_hd	STD	14
-	or3d1_hd	STD	14
-	scg18d1_hd	STD	14
-	fd2qd2_hd	STD	13
-	nid1_hd		STD	12
-	scg20d2_hd	STD	12
+	ivd1_hd		STD	2901
+	oa21d1_hd	STD	2492
+	ao22d1_hd	STD	2179
+	nd2d1_hd	STD	2074
+	fd4qd1_hd	STD	2035
+	clkxo2d2_hd	STD	1782
+	fad1_hd		STD	1225
+	fd1qd1_hd	STD	1182
+	nr2d1_hd	STD	1179
+	ao222d1_hd	STD	1056
+	fd1eqd1_hd	STD	1037
+	scg2d2_hd	STD	1000
+	fds2eqd1_hd	STD	620
+	had1_hd		STD	607
+	ao21d1_hd	STD	564
+	scg10d1_hd	STD	419
+	ivd2_hd		STD	396
+	oa211d1_hd	STD	376
+	scg4d1_hd	STD	320
+	scg14d1_hd	STD	303
+	nr4d1_hd	STD	288
+	xn2d1_hd	STD	282
+	ivd4_hd		STD	265
+	ad2d1_hd	STD	258
+	oa22d1_hd	STD	221
+	or2d1_hd	STD	174
+	fd3qd1_hd	STD	169
+	fd1qd2_hd	STD	159
+	nd4d1_hd	STD	152
+	scg15d1_hd	STD	148
+	nd2bd1_hd	STD	128
+	nr2d4_hd	STD	109
+	nd3d1_hd	STD	85
+	scg6d1_hd	STD	81
+	ivd12_hd	STD	81
+	nr2ad1_hd	STD	71
+	ivd16_hd	STD	64
+	scg5d1_hd	STD	63
+	nr3d1_hd	STD	62
+	ao211d1_hd	STD	58
+	scg17d1_hd	STD	57
+	ad2bd2_hd	STD	55
+	ivd8_hd		STD	52
+	or2d2_hd	STD	46
+	ad4d1_hd	STD	45
+	xn2d2_hd	STD	44
+	ad3d2_hd	STD	42
+	oa22ad1_hd	STD	41
+	nr2bd1_hd	STD	38
+	or2bd4_hd	STD	38
+	scg16d1_hd	STD	37
+	scg2d1_hd	STD	36
+	clknd2d2_hd	STD	36
+	fd2d1_hd	STD	31
+	scg20d1_hd	STD	31
+	xo3d1_hd	STD	30
+	scg12d1_hd	STD	29
+	oa21d2_hd	STD	29
+	ivd6_hd		STD	28
+	fds2d1_hd	STD	28
+	fd1qd4_hd	STD	28
+	or4d1_hd	STD	27
+	ad2d2_hd	STD	27
+	nid1_hd		STD	22
+	fad4_hd		STD	22
+	scg22d1_hd	STD	21
+	ao21d2_hd	STD	21
+	fd3qd2_hd	STD	19
+	scg13d1_hd	STD	18
+	clknd2d4_hd	STD	18
+	mx2d1_hd	STD	16
+	or2d4_hd	STD	15
+	nr2d6_hd	STD	15
+	fd4qd2_hd	STD	15
+	ad2bd4_hd	STD	15
+	nd2d2_hd	STD	13
+	nid2_hd		STD	13
+	scg9d2_hd	STD	13
 	fd2qd4_hd	STD	11
-	nd3bd1_hd	STD	10
-	fd1eqd2_hd	STD	9
-	scg21d1_hd	STD	7
-	mx2d1_hd	STD	6
+	nd2d6_hd	STD	11
+	oa21d4_hd	STD	11
+	fd3d1_hd	STD	11
+	fd2qd2_hd	STD	11
+	ao21d4_hd	STD	10
+	nr4d2_hd	STD	10
+	scg9d1_hd	STD	10
+	fad2_hd		STD	9
+	fds2eqd2_hd	STD	8
+	scg18d1_hd	STD	7
+	ad3d1_hd	STD	7
+	clknd2d6_hd	STD	7
+	clknd2d8_hd	STD	7
+	nd2d4_hd	STD	7
+	ad3d4_hd	STD	7
+	or3d1_hd	STD	6
+	nd3bd1_hd	STD	6
+	scg21d2_hd	STD	6
 	scg1d1_hd	STD	6
-	ad3d1_hd	STD	6
-	nr3d2_hd	STD	6
-	scg9d2_hd	STD	6
+	fd3qd4_hd	STD	6
+	scg21d1_hd	STD	5
+	ivd20_hd	STD	5
+	nd3d2_hd	STD	5
+	clkxo2d1_hd	STD	5
+	oa211d2_hd	STD	5
+	ad2d4_hd	STD	5
+	scg20d4_hd	STD	5
 	mx4d1_hd	STD	4
 	scg8d1_hd	STD	4
-	ao22ad1_hd	STD	4
 	scg7d1_hd	STD	4
-	oa21d2_hd	STD	4
-	xn2d1_hd	STD	3
+	ao22ad1_hd	STD	4
+	nr4d4_hd	STD	4
+	nd2bd4_hd	STD	3
+	fd1eqd2_hd	STD	3
 	mx2id1_hd	STD	3
-	scg22d4_hd	STD	3
-	scg21d4_hd	STD	3
-	nid2_hd		STD	2
+	scg6d2_hd	STD	3
+	nd2d8_hd	STD	2
+	oa21d8_hd	STD	2
+	nr2d2_hd	STD	2
+	scg14d4_hd	STD	2
+	nd2bd6_hd	STD	2
+	nid8_hd		STD	2
+	ao22d4_hd	STD	2
+	fad8_hd		STD	2
+	nr2bd2_hd	STD	2
 	or2d8_hd	STD	2
 	nid4_hd		STD	2
-	nr4d2_hd	STD	2
-	ao21d2_hd	STD	2
-	ad3d2_hd	STD	2
-	ao21d4_hd	STD	2
-	clkxo2d1_hd	STD	2
-	ft2d1_hd	STD	1
-	fj2d1_hd	STD	1
-	or2bd2_hd	STD	1
-	oa211d4_hd	STD	1
+	ao211d2_hd	STD	2
+	scg12d2_hd	STD	2
+	scg11d1_hd	STD	1
+	nr3ad1_hd	STD	1
+	ao21d8_hd	STD	1
+	fd1ed1_hd	STD	1
+	ao22d2_hd	STD	1
+	ivd24_hd	STD	1
 	clkad2d1_hd	STD	1
-	scg22d2_hd	STD	1
-	nd3bd4_hd	STD	1
-	or3d2_hd	STD	1
+	clkad2d2_hd	STD	1
+	ivd3_hd		STD	1
 	nd2bd2_hd	STD	1
-	nr2d6_hd	STD	1
-	nd2d2_hd	STD	1
-	nd3d2_hd	STD	1
+	fds2ed1_hd	STD	1
+	clkmx2d1_hd	STD	1
+	nd4d2_hd	STD	1
+	scg16d2_hd	STD	1
+	fj2d1_hd	STD	1
+	nd3bd2_hd	STD	1
+	nd3d4_hd	STD	1
+	ft2d4_hd	STD	1
+	or3d2_hd	STD	1
+	nd3bd4_hd	STD	1
+	or2d6_hd	STD	1
 	iofillerh10_p	IO	44
 	iofillerh5_p	IO	17
 	vssiph_p	IO	11
@@ -3467,7 +3811,7 @@ Master Instantiation:
 	vdd12ih_core_p	IO	3
 	phbct12_p	IO	2
 	iofillerh30_p	IO	1
-	phsoscm3_p	IO	1
+	phbct24_p	IO	1
 	phis_p		IO	1
 	=================================
 
@@ -3508,17 +3852,18 @@ Stripe Wiring Statistics:
 User Wiring Statistics:
 
 PG follow-pin Wiring Statistics:
-    metal1 Wire Length(count):             202333.06(279)
-    metal5 Wire Length(count):                246.24(210)
+    metal1 Wire Length(count):             197490.42(273)
+    metal4 Wire Length(count):                 13.85(47)
+    metal5 Wire Length(count):                254.96(215)
   ==============================================
-    Total Wire Length(count):              202579.30(489)
-    Number of via1 Contacts:           5420
+    Total Wire Length(count):              197759.23(535)
+    Number of via1 Contacts:           5419
     Number of via2 Contacts:           5367
     Number of via3 Contacts:           5365
-    Number of via4 Contacts:           5031
-    Number of via5 Contacts:           4560
+    Number of via4 Contacts:           5030
+    Number of via5 Contacts:           4559
   ==============================================
-    Total Number of Contacts:    25743
+    Total Number of Contacts:    25740
 
 Signal Wiring Statistics:
       Mask Name      Contact Code    Number Of Contacts    Percentage
@@ -3535,13 +3880,13 @@ redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_gro
 Vth Group                All                Blackbox           Non-blackbox
 Name                    cells                cells                cells
 ********************************************************************************
-undefined           23031 (100.00%)         31 (100.00%)      23000 (100.00%)   
+undefined           28108 (100.00%)         31 (100.00%)      28077 (100.00%)   
 ********************************************************************************
 
 Vth Group                All                Blackbox           Non-blackbox
 Name                  cell area            cell area            cell area
 ********************************************************************************
-undefined        83069.67 (100.00%)       0.00   (0.00%)   83069.67 (100.00%)   
+undefined        90402.69 (100.00%)       0.00   (0.00%)   90402.69 (100.00%)   
 ********************************************************************************
 1
 redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }

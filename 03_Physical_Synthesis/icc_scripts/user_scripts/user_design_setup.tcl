@@ -197,4 +197,6 @@ set_message_info -id PSYN-900   -limit 1
 set_message_info -id PSYN-850   -limit 1
 set_message_info -id CTS-102    -limit 1
 set_message_info -id OPT-170    -limit 1
+set_message_info -id TIM-178    -limit 1
+set_message_info -id TIM-179    -limit 1
 

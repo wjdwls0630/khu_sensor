@@ -38,7 +38,7 @@ Report : constraint
 Design : khu_sensor_pad
 Scenario(s): func1_wst funccts_wst
 Version: N-2017.09
-Date   : Sat Sep  5 06:14:08 2020
+Date   : Tue Sep  8 19:24:44 2020
 ****************************************
 
 	Scenario            : func1_wst
@@ -47,40 +47,20 @@ Date   : Sat Sep  5 06:14:08 2020
 	Extraction mode     : MIN_MAX
 	Extraction derating : 125/125
 
-   min_delay/hold ('clk_half' group)
+   max_delay/setup ('clk' group)
 
                              Required        Actual
    Endpoint                 Path Delay     Path Delay        Slack             Scenario
    -----------------------------------------------------------------
-   khu_sensor_top/sensor_core/r_ads_lstate_reg_0_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_ads_lstate_reg_1_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_ads_pstate_reg_0_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_ads_pstate_reg_1_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_mpr_lstate_reg_4_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_mpr_pstate_reg_4_/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/SN   1.3038   1.0924 r  -0.2114 (VIOLATED) func1_wst
-   khu_sensor_top/sensor_core/r_ads_clk_counter_reg_0_/RN   1.1140   1.0924 r  -0.0216 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_/D  12.5279  12.6105 r  -0.0827 (VIOLATED) func1_wst
 
-
-   max_capacitance
-
-                             Required        Actual
-   Net                      Capacitance    Capacitance       Slack             Scenario
-   -----------------------------------------------------------------
-   khu_sensor_top/ads1292_filter/w_iir_lpf_y[26]   0.0820   0.0833  -0.0013 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/w_iir_lpf_y[23]   0.0820   0.0824  -0.0004 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/n430   0.0820   0.0821  -0.0001 (VIOLATED) func1_wst
-
-   -----------------------------------------------------------------
-   Total                      3                -0.0018    func1_wst
 
    max_area
 
                              Required        Actual
    Design                      Area           Area           Slack
    -----------------------------------------------------------------
-   khu_sensor_pad             0.0000       83911.7734     -83911.7734 (VIOLATED)
+   khu_sensor_pad             0.0000       92339.3516     -92339.3516 (VIOLATED)
 
 
 1

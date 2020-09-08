@@ -49,7 +49,8 @@ set_active_scenario $CLOCK_OPT_CTS_SCN
 # 1. Placement must be finished clearly.
 # 2. Verify P/G nets are prerouted properly.
 # 3. Verify Congestion value. Congestion value must be lower than 4.
-# 4. After placement, there should be no timing violation.
+# 4. After placement, the ideal situaltion is that there is no timing violation.
+# If it has, it may be okay, but not recommend.
 # 5. Check your high fan out nets (hfn)
 #******************************************************************************
 

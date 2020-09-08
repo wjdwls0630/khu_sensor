@@ -10,7 +10,7 @@ echo "***********************************************************************"
 # set_max_fanout and set_max_transition
 # set_max_fanout and set_max_capacitance
 #set_max_transition 0.6 [all_designs]
-set_max_fanout 4 [all_designs]
+#set_max_fanout 4 [all_designs]
 #set_max_capacitance 2.1 [all_designs]
 
 # we don't know input/output delay precisely
@@ -26,7 +26,7 @@ if { !$INOUT_OPT } {
   set_input_transition 0.12 [remove_from_collection [all_inputs] [get_ports i_CLK]] 
   remove_input_delay [get_ports i_RSTN]
   remove_input_transition [get_ports i_RSTN]
-  set_output_delay -max 0.5 [remove_from_collection [all_outputs] [get_ports CLK_OUT]] -clock clk
+  set_output_delay -max 0.5 [all_outputs] -clock clk
 }
 # Reset Constraints
 echo "constraints i_RSTN"
@@ -40,24 +40,24 @@ echo "constraints Reset Synchronizer"
 echo "constraints async_rstn_synchronizer..."
 # level 1
 set_ideal_network [get_pins */async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -from [get_pins */async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -to [get_pins */async_rstn_synchronizer/o_RSTN_reg/D]
+set_false_path -from [get_pins */async_rstn_synchronizer/r_ff_reg/CK]
+set_false_path -from [get_pins */async_rstn_synchronizer/o_RSTN_reg/CK]
 set_false_path -to [get_pins */async_rstn_synchronizer/o_RSTN_reg/RN]
 set_false_path -to [get_pins */async_rstn_synchronizer/r_ff_reg/RN]
 set_disable_timing [get_cells */async_rstn_synchronizer]
 
 # level 2
 set_ideal_network [get_pins */*/async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -from [get_pins */*/async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -to [get_pins */*/async_rstn_synchronizer/o_RSTN_reg/D]
-set_false_path -to [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/RN]
-set_false_path -to [get_pins */*/*/async_rstn_synchronizer/r_ff_reg/RN]
+set_false_path -from [get_pins */*/async_rstn_synchronizer/r_ff_reg/CK]
+set_false_path -from [get_pins */*/async_rstn_synchronizer/o_RSTN_reg/CK]
+set_false_path -to [get_pins */*/async_rstn_synchronizer/o_RSTN_reg/RN]
+set_false_path -to [get_pins */*/async_rstn_synchronizer/r_ff_reg/RN]
 set_disable_timing [get_cells */*/async_rstn_synchronizer]
 
 # level 3
 set_ideal_network [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -from [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/Q]
-set_false_path -to [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/D]
+set_false_path -from [get_pins */*/*/async_rstn_synchronizer/r_ff_reg/CK]
+set_false_path -from [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/CK]
 set_false_path -to [get_pins */*/*/async_rstn_synchronizer/o_RSTN_reg/RN]
 set_false_path -to [get_pins */*/*/async_rstn_synchronizer/r_ff_reg/RN]
 set_disable_timing [get_cells */*/*/async_rstn_synchronizer]
@@ -66,16 +66,16 @@ set_disable_timing [get_cells */*/*/async_rstn_synchronizer]
 echo "constraints async_rst_synchronizer..."
 # level 2
 set_ideal_network [get_pins */*/async_rst_synchronizer/o_RST_reg/Q]
-set_false_path -from [get_pins */*/async_rst_synchronizer/o_RST_reg/Q]
-set_false_path -to [get_pins */*/async_rst_synchronizer/o_RST_reg/D]
+set_false_path -from [get_pins */*/async_rst_synchronizer/r_ff_reg/CK]
+set_false_path -from [get_pins */*/async_rst_synchronizer/o_RST_reg/CK]
 set_false_path -to [get_pins */*/async_rst_synchronizer/o_RST_reg/SN]
 set_false_path -to [get_pins */*/async_rst_synchronizer/r_ff_reg/SN]
 set_disable_timing [get_cells */*/async_rst_synchronizer]
 
 # level 3
 set_ideal_network [get_pins */*/*/async_rst_synchronizer/o_RST_reg/Q]
-set_false_path -from [get_pins */*/*/async_rst_synchronizer/o_RST_reg/Q]
-set_false_path -to [get_pins */*/*/async_rst_synchronizer/o_RST_reg/Q]
+set_false_path -from [get_pins */*/*/async_rst_synchronizer/r_ff_reg/CK]
+set_false_path -from [get_pins */*/*/async_rst_synchronizer/o_RST_reg/CK]
 set_false_path -to [get_pins */*/*/async_rst_synchronizer/o_RST_reg/SN]
 set_false_path -to [get_pins */*/*/async_rst_synchronizer/r_ff_reg/SN]
 set_disable_timing [get_cells */*/*/async_rst_synchronizer]
@@ -83,17 +83,6 @@ set_disable_timing [get_cells */*/*/async_rst_synchronizer]
 echo "constraints async_rstn_glitch_synchronizer..."
 set_disable_timing [get_cells */async_rstn_glitch_synchronizer]
 #******************************************************************************
-
-
-
-
-
-
-
-
-
-
-
 
 set max_load [expr [load_of $STD_WST/ivd1_hd/A] * 5.0]
 #set max_load 0.025 

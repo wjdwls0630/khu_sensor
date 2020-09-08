@@ -83,7 +83,7 @@ set route_opt_enable_blocked_region_buffer true
 # Notwithstanding that the Elmore delay is faster, its result do not always
 # correlate with PrimeTime. The Arnoldi model is more exact, but more runtime and memory.
 # For best QoR, the Arnoldi model is better during CTS.
-set_delay_calculation -arnoldi
+set_delay_calculation -arnoldi_effort high 
 
 # Handy Naming Convention for new cels added
 set compile_instance_name_prefix icc_place
