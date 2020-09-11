@@ -7,7 +7,7 @@ Report : timing
         -max_paths 10
 Design : khu_sensor_pad
 Version: F-2011.09-SP5-3
-Date   : Tue Sep  8 19:13:11 2020
+Date   : Sat Sep 12 01:20:40 2020
 ****************************************
 
  * Some/all delay information is back-annotated.
@@ -17,9 +17,9 @@ Date   : Tue Sep  8 19:13:11 2020
 Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
 Wire Load Model Mode: enclosed
 
-  Startpoint: khu_sensor_top/ads1292_controller/spi_master/r_SPI_Clk_reg
+  Startpoint: khu_sensor_top/ads1292_filter/iir_hpf/add/a_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg
+  Endpoint: khu_sensor_top/ads1292_filter/iir_hpf/add/a_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -28,62 +28,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_controller/spi_master/r_SPI_Clk_reg/CK (fd4qd1_hd)
+  khu_sensor_top/ads1292_filter/iir_hpf/add/a_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_controller/spi_master/r_SPI_Clk_reg/Q (fd4qd1_hd)
-                                                          0.43       1.18 f
-  khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg/D (fd4qd1_hd)
-                                                          0.00       1.18 f
-  data arrival time                                                  1.18
+  khu_sensor_top/ads1292_filter/iir_hpf/add/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_hpf/add/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg/CK (fd4qd1_hd)
-                                                          0.00       0.75 r
-  library hold time                                       0.07       0.82
-  data required time                                                 0.82
-  --------------------------------------------------------------------------
-  data required time                                                 0.82
-  data arrival time                                                 -1.18
-  --------------------------------------------------------------------------
-  slack (MET)                                                        0.36
-
-
-  Startpoint: khu_sensor_top/ads1292_filter/converter_f2i/a_reg[31]
-              (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_f2i/a_s_reg
-            (rising edge-triggered flip-flop clocked by clk)
-  Path Group: clk
-  Path Type: min
-
-  Point                                                   Incr       Path
-  --------------------------------------------------------------------------
-  clock clk (rise edge)                                   0.00       0.00
-  clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_f2i/a_reg[31]/CK (fds2eqd1_hd)
-                                                          0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_f2i/a_reg[31]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_f2i/a_s_reg/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
-
-  clock clk (rise edge)                                   0.00       0.00
-  clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_f2i/a_s_reg/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_hpf/add/a_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[0]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_hpf/mult/b_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[0]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_hpf/mult/b_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -92,30 +60,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[0]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_hpf/mult/b_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[0]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[0]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_hpf/mult/b_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_hpf/mult/b_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[0]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_hpf/mult/b_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[1]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[1]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -124,30 +92,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[1]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[1]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[1]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[1]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[2]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[2]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -156,30 +124,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[2]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[2]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[2]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[2]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/a_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[3]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[3]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -188,30 +156,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[3]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[3]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[3]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[3]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/mult_2/b_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[4]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/add_1/a_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[4]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/add_1/a_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -220,30 +188,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[4]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/add_1/a_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[4]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[4]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_notch/add_1/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_notch/add_1/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[4]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/add_1/a_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[5]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[5]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/a_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -252,30 +220,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[5]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[5]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[5]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[5]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[6]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[6]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -284,30 +252,30 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[6]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[6]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[6]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[6]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/converter_i2f/z_reg[7]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_reg[31]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[7]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_s_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -316,25 +284,57 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[7]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_reg[31]/CK (fd1eqd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/converter_i2f/z_reg[7]/Q (fds2eqd1_hd)
-                                                          0.39       1.14 f
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[7]/D (fds2eqd1_hd)
-                                                          0.00       1.14 f
-  data arrival time                                                  1.14
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
 
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/converter_i2f/o_Z_reg[7]/CK (fds2eqd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/mult_1/b_s_reg/CK (fd1eqd1_hd)
                                                           0.00       0.75 r
   library hold time                                       0.01       0.76
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.14
+  data arrival time                                                 -1.11
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.38
+  slack (MET)                                                        0.35
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_reg[31]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_s_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_reg[31]/CK (fd1eqd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_reg[31]/Q (fd1eqd1_hd)
+                                                          0.36       1.11 f
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_s_reg/D (fd1eqd1_hd)
+                                                          0.00       1.11 f
+  data arrival time                                                  1.11
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_filter/iir_notch/mult_2/a_s_reg/CK (fd1eqd1_hd)
+                                                          0.00       0.75 r
+  library hold time                                       0.01       0.76
+  data required time                                                 0.76
+  --------------------------------------------------------------------------
+  data required time                                                 0.76
+  data arrival time                                                 -1.11
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.35
 
 
   Startpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg
@@ -351,20 +351,20 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
                                                           0.00       0.75 r
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/Q (fd3qd1_hd)
-                                                          0.40       1.15 f
+                                                          0.39       1.14 f
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/D (fd3qd1_hd)
-                                                          0.00       1.15 f
-  data arrival time                                                  1.15
+                                                          0.00       1.14 f
+  data arrival time                                                  1.14
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/CK (fd3qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.06       0.81
+  data required time                                                 0.81
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.15
+  data required time                                                 0.81
+  data arrival time                                                 -1.14
   --------------------------------------------------------------------------
   slack (MET)                                                        0.32
 
@@ -383,10 +383,10 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
                                                           0.00       0.75 r
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/Q (fd3qd1_hd)
-                                                          0.50       1.25 r
+                                                          0.48       1.23 r
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_reg/D (fd3qd1_hd)
-                                                          0.00       1.25 r
-  data arrival time                                                  1.25
+                                                          0.00       1.23 r
+  data arrival time                                                  1.23
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
@@ -396,9 +396,9 @@ Wire Load Model Mode: enclosed
   data required time                                                 0.76
   --------------------------------------------------------------------------
   data required time                                                 0.76
-  data arrival time                                                 -1.25
+  data arrival time                                                 -1.23
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.49
+  slack (MET)                                                        0.47
 
 
   Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[44]
@@ -415,22 +415,22 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[44]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
   khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[44]/Q (fd4qd1_hd)
-                                                          0.42       1.17 f
-  khu_sensor_top/uart_controller/U21/Y (clknd2d1_hd)      0.08       1.26 r
-  khu_sensor_top/uart_controller/U53/Y (scg14d1_hd)       0.07       1.33 f
+                                                          0.41       1.16 f
+  khu_sensor_top/uart_controller/U25/Y (clknd2d1_hd)      0.08       1.24 r
+  khu_sensor_top/uart_controller/U55/Y (scg14d1_hd)       0.07       1.31 f
   khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[52]/D (fd4qd1_hd)
-                                                          0.00       1.33 f
-  data arrival time                                                  1.33
+                                                          0.00       1.31 f
+  data arrival time                                                  1.31
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
   khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[52]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.07       0.82
+  data required time                                                 0.82
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.33
+  data required time                                                 0.82
+  data arrival time                                                 -1.31
   --------------------------------------------------------------------------
   slack (MET)                                                        0.49
 
@@ -449,21 +449,21 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/uart_controller/r_lstate_reg[1]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
   khu_sensor_top/uart_controller/r_lstate_reg[1]/Q (fd4qd1_hd)
-                                                          0.43       1.18 f
-  khu_sensor_top/uart_controller/U3/Y (nd2bd1_hd)         0.15       1.33 f
+                                                          0.42       1.17 f
+  khu_sensor_top/uart_controller/U3/Y (nd2bd1_hd)         0.15       1.32 f
   khu_sensor_top/uart_controller/r_lstate_reg[1]/D (fd4qd1_hd)
-                                                          0.00       1.33 f
-  data arrival time                                                  1.33
+                                                          0.00       1.32 f
+  data arrival time                                                  1.32
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
   khu_sensor_top/uart_controller/r_lstate_reg[1]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.07       0.82
+  data required time                                                 0.82
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.33
+  data required time                                                 0.82
+  data arrival time                                                 -1.32
   --------------------------------------------------------------------------
   slack (MET)                                                        0.50
 
@@ -482,28 +482,28 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/sensor_core/o_UART_DATA_TX_reg[53]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
   khu_sensor_top/sensor_core/o_UART_DATA_TX_reg[53]/Q (fd4qd1_hd)
-                                                          0.43       1.18 f
-  khu_sensor_top/sensor_core/U4/Y (nd2bd1_hd)             0.15       1.34 f
+                                                          0.42       1.17 f
+  khu_sensor_top/sensor_core/U4/Y (nd2bd1_hd)             0.15       1.32 f
   khu_sensor_top/sensor_core/o_UART_DATA_TX_reg[53]/D (fd4qd1_hd)
-                                                          0.00       1.34 f
-  data arrival time                                                  1.34
+                                                          0.00       1.32 f
+  data arrival time                                                  1.32
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
   khu_sensor_top/sensor_core/o_UART_DATA_TX_reg[53]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.07       0.82
+  data required time                                                 0.82
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.34
+  data required time                                                 0.82
+  data arrival time                                                 -1.32
   --------------------------------------------------------------------------
   slack (MET)                                                        0.50
 
 
-  Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[12]
+  Startpoint: khu_sensor_top/sensor_core/r_ads_lstate_reg[2]
               (rising edge-triggered flip-flop clocked by clk_half)
-  Endpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]
+  Endpoint: khu_sensor_top/sensor_core/r_ads_lstate_reg[2]
             (rising edge-triggered flip-flop clocked by clk_half)
   Path Group: clk_half
   Path Type: min
@@ -512,32 +512,32 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[12]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_lstate_reg[2]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[12]/Q (fd4qd1_hd)
-                                                          0.42       1.17 f
-  khu_sensor_top/uart_controller/U89/Y (clknd2d1_hd)      0.07       1.25 r
-  khu_sensor_top/uart_controller/U87/Y (clknd2d1_hd)      0.08       1.33 f
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/D (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_lstate_reg[2]/Q (fd4qd1_hd)
+                                                          0.40       1.15 f
+  khu_sensor_top/sensor_core/U345/Y (ivd1_hd)             0.09       1.23 r
+  khu_sensor_top/sensor_core/U476/Y (clknd2d1_hd)         0.09       1.33 f
+  khu_sensor_top/sensor_core/r_ads_lstate_reg[2]/D (fd4qd1_hd)
                                                           0.00       1.33 f
   data arrival time                                                  1.33
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_lstate_reg[2]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.06       0.81
+  data required time                                                 0.81
   --------------------------------------------------------------------------
-  data required time                                                 0.83
+  data required time                                                 0.81
   data arrival time                                                 -1.33
   --------------------------------------------------------------------------
   slack (MET)                                                        0.51
 
 
-  Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[13]
+  Startpoint: khu_sensor_top/sensor_core/r_mpr_read_reg_done_reg
               (rising edge-triggered flip-flop clocked by clk_half)
-  Endpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[21]
+  Endpoint: khu_sensor_top/sensor_core/r_mpr_read_reg_reg
             (rising edge-triggered flip-flop clocked by clk_half)
   Path Group: clk_half
   Path Type: min
@@ -546,32 +546,31 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[13]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_mpr_read_reg_done_reg/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[13]/Q (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_mpr_read_reg_done_reg/Q (fd4qd1_hd)
                                                           0.42       1.17 f
-  khu_sensor_top/uart_controller/U100/Y (clknd2d1_hd)     0.07       1.25 r
-  khu_sensor_top/uart_controller/U90/Y (clknd2d1_hd)      0.08       1.33 f
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[21]/D (fd4qd1_hd)
-                                                          0.00       1.33 f
-  data arrival time                                                  1.33
+  khu_sensor_top/sensor_core/U151/Y (oa22d1_hd)           0.10       1.28 r
+  khu_sensor_top/sensor_core/r_mpr_read_reg_reg/D (fd2d1_hd)
+                                                          0.00       1.28 r
+  data arrival time                                                  1.28
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[21]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_mpr_read_reg_reg/CK (fd2d1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.01       0.76
+  data required time                                                 0.76
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.33
+  data required time                                                 0.76
+  data arrival time                                                 -1.28
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.51
+  slack (MET)                                                        0.52
 
 
-  Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[15]
+  Startpoint: khu_sensor_top/sensor_core/r_ads_chip_set_done_reg
               (rising edge-triggered flip-flop clocked by clk_half)
-  Endpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]
+  Endpoint: khu_sensor_top/sensor_core/r_ads_chip_set_reg
             (rising edge-triggered flip-flop clocked by clk_half)
   Path Group: clk_half
   Path Type: min
@@ -580,32 +579,31 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[15]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_chip_set_done_reg/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[15]/Q (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_chip_set_done_reg/Q (fd4qd1_hd)
                                                           0.42       1.17 f
-  khu_sensor_top/uart_controller/U256/Y (clknd2d1_hd)     0.07       1.25 r
-  khu_sensor_top/uart_controller/U254/Y (clknd2d1_hd)     0.08       1.33 f
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/D (fd4qd1_hd)
-                                                          0.00       1.33 f
-  data arrival time                                                  1.33
+  khu_sensor_top/sensor_core/U176/Y (oa22d1_hd)           0.11       1.28 r
+  khu_sensor_top/sensor_core/r_ads_chip_set_reg/D (fd4qd1_hd)
+                                                          0.00       1.28 r
+  data arrival time                                                  1.28
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_chip_set_reg/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.01       0.76
+  data required time                                                 0.76
   --------------------------------------------------------------------------
-  data required time                                                 0.83
-  data arrival time                                                 -1.33
+  data required time                                                 0.76
+  data arrival time                                                 -1.28
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.51
+  slack (MET)                                                        0.52
 
 
-  Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]
+  Startpoint: khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]
               (rising edge-triggered flip-flop clocked by clk_half)
-  Endpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]
+  Endpoint: khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]
             (rising edge-triggered flip-flop clocked by clk_half)
   Path Group: clk_half
   Path Type: min
@@ -614,32 +612,31 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/Q (fd4qd1_hd)
-                                                          0.42       1.17 f
-  khu_sensor_top/uart_controller/U88/Y (clknd2d1_hd)      0.08       1.25 r
-  khu_sensor_top/uart_controller/U87/Y (clknd2d1_hd)      0.08       1.34 f
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/D (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]/Q (fd4qd1_hd)
+                                                          0.41       1.16 f
+  khu_sensor_top/sensor_core/U34/Y (scg14d1_hd)           0.18       1.34 f
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]/D (fd4qd1_hd)
                                                           0.00       1.34 f
   data arrival time                                                  1.34
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[20]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[0]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.07       0.82
+  data required time                                                 0.82
   --------------------------------------------------------------------------
-  data required time                                                 0.83
+  data required time                                                 0.82
   data arrival time                                                 -1.34
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.51
+  slack (MET)                                                        0.52
 
 
-  Startpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]
+  Startpoint: khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]
               (rising edge-triggered flip-flop clocked by clk_half)
-  Endpoint: khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]
+  Endpoint: khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]
             (rising edge-triggered flip-flop clocked by clk_half)
   Path Group: clk_half
   Path Type: min
@@ -648,27 +645,26 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/Q (fd4qd1_hd)
-                                                          0.42       1.17 f
-  khu_sensor_top/uart_controller/U255/Y (clknd2d1_hd)     0.08       1.25 r
-  khu_sensor_top/uart_controller/U254/Y (clknd2d1_hd)     0.08       1.34 f
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/D (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]/Q (fd4qd1_hd)
+                                                          0.41       1.16 f
+  khu_sensor_top/sensor_core/U35/Y (scg14d1_hd)           0.18       1.34 f
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]/D (fd4qd1_hd)
                                                           0.00       1.34 f
   data arrival time                                                  1.34
 
   clock clk_half (rise edge)                              0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/uart_controller/r_uart_data_tx_shift_reg[23]/CK (fd4qd1_hd)
+  khu_sensor_top/sensor_core/r_ads_reg_addr_reg[1]/CK (fd4qd1_hd)
                                                           0.00       0.75 r
-  library hold time                                       0.08       0.83
-  data required time                                                 0.83
+  library hold time                                       0.07       0.82
+  data required time                                                 0.82
   --------------------------------------------------------------------------
-  data required time                                                 0.83
+  data required time                                                 0.82
   data arrival time                                                 -1.34
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.51
+  slack (MET)                                                        0.52
 
 
 1

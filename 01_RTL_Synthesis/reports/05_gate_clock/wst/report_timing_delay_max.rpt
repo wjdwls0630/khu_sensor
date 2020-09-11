@@ -3,10 +3,11 @@
 Report : timing
         -path full
         -delay max
-        -max_paths 1
+        -nworst 10
+        -max_paths 10
 Design : khu_sensor_pad
 Version: F-2011.09-SP5-3
-Date   : Tue Sep  8 19:13:11 2020
+Date   : Sat Sep 12 01:22:47 2020
 ****************************************
 
  * Some/all delay information is back-annotated.
@@ -43,18 +44,386 @@ Wire Load Model Mode: enclosed
   clock uncertainty                                      -4.40      20.35
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
                                                           0.00      20.35 r
-  library setup time                                      0.00      20.35
-  data required time                                                20.35
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
   --------------------------------------------------------------------------
-  data required time                                                20.35
+  data required time                                                20.34
   data arrival time                                                -14.41
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.95
+  slack (MET)                                                        5.93
 
 
-  Startpoint: khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg
+  Startpoint: UART_RXD (input port clocked by clk)
+  Endpoint: khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  input external delay                                    0.35      13.10 r
+  UART_RXD (in)                                           0.00      13.10 r
+  pad29/Y (phic)                                          1.23      14.33 r
+  khu_sensor_top/UART_RXD (khu_sensor_top)                0.00      14.33 r
+  khu_sensor_top/uart_controller/i_UART_RXD (uart_controller)
+                                                          0.00      14.33 r
+  khu_sensor_top/uart_controller/uart_rx/i_Rx_Serial (uart_rx)
+                                                          0.00      14.33 r
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/D (fd3qd1_hd)
+                                                          0.00      14.33 r
+  data arrival time                                                 14.33
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.05      20.30
+  data required time                                                20.30
+  --------------------------------------------------------------------------
+  data required time                                                20.30
+  data arrival time                                                -14.33
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.97
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U422/Y (ao211d1_hd)
+                                                          0.22       2.64 r
+  khu_sensor_top/ads1292_controller/U419/Y (nd4d1_hd)     0.15       2.79 f
+  khu_sensor_top/ads1292_controller/U401/Y (nr4d1_hd)     0.24       3.03 r
+  khu_sensor_top/ads1292_controller/U400/Y (oa211d1_hd)
+                                                          0.15       3.17 f
+  khu_sensor_top/ads1292_controller/r_pstate_reg[0]/D (fd4qd1_hd)
+                                                          0.00       3.17 f
+  data arrival time                                                  3.17
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[0]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -3.17
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.37
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U412/Y (ao21d1_hd)
+                                                          0.20       2.62 r
+  khu_sensor_top/ads1292_controller/U402/Y (oa22d1_hd)
+                                                          0.14       2.75 f
+  khu_sensor_top/ads1292_controller/U401/Y (nr4d1_hd)     0.25       3.00 r
+  khu_sensor_top/ads1292_controller/U400/Y (oa211d1_hd)
+                                                          0.15       3.15 f
+  khu_sensor_top/ads1292_controller/r_pstate_reg[0]/D (fd4qd1_hd)
+                                                          0.00       3.15 f
+  data arrival time                                                  3.15
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[0]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -3.15
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.39
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U397/Y (nr2bd1_hd)
+                                                          0.16       2.58 r
+  khu_sensor_top/ads1292_controller/U375/Y (ao22d1_hd)
+                                                          0.13       2.71 f
+  khu_sensor_top/ads1292_controller/U374/Y (nd4d1_hd)     0.13       2.84 r
+  khu_sensor_top/ads1292_controller/U373/Y (nr2d1_hd)     0.09       2.94 f
+  khu_sensor_top/ads1292_controller/U372/Y (nd4d1_hd)     0.13       3.07 r
+  khu_sensor_top/ads1292_controller/r_pstate_reg[2]/D (fd4qd1_hd)
+                                                          0.00       3.07 r
+  data arrival time                                                  3.07
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[2]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.05      10.50
+  data required time                                                10.50
+  --------------------------------------------------------------------------
+  data required time                                                10.50
+  data arrival time                                                 -3.07
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.44
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 r
+  ADS1292_DRDY (in)                                       0.00       1.10 r
+  pad20/Y (phic)                                          1.24       2.34 r
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.34 r
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.34 r
+  khu_sensor_top/ads1292_controller/U397/Y (nr2bd1_hd)
+                                                          0.11       2.45 f
+  khu_sensor_top/ads1292_controller/U390/Y (scg18d1_hd)
+                                                          0.32       2.77 f
+  khu_sensor_top/ads1292_controller/U386/Y (scg18d1_hd)
+                                                          0.30       3.07 f
+  khu_sensor_top/ads1292_controller/r_pstate_reg[1]/D (fd4qd1_hd)
+                                                          0.00       3.07 f
+  data arrival time                                                  3.07
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[1]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -3.07
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.47
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U256/Y (oa211d1_hd)
+                                                          0.30       2.72 r
+  khu_sensor_top/ads1292_controller/U124/Y (clknd2d1_hd)
+                                                          0.16       2.88 f
+  khu_sensor_top/ads1292_controller/U252/Y (oa22d1_hd)
+                                                          0.13       3.01 r
+  khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[0]/D (fd4qd1_hd)
+                                                          0.00       3.01 r
+  data arrival time                                                  3.01
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[0]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.06      10.49
+  data required time                                                10.49
+  --------------------------------------------------------------------------
+  data required time                                                10.49
+  data arrival time                                                 -3.01
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.48
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U256/Y (oa211d1_hd)
+                                                          0.30       2.72 r
+  khu_sensor_top/ads1292_controller/U255/Y (ao21d1_hd)
+                                                          0.15       2.87 f
+  khu_sensor_top/ads1292_controller/U254/Y (ao21d1_hd)
+                                                          0.12       2.98 r
+  khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[1]/D (fd4qd1_hd)
+                                                          0.00       2.98 r
+  data arrival time                                                  2.98
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_drdy_edge_counter_reg[1]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.05      10.50
+  data required time                                                10.50
+  --------------------------------------------------------------------------
+  data required time                                                10.50
+  data arrival time                                                 -2.98
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.52
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 f
+  ADS1292_DRDY (in)                                       0.00       1.10 f
+  pad20/Y (phic)                                          1.32       2.42 f
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.42 f
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.42 f
+  khu_sensor_top/ads1292_controller/U397/Y (nr2bd1_hd)
+                                                          0.16       2.58 r
+  khu_sensor_top/ads1292_controller/U390/Y (scg18d1_hd)
+                                                          0.23       2.81 r
+  khu_sensor_top/ads1292_controller/U386/Y (scg18d1_hd)
+                                                          0.17       2.98 r
+  khu_sensor_top/ads1292_controller/r_pstate_reg[1]/D (fd4qd1_hd)
+                                                          0.00       2.98 r
+  data arrival time                                                  2.98
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[1]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.04      10.51
+  data required time                                                10.51
+  --------------------------------------------------------------------------
+  data required time                                                10.51
+  data arrival time                                                 -2.98
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.53
+
+
+  Startpoint: ADS1292_DRDY
+              (input port clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_pstate_reg[2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REGIN
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  input external delay                                    0.35       1.10 r
+  ADS1292_DRDY (in)                                       0.00       1.10 r
+  pad20/Y (phic)                                          1.24       2.34 r
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.34 r
+  khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
+                                                          0.00       2.34 r
+  khu_sensor_top/ads1292_controller/U397/Y (nr2bd1_hd)
+                                                          0.11       2.45 f
+  khu_sensor_top/ads1292_controller/U375/Y (ao22d1_hd)
+                                                          0.17       2.62 r
+  khu_sensor_top/ads1292_controller/U374/Y (nd4d1_hd)     0.13       2.75 f
+  khu_sensor_top/ads1292_controller/U373/Y (nr2d1_hd)     0.12       2.88 r
+  khu_sensor_top/ads1292_controller/U372/Y (nd4d1_hd)     0.13       3.00 f
+  khu_sensor_top/ads1292_controller/r_pstate_reg[2]/D (fd4qd1_hd)
+                                                          0.00       3.00 f
+  data arrival time                                                  3.00
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_pstate_reg[2]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -3.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        7.54
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_ADS1292_START_reg
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: MPR121_SDA (output port clocked by clk)
+  Endpoint: ADS1292_START
+            (output port clocked by clk)
   Path Group: REGOUT
   Path Type: max
 
@@ -62,20 +431,16 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/CK (fd3qd1_hd)
+  khu_sensor_top/ads1292_controller/o_ADS1292_START_reg/CK (fd4qd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/Q (fd3qd1_hd)
-                                                          0.42       1.17 f
-  khu_sensor_top/mpr121_controller/i2c_master/U111/Y (ivd1_hd)
-                                                          0.52       1.70 r
-  khu_sensor_top/mpr121_controller/i2c_master/sda_t (i2c_master)
-                                                          0.00       1.70 r
-  khu_sensor_top/mpr121_controller/o_I2C_SDA_EN (mpr121_controller)
-                                                          0.00       1.70 r
-  khu_sensor_top/MPR121_SDA_EN (khu_sensor_top)           0.00       1.70 r
-  pad37/PAD (phbct12)                                     2.92       4.61 r
-  MPR121_SDA (inout)                                      0.00       4.61 r
-  data arrival time                                                  4.61
+  khu_sensor_top/ads1292_controller/o_ADS1292_START_reg/Q (fd4qd1_hd)
+                                                          0.87       1.62 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_START (ads1292_controller)
+                                                          0.00       1.62 r
+  khu_sensor_top/ADS1292_START (khu_sensor_top)           0.00       1.62 r
+  pad5/PAD (phob12)                                       2.58       4.20 r
+  ADS1292_START (out)                                     0.00       4.20 r
+  data arrival time                                                  4.20
 
   clock clk (rise edge)                                  12.00      12.00
   clock network delay (ideal)                             0.75      12.75
@@ -84,14 +449,327 @@ Wire Load Model Mode: enclosed
   data required time                                                10.05
   --------------------------------------------------------------------------
   data required time                                                10.05
-  data arrival time                                                 -4.61
+  data arrival time                                                 -4.20
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.44
+  slack (MET)                                                        5.85
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/a_m_reg[23]
+  Startpoint: khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg[27]
+  Endpoint: ADS1292_MOSI
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg/Q (fd4qd1_hd)
+                                                          0.86       1.61 r
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI (spi_master)
+                                                          0.00       1.61 r
+  khu_sensor_top/ads1292_controller/o_SPI_MOSI (ads1292_controller)
+                                                          0.00       1.61 r
+  khu_sensor_top/ADS1292_MOSI (khu_sensor_top)            0.00       1.61 r
+  pad18/PAD (phob12)                                      2.58       4.19 r
+  ADS1292_MOSI (out)                                      0.00       4.19 r
+  data arrival time                                                  4.19
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -4.19
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.86
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_SPI_CSN_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_CSN
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/CK (fd3qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/Q (fd3qd1_hd)
+                                                          0.85       1.60 r
+  khu_sensor_top/ads1292_controller/o_SPI_CSN (ads1292_controller)
+                                                          0.00       1.60 r
+  khu_sensor_top/ADS1292_CSN (khu_sensor_top)             0.00       1.60 r
+  pad7/PAD (phob12)                                       2.58       4.18 r
+  ADS1292_CSN (out)                                       0.00       4.18 r
+  data arrival time                                                  4.18
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -4.18
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.87
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_RESET
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg/CK (fd3qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg/Q (fd3qd1_hd)
+                                                          0.85       1.60 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET (ads1292_controller)
+                                                          0.00       1.60 r
+  khu_sensor_top/ADS1292_RESET (khu_sensor_top)           0.00       1.60 r
+  pad3/PAD (phob12)                                       2.58       4.18 r
+  ADS1292_RESET (out)                                     0.00       4.18 r
+  data arrival time                                                  4.18
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -4.18
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.87
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_SCLK
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk_reg/Q (fd4qd1_hd)
+                                                          0.85       1.60 r
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_Clk (spi_master)
+                                                          0.00       1.60 r
+  khu_sensor_top/ads1292_controller/o_SPI_CLK (ads1292_controller)
+                                                          0.00       1.60 r
+  khu_sensor_top/ADS1292_SCLK (khu_sensor_top)            0.00       1.60 r
+  pad12/PAD (phob12)                                      2.57       4.17 r
+  ADS1292_SCLK (out)                                      0.00       4.17 r
+  data arrival time                                                  4.17
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -4.17
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.88
+
+
+  Startpoint: khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg
+              (rising edge-triggered flip-flop clocked by clk_half)
+  Endpoint: UART_TXD (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk_half (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg/CK (fds2eqd1_hd)
+                                                          0.00       0.75 r
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial_reg/Q (fds2eqd1_hd)
+                                                          0.84       1.59 r
+  khu_sensor_top/uart_controller/uart_tx/o_Tx_Serial (uart_tx)
+                                                          0.00       1.59 r
+  khu_sensor_top/uart_controller/o_UART_TXD (uart_controller)
+                                                          0.00       1.59 r
+  khu_sensor_top/UART_TXD (khu_sensor_top)                0.00       1.59 r
+  pad27/PAD (phob12)                                      2.57       4.16 r
+  UART_TXD (out)                                          0.00       4.16 r
+  data arrival time                                                  4.16
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -4.16
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.89
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_ADS1292_START_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_START
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/o_ADS1292_START_reg/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_START_reg/Q (fd4qd1_hd)
+                                                          0.65       1.40 f
+  khu_sensor_top/ads1292_controller/o_ADS1292_START (ads1292_controller)
+                                                          0.00       1.40 f
+  khu_sensor_top/ADS1292_START (khu_sensor_top)           0.00       1.40 f
+  pad5/PAD (phob12)                                       2.55       3.95 f
+  ADS1292_START (out)                                     0.00       3.95 f
+  data arrival time                                                  3.95
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -3.95
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.10
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_MOSI
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI_reg/Q (fd4qd1_hd)
+                                                          0.65       1.40 f
+  khu_sensor_top/ads1292_controller/spi_master/o_SPI_MOSI (spi_master)
+                                                          0.00       1.40 f
+  khu_sensor_top/ads1292_controller/o_SPI_MOSI (ads1292_controller)
+                                                          0.00       1.40 f
+  khu_sensor_top/ADS1292_MOSI (khu_sensor_top)            0.00       1.40 f
+  pad18/PAD (phob12)                                      2.55       3.95 f
+  ADS1292_MOSI (out)                                      0.00       3.95 f
+  data arrival time                                                  3.95
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -3.95
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.10
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_SPI_CSN_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_CSN
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/CK (fd3qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/o_SPI_CSN_reg/Q (fd3qd1_hd)
+                                                          0.64       1.39 f
+  khu_sensor_top/ads1292_controller/o_SPI_CSN (ads1292_controller)
+                                                          0.00       1.39 f
+  khu_sensor_top/ADS1292_CSN (khu_sensor_top)             0.00       1.39 f
+  pad7/PAD (phob12)                                       2.55       3.94 f
+  ADS1292_CSN (out)                                       0.00       3.94 f
+  data arrival time                                                  3.94
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -3.94
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.11
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ADS1292_RESET
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg/CK (fd3qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET_reg/Q (fd3qd1_hd)
+                                                          0.64       1.39 f
+  khu_sensor_top/ads1292_controller/o_ADS1292_RESET (ads1292_controller)
+                                                          0.00       1.39 f
+  khu_sensor_top/ADS1292_RESET (khu_sensor_top)           0.00       1.39 f
+  pad3/PAD (phob12)                                       2.55       3.94 f
+  ADS1292_RESET (out)                                     0.00       3.94 f
+  data arrival time                                                  3.94
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  output external delay                                  -0.50      10.05
+  data required time                                                10.05
+  --------------------------------------------------------------------------
+  data required time                                                10.05
+  data arrival time                                                 -3.94
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.11
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: max
@@ -100,114 +778,991 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_m_reg[23]/CK (fd1qd1_hd)
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/CK (fd4qd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/a_m_reg[23]/Q (fd1qd1_hd)
-                                                          0.60       1.35 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/A[23] (float_adder_1_DW_cmp_6)
-                                                          0.00       1.35 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U197/Y (nr2d1_hd)
-                                                          0.13       1.49 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U206/Y (nr2d1_hd)
-                                                          0.14       1.63 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U240/Y (clknd2d1_hd)
-                                                          0.15       1.78 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U259/Y (nr2d1_hd)
-                                                          0.12       1.89 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U258/Y (clknd2d1_hd)
-                                                          0.11       2.00 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/U262/Y (oa21d1_hd)
-                                                          0.17       2.17 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_3/GE_LT_GT_LE (float_adder_1_DW_cmp_6)
-                                                          0.00       2.17 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/U6/Y (nr2ad1_hd)
-                                                          0.21       2.38 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/U9/Y (ivd12_hd)
-                                                          0.20       2.58 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/U7/Y (ivd16_hd)
-                                                          0.14       2.72 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/U234/Y (oa21d8_hd)
-                                                          0.11       2.83 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/I2[0] (float_adder_1_DP_OP_43_239_1622_0)
-                                                          0.00       2.83 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U59/Y (xn2d1_hd)
-                                                          0.24       3.07 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U28/CO (fad1_hd)
-                                                          0.29       3.37 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U27/CO (fad1_hd)
-                                                          0.33       3.69 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U109/CO (fad2_hd)
-                                                          0.24       3.93 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U103/CO (fad1_hd)
-                                                          0.31       4.24 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U66/CO (fad2_hd)
-                                                          0.24       4.48 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U71/CO (fad1_hd)
-                                                          0.29       4.77 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U102/CO (fad1_hd)
-                                                          0.33       5.09 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U58/CO (fad2_hd)
-                                                          0.26       5.36 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U72/CO (fad4_hd)
-                                                          0.22       5.58 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U104/CO (fad4_hd)
-                                                          0.20       5.78 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U18/CO (fad1_hd)
-                                                          0.29       6.07 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U17/CO (fad1_hd)
-                                                          0.33       6.40 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U108/CO (fad2_hd)
-                                                          0.25       6.64 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U107/CO (fad2_hd)
-                                                          0.23       6.87 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U65/CO (fad2_hd)
-                                                          0.22       7.09 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U70/CO (fad1_hd)
-                                                          0.29       7.39 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U95/CO (fad1_hd)
-                                                          0.33       7.71 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U61/CO (fad2_hd)
-                                                          0.25       7.96 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U62/CO (fad2_hd)
-                                                          0.23       8.19 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U106/CO (fad2_hd)
-                                                          0.23       8.42 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U105/CO (fad2_hd)
-                                                          0.23       8.65 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U63/CO (fad2_hd)
-                                                          0.23       8.88 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U64/CO (fad2_hd)
-                                                          0.22       9.10 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U89/CO (fad1_hd)
-                                                          0.31       9.41 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U68/CO (fad2_hd)
-                                                          0.25       9.66 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U99/CO (fad2_hd)
-                                                          0.23       9.89 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U67/CO (fad2_hd)
-                                                          0.23      10.11 f
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/U69/Y (xn2d1_hd)
-                                                          0.24      10.35 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_43_239_1622/O1[27] (float_adder_1_DP_OP_43_239_1622_0)
-                                                          0.00      10.35 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/U8/Y (scg14d1_hd)
-                                                          0.16      10.51 r
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg[27]/D (fd1qd1_hd)
-                                                          0.00      10.51 r
-  data arrival time                                                 10.51
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/Q (fd4qd1_hd)
+                                                          0.49       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.24       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.89 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.51 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.72 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.34 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.96 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.17 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.58 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.79 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.41 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.03 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.65 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.86 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.27 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.32       7.78 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.78 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       8.10 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       8.10 f
+  data arrival time                                                  8.10
 
   clock clk (rise edge)                                  12.00      12.00
   clock network delay (ideal)                             0.75      12.75
   clock uncertainty                                      -2.20      10.55
-  khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg[27]/CK (fd1qd1_hd)
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
                                                           0.00      10.55 r
-  library setup time                                     -0.03      10.52
-  data required time                                                10.52
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
   --------------------------------------------------------------------------
-  data required time                                                10.52
-  data arrival time                                                -10.51
+  data required time                                                10.54
+  data arrival time                                                 -8.10
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.01
+  slack (MET)                                                        2.44
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/Q (fd4qd1_hd)
+                                                          0.47       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[1] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.25       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.88 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.50 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.71 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.33 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.95 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.16 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.57 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.78 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.40 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.02 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.23 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.64 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.85 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.26 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.32       7.78 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.78 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       8.09 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       8.09 f
+  data arrival time                                                  8.09
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -8.09
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.45
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/Q (fd4qd1_hd)
+                                                          0.49       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.24       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.89 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.51 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.72 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.34 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.96 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.17 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.58 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.79 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.41 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.03 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.65 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.86 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.27 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.22       7.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.68 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       7.99 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.99 f
+  data arrival time                                                  7.99
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -7.99
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.55
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/Q (fd4qd1_hd)
+                                                          0.47       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[1] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.25       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.88 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.50 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.71 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.33 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.95 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.16 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.57 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.78 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.40 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.02 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.23 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.64 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.85 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.26 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.22       7.67 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.67 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       7.98 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.98 f
+  data arrival time                                                  7.98
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -7.98
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.56
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/Q (fd4qd1_hd)
+                                                          0.49       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.24       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.89 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.51 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.72 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.34 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.96 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.17 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.58 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.79 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.41 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.03 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.65 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.86 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.27 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.26       7.72 r
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.72 r
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.20       7.93 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.93 r
+  data arrival time                                                  7.93
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.04      10.51
+  data required time                                                10.51
+  --------------------------------------------------------------------------
+  data required time                                                10.51
+  data arrival time                                                 -7.93
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.58
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/Q (fd4qd1_hd)
+                                                          0.47       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[1] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.25       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.88 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.50 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.71 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.33 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.95 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.16 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.57 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.78 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.40 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.02 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.23 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.64 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.85 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.26 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.26       7.72 r
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.72 r
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.20       7.92 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.92 r
+  data arrival time                                                  7.92
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.04      10.51
+  data required time                                                10.51
+  --------------------------------------------------------------------------
+  data required time                                                10.51
+  data arrival time                                                 -7.92
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.59
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/Q (fd4qd1_hd)
+                                                          0.61       1.36 r
+  khu_sensor_top/ads1292_controller/add_x_2/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.36 r
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.24       1.59 r
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.20       1.79 r
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.20       1.99 r
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.20       2.18 r
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.20       2.38 r
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.20       2.58 r
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.20       2.77 r
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.20       2.97 r
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.20       3.17 r
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.20       3.37 r
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.20       3.56 r
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.20       3.76 r
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.20       3.96 r
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.20       4.15 r
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.20       4.35 r
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.20       4.55 r
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.20       4.74 r
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.20       4.94 r
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.20       5.14 r
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.20       5.33 r
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.20       5.53 r
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.20       5.73 r
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.20       5.92 r
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.20       6.12 r
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.20       6.32 r
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.20       6.51 r
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.20       6.71 r
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.20       6.91 r
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.20       7.10 r
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.18       7.28 r
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.33       7.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.61 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       7.92 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.92 f
+  data arrival time                                                  7.92
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -7.92
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.62
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[2]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[2]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[2]/Q (fd4qd1_hd)
+                                                          0.49       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[2] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.26       1.49 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.70 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       1.91 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.11 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.32 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.53 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.73 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       2.94 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.15 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.36 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.56 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.77 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       3.98 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.18 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.39 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.60 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.80 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.01 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.22 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.43 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.63 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       5.84 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.05 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.25 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.67 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       6.87 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.08 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.27 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.32       7.59 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.59 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       7.91 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.91 f
+  data arrival time                                                  7.91
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -7.91
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.63
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[1]/Q (fd4qd1_hd)
+                                                          0.58       1.33 r
+  khu_sensor_top/ads1292_controller/add_x_2/A[1] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.33 r
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.22       1.56 r
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.20       1.75 r
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.20       1.95 r
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.20       2.15 r
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.20       2.35 r
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.20       2.54 r
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.20       2.74 r
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.20       2.94 r
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.20       3.14 r
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.20       3.33 r
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.20       3.53 r
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.20       3.73 r
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.20       3.92 r
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.20       4.12 r
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.20       4.32 r
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.20       4.51 r
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.20       4.71 r
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.20       4.91 r
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.20       5.10 r
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.20       5.30 r
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.20       5.50 r
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.20       5.69 r
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.20       5.89 r
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.20       6.09 r
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.20       6.28 r
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.20       6.48 r
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.20       6.68 r
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.20       6.87 r
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.20       7.07 r
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.18       7.25 r
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.33       7.58 f
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.58 f
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.31       7.89 f
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.89 f
+  data arrival time                                                  7.89
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.01      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                 -7.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.65
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.75       0.75
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/CK (fd4qd1_hd)
+                                                          0.00 #     0.75 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[0]/Q (fd4qd1_hd)
+                                                          0.49       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U31/CO (had1_hd)
+                                                          0.24       1.47 f
+  khu_sensor_top/ads1292_controller/add_x_2/U30/CO (had1_hd)
+                                                          0.21       1.68 f
+  khu_sensor_top/ads1292_controller/add_x_2/U29/CO (had1_hd)
+                                                          0.21       1.89 f
+  khu_sensor_top/ads1292_controller/add_x_2/U28/CO (had1_hd)
+                                                          0.21       2.09 f
+  khu_sensor_top/ads1292_controller/add_x_2/U27/CO (had1_hd)
+                                                          0.21       2.30 f
+  khu_sensor_top/ads1292_controller/add_x_2/U26/CO (had1_hd)
+                                                          0.21       2.51 f
+  khu_sensor_top/ads1292_controller/add_x_2/U25/CO (had1_hd)
+                                                          0.21       2.72 f
+  khu_sensor_top/ads1292_controller/add_x_2/U24/CO (had1_hd)
+                                                          0.21       2.92 f
+  khu_sensor_top/ads1292_controller/add_x_2/U23/CO (had1_hd)
+                                                          0.21       3.13 f
+  khu_sensor_top/ads1292_controller/add_x_2/U22/CO (had1_hd)
+                                                          0.21       3.34 f
+  khu_sensor_top/ads1292_controller/add_x_2/U21/CO (had1_hd)
+                                                          0.21       3.54 f
+  khu_sensor_top/ads1292_controller/add_x_2/U20/CO (had1_hd)
+                                                          0.21       3.75 f
+  khu_sensor_top/ads1292_controller/add_x_2/U19/CO (had1_hd)
+                                                          0.21       3.96 f
+  khu_sensor_top/ads1292_controller/add_x_2/U18/CO (had1_hd)
+                                                          0.21       4.17 f
+  khu_sensor_top/ads1292_controller/add_x_2/U17/CO (had1_hd)
+                                                          0.21       4.37 f
+  khu_sensor_top/ads1292_controller/add_x_2/U16/CO (had1_hd)
+                                                          0.21       4.58 f
+  khu_sensor_top/ads1292_controller/add_x_2/U15/CO (had1_hd)
+                                                          0.21       4.79 f
+  khu_sensor_top/ads1292_controller/add_x_2/U14/CO (had1_hd)
+                                                          0.21       4.99 f
+  khu_sensor_top/ads1292_controller/add_x_2/U13/CO (had1_hd)
+                                                          0.21       5.20 f
+  khu_sensor_top/ads1292_controller/add_x_2/U12/CO (had1_hd)
+                                                          0.21       5.41 f
+  khu_sensor_top/ads1292_controller/add_x_2/U11/CO (had1_hd)
+                                                          0.21       5.61 f
+  khu_sensor_top/ads1292_controller/add_x_2/U10/CO (had1_hd)
+                                                          0.21       5.82 f
+  khu_sensor_top/ads1292_controller/add_x_2/U9/CO (had1_hd)
+                                                          0.21       6.03 f
+  khu_sensor_top/ads1292_controller/add_x_2/U8/CO (had1_hd)
+                                                          0.21       6.24 f
+  khu_sensor_top/ads1292_controller/add_x_2/U7/CO (had1_hd)
+                                                          0.21       6.44 f
+  khu_sensor_top/ads1292_controller/add_x_2/U6/CO (had1_hd)
+                                                          0.21       6.65 f
+  khu_sensor_top/ads1292_controller/add_x_2/U5/CO (had1_hd)
+                                                          0.21       6.86 f
+  khu_sensor_top/ads1292_controller/add_x_2/U4/CO (had1_hd)
+                                                          0.21       7.06 f
+  khu_sensor_top/ads1292_controller/add_x_2/U3/CO (had1_hd)
+                                                          0.21       7.27 f
+  khu_sensor_top/ads1292_controller/add_x_2/U2/CO (had1_hd)
+                                                          0.19       7.46 f
+  khu_sensor_top/ads1292_controller/add_x_2/U35/Y (xo2d1_hd)
+                                                          0.17       7.63 r
+  khu_sensor_top/ads1292_controller/add_x_2/SUM[31] (ads1292_controller_DW01_inc_0)
+                                                          0.00       7.63 r
+  khu_sensor_top/ads1292_controller/U63/Y (scg2d1_hd)     0.20       7.83 r
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/D (fd4qd1_hd)
+                                                          0.00       7.83 r
+  data arrival time                                                  7.83
+
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  clock uncertainty                                      -2.20      10.55
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg[31]/CK (fd4qd1_hd)
+                                                          0.00      10.55 r
+  library setup time                                     -0.04      10.51
+  data required time                                                10.51
+  --------------------------------------------------------------------------
+  data required time                                                10.51
+  data arrival time                                                 -7.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.68
 
 
   Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
@@ -224,31 +1779,670 @@ Wire Load Model Mode: enclosed
   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
                                                           0.00 #    12.75 r
   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
-                                                          0.44      13.19 f
+                                                          0.43      13.18 f
   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
-                                                          0.00      13.19 f
+                                                          0.00      13.18 f
   khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
-                                                          0.00      13.19 f
-  khu_sensor_top/sensor_core/U328/Y (scg12d1_hd)          0.26      13.45 f
-  khu_sensor_top/sensor_core/U276/Y (nr2d1_hd)            0.56      14.01 r
-  khu_sensor_top/sensor_core/U275/Y (nr2d1_hd)            0.50      14.51 f
-  khu_sensor_top/sensor_core/U577/Y (scg2d1_hd)           0.41      14.93 f
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U579/Y (scg2d1_hd)           0.41      14.84 f
   khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/D (fd4qd1_hd)
-                                                          0.00      14.93 f
-  data arrival time                                                 14.93
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
 
   clock clk_half (rise edge)                             24.00      24.00
   clock network delay (ideal)                             0.75      24.75
   clock uncertainty                                      -4.40      20.35
   khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/CK (fd4qd1_hd)
                                                           0.00      20.35 r
-  library setup time                                      0.00      20.35
-  data required time                                                20.35
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
   --------------------------------------------------------------------------
-  data required time                                                20.35
-  data arrival time                                                -14.93
+  data required time                                                20.34
+  data arrival time                                                -14.84
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.42
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[1]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U578/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[1]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[1]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[2]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U570/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[2]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[2]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[3]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U567/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[3]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[3]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[4]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U566/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[4]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[4]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[5]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U561/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[5]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[5]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[6]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U557/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[6]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[6]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[7]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U549/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[7]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[7]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[8]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U546/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[8]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[8]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[9]
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                  12.00      12.00
+  clock network delay (ideal)                             0.75      12.75
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+                                                          0.00 #    12.75 r
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
+                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
+                                                          0.00      13.18 f
+  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
+  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
+  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
+  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U544/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[9]/D (fd4qd1_hd)
+                                                          0.00      14.84 f
+  data arrival time                                                 14.84
+
+  clock clk_half (rise edge)                             24.00      24.00
+  clock network delay (ideal)                             0.75      24.75
+  clock uncertainty                                      -4.40      20.35
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[9]/CK (fd4qd1_hd)
+                                                          0.00      20.35 r
+  library setup time                                     -0.01      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                -14.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.50
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[0]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[0]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[1]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[1]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[2]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[2]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[3]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[3]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[4]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[4]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[5]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[5]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[6]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[6]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[7]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[7]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[8]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[8]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK
+              (internal path startpoint)
+  Endpoint: khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[9]/CK
+            (internal path endpoint)
+  Path Group: default
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                    0.00       0.00 r
+  khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/ENCLK (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0_0)
+                                                          0.00       0.00 r
+  khu_sensor_top/ads1292_controller/o_ADS1292_DATA_OUT_reg[9]/CK (fd3qd1_hd)
+                                                          0.00       0.00 r
+  data arrival time                                                  0.00
+
+  max_delay                                               0.00       0.00
+  output external delay                                   0.00       0.00
+  data required time                                                 0.00
+  --------------------------------------------------------------------------
+  data required time                                                 0.00
+  data arrival time                                                  0.00
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
 
 
 1

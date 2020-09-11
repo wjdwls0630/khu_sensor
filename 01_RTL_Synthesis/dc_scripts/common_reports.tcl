@@ -28,7 +28,7 @@ report_constraint -all_violators -verbose >> ${REPORTS_DIR}/${step}/${corner}/re
 report_timing -path full -input_pins > ${REPORTS_DIR}/${step}/${corner}/report_timing_input_pin_path.rpt
 report_timing -max_path 10 > ${REPORTS_DIR}/${step}/${corner}/report_timing_max_path.rpt
 report_timing -path end > ${REPORTS_DIR}/${step}/${corner}/report_timing_path_end.rpt
-report_timing -delay max > ${REPORTS_DIR}/${step}/${corner}/report_timing_delay_max.rpt
+report_timing -delay max -nworst 10 > ${REPORTS_DIR}/${step}/${corner}/report_timing_delay_max.rpt
 report_timing -delay min -nworst 10 > ${REPORTS_DIR}/${step}/${corner}/report_timing_delay_min.rpt
 report_timing_requirements > ${REPORTS_DIR}/${step}/${corner}/report_timing_requirements.rpt
 report_qor > ${REPORTS_DIR}/${step}/${corner}/report_QoR.rpt

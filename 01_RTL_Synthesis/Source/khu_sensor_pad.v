@@ -131,10 +131,10 @@ module khu_sensor_pad (
   *                    TOP (pad34() ~ pad44())                                *
   *****************************************************************************/
   //============================================================================
-  phbct12 pad34(.PAD(MPR121_SCL), .TN(~w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_in_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_out_p));
+  phbct12 pad34(.PAD(MPR121_SCL), .TN(w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
   vssoh pad35();
   vssiph pad36();
-  phbct12 pad37(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_in_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_out_p));
+  phbct12 pad37(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
   vssoh pad38();
   vssiph pad39();
   // schmitt trigger for global reset

@@ -465,7 +465,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0908_18:58:47
+0912_02:32:02
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -595,7 +595,7 @@ link
 current_design $TOP_MODULE
 khu_sensor_pad
 ## Read scenario file
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
 if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
 	remove_sdc
@@ -646,7 +646,7 @@ Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std1
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (111 designs)             khu_sensor_pad.CEL, etc
+  * (233 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
@@ -686,12 +686,12 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. ivd4_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place11 in scenario func1_wst
+  Ambiguity is evident at icc_place9 in scenario func1_wst
 Information: Updating graph... (UID-83)
 Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel350' were of the incorrect class. (SEL-010)
 
 Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
 Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
@@ -726,7 +726,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-28420/29791 nets are routed
+27989/29565 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -749,76 +749,45 @@ EKL_MT: total threadable CPU 0.83 seconds
 EKL_MT: elapsed time 1 seconds
 Warning: Net 'w_clk_p' is exceeding threshold (over 1000 pins) and will be skipped. (RCEX-020)
 Warning: Net 'khu_sensor_top/w_CLOCK_HALF' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n207' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/sensor_core/n458' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n92' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/n345' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n16' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n87' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n113' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n111' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n103' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n99' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n591' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n565' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_i2f/n451' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n280' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n449' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n456' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n473' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n674' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n684' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n647' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n433' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n644' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n677' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n876' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n673' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n686' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n458' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n434' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n312' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n676' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/mult_x_1/n142' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -865,7 +834,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Sep  8 18:59:12 2020
+Date   : Sat Sep 12 02:32:28 2020
 ****************************************
 
 Attributes:
@@ -913,14 +882,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel709' were of the incorrect class. (SEL-010)
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. ivd4_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place11 in scenario func1_wst
+  Ambiguity is evident at icc_place9 in scenario func1_wst
 Information: Start timing update for routes parasitic extraction. (RCEX-023)
 Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 Information: End timing update for routes parasitic extraction. (RCEX-023)
@@ -956,7 +925,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Sep  8 18:59:15 2020
+Date   : Sat Sep 12 02:32:31 2020
 ****************************************
 
 Attributes:
@@ -1199,7 +1168,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1261,7 +1230,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1282,12 +1251,256 @@ CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
 Warning: Net khu_sensor_top/divider_by_2/o_CLK_DIV_2 is an Ideal Net, Removing the attribute. (CTS-260)
 Information: Replaced the library cell of khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg from ft2d1_hd to ft2d4_hd. (CTS-152)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_controller/clk_gate_r_ads_data_out_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_REG_DATA_OUT_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_controller/clk_gate_r_lstate_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/clk_gate_r_i2c_reg_addr_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_z_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_value_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/i2c_master/clk_gate_data_reg_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/i2c_master/clk_gate_data_out_reg_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/i2c_master/clk_gate_delay_reg_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/i2c_master/clk_gate_mode_stop_reg_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/mpr121_controller/i2c_master/clk_gate_sda_o_reg_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_R_45_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_s_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_sum_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_m_reg_2/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_53_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_s_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_52_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_43_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_51_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_42_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_s_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_sum_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_m_reg_2/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_sum_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_m_reg_2/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_50_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_41_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_R_40_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_guard_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_e_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_s_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_m_reg_1/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_o_Z_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_sum_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_m_reg_0/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_m_reg_2/latch (cglpd1_hd). (CTS-618)
+Warning: No LEQ library cell found for cell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_e_reg_0/latch (cglpd1_hd). (CTS-618)
 CTS: Prepare sources for clock domain clk
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_m_reg_2/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_sum_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_s_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_R_40_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_a_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_41_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_50_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_m_reg_2/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_sum_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_m_reg_2/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_sum_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_s_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_42_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_51_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_43_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_52_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_s_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_53_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_m_reg_2/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_sum_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_s_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_guard_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_R_45_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_z_m_reg_1/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_e_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/i2c_master/clk_gate_sda_o_reg_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/i2c_master/clk_gate_mode_stop_reg_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/i2c_master/clk_gate_delay_reg_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/i2c_master/clk_gate_data_out_reg_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/i2c_master/clk_gate_data_reg_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_value_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_z_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_o_Z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_z_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_a_m_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_a_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/mpr121_controller/clk_gate_r_i2c_reg_addr_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_controller/clk_gate_r_lstate_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_REG_DATA_OUT_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_controller/clk_gate_r_ads_data_out_reg_0/latch/CK is implicit ignore
+CTS: khu_sensor_top/ads1292_controller/clk_gate_o_ADS1292_DATA_OUT_reg_0/latch/CK is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.361425.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1299,9 +1512,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.361425.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1338,7 +1551,7 @@ CTS: Design infomation
 CTS:  total gate levels = 4
 CTS: Root clock net i_CLK
 CTS:  clock gate levels = 4
-CTS:    clock sink pins = 5376
+CTS:    clock sink pins = 2226
 CTS:    level  4: gates = 1
 CTS:    level  3: gates = 1
 CTS:    level  2: gates = 1
@@ -1449,7 +1662,7 @@ CTS:   levels per net   = 400
 Information: no clock tree synthesis on don't touch net i_CLK. (CTS-614)
 
 CTS: Clock tree synthesis completed successfully
-CTS:   CPU time:     2 seconds
+CTS:   CPU time:     1 seconds
 CTS: Reporting clock tree violations ...
 CTS:   Global design rules:
 CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
@@ -1457,10 +1670,10 @@ CTS:     maximum capacitance = 0.6
 CTS:     maximum fanout = 2000
 CTS:     maximum buffer levels per net = 400
 CTS: transition delay violation at pad1/Y
-CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   transition delay = worst[0.294 0.349] worst[0.294 0.349]
 CTS:   constraint = worst[0.300 0.300]
-CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A
-CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/A
+CTS:   transition delay = worst[0.294 0.349] worst[0.294 0.349]
 CTS:   constraint = worst[0.300 0.300]
 CTS:  
 CTS: Summary of clock tree violations: 
@@ -1472,20 +1685,20 @@ CTS: ------------------------------------------------
 CTS:       1 clock domain synthesized
 CTS:       4 gated clock nets synthesized
 CTS:       2 buffer trees inserted
-CTS:     202 buffers used (total size = 4055.04)
-CTS:     206 clock nets total capacitance = worst[34.791 34.791]
+CTS:     102 buffers used (total size = 1962.58)
+CTS:     106 clock nets total capacitance = worst[17.928 17.928]
 CTS: ------------------------------------------------
 CTS: Clock-by-Clock Summary
 CTS: ------------------------------------------------
 CTS: Root clock net i_CLK
 CTS:       4 gated clock nets synthesized
 CTS:       2 buffer trees inserted
-CTS:     202 buffers used (total size = 4055.04)
-CTS:     206 clock nets total capacitance = worst[34.791 34.791]
+CTS:     102 buffers used (total size = 1962.58)
+CTS:     106 clock nets total capacitance = worst[17.928 17.928]
 
 CTS: ==================================================
-CTS:   Elapsed time: 2 seconds
-CTS:   CPU time:     2 seconds on vlsi-dist.khu.ac.kr
+CTS:   Elapsed time: 1 seconds
+CTS:   CPU time:     1 seconds on vlsi-dist.khu.ac.kr
 CTS: ==================================================
 CTS: Reporting clock tree violations ...
 CTS:   Global design rules:
@@ -1494,10 +1707,10 @@ CTS:     maximum capacitance = 0.6
 CTS:     maximum fanout = 2000
 CTS:     maximum buffer levels per net = 400
 CTS: transition delay violation at pad1/Y
-CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS:   transition delay = worst[0.294 0.349] worst[0.294 0.349]
 CTS:   constraint = worst[0.300 0.300]
-CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A
-CTS:   transition delay = worst[0.293 0.348] worst[0.293 0.348]
+CTS: transition delay violation at khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/A
+CTS:   transition delay = worst[0.294 0.349] worst[0.294 0.349]
 CTS:   constraint = worst[0.300 0.300]
 CTS:  
 CTS: Summary of clock tree violations: 
@@ -1523,7 +1736,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1540,11 +1753,12 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
+CTS: khu_sensor_top/CTS_funccts_wst_nid1_hd_G2IP/A is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.361425.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1556,9 +1770,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.361425.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1573,9 +1787,45 @@ BA: Refreshing blockage map size.
 BA: Refreshing blockage map size.
 CTS: BA: Net 'w_clk_p'
 CTS: BA: Root net includes 1 sinks.
-CTS: BA: Max delay at toplevel pins = 1.335451
-CTS: BA: Max skew at toplevel pins = 0.132376
+CTS: BA: Max delay at toplevel pins = 1.314795
+CTS: BA: Max skew at toplevel pins = 0.134053
 CTS: Prepare sources for clock domain clk
+
+CTS: fixing DRC beyond exception pins under clock i_CLK
+
+CTS: gate level 3 DRC fixing (exception level 1)
+CTS:          clock net = khu_sensor_top/w_clk_p_G2IP
+CTS:        driving pin = khu_sensor_top/CTS_funccts_wst_nid1_hd_G2IP/Y
+CTS: gate level 3 design rule constraints [rise fall]
+CTS:   max transition   = worst[0.300 0.300]
+CTS:   max capacitance  = worst[0.600 0.600]
+CTS:   max fanout       = 2000
+
+CTS: ------------------------------------------------
+CTS: Summary of DRC fixing beyond exception pins
+CTS: ------------------------------------------------
+CTS:       1 clock domain completed
+CTS:       1 gated clock nets beyond exception pins
+CTS:       1 buffer trees inserted
+CTS:      30 buffers used (total size = 681.12)
+CTS: ------------------------------------------------
+CTS: Clock-by-Clock Summary
+CTS: ------------------------------------------------
+CTS: Root clock net i_CLK
+CTS:       1 gated clock nets beyond exception pins
+CTS:       1 buffer trees inserted
+CTS:      30 buffers used (total size = 681.12)
+
+CTS: Reporting DRC violations beyond exception pins ...
+CTS:   Global design rules:
+CTS:     maximum transition delay [rise,fall] = [0.3,0.3]
+CTS:     maximum capacitance = 0.6
+CTS:     maximum fanout = 2000
+CTS:     maximum buffer levels per net = 400
+CTS: 
+CTS: Summary of DRC violations beyond exception pins
+CTS:   Total number of transition violations  = 0
+CTS:   Total number of capacitance violations = 0
 
 CTS: ==================================================
 CTS: DRC fixing beyond exceptions completed successfully
@@ -1634,7 +1884,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1663,7 +1913,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1680,11 +1930,12 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
+CTS: khu_sensor_top/CTS_funccts_wst_nid1_hd_G2IP/A is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.356726.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.361425.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -1696,9 +1947,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.356726.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.356726.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.356726.
+    Min drive = 0.361425.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.361425.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.361425.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -1831,23 +2082,23 @@ Using leaf_max_transition for clock clk : 0.300 ns
 * Preoptimization report (clock 'clk') *
 ****************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (2.647 0.000 2.647)
-    Estimated Insertion Delay (r/f/b) = (2.663  -inf 2.663)
+    Estimated Skew (r/f/b) = (2.595 0.000 2.595)
+    Estimated Insertion Delay (r/f/b) = (2.648  -inf 2.648)
   Corner 'RC-ONLY'
-    Estimated Skew (r/f/b) = (0.138 0.000 0.138)
-    Estimated Insertion Delay (r/f/b) = (0.162  -inf 0.162)
-  Wire capacitance =  15.4 pf
-  Total capacitance = 35.5 pf
-  Max transition = 0.295 ns
-  Cells = 205 (area=864.666565)
-  Inverters = 202 (area=853.333252)
+    Estimated Skew (r/f/b) = (0.135 0.000 0.135)
+    Estimated Insertion Delay (r/f/b) = (0.188  -inf 0.188)
+  Wire capacitance =  8.3 pf
+  Total capacitance = 18.2 pf
+  Max transition = 0.297 ns
+  Cells = 104 (area=422.999969)
+  Inverters = 101 (area=411.666626)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
-    ivd20_hd: 72
-    ivd16_hd: 57
-    ivd12_hd: 10
-    ivd24_hd: 60
+    ivd24_hd: 30
+    ivd20_hd: 28
+    ivd16_hd: 28
+    ivd12_hd: 12
     ivd8_hd: 2
     ivd6_hd: 1
   Other Cells
@@ -1856,10 +2107,7 @@ Using leaf_max_transition for clock clk : 0.300 ns
 
 Report DRC violations for clock clk (initial)
 Total 0 DRC violations for clock clk (initial)
-Deleting cells (khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I2, khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1) and output nets (khu_sensor_top/w_clk_p_G2B4I2, khu_sensor_top/w_clk_p_G2B5I1).
- iteration 1: (2.531235, 2.572810) [1]
- Total 1 buffers removed on clock clk  (corner 1)
- Start (0.042, 2.711), End (0.042, 2.573) 
+ Start (0.072, 2.688), End (0.072, 2.688) 
 
 RC optimization for clock 'clk'
 Corner sensitivity to RC skew (normalized to the first corner):
@@ -1872,10 +2120,9 @@ Coarse optimization for clock 'clk'
 10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
 10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
  No back-to-back buffer chains found
- iteration 1: (2.661513, 2.703088) [1]
- iteration 2: (2.658262, 2.699837) [1]
- Total 2 cells sized on clock clk (LP) (corner 1)
- Start (0.042, 2.706), End (0.042, 2.700) 
+ iteration 1: (2.632240, 2.704696) [1]
+ Total 1 cells sized on clock clk (LP) (corner 1)
+ Start (0.072, 2.705), End (0.072, 2.705) 
 
 Detailed optimization for clock 'clk'
 10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
@@ -1883,74 +2130,65 @@ Using max_transition 0.300 ns
 Using leaf_max_transition for clock clk : 0.300 ns
 Starting optimization pass for clock clk:
 Start path based optimization 
-Deleting cells (khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I1, khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B10I1) and output nets (khu_sensor_top/w_clk_p_G2B2I1, khu_sensor_top/w_clk_p_G2B3I1).
- iteration 1: (2.546824, 2.563293) [0]
- Total 1 buffers removed on clock clk  (corner 0)
- Start (0.016, 2.678), End (0.016, 2.563) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- Start (0.016, 2.563), End (0.016, 2.563) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
 10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
- Start (0.016, 2.563), End (0.016, 2.563) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- iteration 2: (2.543927, 2.560396) [0]
- Total 1 cells sized on clock clk (LP) (corner 0)
- Start (0.016, 2.563), End (0.016, 2.560) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- Start (0.016, 2.560), End (0.016, 2.560) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- iteration 3: (2.540243, 2.556712) [0]
- Total 1 cells sized on clock clk (LP) (corner 0)
- Start (0.016, 2.560), End (0.016, 2.557) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- Start (0.016, 2.557), End (0.016, 2.557) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
- Start (0.016, 2.557), End (0.016, 2.554) 
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
-Start area recovery: (0.016469, 2.554246)
+Start area recovery: (0.052974, 2.686156)
 Using max_transition 0.300 ns
 Using leaf_max_transition for clock clk : 0.300 ns
 Switch to low metal layer for clock 'clk':
 
- Total 187 out of 200 nets switched to low metal layer for clock 'clk' with largest cap change 6.89 percent
-Switch metal layer for area recovery: (0.016469, 2.554246)
- Start (0.016, 2.554), End (0.016, 2.554) 
+ Total 98 out of 103 nets switched to low metal layer for clock 'clk' with largest cap change 16.15 percent
+Switch metal layer for area recovery: (0.052974, 2.685622)
+ Start (0.053, 2.686), End (0.053, 2.686) 
 
-Buffer removal for area recovery: (0.016469, 2.554246)
+Buffer removal for area recovery: (0.052974, 2.685622)
 Area recovery optimization for clock 'clk':
 10%   20%   30%   40%   50%   60%   70%   80%   90%   100%   
-Sizing for area recovery: (0.016469, 2.554246)
+Sizing for area recovery: (0.052974, 2.685622)
 
  Total 0 buffers removed (all paths) for clock 'clk'
-Path buffer removal for area recovery: (0.016469, 2.554246)
-Buffer pair removal for area recovery: (0.016469, 2.554246)
-End area recovery: (0.016469, 2.554246)
+Path buffer removal for area recovery: (0.052974, 2.685622)
+Buffer pair removal for area recovery: (0.052974, 2.685622)
+End area recovery: (0.052974, 2.685622)
 
 *************************************************
 * Multicorner optimization report (clock 'clk') *
 *************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (2.538 0.000 2.538)
-    Estimated Insertion Delay (r/f/b) = (2.554  -inf 2.554)
+    Estimated Skew (r/f/b) = (2.633 0.000 2.633)
+    Estimated Insertion Delay (r/f/b) = (2.686  -inf 2.686)
   Corner 'RC-ONLY'
-    Estimated Skew (r/f/b) = (0.077 0.000 0.077)
-    Estimated Insertion Delay (r/f/b) = (0.101  -inf 0.101)
-  Wire capacitance =  14.6 pf
-  Total capacitance = 32.0 pf
-  Max transition = 0.294 ns
-  Cells = 201 (area=574.333191)
-  Inverters = 198 (area=562.999878)
+    Estimated Skew (r/f/b) = (0.038 0.000 0.038)
+    Estimated Insertion Delay (r/f/b) = (0.091  -inf 0.091)
+  Wire capacitance =  7.6 pf
+  Total capacitance = 16.2 pf
+  Max transition = 0.286 ns
+  Cells = 104 (area=288.666992)
+  Inverters = 101 (area=277.333649)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
-    ivd12_hd: 81
-    ivd16_hd: 64
-    ivd8_hd: 28
-    ivd4_hd: 5
-    ivd6_hd: 13
-    ivd20_hd: 5
-    ivd3_hd: 1
-    ivd24_hd: 1
+    ivd20_hd: 2
+    ivd16_hd: 35
+    ivd12_hd: 29
+    ivd8_hd: 17
+    ivd4_hd: 3
+    ivd6_hd: 15
   Other Cells
   ===========
     ft2d4_hd: 1
@@ -1960,125 +2198,145 @@ End area recovery: (0.016469, 2.554246)
  object                               fan cap  trn inc  arr r location
  i_CLK (port)                                   31   0    0 r (  13  946) 
  i_CLK (port)                                    0   0    0 r (  13  946) 
- i_CLK (net)                            3 2067                
- pad1/PAD (phbct24_p)                          138  44   44 r (  58  974) 
- pad1/Y (phbct24_p)                            294 1293 1337 r
+ i_CLK (net)                            3 2091                
+ pad1/PAD (phbct24_p)                          143  45   45 r (  58  974) 
+ pad1/Y (phbct24_p)                            286 1288 1333 r
                                                               ( 137  999) 
- w_clk_p (net)                          1  61                 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A (ivd24_hd)
-                                               293   2 1338 r ( 191  999) 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/Y (ivd24_hd)
-                                               194 133 1471 f ( 190  999) 
- khu_sensor_top/w_clk_p_G2B1I1 (net)    2 274                 
- khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
-                                               213  40 1511 f ( 285  384) 
- khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
-                                               271 160 1671 r ( 286  383) 
- khu_sensor_top/divider_by_2/w_clk_p_G2B4I1 (net)
-                                        1 195                 
+ w_clk_p (net)                          2  55                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/A (ivd20_hd)
+                                               285   1 1335 r ( 194  999) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/Y (ivd20_hd)
+                                               129 106 1441 f ( 193  999) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    1 121                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
+                                               130   9 1450 f ( 340  852) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
+                                               178 109 1559 r ( 340  851) 
+ khu_sensor_top/w_clk_p_G2B2I1 (net)    1 127                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1/A (ivd16_hd)
+                                               180  10 1569 r ( 424  621) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1/Y (ivd16_hd)
+                                               185 125 1694 f ( 425  621) 
+ khu_sensor_top/w_clk_p_G2B3I1 (net)    2 244                 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd8_hd_G2B7I2/A (ivd6_hd)
+                                               197  30 1724 f ( 707  228) 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd8_hd_G2B7I2/Y (ivd6_hd)
+                                               210 142 1866 r ( 707  228) 
+ khu_sensor_top/divider_by_2/w_clk_p_G2B4I2 (net)
+                                        1  57                 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/CK (ft2d4_hd)
-                                               274  23 1695 r ( 872  358) 
+                                               210   2 1868 r ( 876  228) 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q (ft2d4_hd)
-                                                84 349 2043 r ( 861  358) 
+                                                84 334 2202 r ( 865  228) 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2 (net)
                                         1   9                 
  khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/A (ivd4_hd)
-                                                84   0 2043 r ( 863  362) 
+                                                84   0 2202 r ( 867  232) 
  khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/Y (ivd4_hd)
-                                               129  93 2136 f ( 862  362) 
+                                               116  86 2288 f ( 866  233) 
  khu_sensor_top/w_CLOCK_HALF_G4B1I1 (net)
-                                        1  51                 
+                                        1  44                 
  khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/A (ivd12_hd)
-                                               129   2 2138 f ( 941  376) 
+                                               116   1 2289 f ( 887  283) 
  khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/Y (ivd12_hd)
-                                               195 122 2260 r ( 941  376) 
+                                               188 116 2405 r ( 888  283) 
  khu_sensor_top/w_CLOCK_HALF_G4B2I1 (net)
-                                        3 113                 
- khu_sensor_top/sensor_core/CTS_funccts_wst_ivd8_hd_G4B2I1/A (ivd4_hd)
-                                               195   1 2261 r ( 943  372) 
- khu_sensor_top/sensor_core/CTS_funccts_wst_ivd8_hd_G4B2I1/Y (ivd4_hd)
-                                               183 145 2406 f ( 943  372) 
- khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B3I1 (net)
-                                        1  67                 
- khu_sensor_top/sensor_core/CTS_funccts_wst_ivd20_hd_G4B1I10/A (ivd16_hd)
-                                               183   3 2409 f ( 950  484) 
- khu_sensor_top/sensor_core/CTS_funccts_wst_ivd20_hd_G4B1I10/Y (ivd16_hd)
-                                               213 141 2550 r ( 951  484) 
- khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B4I10 (net)
-                                       40 158                 
- khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_0_/CK (fd4qd1_hd)
-                                               214   3 2553 r (1007  523) 
+                                        3 109                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I3/A (ivd12_hd)
+                                               189   1 2406 r ( 854  286) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I3/Y (ivd12_hd)
+                                               160 131 2537 f ( 854  286) 
+ khu_sensor_top/w_CLOCK_HALF_G4B3I3 (net)
+                                        4 169                 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd16_hd_G4B1I8/A (ivd12_hd)
+                                               160   1 2538 f ( 849  286) 
+ khu_sensor_top/sensor_core/CTS_funccts_wst_ivd16_hd_G4B1I8/Y (ivd12_hd)
+                                               230 145 2683 r ( 849  286) 
+ khu_sensor_top/sensor_core/w_CLOCK_HALF_G4B4I8 (net)
+                                       32 135                 
+ khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_5_/CK (fd4qd1_hd)
+                                               231   2 2685 r ( 796  235) 
 
 
 ++ Shortest path for clock clk in corner ':max':
  object                               fan cap  trn inc  arr r location
  i_CLK (port)                                   31   0    0 r (  13  946) 
  i_CLK (port)                                    0   0    0 r (  13  946) 
- i_CLK (net)                            3 2067                
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
-                                               114  16   16 r ( 405  945) 
+ i_CLK (net)                            3 2091                
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                               144  53   53 r ( 477  996) 
 
 
 ++ Longest path for clock clk in corner 'RC-ONLY':
  object                               fan cap  trn inc  arr r location
  i_CLK (port)                                   31   0    0 r (  13  946) 
  i_CLK (port)                                    0   0    0 r (  13  946) 
- i_CLK (net)                            3 2067                
- pad1/PAD (phbct24_p)                          139  44   44 r (  58  974) 
- pad1/Y (phbct24_p)                              0   0   44 r ( 137  999) 
- w_clk_p (net)                          1  61                 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/A (ivd24_hd)
-                                                 3   1   45 r ( 191  999) 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B11I11/Y (ivd24_hd)
-                                                 0   0   45 f ( 190  999) 
- khu_sensor_top/w_clk_p_G2B1I1 (net)    2 274                 
- khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
-                                               100  32   76 f ( 285  384) 
- khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
-                                                 0   0   76 r ( 286  383) 
- khu_sensor_top/divider_by_2/w_clk_p_G2B4I1 (net)
-                                        1 195                 
+ i_CLK (net)                            3 2091                
+ pad1/PAD (phbct24_p)                          142  45   45 r (  58  974) 
+ pad1/Y (phbct24_p)                              0   0   45 r ( 137  999) 
+ w_clk_p (net)                          2  55                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/A (ivd20_hd)
+                                                 3   1   46 r ( 194  999) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I11/Y (ivd20_hd)
+                                                 0   0   46 f ( 193  999) 
+ khu_sensor_top/w_clk_p_G2B1I1 (net)    1 121                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I1/A (ivd16_hd)
+                                                21   7   52 f ( 340  852) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B9I1/Y (ivd16_hd)
+                                                 0   0   52 r ( 340  851) 
+ khu_sensor_top/w_clk_p_G2B2I1 (net)    1 127                 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1/A (ivd16_hd)
+                                                24   7   60 r ( 424  621) 
+ khu_sensor_top/CTS_funccts_wst_ivd24_hd_G2B8I1/Y (ivd16_hd)
+                                                 0   0   60 f ( 425  621) 
+ khu_sensor_top/w_clk_p_G2B3I1 (net)    2 244                 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd8_hd_G2B7I2/A (ivd6_hd)
+                                                76  24   84 f ( 707  228) 
+ khu_sensor_top/divider_by_2/CTS_funccts_wst_ivd8_hd_G2B7I2/Y (ivd6_hd)
+                                                 0   0   84 r ( 707  228) 
+ khu_sensor_top/divider_by_2/w_clk_p_G2B4I2 (net)
+                                        1  57                 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/CK (ft2d4_hd)
-                                                57  18   94 r ( 872  358) 
+                                                 5   2   85 r ( 876  228) 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg/Q (ft2d4_hd)
-                                                 0   0   94 r ( 861  358) 
+                                                 0   0   85 r ( 865  228) 
  khu_sensor_top/divider_by_2/o_CLK_DIV_2 (net)
                                         1   9                 
  khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/A (ivd4_hd)
-                                                 0   0   95 r ( 863  362) 
+                                                 0   0   85 r ( 867  232) 
  khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B4I1/Y (ivd4_hd)
-                                                 0   0   95 f ( 862  362) 
+                                                 0   0   85 f ( 866  233) 
  khu_sensor_top/w_CLOCK_HALF_G4B1I1 (net)
-                                        1  51                 
+                                        1  44                 
  khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/A (ivd12_hd)
-                                                 4   1   96 f ( 941  376) 
+                                                 3   1   86 f ( 887  283) 
  khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B3I1/Y (ivd12_hd)
-                                                 0   0   96 r ( 941  376) 
+                                                 0   0   86 r ( 888  283) 
  khu_sensor_top/w_CLOCK_HALF_G4B2I1 (net)
-                                        3 113                 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I2/A (ivd16_hd)
-                                                 5   2   97 r ( 961  304) 
- khu_sensor_top/CTS_funccts_wst_ivd24_hd_G4B2I2/Y (ivd16_hd)
-                                                 0   0   97 f ( 962  304) 
+                                        3 109                 
+ khu_sensor_top/CTS_funccts_wst_ivd16_hd_G4B2I2/A (ivd12_hd)
+                                                 6   2   88 r ( 979  290) 
+ khu_sensor_top/CTS_funccts_wst_ivd16_hd_G4B2I2/Y (ivd12_hd)
+                                                 0   0   88 f ( 980  290) 
  khu_sensor_top/w_CLOCK_HALF_G4B3I2 (net)
-                                        5 171                 
- khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I9/A (ivd16_hd)
-                                                 4   1   99 f ( 929  315) 
- khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I9/Y (ivd16_hd)
-                                                 0   0   99 r ( 928  315) 
- khu_sensor_top/w_CLOCK_HALF_G4B4I9 (net)
-                                       46 172                 
- khu_sensor_top/sensor_core/r_ads_clk_counter_reg_2_/CK (fd4qd1_hd)
-                                                 7   2  101 r ( 864  365) 
+                                        3 135                 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I5/A (ivd16_hd)
+                                                 5   2   90 f ( 974  221) 
+ khu_sensor_top/CTS_funccts_wst_ivd20_hd_G4B1I5/Y (ivd16_hd)
+                                                 0   0   90 r ( 973  221) 
+ khu_sensor_top/w_CLOCK_HALF_G4B4I5 (net)
+                                       47 177                 
+ khu_sensor_top/uart_controller/uart_tx/r_SM_Main_reg_1_/CK (fd4qd1_hd)
+                                                 5   2   91 r ( 930  192) 
 
 
 ++ Shortest path for clock clk in corner 'RC-ONLY':
  object                               fan cap  trn inc  arr r location
  i_CLK (port)                                   31   0    0 r (  13  946) 
  i_CLK (port)                                    0   0    0 r (  13  946) 
- i_CLK (net)                            3 2067                
- async_rstn_glitch_synchronizer/async_rstn_synchronizer/r_ff_reg/CK (fd2qd2_hd)
-                                                76  24   24 r ( 405  945) 
+ i_CLK (net)                            3 2091                
+ async_rstn_glitch_synchronizer/async_rstn_synchronizer/o_RSTN_reg/CK (fd2qd4_hd)
+                                               167  53   53 r ( 477  996) 
 
 Report DRC violations for clock clk (final)
 Total 0 DRC violations for clock clk (final)
@@ -2103,7 +2361,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2119,24 +2377,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 18:59:39 2020
+  Date   : Sat Sep 12 02:32:49 2020
 ****************************************
-Std cell utilization: 64.06%  (271208/(423355-0))
+Std cell utilization: 62.03%  (262588/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 63.91%  (269485/(423355-1723))
+Std cell utilization: 61.91%  (261288/(423355-1300))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
-                      28064    cells, (non-fixed:27865  fixed:199)
+Std cell area:        262588   sites, (non-fixed:261288 fixed:1300)
+                      27734    cells, (non-fixed:27601  fixed:133)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      1723     sites, (include fixed std cells & chimney area)
+                      1300     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       143 
-Avg. std cell width:  4.80 um 
+Lib cell count:       122 
+Avg. std cell width:  4.16 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -2145,7 +2403,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 18:59:39 2020
+  Date   : Sat Sep 12 02:32:49 2020
 ****************************************
 
 
@@ -2158,25 +2416,25 @@ MET3       partial     10000.00    10000.00    via additive      ---
 MET4       partial     10000.00    10000.00    via additive      ---
 MET5       partial     10000.00    10000.00    via additive      ---
 MET6       partial     10000.00    10000.00    via additive      ---
-Legalizing 224 illegal cells...
+Legalizing 153 illegal cells...
 Starting legalizer.
 Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
-Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
-Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
-Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.2 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.2 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.2 sec)
 Legalization complete (1 total sec)
  
 ****************************************
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 18:59:40 2020
+  Date   : Sat Sep 12 02:32:50 2020
 ****************************************
 
-avg cell displacement:    2.012 um ( 0.56 row height)
-max cell displacement:    6.759 um ( 1.88 row height)
-std deviation:            1.362 um ( 0.38 row height)
-number of cell moved:       433 cells (out of 27865 cells)
+avg cell displacement:    1.893 um ( 0.53 row height)
+max cell displacement:    4.738 um ( 1.32 row height)
+std deviation:            1.325 um ( 0.37 row height)
+number of cell moved:       327 cells (out of 27601 cells)
 
 Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
 
@@ -2191,7 +2449,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 77 out of 199 clock nets rerouted
+LR: 29 out of 102 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
 Optimize clock tree Successful...
@@ -2230,7 +2488,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-28618/29989 nets are routed
+28090/29697 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -2238,78 +2496,47 @@ Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-
 Information: The RC model used is global route TLU+. (RCEX-015)
 Information: Start mixed mode parasitic extraction. (RCEX-023)
 Information: Start rc extraction...
-EKL_MT: total threadable CPU 0.94 seconds
+EKL_MT: total threadable CPU 0.92 seconds
 EKL_MT: elapsed time 1 seconds
-Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n207' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/sensor_core/n458' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n92' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/n345' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n16' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n87' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n113' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n111' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n103' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n99' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n591' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n565' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_i2f/n451' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n280' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n449' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n456' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n473' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n674' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n684' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n647' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n433' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n644' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n677' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n876' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n673' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n686' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n458' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n434' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n312' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n676' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/mult_x_1/n142' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -2415,7 +2642,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2455,8 +2682,8 @@ Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.32
 LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.29
-LR: 7655 initial glinks on 201 nets
-LR: 199 nets fully connected by initial glinks
+LR: 3545 initial glinks on 104 nets
+LR: 102 nets fully connected by initial glinks
 LR: Clock routing service standing by
 Using cts integrated global router
 Information: Design is global routed.
@@ -2477,7 +2704,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2506,7 +2733,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2523,11 +2750,12 @@ CTS: inverter ivd4_hd: rise/fall delay skew = 0.507046 (> 0.200000)
 CTS: Region Aware Algorithm is automatically turned off when design has no region or only has one region.
 CTS: Prepare sources for clock domain clk
 CTS: Prepare sources for clock domain clk
+CTS: khu_sensor_top/CTS_funccts_wst_nid1_hd_G2IP/A is implicit ignore
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.35468.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.35468.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.35468.
+    Min drive = 0.361088.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.361088.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.361088.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -2539,9 +2767,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.35468.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.35468.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.35468.
+    Min drive = 0.361088.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.361088.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.361088.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -2669,24 +2897,22 @@ Using leaf_max_transition for clock clk : 0.300 ns
 * Initial Inter-clock delay balance report (clock 'clk') *
 **********************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (2.539 0.000 2.539)
-    Estimated Insertion Delay (r/f/b) = (2.556  -inf 2.556)
-  Wire capacitance =  14.9 pf
-  Total capacitance = 32.3 pf
-  Max transition = 0.294 ns
-  Cells = 201 (area=574.333130)
-  Inverters = 198 (area=562.999817)
+    Estimated Skew (r/f/b) = (2.635 0.000 2.635)
+    Estimated Insertion Delay (r/f/b) = (2.688  -inf 2.688)
+  Wire capacitance =  7.8 pf
+  Total capacitance = 16.4 pf
+  Max transition = 0.286 ns
+  Cells = 104 (area=288.666992)
+  Inverters = 101 (area=277.333649)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
-    ivd16_hd: 64
-    ivd12_hd: 81
-    ivd8_hd: 28
-    ivd4_hd: 5
-    ivd20_hd: 5
-    ivd6_hd: 13
-    ivd3_hd: 1
-    ivd24_hd: 1
+    ivd20_hd: 2
+    ivd16_hd: 35
+    ivd12_hd: 29
+    ivd8_hd: 17
+    ivd4_hd: 3
+    ivd6_hd: 15
   Other Cells
   ===========
     ft2d4_hd: 1
@@ -2698,7 +2924,7 @@ Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-
 
 Clocks:  clk
   Corner ':max'
-    Insertion Delay for clocks: 2.555954  
+    Insertion Delay for clocks: 2.688357  
     Inter-clock skew  (0.000 )
 
 ******************************
@@ -2707,31 +2933,29 @@ Clocks:  clk
 
 Clocks:  clk
   Corner ':max'
-    Insertion Delay for clocks: 2.555954  
+    Insertion Delay for clocks: 2.688357  
     Inter-clock skew  (0.000 )
 
 ********************************************************
 * Final Inter-clock delay balance report (clock 'clk') *
 ********************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (2.539 0.000 2.539)
-    Estimated Insertion Delay (r/f/b) = (2.556  -inf 2.556)
-  Wire capacitance =  14.9 pf
-  Total capacitance = 32.3 pf
-  Max transition = 0.294 ns
-  Cells = 201 (area=574.333130)
-  Inverters = 198 (area=562.999817)
+    Estimated Skew (r/f/b) = (2.635 0.000 2.635)
+    Estimated Insertion Delay (r/f/b) = (2.688  -inf 2.688)
+  Wire capacitance =  7.8 pf
+  Total capacitance = 16.4 pf
+  Max transition = 0.286 ns
+  Cells = 104 (area=288.666992)
+  Inverters = 101 (area=277.333649)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
-    ivd16_hd: 64
-    ivd12_hd: 81
-    ivd8_hd: 28
-    ivd4_hd: 5
-    ivd20_hd: 5
-    ivd6_hd: 13
-    ivd3_hd: 1
-    ivd24_hd: 1
+    ivd20_hd: 2
+    ivd16_hd: 35
+    ivd12_hd: 29
+    ivd8_hd: 17
+    ivd4_hd: 3
+    ivd6_hd: 15
   Other Cells
   ===========
     ft2d4_hd: 1
@@ -2756,7 +2980,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2772,24 +2996,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:02 2020
+  Date   : Sat Sep 12 02:33:11 2020
 ****************************************
-Std cell utilization: 64.06%  (271208/(423355-0))
+Std cell utilization: 62.03%  (262588/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 63.91%  (269485/(423355-1723))
+Std cell utilization: 61.91%  (261288/(423355-1300))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
-                      28064    cells, (non-fixed:27865  fixed:199)
+Std cell area:        262588   sites, (non-fixed:261288 fixed:1300)
+                      27734    cells, (non-fixed:27601  fixed:133)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      1723     sites, (include fixed std cells & chimney area)
+                      1300     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       143 
-Avg. std cell width:  4.80 um 
+Lib cell count:       122 
+Avg. std cell width:  4.16 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -2798,7 +3022,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:02 2020
+  Date   : Sat Sep 12 02:33:11 2020
 ****************************************
 
 
@@ -2816,7 +3040,7 @@ MET6       partial     10000.00    10000.00    via additive      ---
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:02 2020
+  Date   : Sat Sep 12 02:33:11 2020
 ****************************************
 
 No cell displacement.
@@ -2832,7 +3056,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 0 out of 201 clock nets rerouted
+LR: 0 out of 104 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
 CTS: CTS Operating Condition(s): MAX(Worst) 
@@ -2901,7 +3125,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2941,8 +3165,8 @@ Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 LR: Layer MET3: Average tracks per gcell 9.0, utilization 0.32
 LR: Layer MET4: Average tracks per gcell 8.2, utilization 0.29
-LR: 7363 initial glinks on 199 nets
-LR: 199 nets fully connected by initial glinks
+LR: 3234 initial glinks on 102 nets
+LR: 102 nets fully connected by initial glinks
 LR: Clock routing service standing by
 Using cts integrated global router
 Information: Design is global routed.
@@ -2963,7 +3187,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2992,7 +3216,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -3011,9 +3235,9 @@ CTS: Prepare sources for clock domain clk_half
 CTS: Prepare sources for clock domain clk_half
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.354679.
-    Pruning nid1_hd because drive of 0.155711 is less than 0.354679.
-    Pruning nid2_hd because drive of 0.302021 is less than 0.354679.
+    Min drive = 0.359999.
+    Pruning nid1_hd because drive of 0.155711 is less than 0.359999.
+    Pruning nid2_hd because drive of 0.302021 is less than 0.359999.
     Final pruned buffer set (8 buffers):
 	nid3_hd
 	nid4_hd
@@ -3025,9 +3249,9 @@ Pruning library cells (r/f, pwr)
 	nid24_hd
 
 Pruning library cells (r/f, pwr)
-    Min drive = 0.354679.
-    Pruning ivd1_hd because drive of 0.155155 is less than 0.354679.
-    Pruning ivd2_hd because drive of 0.322318 is less than 0.354679.
+    Min drive = 0.359999.
+    Pruning ivd1_hd because drive of 0.155155 is less than 0.359999.
+    Pruning ivd2_hd because drive of 0.322318 is less than 0.359999.
     Final pruned buffer set (8 buffers):
 	ivd3_hd
 	ivd4_hd
@@ -3153,20 +3377,21 @@ Using leaf_max_transition for clock clk_half : 0.300 ns
 * Initial Inter-clock delay balance report (clock 'clk_half') *
 ***************************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.036 0.000 0.036)
-    Estimated Insertion Delay (r/f/b) = (0.512  -inf 0.512)
+    Estimated Skew (r/f/b) = (0.023 0.000 0.023)
+    Estimated Insertion Delay (r/f/b) = (0.486  -inf 0.486)
   Wire capacitance =  1.0 pf
   Total capacitance = 2.2 pf
-  Max transition = 0.275 ns
-  Cells = 16 (area=55.000031)
-  Inverters = 15 (area=43.666702)
+  Max transition = 0.260 ns
+  Cells = 15 (area=55.333359)
+  Inverters = 14 (area=44.000031)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
+    ivd20_hd: 1
     ivd16_hd: 7
-    ivd12_hd: 5
+    ivd12_hd: 4
     ivd8_hd: 1
-    ivd4_hd: 2
+    ivd4_hd: 1
   Other Cells
   ===========
     ft2d4_hd: 1
@@ -3178,7 +3403,7 @@ Information: MCMM ICDB will pick icdb constraints from cts_mode scenarios  (CTS-
 
 Clocks:  clk_half
   Corner ':max'
-    Insertion Delay for clocks: 0.512456  
+    Insertion Delay for clocks: 0.486094  
     Inter-clock skew  (0.000 )
 
 ******************************
@@ -3187,27 +3412,28 @@ Clocks:  clk_half
 
 Clocks:  clk_half
   Corner ':max'
-    Insertion Delay for clocks: 0.512456  
+    Insertion Delay for clocks: 0.486094  
     Inter-clock skew  (0.000 )
 
 *************************************************************
 * Final Inter-clock delay balance report (clock 'clk_half') *
 *************************************************************
   Corner ':max'
-    Estimated Skew (r/f/b) = (0.036 0.000 0.036)
-    Estimated Insertion Delay (r/f/b) = (0.512  -inf 0.512)
+    Estimated Skew (r/f/b) = (0.023 0.000 0.023)
+    Estimated Insertion Delay (r/f/b) = (0.486  -inf 0.486)
   Wire capacitance =  1.0 pf
   Total capacitance = 2.2 pf
-  Max transition = 0.275 ns
-  Cells = 16 (area=55.000031)
-  Inverters = 15 (area=43.666702)
+  Max transition = 0.260 ns
+  Cells = 15 (area=55.333359)
+  Inverters = 14 (area=44.000031)
   Others = 1 (area=11.333330)
   Inverter Types
   ==============
+    ivd20_hd: 1
     ivd16_hd: 7
-    ivd12_hd: 5
+    ivd12_hd: 4
     ivd8_hd: 1
-    ivd4_hd: 2
+    ivd4_hd: 1
   Other Cells
   ===========
     ft2d4_hd: 1
@@ -3232,7 +3458,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -3248,24 +3474,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:13 2020
+  Date   : Sat Sep 12 02:33:21 2020
 ****************************************
-Std cell utilization: 64.06%  (271208/(423355-0))
+Std cell utilization: 62.03%  (262588/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 63.91%  (269485/(423355-1723))
+Std cell utilization: 61.91%  (261288/(423355-1300))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        271208   sites, (non-fixed:269485 fixed:1723)
-                      28064    cells, (non-fixed:27865  fixed:199)
+Std cell area:        262588   sites, (non-fixed:261288 fixed:1300)
+                      27734    cells, (non-fixed:27601  fixed:133)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      1723     sites, (include fixed std cells & chimney area)
+                      1300     sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       143 
-Avg. std cell width:  4.80 um 
+Lib cell count:       122 
+Avg. std cell width:  4.16 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -3274,7 +3500,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:13 2020
+  Date   : Sat Sep 12 02:33:21 2020
 ****************************************
 
 
@@ -3292,7 +3518,7 @@ MET6       partial     10000.00    10000.00    via additive      ---
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:00:13 2020
+  Date   : Sat Sep 12 02:33:21 2020
 ****************************************
 
 No cell displacement.
@@ -3308,13 +3534,12 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 
 Information: Updating database...
 Unsetting the GR Options
-LR: 0 out of 199 clock nets rerouted
+LR: 0 out of 102 clock nets rerouted
 LR: Clock routing service terminated
 Invalidate design extracted status
-Error: defining dont_touch_subtree for hierarchical pin <khu_sensor_top/divider_by_2/o_CLK_DIV_2> is not supported
+Error: defining dont_touch_subtree for hierarchical pin <khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_o_Z_reg_0/ENCLK> is not supported
 Marking clock tree from khu_sensor_top/divider_by_2/o_CLK_DIV_2...
 Marking clock tree from i_CLK...
-Source pin i_CLK is an exception pin
 [begin initializing data for legality checker]
 
 Initializing Data Structure ...
@@ -3332,7 +3557,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -3343,7 +3568,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 INFO:... use original rows...
 INFO: 0 pre-routes used for checking; 0 redundant shapes removed
 [end initializing data for legality checker]
-EKL_MT: total threadable CPU 0.94 seconds
+EKL_MT: total threadable CPU 0.91 seconds
 EKL_MT: elapsed time 1 seconds
 Information: Performing CEL netlist consistency check. (MWDC-118)
 Information: CEL consistency check PASSED. (MWDC-119)
@@ -3352,10 +3577,10 @@ Warning: The default value of the -leakage_power and -dynamic_power options of t
 Information: -cts_corner is specified, while -cts_mode is not true yet.  (CTS-1093)
 # Connect Power & Grounding in extraction and update timing
 derive_pg_connection -power_net  $MW_R_POWER_NET    -power_pin  $MW_POWER_PORT
-Information: connected 198 power ports and 0 ground ports
+Information: connected 132 power ports and 0 ground ports
 1
 derive_pg_connection -ground_net $MW_R_GROUND_NET   -ground_pin $MW_GROUND_PORT
-Information: connected 0 power ports and 198 ground ports
+Information: connected 0 power ports and 132 ground ports
 1
 derive_pg_connection -power_net  $MW_R_POWER_NET    -ground_net $MW_R_GROUND_NET -tie
 reconnected total 0 tie highs and 0 tie lows
@@ -3397,7 +3622,7 @@ report_net_routing_rules [get_flat_nets *] -output $REPORTS_DIR/shielding_nets.d
 Report : net routing rules
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Tue Sep  8 19:00:34 2020
+Date   : Sat Sep 12 02:33:41 2020
 ****************************************
 
 1
@@ -3411,7 +3636,7 @@ Information: Timer is not in zero interconnect delay mode. (TIM-176)
 Report          : create_qor_snapshot (04_clock_opt_cts)
 Design          : khu_sensor_pad
 Version         : N-2017.09
-Date            : Tue Sep  8 19:00:35 2020
+Date            : Sat Sep 12 02:33:42 2020
 Time unit       : 1.0e-09 Second(ns)
 Capacitance unit: 1.0e-12 Farad(pF)
 Voltage unit    : 1 Volt
@@ -3423,50 +3648,52 @@ s1 = funccts_wst
 --------------------------------------------------
 WNS of each timing group:                       s1 
 --------------------------------------------------
-REGIN                                      10.6796 
-clk_half                                    8.3255 
-REGOUT                                      0.6528 
-clk                                        -2.2952 
+clk_half                                    7.8413 
+**clock_gating_default**                    4.7614 
+REGIN                                      10.7857 
+default                                    -1.6577 
+REGOUT                                      2.3528 
+clk                                         2.5585 
 --------------------------------------------------
-Setup WNS:                                 -2.2952 
-Setup TNS:                                -52.1901
-Number of setup violations:                     78  
-Hold WNS:                                  -0.2892  
-Hold TNS:                                -145.5075  
-Number of hold violations:                    1148  
-Number of max trans violations:                781  
-Number of max cap violations:                  216  
+Setup WNS:                                 -1.6577 
+Setup TNS:                               -1333.0946
+Number of setup violations:                   2986  
+Hold WNS:                                  -0.2722  
+Hold TNS:                                  -3.7038  
+Number of hold violations:                     129  
+Number of max trans violations:               1156  
+Number of max cap violations:                  371  
 Number of min pulse width violations:            0  
 Route drc violations:                            0
 --------------------------------------------------
-Area:                                        90403
-Cell count:                                  28108
-Buf/inv cell count:                           3833
-Std cell utilization:                       64.06%
-CPU/ELAPSE(hr):                          0.03/0.06
-Mem(Mb):                                      1032
+Area:                                        87529
+Cell count:                                  27778
+Buf/inv cell count:                           4121
+Std cell utilization:                       62.03%
+CPU/ELAPSE(hr):                          0.03/0.05
+Mem(Mb):                                      1033
 Host name:                               vlsi-dist.khu.ac.kr
 --------------------------------------------------
 Histogram:             s1 
 --------------------------------------------------
-Max violations:        78 
-   above ~ -0.7  ---   25 
-    -0.6 ~ -0.7  ---    5 
-    -0.5 ~ -0.6  ---    4 
-    -0.4 ~ -0.5  ---    7 
-    -0.3 ~ -0.4  ---    9 
-    -0.2 ~ -0.3  ---   12 
-    -0.1 ~ -0.2  ---    7 
-       0 ~ -0.1  ---    9 
+Max violations:      2344 
+   above ~ -0.7  ---  445 
+    -0.6 ~ -0.7  ---  354 
+    -0.5 ~ -0.6  ---  173 
+    -0.4 ~ -0.5  ---  642 
+    -0.3 ~ -0.4  ---  615 
+    -0.2 ~ -0.3  ---    0 
+    -0.1 ~ -0.2  ---    0 
+       0 ~ -0.1  ---  115 
 --------------------------------------------------
-Min violations:      1148 
-  -0.06 ~ above  ---  895 
-  -0.05 ~ -0.06  ---   26 
-  -0.04 ~ -0.05  ---   33 
-  -0.03 ~ -0.04  ---   36 
-  -0.02 ~ -0.03  ---   43 
-  -0.01 ~ -0.02  ---   49 
-      0 ~ -0.01  ---   66 
+Min violations:       129 
+  -0.06 ~ above  ---   15 
+  -0.05 ~ -0.06  ---    6 
+  -0.04 ~ -0.05  ---    7 
+  -0.03 ~ -0.04  ---   12 
+  -0.02 ~ -0.03  ---   21 
+  -0.01 ~ -0.02  ---   32 
+      0 ~ -0.01  ---   36 
 --------------------------------------------------
 Current scenario is: funccts_wst
 Snapshot (04_clock_opt_cts) is created and stored under "/home/graduation_project3/2015103977/03_Physical_Synthesis/snapshot" directory
@@ -3481,16 +3708,30 @@ Report : qor
 Design : khu_sensor_pad
 Scenario(s): func1_wst funccts_wst
 Version: N-2017.09
-Date   : Tue Sep  8 19:00:36 2020
+Date   : Sat Sep 12 02:33:43 2020
 ****************************************
 
 
   Scenario 'funccts_wst'
+  Timing Path Group '**clock_gating_default**'
+  -----------------------------------
+  Levels of Logic:             9.0000
+  Critical Path Length:        6.3436
+  Critical Path Slack:         4.7614
+  Critical Path Clk Period:   12.0000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'funccts_wst'
   Timing Path Group 'REGIN'
   -----------------------------------
-  Levels of Logic:             5.0000
-  Critical Path Length:        3.0401
-  Critical Path Slack:        10.6796
+  Levels of Logic:             6.0000
+  Critical Path Length:        3.0182
+  Critical Path Slack:        10.7857
   Critical Path Clk Period:   12.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -3502,9 +3743,9 @@ Date   : Tue Sep  8 19:00:36 2020
   Scenario 'funccts_wst'
   Timing Path Group 'REGOUT'
   -----------------------------------
-  Levels of Logic:             5.0000
-  Critical Path Length:        7.9583
-  Critical Path Slack:         0.6528
+  Levels of Logic:             3.0000
+  Critical Path Length:        6.1050
+  Critical Path Slack:         2.3528
   Critical Path Clk Period:   12.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -3516,71 +3757,85 @@ Date   : Tue Sep  8 19:00:36 2020
   Scenario 'funccts_wst'
   Timing Path Group 'clk'
   -----------------------------------
-  Levels of Logic:            27.0000
-  Critical Path Length:       13.4914
-  Critical Path Slack:        -2.2952
+  Levels of Logic:            32.0000
+  Critical Path Length:        8.8295
+  Critical Path Slack:         2.5585
   Critical Path Clk Period:   12.0000
-  Total Negative Slack:      -52.1901
-  No. of Violating Paths:     78.0000
-  Worst Hold Violation:       -0.2892
-  Total Hold Violation:     -144.4349
-  No. of Hold Violations:   1117.0000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:       -0.2335
+  Total Hold Violation:       -1.7135
+  No. of Hold Violations:     62.0000
   -----------------------------------
 
   Scenario 'funccts_wst'
   Timing Path Group 'clk_half'
   -----------------------------------
-  Levels of Logic:             6.0000
-  Critical Path Length:        2.9050
-  Critical Path Slack:         8.3255
+  Levels of Logic:             3.0000
+  Critical Path Length:        3.3520
+  Critical Path Slack:         7.8413
   Critical Path Clk Period:   24.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
-  Worst Hold Violation:       -0.2384
-  Total Hold Violation:       -1.0727
-  No. of Hold Violations:     31.0000
+  Worst Hold Violation:       -0.2722
+  Total Hold Violation:       -1.9903
+  No. of Hold Violations:     67.0000
+  -----------------------------------
+
+  Scenario 'funccts_wst'
+  Timing Path Group 'default'
+  -----------------------------------
+  Levels of Logic:             2.0000
+  Critical Path Length:        1.6577
+  Critical Path Slack:        -1.6577
+  Critical Path Clk Period:       n/a
+  Total Negative Slack:    -1333.0946
+  No. of Violating Paths:   2986.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
   -----------------------------------
 
 
   Cell Count
   -----------------------------------
-  Hierarchical Cell Count:        110
-  Hierarchical Port Count:       5610
-  Leaf Cell Count:              28108
-  Buf/Inv Cell Count:            3833
-  Buf Cell Count:                  39
-  Inv Cell Count:                3794
-  CT Buf/Inv Cell Count:          198
-  Combinational Cell Count:     22731
-  Sequential Cell Count:         5377
+  Hierarchical Cell Count:        232
+  Hierarchical Port Count:       6201
+  Leaf Cell Count:              27778
+  Buf/Inv Cell Count:            4121
+  Buf Cell Count:                  82
+  Inv Cell Count:                4039
+  CT Buf/Inv Cell Count:          132
+  Combinational Cell Count:     22443
+  Sequential Cell Count:         5335
   Macro Count:                      0
   -----------------------------------
 
 
   Area
   -----------------------------------
-  Combinational Area:      52221.3630
-  Noncombinational Area:   38181.3302
-  Buf/Inv Area:             3368.6760
-  Total Buffer Area:          55.9999
-  Total Inverter Area:      3312.6761
+  Combinational Area:      51517.3628
+  Noncombinational Area:   36011.9983
+  Buf/Inv Area:             3595.3422
+  Total Buffer Area:         124.3331
+  Total Inverter Area:      3471.0091
   Macro/Black Box Area:        0.0000
-  Net Area:                  922.2824
-  Net XLength        :   9998010.0000
-  Net YLength        :  17056600.0000
+  Net Area:                  887.6971
+  Net XLength        :  13372920.0000
+  Net YLength        :  20897274.0000
   -----------------------------------
-  Cell Area:               90402.6932
-  Design Area:             91324.9756
-  Net Length        :   27054610.0000
+  Cell Area:               87529.3611
+  Design Area:             88417.0582
+  Net Length        :   34270192.0000
 
 
   Design Rules
   -----------------------------------
-  Total Number of Nets:         30144
-  Nets With Violations:         12314
-  Max Trans Violations:           781
-  Max Cap Violations:             216
-  Max Net Length Violations:    11970
+  Total Number of Nets:         29923
+  Nets With Violations:         17723
+  Max Trans Violations:          1156
+  Max Cap Violations:             371
+  Max Net Length Violations:    17369
   -----------------------------------
 
 
@@ -3590,19 +3845,19 @@ Date   : Tue Sep  8 19:00:36 2020
   -----------------------------------------
   Resource Sharing:                  0.0000
   Logic Optimization:                0.0000
-  Mapping Optimization:             39.2920
+  Mapping Optimization:             67.3758
   -----------------------------------------
-  Overall Compile Time:             39.9919
-  Overall Compile Wall Clock Time:  40.1742
+  Overall Compile Time:             68.0057
+  Overall Compile Wall Clock Time:  68.1912
 
   --------------------------------------------------------------------
 
-  Scenario: funccts_wst   WNS: 2.2952  TNS: 52.1901  Number of Violating Paths: 78
-  Design  WNS: 2.2952  TNS: 52.1901  Number of Violating Paths: 78
+  Scenario: funccts_wst   WNS: 1.6577  TNS: 1333.0946  Number of Violating Paths: 2986
+  Design  WNS: 1.6577  TNS: 1333.0946  Number of Violating Paths: 2986
 
 
-  Scenario: funccts_wst  (Hold)  WNS: 0.2892  TNS: 145.5075  Number of Violating Paths: 1148
-  Design (Hold)  WNS: 0.2892  TNS: 145.5075  Number of Violating Paths: 1148
+  Scenario: funccts_wst  (Hold)  WNS: 0.2722  TNS: 3.7038  Number of Violating Paths: 129
+  Design (Hold)  WNS: 0.2722  TNS: 3.7038  Number of Violating Paths: 129
 
   --------------------------------------------------------------------
 
@@ -3615,7 +3870,7 @@ Report : design
         -physical
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Tue Sep  8 19:00:36 2020
+Date   : Sat Sep 12 02:33:43 2020
 ****************************************
 
 	Scenario            : funccts_wst
@@ -3624,182 +3879,162 @@ Date   : Tue Sep  8 19:00:36 2020
 	Extraction mode     : MIN_MAX
 	Extraction derating : 125/125
 ****************************** P&R Summary ********************************
-Date : Tue Sep  8 19:00:36 2020
+Date : Sat Sep 12 02:33:43 2020
 Machine Host Name: vlsi-dist.khu.ac.kr
 Working Directory: /home/graduation_project3/2015103977/03_Physical_Synthesis
 Library Name:      khu_sensor_pad_04_clock_opt_cts
 Cell Name:         khu_sensor_pad.CEL;1
 Design Statistics:
-    Number of Module Cells:        28064
-    Number of Pins:                167117
+    Number of Module Cells:        27734
+    Number of Pins:                163227
     Number of IO Pad Cells:        44
     Number of IO Pins:             13
-    Number of Nets:                29990
-    Average Pins Per Net (Signal): 3.43356
+    Number of Nets:                29699
+    Average Pins Per Net (Signal): 3.43537
 
 Chip Utilization:
-    Total Std Cell Area:           429593.47
+    Total Std Cell Area:           415939.39
     Total Pad Cell Area:           363316.80
     Core Size:     width 820.60, height 817.20; area 670594.32
     Pad Core Size: width 920.76, height 920.76; area 847798.98
     Chip Size:     width 1196.00, height 1196.00; area 1430416.00
-    Std cells utilization:         64.06% 
-    Cell/Core Ratio:               64.06%
-    Cell/Chip Ratio:               55.43%
+    Std cells utilization:         62.03% 
+    Cell/Core Ratio:               62.03%
+    Cell/Chip Ratio:               54.48%
     Number of Cell Rows:            227
 
 Master Instantiation:
 	MasterName	Type	InstCount
 	=================================
-	ivd1_hd		STD	2901
-	oa21d1_hd	STD	2492
-	ao22d1_hd	STD	2179
-	nd2d1_hd	STD	2074
-	fd4qd1_hd	STD	2035
-	clkxo2d2_hd	STD	1782
-	fad1_hd		STD	1225
-	fd1qd1_hd	STD	1182
-	nr2d1_hd	STD	1179
+	ivd1_hd		STD	3016
+	oa21d1_hd	STD	2079
+	fd4qd1_hd	STD	2066
+	nd2d1_hd	STD	1964
+	fd1qd1_hd	STD	1737
+	clkxo2d2_hd	STD	1702
+	fad1_hd		STD	1322
+	nr2d1_hd	STD	1288
+	ao22d1_hd	STD	1244
+	scg2d2_hd	STD	1229
+	fd3qd1_hd	STD	1216
 	ao222d1_hd	STD	1056
-	fd1eqd1_hd	STD	1037
-	scg2d2_hd	STD	1000
-	fds2eqd1_hd	STD	620
-	had1_hd		STD	607
-	ao21d1_hd	STD	564
+	ao21d1_hd	STD	636
+	had1_hd		STD	618
+	ivd2_hd		STD	466
 	scg10d1_hd	STD	419
-	ivd2_hd		STD	396
-	oa211d1_hd	STD	376
-	scg4d1_hd	STD	320
-	scg14d1_hd	STD	303
-	nr4d1_hd	STD	288
-	xn2d1_hd	STD	282
-	ivd4_hd		STD	265
-	ad2d1_hd	STD	258
-	oa22d1_hd	STD	221
-	or2d1_hd	STD	174
-	fd3qd1_hd	STD	169
-	fd1qd2_hd	STD	159
-	nd4d1_hd	STD	152
-	scg15d1_hd	STD	148
-	nd2bd1_hd	STD	128
-	nr2d4_hd	STD	109
-	nd3d1_hd	STD	85
-	scg6d1_hd	STD	81
-	ivd12_hd	STD	81
-	nr2ad1_hd	STD	71
-	ivd16_hd	STD	64
-	scg5d1_hd	STD	63
-	nr3d1_hd	STD	62
-	ao211d1_hd	STD	58
-	scg17d1_hd	STD	57
+	ivd4_hd		STD	408
+	ad2d1_hd	STD	341
+	scg4d1_hd	STD	335
+	oa22d1_hd	STD	302
+	nd3d1_hd	STD	299
+	oa211d1_hd	STD	290
+	nr4d1_hd	STD	281
+	xn2d1_hd	STD	241
+	or2d1_hd	STD	223
+	nr3d1_hd	STD	217
+	scg14d1_hd	STD	188
+	nd4d1_hd	STD	146
+	nd2bd1_hd	STD	145
+	scg17d1_hd	STD	130
+	cglpd1_hd	STD	122
+	nr2bd1_hd	STD	120
+	fds2eqd1_hd	STD	119
+	ao211d1_hd	STD	117
+	scg22d1_hd	STD	110
+	scg6d1_hd	STD	110
+	scg16d1_hd	STD	85
+	nr2d4_hd	STD	76
+	nid1_hd		STD	64
+	oa22ad1_hd	STD	63
+	nr2ad1_hd	STD	59
 	ad2bd2_hd	STD	55
-	ivd8_hd		STD	52
-	or2d2_hd	STD	46
+	scg5d1_hd	STD	51
+	scg2d1_hd	STD	48
 	ad4d1_hd	STD	45
-	xn2d2_hd	STD	44
-	ad3d2_hd	STD	42
-	oa22ad1_hd	STD	41
-	nr2bd1_hd	STD	38
-	or2bd4_hd	STD	38
-	scg16d1_hd	STD	37
-	scg2d1_hd	STD	36
-	clknd2d2_hd	STD	36
-	fd2d1_hd	STD	31
-	scg20d1_hd	STD	31
-	xo3d1_hd	STD	30
-	scg12d1_hd	STD	29
-	oa21d2_hd	STD	29
-	ivd6_hd		STD	28
-	fds2d1_hd	STD	28
-	fd1qd4_hd	STD	28
-	or4d1_hd	STD	27
-	ad2d2_hd	STD	27
-	nid1_hd		STD	22
-	fad4_hd		STD	22
-	scg22d1_hd	STD	21
-	ao21d2_hd	STD	21
-	fd3qd2_hd	STD	19
-	scg13d1_hd	STD	18
-	clknd2d4_hd	STD	18
-	mx2d1_hd	STD	16
-	or2d4_hd	STD	15
-	nr2d6_hd	STD	15
+	ad3d2_hd	STD	41
+	or2bd4_hd	STD	40
+	ivd8_hd		STD	38
+	ivd16_hd	STD	37
+	xn2d2_hd	STD	32
+	mx2d1_hd	STD	30
+	scg20d1_hd	STD	30
+	scg12d1_hd	STD	30
+	ivd12_hd	STD	30
+	or2d2_hd	STD	28
+	or4d1_hd	STD	28
+	ivd24_hd	STD	24
+	scg13d1_hd	STD	23
+	clknd2d2_hd	STD	23
+	oa21d2_hd	STD	22
+	xo3d1_hd	STD	22
+	fds2d1_hd	STD	20
+	scg18d1_hd	STD	19
+	ivd6_hd		STD	18
+	or2d4_hd	STD	18
+	ad2d2_hd	STD	17
+	scg9d1_hd	STD	16
+	scg15d1_hd	STD	16
 	fd4qd2_hd	STD	15
-	ad2bd4_hd	STD	15
-	nd2d2_hd	STD	13
-	nid2_hd		STD	13
-	scg9d2_hd	STD	13
+	fd1qd2_hd	STD	14
+	scg21d1_hd	STD	12
 	fd2qd4_hd	STD	11
-	nd2d6_hd	STD	11
-	oa21d4_hd	STD	11
-	fd3d1_hd	STD	11
-	fd2qd2_hd	STD	11
-	ao21d4_hd	STD	10
-	nr4d2_hd	STD	10
-	scg9d1_hd	STD	10
-	fad2_hd		STD	9
-	fds2eqd2_hd	STD	8
-	scg18d1_hd	STD	7
-	ad3d1_hd	STD	7
-	clknd2d6_hd	STD	7
-	clknd2d8_hd	STD	7
-	nd2d4_hd	STD	7
+	xo2d1_hd	STD	11
+	clknd2d4_hd	STD	11
+	nd3bd1_hd	STD	10
+	ao21d2_hd	STD	10
+	or3d1_hd	STD	10
+	ao22d2_hd	STD	10
+	ad2d4_hd	STD	9
+	fd2qd1_hd	STD	9
+	scg9d2_hd	STD	8
+	nr4d4_hd	STD	8
+	clkxo2d1_hd	STD	8
+	nid2_hd		STD	7
 	ad3d4_hd	STD	7
-	or3d1_hd	STD	6
-	nd3bd1_hd	STD	6
-	scg21d2_hd	STD	6
+	nr4d2_hd	STD	6
+	ad3d1_hd	STD	6
 	scg1d1_hd	STD	6
-	fd3qd4_hd	STD	6
-	scg21d1_hd	STD	5
-	ivd20_hd	STD	5
-	nd3d2_hd	STD	5
-	clkxo2d1_hd	STD	5
-	oa211d2_hd	STD	5
-	ad2d4_hd	STD	5
-	scg20d4_hd	STD	5
+	mx2id1_hd	STD	6
+	scg20d4_hd	STD	6
+	scg8d1_hd	STD	5
+	nr2d6_hd	STD	5
+	nid6_hd		STD	5
 	mx4d1_hd	STD	4
-	scg8d1_hd	STD	4
 	scg7d1_hd	STD	4
 	ao22ad1_hd	STD	4
-	nr4d4_hd	STD	4
-	nd2bd4_hd	STD	3
-	fd1eqd2_hd	STD	3
-	mx2id1_hd	STD	3
-	scg6d2_hd	STD	3
-	nd2d8_hd	STD	2
-	oa21d8_hd	STD	2
-	nr2d2_hd	STD	2
-	scg14d4_hd	STD	2
-	nd2bd6_hd	STD	2
-	nid8_hd		STD	2
-	ao22d4_hd	STD	2
-	fad8_hd		STD	2
-	nr2bd2_hd	STD	2
+	nd2d2_hd	STD	4
+	nid4_hd		STD	4
+	nd3d2_hd	STD	4
+	oa21d4_hd	STD	3
+	ad2bd4_hd	STD	3
+	or2bd2_hd	STD	2
+	clknd2d3_hd	STD	2
 	or2d8_hd	STD	2
-	nid4_hd		STD	2
+	oa211d2_hd	STD	2
+	scg6d2_hd	STD	2
 	ao211d2_hd	STD	2
-	scg12d2_hd	STD	2
+	or3d2_hd	STD	2
+	ivd20_hd	STD	2
+	fds2eqd2_hd	STD	2
+	fd2qd2_hd	STD	2
+	clkad2d1_hd	STD	2
+	clknd2d1_hd	STD	1
 	scg11d1_hd	STD	1
+	scg12d2_hd	STD	1
 	nr3ad1_hd	STD	1
-	ao21d8_hd	STD	1
-	fd1ed1_hd	STD	1
-	ao22d2_hd	STD	1
-	ivd24_hd	STD	1
-	clkad2d1_hd	STD	1
-	clkad2d2_hd	STD	1
-	ivd3_hd		STD	1
-	nd2bd2_hd	STD	1
-	fds2ed1_hd	STD	1
-	clkmx2d1_hd	STD	1
-	nd4d2_hd	STD	1
-	scg16d2_hd	STD	1
-	fj2d1_hd	STD	1
-	nd3bd2_hd	STD	1
-	nd3d4_hd	STD	1
-	ft2d4_hd	STD	1
-	or3d2_hd	STD	1
+	fd2d1_hd	STD	1
+	clkad2d3_hd	STD	1
+	ao21d4_hd	STD	1
+	nr4d6_hd	STD	1
+	scg12d4_hd	STD	1
+	ao22d4_hd	STD	1
 	nd3bd4_hd	STD	1
-	or2d6_hd	STD	1
+	scg16d2_hd	STD	1
+	ft2d4_hd	STD	1
+	nid24_hd	STD	1
+	nid16_hd	STD	1
+	nr3d4_hd	STD	1
+	scg10d4_hd	STD	1
 	iofillerh10_p	IO	44
 	iofillerh5_p	IO	17
 	vssiph_p	IO	11
@@ -3810,9 +4045,9 @@ Master Instantiation:
 	phic_p		IO	3
 	vdd12ih_core_p	IO	3
 	phbct12_p	IO	2
-	iofillerh30_p	IO	1
 	phbct24_p	IO	1
 	phis_p		IO	1
+	iofillerh30_p	IO	1
 	=================================
 
 Timing/Optimization Information:
@@ -3852,18 +4087,17 @@ Stripe Wiring Statistics:
 User Wiring Statistics:
 
 PG follow-pin Wiring Statistics:
-    metal1 Wire Length(count):             197490.42(273)
-    metal4 Wire Length(count):                 13.85(47)
-    metal5 Wire Length(count):                254.96(215)
+    metal1 Wire Length(count):             202250.42(292)
+    metal5 Wire Length(count):                244.90(209)
   ==============================================
-    Total Wire Length(count):              197759.23(535)
-    Number of via1 Contacts:           5419
+    Total Wire Length(count):              202495.32(501)
+    Number of via1 Contacts:           5420
     Number of via2 Contacts:           5367
     Number of via3 Contacts:           5365
-    Number of via4 Contacts:           5030
-    Number of via5 Contacts:           4559
+    Number of via4 Contacts:           5031
+    Number of via5 Contacts:           4560
   ==============================================
-    Total Number of Contacts:    25740
+    Total Number of Contacts:    25743
 
 Signal Wiring Statistics:
       Mask Name      Contact Code    Number Of Contacts    Percentage
@@ -3880,19 +4114,19 @@ redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_gro
 Vth Group                All                Blackbox           Non-blackbox
 Name                    cells                cells                cells
 ********************************************************************************
-undefined           28108 (100.00%)         31 (100.00%)      28077 (100.00%)   
+undefined           27778 (100.00%)         31 (100.00%)      27747 (100.00%)   
 ********************************************************************************
 
 Vth Group                All                Blackbox           Non-blackbox
 Name                  cell area            cell area            cell area
 ********************************************************************************
-undefined        90402.69 (100.00%)       0.00   (0.00%)   90402.69 (100.00%)   
+undefined        87529.36 (100.00%)       0.00   (0.00%)   87529.36 (100.00%)   
 ********************************************************************************
 1
 redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
 redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint 	-scenario [all_scenarios] -all_violators -nosplit -significant_digits 4 }
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
-	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
+	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	report_timing -significant_digits 4 	-delay min -transition_time  -capacitance 	-max_paths 100 -nets -input_pins 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded

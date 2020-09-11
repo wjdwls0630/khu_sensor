@@ -39,7 +39,7 @@ current_design $TOP_MODULE
 remove_sdc
 remove_scenario -all
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 source $ICC_MCMM_SCENARIOS_FILE
 set_active_scenario $FP_SCN
 

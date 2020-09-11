@@ -42,7 +42,7 @@ current_design $TOP_MODULE
 remove_sdc
 remove_scenario -all
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 source $ICC_MCMM_SCENARIOS_FILE
 set_active_scenario $CHIP_FINISH_SCN
 
@@ -98,7 +98,7 @@ redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint \
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
+	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 \
 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
@@ -158,5 +158,5 @@ write_verilog -no_corner_pad_cells -no_pad_filler_cells -no_core_filler_cells \
 	-no_flip_chip_bump_cells -no_cover_cells -diode_ports -output_net_name_for_tie \
 	-pg_ports -no_tap_cells -no_chip_cells \
 	-split_bus ./outputs/${TOP_MODULE}.lvs.v
-start_gui
-#exit
+#start_gui
+exit
