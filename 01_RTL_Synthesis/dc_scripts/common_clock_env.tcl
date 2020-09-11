@@ -25,7 +25,7 @@ set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 # propose 10% transition time of clock period rule.
 # Samsung 130nm default clock path max_transition 0.7ns
 if { $CLK_MAIN_PERIOD >= 4 } {
-  set CLOCK_MAX_TRAN    0.8; # clock path max transtion time.
+  set CLOCK_MAX_TRAN    0.7; # clock path max transtion time.
 } elseif { $CLK_MAIN_PERIOD >= 2 } {
   set CLOCK_MAX_TRAN    [expr $CLK_MAIN_PERIOD * 0.2] ;# clock path max transtion time.
 } else {

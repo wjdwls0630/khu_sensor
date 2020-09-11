@@ -465,7 +465,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0908_18:47:08
+0912_02:20:06
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -615,7 +615,7 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (111 designs)             khu_sensor_pad.CEL, etc
+  * (233 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
@@ -626,7 +626,7 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
 remove_scenario -all
 1
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 source $ICC_MCMM_SCENARIOS_FILE
 Warning: Discarding all scenario specific information previously defined in this session. (UID-1008)
 Current scenario is: func1_wst
@@ -658,12 +658,12 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at U3 in scenario func1_wst
+  Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
 Information: Updating graph... (UID-83)
 Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel350' were of the incorrect class. (SEL-010)
 Information: Updating graph... (UID-83)
 Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
@@ -672,7 +672,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Sep  8 18:47:21 2020
+Date   : Sat Sep 12 02:20:20 2020
 ****************************************
 
 Attributes:
@@ -684,8 +684,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              9.00   {0 4.5}                       {i_CLK}   func1_wst
-clk_half        18.00   {0 9}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             12.00   {0 6}                         {i_CLK}   func1_wst
+clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 func1_wst
 --------------------------------------------------------------------------------
 
@@ -720,14 +720,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel709' were of the incorrect class. (SEL-010)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Sep  8 18:47:22 2020
+Date   : Sat Sep 12 02:20:21 2020
 ****************************************
 
 Attributes:
@@ -739,8 +739,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk              9.00   {0 4.5}                       {i_CLK}   funccts_wst
-clk_half        18.00   {0 9}               G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             12.00   {0 6}                         {i_CLK}   funccts_wst
+clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 funccts_wst
 --------------------------------------------------------------------------------
 
@@ -763,7 +763,7 @@ create_floorplan -control_type boundary -start_first_row -flip_first_row -left_i
 44 pads are constrained in TDF table
 There are 44 IO pads 0 corner pads in total
 Core aspect ratio adjusted to 1.000
-Core Utilization adjusted to 0.647
+Core Utilization adjusted to 0.616
 Increase core to right distance by 0.16 to 50.16
 Increase core to top distance by 3.56 to 53.56
 Start to create wire tracks ...
@@ -800,7 +800,7 @@ Planner Summary:
 This floorplan is created by using tile name (unit).
 	Row Direction = HORIZONTAL
 	Control Parameter =  Cell Boundary
-	Core Utilization = 0.649
+	Core Utilization = 0.619
 	Number Of Rows = 227
 	Core Width = 820.6
 	Core Height = 817.2
@@ -938,7 +938,7 @@ Current scenario is func1_wst.
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (111 designs)             khu_sensor_pad.CEL, etc
+  * (233 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library)
                               /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library)
@@ -956,9 +956,9 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at U3 in scenario func1_wst
+  Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
 Information: Updating database...
 Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)
 1

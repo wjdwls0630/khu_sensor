@@ -36,7 +36,7 @@ current_design $TOP_MODULE
 
 ## Read scenario file
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 if { $CLOCK_OPT_PSYN_SCN_READ_AGAIN } {
 	remove_sdc
 	remove_scenario -all
@@ -159,7 +159,7 @@ redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint \
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 \
+	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 \
 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {

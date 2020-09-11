@@ -7,6 +7,9 @@ echo "                      00_read_global_reset.tcl                         "
 echo "                                                                       "
 echo "***********************************************************************"
 
+# Set Step
+set step "00_read_global_reset"
+
 read_file -format verilog -rtl "./Source/Reset/async_rstn_synchronizer.v"
 # To preserve or gate of glitch synchronizer
 set_dont_touch [current_design]
@@ -58,4 +61,3 @@ set_disable_timing [get_ports i_RSTN]
 
 compile_ultra -only_design_rule -incremental
 #propagate_constraints -design [current_design]
-

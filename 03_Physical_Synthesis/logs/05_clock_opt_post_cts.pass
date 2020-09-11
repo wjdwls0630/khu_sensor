@@ -465,7 +465,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0908_19:02:20
+0912_02:35:28
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -597,7 +597,7 @@ current_design $TOP_MODULE
 khu_sensor_pad
 ## Read scenario file
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 if { $CLOCK_OPT_PSYN_SCN_READ_AGAIN } {
 	remove_sdc
 	remove_scenario -all
@@ -648,7 +648,7 @@ Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std1
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (111 designs)             khu_sensor_pad.CEL, etc
+  * (233 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
@@ -689,9 +689,9 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. ivd4_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place11 in scenario func1_wst
+  Ambiguity is evident at icc_place9 in scenario func1_wst
 Information: Updating graph... (UID-83)
 Current design is 'khu_sensor_pad'.
 1
@@ -783,7 +783,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-28616/29989 nets are routed
+28088/29697 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -802,78 +802,47 @@ Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-
 Information: The RC model used is global route TLU+. (RCEX-015)
 Information: Start mixed mode parasitic extraction. (RCEX-023)
 Information: Start rc extraction...
-EKL_MT: total threadable CPU 0.92 seconds
+EKL_MT: total threadable CPU 0.89 seconds
 EKL_MT: elapsed time 1 seconds
-Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n207' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/sensor_core/n458' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n92' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/n345' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n16' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n87' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n113' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n111' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n103' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n99' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n591' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n565' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_i2f/n451' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n280' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n449' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n456' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n473' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n674' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n684' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n647' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n433' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n644' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n677' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n876' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n673' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n686' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n458' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n434' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n312' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n676' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/mult_x_1/n142' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -1031,13 +1000,13 @@ Information: Using derived R and C coefficients. (RCEX-008)
 Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 
-  Scenario: func1_wst   WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
-  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+  Scenario: func1_wst   WNS: 0.43  TNS: 664.14  Number of Violating Paths: 2986
+  Design  WNS: 0.43  TNS: 664.14  Number of Violating Paths: 2986
 
-  Nets with DRC Violations: 2
-  Total moveable cell area: 410897.5
-  Total fixed cell area: 382012.8
-  Total physical cell area: 792910.3
+  Nets with DRC Violations: 3
+  Total moveable cell area: 326788.7
+  Total fixed cell area: 452467.5
+  Total physical cell area: 779256.2
   Core area: (187620 187620 1008220 1004820)
 
 
@@ -1055,19 +1024,19 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
 ================================================================
 
 
-  Scenario: func1_wst   WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
-  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+  Scenario: func1_wst   WNS: 0.43  TNS: 664.14  Number of Violating Paths: 2986
+  Design  WNS: 0.43  TNS: 664.14  Number of Violating Paths: 2986
 
-  Nets with DRC Violations: 2
-  Total moveable cell area: 410897.5
-  Total fixed cell area: 382012.8
-  Total physical cell area: 792910.3
+  Nets with DRC Violations: 3
+  Total moveable cell area: 326788.7
+  Total fixed cell area: 452467.5
+  Total physical cell area: 779256.2
   Core area: (187620 187620 1008220 1004820)
 
 
 
-  Scenario: func1_wst  (Hold)  WNS: 1.78  TNS: 86.43  Number of Violating Paths: 99
-  Design (Hold)  WNS: 1.78  TNS: 86.43  Number of Violating Paths: 99
+  Scenario: func1_wst  (Hold)  WNS: 1.86  TNS: 64.27  Number of Violating Paths: 38
+  Design (Hold)  WNS: 1.86  TNS: 64.27  Number of Violating Paths: 38
 
   Timing and DRC Optimization (Stage 1)
   --------------------------------------
@@ -1086,7 +1055,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:11   90402.7      0.00       0.0       0.1                              -86.43  
+    0:00:11   87529.4      0.43     664.1       0.2                              -64.27  
 
 
   Beginning Phase 1 Design Rule Fixing  (max_transition)  (min_path)
@@ -1096,14 +1065,12 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:12   90402.7      0.00       0.0       0.1                              -86.43  
-    0:00:13   90664.7      0.00       0.0       0.0 khu_sensor_top/ads1292_filter/r_pstate_reg_0_/D    -60.69  
-    0:00:14   90934.0      0.00       0.0       0.0 khu_sensor_top/ads1292_controller/r_ads_command_reg_7_/D    -38.45  
-    0:00:15   91060.7      0.00       0.0       0.0 khu_sensor_top/ads1292_controller/r_rdatac_mode_reg/D    -27.52  
-    0:00:16   91212.7      0.00       0.0       0.0 khu_sensor_top/mpr121_controller/r_i2c_reg_data_in_reg_7_/D    -17.27  
-    0:00:18   91321.0      0.00       0.0       0.0 khu_sensor_top/ads1292_controller/r_ads_data_in_reg_5_/D     -9.83  
-    0:00:18   91406.7      0.00       0.0       0.0 khu_sensor_top/mpr121_controller/r_i2c_reg_addr_reg_4_/D     -4.54  
-    0:00:19   91471.0      0.00       0.0       0.0                               -0.54  
+    0:00:11   87529.4      0.43     664.1       0.2                              -64.27  
+    0:00:12   87776.0      0.43     664.1       0.0 khu_sensor_top/ads1292_controller/r_ads_command_reg_1_/D    -41.99  
+    0:00:14   87906.7      0.43     664.1       0.0 khu_sensor_top/ads1292_controller/r_ads_command_reg_2_/D    -20.55  
+    0:00:15   88015.0      0.43     664.1       0.0 khu_sensor_top/ads1292_controller/r_wreg_mode_reg/D    -10.27  
+    0:00:16   88113.7      0.43     664.1       0.0 khu_sensor_top/ads1292_controller/r_ads_data_in_reg_4_/D     -3.20  
+    0:00:16   88149.0      0.43     664.1       0.0                               -0.74  
 
 
   Beginning Area-Recovery Phase  (max_area 0)
@@ -1113,24 +1080,23 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:19   91471.0      0.00       0.0       0.0                               -0.54  
-    0:00:19   91471.0      0.00       0.0       0.0                               -0.54  
-    0:00:22   91465.0      0.00       0.0       0.0                               -0.54  
-    0:00:22   91465.0      0.00       0.0       0.0                               -0.54  
-    0:00:22   91465.0      0.00       0.0       0.0                               -0.54  
-    0:00:22   91465.0      0.00       0.0       0.0                               -0.54  
-    0:00:22   91465.0      0.00       0.0       0.0                               -0.54  
-    0:00:23   91277.7      0.00       0.0       0.0                               -0.54  
-    0:00:23   91277.7      0.00       0.0       0.0                               -0.54  
-    0:00:23   91221.7      0.09       0.4       0.0                               -0.54  
-    0:00:23   91221.7      0.09       0.4       0.0                               -0.54  
-    0:00:23   91234.4      0.00       0.0       0.0                               -0.54  
-    0:00:23   91234.4      0.00       0.0       0.0                               -0.54  
-    0:00:23   91234.4      0.00       0.0       0.0                               -0.54  
-    0:00:26   91233.4      0.00       0.0       0.0                               -0.54  
-    0:00:26   91233.4      0.00       0.0       0.0                               -0.54  
-    0:00:26   91233.4      0.00       0.0       0.0                               -0.54  
-    0:00:26   91245.0      0.00       0.0       0.0                                0.00  
+    0:00:16   88149.0      0.43     664.1       0.0                               -0.74  
+    0:00:16   88149.0      0.43     664.1       0.0                               -0.74  
+    0:00:19   88130.7      0.43     664.1       0.0                               -0.74  
+    0:00:19   88130.7      0.43     664.1       0.0                               -0.74  
+    0:00:19   88130.7      0.43     664.1       0.0                               -0.74  
+    0:00:19   88130.7      0.43     664.1       0.0                               -0.74  
+    0:00:19   88130.7      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:20   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:22   88106.0      0.43     664.1       0.0                               -0.74  
+    0:00:29   88107.4      0.43     664.1       0.0 khu_sensor_top/ads1292_controller/r_ads_command_reg_5_/D     -0.64  
+    0:00:30   88117.7      0.43     664.1       0.0                                0.00  
 
 
 Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
@@ -1169,7 +1135,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1185,24 +1151,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:34 2020
+  Date   : Sat Sep 12 02:36:44 2020
 ****************************************
-Std cell utilization: 64.66%  (273735/(423355-0))
+Std cell utilization: 62.44%  (264353/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 63.65%  (261932/(423355-11857))
+Std cell utilization: 56.70%  (208071/(423355-56356))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        273735   sites, (non-fixed:261932 fixed:11803)
-                      28727    cells, (non-fixed:28105  fixed:622)
+Std cell area:        264353   sites, (non-fixed:208071 fixed:56282)
+                      28106    cells, (non-fixed:25625  fixed:2481)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      11857    sites, (include fixed std cells & chimney area)
+                      56356    sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       140 
-Avg. std cell width:  4.73 um 
+Lib cell count:       116 
+Avg. std cell width:  3.69 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -1211,7 +1177,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:34 2020
+  Date   : Sat Sep 12 02:36:44 2020
 ****************************************
 
 
@@ -1224,25 +1190,25 @@ MET3       partial     10000.00    10000.00    via additive      ---
 MET4       partial     10000.00    10000.00    via additive      ---
 MET5       partial     10000.00    10000.00    via additive      ---
 MET6       partial     10000.00    10000.00    via additive      ---
-Legalizing 25553 illegal cells...
+Legalizing 25625 illegal cells...
 Starting legalizer.
 Initial legalization:  100% (0 sec)
-Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
-Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
-Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
-Legalization complete (2 total sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.3 sec)
+Legalization complete (1 total sec)
  
 ****************************************
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:36 2020
+  Date   : Sat Sep 12 02:36:46 2020
 ****************************************
 
-avg cell displacement:    0.889 um ( 0.25 row height)
-max cell displacement:    4.745 um ( 1.32 row height)
-std deviation:            0.529 um ( 0.15 row height)
-number of cell moved:     23176 cells (out of 28105 cells)
+avg cell displacement:    0.917 um ( 0.25 row height)
+max cell displacement:    4.427 um ( 1.23 row height)
+std deviation:            0.516 um ( 0.14 row height)
+number of cell moved:     25625 cells (out of 25625 cells)
 
 Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
 
@@ -1256,19 +1222,19 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   -------------------------------
 
 
-  Scenario: func1_wst   WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
-  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+  Scenario: func1_wst   WNS: 0.39  TNS: 635.04  Number of Violating Paths: 2986
+  Design  WNS: 0.39  TNS: 635.04  Number of Violating Paths: 2986
 
-  Nets with DRC Violations: 17
-  Total moveable cell area: 414900.3
-  Total fixed cell area: 382012.8
-  Total physical cell area: 796913.0
+  Nets with DRC Violations: 14
+  Total moveable cell area: 329584.5
+  Total fixed cell area: 452467.5
+  Total physical cell area: 782052.0
   Core area: (187620 187620 1008220 1004820)
 
 
 
-  Scenario: func1_wst  (Hold)  WNS: 0.13  TNS: 0.43  Number of Violating Paths: 6
-  Design (Hold)  WNS: 0.13  TNS: 0.43  Number of Violating Paths: 6
+  Scenario: func1_wst  (Hold)  WNS: 0.22  TNS: 1.33  Number of Violating Paths: 15
+  Design (Hold)  WNS: 0.22  TNS: 1.33  Number of Violating Paths: 15
 
   Timing and DRC Optimization (Stage 2)
   --------------------------------------
@@ -1287,7 +1253,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:52   91245.0      0.00       0.0       1.2                               -0.43  
+    0:00:52   88117.7      0.39     635.0       0.8                               -1.33  
 
 
   Beginning Phase 1 Design Rule Fixing  (max_transition)  (min_path)
@@ -1297,13 +1263,13 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:52   91245.0      0.00       0.0       1.2                               -0.43  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
-    0:00:53   91261.0      0.00       0.0       0.0                                0.00  
+    0:00:53   88117.7      0.39     635.0       0.8                               -1.33  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
+    0:01:00   88155.0      0.39     635.8       0.0                                0.00  
 
 
 Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
@@ -1332,7 +1298,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1348,24 +1314,24 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:44 2020
+  Date   : Sat Sep 12 02:36:59 2020
 ****************************************
-Std cell utilization: 64.67%  (273783/(423355-0))
+Std cell utilization: 62.47%  (264465/(423355-0))
 (Non-fixed + Fixed)
-Std cell utilization: 63.66%  (261980/(423355-11857))
+Std cell utilization: 56.73%  (208183/(423355-56356))
 (Non-fixed only)
 Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        273783   sites, (non-fixed:261980 fixed:11803)
-                      28730    cells, (non-fixed:28108  fixed:622)
+Std cell area:        264465   sites, (non-fixed:208183 fixed:56282)
+                      28117    cells, (non-fixed:25636  fixed:2481)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
-                      11857    sites, (include fixed std cells & chimney area)
+                      56356    sites, (include fixed std cells & chimney area)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       142 
-Avg. std cell width:  4.73 um 
+Lib cell count:       117 
+Avg. std cell width:  3.76 um 
 Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
 Physical DB scale:    1000 db_unit = 1 um 
 
@@ -1374,7 +1340,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:44 2020
+  Date   : Sat Sep 12 02:36:59 2020
 ****************************************
 
 
@@ -1387,7 +1353,7 @@ MET3       partial     10000.00    10000.00    via additive      ---
 MET4       partial     10000.00    10000.00    via additive      ---
 MET5       partial     10000.00    10000.00    via additive      ---
 MET6       partial     10000.00    10000.00    via additive      ---
-Legalizing 26 illegal cells...
+Legalizing 46 illegal cells...
 Starting legalizer.
 Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
 Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
@@ -1399,13 +1365,13 @@ Legalization complete (0 total sec)
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Sep  8 19:03:45 2020
+  Date   : Sat Sep 12 02:37:00 2020
 ****************************************
 
-avg cell displacement:    0.647 um ( 0.18 row height)
+avg cell displacement:    0.930 um ( 0.26 row height)
 max cell displacement:    3.600 um ( 1.00 row height)
-std deviation:            0.614 um ( 0.17 row height)
-number of cell moved:        20 cells (out of 28108 cells)
+std deviation:            0.741 um ( 0.21 row height)
+number of cell moved:        44 cells (out of 25636 cells)
 
 Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
 
@@ -1419,19 +1385,19 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   -------------------------------
 
 
-  Scenario: func1_wst   WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
-  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+  Scenario: func1_wst   WNS: 0.39  TNS: 638.43  Number of Violating Paths: 2986
+  Design  WNS: 0.39  TNS: 638.43  Number of Violating Paths: 2986
 
   Nets with DRC Violations: 1
-  Total moveable cell area: 414976.3
-  Total fixed cell area: 382012.8
-  Total physical cell area: 796989.1
+  Total moveable cell area: 329761.9
+  Total fixed cell area: 452467.5
+  Total physical cell area: 782229.4
   Core area: (187620 187620 1008220 1004820)
 
 
 
-  Scenario: func1_wst  (Hold)  WNS: 0.01  TNS: 0.01  Number of Violating Paths: 1
-  Design (Hold)  WNS: 0.01  TNS: 0.01  Number of Violating Paths: 1
+  Scenario: func1_wst  (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
 [begin initializing data for legality checker]
 
 Initializing Data Structure ...
@@ -1449,7 +1415,7 @@ Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
   Reading misc information ...
     array <unit> has 0 vertical and 227 horizontal rows
     77 pre-routes for placement blockage/checking
-    569 pre-routes for map congestion calculation
+    563 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1462,9 +1428,9 @@ INFO: 0 pre-routes used for checking; 0 redundant shapes removed
 [end initializing data for legality checker]
 Warning: Die area is not integer multiples of min site height (3600), object's width and height(1196000,1196000). (PSYN-523)
 Warning: Die area is not integer multiples of min site width (440), object's width and height(1196000,1196000). (PSYN-523)
-Warning: Cell pad1 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
-Warning: Cell pad1 is not integer multiples of min site height (3600), object's width and height(137620,137620). (PSYN-523)
-Warning: Cell pad44 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
+Warning: Cell pad23 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
+Warning: Cell pad23 is not integer multiples of min site height (3600), object's width and height(137620,137620). (PSYN-523)
+Warning: Cell pad22 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
 Note - message 'PSYN-523' limit (5) exceeded.  Remainder will be suppressed.
 
 **************************************************** 
@@ -1495,10 +1461,10 @@ clock_opt completed Successfully
 1
 # Connect Power & Grounding in extraction and update timing
 derive_pg_connection -power_net  $MW_R_POWER_NET    -power_pin  $MW_POWER_PORT
-Information: connected 671 power ports and 0 ground ports
+Information: connected 390 power ports and 0 ground ports
 1
 derive_pg_connection -ground_net $MW_R_GROUND_NET   -ground_pin $MW_GROUND_PORT
-Information: connected 0 power ports and 671 ground ports
+Information: connected 0 power ports and 390 ground ports
 1
 derive_pg_connection -power_net  $MW_R_POWER_NET    -ground_net $MW_R_GROUND_NET -tie
 reconnected total 0 tie highs and 0 tie lows
@@ -1511,7 +1477,7 @@ Start Global Route ...
 [Init] Elapsed real time: 0:00:00 
 [Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[Init] Total (MB): Used    6  Alloctr    6  Proc 2657 
+[Init] Total (MB): Used    6  Alloctr    6  Proc 2621 
 Printing options for 'set_route_zrt_common_options'
 
 Printing options for 'set_route_zrt_global_options'
@@ -1523,8 +1489,8 @@ Cell Max-Routing-Layer = MET4
 Current Stage stats:
 [End of Read DB] Elapsed real time: 0:00:01 
 [End of Read DB] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
-[End of Read DB] Stage (MB): Used   55  Alloctr   55  Proc    0 
-[End of Read DB] Total (MB): Used   61  Alloctr   62  Proc 2657 
+[End of Read DB] Stage (MB): Used   53  Alloctr   54  Proc    0 
+[End of Read DB] Total (MB): Used   60  Alloctr   61  Proc 2621 
 Constructing data structure ...
 Design statistics:
 Design Bounding Box (0.00,0.00,1196.00,1196.00)
@@ -1539,23 +1505,24 @@ Current Stage stats:
 [End of Build Tech Data] Elapsed real time: 0:00:00 
 [End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Build Tech Data] Stage (MB): Used    5  Alloctr    5  Proc    0 
-[End of Build Tech Data] Total (MB): Used   67  Alloctr   68  Proc 2657 
+[End of Build Tech Data] Total (MB): Used   66  Alloctr   66  Proc 2621 
 Net statistics:
-Total number of nets     = 30656
-Number of nets to route  = 30643
-Number of nets with min-layer-mode soft = 201
-Number of nets with min-layer-mode soft-cost-medium = 201
-28527 nets are partially connected,
- of which 0 are detail routed and 28527 are global routed.
-100 nets are fully connected,
- of which 13 are detail routed and 87 are global routed.
-74 nets have non-default rule shield_130nm_rule
+Total number of nets     = 30082
+Number of nets to route  = 30068
+Number of single or zero port nets = 1
+Number of nets with min-layer-mode soft = 135
+Number of nets with min-layer-mode soft-cost-medium = 135
+27982 nets are partially connected,
+ of which 0 are detail routed and 27982 are global routed.
+115 nets are fully connected,
+ of which 13 are detail routed and 102 are global routed.
+76 nets have non-default rule shield_130nm_rule
 Current Stage stats:
 [End of Build All Nets] Elapsed real time: 0:00:00 
 [End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Build All Nets] Stage (MB): Used   -5  Alloctr    3  Proc    0 
-[End of Build All Nets] Total (MB): Used   61  Alloctr   71  Proc 2657 
-Average gCell capacity  2.76	 on layer (1)	 MET1
+[End of Build All Nets] Total (MB): Used   60  Alloctr   70  Proc 2621 
+Average gCell capacity  2.86	 on layer (1)	 MET1
 Average gCell capacity  5.21	 on layer (2)	 MET2
 Average gCell capacity  6.02	 on layer (3)	 MET3
 Average gCell capacity  5.60	 on layer (4)	 MET4
@@ -1572,17 +1539,17 @@ Current Stage stats:
 [End of Build Congestion map] Elapsed real time: 0:00:00 
 [End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Build Congestion map] Stage (MB): Used    0  Alloctr    1  Proc    0 
-[End of Build Congestion map] Total (MB): Used   62  Alloctr   72  Proc 2657 
+[End of Build Congestion map] Total (MB): Used   60  Alloctr   71  Proc 2621 
 Total stats:
-[End of Build Data] Elapsed real time: 0:00:01 
-[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Build Data] Elapsed real time: 0:00:00 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Build Data] Stage (MB): Used    0  Alloctr   10  Proc    0 
-[End of Build Data] Total (MB): Used   62  Alloctr   72  Proc 2657 
+[End of Build Data] Total (MB): Used   60  Alloctr   71  Proc 2621 
 Current Stage stats:
 [End of Blocked Pin Detection] Elapsed real time: 0:00:01 
 [End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
 [End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Blocked Pin Detection] Total (MB): Used   62  Alloctr   73  Proc 2657 
+[End of Blocked Pin Detection] Total (MB): Used   60  Alloctr   71  Proc 2621 
 Information: Using 1 threads for routing. (ZRT-444)
 multi gcell levels ON
 
@@ -1597,32 +1564,32 @@ Start GR phase 0
 80% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
 90% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
 Current Stage stats:
-[End of Initial Routing] Elapsed real time: 0:00:03 
-[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
-[End of Initial Routing] Stage (MB): Used   17  Alloctr    8  Proc    0 
-[End of Initial Routing] Total (MB): Used   79  Alloctr   81  Proc 2657 
+[End of Initial Routing] Elapsed real time: 0:00:02 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Initial Routing] Stage (MB): Used   16  Alloctr    8  Proc    0 
+[End of Initial Routing] Total (MB): Used   77  Alloctr   79  Proc 2621 
 Initial. Routing result:
-Initial. Both Dirs: Overflow =  1623 Max = 4 GRCs =  1810 (0.82%)
-Initial. H routing: Overflow =   362 Max = 3 (GRCs =  3) GRCs =   346 (0.31%)
-Initial. V routing: Overflow =  1261 Max = 4 (GRCs =  7) GRCs =  1464 (1.33%)
-Initial. MET1       Overflow =   108 Max = 1 (GRCs = 95) GRCs =   122 (0.11%)
-Initial. MET2       Overflow =  1210 Max = 4 (GRCs =  7) GRCs =  1418 (1.29%)
-Initial. MET3       Overflow =   253 Max = 3 (GRCs =  3) GRCs =   224 (0.20%)
-Initial. MET4       Overflow =    51 Max = 2 (GRCs =  5) GRCs =    46 (0.04%)
+Initial. Both Dirs: Overflow =  1917 Max = 5 GRCs =  1950 (0.89%)
+Initial. H routing: Overflow =   528 Max = 3 (GRCs =  7) GRCs =   467 (0.42%)
+Initial. V routing: Overflow =  1389 Max = 5 (GRCs =  1) GRCs =  1483 (1.35%)
+Initial. MET1       Overflow =    87 Max = 1 (GRCs = 72) GRCs =   102 (0.09%)
+Initial. MET2       Overflow =  1312 Max = 5 (GRCs =  1) GRCs =  1416 (1.29%)
+Initial. MET3       Overflow =   441 Max = 3 (GRCs =  7) GRCs =   365 (0.33%)
+Initial. MET4       Overflow =    77 Max = 4 (GRCs =  1) GRCs =    67 (0.06%)
 Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-Initial. Total Wire Length = 994624.40
-Initial. Layer MET1 wire length = 7849.02
-Initial. Layer MET2 wire length = 335569.07
-Initial. Layer MET3 wire length = 445146.23
-Initial. Layer MET4 wire length = 206060.08
+Initial. Total Wire Length = 931602.34
+Initial. Layer MET1 wire length = 7752.01
+Initial. Layer MET2 wire length = 320003.56
+Initial. Layer MET3 wire length = 432220.68
+Initial. Layer MET4 wire length = 171626.09
 Initial. Layer MET5 wire length = 0.00
 Initial. Layer MET6 wire length = 0.00
-Initial. Total Number of Contacts = 209009
-Initial. Via VIA12 count = 104923
-Initial. Via VIA23 count = 87489
-Initial. Via VIA34 count = 16596
+Initial. Total Number of Contacts = 196869
+Initial. Via VIA12 count = 100291
+Initial. Via VIA23 count = 82090
+Initial. Via VIA34 count = 14487
 Initial. Via VIA45 count = 1
 Initial. Via VIA56 count = 0
 Initial. completed.
@@ -1641,29 +1608,29 @@ Current Stage stats:
 [End of Phase1 Routing] Elapsed real time: 0:00:00 
 [End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase1 Routing] Total (MB): Used   80  Alloctr   81  Proc 2657 
+[End of Phase1 Routing] Total (MB): Used   77  Alloctr   79  Proc 2621 
 phase1. Routing result:
-phase1. Both Dirs: Overflow =   860 Max = 4 GRCs =   889 (0.40%)
-phase1. H routing: Overflow =    47 Max = 1 (GRCs = 34) GRCs =    60 (0.05%)
-phase1. V routing: Overflow =   813 Max = 4 (GRCs =  5) GRCs =   829 (0.75%)
-phase1. MET1       Overflow =    46 Max = 1 (GRCs = 33) GRCs =    59 (0.05%)
-phase1. MET2       Overflow =   811 Max = 4 (GRCs =  5) GRCs =   827 (0.75%)
-phase1. MET3       Overflow =     1 Max = 1 (GRCs =  1) GRCs =     1 (0.00%)
-phase1. MET4       Overflow =     2 Max = 1 (GRCs =  2) GRCs =     2 (0.00%)
+phase1. Both Dirs: Overflow =   941 Max = 4 GRCs =   891 (0.41%)
+phase1. H routing: Overflow =    46 Max = 1 (GRCs = 30) GRCs =    62 (0.06%)
+phase1. V routing: Overflow =   895 Max = 4 (GRCs =  3) GRCs =   829 (0.75%)
+phase1. MET1       Overflow =    43 Max = 1 (GRCs = 27) GRCs =    59 (0.05%)
+phase1. MET2       Overflow =   894 Max = 4 (GRCs =  3) GRCs =   828 (0.75%)
+phase1. MET3       Overflow =     3 Max = 1 (GRCs =  3) GRCs =     3 (0.00%)
+phase1. MET4       Overflow =     1 Max = 1 (GRCs =  1) GRCs =     1 (0.00%)
 phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase1. Total Wire Length = 996969.00
-phase1. Layer MET1 wire length = 7700.97
-phase1. Layer MET2 wire length = 328459.60
-phase1. Layer MET3 wire length = 446542.30
-phase1. Layer MET4 wire length = 214266.13
+phase1. Total Wire Length = 935532.14
+phase1. Layer MET1 wire length = 7694.43
+phase1. Layer MET2 wire length = 313362.06
+phase1. Layer MET3 wire length = 433669.35
+phase1. Layer MET4 wire length = 180806.30
 phase1. Layer MET5 wire length = 0.00
 phase1. Layer MET6 wire length = 0.00
-phase1. Total Number of Contacts = 210223
-phase1. Via VIA12 count = 104882
-phase1. Via VIA23 count = 88003
-phase1. Via VIA34 count = 17337
+phase1. Total Number of Contacts = 198113
+phase1. Via VIA12 count = 100261
+phase1. Via VIA23 count = 82507
+phase1. Via VIA34 count = 15344
 phase1. Via VIA45 count = 1
 phase1. Via VIA56 count = 0
 phase1. completed.
@@ -1682,29 +1649,29 @@ Current Stage stats:
 [End of Phase2 Routing] Elapsed real time: 0:00:00 
 [End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase2 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase2 Routing] Total (MB): Used   80  Alloctr   81  Proc 2657 
+[End of Phase2 Routing] Total (MB): Used   77  Alloctr   79  Proc 2621 
 phase2. Routing result:
-phase2. Both Dirs: Overflow =   594 Max = 4 GRCs =   643 (0.29%)
-phase2. H routing: Overflow =    36 Max = 1 (GRCs = 22) GRCs =    50 (0.05%)
-phase2. V routing: Overflow =   558 Max = 4 (GRCs =  2) GRCs =   593 (0.54%)
-phase2. MET1       Overflow =    36 Max = 1 (GRCs = 22) GRCs =    50 (0.05%)
-phase2. MET2       Overflow =   557 Max = 4 (GRCs =  2) GRCs =   592 (0.54%)
+phase2. Both Dirs: Overflow =   655 Max = 3 GRCs =   654 (0.30%)
+phase2. H routing: Overflow =    31 Max = 1 (GRCs = 14) GRCs =    48 (0.04%)
+phase2. V routing: Overflow =   624 Max = 3 (GRCs = 12) GRCs =   606 (0.55%)
+phase2. MET1       Overflow =    31 Max = 1 (GRCs = 14) GRCs =    48 (0.04%)
+phase2. MET2       Overflow =   623 Max = 3 (GRCs = 12) GRCs =   605 (0.55%)
 phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET4       Overflow =     1 Max = 1 (GRCs =  1) GRCs =     1 (0.00%)
 phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase2. Total Wire Length = 997083.37
-phase2. Layer MET1 wire length = 7672.20
-phase2. Layer MET2 wire length = 328281.12
-phase2. Layer MET3 wire length = 446645.49
-phase2. Layer MET4 wire length = 214484.56
+phase2. Total Wire Length = 935642.63
+phase2. Layer MET1 wire length = 7663.76
+phase2. Layer MET2 wire length = 313123.76
+phase2. Layer MET3 wire length = 433739.59
+phase2. Layer MET4 wire length = 181115.52
 phase2. Layer MET5 wire length = 0.00
 phase2. Layer MET6 wire length = 0.00
-phase2. Total Number of Contacts = 210317
-phase2. Via VIA12 count = 104878
-phase2. Via VIA23 count = 88053
-phase2. Via VIA34 count = 17385
+phase2. Total Number of Contacts = 198246
+phase2. Via VIA12 count = 100261
+phase2. Via VIA23 count = 82574
+phase2. Via VIA34 count = 15410
 phase2. Via VIA45 count = 1
 phase2. Via VIA56 count = 0
 phase2. completed.
@@ -1723,64 +1690,64 @@ Current Stage stats:
 [End of Phase3 Routing] Elapsed real time: 0:00:00 
 [End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase3 Routing] Total (MB): Used   80  Alloctr   81  Proc 2657 
+[End of Phase3 Routing] Total (MB): Used   77  Alloctr   79  Proc 2621 
 phase3. Routing result:
-phase3. Both Dirs: Overflow =   593 Max = 4 GRCs =   640 (0.29%)
-phase3. H routing: Overflow =    35 Max = 1 (GRCs = 21) GRCs =    49 (0.04%)
-phase3. V routing: Overflow =   558 Max = 4 (GRCs =  2) GRCs =   591 (0.54%)
-phase3. MET1       Overflow =    35 Max = 1 (GRCs = 21) GRCs =    49 (0.04%)
-phase3. MET2       Overflow =   557 Max = 4 (GRCs =  2) GRCs =   590 (0.54%)
+phase3. Both Dirs: Overflow =   654 Max = 3 GRCs =   652 (0.30%)
+phase3. H routing: Overflow =    31 Max = 1 (GRCs = 14) GRCs =    48 (0.04%)
+phase3. V routing: Overflow =   623 Max = 3 (GRCs = 12) GRCs =   604 (0.55%)
+phase3. MET1       Overflow =    31 Max = 1 (GRCs = 14) GRCs =    48 (0.04%)
+phase3. MET2       Overflow =   622 Max = 3 (GRCs = 12) GRCs =   603 (0.55%)
 phase3. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET4       Overflow =     1 Max = 1 (GRCs =  1) GRCs =     1 (0.00%)
 phase3. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase3. Total Wire Length = 997097.09
-phase3. Layer MET1 wire length = 7670.88
-phase3. Layer MET2 wire length = 328259.85
-phase3. Layer MET3 wire length = 446657.25
-phase3. Layer MET4 wire length = 214509.11
+phase3. Total Wire Length = 935637.10
+phase3. Layer MET1 wire length = 7663.76
+phase3. Layer MET2 wire length = 313118.37
+phase3. Layer MET3 wire length = 433734.06
+phase3. Layer MET4 wire length = 181120.91
 phase3. Layer MET5 wire length = 0.00
 phase3. Layer MET6 wire length = 0.00
-phase3. Total Number of Contacts = 210323
-phase3. Via VIA12 count = 104878
-phase3. Via VIA23 count = 88055
-phase3. Via VIA34 count = 17389
+phase3. Total Number of Contacts = 198248
+phase3. Via VIA12 count = 100261
+phase3. Via VIA23 count = 82572
+phase3. Via VIA34 count = 15414
 phase3. Via VIA45 count = 1
 phase3. Via VIA56 count = 0
 phase3. completed.
-[End of Whole Chip Routing] Elapsed real time: 0:00:07 
-[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[End of Whole Chip Routing] Stage (MB): Used   18  Alloctr   19  Proc    0 
-[End of Whole Chip Routing] Total (MB): Used   80  Alloctr   81  Proc 2657 
+[End of Whole Chip Routing] Elapsed real time: 0:00:06 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
+[End of Whole Chip Routing] Stage (MB): Used   17  Alloctr   18  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used   77  Alloctr   79  Proc 2621 
 
 Congestion utilization per direction:
-Average vertical track utilization   = 18.04 %
-Peak    vertical track utilization   = 166.67 %
-Average horizontal track utilization = 10.97 %
+Average vertical track utilization   = 16.62 %
+Peak    vertical track utilization   = 150.00 %
+Average horizontal track utilization = 10.49 %
 Peak    horizontal track utilization = 100.00 %
 
 Current Stage stats:
 [GR: Done] Elapsed real time: 0:00:00 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [GR: Done] Stage (MB): Used   -4  Alloctr   -5  Proc    0 
-[GR: Done] Total (MB): Used   78  Alloctr   79  Proc 2657 
+[GR: Done] Total (MB): Used   75  Alloctr   77  Proc 2621 
 GR Total stats:
 [GR: Done] Elapsed real time: 0:00:08 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
-[GR: Done] Stage (MB): Used   71  Alloctr   72  Proc    0 
-[GR: Done] Total (MB): Used   78  Alloctr   79  Proc 2657 
+[GR: Done] Stage (MB): Used   69  Alloctr   70  Proc    0 
+[GR: Done] Total (MB): Used   75  Alloctr   77  Proc 2621 
 Writing out congestion map...
 Updating congestion ...
 [DBOUT] Elapsed real time: 0:00:00 
 [DBOUT] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[DBOUT] Stage (MB): Used  -59  Alloctr  -63  Proc    0 
-[DBOUT] Total (MB): Used    8  Alloctr    8  Proc 2657 
+[DBOUT] Stage (MB): Used  -57  Alloctr  -61  Proc    0 
+[DBOUT] Total (MB): Used    8  Alloctr    8  Proc 2621 
 Final total stats:
-[End of Global Routing] Elapsed real time: 0:00:09 
-[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:09
+[End of Global Routing] Elapsed real time: 0:00:08 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
 [End of Global Routing] Stage (MB): Used    1  Alloctr    1  Proc    0 
-[End of Global Routing] Total (MB): Used    8  Alloctr    8  Proc 2657 
+[End of Global Routing] Total (MB): Used    8  Alloctr    8  Proc 2621 
 1
 # Running extraction and updating the timing
 extract_rc
@@ -1817,7 +1784,7 @@ Information: Resistance Unit from Milkyway design library: 'kohm'
 Information: Design Library and main library resistance units are matched - 1.000 kohm. 
 Information: Capacitance Unit from Milkyway design library: 'pf' 
 Information: Design Library and main library capacitance units are matched - 1.000 pf. 
-28616/30655 nets are routed
+28086/30080 nets are routed
 Warning: Inconsistent library data found for layer GPOLY. (RCEX-018)
 Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
 Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
@@ -1825,78 +1792,47 @@ Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-
 Information: The RC model used is global route TLU+. (RCEX-015)
 Information: Start mixed mode parasitic extraction. (RCEX-023)
 Information: Start rc extraction...
-EKL_MT: total threadable CPU 0.94 seconds
+EKL_MT: total threadable CPU 0.90 seconds
 EKL_MT: elapsed time 1 seconds
-Warning: Net 'khu_sensor_top/ads1292_controller/n326' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_controller/n207' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_controller/N102' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/N32' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/sensor_core/n458' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/sensor_core/N142' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/uart_controller/n75' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n183' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_f2i/n92' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/n345' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n93' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n91' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n125' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n190' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n615' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n599' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n559' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n16' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n87' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n113' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n111' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n103' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n99' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n591' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/n565' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/w_rstn' is not fully connected and will be estimated. (RCEX-060)
 Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/w_rstn' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n72' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n333' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n281' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n373' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n460' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n209' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/N214' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n262' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n444' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n469' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n361' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n356' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n381' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n263' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/N220' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n475' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n439' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n387' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n633' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n245' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n418' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n371' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n335' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n276' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n443' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n7' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n326' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n386' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n657' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_3/n86' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/mult_x_1/n168' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n213' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n307' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n133' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n145' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/n152' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n618' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/mult_x_1/n926' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n166' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_43_243_1878/n191' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n948' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n946' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n366' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/mult_x_1/n174' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n8' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n77' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/gte_x_3/n222' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n143' is not fully connected and will be estimated. (RCEX-060)
-Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_43_247_8814/n220' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/converter_i2f/n451' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n280' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/mpr121_controller/i2c_master/n449' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n456' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n473' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/n674' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_3/n684' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_2/n647' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n433' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/mult_1/n644' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n677' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_2/n876' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n673' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_notch/add_1/n686' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n458' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n434' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n421' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n312' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_lpf/add/n676' is not fully connected and will be estimated. (RCEX-060)
+Warning: Net 'khu_sensor_top/ads1292_filter/iir_hpf/mult/mult_x_1/n142' is not fully connected and will be estimated. (RCEX-060)
 Information: Parasitic source is LPE. (RCEX-040)
 Information: Parasitic mode is RealRVirtualC. (RCEX-041)
 Information: Using virtual shield extraction. (RCEX-081)
@@ -1964,7 +1900,7 @@ Information: Timer is not in zero interconnect delay mode. (TIM-176)
 Report          : create_qor_snapshot (05_clock_opt_post_cts)
 Design          : khu_sensor_pad
 Version         : N-2017.09
-Date            : Tue Sep  8 19:04:17 2020
+Date            : Sat Sep 12 02:37:30 2020
 Time unit       : 1.0e-09 Second(ns)
 Capacitance unit: 1.0e-12 Farad(pF)
 Voltage unit    : 1 Volt
@@ -1976,50 +1912,52 @@ s1 = func1_wst
 --------------------------------------------------
 WNS of each timing group:                       s1 
 --------------------------------------------------
-REGIN                                       9.9167 
-clk_half                                    6.6106 
-REGOUT                                      0.5178 
-clk                                        -1.9846 
+clk_half                                    6.0249 
+**clock_gating_default**                    4.9551 
+REGIN                                       9.9504 
+default                                    -1.6336 
+REGOUT                                      2.3443 
+clk                                         2.9314 
 --------------------------------------------------
-Setup WNS:                                 -1.9846 
-Setup TNS:                                -36.6018
-Number of setup violations:                     56  
-Hold WNS:                                  -0.0593  
-Hold TNS:                                  -1.0715  
-Number of hold violations:                      37  
-Number of max trans violations:                775  
-Number of max cap violations:                  221  
+Setup WNS:                                 -1.6336 
+Setup TNS:                               -1316.5103
+Number of setup violations:                   2986  
+Hold WNS:                                   0.0000  
+Hold TNS:                                   0.0000  
+Number of hold violations:                       0  
+Number of max trans violations:               1141  
+Number of max cap violations:                  364  
 Number of min pulse width violations:            0  
 Route drc violations:                            0
 --------------------------------------------------
-Area:                                        91261
-Cell count:                                  28774
-Buf/inv cell count:                           4499
-Std cell utilization:                       64.67%
+Area:                                        88155
+Cell count:                                  28161
+Buf/inv cell count:                           4504
+Std cell utilization:                       62.47%
 CPU/ELAPSE(hr):                          0.03/0.06
-Mem(Mb):                                      1059
+Mem(Mb):                                      1047
 Host name:                               vlsi-dist.khu.ac.kr
 --------------------------------------------------
 Histogram:             s1 
 --------------------------------------------------
-Max violations:        56 
-   above ~ -0.7  ---   21 
-    -0.6 ~ -0.7  ---    1 
-    -0.5 ~ -0.6  ---    2 
-    -0.4 ~ -0.5  ---    5 
-    -0.3 ~ -0.4  ---    5 
-    -0.2 ~ -0.3  ---    4 
-    -0.1 ~ -0.2  ---    8 
-       0 ~ -0.1  ---   10 
+Max violations:      2344 
+   above ~ -0.7  ---  447 
+    -0.6 ~ -0.7  ---  352 
+    -0.5 ~ -0.6  ---  173 
+    -0.4 ~ -0.5  ---  489 
+    -0.3 ~ -0.4  ---  770 
+    -0.2 ~ -0.3  ---    0 
+    -0.1 ~ -0.2  ---    0 
+       0 ~ -0.1  ---  113 
 --------------------------------------------------
-Min violations:        37 
+Min violations:         0 
   -0.06 ~ above  ---    0 
-  -0.05 ~ -0.06  ---    3 
-  -0.04 ~ -0.05  ---   10 
-  -0.03 ~ -0.04  ---    5 
-  -0.02 ~ -0.03  ---    4 
-  -0.01 ~ -0.02  ---    7 
-      0 ~ -0.01  ---    8 
+  -0.05 ~ -0.06  ---    0 
+  -0.04 ~ -0.05  ---    0 
+  -0.03 ~ -0.04  ---    0 
+  -0.02 ~ -0.03  ---    0 
+  -0.01 ~ -0.02  ---    0 
+      0 ~ -0.01  ---    0 
 --------------------------------------------------
 Current scenario is: func1_wst
 Snapshot (05_clock_opt_post_cts) is created and stored under "/home/graduation_project3/2015103977/03_Physical_Synthesis/snapshot" directory
@@ -2034,16 +1972,30 @@ Report : qor
 Design : khu_sensor_pad
 Scenario(s): funccts_wst func1_wst
 Version: N-2017.09
-Date   : Tue Sep  8 19:04:18 2020
+Date   : Sat Sep 12 02:37:31 2020
 ****************************************
 
+
+  Scenario 'func1_wst'
+  Timing Path Group '**clock_gating_default**'
+  -----------------------------------
+  Levels of Logic:             9.0000
+  Critical Path Length:        6.3374
+  Critical Path Slack:         4.9551
+  Critical Path Clk Period:   12.0000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
 
   Scenario 'func1_wst'
   Timing Path Group 'REGIN'
   -----------------------------------
   Levels of Logic:             1.0000
-  Critical Path Length:        1.6556
-  Critical Path Slack:         9.9167
+  Critical Path Length:        1.6219
+  Critical Path Slack:         9.9504
   Critical Path Clk Period:   24.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -2055,9 +2007,9 @@ Date   : Tue Sep  8 19:04:18 2020
   Scenario 'func1_wst'
   Timing Path Group 'REGOUT'
   -----------------------------------
-  Levels of Logic:             5.0000
-  Critical Path Length:        8.0913
-  Critical Path Slack:         0.5178
+  Levels of Logic:             3.0000
+  Critical Path Length:        6.1136
+  Critical Path Slack:         2.3443
   Critical Path Clk Period:   12.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -2069,23 +2021,23 @@ Date   : Tue Sep  8 19:04:18 2020
   Scenario 'func1_wst'
   Timing Path Group 'clk'
   -----------------------------------
-  Levels of Logic:            27.0000
-  Critical Path Length:       13.4985
-  Critical Path Slack:        -1.9846
+  Levels of Logic:            32.0000
+  Critical Path Length:        8.8368
+  Critical Path Slack:         2.9314
   Critical Path Clk Period:   12.0000
-  Total Negative Slack:      -36.6018
-  No. of Violating Paths:     56.0000
-  Worst Hold Violation:       -0.0593
-  Total Hold Violation:       -1.0715
-  No. of Hold Violations:     37.0000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
   -----------------------------------
 
   Scenario 'func1_wst'
   Timing Path Group 'clk_half'
   -----------------------------------
-  Levels of Logic:             6.0000
-  Critical Path Length:        2.9181
-  Critical Path Slack:         6.6106
+  Levels of Logic:             3.0000
+  Critical Path Length:        3.3504
+  Critical Path Slack:         6.0249
   Critical Path Clk Period:   24.0000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
@@ -2094,46 +2046,60 @@ Date   : Tue Sep  8 19:04:18 2020
   No. of Hold Violations:      0.0000
   -----------------------------------
 
+  Scenario 'func1_wst'
+  Timing Path Group 'default'
+  -----------------------------------
+  Levels of Logic:             2.0000
+  Critical Path Length:        1.6336
+  Critical Path Slack:        -1.6336
+  Critical Path Clk Period:       n/a
+  Total Negative Slack:    -1316.5103
+  No. of Violating Paths:   2986.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
 
   Cell Count
   -----------------------------------
-  Hierarchical Cell Count:        110
-  Hierarchical Port Count:       5610
-  Leaf Cell Count:              28774
-  Buf/Inv Cell Count:            4499
-  Buf Cell Count:                 176
-  Inv Cell Count:                4323
-  CT Buf/Inv Cell Count:          198
-  Combinational Cell Count:     23397
-  Sequential Cell Count:         5377
+  Hierarchical Cell Count:        232
+  Hierarchical Port Count:       6201
+  Leaf Cell Count:              28161
+  Buf/Inv Cell Count:            4504
+  Buf Cell Count:                 152
+  Inv Cell Count:                4352
+  CT Buf/Inv Cell Count:          132
+  Combinational Cell Count:     22826
+  Sequential Cell Count:         5335
   Macro Count:                      0
   -----------------------------------
 
 
   Area
   -----------------------------------
-  Combinational Area:      53130.0310
-  Noncombinational Area:   38130.9967
-  Buf/Inv Area:             4426.3440
-  Total Buffer Area:         238.6661
-  Total Inverter Area:      4187.6778
+  Combinational Area:      52141.0303
+  Noncombinational Area:   36013.9983
+  Buf/Inv Area:             4207.3430
+  Total Buffer Area:         217.6662
+  Total Inverter Area:      3989.6768
   Macro/Black Box Area:        0.0000
-  Net Area:                  929.9748
-  Net XLength        :   9988726.0000
-  Net YLength        :  16925082.0000
+  Net Area:                  892.1166
+  Net XLength        :  13411266.0000
+  Net YLength        :  20795326.0000
   -----------------------------------
-  Cell Area:               91261.0277
-  Design Area:             92191.0025
-  Net Length        :   26913808.0000
+  Cell Area:               88155.0286
+  Design Area:             89047.1452
+  Net Length        :   34206592.0000
 
 
   Design Rules
   -----------------------------------
-  Total Number of Nets:         30810
-  Nets With Violations:         12235
-  Max Trans Violations:           775
-  Max Cap Violations:             221
-  Max Net Length Violations:    11891
+  Total Number of Nets:         30306
+  Nets With Violations:         17655
+  Max Trans Violations:          1141
+  Max Cap Violations:             364
+  Max Net Length Violations:    17301
   -----------------------------------
 
 
@@ -2143,19 +2109,19 @@ Date   : Tue Sep  8 19:04:18 2020
   -----------------------------------------
   Resource Sharing:                  0.0000
   Logic Optimization:                0.0000
-  Mapping Optimization:             57.3763
+  Mapping Optimization:             95.6575
   -----------------------------------------
-  Overall Compile Time:             58.4291
-  Overall Compile Wall Clock Time:  58.6648
+  Overall Compile Time:             96.6093
+  Overall Compile Wall Clock Time:  96.8688
 
   --------------------------------------------------------------------
 
-  Scenario: func1_wst   WNS: 1.9846  TNS: 36.6018  Number of Violating Paths: 56
-  Design  WNS: 1.9846  TNS: 36.6018  Number of Violating Paths: 56
+  Scenario: func1_wst   WNS: 1.6336  TNS: 1316.5103  Number of Violating Paths: 2986
+  Design  WNS: 1.6336  TNS: 1316.5103  Number of Violating Paths: 2986
 
 
-  Scenario: func1_wst  (Hold)  WNS: 0.0593  TNS: 1.0715  Number of Violating Paths: 37
-  Design (Hold)  WNS: 0.0593  TNS: 1.0715  Number of Violating Paths: 37
+  Scenario: func1_wst  (Hold)  WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
+  Design (Hold)  WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
 
   --------------------------------------------------------------------
 
@@ -2168,7 +2134,7 @@ Report : design
         -physical
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Tue Sep  8 19:04:18 2020
+Date   : Sat Sep 12 02:37:31 2020
 ****************************************
 
 	Scenario            : func1_wst
@@ -2177,181 +2143,164 @@ Date   : Tue Sep  8 19:04:18 2020
 	Extraction mode     : MIN_MAX
 	Extraction derating : 125/125
 ****************************** P&R Summary ********************************
-Date : Tue Sep  8 19:04:18 2020
+Date : Sat Sep 12 02:37:31 2020
 Machine Host Name: vlsi-dist.khu.ac.kr
 Working Directory: /home/graduation_project3/2015103977/03_Physical_Synthesis
 Library Name:      khu_sensor_pad_05_clock_opt_post_cts
 Cell Name:         khu_sensor_pad.CEL;1
 Design Statistics:
-    Number of Module Cells:        28730
-    Number of Pins:                169781
+    Number of Module Cells:        28117
+    Number of Pins:                164759
     Number of IO Pad Cells:        44
     Number of IO Pins:             13
-    Number of Nets:                30656
-    Average Pins Per Net (Signal): 3.40221
+    Number of Nets:                30082
+    Average Pins Per Net (Signal): 3.41701
 
 Chip Utilization:
-    Total Std Cell Area:           433672.27
+    Total Std Cell Area:           418912.56
     Total Pad Cell Area:           363316.80
     Core Size:     width 820.60, height 817.20; area 670594.32
     Pad Core Size: width 920.76, height 920.76; area 847798.98
     Chip Size:     width 1196.00, height 1196.00; area 1430416.00
-    Std cells utilization:         64.67% 
-    Cell/Core Ratio:               64.67%
-    Cell/Chip Ratio:               55.72%
+    Std cells utilization:         62.47% 
+    Cell/Core Ratio:               62.47%
+    Cell/Chip Ratio:               54.69%
     Number of Cell Rows:            227
 
 Master Instantiation:
 	MasterName	Type	InstCount
 	=================================
-	ivd1_hd		STD	3162
-	oa21d1_hd	STD	2499
-	ao22d1_hd	STD	2179
-	nd2d1_hd	STD	2097
-	fd4qd1_hd	STD	2030
-	clkxo2d2_hd	STD	1782
-	fad1_hd		STD	1248
-	fd1qd1_hd	STD	1222
-	nr2d1_hd	STD	1189
+	ivd1_hd		STD	3168
+	oa21d1_hd	STD	2079
+	fd4qd1_hd	STD	2066
+	nd2d1_hd	STD	1964
+	fd1qd1_hd	STD	1734
+	clkxo2d2_hd	STD	1703
+	fad1_hd		STD	1322
+	nr2d1_hd	STD	1288
+	ao22d1_hd	STD	1243
+	scg2d2_hd	STD	1232
+	fd3qd1_hd	STD	1216
 	ao222d1_hd	STD	1056
-	fd1eqd1_hd	STD	1037
-	scg2d2_hd	STD	1003
-	fds2eqd1_hd	STD	617
-	had1_hd		STD	607
-	ao21d1_hd	STD	566
-	scg10d1_hd	STD	419
-	ivd2_hd		STD	392
-	oa211d1_hd	STD	376
-	ivd12_hd	STD	328
-	scg4d1_hd	STD	320
-	scg14d1_hd	STD	303
-	nr4d1_hd	STD	288
-	xn2d1_hd	STD	282
-	ivd4_hd		STD	266
-	ad2d1_hd	STD	258
-	oa22d1_hd	STD	221
-	fd3qd1_hd	STD	186
-	or2d1_hd	STD	174
-	nd4d1_hd	STD	152
-	scg15d1_hd	STD	148
-	fd1qd2_hd	STD	136
-	nd2bd1_hd	STD	130
-	nr2d4_hd	STD	107
-	nid2_hd		STD	89
-	nd3d1_hd	STD	86
-	nid1_hd		STD	83
-	scg6d1_hd	STD	81
-	ivd8_hd		STD	67
-	nr2ad1_hd	STD	66
-	ivd16_hd	STD	64
-	scg5d1_hd	STD	63
-	nr3d1_hd	STD	61
-	ao211d1_hd	STD	58
-	scg17d1_hd	STD	57
-	ad2bd2_hd	STD	55
-	or2d2_hd	STD	46
+	ao21d1_hd	STD	636
+	had1_hd		STD	618
+	ivd2_hd		STD	468
+	scg10d1_hd	STD	420
+	ivd4_hd		STD	409
+	ad2d1_hd	STD	341
+	scg4d1_hd	STD	335
+	oa22d1_hd	STD	299
+	nd3d1_hd	STD	299
+	oa211d1_hd	STD	290
+	nr4d1_hd	STD	278
+	xn2d1_hd	STD	241
+	or2d1_hd	STD	223
+	nr3d1_hd	STD	217
+	scg14d1_hd	STD	188
+	ivd12_hd	STD	179
+	nd4d1_hd	STD	146
+	nd2bd1_hd	STD	145
+	scg17d1_hd	STD	130
+	cglpd1_hd	STD	122
+	nr2bd1_hd	STD	120
+	fds2eqd1_hd	STD	119
+	ao211d1_hd	STD	117
+	nid1_hd		STD	115
+	scg22d1_hd	STD	110
+	scg6d1_hd	STD	110
+	scg16d1_hd	STD	85
+	nr2d4_hd	STD	77
+	oa22ad1_hd	STD	63
+	nr2ad1_hd	STD	58
+	ad2bd2_hd	STD	56
+	scg5d1_hd	STD	51
+	scg2d1_hd	STD	45
 	ad4d1_hd	STD	45
-	xn2d2_hd	STD	44
-	ad3d2_hd	STD	43
-	nr2bd1_hd	STD	41
-	oa22ad1_hd	STD	41
-	or2bd4_hd	STD	38
-	ivd6_hd		STD	37
-	clknd2d2_hd	STD	37
-	scg16d1_hd	STD	37
-	scg2d1_hd	STD	33
-	fd2d1_hd	STD	31
-	scg20d1_hd	STD	31
-	xo3d1_hd	STD	30
-	scg12d1_hd	STD	29
-	ad2d2_hd	STD	29
-	fds2d1_hd	STD	28
-	or4d1_hd	STD	27
-	oa21d2_hd	STD	27
-	ao21d2_hd	STD	23
-	scg22d1_hd	STD	21
-	fd4qd2_hd	STD	20
-	scg13d1_hd	STD	18
-	mx2d1_hd	STD	16
-	or2d4_hd	STD	15
-	nd2d2_hd	STD	13
-	clknd2d4_hd	STD	13
-	scg9d2_hd	STD	13
-	ad2bd4_hd	STD	13
-	nr2d6_hd	STD	12
+	ivd8_hd		STD	43
+	ad3d2_hd	STD	42
+	or2bd4_hd	STD	40
+	ivd16_hd	STD	37
+	xn2d2_hd	STD	32
+	mx2d1_hd	STD	30
+	scg12d1_hd	STD	30
+	scg20d1_hd	STD	29
+	or2d2_hd	STD	28
+	or4d1_hd	STD	28
+	nid2_hd		STD	26
+	ivd24_hd	STD	24
+	scg13d1_hd	STD	23
+	clknd2d2_hd	STD	23
+	oa21d2_hd	STD	22
+	ivd6_hd		STD	22
+	xo3d1_hd	STD	22
+	fds2d1_hd	STD	20
+	scg18d1_hd	STD	19
+	or2d4_hd	STD	18
+	fd1qd2_hd	STD	17
+	ad2d2_hd	STD	17
+	scg9d1_hd	STD	16
+	scg15d1_hd	STD	16
+	fd4qd2_hd	STD	15
+	scg21d1_hd	STD	12
 	fd2qd4_hd	STD	11
-	fd3d1_hd	STD	11
-	fd1qd4_hd	STD	11
-	fds2eqd2_hd	STD	11
-	fd2qd2_hd	STD	11
-	nr4d2_hd	STD	10
-	scg9d1_hd	STD	10
-	ao21d4_hd	STD	7
-	scg18d1_hd	STD	7
-	ad3d1_hd	STD	7
-	oa21d4_hd	STD	7
-	fd3qd2_hd	STD	7
-	or3d1_hd	STD	6
-	nd3bd1_hd	STD	6
-	scg21d2_hd	STD	6
+	ao22d2_hd	STD	11
+	clknd2d4_hd	STD	11
+	clkxo2d1_hd	STD	11
+	nd3bd1_hd	STD	10
+	ao21d2_hd	STD	10
+	or3d1_hd	STD	10
+	nr4d4_hd	STD	10
+	ad2d4_hd	STD	9
+	fd2qd1_hd	STD	9
+	scg9d2_hd	STD	8
+	xo2d1_hd	STD	7
+	nr4d2_hd	STD	7
+	ad3d1_hd	STD	6
 	scg1d1_hd	STD	6
+	mx2id1_hd	STD	6
 	ad3d4_hd	STD	6
-	scg21d1_hd	STD	5
-	nd2d6_hd	STD	5
-	ivd20_hd	STD	5
-	clkxo2d1_hd	STD	5
-	ad2d4_hd	STD	5
-	scg20d4_hd	STD	5
+	scg20d4_hd	STD	6
+	scg8d1_hd	STD	5
+	nd2d2_hd	STD	5
+	nr2d6_hd	STD	5
+	nid6_hd		STD	5
 	mx4d1_hd	STD	4
-	scg8d1_hd	STD	4
-	fad2_hd		STD	4
 	scg7d1_hd	STD	4
-	fad4_hd		STD	4
-	nd3d2_hd	STD	4
 	ao22ad1_hd	STD	4
-	oa211d2_hd	STD	4
-	nr4d4_hd	STD	4
-	or2bd2_hd	STD	3
-	fd1eqd2_hd	STD	3
-	nd2d4_hd	STD	3
-	mx2id1_hd	STD	3
-	scg6d2_hd	STD	3
-	nr3ad1_hd	STD	2
-	clknd2d6_hd	STD	2
-	nr2d2_hd	STD	2
-	scg14d4_hd	STD	2
-	clknd2d8_hd	STD	2
-	nid8_hd		STD	2
-	ao22d4_hd	STD	2
-	fad8_hd		STD	2
+	nid4_hd		STD	4
+	nd3d2_hd	STD	4
+	oa21d4_hd	STD	3
+	or2bd2_hd	STD	2
 	or2d8_hd	STD	2
-	nid4_hd		STD	2
+	oa211d2_hd	STD	2
+	scg6d2_hd	STD	2
+	ad2bd4_hd	STD	2
 	ao211d2_hd	STD	2
-	scg12d2_hd	STD	2
+	or3d2_hd	STD	2
+	scg10d2_hd	STD	2
+	ivd20_hd	STD	2
+	fds2eqd2_hd	STD	2
+	fd2qd2_hd	STD	2
+	clkad2d1_hd	STD	2
+	clknd2d1_hd	STD	1
 	scg11d1_hd	STD	1
-	nd2d8_hd	STD	1
-	oa21d8_hd	STD	1
-	fd1ed1_hd	STD	1
-	ao22d2_hd	STD	1
-	ivd24_hd	STD	1
-	clkad2d1_hd	STD	1
-	clkad2d2_hd	STD	1
-	nd2bd4_hd	STD	1
-	ivd3_hd		STD	1
-	fds2ed1_hd	STD	1
-	clkmx2d1_hd	STD	1
-	fd3qd4_hd	STD	1
-	nd4d2_hd	STD	1
-	scg16d2_hd	STD	1
-	fj2d1_hd	STD	1
-	nd3bd2_hd	STD	1
-	nd3d4_hd	STD	1
-	ad2bd8_hd	STD	1
-	ft2d4_hd	STD	1
-	or3d2_hd	STD	1
+	clknd2d3_hd	STD	1
+	scg12d2_hd	STD	1
+	nr3ad1_hd	STD	1
+	scg20d2_hd	STD	1
+	fd2d1_hd	STD	1
+	clkad2d3_hd	STD	1
+	ao21d4_hd	STD	1
+	nr4d6_hd	STD	1
+	scg12d4_hd	STD	1
+	ao22d4_hd	STD	1
 	nd3bd4_hd	STD	1
-	or2d6_hd	STD	1
-	oa211d4_hd	STD	1
+	scg16d2_hd	STD	1
+	ft2d4_hd	STD	1
+	nid24_hd	STD	1
+	nid16_hd	STD	1
+	nr3d4_hd	STD	1
+	scg10d4_hd	STD	1
 	iofillerh10_p	IO	44
 	iofillerh5_p	IO	17
 	vssiph_p	IO	11
@@ -2362,9 +2311,9 @@ Master Instantiation:
 	phic_p		IO	3
 	vdd12ih_core_p	IO	3
 	phbct12_p	IO	2
-	iofillerh30_p	IO	1
 	phbct24_p	IO	1
 	phis_p		IO	1
+	iofillerh30_p	IO	1
 	=================================
 
 Timing/Optimization Information:
@@ -2404,18 +2353,17 @@ Stripe Wiring Statistics:
 User Wiring Statistics:
 
 PG follow-pin Wiring Statistics:
-    metal1 Wire Length(count):             197490.42(273)
-    metal4 Wire Length(count):                 13.85(47)
-    metal5 Wire Length(count):                254.96(215)
+    metal1 Wire Length(count):             202250.42(292)
+    metal5 Wire Length(count):                244.90(209)
   ==============================================
-    Total Wire Length(count):              197759.23(535)
-    Number of via1 Contacts:           5419
+    Total Wire Length(count):              202495.32(501)
+    Number of via1 Contacts:           5420
     Number of via2 Contacts:           5367
     Number of via3 Contacts:           5365
-    Number of via4 Contacts:           5030
-    Number of via5 Contacts:           4559
+    Number of via4 Contacts:           5031
+    Number of via5 Contacts:           4560
   ==============================================
-    Total Number of Contacts:    25740
+    Total Number of Contacts:    25743
 
 Signal Wiring Statistics:
       Mask Name      Contact Code    Number Of Contacts    Percentage
@@ -2432,19 +2380,19 @@ redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_gro
 Vth Group                All                Blackbox           Non-blackbox
 Name                    cells                cells                cells
 ********************************************************************************
-undefined           28774 (100.00%)         31 (100.00%)      28743 (100.00%)   
+undefined           28161 (100.00%)         31 (100.00%)      28130 (100.00%)   
 ********************************************************************************
 
 Vth Group                All                Blackbox           Non-blackbox
 Name                  cell area            cell area            cell area
 ********************************************************************************
-undefined        91261.03 (100.00%)       0.00   (0.00%)   91261.03 (100.00%)   
+undefined        88155.03 (100.00%)       0.00   (0.00%)   88155.03 (100.00%)   
 ********************************************************************************
 1
 redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
 redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint 	-scenario [all_scenarios] -all_violators -nosplit -significant_digits 4 }
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
-	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 100 -nets -input_pins -slack_lesser_than 0.01 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
+	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	report_timing -significant_digits 4 	-delay min -transition_time  -capacitance 	-max_paths 100 -nets -input_pins 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded

@@ -7,6 +7,9 @@ echo "                         02_constraints.tcl                            "
 echo "                                                                       "
 echo "***********************************************************************"
 
+# Set Step
+set step "02_constraints"
+
 ## Read operating condition file
 remove_sdc
 
