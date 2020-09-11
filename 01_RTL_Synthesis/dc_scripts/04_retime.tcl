@@ -1,18 +1,15 @@
 #******************************************************************************
-#**                             01_read_designs                              **
+#**                                04_retime                                 **
 #******************************************************************************
 echo "***********************************************************************"
 echo "                                                                       "
-echo "                         01_read_designs.tcl                           "
+echo "                             04_retime.tcl                             "
 echo "                                                                       "
 echo "***********************************************************************"
 
 # Set Step
-set step "01_read_designs"
+set step "04_retime"
 
-read_file -format verilog -rtl $DC_IN_VERILOG_RTL_FILE
+compile_ultra -incremental -retime
 
-current_design $TOP_MODULE
-# The link command locates the reference for each cell in the design.
-link
-uniquify
+source ./dc_scripts/common_reports.tcl

@@ -91,7 +91,7 @@ foreach mcmm_opcond $MCMM_OPERATING_CONDITIONS {
   }
   # Apply constraints
   source ./dc_scripts/02_constraints.tcl
-  
+
   # Define Group Paths
   set ports_clock_root [get_ports [all_fanout -flat -clock_tree -level 0]]
   group_path -name REGOUT -to [all_outputs]
@@ -99,7 +99,7 @@ foreach mcmm_opcond $MCMM_OPERATING_CONDITIONS {
   group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] $ports_clock_root] -to [all_outputs]
 
   source ./dc_scripts/03_compile_ultra.tcl
-  source ./dc_scripts/04_reports.tcl
+
 }
 source ./dc_scripts/05_design_finish.tcl
 start_gui

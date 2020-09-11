@@ -1,0 +1,69 @@
+ 
+****************************************
+Report : net
+Design : khu_sensor_pad
+Version: F-2011.09-SP5-3
+Date   : Thu Sep  3 02:17:46 2020
+****************************************
+
+
+Operating Conditions: V105WTP1250   Library: std150e_wst_105_p125
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+async_rstn_glitch_synchronizer
+                       l13_e_5000_4lm    std150e_wst_105_p125
+async_rstn_synchronizer
+                       l13_e_5000_4lm    std150e_wst_105_p125
+async_rst_synchronizer l13_e_5000_4lm    std150e_wst_105_p125
+
+
+Attributes:
+   dr - drc disabled
+    c - annotated capacitance
+    d - dont_touch
+    I - ideal_network
+    h - high fanout
+
+Net                 Fanout     Fanin      Load   Resistance    Pins   Attributes
+--------------------------------------------------------------------------------
+*Logic0*                11         1      0.55         0.00      12   dr
+*Logic1*                 1         1      0.05         0.00       2   dr
+ADS1292_CSN              1         1      0.03         0.00       2   c, d
+ADS1292_DRDY             1         1      2.09         0.00       2   c, d
+ADS1292_MISO             1         1      2.09         0.00       2   c, d
+ADS1292_MOSI             1         1      0.03         0.00       2   c, d
+ADS1292_RESET            1         1      0.03         0.00       2   c, d
+ADS1292_SCLK             1         1      0.03         0.00       2   c, d
+ADS1292_START            1         1      0.03         0.00       2   c, d
+MPR121_SCL               2         2      2.02         0.00       2   c, d
+MPR121_SDA               2         2      2.02         0.00       2   c, d
+UART_RXD                 1         1      2.09         0.00       2   c, d
+UART_TXD                 1         1      0.03         0.00       2   c, d
+_5_net_                  1         1      0.05         0.00       2   
+i_CLK                    3         2      2.00         0.00       4   dr
+i_RSTN                   1         1      0.00         0.00       2   c, d, I
+w_ads1292_csn_p          2         1      0.05         0.00       3   
+w_ads1292_drdy_p         5         1      0.01         0.00       6   
+w_ads1292_miso_p         5         1      0.01         0.00       6   
+w_ads1292_mosi_p         2         1      0.05         0.00       3   
+w_ads1292_reset_p        2         1      0.05         0.00       3   
+w_ads1292_sclk_p         1         1      0.04         0.00       2   
+w_ads1292_start_p        2         1      0.05         0.00       3   
+w_clk_p               4957         1   1001.00         0.00    4958   dr, h
+w_mpr121_scl_en_p        4         1      0.01         0.00       5   
+w_mpr121_scl_in_p        1         1      0.00         0.00       2   
+w_mpr121_scl_out_p       1         1      0.04         0.00       2   
+w_mpr121_sda_en_p        4         1      0.06         0.00       5   
+w_mpr121_sda_in_p        1         1      0.00         0.00       2   
+w_mpr121_sda_out_p       3         1      0.05         0.00       4   
+w_rstn                   2         1      0.01         0.00       3   
+w_rstn_p                 2         1      0.00         0.00       3   d, I
+w_uart_rx_p              1         1      0.00         0.00       2   
+w_uart_tx_p              2         1      0.05         0.00       3   
+--------------------------------------------------------------------------------
+Total 34 nets         5027        37   1014.59         0.00    5059
+Maximum               4957         2   1001.00         0.00    4958
+Average             147.85      1.09     29.84         0.00  148.79
+1
