@@ -127,15 +127,30 @@ set_ignored_layers -max_routing_layer MET6
 #set_dont_touch_placement [all_macro_cells]
 #set physopt_hard_keepout_distance 10
 #*******************************************************************************************
+# create plan group
+# Decide Postion of Each Block
+
+# uart_controller
+# create_plan_groups -rectangle {{881.660 452.090} {987.130 681.160}} \
+# -cycle_color {khu_sensor_top/uart_controller}
+#
+# mpr121_controller
+# create_plan_groups -rectangle {{703.680 873.970} {987.130 983.170}} \
+# -cycle_color {khu_sensor_top/mpr121_controller}
+
+# sensor_core 
+# create_plan_groups -rectangle {{881.660 702.320} {987.130.730 852.81}} \
+# -cycle_color {khu_sensor_top/sensor_core}
+
+# ads1292_controller 
+# create_plan_groups -polygon {{204.350 867.380} {204.350 213.140} {855.300 213.140} {855.300 269.170} {257.080 269.170} {257.080 867.380}} \
+# -cycle_color {khu_sensor_top/sensor_core}
 
 # hard blockage for macro
 # In case of hard, Any macro cannot place in an area of blockage.
 # In case of soft, a few buffers can place in an area of blockage.
-#create_placement_blockage -coordinate {{1468.686 2188.000} {1572.000 2520.000}} -name block_1 -type hard -no_snap
-#create_placement_blockage -coordinate {{1468.686 1520.000} {1772.000 1812.000}} -name block_2 -type hard -no_snap
-#create_placement_blockage -coordinate {{2228.000 1480.000} {1531.314 1812.000}} -name block_3 -type hard -no_snap
-#create_placement_blockage -coordinate {{2228.000 2188.000} {2531.314 2520.000}} -name block_4 -type hard -no_snap
-#remove_placement_blockage -all
+#create_placement_blockage -coordinate {{881.680 187.490} {1008.360 392.370}} \
+   -name block_1 -type hard -no_snap
 
 # Unplace all standard cells
 remove_placement -object_type standard_cell
@@ -170,4 +185,4 @@ close_mw_lib
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
-exit
+#exit

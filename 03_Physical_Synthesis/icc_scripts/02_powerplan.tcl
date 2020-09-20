@@ -66,6 +66,9 @@ derive_pg_connection \
 derive_pg_connection \
 	-power_net VDD_12I \
 	-power_pin VDD_12I 
+#derive_pg_connection \
+	-power_net VDD \
+	-power_pin VDD_12I 
 #******************************************************************************
 # Memory P/G ring
 #set_fp_rail_region_constraints \
@@ -153,11 +156,11 @@ create_rectangular_rings \
 create_fp_placement -timing_driven -no_hierarchy_gravity
 
 # route_guide
-#create_route_guide \
+create_route_guide \
 	-name route_guide_0 \
 	-no_signal_layers {MET4 MET5 MET6} \
 	-preferred_direction_only_layers {MET1 MET2 MET3} \
-	-coordinate {{1540.710 1820.910} {1640.710 2020.510}} -no_snap
+	-coordin {{187.620 187.620} {1008.220 1004.820}} -no_snap
 
 # connect P/G (I/O STD)
 set_preroute_drc_strategy  -treat_fat_blockage_as_fat_wire  -min_layer MET1  -max_layer MET6
@@ -173,6 +176,7 @@ preroute_standard_cells \
 preroute_instances  -ignore_macros -ignore_cover_cells \
 	-select_net_by_type specified \
 	-nets  {VDD_12I}
+#preroute_instances  -ignore_macros -ignore_cover_cells
 verify_pg_nets  -error_cell test
 
 # short checking 
