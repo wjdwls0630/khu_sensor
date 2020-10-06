@@ -131,20 +131,31 @@ set_ignored_layers -max_routing_layer MET6
 # Decide Postion of Each Block
 
 # uart_controller
-# create_plan_groups -rectangle {{881.660 452.090} {987.130 681.160}} \
-# -cycle_color {khu_sensor_top/uart_controller}
-#
+#create_plan_groups -rectangle {{874.660 448.360} {987.130 691.620}} \
+   -cycle_color {khu_sensor_top/uart_controller}
+
 # mpr121_controller
-# create_plan_groups -rectangle {{703.680 873.970} {987.130 983.170}} \
-# -cycle_color {khu_sensor_top/mpr121_controller}
-
-# sensor_core 
-# create_plan_groups -rectangle {{881.660 702.320} {987.130.730 852.81}} \
-# -cycle_color {khu_sensor_top/sensor_core}
-
-# ads1292_controller 
-# create_plan_groups -polygon {{204.350 867.380} {204.350 213.140} {855.300 213.140} {855.300 269.170} {257.080 269.170} {257.080 867.380}} \
-# -cycle_color {khu_sensor_top/sensor_core}
+#create_plan_groups -rectangle {{703.680 956.570} {987.130 997.170}} \
+   -cycle_color {khu_sensor_top/mpr121_controller}
+ 
+# sensor_core
+#create_plan_groups -rectangle {{874.660 706.620} {987.130 862.810}} \
+   -cycle_color {khu_sensor_top/sensor_core}
+ 
+# ads1292_controller
+#create_plan_groups -rectangle {{204.350 210.140} {855.300 251.280}} \
+   -cycle_color {khu_sensor_top/ads1292_controller}
+#create_plan_groups -polygon {{204.350 867.380} {204.350 210.140} {855.300 210.140} {855.300 251.280} {247.610 251.280} {247.610 867.380}} \
+   -cycle_color {khu_sensor_top/ads1292_controller}
+ 
+# ads1292_filter
+#create_plan_groups -polygon {{204.350 983.170} {204.350 266.280} {850.520 266.280} {850.520 941.570} {682.520 941.570} {682.520 983.170}} \
+   -cycle_color {khu_sensor_top/ads1292_filter}
+ 
+# ads1292_filter_tight_version
+# create_plan_groups -polygon {{324.350 983.170} {324.350 333.140} {871.660 333.140} {871.660 852.810} {693.680 852.810} {693.680 983.170}} \
+-cycle_color {khu_sensor_top/ads1292_filter}
+ 
 
 # hard blockage for macro
 # In case of hard, Any macro cannot place in an area of blockage.
@@ -185,4 +196,4 @@ close_mw_lib
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
-#exit
+exit

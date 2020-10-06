@@ -44,7 +44,8 @@ set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
 
 set MAX_ROUTING_LAYER              "MET4"
 set MIN_ROUTING_LAYER              ""
-set CLK_MAX_ROUTING_LAYER          "MET4"
+# Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
+set CLK_MAX_ROUTING_LAYER          "MET5" 
 set CLK_MIN_ROUTING_LAYER          "MET3"
 
 #######################################################
@@ -199,4 +200,4 @@ set_message_info -id CTS-102    -limit 1
 set_message_info -id OPT-170    -limit 1
 set_message_info -id TIM-178    -limit 1
 set_message_info -id TIM-179    -limit 1
-
+set_message_info -id PGRT-030   -limit 5

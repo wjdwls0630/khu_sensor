@@ -158,5 +158,5 @@ write_verilog -no_corner_pad_cells -no_pad_filler_cells -no_core_filler_cells \
 	-no_flip_chip_bump_cells -no_cover_cells -diode_ports -output_net_name_for_tie \
 	-pg_ports -no_tap_cells -no_chip_cells \
 	-split_bus ./outputs/${TOP_MODULE}.lvs.v
-#start_gui
-exit
+start_gui
+#exit

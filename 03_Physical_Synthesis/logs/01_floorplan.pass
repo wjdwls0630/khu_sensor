@@ -295,6 +295,8 @@ set_message_info -id TIM-178    -limit 1
 1
 set_message_info -id TIM-179    -limit 1
 1
+set_message_info -id PGRT-030   -limit 5
+1
 1
 source -echo -v ./icc_scripts/common_lib_setup.tcl
 #******************************************************************************
@@ -465,7 +467,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0912_02:20:06
+1006_22:48:59
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -672,7 +674,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Sat Sep 12 02:20:20 2020
+Date   : Tue Oct  6 22:49:13 2020
 ****************************************
 
 Attributes:
@@ -727,7 +729,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Sat Sep 12 02:20:21 2020
+Date   : Tue Oct  6 22:49:14 2020
 ****************************************
 
 Attributes:
@@ -900,14 +902,25 @@ set_ignored_layers -max_routing_layer MET6
 #set_dont_touch_placement [all_macro_cells]
 #set physopt_hard_keepout_distance 10
 #*******************************************************************************************
+# create plan group
+# Decide Postion of Each Block
+# uart_controller
+#create_plan_groups -rectangle {{874.660 448.360} {987.130 691.620}}    -cycle_color {khu_sensor_top/uart_controller}
+# mpr121_controller
+#create_plan_groups -rectangle {{703.680 956.570} {987.130 997.170}}    -cycle_color {khu_sensor_top/mpr121_controller}
+# sensor_core
+#create_plan_groups -rectangle {{874.660 706.620} {987.130 862.810}}    -cycle_color {khu_sensor_top/sensor_core}
+# ads1292_controller
+#create_plan_groups -rectangle {{204.350 210.140} {855.300 251.280}}    -cycle_color {khu_sensor_top/ads1292_controller}
+#create_plan_groups -polygon {{204.350 867.380} {204.350 210.140} {855.300 210.140} {855.300 251.280} {247.610 251.280} {247.610 867.380}}    -cycle_color {khu_sensor_top/ads1292_controller}
+# ads1292_filter
+#create_plan_groups -polygon {{204.350 983.170} {204.350 266.280} {850.520 266.280} {850.520 941.570} {682.520 941.570} {682.520 983.170}}    -cycle_color {khu_sensor_top/ads1292_filter}
+# ads1292_filter_tight_version
+# create_plan_groups -polygon {{324.350 983.170} {324.350 333.140} {871.660 333.140} {871.660 852.810} {693.680 852.810} {693.680 983.170}} -cycle_color {khu_sensor_top/ads1292_filter}
 # hard blockage for macro
 # In case of hard, Any macro cannot place in an area of blockage.
 # In case of soft, a few buffers can place in an area of blockage.
-#create_placement_blockage -coordinate {{1468.686 2188.000} {1572.000 2520.000}} -name block_1 -type hard -no_snap
-#create_placement_blockage -coordinate {{1468.686 1520.000} {1772.000 1812.000}} -name block_2 -type hard -no_snap
-#create_placement_blockage -coordinate {{2228.000 1480.000} {1531.314 1812.000}} -name block_3 -type hard -no_snap
-#create_placement_blockage -coordinate {{2228.000 2188.000} {2531.314 2520.000}} -name block_4 -type hard -no_snap
-#remove_placement_blockage -all
+#create_placement_blockage -coordinate {{881.680 187.490} {1008.360 392.370}}    -name block_1 -type hard -no_snap
 # Unplace all standard cells
 remove_placement -object_type standard_cell
 1

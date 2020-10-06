@@ -91,6 +91,33 @@ derive_pg_connection \
 #commit_fp_group_block_ring
 #preroute_instances  -ignore_pads -ignore_cover_cells -primary_routing_layer pin
 #******************************************************************************
+
+#******************************************************************************
+# power net robustness
+#******************************************************************************
+# Note Voltage noise induced by inductance
+#
+# In Reality, current flows in loops. In this case, we only deal in terms of power,
+# not fast-switching signal, such as clock. We use wide, thick, upper-level metal
+# because of preventing IC Chip from IR-Drop. (The  wider and thicker metal, the less resistance)
+# In addition, in order to minimize the effect of IR-Drop, Designers frequently
+# draw power lines by shape of mesh. However, this shape make a plethora of loops which yield
+# producing or changing magnetic fields.
+# (If there is return path of currents, metals have inductance)
+# Changing magnetic fields in turn current in other loops(mutual inductive coupling).
+# Inductance take a toll on delay and power. (Even if resistance is 0,
+# delay(edge rates) would not 0 since resonant factor(LC) is existed.)
+# In power case, when turning on chips voltage will switch simultaneously and flow substantial
+# currents.(A role of Power PAD is also impact on it since most of PADs tend to charge quickly)
+# By following the formula of V_drop = L*di/dt, Simultaneously Switching leads to Voltage change
+# which is often called 'Ground Bounce' or 'Inductive voltage noise'. Granted, most of PADs have
+# preventing these phenomenons but we should care about it.
+#
+# Return to our design, we placed mesh power straps for the sake of effective supplying voltage.
+# Moreover, given aforementioned risk, we placed straps at moderate intervals.
+# (The effect of mutual inductive coupling is greatly increasing especially when the return path
+# is far from conductor.)
+#******************************************************************************
 #******************************************************************************
 # power rail (strap)
 set_fp_rail_constraints \
@@ -128,35 +155,11 @@ create_rectangular_rings \
 	-bottom_offset 25 -bottom_segment_layer MET6 -bottom_segment_width 1 \
 	-top_offset 15 -top_segment_layer MET6 -top_segment_width 1 
 
-# additional power net robustness
-#******************************************************************************
-# Note Voltage noise induced by inductance
-#
-# In Reality, current flows in loops. In this case, we only deal in terms of power,
-# not fast-switching signal, such as clock. We use wide, thick, upper-level metal
-# because of preventing IC Chip from IR-Drop. (The  wider and thicker metal, the less resistance)
-# In addition, in order to minimize the effect of IR-Drop, Designers frequently
-# draw power lines by shape of mesh. However, this shape make a plethora of loops which yield
-# producing or changing magnetic fields.
-# (If there is return path of currents, metals have inductance)
-# Changing magnetic fields in turn current in other loops(mutual inductive coupling).
-# Inductance take a toll on delay and power. (Even if resistance is 0,
-# delay(edge rates) would not 0 since resonant factor(LC) is existed.)
-# In power case, when turning on chips voltage will switch simultaneously and flow substantial
-# currents.(A role of Power PAD is also impact on it since most of PADs tend to charge quickly)
-# By following the formula of V_drop = L*di/dt, Simultaneously Switching leads to Voltage change
-# which is often called 'Ground Bounce' or 'Inductive voltage noise'. Granted, most of PADs have
-# preventing these phenomenons but we should care about it.
-#
-# Return to our design, we placed mesh power straps for the sake of effective supplying voltage.
-# Moreover, given aforementioned risk, we placed straps at moderate intervals.
-# (The effect of mutual inductive coupling is greatly increasing especially when the return path
-# is far from conductor.)
 #******************************************************************************
 create_fp_placement -timing_driven -no_hierarchy_gravity
 
 # route_guide
-create_route_guide \
+#create_route_guide \
 	-name route_guide_0 \
 	-no_signal_layers {MET4 MET5 MET6} \
 	-preferred_direction_only_layers {MET1 MET2 MET3} \
@@ -190,6 +193,8 @@ legalize_placement
 
 
 # Perform actual global routing to make sure the congestion
+# Global routing 
+# Abstract the routing problem to a notional set of abutting channels
 route_zrt_global
 report_congestion -grc_based -by_layer -routing_stage global
 
