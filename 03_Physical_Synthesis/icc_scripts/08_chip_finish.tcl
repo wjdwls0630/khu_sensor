@@ -107,6 +107,10 @@ redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	-max_paths 100 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+redirect -file $REPORTS_STEP_DIR/power.rpt {
+	report_power -verbose
+}
+
 # To verify CRPR
 #redirect -file $REPORTS_DIR/${step}/crpr.rpt { report_crpr }
 # delete "snapshot" directory called by create_qor_snapshot command

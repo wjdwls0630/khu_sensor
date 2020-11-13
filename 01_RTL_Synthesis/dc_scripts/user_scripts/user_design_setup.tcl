@@ -41,7 +41,7 @@ set DC_IN_VERILOG_RTL_FILE       "./Source/MPR121/i2c_master.v \
                                   ./Source/Sensor_Core/sensor_core.v \
                                   ./Source/UART_Controller/uart_rx.v \
                                   ./Source/UART_Controller/uart_tx.v \
- 				  ./Source/Divider_by_2/divider_by_2.v \
+ 				                          ./Source/Divider_by_2/divider_by_2.v \
                                   ./Source/UART_Controller/uart_controller.v \
                                   ./Source/khu_sensor_top.v \
                                   ./Source/khu_sensor_pad.v"

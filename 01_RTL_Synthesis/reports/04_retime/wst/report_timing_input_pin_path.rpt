@@ -6,8 +6,8 @@ Report : timing
         -input_pins
         -max_paths 1
 Design : khu_sensor_pad
-Version: F-2011.09-SP5-3
-Date   : Tue Oct  6 17:57:14 2020
+Version: L-2016.03-SP5-5
+Date   : Sat Nov 14 04:41:02 2020
 ****************************************
 
  * Some/all delay information is back-annotated.
@@ -42,16 +42,16 @@ Wire Load Model Mode: enclosed
 
   clock clk_half (rise edge)                             24.00      24.00
   clock network delay (ideal)                             0.75      24.75
-  clock uncertainty                                      -4.40      20.35
+  clock uncertainty                                      -1.68      23.07
   khu_sensor_top/uart_controller/uart_rx/r_Rx_Data_R_reg/CK (fd3qd1_hd)
-                                                          0.00      20.35 r
-  library setup time                                     -0.01      20.34
-  data required time                                                20.34
+                                                          0.00      23.07 r
+  library setup time                                     -0.04      23.03
+  data required time                                                23.03
   --------------------------------------------------------------------------
-  data required time                                                20.34
+  data required time                                                23.03
   data arrival time                                                -14.41
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.93
+  slack (MET)                                                        8.62
 
 
   Startpoint: khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg
@@ -64,39 +64,39 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/CK (fd3qd1_hd)
+  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/CK (fd1qd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/Q (fd3qd1_hd)
-                                                          0.66       1.41 f
-  khu_sensor_top/mpr121_controller/i2c_master/U167/A (ivd1_hd)
-                                                          0.00       1.41 f
-  khu_sensor_top/mpr121_controller/i2c_master/U167/Y (ivd1_hd)
-                                                          0.64       2.04 r
+  khu_sensor_top/mpr121_controller/i2c_master/sda_o_reg_reg/Q (fd1qd1_hd)
+                                                          0.61       1.36 f
+  khu_sensor_top/mpr121_controller/i2c_master/U286/A (ivd1_hd)
+                                                          0.00       1.36 f
+  khu_sensor_top/mpr121_controller/i2c_master/U286/Y (ivd1_hd)
+                                                          0.63       1.99 r
   khu_sensor_top/mpr121_controller/i2c_master/sda_t (i2c_master)
-                                                          0.00       2.04 r
+                                                          0.00       1.99 r
   khu_sensor_top/mpr121_controller/o_I2C_SDA_EN (mpr121_controller)
-                                                          0.00       2.04 r
-  khu_sensor_top/MPR121_SDA_EN (khu_sensor_top)           0.00       2.04 r
-  pad37/TN (phbct12)                                      0.00       2.04 r
-  pad37/PAD (phbct12)                                     2.92       4.96 r
-  MPR121_SDA (inout)                                      0.00       4.96 r
-  data arrival time                                                  4.96
+                                                          0.00       1.99 r
+  khu_sensor_top/MPR121_SDA_EN (khu_sensor_top)           0.00       1.99 r
+  pad37/TN (phbct12)                                      0.00       1.99 r
+  pad37/PAD (phbct12)                                     2.92       4.91 r
+  MPR121_SDA (inout)                                      0.00       4.91 r
+  data arrival time                                                  4.91
 
   clock clk (rise edge)                                  12.00      12.00
   clock network delay (ideal)                             0.75      12.75
-  clock uncertainty                                      -2.20      10.55
-  output external delay                                  -0.50      10.05
-  data required time                                                10.05
+  clock uncertainty                                      -0.84      11.91
+  output external delay                                  -0.50      11.41
+  data required time                                                11.41
   --------------------------------------------------------------------------
-  data required time                                                10.05
-  data arrival time                                                 -4.96
+  data required time                                                11.41
+  data arrival time                                                 -4.91
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.09
+  slack (MET)                                                        6.50
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/b_m_reg[23]
+  Startpoint: khu_sensor_top/ads1292_filter/iir_lpf/add/b_s_reg
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/mult_2/product_reg[49]
+  Endpoint: khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg[27]
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: max
@@ -105,186 +105,170 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.75       0.75
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/b_m_reg[23]/CK (fd1qd1_hd)
+  khu_sensor_top/ads1292_filter/iir_lpf/add/b_s_reg/CK (fd1qd1_hd)
                                                           0.00 #     0.75 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/b_m_reg[23]/Q (fd1qd1_hd)
-                                                          0.49       1.24 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/U129/A (ivd1_hd)
-                                                          0.00       1.24 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/U129/Y (ivd1_hd)
-                                                          0.06       1.29 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/U5/A (ivd2_hd)
-                                                          0.00       1.29 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/U5/Y (ivd2_hd)
-                                                          0.47       1.76 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/b[23] (float_multiplier_2_DW_mult_uns_2)
-                                                          0.00       1.76 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2425/A (xo2d1_hd)
-                                                          0.00       1.76 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2425/Y (xo2d1_hd)
-                                                          0.48       2.24 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2544/A (ivd1_hd)
-                                                          0.00       2.24 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2544/Y (ivd1_hd)
-                                                          0.07       2.31 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U3145/B (or2d2_hd)
-                                                          0.00       2.31 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U3145/Y (or2d2_hd)
-                                                          0.40       2.70 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2095/A (oa21d1_hd)
-                                                          0.00       2.70 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2095/Y (oa21d1_hd)
-                                                          0.21       2.91 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2094/B (xo2d1_hd)
-                                                          0.00       2.91 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2094/Y (xo2d1_hd)
-                                                          0.35       3.27 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2093/B (had1_hd)
-                                                          0.00       3.27 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2093/S (had1_hd)
-                                                          0.25       3.51 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U1732/B (fad1_hd)
-                                                          0.00       3.51 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U1732/CO (fad1_hd)
-                                                          0.54       4.05 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2679/B (fad1_hd)
-                                                          0.00       4.05 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2679/CO (fad1_hd)
-                                                          0.55       4.60 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2499/A (fad1_hd)
-                                                          0.00       4.60 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2499/CO (fad1_hd)
-                                                          0.48       5.08 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2497/CI (fad1_hd)
-                                                          0.00       5.08 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2497/S (fad1_hd)
-                                                          0.36       5.44 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2581/CI (fad1_hd)
-                                                          0.00       5.44 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2581/S (fad1_hd)
-                                                          0.34       5.78 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2722/A (nr2d1_hd)
-                                                          0.00       5.78 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2722/Y (nr2d1_hd)
-                                                          0.10       5.88 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2720/A (nr2d1_hd)
-                                                          0.00       5.88 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2720/Y (nr2d1_hd)
-                                                          0.13       6.01 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2717/A (clknd2d1_hd)
-                                                          0.00       6.01 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2717/Y (clknd2d1_hd)
-                                                          0.12       6.13 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2715/B (oa21d1_hd)
-                                                          0.00       6.13 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2715/Y (oa21d1_hd)
-                                                          0.20       6.33 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2074/A (ao21d1_hd)
-                                                          0.00       6.33 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2074/Y (ao21d1_hd)
-                                                          0.15       6.48 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2543/A (oa21d1_hd)
-                                                          0.00       6.48 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2543/Y (oa21d1_hd)
-                                                          0.19       6.67 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2709/A (ao21d1_hd)
-                                                          0.00       6.67 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2709/Y (ao21d1_hd)
-                                                          0.15       6.83 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2703/A (oa21d1_hd)
-                                                          0.00       6.83 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2703/Y (oa21d1_hd)
-                                                          0.19       7.02 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2698/A (ao21d1_hd)
-                                                          0.00       7.02 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2698/Y (ao21d1_hd)
-                                                          0.15       7.18 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2697/A (oa21d1_hd)
-                                                          0.00       7.18 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2697/Y (oa21d1_hd)
-                                                          0.19       7.37 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2692/A (ao21d1_hd)
-                                                          0.00       7.37 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2692/Y (ao21d1_hd)
-                                                          0.15       7.52 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2691/A (oa21d1_hd)
-                                                          0.00       7.52 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2691/Y (oa21d1_hd)
-                                                          0.19       7.72 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2686/A (ao21d1_hd)
-                                                          0.00       7.72 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2686/Y (ao21d1_hd)
-                                                          0.15       7.87 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2685/A (oa21d1_hd)
-                                                          0.00       7.87 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2685/Y (oa21d1_hd)
-                                                          0.19       8.07 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2680/A (ao21d1_hd)
-                                                          0.00       8.07 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2680/Y (ao21d1_hd)
-                                                          0.15       8.22 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2073/A (oa21d1_hd)
-                                                          0.00       8.22 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2073/Y (oa21d1_hd)
-                                                          0.19       8.42 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2704/A (ao21d1_hd)
-                                                          0.00       8.42 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2704/Y (ao21d1_hd)
-                                                          0.15       8.57 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2673/A (oa21d1_hd)
-                                                          0.00       8.57 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2673/Y (oa21d1_hd)
-                                                          0.19       8.76 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2668/A (ao21d1_hd)
-                                                          0.00       8.76 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2668/Y (ao21d1_hd)
-                                                          0.15       8.92 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2667/A (oa21d1_hd)
-                                                          0.00       8.92 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2667/Y (oa21d1_hd)
-                                                          0.19       9.11 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U1957/A (ao21d1_hd)
-                                                          0.00       9.11 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U1957/Y (ao21d1_hd)
-                                                          0.17       9.28 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2710/A (oa21d2_hd)
-                                                          0.00       9.28 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2710/Y (oa21d2_hd)
-                                                          0.15       9.43 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U3099/A (scg6d1_hd)
-                                                          0.00       9.43 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U3099/Y (scg6d1_hd)
-                                                          0.21       9.64 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U135/CI (fad1_hd)
-                                                          0.00       9.64 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U135/CO (fad1_hd)
-                                                          0.22       9.85 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U134/CI (fad1_hd)
-                                                          0.00       9.85 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U134/CO (fad1_hd)
-                                                          0.23      10.08 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2790/B (xo2d1_hd)
-                                                          0.00      10.08 r
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/U2790/Y (xo2d1_hd)
-                                                          0.30      10.38 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/mult_x_1/product[47] (float_multiplier_2_DW_mult_uns_2)
-                                                          0.00      10.38 f
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/product_reg[49]/D (fd1eqd1_hd)
-                                                          0.00      10.38 f
-  data arrival time                                                 10.38
+  khu_sensor_top/ads1292_filter/iir_lpf/add/b_s_reg/Q (fd1qd1_hd)
+                                                          0.56       1.31 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U4/A (ivd1_hd)
+                                                          0.00       1.31 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U4/Y (ivd1_hd)
+                                                          0.14       1.44 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U16/D (ao22d2_hd)
+                                                          0.00       1.44 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U16/Y (ao22d2_hd)
+                                                          0.61       2.05 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U15/A (ivd1_hd)
+                                                          0.00       2.05 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U15/Y (ivd1_hd)
+                                                          0.33       2.38 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U3/B (nr2d6_hd)
+                                                          0.00       2.38 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U3/Y (nr2d6_hd)
+                                                          0.43       2.81 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U162/A (ivd8_hd)
+                                                          0.00       2.81 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U162/Y (ivd8_hd)
+                                                          0.29       3.10 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U793/D (ao22d1_hd)
+                                                          0.00       3.10 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/U793/Y (ao22d1_hd)
+                                                          0.25       3.35 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/I2[0] (float_adder_3_DP_OP_46_236_7011_0)
+                                                          0.00       3.35 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U67/B (clkxo2d1_hd)
+                                                          0.00       3.35 r
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U67/Y (clkxo2d1_hd)
+                                                          0.30       3.65 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U28/CI (fad1_hd)
+                                                          0.00       3.65 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U28/CO (fad1_hd)
+                                                          0.30       3.95 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U27/CI (fad1_hd)
+                                                          0.00       3.95 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U27/CO (fad1_hd)
+                                                          0.31       4.26 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U26/CI (fad1_hd)
+                                                          0.00       4.26 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U26/CO (fad1_hd)
+                                                          0.31       4.56 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U25/CI (fad1_hd)
+                                                          0.00       4.56 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U25/CO (fad1_hd)
+                                                          0.31       4.87 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U24/CI (fad1_hd)
+                                                          0.00       4.87 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U24/CO (fad1_hd)
+                                                          0.31       5.18 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U23/CI (fad1_hd)
+                                                          0.00       5.18 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U23/CO (fad1_hd)
+                                                          0.31       5.48 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U22/CI (fad1_hd)
+                                                          0.00       5.48 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U22/CO (fad1_hd)
+                                                          0.31       5.79 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U21/CI (fad1_hd)
+                                                          0.00       5.79 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U21/CO (fad1_hd)
+                                                          0.31       6.10 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U20/CI (fad1_hd)
+                                                          0.00       6.10 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U20/CO (fad1_hd)
+                                                          0.33       6.42 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U75/CI (fad2_hd)
+                                                          0.00       6.42 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U75/CO (fad2_hd)
+                                                          0.25       6.67 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U74/CI (fad2_hd)
+                                                          0.00       6.67 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U74/CO (fad2_hd)
+                                                          0.23       6.90 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U73/CI (fad2_hd)
+                                                          0.00       6.90 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U73/CO (fad2_hd)
+                                                          0.22       7.12 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U16/CI (fad1_hd)
+                                                          0.00       7.12 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U16/CO (fad1_hd)
+                                                          0.31       7.43 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U72/CI (fad2_hd)
+                                                          0.00       7.43 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U72/CO (fad2_hd)
+                                                          0.25       7.68 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U71/CI (fad2_hd)
+                                                          0.00       7.68 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U71/CO (fad2_hd)
+                                                          0.22       7.90 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U78/CI (fad1_hd)
+                                                          0.00       7.90 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U78/CO (fad1_hd)
+                                                          0.29       8.19 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U12/CI (fad1_hd)
+                                                          0.00       8.19 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U12/CO (fad1_hd)
+                                                          0.31       8.50 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U11/CI (fad1_hd)
+                                                          0.00       8.50 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U11/CO (fad1_hd)
+                                                          0.31       8.80 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U10/CI (fad1_hd)
+                                                          0.00       8.80 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U10/CO (fad1_hd)
+                                                          0.31       9.11 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U9/CI (fad1_hd)
+                                                          0.00       9.11 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U9/CO (fad1_hd)
+                                                          0.31       9.42 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U8/CI (fad1_hd)
+                                                          0.00       9.42 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U8/CO (fad1_hd)
+                                                          0.31       9.72 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U7/CI (fad1_hd)
+                                                          0.00       9.72 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U7/CO (fad1_hd)
+                                                          0.31      10.03 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U6/CI (fad1_hd)
+                                                          0.00      10.03 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U6/CO (fad1_hd)
+                                                          0.33      10.36 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U70/CI (fad2_hd)
+                                                          0.00      10.36 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U70/CO (fad2_hd)
+                                                          0.25      10.60 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U69/CI (fad2_hd)
+                                                          0.00      10.60 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U69/CO (fad2_hd)
+                                                          0.22      10.82 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U77/CI (fad1_hd)
+                                                          0.00      10.82 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U77/CO (fad1_hd)
+                                                          0.31      11.13 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U68/CI (fad2_hd)
+                                                          0.00      11.13 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U68/CO (fad2_hd)
+                                                          0.24      11.38 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U79/B (xo2d1_hd)
+                                                          0.00      11.38 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/U79/Y (xo2d1_hd)
+                                                          0.29      11.66 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/DP_OP_46_236_7011/O1[27] (float_adder_3_DP_OP_46_236_7011_0)
+                                                          0.00      11.66 f
+  khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg[27]/D (fd1eqd1_hd)
+                                                          0.00      11.66 f
+  data arrival time                                                 11.66
 
   clock clk (rise edge)                                  12.00      12.00
   clock network delay (ideal)                             0.75      12.75
-  clock uncertainty                                      -2.20      10.55
-  khu_sensor_top/ads1292_filter/iir_notch/mult_2/product_reg[49]/CK (fd1eqd1_hd)
-                                                          0.00      10.55 r
-  library setup time                                     -0.17      10.38
-  data required time                                                10.38
+  clock uncertainty                                      -0.84      11.91
+  khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg[27]/CK (fd1eqd1_hd)
+                                                          0.00      11.91 r
+  library setup time                                     -0.22      11.69
+  data required time                                                11.69
   --------------------------------------------------------------------------
-  data required time                                                10.38
-  data arrival time                                                -10.38
+  data required time                                                11.69
+  data arrival time                                                -11.66
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.00
+  slack (MET)                                                        0.03
 
 
   Startpoint: khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg
@@ -298,40 +282,38 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock clk (rise edge)                                  12.00      12.00
   clock network delay (ideal)                             0.75      12.75
-  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd4qd1_hd)
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/CK (fd2qd1_hd)
                                                           0.00 #    12.75 r
-  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd4qd1_hd)
-                                                          0.43      13.18 f
+  khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID_reg/Q (fd2qd1_hd)
+                                                          0.40      13.15 f
   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_VALID (ads1292_filter)
-                                                          0.00      13.18 f
+                                                          0.00      13.15 f
   khu_sensor_top/sensor_core/i_ADS1292_FILTERED_DATA_VALID (sensor_core)
-                                                          0.00      13.18 f
-  khu_sensor_top/sensor_core/U157/B (clknd2d1_hd)         0.00      13.18 f
-  khu_sensor_top/sensor_core/U157/Y (clknd2d1_hd)         0.11      13.29 r
-  khu_sensor_top/sensor_core/U301/A (ivd1_hd)             0.00      13.29 r
-  khu_sensor_top/sensor_core/U301/Y (ivd1_hd)             0.08      13.37 f
-  khu_sensor_top/sensor_core/U273/B (nr2d1_hd)            0.00      13.37 f
-  khu_sensor_top/sensor_core/U273/Y (nr2d1_hd)            0.55      13.92 r
-  khu_sensor_top/sensor_core/U272/A (nr2d1_hd)            0.00      13.92 r
-  khu_sensor_top/sensor_core/U272/Y (nr2d1_hd)            0.50      14.42 f
-  khu_sensor_top/sensor_core/U579/C (scg2d1_hd)           0.00      14.42 f
-  khu_sensor_top/sensor_core/U579/Y (scg2d1_hd)           0.41      14.84 f
-  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/D (fd4qd1_hd)
+                                                          0.00      13.15 f
+  khu_sensor_top/sensor_core/U286/AN (nr2bd1_hd)          0.00      13.15 f
+  khu_sensor_top/sensor_core/U286/Y (nr2bd1_hd)           0.20      13.36 f
+  khu_sensor_top/sensor_core/U263/B (nr2d1_hd)            0.00      13.36 f
+  khu_sensor_top/sensor_core/U263/Y (nr2d1_hd)            0.57      13.92 r
+  khu_sensor_top/sensor_core/U262/A (nr2d1_hd)            0.00      13.92 r
+  khu_sensor_top/sensor_core/U262/Y (nr2d1_hd)            0.50      14.42 f
+  khu_sensor_top/sensor_core/U261/C (scg2d1_hd)           0.00      14.42 f
+  khu_sensor_top/sensor_core/U261/Y (scg2d1_hd)           0.41      14.84 f
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/D (fd2qd1_hd)
                                                           0.00      14.84 f
   data arrival time                                                 14.84
 
   clock clk_half (rise edge)                             24.00      24.00
   clock network delay (ideal)                             0.75      24.75
-  clock uncertainty                                      -4.40      20.35
-  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/CK (fd4qd1_hd)
-                                                          0.00      20.35 r
-  library setup time                                     -0.01      20.34
-  data required time                                                20.34
+  clock uncertainty                                      -1.68      23.07
+  khu_sensor_top/sensor_core/r_ads_ch2_data_out_reg[0]/CK (fd2qd1_hd)
+                                                          0.00      23.07 r
+  library setup time                                     -0.02      23.05
+  data required time                                                23.05
   --------------------------------------------------------------------------
-  data required time                                                20.34
+  data required time                                                23.05
   data arrival time                                                -14.84
   --------------------------------------------------------------------------
-  slack (MET)                                                        5.50
+  slack (MET)                                                        8.21
 
 
 1

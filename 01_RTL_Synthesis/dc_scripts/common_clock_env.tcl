@@ -15,7 +15,7 @@ set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 # MTTV : Max Transition Time Violation
 # The MTTV value will be referred to the Synopsys DK by default.
 # The MTTV should be checked for the worst and best conditions both
-# To guaranteen the full swing of clock signal, more pessimistic MTT value
+# To guarantee the full swing of clock signal, more pessimistic MTT value
 # should be specified on the clock network
 #
 # Minimum Rule MTTV value should be 20% of clock period over 250Mhz clock,
@@ -25,7 +25,7 @@ set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 # propose 10% transition time of clock period rule.
 # Samsung 130nm default clock path max_transition 0.7ns
 if { $CLK_MAIN_PERIOD >= 4 } {
-  set CLOCK_MAX_TRAN    0.7; # clock path max transtion time.
+  set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
 } elseif { $CLK_MAIN_PERIOD >= 2 } {
   set CLOCK_MAX_TRAN    [expr $CLK_MAIN_PERIOD * 0.2] ;# clock path max transtion time.
 } else {
@@ -36,7 +36,7 @@ if { $CLK_MAIN_PERIOD >= 4 } {
 set JITTER_MARGIN         "0.03"   ;# Define the value as %.
                                    ;# example) CS6 has 3% (0.03) for jitter margin.
                                    ;# If clock period is 5ns, margin is 150ps.
-set USER_SETUP_MARGIN     "0.3"   ;# Define the value as %.
+set USER_SETUP_MARGIN     "0.04"   ;# Define the value as %.
                                    ;# example) 0.01 means 1% of clock period.
                                    ;# If clock period is 5ns, margin is 50ps.
                                    ;# During implementation, this value is added in jitter margin.
@@ -46,12 +46,8 @@ set USER_SETUP_MARGIN     "0.3"   ;# Define the value as %.
 # Samsung 130nm default data path max_transition 1.5ns
 # If you do not define, dc apply max_transition automatically.
 
-set USER_HOLD_MARGIN      "0.3"   ;# Define the value as ns.
-                                   ;# example) 0.05 means 50ps margin.
-set FF_HOLD_MARGIN      "0.240"
-
 # Generate Clock
-# If you are going to use the synthesis result with Zero-WLM style, more timing margin is 
+# If you are going to use the synthesis result with Zero-WLM style, more timing margin is
 # recommended.
 # 1.2V Typical : 40% of clock cylce
 # Shrink clock cycle time by 60%(40% is Zero-WLM margin)
@@ -82,7 +78,7 @@ foreach_in_collection _clock [all_clocks] {
   # -----------------------------------------------------------------------
   # Apply additional setup/hold margin
   # -----------------------------------------------------------------------
-  # If you are going to use the synthesis result with Zero-WLM style, more timing margin is 
+  # If you are going to use the synthesis result with Zero-WLM style, more timing margin is
   # recommended.
   # 1.2V Typical : 40% of clock cylce
   # Shrink clock cycle time by 60%(40% is Zero-WLM margin)
@@ -100,18 +96,18 @@ foreach_in_collection _clock [all_clocks] {
            set jitter_m [expr $CLK_HALF_PERIOD * 0.6 * $JITTER_MARGIN ]
            set user_m   [expr $CLK_HALF_PERIOD * 0.6 * $USER_SETUP_MARGIN ]
            set uncert [expr $jitter_m + $user_m ]
-           
-           if { $uncert > 4.4 } {
-		set uncert 4.4
+
+           if { $uncert > 3.2 } {
+		set uncert 3.2
 	   }
-	   
+
 	   set_clock_uncertainty -setup $uncert $clk
       } else {
            set jitter_m [expr $CLK_MAIN_PERIOD * 0.6 * $JITTER_MARGIN ]
            set user_m   [expr $CLK_MAIN_PERIOD * 0.6 * $USER_SETUP_MARGIN ]
            set uncert [expr $jitter_m + $user_m ]
-           if { $uncert > 2.2 } {
-		set uncert 2.2
+           if { $uncert > 3.2 } {
+		set uncert 3.2
 	   }
 
 	   set_clock_uncertainty -setup $uncert $clk
@@ -129,4 +125,3 @@ foreach_in_collection _clock [all_clocks] {
       puts $rpt_clk_info "$_name $_period"
   }
   close $rpt_clk_info
-
