@@ -63,9 +63,6 @@ module khu_sensor_pad (
   wire w_ads1292_start_p;
   wire w_ads1292_csn_p;
   //============================================================================
-  /****************************************************************************
-  *                    LEFT (pad1() ~ pad11()) 		                         *
-  *****************************************************************************/
   //============================================================================
   //It is the best way that 3.3V logic is located on the corner of chip,
   //owing to being deprived of connection with main(internal) module.
@@ -81,68 +78,84 @@ module khu_sensor_pad (
   // vdd12ih_core : 1.2V core only for 3.3V interface
   // vssiph : Internal and pre-driver GND for 3.3V interface
   // if input does not require a big driver, input PAD or bi-directional PAD
-  // can be used for oscillator 
+  // can be used for oscillator
+  //============================================================================
+  /****************************************************************************
+  *                    LEFT (pad1() ~ pad14()) 		                            *
+  *****************************************************************************/
   //phsoscm3 pad1(.PADA(i_CLK), .E(1'b1), .PI(), .PO(), .YN(~w_clk_p), .PADY(CLK_OUT));
-  phbct24 pad1(.PAD(i_CLK), .TN(1'b1), .EN(1'b1), .A(1'b0), .PI(1'b0), .PO(), .Y(w_clk_p));
-  vssoh pad2();
-  phob12 pad3(.A(w_ads1292_reset_p), .PAD(ADS1292_RESET));
-  vssiph pad4();
-  phob12 pad5(.A(w_ads1292_start_p), .PAD(ADS1292_START));
-  vdd12ih_core pad6();
-  phob12 pad7(.A(w_ads1292_csn_p), .PAD(ADS1292_CSN));
+  vdd33oph pad1();
+  phbct24 pad2(.PAD(i_CLK), .TN(1'b1), .EN(1'b1), .A(1'b0), .PI(1'b0), .PO(), .Y(w_clk_p));
+  vssoh pad3();
+  vdd12ih_core pad4();
+  vssoh pad5();
+  vssiph pad6();
+  vdd12ih pad7();
   vdd33oph pad8();
   vssoh pad9();
-  vdd12ih pad10();
-  vssiph pad11();
+  phob12 pad10(.A(w_ads1292_reset_p), .PAD(ADS1292_RESET));
+  phob12 pad11(.A(w_ads1292_start_p), .PAD(ADS1292_START));
+  vssiph pad12();
+  vdd12ih pad13();
+  phob12 pad14(.A(w_ads1292_csn_p), .PAD(ADS1292_CSN));
   //============================================================================
   /****************************************************************************
-  *                    Bottom (pad12() ~ pad22())          	                 *
+  *                    Bottom (pad15() ~ pad28())          	                 *
   *****************************************************************************/
   //============================================================================
-  phob12 pad12(.A(w_ads1292_sclk_p), .PAD(ADS1292_SCLK));
-  vssiph pad13();
-  vssoh pad14();
-  phic pad15(.PAD(ADS1292_MISO), .PI(1'b0), .Y(w_ads1292_miso_p), .PO());
-  vssiph pad16();
+  vdd33oph pad15();
+  phob12 pad16(.A(w_ads1292_sclk_p), .PAD(ADS1292_SCLK));
   vssoh pad17();
-  phob12 pad18(.A(w_ads1292_mosi_p), .PAD(ADS1292_MOSI));
-  vdd33oph pad19();
-  phic pad20(.PAD(ADS1292_DRDY), .PI(1'b0), .Y(w_ads1292_drdy_p), .PO());
-  vdd12ih pad21();
+  vssiph pad18();
+  vdd12ih pad19();
+  vdd33oph pad20();
+  phic pad21(.PAD(ADS1292_MISO), .PI(1'b0), .Y(w_ads1292_miso_p), .PO());
   vssiph pad22();
-  //============================================================================
-  /****************************************************************************
-  *                    Right (pad23() ~ pad33())           	                 *
-  *****************************************************************************/
-  //============================================================================
   vdd12ih pad23();
-  vssiph pad24();
+  phob12 pad24(.A(w_ads1292_mosi_p), .PAD(ADS1292_MOSI));
   vdd12ih_core pad25();
-  vssiph pad26();
-  phob12 pad27(.A(w_uart_tx_p), .PAD(UART_TXD));
+  vdd33oph pad26();
+  phic pad27(.PAD(ADS1292_DRDY), .PI(1'b0), .Y(w_ads1292_drdy_p), .PO());
   vssoh pad28();
-  phic pad29(.PAD(UART_RXD), .PI(1'b0), .Y(w_uart_rx_p), .PO());
-  vdd12ih_core pad30();
-  vssoh pad31();
-  vdd33oph pad32();
-  vssiph pad33();
   //============================================================================
   /****************************************************************************
-  *                    TOP (pad34() ~ pad44())                                *
+  *                    Right (pad29() ~ pad42())           	                 *
   *****************************************************************************/
   //============================================================================
-  phbct12 pad34(.PAD(MPR121_SCL), .TN(w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
-  vssoh pad35();
-  vssiph pad36();
-  phbct12 pad37(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
-  vssoh pad38();
-  vssiph pad39();
+  vssoh pad29();
+  vssiph pad30();
+  vdd12ih pad31();
+  vdd33oph pad32();
+  phob12 pad33(.A(w_uart_tx_p), .PAD(UART_TXD));
+  vssoh pad34();
+  vdd12ih_core pad35();
+  vdd33oph pad36();
+  phic pad37(.PAD(UART_RXD), .PI(1'b0), .Y(w_uart_rx_p), .PO());
+  vdd33oph pad38();
+  vssoh pad39();
+  vssiph pad40();
+  vdd12ih pad41();
+  vssoh pad42();
+  //============================================================================
+  /****************************************************************************
+  *                    TOP (pad43() ~ pad56())                                *
+  *****************************************************************************/
+  //============================================================================
+  phbct12 pad43(.PAD(MPR121_SCL), .TN(w_mpr121_scl_en_p), .EN(1'b0), .A(w_mpr121_scl_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_scl_in_p));
+  vdd12ih_core pad44();
+  vssoh pad45();
+  phbct12 pad46(.PAD(MPR121_SDA), .TN(w_mpr121_sda_en_p), .EN(1'b0), .A(w_mpr121_sda_out_p), .PI(1'b0), .PO(), .Y(w_mpr121_sda_in_p));
+  vssoh pad47();
+  vssiph pad48();
+  vdd12ih pad49();
+  vdd33oph pad50();
   // schmitt trigger for global reset
-  phis pad40(.PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
-  vssoh pad41();
-  vdd33oph pad42();
-  vssiph pad43();
-  vdd12ih pad44();
+  phis pad51(.PAD(i_RSTN), .PI(1'b0), .Y(w_rstn_p), .PO());
+  vdd33oph pad52();
+  vssiph pad53();
+  vdd12ih pad54();
+  vssoh pad55();
+  vdd12ih_core pad56();
   //============================================================================
 	/****************************************************************************
 	*                           async_rstn_glitch_synchronizer                                   *
