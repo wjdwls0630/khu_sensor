@@ -28,7 +28,6 @@ Initializing...
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
-Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                           01_floorplan                                   **
 #**                     floorplan and virtual placement                      **
@@ -108,8 +107,9 @@ set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
 set MAX_ROUTING_LAYER              "MET4"
 MET4
 set MIN_ROUTING_LAYER              ""
-set CLK_MAX_ROUTING_LAYER          "MET4"
-MET4
+# Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
+set CLK_MAX_ROUTING_LAYER          "MET5" 
+MET5
 set CLK_MIN_ROUTING_LAYER          "MET3"
 MET3
 #######################################################
@@ -378,25 +378,25 @@ set_route_mode_options -zroute true
 #**                   Set Physical Library Parameter                         **
 #******************************************************************************
 setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 #******************************************************************************
 #******************************************************************************
 #**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
 #******************************************************************************
 set icc_home [getenv SEC_SYNOPSYS_ICC]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011
 	      ]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 set MW_REF_LIB_DIRS "$all_milky"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 # Since I/O pad name is different between logical and physical, we should add
 # LM cell db for ICC to search I/O pad cell properly
 if { $step != "00_read_design" } {
 	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_WST}_astro.db
 	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_BST}_astro.db
 }
-* std150e_wst_105_p125.db std150e_bst_135_n040.db dw_foundation.sldb /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+* std150e_wst_105_p125.db std150e_bst_135_n040.db dw_foundation.sldb /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 #******************************************************************************
 #******************************************************************************
 #**                       Set TECH and TLUP Files                           **
@@ -404,13 +404,13 @@ if { $step != "00_read_design" } {
 set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
 ./TECH/std150e_prim_6m.techgen.tf
 set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
 set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
 set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 #******************************************************************************
 #******************************************************************************
 #**                        Set Stream Out Map File                           **
@@ -465,9 +465,9 @@ set_separate_process_options -extraction false
 set sh_enable_page_mode false
 false
 setenv TMPDIR [sh pwd]/TMP
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-1006_22:48:59
+1117_18:42:39
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -480,7 +480,7 @@ copy_mw_lib -from ./mw_db/${TOP_MODULE}_00_read_design -to $_mw_lib
 # Open Library and Cell
 set_mw_technology_file -technology $TECH_FILE $_mw_lib
 Warning: Reference Library Inconsistent With Main Library
-Reference Library: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
 Warning: Inconsistent Number Of Metal Layers:
 	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
 Warning: Inconsistent Data for Contact Code 10
@@ -539,24 +539,24 @@ set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
 
 ------------------- Internal Reference Library Settings -----------------
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 
 
 ------------------- Control File Reference Library Settings -----------
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 -------------------------------------------------------------------------
 
 1
 open_mw_lib $_mw_lib
 Warning: Reference Library Inconsistent With Main Library
-Reference Library: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
 Warning: Inconsistent Number Of Metal Layers:
 	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
 Warning: Inconsistent Data for Contact Code 10
@@ -569,7 +569,7 @@ Warning: Inconsistent Data for Contact Code 11
 remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
 0
 open_mw_cel $TOP_MODULE
-Information: Opened "khu_sensor_pad.CEL;1" from "/home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan" library. (MWUI-068)
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_01_floorplan" library. (MWUI-068)
 {khu_sensor_pad}
 link
 1
@@ -580,17 +580,17 @@ remove_sdc
 Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
 Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
-Loading db file '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
-Loading db file '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
 	marked as "dont_use". (PSYN-039)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
@@ -617,12 +617,12 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
-  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
-  std150e_bst_135_n040 (library) /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+  std150e_wst_105_p125 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+  std150e_bst_135_n040 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 
 1
 remove_scenario -all
@@ -633,6 +633,14 @@ source $ICC_MCMM_SCENARIOS_FILE
 Warning: Discarding all scenario specific information previously defined in this session. (UID-1008)
 Current scenario is: func1_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -640,9 +648,9 @@ Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
 ***********************************************************************
 
 Sanity check for TLU+ vs MW-Tech files:
- mapping_file: /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
  number of unique tlu+ files in mcmm mode: 1
-  /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 
 --------- Sanity Check on TLUPlus Files -------------
 1. Checking the conducting layer names in ITF and mapping file ... 
@@ -658,23 +666,21 @@ Information: Changed wire load model for 'async_rstn_synchronizer' from '(none)'
 Note - message 'OPT-170' limit (1) exceeded.  Remainder will be suppressed.
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
-    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
   and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
   Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
 Information: Updating graph... (UID-83)
-Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-Warning: Some objects from '_sel350' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
 Information: Updating graph... (UID-83)
-Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Oct  6 22:49:13 2020
+Date   : Tue Nov 17 18:42:53 2020
 ****************************************
 
 Attributes:
@@ -701,6 +707,14 @@ clk_half      i_CLK          {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
 --------------------------------------------------------------------------------
 Current scenario is: funccts_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
+Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -708,9 +722,9 @@ Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
 ***********************************************************************
 
 Sanity check for TLU+ vs MW-Tech files:
- mapping_file: /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
  number of unique tlu+ files in mcmm mode: 1
-  /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 
 --------- Sanity Check on TLUPlus Files -------------
 1. Checking the conducting layer names in ITF and mapping file ... 
@@ -722,14 +736,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel709' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Oct  6 22:49:14 2020
+Date   : Tue Nov 17 18:42:54 2020
 ****************************************
 
 Attributes:
@@ -762,21 +776,20 @@ Warning: Current scenario changed to 'func1_wst'. (UID-1009)
 source $ICC_IN_IO_CONST_FILE
 1
 create_floorplan -control_type boundary -start_first_row -flip_first_row -left_io2core $IO2L -bottom_io2core $IO2B -right_io2core $IO2R -top_io2core $IO2T -core_utilization $CORE_UTIL
-44 pads are constrained in TDF table
-There are 44 IO pads 0 corner pads in total
+56 pads are constrained in TDF table
+There are 56 IO pads 0 corner pads in total
 Core aspect ratio adjusted to 1.000
-Core Utilization adjusted to 0.616
-Increase core to right distance by 0.16 to 50.16
-Increase core to top distance by 3.56 to 53.56
+Core Utilization adjusted to 0.390
+Increase core to top distance by 2.36 to 52.36
 Start to create wire tracks ...
 Start to place pads/pins ...
+Information: The orientation of Library cell "vdd12ih_core_p" is "E". (APLUI-043)
+Information: The orientation of Library cell "vssoh_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "vdd12ih_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "vssiph_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "vdd33oph_p" is "E". (APLUI-043)
-Information: The orientation of Library cell "vssoh_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phis_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phbct12_p" is "E". (APLUI-043)
-Information: The orientation of Library cell "vdd12ih_core_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phic_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phob12_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "phbct24_p" is "E". (APLUI-043)
@@ -802,11 +815,11 @@ Planner Summary:
 This floorplan is created by using tile name (unit).
 	Row Direction = HORIZONTAL
 	Control Parameter =  Cell Boundary
-	Core Utilization = 0.619
-	Number Of Rows = 227
-	Core Width = 820.6
-	Core Height = 817.2
-	Aspect Ratio = 0.996
+	Core Utilization = 0.391
+	Number Of Rows = 284
+	Core Width = 1024.76
+	Core Height = 1022.4
+	Aspect Ratio = 0.998
 	Double Back ON
 	Flip First Row = YES
 	Start From First Row = YES
@@ -826,26 +839,50 @@ Information: The orientation of Library cell "iofillerh30_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "iofillerh10_p" is "E". (APLUI-043)
 Information: The orientation of Library cell "iofillerh5_p" is "E". (APLUI-043)
 .... first pad filler name is pfiller0
-WARNING : Cannot find filler cells for bottom gap (332000 0) (340000 0)
+WARNING : Cannot find filler cells for bottom gap (252000 0) (260000 0)
 WARNING : Cannot find filler cells for bottom gap (400000 0) (408000 0)
-WARNING : Cannot find filler cells for bottom gap (548000 0) (556000 0)
-WARNING : Cannot find filler cells for bottom gap (616000 0) (624000 0)
-WARNING : Cannot find filler cells for top gap (332000 1196000) (340000 1196000)
-WARNING : Cannot find filler cells for top gap (400000 1196000) (408000 1196000)
-WARNING : Cannot find filler cells for top gap (548000 1196000) (556000 1196000)
-WARNING : Cannot find filler cells for top gap (616000 1196000) (624000 1196000)
-WARNING : Cannot find filler cells for left gap (0 492000) (0 500000)
-WARNING : Cannot find filler cells for left gap (0 560000) (0 568000)
+WARNING : Cannot find filler cells for bottom gap (468000 0) (476000 0)
+WARNING : Cannot find filler cells for bottom gap (536000 0) (544000 0)
+WARNING : Cannot find filler cells for bottom gap (604000 0) (612000 0)
+WARNING : Cannot find filler cells for bottom gap (752000 0) (760000 0)
+WARNING : Cannot find filler cells for bottom gap (820000 0) (828000 0)
+WARNING : Cannot find filler cells for bottom gap (968000 0) (976000 0)
+WARNING : Cannot find filler cells for bottom gap (1036000 0) (1044000 0)
+WARNING : Cannot find filler cells for bottom gap (1104000 0) (1148000 0)
+WARNING : Cannot find filler cells for top gap (252000 1400000) (260000 1400000)
+WARNING : Cannot find filler cells for top gap (320000 1400000) (328000 1400000)
+WARNING : Cannot find filler cells for top gap (388000 1400000) (396000 1400000)
+WARNING : Cannot find filler cells for top gap (456000 1400000) (464000 1400000)
+WARNING : Cannot find filler cells for top gap (524000 1400000) (532000 1400000)
+WARNING : Cannot find filler cells for top gap (672000 1400000) (680000 1400000)
+WARNING : Cannot find filler cells for top gap (740000 1400000) (748000 1400000)
+WARNING : Cannot find filler cells for top gap (808000 1400000) (816000 1400000)
+WARNING : Cannot find filler cells for top gap (876000 1400000) (884000 1400000)
+WARNING : Cannot find filler cells for top gap (1024000 1400000) (1032000 1400000)
+WARNING : Cannot find filler cells for top gap (1092000 1400000) (1148000 1400000)
+WARNING : Cannot find filler cells for left gap (0 332000) (0 340000)
+WARNING : Cannot find filler cells for left gap (0 400000) (0 408000)
 WARNING : Cannot find filler cells for left gap (0 628000) (0 636000)
 WARNING : Cannot find filler cells for left gap (0 696000) (0 704000)
-WARNING : Cannot find filler cells for right gap (1196000 252000) (1196000 260000)
-WARNING : Cannot find filler cells for right gap (1196000 320000) (1196000 328000)
-WARNING : Cannot find filler cells for right gap (1196000 388000) (1196000 396000)
-WARNING : Cannot find filler cells for right gap (1196000 456000) (1196000 464000)
-WARNING : Cannot find filler cells for right gap (1196000 604000) (1196000 612000)
-WARNING : Cannot find filler cells for right gap (1196000 672000) (1196000 704000)
-.... last pad filler name is pfiller61
-.... total of 62 pad filler inserted
+WARNING : Cannot find filler cells for left gap (0 764000) (0 772000)
+WARNING : Cannot find filler cells for left gap (0 832000) (0 840000)
+WARNING : Cannot find filler cells for left gap (0 900000) (0 908000)
+WARNING : Cannot find filler cells for left gap (0 968000) (0 976000)
+WARNING : Cannot find filler cells for left gap (0 1036000) (0 1044000)
+WARNING : Cannot find filler cells for left gap (0 1104000) (0 1148000)
+WARNING : Cannot find filler cells for right gap (1400000 252000) (1400000 260000)
+WARNING : Cannot find filler cells for right gap (1400000 320000) (1400000 328000)
+WARNING : Cannot find filler cells for right gap (1400000 388000) (1400000 396000)
+WARNING : Cannot find filler cells for right gap (1400000 456000) (1400000 464000)
+WARNING : Cannot find filler cells for right gap (1400000 604000) (1400000 612000)
+WARNING : Cannot find filler cells for right gap (1400000 672000) (1400000 680000)
+WARNING : Cannot find filler cells for right gap (1400000 740000) (1400000 748000)
+WARNING : Cannot find filler cells for right gap (1400000 888000) (1400000 896000)
+WARNING : Cannot find filler cells for right gap (1400000 956000) (1400000 964000)
+WARNING : Cannot find filler cells for right gap (1400000 1024000) (1400000 1032000)
+WARNING : Cannot find filler cells for right gap (1400000 1092000) (1400000 1148000)
+.... last pad filler name is pfiller73
+.... total of 74 pad filler inserted
 # Define ignored layers
 set_ignored_layers -max_routing_layer MET6
 1
@@ -939,19 +976,19 @@ remove_placement -object_type standard_cell
 #*******************************************************************************************
 # Save
 change_names -rule verilog -hier
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Current scenario is func1_wst.
 
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library)
                               /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library)
@@ -959,15 +996,15 @@ Current scenario is func1_wst.
   dw_foundation.sldb (library)
                               /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
   std150e_wst_105_p125 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
   std150e_bst_135_n040 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 
 Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
 Floorplan loading succeeded.
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
-    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
   and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
@@ -992,6 +1029,7 @@ Information: Removed scenario funccts_wst from memory. (UID-1024)
 # Reset sdc file for applying sdc
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+#start_gui
 exit
 
 Thank you...

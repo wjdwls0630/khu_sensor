@@ -28,7 +28,6 @@ Initializing...
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
-Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                           02_powerplan                                   **
 #**              power planning, preroute and global route                   **
@@ -112,8 +111,9 @@ set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
 set MAX_ROUTING_LAYER              "MET4"
 MET4
 set MIN_ROUTING_LAYER              ""
-set CLK_MAX_ROUTING_LAYER          "MET4"
-MET4
+# Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
+set CLK_MAX_ROUTING_LAYER          "MET5" 
+MET5
 set CLK_MIN_ROUTING_LAYER          "MET3"
 MET3
 #######################################################
@@ -382,25 +382,25 @@ set_route_mode_options -zroute true
 #**                   Set Physical Library Parameter                         **
 #******************************************************************************
 setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 #******************************************************************************
 #******************************************************************************
 #**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
 #******************************************************************************
 set icc_home [getenv SEC_SYNOPSYS_ICC]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011
 	      ]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 set MW_REF_LIB_DIRS "$all_milky"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 # Since I/O pad name is different between logical and physical, we should add
 # LM cell db for ICC to search I/O pad cell properly
 if { $step != "00_read_design" } {
 	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_WST}_astro.db
 	lappend link_library $icc_home/std150e_60poi_io_6lm_071011/LM/${STD_BST}_astro.db
 }
-* std150e_wst_105_p125.db std150e_bst_135_n040.db dw_foundation.sldb /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+* std150e_wst_105_p125.db std150e_bst_135_n040.db dw_foundation.sldb /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 #******************************************************************************
 #******************************************************************************
 #**                       Set TECH and TLUP Files                           **
@@ -408,13 +408,13 @@ if { $step != "00_read_design" } {
 set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
 ./TECH/std150e_prim_6m.techgen.tf
 set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
 set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
 set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 #******************************************************************************
 #******************************************************************************
 #**                        Set Stream Out Map File                           **
@@ -469,9 +469,9 @@ set_separate_process_options -extraction false
 set sh_enable_page_mode false
 false
 setenv TMPDIR [sh pwd]/TMP
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-1006_22:50:55
+1117_18:44:36
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -480,32 +480,32 @@ if {[file exist $_mw_lib]} {
 	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
 }
 copy_mw_lib -from ./mw_db/${TOP_MODULE}_01_floorplan -to $_mw_lib
-Warning: Top library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
 
 ------------------- Internal Reference Library Settings -----------------
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 
 
 ------------------- Control File Reference Library Settings -----------
-Warning: Top library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 -------------------------------------------------------------------------
 
 Successfully updated library ./mw_db/khu_sensor_pad_02_powerplan ref-control-file
 1
 # Open Library and Cell
 set_mw_technology_file -technology $TECH_FILE $_mw_lib
-Warning: Top library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_02_powerplan' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan'. (MW-212)
 Warning: Reference Library Inconsistent With Main Library
-Reference Library: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
 Warning: Inconsistent Number Of Metal Layers:
 	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
 Warning: Inconsistent Data for Contact Code 10
@@ -564,24 +564,24 @@ set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
 
 ------------------- Internal Reference Library Settings -----------------
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 
 
 ------------------- Control File Reference Library Settings -----------
 
-Library    /home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
-  Reference    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 -------------------------------------------------------------------------
 
 1
 open_mw_lib $_mw_lib
 Warning: Reference Library Inconsistent With Main Library
-Reference Library: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
 Warning: Inconsistent Number Of Metal Layers:
 	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
 Warning: Inconsistent Data for Contact Code 10
@@ -594,7 +594,7 @@ Warning: Inconsistent Data for Contact Code 11
 remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
 0
 open_mw_cel $TOP_MODULE
-Information: Opened "khu_sensor_pad.CEL;1" from "/home/graduation_project3/2015103977/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan" library. (MWUI-068)
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_02_powerplan" library. (MWUI-068)
 {khu_sensor_pad}
 link
 1
@@ -605,17 +605,17 @@ remove_sdc
 Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
 Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
-Loading db file '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
-Loading db file '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
 	marked as "dont_use". (PSYN-039)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
@@ -643,12 +643,12 @@ Current scenario is func1_wst.
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
-  std150e_wst_105_p125 (library) /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
-  std150e_bst_135_n040 (library) /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+  std150e_wst_105_p125 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+  std150e_bst_135_n040 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 
 Information: scenario: func1_wst
 1
@@ -671,9 +671,9 @@ Floorplan loading succeeded.
 ***********************************************************************
 
 Sanity check for TLU+ vs MW-Tech files:
- mapping_file: /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
  number of unique tlu+ files in mcmm mode: 1
-  /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 
 --------- Sanity Check on TLUPlus Files -------------
 1. Checking the conducting layer names in ITF and mapping file ... 
@@ -687,23 +687,21 @@ Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
-    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
   and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
   Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
 Information: Updating graph... (UID-83)
-Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-Warning: Some objects from '_sel350' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel402' were of the incorrect class. (SEL-010)
 Information: Updating graph... (UID-83)
-Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Oct  6 22:51:10 2020
+Date   : Tue Nov 17 18:44:50 2020
 ****************************************
 
 Attributes:
@@ -737,9 +735,9 @@ Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
 ***********************************************************************
 
 Sanity check for TLU+ vs MW-Tech files:
- mapping_file: /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
  number of unique tlu+ files in mcmm mode: 1
-  /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 
 --------- Sanity Check on TLUPlus Files -------------
 1. Checking the conducting layer names in ITF and mapping file ... 
@@ -751,14 +749,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel709' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel813' were of the incorrect class. (SEL-010)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Oct  6 22:51:10 2020
+Date   : Tue Nov 17 18:44:51 2020
 ****************************************
 
 Attributes:
@@ -790,13 +788,13 @@ Warning: Current scenario changed to 'func1_wst'. (UID-1009)
 #set_dont_touch_placement [all_macro_cells]
 # Describe VDD and VSS used by the standard cell
 derive_pg_connection 	-power_net VDD 	-power_pin VDD 	-ground_net VSS 	-ground_pin VSS
-Information: connected 26577 power ports and 26577 ground ports
+Information: connected 25801 power ports and 25801 ground ports
 1
 derive_pg_connection 	-power_net VDD 	-power_pin VDD12I 	-ground_net VSS 	-ground_pin VSSIP
-Information: connected 4 power ports and 11 ground ports
+Information: connected 8 power ports and 8 ground ports
 1
 derive_pg_connection 	-power_net VDD_12I 	-power_pin VDD_12I 
-Information: connected 3 power ports and 0 ground ports
+Information: connected 5 power ports and 0 ground ports
 1
 #derive_pg_connection 	-power_net VDD 	-power_pin VDD_12I 
 #******************************************************************************
@@ -848,7 +846,7 @@ set_fp_rail_constraints 	-add_layer -layer MET5 -direction horizontal 	-max_stra
 1
 set_fp_rail_constraints 	-add_layer  -layer MET6 -direction vertical 	-max_strap 50 -min_strap 16 -max_width 3 -min_width 0.440 	-spacing minimum
 1
-set_fp_rail_region_constraints 	-polygon {{169.070 1035.925} {169.070 172.595} {1019.810 172.595} {1019.810 1035.925}}
+set_fp_rail_region_constraints 	-polygon {{169.070 1228.420} {169.070 172.595} {1230.950 172.595} {1230.950 1228.420}}
 region is defined by user-specified coordinates.
 Generating power plan synthesis region based on user-defined coordinates successfully.
 1
@@ -866,8 +864,8 @@ Using [3 x 3] Fat Wire Table for MET3
 Using [3 x 3] Fat Wire Table for MET4
 Using [3 x 3] Fat Wire Table for MET5
 
-TLU+ File = /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
-TLU+ File = /home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+TLU+ File = /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+TLU+ File = /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 
 --------- Sanity Check on TLUPlus Files -------------
 1. Checking the conducting layer names in ITF and mapping file ... 
@@ -888,11 +886,11 @@ lower mask id 3, upper mask id 4, via layer 31, resistivity 1.512930
 lower mask id 4, upper mask id 5, via layer 33, resistivity 1.512930
 lower mask id 5, upper mask id 6, via layer 35, resistivity 1.512930
 Ignoring all CONN views
-Number of pad instances: 15
-Geometry mapping took     0.28 seconds
+Number of pad instances: 16
+Geometry mapping took     0.25 seconds
 
 Name of design : khu_sensor_pad
-Number of cell instance masters in the library : 118
+Number of cell instance masters in the library : 109
 Power Network Synthesis Begins ...
 Target IR drop : 135.000 mV
 Processing net VDD ...
@@ -907,57 +905,58 @@ Number of cell instances in the specified region: 0
 Performing Wire Cutting and Resizing of net VDD for Honoring Blockage Constraints
 Processing 24x24 straps
 Number of iteration for the incremental sizing : 2
-Number of power pads reaching to the power ports of the leaf cells or blocks: 4
+Number of power pads reaching to the power ports of the leaf cells or blocks: 8
 Total assigned virtual connection port current is 259.259255
 Total assigned connected port current is 0.000000
 Total assigned current is 259.259255
 Total floating virtual connection port current is 0.000000
 Total floating connected port current is 0.000000
 Simulation begin ...
-Pad Cell pad44 at (192.000 1058.380) Supplies   77.98 mA Current (30.08%)
-Pad Cell pad10 at (0.000 272.000) Supplies   75.29 mA Current (29.04%)
-Pad Cell pad21 at (864.000 0.000) Supplies   65.36 mA Current (25.21%)
-Pad Cell pad23 at (1058.380 192.000) Supplies   40.62 mA Current (15.67%)
+Pad Cell pad49 at (680.000 1262.380) Supplies   36.79 mA Current (14.19%)
+Pad Cell pad41 at (1262.380 1032.000) Supplies   36.28 mA Current (13.99%)
+Pad Cell pad31 at (1262.380 328.000) Supplies   35.19 mA Current (13.57%)
+Pad Cell pad7 at (0.000 704.000) Supplies   33.36 mA Current (12.87%)
+Pad Cell pad23 at (760.000 0.000) Supplies   33.34 mA Current (12.86%)
+Pad Cell pad54 at (328.000 1262.380) Supplies   31.79 mA Current (12.26%)
+Pad Cell pad19 at (476.000 0.000) Supplies   27.68 mA Current (10.68%)
+Pad Cell pad13 at (0.000 272.000) Supplies   24.84 mA Current (9.58%)
 Total Current from Pad Cells:  259.26 mA (100.00%)
 Total Current from Virtual Pads:    0.00 mA (0.00%)
-Maximum IR drop in khu_sensor_pad : 134.73 mV
-Maximum current in khu_sensor_pad : 77.985 mA
-Maximum EM of wires in khu_sensor_pad : 1.704771e+02 A/cm, layer MET3
-Maximum EM of vias in khu_sensor_pad : 1.712291e+06 A/cm_square, layer VIA3
+Maximum IR drop in khu_sensor_pad : 133.62 mV
+Maximum current in khu_sensor_pad : 36.786 mA
+Maximum EM of wires in khu_sensor_pad : 1.913413e+02 A/cm, layer MET4
+Maximum EM of vias in khu_sensor_pad : 5.368646e+06 A/cm_square, layer VIA5
 The PNS synthesizes the net VDD successfully
-The maximum IR drop of the synthesized net VDD is 134.729 mV
+The maximum IR drop of the synthesized net VDD is 133.619 mV
 Processing net VSS ...
 Average power dissipation in khu_sensor_pad :   350.00 mW
 Power supply voltage :     1.35 V
 Average current in khu_sensor_pad :   259.26 mA
 Number of cell instances in the specified region: 0
 Performing Wire Cutting of net VSS for Honoring Blockage Constraints
-Number of power pads reaching to the power ports of the leaf cells or blocks: 11
+Number of power pads reaching to the power ports of the leaf cells or blocks: 8
 Total assigned virtual connection port current is 259.259255
 Total assigned connected port current is 0.000000
 Total assigned current is 259.259255
 Total floating virtual connection port current is 0.000000
 Total floating connected port current is 0.000000
 Simulation begin ...
-Pad Cell pad16 at (488.000 0.000) Supplies   30.65 mA Current (11.82%)
-Pad Cell pad39 at (556.000 1058.380) Supplies   30.58 mA Current (11.80%)
-Pad Cell pad4 at (0.000 704.000) Supplies   29.64 mA Current (11.43%)
-Pad Cell pad43 at (272.000 1058.380) Supplies   27.77 mA Current (10.71%)
-Pad Cell pad36 at (784.000 1058.380) Supplies   25.49 mA Current (9.83%)
-Pad Cell pad26 at (1058.380 396.000) Supplies   24.33 mA Current (9.38%)
-Pad Cell pad33 at (1058.380 944.000) Supplies   21.06 mA Current (8.12%)
-Pad Cell pad13 at (272.000 0.000) Supplies   19.92 mA Current (7.69%)
-Pad Cell pad22 at (944.000 0.000) Supplies   17.61 mA Current (6.79%)
-Pad Cell pad11 at (0.000 192.000) Supplies   17.54 mA Current (6.76%)
-Pad Cell pad24 at (1058.380 260.000) Supplies   14.66 mA Current (5.66%)
+Pad Cell pad40 at (1262.380 964.000) Supplies   38.83 mA Current (14.98%)
+Pad Cell pad48 at (748.000 1262.380) Supplies   35.85 mA Current (13.83%)
+Pad Cell pad22 at (692.000 0.000) Supplies   33.43 mA Current (12.89%)
+Pad Cell pad6 at (0.000 772.000) Supplies   32.71 mA Current (12.62%)
+Pad Cell pad30 at (1262.380 260.000) Supplies   32.63 mA Current (12.59%)
+Pad Cell pad53 at (396.000 1262.380) Supplies   32.44 mA Current (12.51%)
+Pad Cell pad12 at (0.000 340.000) Supplies   27.03 mA Current (10.42%)
+Pad Cell pad18 at (408.000 0.000) Supplies   26.33 mA Current (10.15%)
 Total Current from Pad Cells:  259.26 mA (100.00%)
 Total Current from Virtual Pads:    0.00 mA (0.00%)
-Maximum IR drop in khu_sensor_pad : 44.77 mV
-Maximum current in khu_sensor_pad : 30.652 mA
-Maximum EM of wires in khu_sensor_pad : 5.641880e+01 A/cm, layer MET3
-Maximum EM of vias in khu_sensor_pad : 6.621500e+05 A/cm_square, layer VIA4
+Maximum IR drop in khu_sensor_pad : 133.45 mV
+Maximum current in khu_sensor_pad : 38.833 mA
+Maximum EM of wires in khu_sensor_pad : 2.084418e+02 A/cm, layer MET4
+Maximum EM of vias in khu_sensor_pad : 6.016090e+06 A/cm_square, layer VIA4
 The PPS synthesizes the net VSS successfully
-The maximum IR drop of the synthesized net VSS is  44.771
+The maximum IR drop of the synthesized net VSS is 133.452
 
 The statistics of PNS results
 Global Constraints Setting
@@ -972,41 +971,41 @@ No Straps Over Soft Macros:	Off
 Ignore Blockage:		Off
 Target IR drop :  135.00 mV
 Net name : VDD
-IR drop of the synthesized net :  134.73 mV
-Core ring segment: Horizontal: MET3, Width: 3.280 microns
-Core ring segment: Vertical: MET4, Width: 3.280 microns
+IR drop of the synthesized net :  133.62 mV
+Core ring segment: Horizontal: MET3, Width: 1.240 microns
+Core ring segment: Vertical: MET4, Width: 1.240 microns
 Layer: MET6, Direction: Vertical, # of Straps: 24, PG spacing
-The maximum width of straps: 2.150 microns
-The average width of straps: 2.150 microns
+The maximum width of straps: 0.910 microns
+The average width of straps: 0.910 microns
 Layer: MET5, Direction: Horizontal, # of Straps: 24, PG spacing
-The maximum width of straps: 2.050 microns
-The average width of straps: 2.050 microns
-The percentage of routing tracks used by the power net VDD for layer MET6: 5.10%
-The percentage of routing tracks used by the power net VDD for layer MET5: 4.57%
-The percentage of routing tracks used by the power net VDD for layer MET4: 0.53%
-The percentage of routing tracks used by the power net VDD for layer MET3: 0.50%
+The maximum width of straps: 0.910 microns
+The average width of straps: 0.910 microns
+The percentage of routing tracks used by the power net VDD for layer MET6: 3.42%
+The percentage of routing tracks used by the power net VDD for layer MET5: 2.08%
+The percentage of routing tracks used by the power net VDD for layer MET4: 0.19%
+The percentage of routing tracks used by the power net VDD for layer MET3: 0.20%
 The percentage of routing tracks used by the power net VDD for layer MET2: 0.00%
 The percentage of routing tracks used by the power net VDD for layer MET1: 0.00%
-The average percentage of routing tracks used by net VDD : 1.78%
+The average percentage of routing tracks used by net VDD : 0.98%
 Net name : VSS
-IR drop of the synthesized net :   44.77 mV
-Core ring segment: Horizontal: MET3, Width: 3.280 microns
-Core ring segment: Vertical: MET4, Width: 3.280 microns
+IR drop of the synthesized net :  133.45 mV
+Core ring segment: Horizontal: MET3, Width: 1.240 microns
+Core ring segment: Vertical: MET4, Width: 1.240 microns
 Layer: MET6, Direction: Vertical, # of Straps: 24, PG spacing
-The maximum width of straps: 2.150 microns
-The average width of straps: 2.150 microns
+The maximum width of straps: 0.910 microns
+The average width of straps: 0.910 microns
 Layer: MET5, Direction: Horizontal, # of Straps: 24, PG spacing
-The maximum width of straps: 2.050 microns
-The average width of straps: 2.050 microns
-The percentage of routing tracks used by the power net VSS for layer MET6: 5.06%
-The percentage of routing tracks used by the power net VSS for layer MET5: 4.53%
-The percentage of routing tracks used by the power net VSS for layer MET4: 0.53%
-The percentage of routing tracks used by the power net VSS for layer MET3: 0.52%
+The maximum width of straps: 0.910 microns
+The average width of straps: 0.910 microns
+The percentage of routing tracks used by the power net VSS for layer MET6: 3.41%
+The percentage of routing tracks used by the power net VSS for layer MET5: 2.08%
+The percentage of routing tracks used by the power net VSS for layer MET4: 0.24%
+The percentage of routing tracks used by the power net VSS for layer MET3: 0.22%
 The percentage of routing tracks used by the power net VSS for layer MET2: 0.00%
 The percentage of routing tracks used by the power net VSS for layer MET1: 0.00%
-The average percentage of routing tracks used by net VSS : 1.77%
+The average percentage of routing tracks used by net VSS : 0.99%
 Generating instance power and IR drop file ./pna_output/khu_sensor_pad.inst_hl.pna
-Memory usage for design data :      50208.768 Kbytes
+Memory usage for design data :      49807.360 Kbytes
 Generating Power Routing Tcl commands file ./pna_output/create_pns_pg.tcl
 Overall takes     0.19 seconds
 Please read khu_sensor_pad.PNS.log for detail information
@@ -1026,7 +1025,7 @@ Done with committing power plan!
 #******************************************************************************
 # creates power ring
 # power rings help all macro cells to be supplied voltage.
-create_rectangular_rings 	-nets {VDD_12I} 	-left_offset 25 -left_segment_layer MET5 -left_segment_width 1 	-right_offset 25 -right_segment_layer MET5 -right_segment_width 1 	-bottom_offset 25 -bottom_segment_layer MET6 -bottom_segment_width 1 	-top_offset 15 -top_segment_layer MET6 -top_segment_width 1 
+create_rectangular_rings 	-nets {VDD_12I} 	-left_offset 25 -left_segment_layer MET5 -left_segment_width 1 	-right_offset 25 -right_segment_layer MET5 -right_segment_width 1 	-bottom_offset 25 -bottom_segment_layer MET6 -bottom_segment_width 1 	-top_offset 25 -top_segment_layer MET6 -top_segment_width 1 
 Using [3 x 3] Fat Wire Table for MET1
 Using [3 x 3] Fat Wire Table for MET2
 Using [3 x 3] Fat Wire Table for MET3
@@ -1051,21 +1050,21 @@ flip_chip = 0
 *** Performing global placement...
 Transferring Data From Milkyway...
 Number of plan group pins = 0
-  28 blocks freed
+  27 blocks freed
   0 bytes freed
 Placement Effort Level: Low
 Placement Design Stats
-Num std     cells  = 26577 (fixed = 0)
+Num std     cells  = 25801 (fixed = 0)
 Num macros  cells  = 0 (fixed = 0)
-Num IOs     cells  = 44
+Num IOs     cells  = 56
 Num bump    cells  = 0
 Num LS/ISO  cells  = 0
 Num no type cells  = 0
 Num other   cells  = 0
 Num cells with no net connections = 0
-Num non-zero wt nets = 28576
+Num non-zero wt nets = 28226
 Num     zero wt nets = 0
-A net with highest fanout (422) is khu_sensor_top/w_CLOCK_HALF
+A net with highest fanout (384) is khu_sensor_top/ads1292_filter/iir_lpf/w_rstn
 grouping macros ...
 0 macro arrays generated automatically.
 0 array cells created
@@ -1078,20 +1077,20 @@ coarse place 80% done.
 coarse place 100% done.
 Transferring Data to Milkyway ...
 Calculating timing weight ...
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
 Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
 
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library)
                               /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library)
@@ -1099,9 +1098,9 @@ Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (M
   dw_foundation.sldb (library)
                               /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
   std150e_wst_105_p125 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
   std150e_bst_135_n040 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 
 (Running rc extraction with virtual route...)
 Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
@@ -1109,7 +1108,7 @@ Floorplan loading succeeded.
 
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
-    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
   and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
@@ -1167,22 +1166,21 @@ Information: Using derived R and C coefficients. (RCEX-008)
 Information: Using region-based R and C coefficients. (RCEX-013)
 Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
 
-28510 nets processed. 
+28154 nets processed. 
 Router succeeded.
 rc extraction finished.
 CPU time for rc extraction =    0:00:05
-Elapsed time for rc extraction =    0:00:05
+Elapsed time for rc extraction =    0:00:06
 Warning: High fanout net synthesis has not performed on the design yet. (VFP-432)
 Information: Updating design information... (UID-85)
-Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 
   Scenario 'func1_wst'
   Timing Path Group 'REGIN'
   -----------------------------------
-  Levels of Logic:               1.00
-  Critical Path Length:          1.42
-  Critical Path Slack:           5.82
-  Critical Path Clk Period:     24.00
+  Levels of Logic:               5.00
+  Critical Path Length:          2.48
+  Critical Path Slack:           8.32
+  Critical Path Clk Period:     12.00
   Total Negative Slack:          0.00
   No. of Violating Paths:        0.00
   Worst Hold Violation:          0.00
@@ -1194,8 +1192,8 @@ Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of
   Timing Path Group 'REGOUT'
   -----------------------------------
   Levels of Logic:               1.00
-  Critical Path Length:          5.64
-  Critical Path Slack:           3.66
+  Critical Path Length:          5.33
+  Critical Path Slack:           5.33
   Critical Path Clk Period:     12.00
   Total Negative Slack:          0.00
   No. of Violating Paths:        0.00
@@ -1207,12 +1205,12 @@ Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of
   Scenario 'func1_wst'
   Timing Path Group 'clk'
   -----------------------------------
-  Levels of Logic:               6.00
-  Critical Path Length:         10.84
-  Critical Path Slack:          -1.05
+  Levels of Logic:              12.00
+  Critical Path Length:         11.53
+  Critical Path Slack:          -0.44
   Critical Path Clk Period:     12.00
-  Total Negative Slack:       -106.16
-  No. of Violating Paths:      154.00
+  Total Negative Slack:         -0.44
+  No. of Violating Paths:        1.00
   Worst Hold Violation:          0.00
   Total Hold Violation:          0.00
   No. of Hold Violations:        0.00
@@ -1221,9 +1219,9 @@ Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of
   Scenario 'func1_wst'
   Timing Path Group 'clk_half'
   -----------------------------------
-  Levels of Logic:               5.00
-  Critical Path Length:          3.95
-  Critical Path Slack:           3.64
+  Levels of Logic:               9.00
+  Critical Path Length:          3.14
+  Critical Path Slack:           7.14
   Critical Path Clk Period:     24.00
   Total Negative Slack:          0.00
   No. of Violating Paths:        0.00
@@ -1236,11 +1234,11 @@ Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of
   Timing Path Group 'default'
   -----------------------------------
   Levels of Logic:               0.00
-  Critical Path Length:          0.03
-  Critical Path Slack:          -0.03
+  Critical Path Length:          0.06
+  Critical Path Slack:          -0.06
   Critical Path Clk Period:       n/a
-  Total Negative Slack:        -11.79
-  No. of Violating Paths:     2986.00
+  Total Negative Slack:        -33.52
+  No. of Violating Paths:     4927.00
   Worst Hold Violation:          0.00
   Total Hold Violation:          0.00
   No. of Hold Violations:        0.00
@@ -1249,59 +1247,59 @@ Warning: Design 'khu_sensor_pad' contains 1 high-fanout nets. A fanout number of
 
   Cell Count
   -----------------------------------
-  Hierarchical Cell Count:        232
-  Hierarchical Port Count:       5641
-  Leaf Cell Count:              26621
-  Buf/Inv Cell Count:            2964
-  Buf Cell Count:                  20
-  Inv Cell Count:                2944
+  Hierarchical Cell Count:        284
+  Hierarchical Port Count:       5954
+  Leaf Cell Count:              25857
+  Buf/Inv Cell Count:            2707
+  Buf Cell Count:                  30
+  Inv Cell Count:                2677
   CT Buf/Inv Cell Count:            0
-  Combinational Cell Count:     21286
-  Sequential Cell Count:         5335
+  Combinational Cell Count:     20470
+  Sequential Cell Count:         5387
   Macro Count:                      0
   -----------------------------------
 
 
   Area
   -----------------------------------
-  Combinational Area:        51352.69
-  Noncombinational Area:     36022.00
-  Buf/Inv Area:               2055.68
-  Total Buffer Area:            31.00
-  Total Inverter Area:        2024.68
+  Combinational Area:        48858.69
+  Noncombinational Area:     37314.00
+  Buf/Inv Area:               1871.34
+  Total Buffer Area:            44.00
+  Total Inverter Area:        1827.34
   Macro/Black Box Area:          0.00
-  Net Area:                    875.95
-  Net XLength        :      599643.25
-  Net YLength        :      609641.94
+  Net Area:                    812.04
+  Net XLength        :      667254.56
+  Net YLength        :      681905.38
   -----------------------------------
-  Cell Area:                 87374.69
-  Design Area:               88250.64
-  Net Length        :      1209285.25
+  Cell Area:                 86172.69
+  Design Area:               86984.73
+  Net Length        :      1349160.00
 
 
   Design Rules
   -----------------------------------
-  Total Number of Nets:         28606
-  Nets With Violations:           836
-  Max Trans Violations:           834
-  Max Cap Violations:             723
+  Total Number of Nets:         28251
+  Nets With Violations:           766
+  Max Trans Violations:           765
+  Max Cap Violations:             704
   -----------------------------------
 
 CPU time for timing report =    0:00:01
 Elapsed time for timing report =    0:00:01
-Info: worst slack in the design is -1.052536
+Info: worst slack in the design is -0.442875
 CPU time for net weight calculation =    0:00:00
-Elapsed time for net weight calculation =    0:00:01
+Elapsed time for net weight calculation =    0:00:00
 Timing weight calculated.
 CPU time for freeing timing design =    0:00:01
 Elapsed time for freeing timing design =    0:00:01
 Number of plan group pins = 0
 net weight set.
-28576 timing weight set.
-max net weight: 9.030341
-min net weight: 0.694642
-0 net set to minimum weight 0.694642.
-  28 blocks freed
+28226 timing weight set.
+max net weight: 12.986088
+min net weight: 0.597801
+0 net set to minimum weight 0.597801.
+  27 blocks freed
   0 bytes freed
 Doing Incremental Timing Driven Placement...
 grouping macros ...
@@ -1316,14 +1314,14 @@ coarse place 100% done.
 Report     : Virtual Flat Placement
 Design     : khu_sensor_pad
 Version    : N-2017.09
-Date       : Tue Oct  6 22:51:27 2020
+Date       : Tue Nov 17 18:45:07 2020
 *********************************************
 
-Total wirelength: 1088056.31
-Number of 100x100 tracks cell density regions: 400
+Total wirelength: 1279682.50
+Number of 100x100 tracks cell density regions: 625
 Number of low (< 10%) cell density regions: 0 (0.000%)
 Number of high (> 200%) cell density regions: 0 (0.000%)
-Maximum cell density: 65.19% (at 617 693 656 732)
+Maximum cell density: 42.83% (at 778 541 818 580)
 Checking hard macro to hard macro overlaps...
 Number of hard macro to hard macro overlaps: 0
 Checking hard macro to std cell overlaps...
@@ -1347,7 +1345,7 @@ INFO: legalizer_via_spacing_check_mode 0
     This is considered as a 6-metal-layer design
     Reading library information from DB ...
   Reading misc information ...
-    array <unit> has 0 vertical and 227 horizontal rows
+    array <unit> has 0 vertical and 284 horizontal rows
     108 pre-routes for placement blockage/checking
     108 pre-routes for map congestion calculation
   Checking information read in ...
@@ -1360,33 +1358,33 @@ INFO: legalizer_via_spacing_check_mode 0
 INFO:... use original rows...
 [end initializing data for legality checker]
 Information: Running legalization in Fast-Mode! (DPI-029)
+Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phbct24_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "vdd12ih_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "vssiph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phbct24_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "phis_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "phbct12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
  
 ****************************************
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:27 2020
+  Date   : Tue Nov 17 18:45:07 2020
 ****************************************
-Std cell utilization: 61.92%  (262124/(423355-0))
+Std cell utilization: 39.08%  (258518/(661436-0))
 (Non-fixed + Fixed)
-Std cell utilization: 61.92%  (262124/(423355-0))
+Std cell utilization: 39.08%  (258518/(661436-0))
 (Non-fixed only)
-Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        262124   sites, (non-fixed:262124 fixed:0)
-                      26577    cells, (non-fixed:26577  fixed:0)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        258518   sites, (non-fixed:258518 fixed:0)
+                      25801    cells, (non-fixed:25801  fixed:0)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
@@ -1394,9 +1392,9 @@ Placement blockages:  0        sites, (excluding fixed std cells)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       117 
-Avg. std cell width:  9.14 um 
-Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
+Lib cell count:       108 
+Avg. std cell width:  9.91 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
 Physical DB scale:    1000 db_unit = 1 um 
 
  
@@ -1404,7 +1402,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:27 2020
+  Date   : Tue Nov 17 18:45:07 2020
 ****************************************
 
 
@@ -1417,25 +1415,25 @@ MET3       none          ---         ---       via additive      ---
 MET4       none          ---         ---       via additive      ---
 MET5       none          ---         ---       via additive      ---
 MET6       none          ---         ---       via additive      ---
-Legalizing 26577 illegal cells...
+Legalizing 25801 illegal cells...
 Starting legalizer.
 Initial legalization:  100% (0 sec)
-Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
-Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
-Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.4 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
 Legalization complete (2 total sec)
  
 ****************************************
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:29 2020
+  Date   : Tue Nov 17 18:45:09 2020
 ****************************************
 
-avg cell displacement:    1.052 um ( 0.29 row height)
-max cell displacement:    5.068 um ( 1.41 row height)
-std deviation:            0.536 um ( 0.15 row height)
-number of cell moved:     26577 cells (out of 26577 cells)
+avg cell displacement:    0.970 um ( 0.27 row height)
+max cell displacement:    3.256 um ( 0.90 row height)
+std deviation:            0.518 um ( 0.14 row height)
+number of cell moved:     25801 cells (out of 25801 cells)
 
 Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
 
@@ -1454,214 +1452,244 @@ Using [3 x 3] Fat Wire Table for MET3
 Using [3 x 3] Fat Wire Table for MET4
 Using [3 x 3] Fat Wire Table for MET5
 Instance being processed:
- [1] pad44
- [2] pfiller16
- [3] pfiller17
- [4] pad43
+ [1] pad56
 WARNING:  Failed to make a connection for the following pin:
-((311.000, 1058.380) (329.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
-Warning: wire dropped because obstruction, ((311.000 1028.920) (329.000 1064.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((272.000 1064.380) (332.000 1196.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
+((231.000, 1262.380) (249.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+Warning: wire dropped because obstruction, ((231.000 1253.860) (249.000 1268.570)) (Net: VDD_12I) (Layer: MET2 [28]) is blocked by ((192.000 1268.380) (252.000 1400.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
 WARNING:  Failed to make a connection for the following pin:
-((275.000, 1058.380) (293.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
-Warning: wire dropped because obstruction, ((275.000 1028.920) (293.000 1064.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((272.000 1064.380) (332.000 1196.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
+((214.000, 1262.380) (230.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+Warning: wire dropped because obstruction, ((214.000 1253.860) (230.000 1268.570)) (Net: VDD_12I) (Layer: MET2 [28]) is blocked by ((192.000 1268.380) (252.000 1400.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
 WARNING:  Failed to make a connection for the following pin:
-((294.000, 1058.380) (310.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
-Warning: wire dropped because obstruction, ((294.000 1028.920) (310.000 1064.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((272.000 1064.380) (332.000 1196.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
- [5] pfiller18
- [6] pad42
- [7] pfiller19
- [8] pad41
- [9] pfiller20
- [10] pfiller21
- [11] pad40
- [12] pfiller22
- [13] pad39
+((195.000, 1262.380) (213.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+Warning: wire dropped because obstruction, ((195.000 1253.860) (213.000 1268.570)) (Net: VDD_12I) (Layer: MET2 [28]) is blocked by ((192.000 1268.380) (252.000 1400.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
+ [2] pfiller18
+ [3] pad55
+ [4] pfiller19
+ [5] pad54
+ [6] pfiller20
+ [7] pad53
 WARNING:  Failed to make a connection for the following pin:
-((595.000, 1058.380) (613.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
-Warning: wire dropped because obstruction, ((595.000 1028.920) (613.000 1064.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((556.000 1064.380) (616.000 1196.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
+((435.000, 1262.380) (453.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
+Warning: wire dropped because obstruction, ((435.000 1225.700) (453.000 1268.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((396.000 1268.380) (456.000 1400.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
 WARNING:  Failed to make a connection for the following pin:
-((559.000, 1058.380) (577.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
-Warning: wire dropped because obstruction, ((559.000 1028.920) (577.000 1064.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((556.000 1064.380) (616.000 1196.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
+((399.000, 1262.380) (417.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
+Warning: wire dropped because obstruction, ((399.000 1225.700) (417.000 1268.570)) (Net: VSS) (Layer: MET2 [28]) is blocked by ((396.000 1268.380) (456.000 1400.000)) (Net: null) (Layer: MET2 [28]). (PGRT-030)
 WARNING:  Failed to make a connection for the following pin:
-((578.000, 1058.380) (594.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
+((418.000, 1262.380) (434.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
 Note - message 'PGRT-030' limit (5) exceeded.  Remainder will be suppressed.
- [14] pfiller23
- [15] pad38
- [16] pfiller24
- [17] pfiller25
- [18] pad37
- [19] pfiller26
- [20] pfiller27
- [21] pad36
+ [8] pfiller21
+ [9] pad52
+ [10] pfiller22
+ [11] pad51
+ [12] pfiller23
+ [13] pfiller24
+ [14] pad50
+ [15] pfiller25
+ [16] pad49
+ [17] pfiller26
+ [18] pad48
 WARNING:  Failed to make a connection for the following pin:
-((823.000, 1058.380) (841.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
+((787.000, 1262.380) (805.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((787.000, 1058.380) (805.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
+((751.000, 1262.380) (769.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((806.000, 1058.380) (822.000, 1063.380)) (Net: VSS)(wire on layer: MET3 [30])
- [22] pfiller28
+((770.000, 1262.380) (786.000, 1267.380)) (Net: VSS)(wire on layer: MET3 [30])
+ [19] pfiller27
+ [20] pad47
+ [21] pfiller28
+ [22] pad46
  [23] pfiller29
- [24] pad35
- [25] pfiller30
+ [24] pfiller30
+ [25] pad45
  [26] pfiller31
- [27] pad34
- [28] pad12
- [29] pfiller0
- [30] pfiller1
- [31] pad13
+ [27] pad44
 WARNING:  Failed to make a connection for the following pin:
-((275.000, 132.620) (293.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((1071.000, 1262.380) (1089.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((311.000, 132.620) (329.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((1054.000, 1262.380) (1070.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((294.000, 132.620) (310.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
- [32] pfiller2
- [33] pad14
- [34] pfiller3
- [35] pad15
- [36] pfiller4
- [37] pfiller5
- [38] pad16
+((1035.000, 1262.380) (1053.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [28] pfiller32
+ [29] pfiller33
+ [30] pfiller34
+ [31] pfiller35
+ [32] pfiller36
+ [33] pad43
+ [34] pad15
+ [35] pfiller0
+ [36] pad16
+ [37] pfiller1
+ [38] pfiller2
+ [39] pad17
+ [40] pfiller3
+ [41] pad18
 WARNING:  Failed to make a connection for the following pin:
-((491.000, 132.620) (509.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((411.000, 132.620) (429.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((527.000, 132.620) (545.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((447.000, 132.620) (465.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((510.000, 132.620) (526.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
- [39] pfiller6
- [40] pad17
- [41] pfiller7
- [42] pad18
- [43] pfiller8
- [44] pfiller9
- [45] pad19
- [46] pfiller10
- [47] pfiller11
- [48] pad20
- [49] pfiller12
- [50] pfiller13
- [51] pad21
- [52] pfiller14
- [53] pfiller15
- [54] pad22
+((430.000, 132.620) (446.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+ [42] pfiller4
+ [43] pad19
+ [44] pfiller5
+ [45] pad20
+ [46] pfiller6
+ [47] pad21
+ [48] pfiller7
+ [49] pfiller8
+ [50] pad22
 WARNING:  Failed to make a connection for the following pin:
-((947.000, 132.620) (965.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((695.000, 132.620) (713.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((983.000, 132.620) (1001.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+((731.000, 132.620) (749.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((966.000, 132.620) (982.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
- [55] pad23
+((714.000, 132.620) (730.000, 137.620)) (Net: VSS)(wire on layer: MET3 [30])
+ [51] pfiller9
+ [52] pad23
+ [53] pfiller10
+ [54] pad24
+ [55] pfiller11
+ [56] pfiller12
+ [57] pad25
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 195.000) (1063.380, 213.000)) (Net: VDD)(wire on layer: MET3 [30])
+((911.000, 132.620) (929.000, 137.620)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 214.000) (1063.380, 230.000)) (Net: VDD)(wire on layer: MET3 [30])
+((930.000, 132.620) (946.000, 137.620)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 231.000) (1063.380, 249.000)) (Net: VDD)(wire on layer: MET3 [30])
- [56] pfiller48
- [57] pad24
+((947.000, 132.620) (965.000, 137.620)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [58] pfiller13
+ [59] pad26
+ [60] pfiller14
+ [61] pad27
+ [62] pfiller15
+ [63] pfiller16
+ [64] pfiller17
+ [65] pad28
+ [66] pad29
+ [67] pfiller55
+ [68] pad30
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 263.000) (1063.380, 281.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 263.000) (1267.380, 281.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 299.000) (1063.380, 317.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 299.000) (1267.380, 317.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 282.000) (1063.380, 298.000)) (Net: VSS)(wire on layer: MET3 [30])
- [58] pfiller49
- [59] pad25
+((1262.380, 282.000) (1267.380, 298.000)) (Net: VSS)(wire on layer: MET3 [30])
+ [69] pfiller56
+ [70] pad31
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 331.000) (1063.380, 349.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+((1262.380, 331.000) (1267.380, 349.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 350.000) (1063.380, 366.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+((1262.380, 350.000) (1267.380, 366.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 367.000) (1063.380, 385.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
- [60] pfiller50
- [61] pad26
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 399.000) (1063.380, 417.000)) (Net: VSS)(wire on layer: MET3 [30])
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 435.000) (1063.380, 453.000)) (Net: VSS)(wire on layer: MET3 [30])
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 418.000) (1063.380, 434.000)) (Net: VSS)(wire on layer: MET3 [30])
- [62] pfiller51
- [63] pad27
- [64] pfiller52
- [65] pfiller53
- [66] pad28
- [67] pfiller54
- [68] pad29
- [69] pfiller55
- [70] pad30
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 707.000) (1063.380, 725.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 726.000) (1063.380, 742.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
-WARNING:  Failed to make a connection for the following pin:
-((1058.380, 743.000) (1063.380, 761.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
- [71] pfiller56
- [72] pfiller57
- [73] pad31
- [74] pfiller58
+((1262.380, 367.000) (1267.380, 385.000)) (Net: VDD)(wire on layer: MET3 [30])
+ [71] pfiller57
+ [72] pad32
+ [73] pfiller58
+ [74] pad33
  [75] pfiller59
- [76] pad32
- [77] pfiller60
+ [76] pfiller60
+ [77] pad34
  [78] pfiller61
- [79] pad33
+ [79] pad35
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 947.000) (1063.380, 965.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 615.000) (1267.380, 633.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 983.000) (1063.380, 1001.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 634.000) (1267.380, 650.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((1058.380, 966.000) (1063.380, 982.000)) (Net: VSS)(wire on layer: MET3 [30])
- [80] pad11
+((1262.380, 651.000) (1267.380, 669.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [80] pfiller62
+ [81] pad36
+ [82] pfiller63
+ [83] pad37
+ [84] pfiller64
+ [85] pfiller65
+ [86] pad38
+ [87] pfiller66
+ [88] pad39
+ [89] pfiller67
+ [90] pad40
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 231.000) (137.620, 249.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 967.000) (1267.380, 985.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 195.000) (137.620, 213.000)) (Net: VSS)(wire on layer: MET3 [30])
+((1262.380, 1003.000) (1267.380, 1021.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 214.000) (137.620, 230.000)) (Net: VSS)(wire on layer: MET3 [30])
- [81] pfiller32
- [82] pfiller33
- [83] pad10
+((1262.380, 986.000) (1267.380, 1002.000)) (Net: VSS)(wire on layer: MET3 [30])
+ [91] pfiller68
+ [92] pad41
+WARNING:  Failed to make a connection for the following pin:
+((1262.380, 1035.000) (1267.380, 1053.000)) (Net: VDD)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((1262.380, 1054.000) (1267.380, 1070.000)) (Net: VDD)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((1262.380, 1071.000) (1267.380, 1089.000)) (Net: VDD)(wire on layer: MET3 [30])
+ [93] pfiller69
+ [94] pfiller70
+ [95] pfiller71
+ [96] pfiller72
+ [97] pfiller73
+ [98] pad42
+ [99] pad14
+ [100] pfiller37
+ [101] pfiller38
+ [102] pad13
 WARNING:  Failed to make a connection for the following pin:
 ((132.620, 311.000) (137.620, 329.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
 ((132.620, 294.000) (137.620, 310.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
 ((132.620, 275.000) (137.620, 293.000)) (Net: VDD)(wire on layer: MET3 [30])
- [84] pfiller34
- [85] pfiller35
- [86] pad9
- [87] pfiller36
- [88] pfiller37
- [89] pad8
- [90] pfiller38
- [91] pad7
- [92] pfiller39
- [93] pad6
+ [103] pfiller39
+ [104] pad12
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 607.000) (137.620, 625.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+((132.620, 379.000) (137.620, 397.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 590.000) (137.620, 606.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+((132.620, 343.000) (137.620, 361.000)) (Net: VSS)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 571.000) (137.620, 589.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
- [94] pfiller40
- [95] pad5
- [96] pfiller41
- [97] pad4
+((132.620, 362.000) (137.620, 378.000)) (Net: VSS)(wire on layer: MET3 [30])
+ [105] pfiller40
+ [106] pad11
+ [107] pfiller41
+ [108] pfiller42
+ [109] pad10
+ [110] pfiller43
+ [111] pfiller44
+ [112] pad9
+ [113] pfiller45
+ [114] pad8
+ [115] pfiller46
+ [116] pad7
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 743.000) (137.620, 761.000)) (Net: VSS)(wire on layer: MET3 [30])
+((132.620, 743.000) (137.620, 761.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 707.000) (137.620, 725.000)) (Net: VSS)(wire on layer: MET3 [30])
+((132.620, 726.000) (137.620, 742.000)) (Net: VDD)(wire on layer: MET3 [30])
 WARNING:  Failed to make a connection for the following pin:
-((132.620, 726.000) (137.620, 742.000)) (Net: VSS)(wire on layer: MET3 [30])
- [98] pfiller42
- [99] pfiller43
- [100] pad3
- [101] pfiller44
- [102] pfiller45
- [103] pad2
- [104] pfiller46
- [105] pfiller47
- [106] pad1
+((132.620, 707.000) (137.620, 725.000)) (Net: VDD)(wire on layer: MET3 [30])
+ [117] pfiller47
+ [118] pad6
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 811.000) (137.620, 829.000)) (Net: VSS)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 775.000) (137.620, 793.000)) (Net: VSS)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 794.000) (137.620, 810.000)) (Net: VSS)(wire on layer: MET3 [30])
+ [119] pfiller48
+ [120] pad5
+ [121] pfiller49
+ [122] pad4
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 947.000) (137.620, 965.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 930.000) (137.620, 946.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((132.620, 911.000) (137.620, 929.000)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [123] pfiller50
+ [124] pad3
+ [125] pfiller51
+ [126] pad2
+ [127] pfiller52
+ [128] pfiller53
+ [129] pfiller54
+ [130] pad1
  [done] 
 
 [Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
@@ -1674,19 +1702,19 @@ Using [3 x 3] Fat Wire Table for MET3
 Using [3 x 3] Fat Wire Table for MET4
 Using [3 x 3] Fat Wire Table for MET5
 Prerouting standard cells horizontally: 
- [10.02%]  
- [20.91%]  
- [31.12%]  
- [41.60%]  
- [51.74%]  
- [61.93%]  
- [72.35%]  
- [82.51%]  
- [93.08%]  
+ [10.53%]  
+ [20.54%]  
+ [31.00%]  
+ [41.10%]  
+ [51.44%]  
+ [61.56%]  
+ [71.61%]  
+ [81.82%]  
+ [91.97%]  
  [100.00%] [done] 
 
-[Prerouter] CPU = 00:00:02, Elapsed = 00:00:02
-	Peak Memory =      916M Data =        6M
+[Prerouter] CPU = 00:00:01, Elapsed = 00:00:02
+	Peak Memory =      916M Data =        7M
 1
 preroute_instances  -ignore_macros -ignore_cover_cells 	-select_net_by_type specified 	-nets  {VDD_12I}
 Using [3 x 3] Fat Wire Table for MET1
@@ -1695,116 +1723,152 @@ Using [3 x 3] Fat Wire Table for MET3
 Using [3 x 3] Fat Wire Table for MET4
 Using [3 x 3] Fat Wire Table for MET5
 Instance being processed:
- [1] pad44
- [2] pfiller16
- [3] pfiller17
- [4] pad43
- [5] pfiller18
- [6] pad42
- [7] pfiller19
- [8] pad41
- [9] pfiller20
- [10] pfiller21
- [11] pad40
- [12] pfiller22
- [13] pad39
- [14] pfiller23
- [15] pad38
- [16] pfiller24
- [17] pfiller25
- [18] pad37
- [19] pfiller26
- [20] pfiller27
- [21] pad36
- [22] pfiller28
+ [1] pad56
+WARNING:  Failed to make a connection for the following pin:
+((231.000, 1262.380) (249.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((214.000, 1262.380) (230.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((195.000, 1262.380) (213.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [2] pfiller18
+ [3] pad55
+ [4] pfiller19
+ [5] pad54
+ [6] pfiller20
+ [7] pad53
+ [8] pfiller21
+ [9] pad52
+ [10] pfiller22
+ [11] pad51
+ [12] pfiller23
+ [13] pfiller24
+ [14] pad50
+ [15] pfiller25
+ [16] pad49
+ [17] pfiller26
+ [18] pad48
+ [19] pfiller27
+ [20] pad47
+ [21] pfiller28
+ [22] pad46
  [23] pfiller29
- [24] pad35
- [25] pfiller30
+ [24] pfiller30
+ [25] pad45
  [26] pfiller31
- [27] pad34
- [28] pad12
- [29] pfiller0
- [30] pfiller1
- [31] pad13
- [32] pfiller2
- [33] pad14
- [34] pfiller3
- [35] pad15
- [36] pfiller4
- [37] pfiller5
- [38] pad16
- [39] pfiller6
- [40] pad17
- [41] pfiller7
- [42] pad18
- [43] pfiller8
- [44] pfiller9
- [45] pad19
- [46] pfiller10
- [47] pfiller11
- [48] pad20
- [49] pfiller12
- [50] pfiller13
- [51] pad21
- [52] pfiller14
- [53] pfiller15
- [54] pad22
- [55] pad23
- [56] pfiller48
- [57] pad24
- [58] pfiller49
- [59] pad25
- [60] pfiller50
- [61] pad26
- [62] pfiller51
- [63] pad27
- [64] pfiller52
- [65] pfiller53
- [66] pad28
- [67] pfiller54
- [68] pad29
- [69] pfiller55
- [70] pad30
- [71] pfiller56
- [72] pfiller57
- [73] pad31
- [74] pfiller58
+ [27] pad44
+WARNING:  Failed to make a connection for the following pin:
+((1071.000, 1262.380) (1089.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((1054.000, 1262.380) (1070.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+WARNING:  Failed to make a connection for the following pin:
+((1035.000, 1262.380) (1053.000, 1267.380)) (Net: VDD_12I)(wire on layer: MET3 [30])
+ [28] pfiller32
+ [29] pfiller33
+ [30] pfiller34
+ [31] pfiller35
+ [32] pfiller36
+ [33] pad43
+ [34] pad15
+ [35] pfiller0
+ [36] pad16
+ [37] pfiller1
+ [38] pfiller2
+ [39] pad17
+ [40] pfiller3
+ [41] pad18
+ [42] pfiller4
+ [43] pad19
+ [44] pfiller5
+ [45] pad20
+ [46] pfiller6
+ [47] pad21
+ [48] pfiller7
+ [49] pfiller8
+ [50] pad22
+ [51] pfiller9
+ [52] pad23
+ [53] pfiller10
+ [54] pad24
+ [55] pfiller11
+ [56] pfiller12
+ [57] pad25
+ [58] pfiller13
+ [59] pad26
+ [60] pfiller14
+ [61] pad27
+ [62] pfiller15
+ [63] pfiller16
+ [64] pfiller17
+ [65] pad28
+ [66] pad29
+ [67] pfiller55
+ [68] pad30
+ [69] pfiller56
+ [70] pad31
+ [71] pfiller57
+ [72] pad32
+ [73] pfiller58
+ [74] pad33
  [75] pfiller59
- [76] pad32
- [77] pfiller60
+ [76] pfiller60
+ [77] pad34
  [78] pfiller61
- [79] pad33
- [80] pad11
- [81] pfiller32
- [82] pfiller33
- [83] pad10
- [84] pfiller34
- [85] pfiller35
- [86] pad9
- [87] pfiller36
- [88] pfiller37
- [89] pad8
- [90] pfiller38
- [91] pad7
- [92] pfiller39
- [93] pad6
- [94] pfiller40
- [95] pad5
- [96] pfiller41
- [97] pad4
- [98] pfiller42
- [99] pfiller43
- [100] pad3
- [101] pfiller44
- [102] pfiller45
- [103] pad2
- [104] pfiller46
- [105] pfiller47
- [106] pad1
+ [79] pad35
+ [80] pfiller62
+ [81] pad36
+ [82] pfiller63
+ [83] pad37
+ [84] pfiller64
+ [85] pfiller65
+ [86] pad38
+ [87] pfiller66
+ [88] pad39
+ [89] pfiller67
+ [90] pad40
+ [91] pfiller68
+ [92] pad41
+ [93] pfiller69
+ [94] pfiller70
+ [95] pfiller71
+ [96] pfiller72
+ [97] pfiller73
+ [98] pad42
+ [99] pad14
+ [100] pfiller37
+ [101] pfiller38
+ [102] pad13
+ [103] pfiller39
+ [104] pad12
+ [105] pfiller40
+ [106] pad11
+ [107] pfiller41
+ [108] pfiller42
+ [109] pad10
+ [110] pfiller43
+ [111] pfiller44
+ [112] pad9
+ [113] pfiller45
+ [114] pad8
+ [115] pfiller46
+ [116] pad7
+ [117] pfiller47
+ [118] pad6
+ [119] pfiller48
+ [120] pad5
+ [121] pfiller49
+ [122] pad4
+ [123] pfiller50
+ [124] pad3
+ [125] pfiller51
+ [126] pad2
+ [127] pfiller52
+ [128] pfiller53
+ [129] pfiller54
+ [130] pad1
  [done] 
 
-[Prerouter] CPU = 00:00:00, Elapsed = 00:00:01
-	Peak Memory =      916M Data =        2M
+[Prerouter] CPU = 00:00:00, Elapsed = 00:00:00
+	Peak Memory =      916M Data =        3M
 1
 #preroute_instances  -ignore_macros -ignore_cover_cells
 verify_pg_nets  -error_cell test
@@ -1814,15 +1878,15 @@ Using [3 x 3] Fat Wire Table for MET2
 Using [3 x 3] Fat Wire Table for MET3
 Using [3 x 3] Fat Wire Table for MET4
 Using [3 x 3] Fat Wire Table for MET5
-Checking [VDD]:
-	There are no floating shapes
-	All the pins are connected.
-	No errors are found.
 Checking [VDD_12I]:
 	There are no floating shapes
 	All the pins are connected.
 	No errors are found.
 Checking [VSS]:
+	There are no floating shapes
+	All the pins are connected.
+	No errors are found.
+Checking [VDD]:
 	There are no floating shapes
 	All the pins are connected.
 	No errors are found.
@@ -1847,9 +1911,9 @@ INFO: legalizer_via_spacing_check_mode 0
     This is considered as a 6-metal-layer design
     Reading library information from DB ...
   Reading misc information ...
-    array <unit> has 0 vertical and 227 horizontal rows
-    183 pre-routes for placement blockage/checking
-    878 pre-routes for map congestion calculation
+    array <unit> has 0 vertical and 284 horizontal rows
+    198 pre-routes for placement blockage/checking
+    1305 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -1861,33 +1925,33 @@ INFO:... use original rows...
 INFO: 96 pre-routes used for checking; 0 redundant shapes removed
 [end initializing data for legality checker]
 Information: Running legalization in Fast-Mode! (DPI-029)
+Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phbct24_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "vdd12ih_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "vssiph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vdd33oph_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vssoh_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "vdd12ih_core_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "phbct24_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh10_p" of size (23 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh5_p" of size (12 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
-Warning: lib cell "iofillerh30_p" of size (69 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "phis_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
 Warning: lib cell "phbct12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phic_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
+Warning: lib cell "phob12_p" of size (137 sites x 39 rows) will be treated as macro cell because it is larger than 6 site heights (default threshold). (PSYN-442)
  
 ****************************************
   Report : Chip Summary
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:32 2020
+  Date   : Tue Nov 17 18:45:13 2020
 ****************************************
-Std cell utilization: 61.92%  (262124/(423355-0))
+Std cell utilization: 39.08%  (258518/(661436-0))
 (Non-fixed + Fixed)
-Std cell utilization: 61.92%  (262124/(423355-0))
+Std cell utilization: 39.08%  (258518/(661436-0))
 (Non-fixed only)
-Chip area:            423355   sites, bbox (187.62 187.62 1008.22 1004.82) um
-Std cell area:        262124   sites, (non-fixed:262124 fixed:0)
-                      26577    cells, (non-fixed:26577  fixed:0)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        258518   sites, (non-fixed:258518 fixed:0)
+                      25801    cells, (non-fixed:25801  fixed:0)
 Macro cell area:      0        sites
                       0        cells
 Placement blockages:  0        sites, (excluding fixed std cells)
@@ -1895,9 +1959,9 @@ Placement blockages:  0        sites, (excluding fixed std cells)
                       0        sites, (complete p/g net blockages)
 Routing blockages:    0        sites, (partial p/g net blockages)
                       0        sites, (routing blockages and signal pre-route)
-Lib cell count:       117 
-Avg. std cell width:  9.14 um 
-Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 227)
+Lib cell count:       108 
+Avg. std cell width:  9.91 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
 Physical DB scale:    1000 db_unit = 1 um 
 
  
@@ -1905,7 +1969,7 @@ Physical DB scale:    1000 db_unit = 1 um
   Report : pnet options
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:32 2020
+  Date   : Tue Nov 17 18:45:13 2020
 ****************************************
 
 
@@ -1913,7 +1977,7 @@ Physical DB scale:    1000 db_unit = 1 um
 Layer      Blockage   Min_width   Min_height   Via_additive     Density
 --------------------------------------------------------------------
 MET1       none          ---         ---       via additive      ---
-MET2       partial     9.14        1.80        via additive      0.00
+MET2       partial     9.91        1.80        via additive      0.00
 MET3       partial     10000.00    10000.00    via additive      0.00
 MET4       partial     10000.00    10000.00    via additive      0.00
 MET5       partial     10000.00    10000.00    via additive      0.00
@@ -1923,7 +1987,7 @@ MET6       partial     10000.00    10000.00    via additive      0.00
   Report : Legalize Displacement
   Design : khu_sensor_pad
   Version: N-2017.09
-  Date   : Tue Oct  6 22:51:32 2020
+  Date   : Tue Nov 17 18:45:13 2020
 ****************************************
 
 No cell displacement.
@@ -1955,7 +2019,7 @@ Current Stage stats:
 [End of Read DB] Total (MB): Used   40  Alloctr   41  Proc 2479 
 Constructing data structure ...
 Design statistics:
-Design Bounding Box (0.00,0.00,1196.00,1196.00)
+Design Bounding Box (0.00,0.00,1400.00,1400.00)
 Number of routing layers = 6
 layer MET1, dir Hor, min width = 0.16, min space = 0.16 pitch = 0.40
 layer MET2, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
@@ -1966,47 +2030,47 @@ layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
 Current Stage stats:
 [End of Build Tech Data] Elapsed real time: 0:00:00 
 [End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build Tech Data] Stage (MB): Used    5  Alloctr    5  Proc    0 
-[End of Build Tech Data] Total (MB): Used   46  Alloctr   47  Proc 2479 
+[End of Build Tech Data] Stage (MB): Used    7  Alloctr    7  Proc    0 
+[End of Build Tech Data] Total (MB): Used   48  Alloctr   48  Proc 2479 
 Net statistics:
-Total number of nets     = 28602
-Number of nets to route  = 28567
-Number of single or zero port nets = 20
+Total number of nets     = 28251
+Number of nets to route  = 28215
+Number of single or zero port nets = 21
 15 nets are fully connected,
  of which 15 are detail routed and 0 are global routed.
 Current Stage stats:
 [End of Build All Nets] Elapsed real time: 0:00:00 
 [End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Build All Nets] Stage (MB): Used    9  Alloctr    9  Proc    0 
-[End of Build All Nets] Total (MB): Used   55  Alloctr   56  Proc 2479 
-Average gCell capacity  2.89	 on layer (1)	 MET1
-Average gCell capacity  5.21	 on layer (2)	 MET2
-Average gCell capacity  6.02	 on layer (3)	 MET3
-Average gCell capacity  5.60	 on layer (4)	 MET4
-Average gCell capacity  5.55	 on layer (5)	 MET5
-Average gCell capacity  2.54	 on layer (6)	 MET6
-Average number of tracks per gCell 9.01	 on layer (1)	 MET1
-Average number of tracks per gCell 8.21	 on layer (2)	 MET2
-Average number of tracks per gCell 9.01	 on layer (3)	 MET3
-Average number of tracks per gCell 8.21	 on layer (4)	 MET4
-Average number of tracks per gCell 9.01	 on layer (5)	 MET5
-Average number of tracks per gCell 4.11	 on layer (6)	 MET6
-Number of gCells = 659352
+[End of Build All Nets] Total (MB): Used   57  Alloctr   58  Proc 2479 
+Average gCell capacity  3.48	 on layer (1)	 MET1
+Average gCell capacity  5.61	 on layer (2)	 MET2
+Average gCell capacity  6.34	 on layer (3)	 MET3
+Average gCell capacity  5.95	 on layer (4)	 MET4
+Average gCell capacity  6.33	 on layer (5)	 MET5
+Average gCell capacity  2.79	 on layer (6)	 MET6
+Average number of tracks per gCell 9.00	 on layer (1)	 MET1
+Average number of tracks per gCell 8.20	 on layer (2)	 MET2
+Average number of tracks per gCell 9.00	 on layer (3)	 MET3
+Average number of tracks per gCell 8.20	 on layer (4)	 MET4
+Average number of tracks per gCell 9.00	 on layer (5)	 MET5
+Average number of tracks per gCell 4.10	 on layer (6)	 MET6
+Number of gCells = 905592
 Current Stage stats:
 [End of Build Congestion map] Elapsed real time: 0:00:00 
 [End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build Congestion map] Stage (MB): Used    1  Alloctr    1  Proc    0 
-[End of Build Congestion map] Total (MB): Used   57  Alloctr   58  Proc 2479 
+[End of Build Congestion map] Stage (MB): Used    2  Alloctr    2  Proc    0 
+[End of Build Congestion map] Total (MB): Used   59  Alloctr   61  Proc 2479 
 Total stats:
-[End of Build Data] Elapsed real time: 0:00:00 
-[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build Data] Stage (MB): Used   16  Alloctr   17  Proc    0 
-[End of Build Data] Total (MB): Used   57  Alloctr   58  Proc 2479 
+[End of Build Data] Elapsed real time: 0:00:01 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Build Data] Stage (MB): Used   19  Alloctr   20  Proc    0 
+[End of Build Data] Total (MB): Used   59  Alloctr   61  Proc 2479 
 Current Stage stats:
 [End of Blocked Pin Detection] Elapsed real time: 0:00:01 
 [End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
 [End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Blocked Pin Detection] Total (MB): Used   57  Alloctr   58  Proc 2479 
+[End of Blocked Pin Detection] Total (MB): Used   59  Alloctr   61  Proc 2479 
 Information: Using 1 threads for routing. (ZRT-444)
 multi gcell levels ON
 
@@ -2023,32 +2087,32 @@ Start GR phase 0
 Current Stage stats:
 [End of Initial Routing] Elapsed real time: 0:00:02 
 [End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
-[End of Initial Routing] Stage (MB): Used   18  Alloctr   18  Proc    0 
-[End of Initial Routing] Total (MB): Used   76  Alloctr   77  Proc 2479 
+[End of Initial Routing] Stage (MB): Used   17  Alloctr   17  Proc    0 
+[End of Initial Routing] Total (MB): Used   77  Alloctr   78  Proc 2479 
 Initial. Routing result:
-Initial. Both Dirs: Overflow =  1470 Max = 4 GRCs =  1749 (0.80%)
-Initial. H routing: Overflow =   355 Max = 3 (GRCs =  1) GRCs =   418 (0.38%)
-Initial. V routing: Overflow =  1114 Max = 4 (GRCs =  1) GRCs =  1331 (1.21%)
-Initial. MET1       Overflow =    93 Max = 1 (GRCs = 80) GRCs =   107 (0.10%)
-Initial. MET2       Overflow =  1068 Max = 4 (GRCs =  1) GRCs =  1284 (1.17%)
-Initial. MET3       Overflow =   262 Max = 3 (GRCs =  1) GRCs =   311 (0.28%)
-Initial. MET4       Overflow =    46 Max = 2 (GRCs =  1) GRCs =    47 (0.04%)
+Initial. Both Dirs: Overflow =   530 Max = 3 GRCs =   808 (0.27%)
+Initial. H routing: Overflow =   226 Max = 3 (GRCs =  1) GRCs =   244 (0.16%)
+Initial. V routing: Overflow =   303 Max = 3 (GRCs =  2) GRCs =   564 (0.37%)
+Initial. MET1       Overflow =    90 Max = 1 (GRCs = 74) GRCs =   107 (0.07%)
+Initial. MET2       Overflow =   285 Max = 3 (GRCs =  2) GRCs =   546 (0.36%)
+Initial. MET3       Overflow =   136 Max = 3 (GRCs =  1) GRCs =   137 (0.09%)
+Initial. MET4       Overflow =    18 Max = 1 (GRCs = 18) GRCs =    18 (0.01%)
 Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-Initial. Total Wire Length = 1280620.68
-Initial. Layer MET1 wire length = 14259.91
-Initial. Layer MET2 wire length = 405938.48
-Initial. Layer MET3 wire length = 581340.85
-Initial. Layer MET4 wire length = 240696.68
-Initial. Layer MET5 wire length = 35383.30
-Initial. Layer MET6 wire length = 3001.46
-Initial. Total Number of Contacts = 206412
-Initial. Via VIA12 count = 104571
-Initial. Via VIA23 count = 89061
-Initial. Via VIA34 count = 12103
-Initial. Via VIA45 count = 632
-Initial. Via VIA56 count = 45
+Initial. Total Wire Length = 1478806.09
+Initial. Layer MET1 wire length = 31938.10
+Initial. Layer MET2 wire length = 600642.68
+Initial. Layer MET3 wire length = 683406.76
+Initial. Layer MET4 wire length = 154011.46
+Initial. Layer MET5 wire length = 8461.10
+Initial. Layer MET6 wire length = 345.99
+Initial. Total Number of Contacts = 192333
+Initial. Via VIA12 count = 99571
+Initial. Via VIA23 count = 86317
+Initial. Via VIA34 count = 6195
+Initial. Via VIA45 count = 244
+Initial. Via VIA56 count = 6
 Initial. completed.
 
 Start GR phase 1
@@ -2065,31 +2129,31 @@ Current Stage stats:
 [End of Phase1 Routing] Elapsed real time: 0:00:00 
 [End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase1 Routing] Total (MB): Used   76  Alloctr   77  Proc 2479 
+[End of Phase1 Routing] Total (MB): Used   77  Alloctr   78  Proc 2479 
 phase1. Routing result:
-phase1. Both Dirs: Overflow =   867 Max = 5 GRCs =   864 (0.39%)
-phase1. H routing: Overflow =    29 Max = 1 (GRCs = 16) GRCs =    43 (0.04%)
-phase1. V routing: Overflow =   838 Max = 5 (GRCs =  1) GRCs =   821 (0.75%)
-phase1. MET1       Overflow =    29 Max = 1 (GRCs = 16) GRCs =    43 (0.04%)
-phase1. MET2       Overflow =   838 Max = 5 (GRCs =  1) GRCs =   821 (0.75%)
+phase1. Both Dirs: Overflow =   146 Max = 3 GRCs =   231 (0.08%)
+phase1. H routing: Overflow =    33 Max = 1 (GRCs = 17) GRCs =    50 (0.03%)
+phase1. V routing: Overflow =   112 Max = 3 (GRCs =  1) GRCs =   181 (0.12%)
+phase1. MET1       Overflow =    33 Max = 1 (GRCs = 17) GRCs =    50 (0.03%)
+phase1. MET2       Overflow =   112 Max = 3 (GRCs =  1) GRCs =   181 (0.12%)
 phase1. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase1. Total Wire Length = 1281690.96
-phase1. Layer MET1 wire length = 14216.96
-phase1. Layer MET2 wire length = 399080.95
-phase1. Layer MET3 wire length = 576853.37
-phase1. Layer MET4 wire length = 246590.94
-phase1. Layer MET5 wire length = 40750.97
-phase1. Layer MET6 wire length = 4197.77
-phase1. Total Number of Contacts = 207563
-phase1. Via VIA12 count = 104564
-phase1. Via VIA23 count = 89307
-phase1. Via VIA34 count = 12809
-phase1. Via VIA45 count = 819
-phase1. Via VIA56 count = 64
+phase1. Total Wire Length = 1479116.75
+phase1. Layer MET1 wire length = 32120.19
+phase1. Layer MET2 wire length = 591865.10
+phase1. Layer MET3 wire length = 681518.80
+phase1. Layer MET4 wire length = 162842.51
+phase1. Layer MET5 wire length = 10298.68
+phase1. Layer MET6 wire length = 471.47
+phase1. Total Number of Contacts = 193022
+phase1. Via VIA12 count = 99583
+phase1. Via VIA23 count = 86515
+phase1. Via VIA34 count = 6601
+phase1. Via VIA45 count = 313
+phase1. Via VIA56 count = 10
 phase1. completed.
 
 Start GR phase 2
@@ -2106,31 +2170,31 @@ Current Stage stats:
 [End of Phase2 Routing] Elapsed real time: 0:00:00 
 [End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase2 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase2 Routing] Total (MB): Used   76  Alloctr   77  Proc 2479 
+[End of Phase2 Routing] Total (MB): Used   77  Alloctr   78  Proc 2479 
 phase2. Routing result:
-phase2. Both Dirs: Overflow =   524 Max = 3 GRCs =   562 (0.26%)
-phase2. H routing: Overflow =    24 Max = 1 (GRCs = 11) GRCs =    37 (0.03%)
-phase2. V routing: Overflow =   500 Max = 3 (GRCs =  3) GRCs =   525 (0.48%)
-phase2. MET1       Overflow =    24 Max = 1 (GRCs = 11) GRCs =    37 (0.03%)
-phase2. MET2       Overflow =   500 Max = 3 (GRCs =  3) GRCs =   525 (0.48%)
+phase2. Both Dirs: Overflow =    55 Max = 2 GRCs =    76 (0.03%)
+phase2. H routing: Overflow =    29 Max = 1 (GRCs = 13) GRCs =    46 (0.03%)
+phase2. V routing: Overflow =    26 Max = 2 (GRCs =  4) GRCs =    30 (0.02%)
+phase2. MET1       Overflow =    29 Max = 1 (GRCs = 13) GRCs =    46 (0.03%)
+phase2. MET2       Overflow =    26 Max = 2 (GRCs =  4) GRCs =    30 (0.02%)
 phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase2. Total Wire Length = 1281700.50
-phase2. Layer MET1 wire length = 14198.23
-phase2. Layer MET2 wire length = 399068.46
-phase2. Layer MET3 wire length = 576873.95
-phase2. Layer MET4 wire length = 246611.12
-phase2. Layer MET5 wire length = 40750.97
-phase2. Layer MET6 wire length = 4197.77
-phase2. Total Number of Contacts = 207579
-phase2. Via VIA12 count = 104562
-phase2. Via VIA23 count = 89318
-phase2. Via VIA34 count = 12816
-phase2. Via VIA45 count = 819
-phase2. Via VIA56 count = 64
+phase2. Total Wire Length = 1479110.87
+phase2. Layer MET1 wire length = 32111.39
+phase2. Layer MET2 wire length = 591865.19
+phase2. Layer MET3 wire length = 681521.63
+phase2. Layer MET4 wire length = 162842.51
+phase2. Layer MET5 wire length = 10298.68
+phase2. Layer MET6 wire length = 471.47
+phase2. Total Number of Contacts = 193023
+phase2. Via VIA12 count = 99581
+phase2. Via VIA23 count = 86518
+phase2. Via VIA34 count = 6601
+phase2. Via VIA45 count = 313
+phase2. Via VIA56 count = 10
 phase2. completed.
 
 Start GR phase 3
@@ -2147,69 +2211,69 @@ Current Stage stats:
 [End of Phase3 Routing] Elapsed real time: 0:00:00 
 [End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase3 Routing] Total (MB): Used   76  Alloctr   77  Proc 2479 
+[End of Phase3 Routing] Total (MB): Used   77  Alloctr   78  Proc 2479 
 phase3. Routing result:
-phase3. Both Dirs: Overflow =   524 Max = 3 GRCs =   562 (0.26%)
-phase3. H routing: Overflow =    24 Max = 1 (GRCs = 11) GRCs =    37 (0.03%)
-phase3. V routing: Overflow =   500 Max = 3 (GRCs =  3) GRCs =   525 (0.48%)
-phase3. MET1       Overflow =    24 Max = 1 (GRCs = 11) GRCs =    37 (0.03%)
-phase3. MET2       Overflow =   500 Max = 3 (GRCs =  3) GRCs =   525 (0.48%)
+phase3. Both Dirs: Overflow =    55 Max = 2 GRCs =    76 (0.03%)
+phase3. H routing: Overflow =    29 Max = 1 (GRCs = 13) GRCs =    46 (0.03%)
+phase3. V routing: Overflow =    26 Max = 2 (GRCs =  4) GRCs =    30 (0.02%)
+phase3. MET1       Overflow =    29 Max = 1 (GRCs = 13) GRCs =    46 (0.03%)
+phase3. MET2       Overflow =    26 Max = 2 (GRCs =  4) GRCs =    30 (0.02%)
 phase3. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase3. Total Wire Length = 1281700.50
-phase3. Layer MET1 wire length = 14198.23
-phase3. Layer MET2 wire length = 399068.46
-phase3. Layer MET3 wire length = 576873.95
-phase3. Layer MET4 wire length = 246611.12
-phase3. Layer MET5 wire length = 40750.97
-phase3. Layer MET6 wire length = 4197.77
-phase3. Total Number of Contacts = 207579
-phase3. Via VIA12 count = 104562
-phase3. Via VIA23 count = 89318
-phase3. Via VIA34 count = 12816
-phase3. Via VIA45 count = 819
-phase3. Via VIA56 count = 64
+phase3. Total Wire Length = 1479110.87
+phase3. Layer MET1 wire length = 32111.39
+phase3. Layer MET2 wire length = 591865.19
+phase3. Layer MET3 wire length = 681521.63
+phase3. Layer MET4 wire length = 162842.51
+phase3. Layer MET5 wire length = 10298.68
+phase3. Layer MET6 wire length = 471.47
+phase3. Total Number of Contacts = 193023
+phase3. Via VIA12 count = 99581
+phase3. Via VIA23 count = 86518
+phase3. Via VIA34 count = 6601
+phase3. Via VIA45 count = 313
+phase3. Via VIA56 count = 10
 phase3. completed.
 [End of Whole Chip Routing] Elapsed real time: 0:00:06 
 [End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
-[End of Whole Chip Routing] Stage (MB): Used   35  Alloctr   35  Proc    0 
-[End of Whole Chip Routing] Total (MB): Used   76  Alloctr   77  Proc 2479 
+[End of Whole Chip Routing] Stage (MB): Used   36  Alloctr   37  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used   77  Alloctr   78  Proc 2479 
 
 Congestion utilization per direction:
-Average vertical track utilization   = 16.66 %
-Peak    vertical track utilization   = 133.33 %
-Average horizontal track utilization = 13.86 %
+Average vertical track utilization   = 12.38 %
+Peak    vertical track utilization   = 100.00 %
+Average horizontal track utilization =  9.92 %
 Peak    horizontal track utilization = 100.00 %
 
 Current Stage stats:
 [GR: Done] Elapsed real time: 0:00:00 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[GR: Done] Stage (MB): Used   -5  Alloctr   -5  Proc    0 
-[GR: Done] Total (MB): Used   72  Alloctr   74  Proc 2479 
+[GR: Done] Stage (MB): Used   -7  Alloctr   -8  Proc    0 
+[GR: Done] Total (MB): Used   72  Alloctr   73  Proc 2479 
 GR Total stats:
 [GR: Done] Elapsed real time: 0:00:07 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[GR: Done] Stage (MB): Used   65  Alloctr   67  Proc    0 
-[GR: Done] Total (MB): Used   72  Alloctr   74  Proc 2479 
+[GR: Done] Stage (MB): Used   65  Alloctr   66  Proc    0 
+[GR: Done] Total (MB): Used   72  Alloctr   73  Proc 2479 
 Updating the database ...
 Final total stats:
 [End of Global Routing] Elapsed real time: 0:00:08 
 [End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
-[End of Global Routing] Stage (MB): Used    1  Alloctr    1  Proc    0 
-[End of Global Routing] Total (MB): Used    7  Alloctr    8  Proc 2479 
+[End of Global Routing] Stage (MB): Used    1  Alloctr    2  Proc    0 
+[End of Global Routing] Total (MB): Used    8  Alloctr    8  Proc 2479 
 Information: RC extraction has been freed. (PSYN-503)
 1
 report_congestion -grc_based -by_layer -routing_stage global
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
 Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
-	library is missing in the '/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
 Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
 Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std150e_bst_135_n040.db}. (MWDC-290)
@@ -2217,7 +2281,7 @@ Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std1
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library)
                               /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library)
@@ -2225,9 +2289,9 @@ Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std1
   dw_foundation.sldb (library)
                               /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
   std150e_wst_105_p125 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
   std150e_bst_135_n040 (library)
-                              /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
 
 Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
 Floorplan loading succeeded.
@@ -2241,9 +2305,9 @@ INFO: legalizer_via_spacing_check_mode 0
     This is considered as a 6-metal-layer design
     Reading library information from DB ...
   Reading misc information ...
-    array <unit> has 0 vertical and 227 horizontal rows
-    183 pre-routes for placement blockage/checking
-    878 pre-routes for map congestion calculation
+    array <unit> has 0 vertical and 284 horizontal rows
+    198 pre-routes for placement blockage/checking
+    1305 pre-routes for map congestion calculation
   Checking information read in ...
     design style = Horizontal masters, Horizontal rows
 
@@ -2259,7 +2323,7 @@ Start Global Route ...
 [Init] Elapsed real time: 0:00:00 
 [Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[Init] Total (MB): Used    7  Alloctr    8  Proc 2479 
+[Init] Total (MB): Used    8  Alloctr    8  Proc 2479 
 Printing options for 'set_route_zrt_common_options'
 
 Printing options for 'set_route_zrt_global_options'
@@ -2272,11 +2336,11 @@ Cell Max-Routing-Layer = MET6
 Current Stage stats:
 [End of Read DB] Elapsed real time: 0:00:01 
 [End of Read DB] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
-[End of Read DB] Stage (MB): Used   53  Alloctr   53  Proc    0 
-[End of Read DB] Total (MB): Used   61  Alloctr   62  Proc 2479 
+[End of Read DB] Stage (MB): Used   51  Alloctr   52  Proc    0 
+[End of Read DB] Total (MB): Used   60  Alloctr   60  Proc 2479 
 Constructing data structure ...
 Design statistics:
-Design Bounding Box (0.00,0.00,1196.00,1196.00)
+Design Bounding Box (0.00,0.00,1400.00,1400.00)
 Number of routing layers = 6
 layer MET1, dir Hor, min width = 0.16, min space = 0.16 pitch = 0.40
 layer MET2, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
@@ -2287,47 +2351,47 @@ layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
 Current Stage stats:
 [End of Build Tech Data] Elapsed real time: 0:00:00 
 [End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build Tech Data] Stage (MB): Used    5  Alloctr    5  Proc    0 
+[End of Build Tech Data] Stage (MB): Used    7  Alloctr    7  Proc    0 
 [End of Build Tech Data] Total (MB): Used   67  Alloctr   68  Proc 2479 
 Net statistics:
-Total number of nets     = 28602
-Number of nets to route  = 28567
-Number of single or zero port nets = 20
-28582 nets are fully connected,
- of which 15 are detail routed and 28567 are global routed.
+Total number of nets     = 28251
+Number of nets to route  = 28215
+Number of single or zero port nets = 21
+28230 nets are fully connected,
+ of which 15 are detail routed and 28215 are global routed.
 Current Stage stats:
 [End of Build All Nets] Elapsed real time: 0:00:00 
 [End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build All Nets] Stage (MB): Used   -8  Alloctr    0  Proc    0 
-[End of Build All Nets] Total (MB): Used   58  Alloctr   67  Proc 2479 
-Average gCell capacity  2.89	 on layer (1)	 MET1
-Average gCell capacity  5.21	 on layer (2)	 MET2
-Average gCell capacity  6.02	 on layer (3)	 MET3
-Average gCell capacity  5.60	 on layer (4)	 MET4
-Average gCell capacity  5.55	 on layer (5)	 MET5
-Average gCell capacity  2.54	 on layer (6)	 MET6
-Average number of tracks per gCell 9.01	 on layer (1)	 MET1
-Average number of tracks per gCell 8.21	 on layer (2)	 MET2
-Average number of tracks per gCell 9.01	 on layer (3)	 MET3
-Average number of tracks per gCell 8.21	 on layer (4)	 MET4
-Average number of tracks per gCell 9.01	 on layer (5)	 MET5
-Average number of tracks per gCell 4.11	 on layer (6)	 MET6
-Number of gCells = 659352
+[End of Build All Nets] Stage (MB): Used   -7  Alloctr    0  Proc    0 
+[End of Build All Nets] Total (MB): Used   60  Alloctr   69  Proc 2479 
+Average gCell capacity  3.48	 on layer (1)	 MET1
+Average gCell capacity  5.61	 on layer (2)	 MET2
+Average gCell capacity  6.34	 on layer (3)	 MET3
+Average gCell capacity  5.95	 on layer (4)	 MET4
+Average gCell capacity  6.33	 on layer (5)	 MET5
+Average gCell capacity  2.79	 on layer (6)	 MET6
+Average number of tracks per gCell 9.00	 on layer (1)	 MET1
+Average number of tracks per gCell 8.20	 on layer (2)	 MET2
+Average number of tracks per gCell 9.00	 on layer (3)	 MET3
+Average number of tracks per gCell 8.20	 on layer (4)	 MET4
+Average number of tracks per gCell 9.00	 on layer (5)	 MET5
+Average number of tracks per gCell 4.10	 on layer (6)	 MET6
+Number of gCells = 905592
 Current Stage stats:
 [End of Build Congestion map] Elapsed real time: 0:00:00 
 [End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[End of Build Congestion map] Stage (MB): Used    1  Alloctr    1  Proc    0 
-[End of Build Congestion map] Total (MB): Used   60  Alloctr   68  Proc 2479 
+[End of Build Congestion map] Stage (MB): Used    2  Alloctr    2  Proc    0 
+[End of Build Congestion map] Total (MB): Used   62  Alloctr   71  Proc 2479 
 Total stats:
 [End of Build Data] Elapsed real time: 0:00:01 
 [End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
-[End of Build Data] Stage (MB): Used   -1  Alloctr    6  Proc    0 
-[End of Build Data] Total (MB): Used   60  Alloctr   68  Proc 2479 
+[End of Build Data] Stage (MB): Used    2  Alloctr   10  Proc    0 
+[End of Build Data] Total (MB): Used   62  Alloctr   71  Proc 2479 
 Current Stage stats:
 [End of Blocked Pin Detection] Elapsed real time: 0:00:01 
 [End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
 [End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Blocked Pin Detection] Total (MB): Used   60  Alloctr   68  Proc 2479 
+[End of Blocked Pin Detection] Total (MB): Used   62  Alloctr   71  Proc 2479 
 Information: Using 1 threads for routing. (ZRT-444)
 multi gcell levels ON
 
@@ -2339,37 +2403,37 @@ Start GR phase 0
 50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
 60% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
 70% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
-80% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+80% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
 90% of nets complete Elapsed cpu time: 0:00:02 Elapsed real time: 0:00:02
 Current Stage stats:
 [End of Initial Routing] Elapsed real time: 0:00:02 
 [End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
-[End of Initial Routing] Stage (MB): Used   17  Alloctr   10  Proc    0 
-[End of Initial Routing] Total (MB): Used   77  Alloctr   79  Proc 2479 
+[End of Initial Routing] Stage (MB): Used   16  Alloctr    9  Proc    0 
+[End of Initial Routing] Total (MB): Used   79  Alloctr   80  Proc 2479 
 Initial. Routing result:
-Initial. Both Dirs: Overflow =  1574 Max = 4 GRCs =  1866 (0.85%)
-Initial. H routing: Overflow =   425 Max = 3 (GRCs =  3) GRCs =   475 (0.43%)
-Initial. V routing: Overflow =  1148 Max = 4 (GRCs =  2) GRCs =  1391 (1.27%)
-Initial. MET1       Overflow =    91 Max = 1 (GRCs = 78) GRCs =   103 (0.09%)
-Initial. MET2       Overflow =  1074 Max = 4 (GRCs =  2) GRCs =  1317 (1.20%)
-Initial. MET3       Overflow =   331 Max = 3 (GRCs =  3) GRCs =   369 (0.34%)
-Initial. MET4       Overflow =    74 Max = 1 (GRCs = 74) GRCs =    74 (0.07%)
-Initial. MET5       Overflow =     3 Max = 1 (GRCs =  3) GRCs =     3 (0.00%)
+Initial. Both Dirs: Overflow =   465 Max = 3 GRCs =   733 (0.24%)
+Initial. H routing: Overflow =   192 Max = 2 (GRCs =  5) GRCs =   208 (0.14%)
+Initial. V routing: Overflow =   272 Max = 3 (GRCs =  2) GRCs =   525 (0.35%)
+Initial. MET1       Overflow =    81 Max = 1 (GRCs = 69) GRCs =    94 (0.06%)
+Initial. MET2       Overflow =   264 Max = 3 (GRCs =  2) GRCs =   517 (0.34%)
+Initial. MET3       Overflow =   110 Max = 2 (GRCs =  5) GRCs =   114 (0.08%)
+Initial. MET4       Overflow =     8 Max = 1 (GRCs =  8) GRCs =     8 (0.01%)
+Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-Initial. Total Wire Length = 1281112.75
-Initial. Layer MET1 wire length = 14235.89
-Initial. Layer MET2 wire length = 410673.46
-Initial. Layer MET3 wire length = 582900.31
-Initial. Layer MET4 wire length = 235470.58
-Initial. Layer MET5 wire length = 33930.32
-Initial. Layer MET6 wire length = 3902.19
-Initial. Total Number of Contacts = 206110
-Initial. Via VIA12 count = 104547
-Initial. Via VIA23 count = 88916
-Initial. Via VIA34 count = 11946
-Initial. Via VIA45 count = 647
-Initial. Via VIA56 count = 54
+Initial. Total Wire Length = 1479253.68
+Initial. Layer MET1 wire length = 32203.01
+Initial. Layer MET2 wire length = 601816.08
+Initial. Layer MET3 wire length = 683500.67
+Initial. Layer MET4 wire length = 152639.60
+Initial. Layer MET5 wire length = 8741.27
+Initial. Layer MET6 wire length = 353.05
+Initial. Total Number of Contacts = 192483
+Initial. Via VIA12 count = 99633
+Initial. Via VIA23 count = 86450
+Initial. Via VIA34 count = 6136
+Initial. Via VIA45 count = 257
+Initial. Via VIA56 count = 7
 Initial. completed.
 
 Start GR phase 1
@@ -2386,31 +2450,31 @@ Current Stage stats:
 [End of Phase1 Routing] Elapsed real time: 0:00:00 
 [End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase1 Routing] Total (MB): Used   77  Alloctr   79  Proc 2479 
+[End of Phase1 Routing] Total (MB): Used   79  Alloctr   80  Proc 2479 
 phase1. Routing result:
-phase1. Both Dirs: Overflow =   897 Max = 4 GRCs =   908 (0.41%)
-phase1. H routing: Overflow =    42 Max = 1 (GRCs = 29) GRCs =    54 (0.05%)
-phase1. V routing: Overflow =   855 Max = 4 (GRCs =  2) GRCs =   854 (0.78%)
-phase1. MET1       Overflow =    42 Max = 1 (GRCs = 29) GRCs =    54 (0.05%)
-phase1. MET2       Overflow =   855 Max = 4 (GRCs =  2) GRCs =   854 (0.78%)
+phase1. Both Dirs: Overflow =   145 Max = 3 GRCs =   232 (0.08%)
+phase1. H routing: Overflow =    30 Max = 1 (GRCs = 18) GRCs =    43 (0.03%)
+phase1. V routing: Overflow =   115 Max = 3 (GRCs =  2) GRCs =   189 (0.13%)
+phase1. MET1       Overflow =    30 Max = 1 (GRCs = 18) GRCs =    43 (0.03%)
+phase1. MET2       Overflow =   115 Max = 3 (GRCs =  2) GRCs =   189 (0.13%)
 phase1. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase1. Total Wire Length = 1282104.10
-phase1. Layer MET1 wire length = 14196.38
-phase1. Layer MET2 wire length = 402843.30
-phase1. Layer MET3 wire length = 576889.11
-phase1. Layer MET4 wire length = 241700.93
-phase1. Layer MET5 wire length = 40356.94
-phase1. Layer MET6 wire length = 6117.44
-phase1. Total Number of Contacts = 207236
-phase1. Via VIA12 count = 104537
-phase1. Via VIA23 count = 89107
-phase1. Via VIA34 count = 12675
-phase1. Via VIA45 count = 831
-phase1. Via VIA56 count = 86
+phase1. Total Wire Length = 1479464.95
+phase1. Layer MET1 wire length = 32316.07
+phase1. Layer MET2 wire length = 594287.00
+phase1. Layer MET3 wire length = 681771.64
+phase1. Layer MET4 wire length = 160127.63
+phase1. Layer MET5 wire length = 10454.07
+phase1. Layer MET6 wire length = 508.54
+phase1. Total Number of Contacts = 193108
+phase1. Via VIA12 count = 99663
+phase1. Via VIA23 count = 86602
+phase1. Via VIA34 count = 6503
+phase1. Via VIA45 count = 327
+phase1. Via VIA56 count = 13
 phase1. completed.
 
 Start GR phase 2
@@ -2427,31 +2491,31 @@ Current Stage stats:
 [End of Phase2 Routing] Elapsed real time: 0:00:00 
 [End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase2 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase2 Routing] Total (MB): Used   77  Alloctr   79  Proc 2479 
+[End of Phase2 Routing] Total (MB): Used   78  Alloctr   80  Proc 2479 
 phase2. Routing result:
-phase2. Both Dirs: Overflow =   548 Max = 3 GRCs =   576 (0.26%)
-phase2. H routing: Overflow =    36 Max = 1 (GRCs = 24) GRCs =    48 (0.04%)
-phase2. V routing: Overflow =   512 Max = 3 (GRCs =  6) GRCs =   528 (0.48%)
-phase2. MET1       Overflow =    36 Max = 1 (GRCs = 24) GRCs =    48 (0.04%)
-phase2. MET2       Overflow =   512 Max = 3 (GRCs =  6) GRCs =   528 (0.48%)
+phase2. Both Dirs: Overflow =    59 Max = 2 GRCs =    79 (0.03%)
+phase2. H routing: Overflow =    28 Max = 1 (GRCs = 15) GRCs =    42 (0.03%)
+phase2. V routing: Overflow =    31 Max = 2 (GRCs =  5) GRCs =    37 (0.02%)
+phase2. MET1       Overflow =    28 Max = 1 (GRCs = 15) GRCs =    42 (0.03%)
+phase2. MET2       Overflow =    31 Max = 2 (GRCs =  5) GRCs =    37 (0.02%)
 phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase2. Total Wire Length = 1282114.59
-phase2. Layer MET1 wire length = 14184.81
-phase2. Layer MET2 wire length = 402830.07
-phase2. Layer MET3 wire length = 576836.13
-phase2. Layer MET4 wire length = 241719.68
-phase2. Layer MET5 wire length = 40426.46
-phase2. Layer MET6 wire length = 6117.44
-phase2. Total Number of Contacts = 207248
-phase2. Via VIA12 count = 104534
-phase2. Via VIA23 count = 89114
-phase2. Via VIA34 count = 12681
-phase2. Via VIA45 count = 833
-phase2. Via VIA56 count = 86
+phase2. Total Wire Length = 1479464.95
+phase2. Layer MET1 wire length = 32303.59
+phase2. Layer MET2 wire length = 594280.29
+phase2. Layer MET3 wire length = 681784.12
+phase2. Layer MET4 wire length = 160134.34
+phase2. Layer MET5 wire length = 10454.07
+phase2. Layer MET6 wire length = 508.54
+phase2. Total Number of Contacts = 193114
+phase2. Via VIA12 count = 99663
+phase2. Via VIA23 count = 86606
+phase2. Via VIA34 count = 6505
+phase2. Via VIA45 count = 327
+phase2. Via VIA56 count = 13
 phase2. completed.
 
 Start GR phase 3
@@ -2468,58 +2532,58 @@ Current Stage stats:
 [End of Phase3 Routing] Elapsed real time: 0:00:00 
 [End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[End of Phase3 Routing] Total (MB): Used   77  Alloctr   79  Proc 2479 
+[End of Phase3 Routing] Total (MB): Used   78  Alloctr   80  Proc 2479 
 phase3. Routing result:
-phase3. Both Dirs: Overflow =   545 Max = 3 GRCs =   573 (0.26%)
-phase3. H routing: Overflow =    33 Max = 1 (GRCs = 21) GRCs =    45 (0.04%)
-phase3. V routing: Overflow =   512 Max = 3 (GRCs =  6) GRCs =   528 (0.48%)
-phase3. MET1       Overflow =    33 Max = 1 (GRCs = 21) GRCs =    45 (0.04%)
-phase3. MET2       Overflow =   512 Max = 3 (GRCs =  6) GRCs =   528 (0.48%)
+phase3. Both Dirs: Overflow =    59 Max = 2 GRCs =    79 (0.03%)
+phase3. H routing: Overflow =    28 Max = 1 (GRCs = 15) GRCs =    42 (0.03%)
+phase3. V routing: Overflow =    31 Max = 2 (GRCs =  5) GRCs =    37 (0.02%)
+phase3. MET1       Overflow =    28 Max = 1 (GRCs = 15) GRCs =    42 (0.03%)
+phase3. MET2       Overflow =    31 Max = 2 (GRCs =  5) GRCs =    37 (0.02%)
 phase3. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 phase3. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
 
-phase3. Total Wire Length = 1282116.66
-phase3. Layer MET1 wire length = 14175.97
-phase3. Layer MET2 wire length = 402835.47
-phase3. Layer MET3 wire length = 576827.24
-phase3. Layer MET4 wire length = 241734.08
-phase3. Layer MET5 wire length = 40426.46
-phase3. Layer MET6 wire length = 6117.44
-phase3. Total Number of Contacts = 207249
-phase3. Via VIA12 count = 104532
-phase3. Via VIA23 count = 89114
-phase3. Via VIA34 count = 12684
-phase3. Via VIA45 count = 833
-phase3. Via VIA56 count = 86
+phase3. Total Wire Length = 1479464.95
+phase3. Layer MET1 wire length = 32303.59
+phase3. Layer MET2 wire length = 594280.29
+phase3. Layer MET3 wire length = 681784.12
+phase3. Layer MET4 wire length = 160134.34
+phase3. Layer MET5 wire length = 10454.07
+phase3. Layer MET6 wire length = 508.54
+phase3. Total Number of Contacts = 193114
+phase3. Via VIA12 count = 99663
+phase3. Via VIA23 count = 86606
+phase3. Via VIA34 count = 6505
+phase3. Via VIA45 count = 327
+phase3. Via VIA56 count = 13
 phase3. completed.
-[End of Whole Chip Routing] Elapsed real time: 0:00:07 
-[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[End of Whole Chip Routing] Stage (MB): Used   16  Alloctr   16  Proc    0 
-[End of Whole Chip Routing] Total (MB): Used   77  Alloctr   79  Proc 2479 
+[End of Whole Chip Routing] Elapsed real time: 0:00:06 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
+[End of Whole Chip Routing] Stage (MB): Used   18  Alloctr   19  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used   78  Alloctr   80  Proc 2479 
 
 Congestion utilization per direction:
-Average vertical track utilization   = 16.67 %
-Peak    vertical track utilization   = 133.33 %
-Average horizontal track utilization = 13.83 %
-Peak    horizontal track utilization = 100.00 %
+Average vertical track utilization   = 12.38 %
+Peak    vertical track utilization   = 110.00 %
+Average horizontal track utilization =  9.92 %
+Peak    horizontal track utilization = 92.86 %
 
 Current Stage stats:
 [GR: Done] Elapsed real time: 0:00:00 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[GR: Done] Stage (MB): Used   -5  Alloctr   -5  Proc    0 
-[GR: Done] Total (MB): Used   74  Alloctr   76  Proc 2479 
+[GR: Done] Stage (MB): Used   -7  Alloctr   -7  Proc    0 
+[GR: Done] Total (MB): Used   73  Alloctr   76  Proc 2479 
 GR Total stats:
 [GR: Done] Elapsed real time: 0:00:08 
 [GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:08 total=0:00:08
-[GR: Done] Stage (MB): Used   66  Alloctr   67  Proc    0 
-[GR: Done] Total (MB): Used   74  Alloctr   76  Proc 2479 
+[GR: Done] Stage (MB): Used   65  Alloctr   67  Proc    0 
+[GR: Done] Total (MB): Used   73  Alloctr   76  Proc 2479 
 Writing out congestion map...
 Updating congestion ...
 [DBOUT] Elapsed real time: 0:00:00 
 [DBOUT] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
-[DBOUT] Stage (MB): Used  -54  Alloctr  -58  Proc    0 
+[DBOUT] Stage (MB): Used  -54  Alloctr  -57  Proc    0 
 [DBOUT] Total (MB): Used    9  Alloctr   10  Proc 2479 
 Final total stats:
 [End of Global Routing] Elapsed real time: 0:00:08 
@@ -2532,311 +2596,311 @@ Information: Reporting global route congestion data from Milkyway...
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET1 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
-  21 GRCs with overflow: 21 with H overflow and 0 with V overflow
+  15 GRCs with overflow: 15 with H overflow and 0 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {310020 533220 313620 536820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {832020 929220 835620 932820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {248820 698820 252420 702420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {731220 727620 734820 731220}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {209220 706020 212820 709620}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {248820 565620 252420 569220}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {320820 716820 324420 720420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {932820 626820 936420 630420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {284820 594420 288420 598020}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
- GRC {767220 475620 770820 479220}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {954420 803220 958020 806820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {882420 1022820 886020 1026420}: H routing capacity/demand =  1/2 (occupy rate = 2.00), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {1145220 598020 1148820 601620}: H routing capacity/demand =  1/2 (occupy rate = 2.00), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {983220 508020 986820 511620}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {706020 860820 709620 864420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {446820 292020 450420 295620}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {382020 1094820 385620 1098420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {486420 1037220 490020 1040820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {475620 878820 479220 882420}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
+ GRC {954420 839220 958020 842820}: H routing capacity/demand =  0/1 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) with overflow 1
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {310020 533220 313620 536820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {932820 662820 936420 666420}: H routing capacity/demand =  2/3 (occupy rate = 1.50) with overflow 1
- GRC {191220 691620 194820 695220}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {320820 716820 324420 720420}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {248820 698820 252420 702420}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {932820 626820 936420 630420}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {832020 929220 835620 932820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {853620 439620 857220 443220}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {284820 594420 288420 598020}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
- GRC {580020 947220 583620 950820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {486420 1037220 490020 1040820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {983220 508020 986820 511620}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {1145220 598020 1148820 601620}: H routing capacity/demand =  1/2 (occupy rate = 2.00) with overflow 1
+ GRC {882420 1022820 886020 1026420}: H routing capacity/demand =  1/2 (occupy rate = 2.00) with overflow 1
+ GRC {446820 292020 450420 295620}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {382020 1094820 385620 1098420}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {814020 1048020 817620 1051620}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {835620 587220 839220 590820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {475620 878820 479220 882420}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
+ GRC {724020 839220 727620 842820}: H routing capacity/demand =  0/1 (occupy rate = inf) with overflow 1
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET2 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
-  254 GRCs with overflow: 0 with H overflow and 254 with V overflow
+  14 GRCs with overflow: 0 with H overflow and 14 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {410820 479220 414420 482820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {641220 770820 644820 774420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {875220 497220 878820 500820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {878820 731220 882420 734820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {976020 871620 979620 875220}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {310020 263220 313620 266820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {407220 706020 410820 709620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {976020 850020 979620 853620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {976020 310020 979620 313620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {774420 662820 778020 666420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
+ GRC {763620 1120020 767220 1123620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {338820 1001220 342420 1004820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {634020 1080420 637620 1084020}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {256020 425220 259620 428820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {803220 256020 806820 259620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
+ GRC {634020 1195620 637620 1199220}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {634020 994020 637620 997620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {212820 472020 216420 475620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {1141620 810420 1145220 814020}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {763620 702420 767220 706020}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {976020 871620 979620 875220}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {875220 497220 878820 500820}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {310020 263220 313620 266820}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {878820 731220 882420 734820}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {410820 479220 414420 482820}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {641220 770820 644820 774420}: V routing capacity/demand =  3/6 (occupy rate = 2.00) with overflow 3
- GRC {407220 950820 410820 954420}: V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {878820 680820 882420 684420}: V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {911220 745620 914820 749220}: V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
- GRC {209220 371220 212820 374820}: V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
+ GRC {803220 256020 806820 259620}: V routing capacity/demand =  3/5 (occupy rate = 1.67) with overflow 2
+ GRC {256020 425220 259620 428820}: V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {338820 1001220 342420 1004820}: V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {634020 1080420 637620 1084020}: V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {763620 1120020 767220 1123620}: V routing capacity/demand =  5/7 (occupy rate = 1.40) with overflow 2
+ GRC {634020 1195620 637620 1199220}: V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {212820 472020 216420 475620}: V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {760020 626820 763620 630420}: V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {338820 1177620 342420 1181220}: V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
+ GRC {763620 702420 767220 706020}: V routing capacity/demand =  5/6 (occupy rate = 1.20) with overflow 1
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET3 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
   0 GRCs with overflow: 0 with H overflow and 0 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  9/4 (occupy rate = 0.44), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  9/5 (occupy rate = 0.56), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  9/6 (occupy rate = 0.67), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  8/6 (occupy rate = 0.75), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  8/7 (occupy rate = 0.88), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  9/6 (occupy rate = 0.67), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  9/5 (occupy rate = 0.56), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  9/6 (occupy rate = 0.67), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  9/6 (occupy rate = 0.67), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  9/6 (occupy rate = 0.67), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  8/1 (occupy rate = 0.12), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  8/1 (occupy rate = 0.12), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  9/1 (occupy rate = 0.11), V routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {745620 749220 749220 752820}: H routing capacity/demand =  9/9 (occupy rate = 1.00) 
- GRC {302820 850020 306420 853620}: H routing capacity/demand =  9/9 (occupy rate = 1.00) 
- GRC {1127220 997620 1130820 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1130820 997620 1134420 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1134420 997620 1138020 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1138020 997620 1141620 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1141620 997620 1145220 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1145220 997620 1148820 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1148820 997620 1152420 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1152420 997620 1156020 1001220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {4020 810420 7620 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {7620 810420 11220 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {11220 810420 14820 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {14820 810420 18420 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {18420 810420 22020 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {22020 810420 25620 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {25620 810420 29220 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {29220 810420 32820 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {32820 810420 36420 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {36420 810420 40020 814020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET4 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
   0 GRCs with overflow: 0 with H overflow and 0 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/0 (occupy rate = 0.00) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  7/0 (occupy rate = 0.00) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/1 (occupy rate = 0.12) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/0 (occupy rate = 0.00) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/2 (occupy rate = 0.25) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  7/0 (occupy rate = 0.00) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  6/0 (occupy rate = 0.00) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/0 (occupy rate = 0.00) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  9/1 (occupy rate = 0.11) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  8/0 (occupy rate = 0.00) 
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {1166820 590820 1170420 594420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1015620 245220 1019220 248820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1012020 245220 1015620 248820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {918420 1167144 922020 1170751}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1170420 590820 1174020 594420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1174020 590820 1177620 594420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1177620 590820 1181220 594420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {803220 1145502 806820 1149109}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {922020 1167144 925620 1170751}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {799620 1145502 803220 1149109}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {119220 763620 122820 767220}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 1263789 623220 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 1263789 626820 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 1263789 630420 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 1263789 634020 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 1263789 637620 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 1263789 641220 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {641220 1263789 644820 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {644820 1263789 648420 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {648420 1263789 652020 1267373}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET5 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
   0 GRCs with overflow: 0 with H overflow and 0 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  8/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  8/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  8/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  8/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  9/0 (occupy rate = 0.00), V routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {7620 317220 11220 320820}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1177620 313620 1181220 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1174020 313620 1177620 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1170420 313620 1174020 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1166820 313620 1170420 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1163220 313620 1166820 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1159620 313620 1163220 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1156020 313620 1159620 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1152420 313620 1156020 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1148820 313620 1152420 317220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {79620 900420 83220 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {76020 900420 79620 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {72420 900420 76020 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {122820 572820 126420 576420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {126420 572820 130020 576420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {68820 900420 72420 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {65220 900420 68820 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {61620 900420 65220 904020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1264020 835620 1267620 839220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1267620 835620 1271220 839220}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 ++++++++++++++++++++++++++++++++++++++++++++++++
 Layer MET6 Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
   0 GRCs with overflow: 0 with H overflow and 0 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  2/0 (occupy rate = 0.00) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  3/0 (occupy rate = 0.00) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  5/0 (occupy rate = 0.00) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  4/0 (occupy rate = 0.00) 
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {522420 796020 526020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {518820 796020 522420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {515220 796020 518820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {511620 796020 515220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 796020 511620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {504420 796020 508020 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {500820 796020 504420 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {497220 796020 500820 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {493620 796020 497220 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {490020 796020 493620 799620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {637620 932820 641220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {634020 932820 637620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {630420 932820 634020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {626820 932820 630420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {623220 932820 626820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {619620 932820 623220 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {616020 932820 619620 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {612420 932820 616020 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {608820 932820 612420 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {605220 932820 608820 936420}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {544020 842820 547620 846420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {544020 274020 547620 277620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {241620 583620 245220 587220}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 842820 511620 846420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {274020 583620 277620 587220}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {310020 583620 313620 587220}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {475620 842820 479220 846420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {342420 583620 346020 587220}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {443220 842820 446820 846420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {508020 274020 511620 277620}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {47220 950820 50820 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {43620 950820 47220 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {40020 950820 43620 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {36420 950820 40020 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {32820 950820 36420 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {29220 950820 32820 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {25620 950820 29220 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {22020 950820 25620 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {18420 950820 22020 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {14820 950820 18420 954420}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 ++++++++++++++++++++++++++++++++++++++++++++++++
  Overall Congestion Map Data:
 ++++++++++++++++++++++++++++++++++++++++++++++++
-There are 109892 GRCs (Global Route Cell) in this design
+There are 150932 GRCs (Global Route Cell) in this design
 ****************************************************************
 ****************** GRC based congestion report *****************
 ****************************************************************
-  60 GRCs with overflow: 0 with H overflow and 60 with V overflow
+  1 GRCs with overflow: 0 with H overflow and 1 with V overflow
 
 ++++++++ Top 10 congested GRCs ++++++++
- GRC {976020 871620 979620 875220}: H routing capacity/demand =  16/8 (occupy rate = 0.50), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {576420 428820 580020 432420}: H routing capacity/demand =  16/9 (occupy rate = 0.56), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {842820 713220 846420 716820}: H routing capacity/demand =  16/6 (occupy rate = 0.38), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {875220 799620 878820 803220}: H routing capacity/demand =  16/8 (occupy rate = 0.50), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {677220 544020 680820 547620}: H routing capacity/demand =  16/9 (occupy rate = 0.56), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {209220 371220 212820 374820}: H routing capacity/demand =  16/6 (occupy rate = 0.38), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {310020 515220 313620 518820}: H routing capacity/demand =  10/8 (occupy rate = 0.80), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {677220 335220 680820 338820}: H routing capacity/demand =  16/8 (occupy rate = 0.50), V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {475620 702420 479220 706020}: H routing capacity/demand =  16/8 (occupy rate = 0.50), V routing capacity/demand =  8/10 (occupy rate = 1.25) with overflow 2
- GRC {911220 932820 914820 936420}: H routing capacity/demand =  17/7 (occupy rate = 0.41), V routing capacity/demand =  6/7 (occupy rate = 1.17) with overflow 1
+ GRC {634020 1080420 637620 1084020}: H routing capacity/demand =  16/8 (occupy rate = 0.50), V routing capacity/demand =  10/11 (occupy rate = 1.10) with overflow 1
+ GRC {58020 551220 61620 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {61620 551220 65220 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {65220 551220 68820 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {68820 551220 72420 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {72420 551220 76020 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {76020 551220 79620 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {79620 551220 83220 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {83220 551220 86820 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {86820 551220 90420 554820}: H routing capacity/demand =  0/0 (occupy rate = inf), V routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 horizontally congested GRCs ++++++++
- GRC {1159620 216420 1163220 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1156020 216420 1159620 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1152420 216420 1156020 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1148820 216420 1152420 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1145220 216420 1148820 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1141620 216420 1145220 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1138020 216420 1141620 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1134420 216420 1138020 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1130820 216420 1134420 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
- GRC {1127220 216420 1130820 220020}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1379220 652020 1382820 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1375620 652020 1379220 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1372020 652020 1375620 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1368420 652020 1372020 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1364820 652020 1368420 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1361220 652020 1364820 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1357620 652020 1361220 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1354020 652020 1357620 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1350420 652020 1354020 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1346820 652020 1350420 655620}: H routing capacity/demand =  0/0 (occupy rate = inf) 
 
 ++++++++ Top 10 vertically congested GRCs ++++++++
- GRC {677220 335220 680820 338820}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {875220 799620 878820 803220}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {475620 702420 479220 706020}: V routing capacity/demand =  8/10 (occupy rate = 1.25) with overflow 2
- GRC {842820 713220 846420 716820}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {209220 371220 212820 374820}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {976020 871620 979620 875220}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {576420 428820 580020 432420}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {310020 515220 313620 518820}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {677220 544020 680820 547620}: V routing capacity/demand =  6/8 (occupy rate = 1.33) with overflow 2
- GRC {875220 720420 878820 724020}: V routing capacity/demand =  6/7 (occupy rate = 1.17) with overflow 1
+ GRC {634020 1080420 637620 1084020}: V routing capacity/demand =  10/11 (occupy rate = 1.10) with overflow 1
+ GRC {1350420 587220 1354020 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1354020 587220 1357620 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1357620 587220 1361220 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1361220 587220 1364820 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1364820 587220 1368420 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1368420 587220 1372020 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1372020 587220 1375620 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1375620 587220 1379220 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
+ GRC {1379220 587220 1382820 590820}: V routing capacity/demand =  0/0 (occupy rate = inf) 
 
 1
 # Perform global route congestion map analysis from the GUI (no need to "Reload)
@@ -2845,7 +2909,7 @@ There are 109892 GRCs (Global Route Cell) in this design
 change_names -rule verilog -hier
 Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
-    /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
   and contain the same lib_cell names (e.g. or2d8_hd).
   The latter library will be ignored. (MV-086)
@@ -2870,6 +2934,7 @@ Information: Removed scenario funccts_wst from memory. (UID-1024)
 # Reset sdc file for applying sdc
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+#start_gui
 exit
 
 Thank you...
