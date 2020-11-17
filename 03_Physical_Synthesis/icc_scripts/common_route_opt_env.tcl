@@ -61,10 +61,15 @@ set timing_input_port_default_clock true
 set enable_recovery_removal_arcs true
 
 # CRPR Clock Reconvergence Pessimism Removal
+# Clock Reconvergence Pessimism
+# Delete unrealistic clock pessimism by two slew rates from on-chip vaiation mode
+# (set_operating_condition)
+# It is significantly important for increasing performance, especially in 2nd sign-off.
+# When CRPR is adopted, memory and runtime would increase.
 # In post-layout STA, clock reconvergence pessimism resulting
 # from crosstalk delta delay is removed only if precisely the same clock
 # edge drives both the launch and capture devices. (hold check)
-# Setuput check which has 1 or more clock cycle will be done without
+# Setup check which has 1 or more clock cycle will be done without
 # CRPR induced by x-talk
 set timing_remove_clock_reconvergence_pessimism true
 
@@ -83,7 +88,7 @@ set route_opt_enable_blocked_region_buffer true
 # Notwithstanding that the Elmore delay is faster, its result do not always
 # correlate with PrimeTime. The Arnoldi model is more exact, but more runtime and memory.
 # For best QoR, the Arnoldi model is better during CTS.
-set_delay_calculation -arnoldi_effort high 
+set_delay_calculation -arnoldi_effort high
 
 # Handy Naming Convention for new cels added
 set compile_instance_name_prefix icc_place

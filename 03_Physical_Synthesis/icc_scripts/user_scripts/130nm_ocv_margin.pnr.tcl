@@ -37,7 +37,7 @@ set BST_MAX_TRAN        "0.8"    ;# library value is 1.131
 
 ####### Define max length
 
-set MAX_LENGTH    "800"            ;# value | none, define max length for signal
+set MAX_LENGTH    "900"            ;# value | none, define max length for signal
 
 # derating factors @ WST/WSTTI corners
 #

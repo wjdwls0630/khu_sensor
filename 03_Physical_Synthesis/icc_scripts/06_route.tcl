@@ -35,7 +35,9 @@ link
 current_design $TOP_MODULE
 
 # Read scenario file
-#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+# After placement, delete max_delay constraints. It is only for placing 
+# clock gating cell and gated register in proximity.
+sh sed -i '/set_max_delay/,+1 d' $FUNC1_SDC
 sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
 if { $ROUTE_SCN_READ_AGAIN } {
 	remove_sdc
@@ -129,15 +131,20 @@ redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint \
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 \
+	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins \
+	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_timing -max_paths 10 -to [get_pins -hierarchical "clk_gate*"] \
+	> $REPORTS_STEP_DIR/clock_gating_max_paths.rpt
 # To verify CRPR
 #redirect -file $REPORTS_DIR/${step}/crpr.rpt { report_crpr }
 # delete "snapshot" directory called by create_qor_snapshot command

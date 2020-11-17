@@ -196,4 +196,5 @@ close_mw_lib
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
+#start_gui
 exit

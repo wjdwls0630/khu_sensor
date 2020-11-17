@@ -131,7 +131,7 @@ set_fp_rail_constraints \
 	-spacing minimum
 
 set_fp_rail_region_constraints \
-	-polygon {{169.070 1035.925} {169.070 172.595} {1019.810 172.595} {1019.810 1035.925}}
+	-polygon {{169.070 1228.420} {169.070 172.595} {1230.950 172.595} {1230.950 1228.420}}
 
 set_fp_rail_constraints  -set_ring -nets {VDD VSS} \
 	-horizontal_ring_layer { MET3 } -vertical_ring_layer { MET4 }
@@ -153,7 +153,7 @@ create_rectangular_rings \
 	-left_offset 25 -left_segment_layer MET5 -left_segment_width 1 \
 	-right_offset 25 -right_segment_layer MET5 -right_segment_width 1 \
 	-bottom_offset 25 -bottom_segment_layer MET6 -bottom_segment_width 1 \
-	-top_offset 15 -top_segment_layer MET6 -top_segment_width 1 
+	-top_offset 25 -top_segment_layer MET6 -top_segment_width 1 
 
 #******************************************************************************
 create_fp_placement -timing_driven -no_hierarchy_gravity
@@ -213,4 +213,5 @@ close_mw_lib
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
+#start_gui
 exit
