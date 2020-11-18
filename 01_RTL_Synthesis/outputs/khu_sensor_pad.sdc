@@ -1,6 +1,6 @@
 ###################################################################
 
-# Created by write_sdc on Sat Nov 14 04:43:07 2020
+# Created by write_sdc on Thu Nov 19 02:30:22 2020
 
 ###################################################################
 set sdc_version 2.0
@@ -91,22 +91,22 @@ set_ideal_network [get_pins                                                     
 khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/o_RST_reg/Q]
 set_ideal_network [get_pins                                                                     \
 khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/o_RSTN_reg/Q]
-create_clock [get_ports i_CLK]  -name clk  -period 12  -waveform {0 6}
+create_clock [get_ports i_CLK]  -name clk  -period 10.2  -waveform {0 5.1}
 set_clock_latency 0.05  [get_clocks clk]
 set_clock_latency -source 0.7  [get_clocks clk]
-set_clock_uncertainty -setup 0.84  [get_clocks clk]
-set_clock_transition -max -rise 0.5 [get_clocks clk]
-set_clock_transition -min -fall 0.5 [get_clocks clk]
-set_clock_transition -max -fall 0.5 [get_clocks clk]
-set_clock_transition -min -rise 0.5 [get_clocks clk]
+set_clock_uncertainty -setup 0.714  [get_clocks clk]
+set_clock_transition -max -rise 0.7 [get_clocks clk]
+set_clock_transition -min -fall 0.7 [get_clocks clk]
+set_clock_transition -max -fall 0.7 [get_clocks clk]
+set_clock_transition -min -rise 0.7 [get_clocks clk]
 create_generated_clock [get_pins khu_sensor_top/divider_by_2/o_CLK_DIV_2]  -name clk_half  -source [get_ports i_CLK]  -divide_by 2
 set_clock_latency 0.05  [get_clocks clk_half]
 set_clock_latency -source 0.7  [get_clocks clk_half]
-set_clock_uncertainty -setup 1.68  [get_clocks clk_half]
-set_clock_transition -max -rise 0.5 [get_clocks clk_half]
-set_clock_transition -min -fall 0.5 [get_clocks clk_half]
-set_clock_transition -max -fall 0.5 [get_clocks clk_half]
-set_clock_transition -min -rise 0.5 [get_clocks clk_half]
+set_clock_uncertainty -setup 1.428  [get_clocks clk_half]
+set_clock_transition -max -rise 0.7 [get_clocks clk_half]
+set_clock_transition -min -fall 0.7 [get_clocks clk_half]
+set_clock_transition -max -fall 0.7 [get_clocks clk_half]
+set_clock_transition -min -rise 0.7 [get_clocks clk_half]
 group_path -name FEEDTHROUGH  -from [list [get_ports i_RSTN] [get_ports UART_RXD] [get_ports MPR121_SCL]    \
 [get_ports MPR121_SDA] [get_ports ADS1292_MISO] [get_ports ADS1292_DRDY]]  -to [list [get_ports UART_TXD] [get_ports MPR121_SCL] [get_ports MPR121_SDA]  \
 [get_ports ADS1292_SCLK] [get_ports ADS1292_MOSI] [get_ports ADS1292_RESET]    \
@@ -325,7 +325,7 @@ khu_sensor_top/mpr121_controller/clk_gate_r_i2c_data_in_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/mpr121_controller/clk_gate_o_MPR121_DATA_OUT_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/mpr121_controller/clk_gate_r_i2c_write_multiple_reg/ENCLK]
+khu_sensor_top/mpr121_controller/clk_gate_r_i2c_write_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -344,7 +344,7 @@ khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_sum_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_m_reg_0/ENCLK]
+khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_m_reg_1/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_b_s_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -352,7 +352,7 @@ khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_sticky_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_e_reg_1/ENCLK]
+khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/mult_1/clk_gate_b_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -380,7 +380,7 @@ khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_35/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_10/ENCLK]
+khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_5/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -408,7 +408,7 @@ khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_sum_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_m_reg_0/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_m_reg_1/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -416,7 +416,7 @@ khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_sticky_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_z_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_e_reg_1/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -426,7 +426,7 @@ khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_sum_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_m_reg_0/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_m_reg_1/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_b_s_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -434,7 +434,7 @@ khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_sticky_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_z_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_e_reg_1/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_41/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -444,7 +444,7 @@ khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_36/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_16/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_11/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -462,7 +462,7 @@ khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_37/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_22/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_17/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -480,7 +480,7 @@ khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_38/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_28/ENCLK]
+khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_23/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -492,11 +492,11 @@ khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_mult_1_A_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
+khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_x_data_reg_0/ENCLK]
+set_max_delay 0  -from [get_pins                                                               \
+khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_y_data_reg_2/ENCLK]
+set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_y_data_reg_1/ENCLK]
-set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_y_data_reg_0/ENCLK]
-set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_x_data_reg_1/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_2_A_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -515,7 +515,7 @@ khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_o_Z_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_sum_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_m_reg_0/ENCLK]
+khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_m_reg_1/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_s_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
@@ -523,7 +523,7 @@ khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_sticky_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
-khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_e_reg_1/ENCLK]
+khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_a_e_reg_0/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \
 khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_reg/ENCLK]
 set_max_delay 0  -from [get_pins                                                               \

@@ -5,7 +5,7 @@ Report : net fanout
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Nov 17 18:52:51 2020
+Date   : Thu Nov 19 01:44:03 2020
 ****************************************
 
 
@@ -16,6 +16,7 @@ Design        Wire Load Model            Library
 ------------------------------------------------
 async_rstn_glitch_synchronizer
                        l13_e_5000_4lm    std150e_wst_105_p125
+ads1292_filter         l13_e_100k_4lm    std150e_wst_105_p125
 divider_by_2           l13_e_5000_4lm    std150e_wst_105_p125
 async_rstn_glitch_synchronizer_0
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -41,8 +42,7 @@ SNPS_CLOCK_GATE_HIGH_ads1292_controller_1
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_ads1292_controller_0
                        l13_e_5000_4lm    std150e_wst_105_p125
-converter_f2i          l13_e_5000_4lm    std150e_wst_105_p125
-iir_lpf                l13_e_50k_4lm     std150e_wst_105_p125
+iir_hpf                l13_e_50k_4lm     std150e_wst_105_p125
 converter_i2f          l13_e_5000_4lm    std150e_wst_105_p125
 async_rst_synchronizer_3
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -167,7 +167,8 @@ SNPS_CLOCK_GATE_HIGH_iir_hpf_2
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_iir_hpf_1
                        l13_e_5000_4lm    std150e_wst_105_p125
-float_multiplier_0     l13_e_10k_4lm     std150e_wst_105_p125
+SNPS_CLOCK_GATE_HIGH_iir_hpf_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
 async_rst_synchronizer_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 async_rstn_synchronizer_2
@@ -208,6 +209,7 @@ SNPS_CLOCK_GATE_HIGH_iir_lpf_1
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_iir_lpf_0
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_multiplier_5     l13_e_10k_4lm     std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_converter_i2f_4
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_converter_i2f_3
@@ -265,12 +267,16 @@ SNPS_CLOCK_GATE_HIGH_float_multiplier_0_2
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_multiplier_0_1
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_0_DW01_inc_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_0_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_0_DW_cmp_6 l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_0_DP_OP_139_212_6578_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_0_DP_OP_124_135_3630_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_0_DP_OP_128_133_6503_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_0_DP_OP_127_132_7863_0
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -314,7 +320,7 @@ SNPS_CLOCK_GATE_HIGH_float_multiplier_1_1
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_multiplier_2_0
                        l13_e_5000_4lm    std150e_wst_105_p125
-float_multiplier_2_DP_OP_119_187_9062_0
+float_multiplier_2_DW01_inc_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_multiplier_2_9
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -333,8 +339,6 @@ SNPS_CLOCK_GATE_HIGH_float_multiplier_2_2
 SNPS_CLOCK_GATE_HIGH_float_multiplier_2_1
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_multiplier_3_0
-                       l13_e_5000_4lm    std150e_wst_105_p125
-float_multiplier_3_DP_OP_119_194_7833_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_multiplier_3_DW01_inc_0
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -363,6 +367,8 @@ float_adder_1_DP_OP_139_215_3862_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_1_DP_OP_124_150_2934_0
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_1_DP_OP_128_148_9478_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_1_DP_OP_127_147_5666_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_1_11
@@ -383,17 +389,17 @@ SNPS_CLOCK_GATE_HIGH_float_adder_1_1
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_2_DW01_inc_0
                        l13_e_5000_4lm    std150e_wst_105_p125
-SNPS_CLOCK_GATE_HIGH_float_adder_2_1
-                       l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_2_0
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_2_DW_cmp_6 l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_2_DP_OP_139_218_18_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_2_DP_OP_124_156_2886_0
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_2_DP_OP_128_154_1832_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_2_DP_OP_127_153_5618_0
                        l13_e_5000_4lm    std150e_wst_105_p125
-float_adder_2_DW_cmp_0 l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_2_11
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_2_7
@@ -408,9 +414,9 @@ SNPS_CLOCK_GATE_HIGH_float_adder_2_3
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_2_2
                        l13_e_5000_4lm    std150e_wst_105_p125
-SNPS_CLOCK_GATE_HIGH_float_multiplier_4_0
+SNPS_CLOCK_GATE_HIGH_float_adder_2_1
                        l13_e_5000_4lm    std150e_wst_105_p125
-float_multiplier_4_DP_OP_119_201_9179_0
+SNPS_CLOCK_GATE_HIGH_float_multiplier_4_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_multiplier_4_DW01_inc_0
                        l13_e_5000_4lm    std150e_wst_105_p125
@@ -461,6 +467,8 @@ float_adder_3_DP_OP_139_221_5626_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_3_DP_OP_124_168_2670_0
                        l13_e_5000_4lm    std150e_wst_105_p125
+float_adder_3_DP_OP_128_166_4319_0
+                       l13_e_5000_4lm    std150e_wst_105_p125
 float_adder_3_DP_OP_127_165_6903_0
                        l13_e_5000_4lm    std150e_wst_105_p125
 SNPS_CLOCK_GATE_HIGH_float_adder_3_11
@@ -493,41 +501,39 @@ Attributes:
 
 Net                 Fanout   Attributes   Capacitance   Driver
 --------------------------------------------------------------------------------
-w_clk_p                370   dr, c            2.41      pad2/Y
+w_clk_p                370   dr, c            2.45      pad2/Y
 khu_sensor_top/ads1292_controller/N79
-                       115   c, d, I          0.00      khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/Q
+                       115   d, I             0.00      khu_sensor_top/ads1292_controller/async_rstn_synchronizer/o_RSTN_reg/Q
 khu_sensor_top/ads1292_filter/N17
-                       215   c, d, I          0.00      khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/Q
+                       215   d, I             0.00      khu_sensor_top/ads1292_filter/async_rstn_synchronizer/o_RSTN_reg/Q
 khu_sensor_top/sensor_core/N116
-                       273   c, d, I          0.00      khu_sensor_top/sensor_core/U641/Y
-khu_sensor_top/ads1292_filter/converter_f2i/net13203
-                       109                    0.63      khu_sensor_top/ads1292_filter/converter_f2i/*cell*45/**logic_1**
+                       273   d, I             0.00      khu_sensor_top/sensor_core/U641/Y
 khu_sensor_top/ads1292_filter/iir_hpf/w_rstn
-                       254   c, d, I          0.00      khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/Q
+                       254   d, I             0.00      khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/o_RSTN_reg/Q
 khu_sensor_top/ads1292_filter/iir_notch/w_rstn
-                       651   c, d, I          0.00      khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/Q
+                       651   d, I             0.00      khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/o_RSTN_reg/Q
 khu_sensor_top/ads1292_filter/iir_lpf/w_rstn
-                       383   c, d, I          0.00      khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/Q
-khu_sensor_top/ads1292_filter/converter_i2f/net13206
-                       134                    0.94      khu_sensor_top/ads1292_filter/converter_i2f/*cell*48/**logic_1**
-khu_sensor_top/ads1292_filter/iir_hpf/mult/net13267
-                       243                    3.70      khu_sensor_top/ads1292_filter/iir_hpf/mult/*cell*109/**logic_1**
-khu_sensor_top/ads1292_filter/iir_hpf/add/net13268
-                       262                    4.19      khu_sensor_top/ads1292_filter/iir_hpf/add/*cell*110/**logic_1**
-khu_sensor_top/ads1292_filter/iir_notch/mult_3/net13272
-                       253                    3.96      khu_sensor_top/ads1292_filter/iir_notch/mult_3/*cell*114/**logic_1**
-khu_sensor_top/ads1292_filter/iir_notch/mult_2/net13273
-                       249                    3.86      khu_sensor_top/ads1292_filter/iir_notch/mult_2/*cell*115/**logic_1**
-khu_sensor_top/ads1292_filter/iir_notch/mult_1/net13274
-                       254                    3.98      khu_sensor_top/ads1292_filter/iir_notch/mult_1/*cell*116/**logic_1**
-khu_sensor_top/ads1292_filter/iir_notch/add_2/net13275
-                       246                    3.79      khu_sensor_top/ads1292_filter/iir_notch/add_2/*cell*117/**logic_1**
-khu_sensor_top/ads1292_filter/iir_notch/add_1/net13276
-                       253                    3.97      khu_sensor_top/ads1292_filter/iir_notch/add_1/*cell*118/**logic_1**
-khu_sensor_top/ads1292_filter/iir_lpf/mult_2/net13294
-                       248                    3.83      khu_sensor_top/ads1292_filter/iir_lpf/mult_2/*cell*136/**logic_1**
-khu_sensor_top/ads1292_filter/iir_lpf/mult_1/net13295
-                       247                    3.81      khu_sensor_top/ads1292_filter/iir_lpf/mult_1/*cell*137/**logic_1**
-khu_sensor_top/ads1292_filter/iir_lpf/add/net13296
-                       260                    4.14      khu_sensor_top/ads1292_filter/iir_lpf/add/*cell*138/**logic_1**
+                       383   d, I             0.00      khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/o_RSTN_reg/Q
+khu_sensor_top/ads1292_filter/converter_i2f/net13004
+                       114                    0.66      khu_sensor_top/ads1292_filter/converter_i2f/*cell*44/**logic_1**
+khu_sensor_top/ads1292_filter/iir_hpf/mult/net13065
+                       243                    3.70      khu_sensor_top/ads1292_filter/iir_hpf/mult/*cell*105/**logic_1**
+khu_sensor_top/ads1292_filter/iir_hpf/add/net13066
+                       219                    3.10      khu_sensor_top/ads1292_filter/iir_hpf/add/*cell*106/**logic_1**
+khu_sensor_top/ads1292_filter/iir_notch/mult_3/net13070
+                       253                    3.96      khu_sensor_top/ads1292_filter/iir_notch/mult_3/*cell*110/**logic_1**
+khu_sensor_top/ads1292_filter/iir_notch/mult_2/net13071
+                       249                    3.86      khu_sensor_top/ads1292_filter/iir_notch/mult_2/*cell*111/**logic_1**
+khu_sensor_top/ads1292_filter/iir_notch/mult_1/net13072
+                       254                    3.98      khu_sensor_top/ads1292_filter/iir_notch/mult_1/*cell*112/**logic_1**
+khu_sensor_top/ads1292_filter/iir_notch/add_2/net13073
+                       175                    1.98      khu_sensor_top/ads1292_filter/iir_notch/add_2/*cell*113/**logic_1**
+khu_sensor_top/ads1292_filter/iir_notch/add_1/net13074
+                       174                    1.96      khu_sensor_top/ads1292_filter/iir_notch/add_1/*cell*114/**logic_1**
+khu_sensor_top/ads1292_filter/iir_lpf/mult_2/net13092
+                       248                    3.83      khu_sensor_top/ads1292_filter/iir_lpf/mult_2/*cell*132/**logic_1**
+khu_sensor_top/ads1292_filter/iir_lpf/mult_1/net13093
+                       222                    3.18      khu_sensor_top/ads1292_filter/iir_lpf/mult_1/*cell*133/**logic_1**
+khu_sensor_top/ads1292_filter/iir_lpf/add/net13094
+                       223                    3.20      khu_sensor_top/ads1292_filter/iir_lpf/add/*cell*134/**logic_1**
 1

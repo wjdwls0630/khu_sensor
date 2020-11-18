@@ -28,6 +28,7 @@ Initializing...
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
+Initializing gui preferences from file  /home/VLSI_graduated_2020/2015104027/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                         00_read_design                                   **
 #**               create mw library and read verilog netlist                 **
@@ -102,13 +103,15 @@ set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_khu_sensor_L13_68um.tdf"
 # (e.g. vssoh -> vssoh_p)
 set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"
 ./icc_scripts/rules/pad_naming_rule.tcl
-set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
-0.3
+set ICC_SDC_SETUP_FILE             "./icc_scripts/user_scripts/sdc_setup.tcl"
+./icc_scripts/user_scripts/sdc_setup.tcl
+set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
+0.5
 set MAX_ROUTING_LAYER              "MET4"
 MET4
 set MIN_ROUTING_LAYER              ""
 # Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
-set CLK_MAX_ROUTING_LAYER          "MET5" 
+set CLK_MAX_ROUTING_LAYER          "MET5"
 MET5
 set CLK_MIN_ROUTING_LAYER          "MET3"
 MET3
@@ -232,7 +235,7 @@ set JTAGCTS_SDC        ""
 ##
 set OPCOND_WST          V105WTP1250
 V105WTP1250
-set OPCOND_WST_LIB      std150e_wst_105_p125 
+set OPCOND_WST_LIB      std150e_wst_105_p125
 std150e_wst_105_p125
 set OPCOND_WST_TIV      ""
 set OPCOND_WST_LIB_TIV  ""
@@ -466,7 +469,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-1117_18:40:24
+1119_01:32:31
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -574,8 +577,8 @@ The quick-attach skip-search mode has been turned on.
   Start axu naming escaping style change ...
   End axu naming escaping style change, status is 1
 Checking single pin net for cell 'khu_sensor_pad.CEL' now...
-Total number of cell instances: 25857
-Total number of nets: 28248
+Total number of cell instances: 25683
+Total number of nets: 28071
 Total number of ports: 13 (include 0 PG ports)
 Total number of hierarchical cell instances: 285
 
@@ -630,16 +633,16 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
 
-Warning: Unable to resolve reference 'vssoh_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phbct24_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vdd33oph_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'vdd12ih_core_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phob12_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vdd12ih_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vssiph_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vssoh_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vdd12ih_core_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phbct24_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phis_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phbct12_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phic_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phob12_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Design 'khu_sensor_pad' has '10' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating database...
 Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)

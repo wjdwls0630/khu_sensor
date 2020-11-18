@@ -43,8 +43,7 @@ current_design $TOP_MODULE
 # Read scenario file
 remove_sdc
 remove_scenario -all
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+
 source $ICC_MCMM_SCENARIOS_FILE
 set_active_scenario $FP_SCN
 
@@ -65,10 +64,10 @@ derive_pg_connection \
 
 derive_pg_connection \
 	-power_net VDD_12I \
-	-power_pin VDD_12I 
+	-power_pin VDD_12I
 #derive_pg_connection \
 	-power_net VDD \
-	-power_pin VDD_12I 
+	-power_pin VDD_12I
 #******************************************************************************
 # Memory P/G ring
 #set_fp_rail_region_constraints \
@@ -153,7 +152,7 @@ create_rectangular_rings \
 	-left_offset 25 -left_segment_layer MET5 -left_segment_width 1 \
 	-right_offset 25 -right_segment_layer MET5 -right_segment_width 1 \
 	-bottom_offset 25 -bottom_segment_layer MET6 -bottom_segment_width 1 \
-	-top_offset 25 -top_segment_layer MET6 -top_segment_width 1 
+	-top_offset 25 -top_segment_layer MET6 -top_segment_width 1
 
 #******************************************************************************
 create_fp_placement -timing_driven -no_hierarchy_gravity
@@ -182,20 +181,20 @@ preroute_instances  -ignore_macros -ignore_cover_cells \
 #preroute_instances  -ignore_macros -ignore_cover_cells
 verify_pg_nets  -error_cell test
 
-# short checking 
+# short checking
 set_pnet_options -partial "MET2 MET3 MET4 MET5 MET6"
 
 # legalize
 # To resolve cell placement conflicts after doing initial placement, such as violating Standard(STD)
 # cells away from the power straps, overlaps, legalize placement.
 # command "legalize_fp_placement" is obsolete
-legalize_placement
+legalize_placement -effort high
 
 
 # Perform actual global routing to make sure the congestion
-# Global routing 
+# Global routing
 # Abstract the routing problem to a notional set of abutting channels
-route_zrt_global
+route_zrt_global -ultra
 report_congestion -grc_based -by_layer -routing_stage global
 
 # Perform global route congestion map analysis from the GUI (no need to "Reload)

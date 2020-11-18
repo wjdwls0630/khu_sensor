@@ -46,7 +46,7 @@ Report : constraint
 Design : khu_sensor_pad
 Scenario(s): func1_wst funccts_wst
 Version: N-2017.09
-Date   : Tue Nov 17 19:17:06 2020
+Date   : Thu Nov 19 02:13:38 2020
 ****************************************
 
 	Scenario            : func1_wst
@@ -55,60 +55,165 @@ Date   : Tue Nov 17 19:17:06 2020
 	Extraction mode     : MIN_MAX
 	Extraction derating : 125/125
 
+   max_delay/setup ('clk' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_27_/D  13.2175  13.2351 f  -0.0176 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg_27_/D  13.2904  13.3072 f  -0.0169 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_/D  13.2847  13.2962 f  -0.0116 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_1/sum_reg_27_/D  13.2433  13.2491 f  -0.0058 (VIOLATED) func1_wst
+
+
    min_delay/hold ('clk' group)
 
                              Required        Actual
    Endpoint                 Path Delay     Path Delay        Slack             Scenario
    -----------------------------------------------------------------
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_56_/D   3.6910   3.6295 f  -0.0614 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_59_/D   3.6915   3.6539 f  -0.0377 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_3_/D   3.6710   3.6340 f  -0.0370 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_14_/D   3.6698   3.6330 f  -0.0368 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg_15_/D   3.6670   3.6317 f  -0.0352 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_48_/D   3.7013   3.6678 f  -0.0335 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_39_/D   3.7044   3.6749 f  -0.0295 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_7_/D   3.6710   3.6440 f  -0.0269 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_4_/D   3.6710   3.6445 f  -0.0265 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg_12_/D   3.6669   3.6478 f  -0.0191 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_hpf/mult/a_reg_26_/D   3.6889   3.6703 f  -0.0186 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_12_/D   3.6485   3.6317 f  -0.0168 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_11_/D   3.6706   3.6554 f  -0.0151 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_37_/D   3.7013   3.6873 f  -0.0140 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_45_/D   3.7042   3.6912 f  -0.0130 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_4_/D   3.6228   3.6103 f  -0.0125 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_13_/D   3.6236   3.6113 f  -0.0123 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_2_/D   3.6238   3.6129 f  -0.0109 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg_13_/D   3.6669   3.6564 f  -0.0106 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_55_/D   3.6912   3.6820 f  -0.0092 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_5_/D   3.6676   3.6585 f  -0.0090 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/converter_i2f/a_reg_14_/D   3.4958   3.4870 f  -0.0089 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_hpf/mult/a_reg_28_/D   3.6886   3.6799 f  -0.0087 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_15_/D   3.6486   3.6405 f  -0.0081 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_17_/D   3.6483   3.6418 f  -0.0065 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_4_/D   3.6675   3.6615 f  -0.0060 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_3_/D   3.6237   3.6185 f  -0.0052 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_30_/D   3.6632   3.6583 f  -0.0050 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_25_/D   3.6631   3.6584 f  -0.0047 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/b_reg_2_/D   3.6668   3.6620 f  -0.0047 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_2_/D   3.6221   3.6180 f  -0.0041 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_26_/D   3.6631   3.6591 f  -0.0041 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_8_/D   3.6487   3.6451 f  -0.0036 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_22_/D   3.6240   3.6216 f  -0.0024 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_2_/D   3.6469   3.6448 f  -0.0022 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/r_iir_lpf_x_reg_13_/D   3.5241   3.5219 f  -0.0022 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_3_/D   3.6671   3.6651 f  -0.0020 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_hpf/add/b_reg_4_/D   3.5998   3.5979 f  -0.0019 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_36_/D   3.6620   3.6608 f  -0.0013 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_notch/mult_1/a_reg_29_/D   3.6631   3.6623 f  -0.0008 (VIOLATED) func1_wst
-   khu_sensor_top/ads1292_filter/iir_lpf/r_x_data_reg_49_/D   3.7013   3.7005 f  -0.0007 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/converter_i2f/z_reg_31_/D   3.5718   3.4909 f  -0.0809 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_6_/D   3.7545   3.6991 f  -0.0554 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_21_/D   3.7719   3.7167 f  -0.0552 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_6_/D   3.7578   3.7076 f  -0.0502 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_3_/D   3.7712   3.7214 f  -0.0498 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_18_/D   3.7714   3.7219 f  -0.0495 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_9_/D   3.7537   3.7043 f  -0.0494 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_10_/D   3.7574   3.7086 f  -0.0488 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_2_/D   3.7582   3.7109 f  -0.0474 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_8_/D   3.7581   3.7110 f  -0.0471 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_0_/D   3.7711   3.7245 f  -0.0466 (VIOLATED) func1_wst
+   khu_sensor_top/mpr121_controller/i2c_master/phy_rx_data_reg_reg/D   3.6521   3.6055 f  -0.0466 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_19_/D   3.7709   3.7248 f  -0.0462 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_7_/D   3.7563   3.7137 f  -0.0426 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_31_/D   3.7709   3.7287 f  -0.0422 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_11_/D   3.7546   3.7149 f  -0.0396 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_14_/D   3.7576   3.7188 f  -0.0388 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_22_/D   3.7703   3.7318 f  -0.0385 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/a_reg_9_/D   3.7570   3.7186 f  -0.0384 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_4_/D   3.7704   3.7338 f  -0.0366 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_46_/D   3.7153   3.6799 f  -0.0354 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_53_/D   3.7732   3.7380 f  -0.0352 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_4_/D   3.7565   3.7219 f  -0.0346 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_23_/D   3.7357   3.7044 f  -0.0314 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_26_/D   3.7350   3.7037 f  -0.0313 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_20_/D   3.7697   3.7391 f  -0.0306 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_28_/D   3.7355   3.7068 f  -0.0287 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_25_/D   3.7353   3.7066 f  -0.0287 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_17_/D   3.6681   3.6400 f  -0.0281 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_1_/D   3.7697   3.7423 f  -0.0274 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_11_/D   3.6684   3.6418 f  -0.0266 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_30_/D   3.7330   3.7067 f  -0.0263 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_12_/D   3.6685   3.6427 f  -0.0258 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_28_/D   3.6200   3.5949 f  -0.0251 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_8_/D   3.6682   3.6433 f  -0.0249 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_25_/D   3.7353   3.7112 f  -0.0241 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_23_/D   3.7350   3.7111 f  -0.0239 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_21_/D   3.7692   3.7454 f  -0.0239 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_15_/D   3.7564   3.7328 f  -0.0237 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_6_/D   3.6679   3.6462 f  -0.0217 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_52_/D   3.7736   3.7521 f  -0.0214 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_7_/D   3.6678   3.6468 f  -0.0210 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_26_/D   3.7350   3.7142 f  -0.0208 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_1_/D   3.7550   3.7357 f  -0.0194 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_10_/D   3.6675   3.6486 f  -0.0189 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_27_/D   3.7347   3.7162 f  -0.0185 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_55_/D   3.7734   3.7549 f  -0.0184 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_20_/D   3.6672   3.6502 f  -0.0170 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_16_/D   3.6665   3.6497 f  -0.0168 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_0_/D   3.6676   3.6509 f  -0.0167 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_24_/D   3.6199   3.6040 f  -0.0159 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_18_/D   3.7570   3.7413 f  -0.0158 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_17_/D   3.7686   3.7542 f  -0.0143 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_1/b_reg_29_/D   3.7212   3.7070 f  -0.0142 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_28_/D   3.7346   3.7204 f  -0.0142 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_25_/D   3.6198   3.6059 f  -0.0139 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_22_/D   3.6913   3.6784 f  -0.0129 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_14_/D   3.6671   3.6554 f  -0.0117 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_3_/D   3.7526   3.7414 f  -0.0112 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_15_/D   3.6671   3.6562 f  -0.0109 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/o_Z_reg_4_/D   3.6664   3.6556 f  -0.0108 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_16_/D   3.7549   3.7446 f  -0.0103 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_61_/D   3.7729   3.7634 f  -0.0095 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_55_/D   3.7202   3.7107 f  -0.0095 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_16_/D   3.7604   3.7513 f  -0.0091 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_1/a_reg_27_/D   3.7241   3.7151 f  -0.0090 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_30_/D   3.6197   3.6110 f  -0.0087 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_54_/D   3.7202   3.7117 f  -0.0085 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_56_/D   3.7731   3.7646 f  -0.0084 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_27_/D   3.7340   3.7256 f  -0.0084 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_30_/D   3.7336   3.7258 f  -0.0078 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_8_/D   3.7624   3.7550 f  -0.0074 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_2_/D   3.7681   3.7608 f  -0.0073 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/a_reg_22_/D   3.7680   3.7612 f  -0.0068 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_5_/D   3.6662   3.6606 f  -0.0055 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/r_y_data_reg_51_/D   3.7153   3.7101 f  -0.0051 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/r_y_data_reg_116_/D   3.7200   3.7159 f  -0.0041 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_2/o_Z_reg_31_/D   3.7020   3.6980 f  -0.0039 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_2_/D   3.6655   3.6619 f  -0.0036 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/b_reg_5_/D   3.7626   3.7593 f  -0.0032 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/r_y_data_reg_103_/D   3.7292   3.7278 f  -0.0014 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_4_/D   3.6659   3.6649 f  -0.0010 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_41_/D   3.7785   3.7776 f  -0.0009 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_3_/D   3.6659   3.6652 f  -0.0007 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/r_x_data_reg_38_/D   3.7759   3.7752 f  -0.0007 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_1/b_reg_9_/D   3.7235   3.7230 f  -0.0005 (VIOLATED) func1_wst
 
+
+   min_delay/hold ('clk_half' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_3_/D   1.9230   1.9021 f  -0.0209 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_2_/D   1.9228   1.9068 f  -0.0160 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_7_/D   1.9226   1.9096 f  -0.0130 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_2_/D   1.9147   1.9020 f  -0.0127 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_DATA_IN_reg_4_/D   1.9225   1.9115 f  -0.0110 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_6_/D   1.9149   1.9055 f  -0.0094 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_7_/D   1.8344   1.8318 f  -0.0025 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_4_/D   1.9146   1.9137 f  -0.0009 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_MPR121_DATA_IN_reg_1_/D   1.8342   1.8335 f  -0.0007 (VIOLATED) func1_wst
+   khu_sensor_top/sensor_core/o_ADS1292_REG_ADDR_reg_1_/D   1.9145   1.9141 f  -0.0004 (VIOLATED) func1_wst
+
+
+   max_transition
+
+                             Required        Actual
+   Net                      Transition     Transition        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_notch/n393   1.0000   1.0094  -0.0094 (VIOLATED) func1_wst
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U1242/B   1.0000   1.0091  -0.0091 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U478/C   1.0000   1.0081  -0.0081 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/icc_place272/Y   1.0000   1.0094  -0.0094 (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      1                -0.0094    func1_wst
+
+   max_net_length
+
+                             Required        Actual
+   Net                      Net length     Net length        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/w_clk_p_G2B12I5 (dont_touch) 900.0000 1272.6000 -372.6000 (VIOLATED) func1_wst
+   khu_sensor_top/w_CLOCK_HALF_G4B11I1 (dont_touch) 900.0000 1203.8199 -303.8199 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B8I3 (dont_touch) 900.0000 1200.8800 -300.8800 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I7 (dont_touch) 900.0000 1190.5800 -290.5800 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B12I2 (dont_touch) 900.0000 1112.1801 -212.1801 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B8I6 (dont_touch) 900.0000 1077.2200 -177.2200 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B4I1 (dont_touch) 900.0000 1057.8800 -157.8800 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I8 (dont_touch) 900.0000 1038.7400 -138.7400 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B8I1 (dont_touch) 900.0000 969.7500 -69.7500 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B8I4 (dont_touch) 900.0000 920.3600 -20.3600 (VIOLATED) func1_wst
+
+   -----------------------------------------------------------------
+   Total                      10              -2044.0099  func1_wst
 
    max_area
 
                              Required        Actual
    Design                      Area           Area           Slack
    -----------------------------------------------------------------
-   khu_sensor_pad             0.0000       91656.7656     -91656.7656 (VIOLATED)
+   khu_sensor_pad             0.0000       91995.6406     -91995.6406 (VIOLATED)
 
 
 1

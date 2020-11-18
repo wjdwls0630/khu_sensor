@@ -28,6 +28,7 @@ Initializing...
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
+Initializing gui preferences from file  /home/VLSI_graduated_2020/2015104027/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                           01_floorplan                                   **
 #**                     floorplan and virtual placement                      **
@@ -102,13 +103,15 @@ set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_khu_sensor_L13_68um.tdf"
 # (e.g. vssoh -> vssoh_p)
 set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"
 ./icc_scripts/rules/pad_naming_rule.tcl
-set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
-0.3
+set ICC_SDC_SETUP_FILE             "./icc_scripts/user_scripts/sdc_setup.tcl"
+./icc_scripts/user_scripts/sdc_setup.tcl
+set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
+0.5
 set MAX_ROUTING_LAYER              "MET4"
 MET4
 set MIN_ROUTING_LAYER              ""
 # Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
-set CLK_MAX_ROUTING_LAYER          "MET5" 
+set CLK_MAX_ROUTING_LAYER          "MET5"
 MET5
 set CLK_MIN_ROUTING_LAYER          "MET3"
 MET3
@@ -232,7 +235,7 @@ set JTAGCTS_SDC        ""
 ##
 set OPCOND_WST          V105WTP1250
 V105WTP1250
-set OPCOND_WST_LIB      std150e_wst_105_p125 
+set OPCOND_WST_LIB      std150e_wst_105_p125
 std150e_wst_105_p125
 set OPCOND_WST_TIV      ""
 set OPCOND_WST_LIB_TIV  ""
@@ -467,7 +470,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-1117_18:42:39
+1119_01:34:45
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -627,20 +630,10 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
 1
 remove_scenario -all
 1
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
 source $ICC_MCMM_SCENARIOS_FILE
 Warning: Discarding all scenario specific information previously defined in this session. (UID-1008)
 Current scenario is: func1_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -672,7 +665,7 @@ Warning: You have provided ambiguous libraries:
   The latter library will be ignored. (MV-086)
   Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
 Information: Updating graph... (UID-83)
-Warning: Some objects from '_sel228' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel402' were of the incorrect class. (SEL-010)
 Information: Updating graph... (UID-83)
  
 ****************************************
@@ -680,7 +673,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Nov 17 18:42:53 2020
+Date   : Thu Nov 19 01:35:00 2020
 ****************************************
 
 Attributes:
@@ -692,8 +685,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk             12.00   {0 6}                         {i_CLK}   func1_wst
-clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             10.20   {0 5.1}                       {i_CLK}   func1_wst
+clk_half        20.40   {0 10.2}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 func1_wst
 --------------------------------------------------------------------------------
 
@@ -707,14 +700,6 @@ clk_half      i_CLK          {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
 --------------------------------------------------------------------------------
 Current scenario is: funccts_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -736,14 +721,14 @@ Sanity check for TLU+ vs MW-Tech files:
 ----------------- Check Ends ------------------
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
 Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
-Warning: Some objects from '_sel465' were of the incorrect class. (SEL-010)
+Warning: Some objects from '_sel813' were of the incorrect class. (SEL-010)
  
 ****************************************
 Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Nov 17 18:42:54 2020
+Date   : Thu Nov 19 01:35:00 2020
 ****************************************
 
 Attributes:
@@ -755,8 +740,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk             12.00   {0 6}                         {i_CLK}   funccts_wst
-clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             10.20   {0 5.1}                       {i_CLK}   funccts_wst
+clk_half        20.40   {0 10.2}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 funccts_wst
 --------------------------------------------------------------------------------
 
@@ -779,7 +764,7 @@ create_floorplan -control_type boundary -start_first_row -flip_first_row -left_i
 56 pads are constrained in TDF table
 There are 56 IO pads 0 corner pads in total
 Core aspect ratio adjusted to 1.000
-Core Utilization adjusted to 0.390
+Core Utilization adjusted to 0.388
 Increase core to top distance by 2.36 to 52.36
 Start to create wire tracks ...
 Start to place pads/pins ...
@@ -810,12 +795,12 @@ Name             Original Ports
 khu_sensor_pad               13
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Completed pin assignment.
-Elapsed =    0:00:00, CPU =    0:00:00
+Elapsed =    0:00:01, CPU =    0:00:00
 Planner Summary:
 This floorplan is created by using tile name (unit).
 	Row Direction = HORIZONTAL
 	Control Parameter =  Cell Boundary
-	Core Utilization = 0.391
+	Core Utilization = 0.388
 	Number Of Rows = 284
 	Core Width = 1024.76
 	Core Height = 1022.4

@@ -13,6 +13,7 @@
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
+Initializing gui preferences from file  /home/VLSI_graduated_2020/2015104027/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                            08_chip_finish                                **
 #**                       additional decap/filler                            **
@@ -234,24 +235,15 @@ remove_scenario -all
 Information: Removed scenario func1_wst from memory. (UID-1024)
 Information: Removed scenario funccts_wst from memory. (UID-1024)
 1
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# After placement, delete max_delay constraints. It is only for placing 
+# After placement, delete max_delay constraints. It is only for placing
 # clock gating cell and gated register in proximity.
-sh sed -i '/set_max_delay/,+1 d' $FUNC1_SDC
+source $ICC_SDC_SETUP_FILE
 source $ICC_MCMM_SCENARIOS_FILE
 Warning: Discarding all scenario specific information previously defined in this session. (UID-1008)
 Current scenario is: func1_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
 Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
 Floorplan loading succeeded.
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -277,9 +269,9 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. ivd2_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place3 in scenario func1_wst
+  Ambiguity is evident at icc_place18 in scenario func1_wst
 Information: Updating graph... (UID-83)
 
 ************************************************************
@@ -380,7 +372,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Nov 17 19:19:19 2020
+Date   : Thu Nov 19 02:15:54 2020
 ****************************************
 
 Attributes:
@@ -392,8 +384,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk             12.00   {0 6}                         {i_CLK}   func1_wst
-clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             10.20   {0 5.1}                       {i_CLK}   func1_wst
+clk_half        20.40   {0 10.2}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 func1_wst
 --------------------------------------------------------------------------------
 
@@ -407,14 +399,6 @@ clk_half      i_CLK          {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
 --------------------------------------------------------------------------------
 Current scenario is: funccts_wst
 Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_mpr_first_param_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_o_MPR121_REG_ADDR_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/sensor_core/clk_gate_r_ads_run_set_done_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_z_reg_0/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_e_reg/ENCLK]' (CMD-005)
-Error: unknown command 'khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/ENCLK]' (CMD-005)
 ***********************************************************************
                                                                        
     Check consistency between the Milkyway library and the TLUPlus     
@@ -441,9 +425,9 @@ Warning: You have provided ambiguous libraries:
     /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
     /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
   Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
-  and contain the same lib_cell names (e.g. ivd1_hd).
+  and contain the same lib_cell names (e.g. ivd2_hd).
   The latter library will be ignored. (MV-086)
-  Ambiguity is evident at icc_place3 in scenario func1_wst
+  Ambiguity is evident at icc_place18 in scenario func1_wst
 Information: Start timing update for routes parasitic extraction. (RCEX-023)
 Information: End timing update for routes parasitic extraction. (RCEX-023)
 Information: All the nets in the design are routed. Extraction of all the nets has been performed. (RCEX-201)
@@ -453,7 +437,7 @@ Report : clocks
 Design : khu_sensor_pad
 Scenario(s): funccts_wst
 Version: N-2017.09
-Date   : Tue Nov 17 19:19:20 2020
+Date   : Thu Nov 19 02:15:56 2020
 ****************************************
 
 Attributes:
@@ -465,8 +449,8 @@ Attributes:
 
 Clock          Period   Waveform            Attrs     Sources   Scenario
 --------------------------------------------------------------------------------
-clk             12.00   {0 6}                         {i_CLK}   funccts_wst
-clk_half        24.00   {0 12}              G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+clk             10.20   {0 5.1}                       {i_CLK}   funccts_wst
+clk_half        20.40   {0 10.2}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
                                                                 funccts_wst
 --------------------------------------------------------------------------------
 
@@ -599,15 +583,15 @@ Cell Max-Routing-Layer = MET4
 
 Start checking for open nets ... 
 
-Total number of nets = 31415, of which 0 are not extracted
+Total number of nets = 32005, of which 0 are not extracted
 Total number of open nets = 0, of which 0 are frozen
 
-Check 31415 nets, 0 have Errors
+Check 32005 nets, 0 have Errors
 
 [CHECK OPEN NETS] Elapsed real time: 0:00:00 
 [CHECK OPEN NETS] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [CHECK OPEN NETS] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[CHECK OPEN NETS] Total (MB): Used   70  Alloctr   71  Proc 2610 
+[CHECK OPEN NETS] Total (MB): Used   71  Alloctr   72  Proc 2611 
 Printing options for 'set_route_zrt_common_options'
 -concurrent_redundant_via_mode                          :        reserve_space       
 -connect_within_pins_by_layer_name                      :        {{MET1 via_wire_standard_cell_pins} }
@@ -646,13 +630,13 @@ Printing options for 'set_route_zrt_detail_options'
   Break antenna to port mode == float
   Break antenna to macro pin mode == normal
 *****End reporting antenna related parameters*****
-Warning: Skipping antenna analysis for net ADS1292_DRDY. The pin ADS1292_DRDY on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
-Warning: Skipping antenna analysis for net ADS1292_MISO. The pin ADS1292_MISO on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net i_CLK. The pin i_CLK on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net i_RSTN. The pin i_RSTN on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net MPR121_SDA. The pin MPR121_SDA on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net MPR121_SCL. The pin MPR121_SCL on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net UART_RXD. The pin UART_RXD on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
+Warning: Skipping antenna analysis for net ADS1292_DRDY. The pin ADS1292_DRDY on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
+Warning: Skipping antenna analysis for net ADS1292_MISO. The pin ADS1292_MISO on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Skipping antenna analysis for 7 nets as they don't have enough gate area info.
 
 Begin full DRC check ...
@@ -663,7 +647,7 @@ Checked 5/100 Partitions, Violations =  0
 Checked 8/100 Partitions, Violations =  0
 Checked 12/100 Partitions, Violations = 0
 Checked 16/100 Partitions, Violations = 0
-Checked 22/100 Partitions, Violations = 0
+Checked 21/100 Partitions, Violations = 0
 Checked 24/100 Partitions, Violations = 0
 Checked 28/100 Partitions, Violations = 0
 Checked 32/100 Partitions, Violations = 0
@@ -678,109 +662,99 @@ Checked 64/100 Partitions, Violations = 0
 Checked 68/100 Partitions, Violations = 0
 Checked 72/100 Partitions, Violations = 15
 Checked 76/100 Partitions, Violations = 15
-Checked 82/100 Partitions, Violations = 16
-Checked 84/100 Partitions, Violations = 16
-Checked 88/100 Partitions, Violations = 16
+Checked 82/100 Partitions, Violations = 15
+Checked 84/100 Partitions, Violations = 15
+Checked 88/100 Partitions, Violations = 15
 [DRC CHECK] Elapsed real time: 0:00:11 
 [DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:00:11 total=0:00:11
 [DRC CHECK] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[DRC CHECK] Total (MB): Used   88  Alloctr   89  Proc 2610 
+[DRC CHECK] Total (MB): Used   89  Alloctr   90  Proc 2611 
 Start net based rule analysis
-Antenna DRC for net khu_sensor_top/ads1292_filter/w_clk_p_G2B14I4; Net top lay MET4
-        ICell khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_z_e_reg_0/latch; master port CK
-                Antenna/diode mode 1/2; wlay MET4; gArea 0.25799999; allowed ratio/ratio 100.00000000/142.58604431
-        ICell khu_sensor_top/ads1292_filter/clk_gate_r_converter_f2i_a_stb_reg/latch; master port CK
-                Antenna/diode mode 1/2; wlay MET4; gArea 0.25799999; allowed ratio/ratio 100.00000000/142.58604431
-        ICell khu_sensor_top/ads1292_filter/clk_gate_r_counter_reg_0/latch; master port CK
-                Antenna/diode mode 1/2; wlay MET4; gArea 0.25799999; allowed ratio/ratio 100.00000000/142.58604431
-Antenna DRC for net khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_e_reg_0/w_clk_p_G2B14I3; Net top lay MET4
-        ICell khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_z_e_reg_0/latch; master port CK
-                Antenna/diode mode 1/2; wlay MET4; gArea 0.08600000; allowed ratio/ratio 100.00000000/412.23254395
-Found 4 antenna instance ports
+Found 0 antenna instance ports
 End net based rule analysis
 [Antenna analysis] Elapsed real time: 0:00:00 
 [Antenna analysis] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
 [Antenna analysis] Stage (MB): Used    0  Alloctr    0  Proc    0 
-[Antenna analysis] Total (MB): Used   88  Alloctr   89  Proc 2610 
+[Antenna analysis] Total (MB): Used   89  Alloctr   90  Proc 2611 
 Information: Merged away 8 aligned/redundant DRCs. (ZRT-305)
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      8
+        @@@@@@@ TOTAL VIOLATIONS =      7
         Diff net spacing : 1
         Less than minimum area : 2
         Short : 4
-        Soft spacing (shielding) : 1
 
 
-Total Wire Length =                    1160920 micron
-Total Number of Contacts =             250151
-Total Number of Wires =                209565
-Total Number of PtConns =              744
-Total Number of Routed Wires =       209565
-Total Routed Wire Length =           1160729 micron
-Total Number of Routed Contacts =       250151
-        Layer           MET1 :      46854 micron
-        Layer           MET2 :     376714 micron
-        Layer           MET3 :     498930 micron
-        Layer           MET4 :     238421 micron
+Total Wire Length =                    1165950 micron
+Total Number of Contacts =             253663
+Total Number of Wires =                211582
+Total Number of PtConns =              760
+Total Number of Routed Wires =       211582
+Total Routed Wire Length =           1165758 micron
+Total Number of Routed Contacts =       253663
+        Layer           MET1 :      59100 micron
+        Layer           MET2 :     359730 micron
+        Layer           MET3 :     504036 micron
+        Layer           MET4 :     243084 micron
         Layer           MET5 :          0 micron
         Layer           MET6 :          0 micron
         Via           FVIA45 :          1
-        Via            VIA34 :        372
-        Via        VIA34_2x1 :      27018
-        Via   VIA34(rot)_1x2 :         12
-        Via   VIA34(rot)_2x1 :          5
-        Via        VIA34_1x2 :       3356
-        Via            VIA23 :       2563
-        Via       VIA23(rot) :          3
-        Via        VIA23_1x2 :      76017
-        Via   VIA23(rot)_2x1 :         13
-        Via   VIA23(rot)_1x2 :        330
-        Via        VIA23_2x1 :      25855
-        Via            VIA12 :      75931
-        Via       VIA12(rot) :       2980
-        Via        VIA12_2x1 :       5115
-        Via   VIA12(rot)_1x2 :      10922
-        Via   VIA12(rot)_2x1 :       1757
-        Via        VIA12_1x2 :      17901
+        Via            VIA34 :        445
+        Via       VIA34(rot) :          3
+        Via        VIA34_2x1 :      27138
+        Via   VIA34(rot)_1x2 :         21
+        Via   VIA34(rot)_2x1 :          7
+        Via        VIA34_1x2 :       3435
+        Via            VIA23 :       2660
+        Via       VIA23(rot) :          2
+        Via        VIA23_1x2 :      77059
+        Via   VIA23(rot)_2x1 :         32
+        Via   VIA23(rot)_1x2 :        325
+        Via        VIA23_2x1 :      26533
+        Via            VIA12 :      76127
+        Via       VIA12(rot) :       3172
+        Via   VIA12(rot)_2x1 :       1747
+        Via        VIA12_1x2 :      19156
+        Via        VIA12_2x1 :       5309
+        Via   VIA12(rot)_1x2 :      10491
 
  
 Redundant via conversion report:
 --------------------------------
 
-  Total optimized via conversion rate = 67.28% (168302 / 250151 vias)
+  Total optimized via conversion rate = 67.51% (171254 / 253663 vias)
  
-    Layer VIA1       = 31.15% (35695  / 114606  vias)
-        Weight 1     = 31.15% (35695   vias)
-        Un-optimized = 68.85% (78911   vias)
-    Layer VIA2       = 97.55% (102215 / 104781  vias)
-        Weight 1     = 97.55% (102215  vias)
-        Un-optimized =  2.45% (2566    vias)
-    Layer VIA3       = 98.79% (30391  / 30763   vias)
-        Weight 1     = 98.79% (30391   vias)
-        Un-optimized =  1.21% (372     vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+        Weight 1     = 31.64% (36703   vias)
+        Un-optimized = 68.36% (79299   vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+        Weight 1     = 97.50% (103949  vias)
+        Un-optimized =  2.50% (2662    vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
+        Weight 1     = 98.56% (30601   vias)
+        Un-optimized =  1.44% (448     vias)
     Layer VIA4       = 100.00% (1      / 1       vias)
         Weight 1     = 100.00% (1       vias)
         Un-optimized =  0.00% (0       vias)
  
-  Total double via conversion rate    = 67.28% (168301 / 250151 vias)
+  Total double via conversion rate    = 67.51% (171253 / 253663 vias)
  
-    Layer VIA1       = 31.15% (35695  / 114606  vias)
-    Layer VIA2       = 97.55% (102215 / 104781  vias)
-    Layer VIA3       = 98.79% (30391  / 30763   vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
     Layer VIA4       =  0.00% (0      / 1       vias)
  
-  The optimized via conversion rate based on total routed via count = 67.28% (168302 / 250151 vias)
+  The optimized via conversion rate based on total routed via count = 67.51% (171254 / 253663 vias)
  
-    Layer VIA1       = 31.15% (35695  / 114606  vias)
-        Weight 1     = 31.15% (35695   vias)
-        Un-optimized = 68.85% (78911   vias)
-    Layer VIA2       = 97.55% (102215 / 104781  vias)
-        Weight 1     = 97.55% (102215  vias)
-        Un-optimized =  2.45% (2566    vias)
-    Layer VIA3       = 98.79% (30391  / 30763   vias)
-        Weight 1     = 98.79% (30391   vias)
-        Un-optimized =  1.21% (372     vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+        Weight 1     = 31.64% (36703   vias)
+        Un-optimized = 68.36% (79299   vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+        Weight 1     = 97.50% (103949  vias)
+        Un-optimized =  2.50% (2662    vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
+        Weight 1     = 98.56% (30601   vias)
+        Un-optimized =  1.44% (448     vias)
     Layer VIA4       = 100.00% (1      / 1       vias)
         Weight 1     = 100.00% (1       vias)
         Un-optimized =  0.00% (0       vias)
@@ -789,13 +763,13 @@ Redundant via conversion report:
 
 Verify Summary:
 
-Total number of nets = 31415, of which 0 are not extracted
+Total number of nets = 32005, of which 0 are not extracted
 Total number of open nets = 0, of which 0 are frozen
 Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
                                  0 ports without pins of 0 cells connected to 0 nets
                                  0 ports of 0 cover cells connected to 0 non-pg nets
-Total number of DRCs = 8
-Total number of antenna violations = 4
+Total number of DRCs = 7
+Total number of antenna violations = 0
 Total number of voltage-area violations = no voltage-areas defined
 Total number of tie to rail violations = not checked
 Total number of tie to rail directly violations = not checked
@@ -827,7 +801,7 @@ Report : timing
 Design : khu_sensor_pad
 Scenario(s): func1_wst
 Version: N-2017.09
-Date   : Tue Nov 17 19:19:49 2020
+Date   : Thu Nov 19 02:16:25 2020
 ****************************************
 
  * Some/all delay information is back-annotated.
@@ -837,11 +811,11 @@ Date   : Tue Nov 17 19:19:49 2020
         Extraction mode     : MIN_MAX
         Extraction derating : 125/125
 
-Information: Percent of Arnoldi-based delays = 94.33% on scenario func1_wst
+Information: Percent of Arnoldi-based delays = 94.66% on scenario func1_wst
 
-  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_
+  Startpoint: khu_sensor_top/ads1292_controller/r_clk_counter_reg_0_
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/latch
+  Endpoint: khu_sensor_top/ads1292_controller/clk_gate_r_clk_counter_reg_0/latch
             (gating element for clock clk)
   Scenario: func1_wst
   Path Group: **clock_gating_default**
@@ -851,55 +825,77 @@ Information: Percent of Arnoldi-based delays = 94.33% on scenario func1_wst
   ------------------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00      
   clock network delay (ideal)                             0.75       0.75      
-  khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_/CK (fd2qd1_hd)
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg_0_/CK (fd2qd1_hd)
                                                           0.00       0.75 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/r_counter_reg_1_/Q (fd2qd1_hd)
-                                                          0.61 @     1.36 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/icc_place71/Y (ivd1_hd)
-                                                          0.56 @     1.92 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/icc_place80/Y (ivd1_hd)
-                                                          0.62 @     2.54 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/icc_place69/Y (ivd1_hd)
-                                                          0.67 @     3.21 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U1060/Y (nd2d1_hd)
-                                                          0.43 @     3.64 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U1045/Y (nr2d1_hd)
-                                                          0.43 @     4.07 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U1041/Y (ao21d1_hd)
-                                                          0.51 @     4.58 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U7/Y (oa21d2_hd)
-                                                          0.38 @     4.96 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U4/Y (scg6d2_hd)
-                                                          0.54 @     5.51 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U27/Y (nd2d1_hd)
-                                                          0.26 @     5.77 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/icc_place410/Y (ivd4_hd)
-                                                          0.54 @     6.31 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U581/Y (ao21d1_hd)
-                                                          0.25 @     6.56 f    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U578/Y (oa22d1_hd)
-                                                          0.30 @     6.87 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/U577/Y (scg6d1_hd)
-                                                          0.70 @     7.56 r    1.05
-  khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/EN (SNPS_CLOCK_GATE_HIGH_iir_notch_5)
-                                                          0.00       7.56 r    
-  khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/latch/EN (cglpd1_hd)
-                                                          0.18 @     7.74 r    1.05
-  data arrival time                                                  7.74      
+  khu_sensor_top/ads1292_controller/r_clk_counter_reg_0_/Q (fd2qd1_hd)
+                                                          0.74 @     1.49 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/A[0] (ads1292_controller_DW01_inc_0)
+                                                          0.00       1.49 r    
+  khu_sensor_top/ads1292_controller/add_x_8/U31/CO (had1_hd)
+                                                          0.32 @     1.81 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U30/CO (had1_hd)
+                                                          0.25 @     2.06 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U29/CO (had1_hd)
+                                                          0.25 @     2.31 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U28/CO (had1_hd)
+                                                          0.25 @     2.57 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U27/CO (had1_hd)
+                                                          0.24 @     2.81 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U26/CO (had1_hd)
+                                                          0.25 @     3.05 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U25/CO (had1_hd)
+                                                          0.26 @     3.31 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U24/CO (had1_hd)
+                                                          0.27 @     3.58 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U23/CO (had1_hd)
+                                                          0.24 @     3.82 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U22/CO (had1_hd)
+                                                          0.25 @     4.07 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U21/CO (had1_hd)
+                                                          0.27 @     4.34 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U20/CO (had1_hd)
+                                                          0.27 @     4.62 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U19/CO (had1_hd)
+                                                          0.25 @     4.86 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U18/CO (had1_hd)
+                                                          0.25 @     5.11 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U17/CO (had1_hd)
+                                                          0.25 @     5.35 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U16/CO (had1_hd)
+                                                          0.24 @     5.60 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U15/CO (had1_hd)
+                                                          0.24 @     5.83 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U14/CO (had1_hd)
+                                                          0.25 @     6.08 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U13/CO (had1_hd)
+                                                          0.25 @     6.33 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U12/CO (had1_hd)
+                                                          0.24 @     6.57 r    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/U11/S (had1_hd)
+                                                          0.33 @     6.90 f    1.05
+  khu_sensor_top/ads1292_controller/add_x_8/SUM[21] (ads1292_controller_DW01_inc_0)
+                                                          0.00       6.90 f    
+  khu_sensor_top/ads1292_controller/U164/Y (scg14d1_hd)
+                                                          0.25 @     7.15 f    1.05
+  khu_sensor_top/ads1292_controller/clk_gate_r_clk_counter_reg_0/EN (SNPS_CLOCK_GATE_HIGH_ads1292_controller_0)
+                                                          0.00       7.15 f    
+  khu_sensor_top/ads1292_controller/clk_gate_r_clk_counter_reg_0/latch/EN (cglpd1_hd)
+                                                          0.00 @     7.15 f    1.05
+  data arrival time                                                  7.15      
 
-  clock clk (rise edge)                                  12.00      12.00      
-  clock network delay (ideal)                             0.75      12.75      
-  clock reconvergence pessimism                           0.00      12.75      
-  clock uncertainty                                      -0.48      12.27      
-  khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/latch/CK (cglpd1_hd)
-                                                          0.00      12.27 r    
-  clock gating setup time                                -0.10      12.17      
-  data required time                                                12.17      
+  clock clk (rise edge)                                  10.20      10.20      
+  clock network delay (ideal)                             0.75      10.95      
+  clock reconvergence pessimism                           0.00      10.95      
+  clock uncertainty                                      -0.48      10.47      
+  khu_sensor_top/ads1292_controller/clk_gate_r_clk_counter_reg_0/latch/CK (cglpd1_hd)
+                                                          0.00      10.47 r    
+  clock gating setup time                                -0.01      10.46      
+  data required time                                                10.46      
   ------------------------------------------------------------------------------------
-  data required time                                                12.17      
-  data arrival time                                                 -7.74      
+  data required time                                                10.46      
+  data arrival time                                                 -7.15      
   ------------------------------------------------------------------------------------
-  slack (MET)                                                        4.43      
+  slack (MET)                                                        3.31      
 
 
   Startpoint: ADS1292_DRDY
@@ -916,34 +912,34 @@ Information: Percent of Arnoldi-based delays = 94.33% on scenario func1_wst
   clock network delay (ideal)                             0.75       0.75      
   input external delay                                    0.35       1.10 f    
   ADS1292_DRDY (in)                                       0.00       1.10 f    
-  pad27/Y (phic_p)                                        1.57 @     2.67 f    1.05
-  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.67 f    
+  pad27/Y (phic_p)                                        1.56 @     2.66 f    1.05
+  khu_sensor_top/ADS1292_DRDY (khu_sensor_top)            0.00       2.66 f    
   khu_sensor_top/ads1292_controller/i_ADS1292_DRDY (ads1292_controller)
-                                                          0.00       2.67 f    
+                                                          0.00       2.66 f    
   khu_sensor_top/ads1292_controller/U284/Y (ao21d1_hd)
-                                                          0.38 @     3.06 r    1.05
+                                                          0.36 @     3.02 r    1.05
   khu_sensor_top/ads1292_controller/U273/Y (oa22d1_hd)
-                                                          0.29 @     3.35 f    1.05
-  khu_sensor_top/ads1292_controller/U272/Y (nr4d1_hd)     0.35 @     3.70 r    1.05
+                                                          0.29 @     3.31 f    1.05
+  khu_sensor_top/ads1292_controller/U272/Y (nr4d1_hd)     0.32 @     3.63 r    1.05
   khu_sensor_top/ads1292_controller/U271/Y (scg15d1_hd)
-                                                          0.28 @     3.98 f    1.05
+                                                          0.24 @     3.86 f    1.05
   khu_sensor_top/ads1292_controller/r_pstate_reg_0_/D (fd2qd1_hd)
-                                                          0.03 @     4.01 f    1.05
-  data arrival time                                                  4.01      
+                                                          0.01 @     3.88 f    1.05
+  data arrival time                                                  3.88      
 
-  clock clk (rise edge)                                  12.00      12.00      
-  clock network delay (ideal)                             0.75      12.75      
-  clock reconvergence pessimism                           0.00      12.75      
-  clock uncertainty                                      -0.48      12.27      
+  clock clk (rise edge)                                  10.20      10.20      
+  clock network delay (ideal)                             0.75      10.95      
+  clock reconvergence pessimism                           0.00      10.95      
+  clock uncertainty                                      -0.48      10.47      
   khu_sensor_top/ads1292_controller/r_pstate_reg_0_/CK (fd2qd1_hd)
-                                                          0.00      12.27 r    
-  library setup time                                     -0.01      12.26      
-  data required time                                                12.26      
+                                                          0.00      10.47 r    
+  library setup time                                     -0.01      10.46      
+  data required time                                                10.46      
   ------------------------------------------------------------------------------------
-  data required time                                                12.26      
-  data arrival time                                                 -4.01      
+  data required time                                                10.46      
+  data arrival time                                                 -3.88      
   ------------------------------------------------------------------------------------
-  slack (MET)                                                        8.25      
+  slack (MET)                                                        6.58      
 
 
   Startpoint: khu_sensor_top/mpr121_controller/i2c_master/scl_o_reg_reg
@@ -961,34 +957,33 @@ Information: Percent of Arnoldi-based delays = 94.33% on scenario func1_wst
                                                           0.00       0.75 r    1.05
   khu_sensor_top/mpr121_controller/i2c_master/scl_o_reg_reg/Q (fd1qd1_hd)
                                                           0.65 @     1.40 r    1.05
-  khu_sensor_top/mpr121_controller/i2c_master/icc_place14/Y (ivd1_hd)
-                                                          0.18 @     1.58 f    1.05
-  khu_sensor_top/mpr121_controller/i2c_master/scl_o (i2c_master)
-                                                          0.00       1.58 f    
-  khu_sensor_top/mpr121_controller/o_I2C_SCL_OUT (mpr121_controller)
-                                                          0.00       1.58 f    
-  khu_sensor_top/MPR121_SCL_OUT (khu_sensor_top)          0.00       1.58 f    
-  icc_place11/Y (ivd2_hd)                                 0.53 @     2.11 r    1.05
-  pad43/PAD (phbct12_p)                                   3.31 @     5.42 r    1.05
-  MPR121_SCL (inout)                                      0.00       5.42 r    
-  data arrival time                                                  5.42      
+  khu_sensor_top/mpr121_controller/i2c_master/scl_t (i2c_master)
+                                                          0.00       1.40 r    
+  khu_sensor_top/mpr121_controller/o_I2C_SCL_EN (mpr121_controller)
+                                                          0.00       1.40 r    
+  khu_sensor_top/MPR121_SCL_EN (khu_sensor_top)           0.00       1.40 r    
+  icc_place17/Y (ivd1_hd)                                 0.28 @     1.68 f    1.05
+  icc_place18/Y (ivd2_hd)                                 0.62 @     2.30 r    1.05
+  pad43/PAD (phbct12_p)                                   3.31 @     5.62 r    1.05
+  MPR121_SCL (inout)                                      0.00       5.62 r    
+  data arrival time                                                  5.62      
 
-  clock clk (rise edge)                                  12.00      12.00      
-  clock network delay (ideal)                             0.75      12.75      
-  clock reconvergence pessimism                           0.00      12.75      
-  clock uncertainty                                      -0.48      12.27      
-  output external delay                                  -0.50      11.77      
-  data required time                                                11.77      
+  clock clk (rise edge)                                  10.20      10.20      
+  clock network delay (ideal)                             0.75      10.95      
+  clock reconvergence pessimism                           0.00      10.95      
+  clock uncertainty                                      -0.48      10.47      
+  output external delay                                  -0.50       9.97      
+  data required time                                                 9.97      
   ------------------------------------------------------------------------------------
-  data required time                                                11.77      
-  data arrival time                                                 -5.42      
+  data required time                                                 9.97      
+  data arrival time                                                 -5.62      
   ------------------------------------------------------------------------------------
-  slack (MET)                                                        6.35      
+  slack (MET)                                                        4.35      
 
 
-  Startpoint: khu_sensor_top/ads1292_filter/iir_hpf/add/a_m_reg_21_
+  Startpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/b_m_reg_19_
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_
+  Endpoint: khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg_27_
             (rising edge-triggered flip-flop clocked by clk)
   Scenario: func1_wst
   Path Group: clk
@@ -998,115 +993,165 @@ Information: Percent of Arnoldi-based delays = 94.33% on scenario func1_wst
   ------------------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00      
   clock network delay (ideal)                             0.75       0.75      
-  khu_sensor_top/ads1292_filter/iir_hpf/add/a_m_reg_21_/CK (fd3qd1_hd)
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/b_m_reg_19_/CK (fd3qd2_hd)
                                                           0.00       0.75 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/a_m_reg_21_/Q (fd3qd1_hd)
-                                                          0.86 @     1.61 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/A[21] (float_adder_0_DW_cmp_6)
-                                                          0.00       1.61 r    
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U30/Y (nr2d1_hd)
-                                                          0.27 @     1.88 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U28/Y (nr2d1_hd)
-                                                          0.18 @     2.06 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U20/Y (nd2d1_hd)
-                                                          0.16 @     2.21 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U19/Y (oa21d1_hd)
-                                                          0.24 @     2.46 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U153/Y (ao21d1_hd)
-                                                          0.24 @     2.70 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/U1/Y (oa21d2_hd)
-                                                          0.18 @     2.89 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/gte_x_5/GE_LT_GT_LE (float_adder_0_DW_cmp_6)
-                                                          0.00       2.89 r    
-  khu_sensor_top/ads1292_filter/iir_hpf/add/U497/Y (ivd4_hd)
-                                                          0.15 @     3.04 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/U4/Y (nd2d6_hd)
-                                                          0.14 @     3.18 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/icc_place70/Y (ivd12_hd)
-                                                          0.09 @     3.27 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/icc_place64/Y (ivd4_hd)
-                                                          0.07 @     3.34 r    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/U694/Y (ao22d4_hd)
-                                                          0.11 @     3.46 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/I2[0] (float_adder_0_DP_OP_46_224_9810_0)
-                                                          0.00       3.46 f    
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U66/Y (clkxo2d1_hd)
-                                                          0.36 @     3.82 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U97/CO (fad2_hd)
-                                                          0.31 @     4.12 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U102/CO (fad4_hd)
-                                                          0.26 @     4.39 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U26/CO (fad4_hd)
-                                                          0.26 @     4.64 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U25/CO (fad4_hd)
-                                                          0.26 @     4.91 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U24/CO (fad4_hd)
-                                                          0.25 @     5.16 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U23/CO (fad2_hd)
-                                                          0.27 @     5.43 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U22/CO (fad1_hd)
-                                                          0.37 @     5.80 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U21/CO (fad1_hd)
-                                                          0.38 @     6.18 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U101/CO (fad1_hd)
-                                                          0.42 @     6.60 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U73/CO (fad2_hd)
-                                                          0.33 @     6.93 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U72/CO (fad2_hd)
-                                                          0.30 @     7.23 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U96/CO (fad4_hd)
-                                                          0.26 @     7.49 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U95/CO (fad4_hd)
-                                                          0.26 @     7.76 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U76/CO (fad4_hd)
-                                                          0.26 @     8.02 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U75/CO (fad4_hd)
-                                                          0.25 @     8.27 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U104/CO (fad4_hd)
-                                                          0.25 @     8.53 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U100/CO (fad4_hd)
-                                                          0.26 @     8.78 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U70/CO (fad4_hd)
-                                                          0.26 @     9.04 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U60/CO (fad4_hd)
-                                                          0.25 @     9.29 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U74/CO (fad4_hd)
-                                                          0.25 @     9.55 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U8/CO (fad4_hd)
-                                                          0.26 @     9.81 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U7/CO (fad4_hd)
-                                                          0.27 @    10.07 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U71/CO (fad4_hd)
-                                                          0.25 @    10.32 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U99/CO (fad1_hd)
-                                                          0.38 @    10.70 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U103/CO (fad1_hd)
-                                                          0.40 @    11.11 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U68/CO (fad1_hd)
-                                                          0.38 @    11.48 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U69/CO (fad1_hd)
-                                                          0.39 @    11.88 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/U98/Y (clkxo2d1_hd)
-                                                          0.34 @    12.22 f    1.05
-  khu_sensor_top/ads1292_filter/iir_hpf/add/DP_OP_46_224_9810/O1[27] (float_adder_0_DP_OP_46_224_9810_0)
-                                                          0.00      12.22 f    
-  khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_/D (fd3qd1_hd)
-                                                          0.01 @    12.23 f    1.05
-  data arrival time                                                 12.23      
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/b_m_reg_19_/Q (fd3qd2_hd)
+                                                          0.60 @     1.35 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/B[19] (float_adder_1_DW_cmp_6)
+                                                          0.00       1.35 r    
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U116/Y (ivd1_hd)
+                                                          0.12 @     1.47 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U38/Y (nr2ad1_hd)
+                                                          0.15 @     1.62 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U154/Y (nr2d2_hd)
+                                                          0.13 @     1.76 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U35/Y (ao21d2_hd)
+                                                          0.24 @     1.99 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U19/Y (oa21d4_hd)
+                                                          0.16 @     2.15 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U155/Y (ao21d4_hd)
+                                                          0.15 @     2.30 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/U159/Y (oa21d4_hd)
+                                                          0.13 @     2.43 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/gte_x_5/GE_LT_GT_LE (float_adder_1_DW_cmp_6)
+                                                          0.00       2.43 f    
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/icc_cpts1/Y (ivd8_hd)
+                                                          0.08 @     2.51 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/icc_cpts55/Y (ad2d4_hd)
+                                                          0.16 @     2.67 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/icc_cpts3/Y (ivd6_hd)
+                                                          0.07 @     2.74 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/icc_cpts59/Y (ivd4_hd)
+                                                          0.12 @     2.86 r    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/U627/Y (ao22d1_hd)
+                                                          0.16 @     3.02 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/I1[0] (float_adder_1_DP_OP_46_228_9786_0)
+                                                          0.00       3.02 f    
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U28/CO (fad4_hd)
+                                                          0.43 @     3.45 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U95/CO (fad4_hd)
+                                                          0.25 @     3.70 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U82/CO (fad4_hd)
+                                                          0.26 @     3.95 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U25/CO (fad4_hd)
+                                                          0.26 @     4.21 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U24/CO (fad4_hd)
+                                                          0.25 @     4.47 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U81/CO (fad4_hd)
+                                                          0.25 @     4.72 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U80/CO (fad4_hd)
+                                                          0.26 @     4.98 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U79/CO (fad4_hd)
+                                                          0.26 @     5.24 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U103/CO (fad4_hd)
+                                                          0.26 @     5.49 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U19/CO (fad4_hd)
+                                                          0.25 @     5.75 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U93/CO (fad4_hd)
+                                                          0.26 @     6.00 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U17/CO (fad4_hd)
+                                                          0.26 @     6.26 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U78/CO (fad4_hd)
+                                                          0.26 @     6.52 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U77/CO (fad4_hd)
+                                                          0.26 @     6.77 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U106/CO (fad4_hd)
+                                                          0.26 @     7.03 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U87/CO (fad4_hd)
+                                                          0.26 @     7.29 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U86/CO (fad4_hd)
+                                                          0.26 @     7.54 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U107/CO (fad4_hd)
+                                                          0.26 @     7.80 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U76/CO (fad4_hd)
+                                                          0.26 @     8.06 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U94/CO (fad4_hd)
+                                                          0.25 @     8.31 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U83/CO (fad4_hd)
+                                                          0.26 @     8.57 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U85/CO (fad4_hd)
+                                                          0.26 @     8.82 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U84/CO (fad4_hd)
+                                                          0.26 @     9.08 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U89/CO (fad4_hd)
+                                                          0.27 @     9.35 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U88/CO (fad4_hd)
+                                                          0.27 @     9.61 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U92/CO (fad4_hd)
+                                                          0.25 @     9.87 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U101/CO (fad4_hd)
+                                                          0.26 @    10.13 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/U90/Y (xo2d4_hd)
+                                                          0.29 @    10.42 f    1.05
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/DP_OP_46_228_9786/O1[27] (float_adder_1_DP_OP_46_228_9786_0)
+                                                          0.00      10.42 f    
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg_27_/D (fd3qd1_hd)
+                                                          0.00 @    10.42 f    1.05
+  data arrival time                                                 10.42      
 
-  clock clk (rise edge)                                  12.00      12.00      
-  clock network delay (ideal)                             0.75      12.75      
-  clock reconvergence pessimism                           0.00      12.75      
-  clock uncertainty                                      -0.48      12.27      
-  khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_/CK (fd3qd1_hd)
-                                                          0.00      12.27 r    
-  library setup time                                     -0.01      12.26      
-  data required time                                                12.26      
+  clock clk (rise edge)                                  10.20      10.20      
+  clock network delay (ideal)                             0.75      10.95      
+  clock reconvergence pessimism                           0.00      10.95      
+  clock uncertainty                                      -0.48      10.47      
+  khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg_27_/CK (fd3qd1_hd)
+                                                          0.00      10.47 r    
+  library setup time                                     -0.01      10.46      
+  data required time                                                10.46      
   ------------------------------------------------------------------------------------
-  data required time                                                12.26      
-  data arrival time                                                -12.23      
+  data required time                                                10.46      
+  data arrival time                                                -10.42      
   ------------------------------------------------------------------------------------
-  slack (MET)                                                        0.03      
+  slack (MET)                                                        0.04      
+
+
+  Startpoint: khu_sensor_top/mpr121_controller/i2c_master/missed_ack_reg_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: khu_sensor_top/sensor_core/r_mpr_pstate_reg_1_
+            (rising edge-triggered flip-flop clocked by clk_half)
+  Scenario: func1_wst
+  Path Group: clk_half
+  Path Type: max
+
+  Point                                                   Incr       Path      Voltage
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                  10.20      10.20      
+  clock network delay (ideal)                             0.75      10.95      
+  khu_sensor_top/mpr121_controller/i2c_master/missed_ack_reg_reg/CK (fd1qd1_hd)
+                                                          0.00      10.95 r    1.05
+  khu_sensor_top/mpr121_controller/i2c_master/missed_ack_reg_reg/Q (fd1qd1_hd)
+                                                          0.83 @    11.78 r    1.05
+  khu_sensor_top/mpr121_controller/i2c_master/missed_ack (i2c_master)
+                                                          0.00      11.78 r    
+  khu_sensor_top/mpr121_controller/o_MPR121_FAIL (mpr121_controller)
+                                                          0.00      11.78 r    
+  khu_sensor_top/sensor_core/i_MPR121_FAIL (sensor_core)
+                                                          0.00      11.78 r    
+  khu_sensor_top/sensor_core/U593/Y (nr2d1_hd)            0.21 @    11.99 f    1.05
+  khu_sensor_top/sensor_core/U592/Y (ivd1_hd)             0.25 @    12.24 r    1.05
+  khu_sensor_top/sensor_core/U81/Y (nd2d1_hd)             0.14 @    12.38 f    1.05
+  khu_sensor_top/sensor_core/U80/Y (oa211d1_hd)           0.16 @    12.55 r    1.05
+  khu_sensor_top/sensor_core/U78/Y (oa211d1_hd)           0.20 @    12.74 f    1.05
+  khu_sensor_top/sensor_core/U77/Y (oa211d1_hd)           0.17 @    12.91 r    1.05
+  khu_sensor_top/sensor_core/U76/Y (oa211d1_hd)           0.21 @    13.12 f    1.05
+  khu_sensor_top/sensor_core/U75/Y (ivd1_hd)              0.15 @    13.27 r    1.05
+  khu_sensor_top/sensor_core/U32/Y (mx2d1_hd)             0.25 @    13.52 r    1.05
+  khu_sensor_top/sensor_core/r_mpr_pstate_reg_1_/D (fd2qd1_hd)
+                                                          0.01 @    13.53 r    1.05
+  data arrival time                                                 13.53      
+
+  clock clk_half (rise edge)                             20.40      20.40      
+  clock network delay (ideal)                             0.75      21.15      
+  clock reconvergence pessimism                           0.00      21.15      
+  clock uncertainty                                      -0.96      20.19      
+  khu_sensor_top/sensor_core/r_mpr_pstate_reg_1_/CK (fd2qd1_hd)
+                                                          0.00      20.19 r    
+  library setup time                                     -0.04      20.15      
+  data required time                                                20.15      
+  ------------------------------------------------------------------------------------
+  data required time                                                20.15      
+  data arrival time                                                -13.53      
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                        6.62      
 
 
 GART: Updated design time.
@@ -1140,14 +1185,14 @@ Printing options for 'set_route_zrt_detail_options'
 
 [Dr init] Elapsed real time: 0:00:03 
 [Dr init] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
-[Dr init] Stage (MB): Used   83  Alloctr   83  Proc    0 
-[Dr init] Total (MB): Used   87  Alloctr   88  Proc 2594 
+[Dr init] Stage (MB): Used   84  Alloctr   84  Proc    0 
+[Dr init] Total (MB): Used   88  Alloctr   89  Proc 2595 
 Warning: No antenna diodes found, or could not link them. (ZRT-302)
 Warning: Antenna diode insertion will be off. (ZRT-301)
-Total number of nets = 31415, of which 0 are not extracted
+Total number of nets = 32005, of which 0 are not extracted
 Total number of open nets = 0, of which 0 are frozen
 Information: Using 1 threads for routing. (ZRT-444)
-Routing in incremental mode, starting from iteration 52
+Routing in incremental mode, starting from iteration 46
 
 *****Start reporting antenna related parameters*****
   Antenna/diode mode:
@@ -1172,319 +1217,230 @@ Routing in incremental mode, starting from iteration 52
   Break antenna to port mode == float
   Break antenna to macro pin mode == normal
 *****End reporting antenna related parameters*****
-Warning: Skipping antenna analysis for net ADS1292_DRDY. The pin ADS1292_DRDY on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
-Warning: Skipping antenna analysis for net ADS1292_MISO. The pin ADS1292_MISO on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net i_CLK. The pin i_CLK on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net i_RSTN. The pin i_RSTN on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net MPR121_SDA. The pin MPR121_SDA on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net MPR121_SCL. The pin MPR121_SCL on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Warning: Skipping antenna analysis for net UART_RXD. The pin UART_RXD on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
+Warning: Skipping antenna analysis for net ADS1292_DRDY. The pin ADS1292_DRDY on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
+Warning: Skipping antenna analysis for net ADS1292_MISO. The pin ADS1292_MISO on cell khu_sensor_pad does not have enough gate area information. (ZRT-311)
 Skipping antenna analysis for 7 nets as they don't have enough gate area info.
-Start DR iteration 52: non-uniform partition
-Routed  1/15 Partitions, Violations =   41
-Routed  2/15 Partitions, Violations =   36
-Routed  3/15 Partitions, Violations =   36
-Routed  4/15 Partitions, Violations =   35
-Routed  5/15 Partitions, Violations =   35
-Routed  6/15 Partitions, Violations =   30
-Routed  7/15 Partitions, Violations =   28
-Routed  8/15 Partitions, Violations =   25
-Routed  9/15 Partitions, Violations =   25
-Routed  10/15 Partitions, Violations =  21
-Routed  11/15 Partitions, Violations =  21
-Routed  12/15 Partitions, Violations =  19
-Routed  13/15 Partitions, Violations =  18
-Routed  14/15 Partitions, Violations =  17
-Routed  15/15 Partitions, Violations =  16
+Start DR iteration 46: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
         Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
 
-[Iter 52] Elapsed real time: 0:00:04 
-[Iter 52] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
-[Iter 52] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 52] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 46] Elapsed real time: 0:00:03 
+[Iter 46] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
+[Iter 46] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 46] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 52 with 15 parts
+End DR iteration 46 with 1 parts
 
-Start DR iteration 53: non-uniform partition
-Routed  1/14 Partitions, Violations =   42
-Routed  2/14 Partitions, Violations =   41
-Routed  3/14 Partitions, Violations =   41
-Routed  4/14 Partitions, Violations =   40
-Routed  5/14 Partitions, Violations =   40
-Routed  6/14 Partitions, Violations =   33
-Routed  7/14 Partitions, Violations =   31
-Routed  8/14 Partitions, Violations =   28
-Routed  9/14 Partitions, Violations =   26
-Routed  10/14 Partitions, Violations =  24
-Routed  11/14 Partitions, Violations =  19
-Routed  12/14 Partitions, Violations =  17
-Routed  13/14 Partitions, Violations =  16
-Routed  14/14 Partitions, Violations =  16
+Start DR iteration 47: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
         Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
 
-[Iter 53] Elapsed real time: 0:00:04 
-[Iter 53] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
-[Iter 53] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 53] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 47] Elapsed real time: 0:00:04 
+[Iter 47] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
+[Iter 47] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 47] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 53 with 14 parts
+End DR iteration 47 with 1 parts
 
-Start DR iteration 54: non-uniform partition
-Routed  1/13 Partitions, Violations =   43
-Routed  2/13 Partitions, Violations =   39
-Routed  3/13 Partitions, Violations =   39
-Routed  4/13 Partitions, Violations =   39
-Routed  5/13 Partitions, Violations =   39
-Routed  6/13 Partitions, Violations =   31
-Routed  7/13 Partitions, Violations =   27
-Routed  8/13 Partitions, Violations =   25
-Routed  9/13 Partitions, Violations =   22
-Routed  10/13 Partitions, Violations =  20
-Routed  11/13 Partitions, Violations =  17
-Routed  12/13 Partitions, Violations =  17
-Routed  13/13 Partitions, Violations =  16
+Start DR iteration 48: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
         Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
 
-[Iter 54] Elapsed real time: 0:00:05 
-[Iter 54] Elapsed cpu  time: sys=0:00:00 usr=0:00:05 total=0:00:05
-[Iter 54] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 54] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 48] Elapsed real time: 0:00:04 
+[Iter 48] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
+[Iter 48] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 48] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 54 with 13 parts
+End DR iteration 48 with 1 parts
 
-Start DR iteration 55: non-uniform partition
-Routed  1/13 Partitions, Violations =   44
-Routed  2/13 Partitions, Violations =   42
-Routed  3/13 Partitions, Violations =   34
-Routed  4/13 Partitions, Violations =   33
-Routed  5/13 Partitions, Violations =   33
-Routed  6/13 Partitions, Violations =   33
-Routed  7/13 Partitions, Violations =   30
-Routed  8/13 Partitions, Violations =   26
-Routed  9/13 Partitions, Violations =   24
-Routed  10/13 Partitions, Violations =  22
-Routed  11/13 Partitions, Violations =  20
-Routed  12/13 Partitions, Violations =  18
-Routed  13/13 Partitions, Violations =  18
+Start DR iteration 49: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      18
-        @@@@ Total number of instance ports with antenna violations =   4
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
         Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
-        Internal-only types : 2
 
-[Iter 55] Elapsed real time: 0:00:06 
-[Iter 55] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
-[Iter 55] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 55] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 49] Elapsed real time: 0:00:04 
+[Iter 49] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
+[Iter 49] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 49] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 55 with 13 parts
+End DR iteration 49 with 1 parts
 
-Start DR iteration 56: non-uniform partition
-Routed  1/13 Partitions, Violations =   40
-Routed  2/13 Partitions, Violations =   39
-Routed  3/13 Partitions, Violations =   37
-Routed  4/13 Partitions, Violations =   37
-Routed  5/13 Partitions, Violations =   37
-Routed  6/13 Partitions, Violations =   33
-Routed  7/13 Partitions, Violations =   28
-Routed  8/13 Partitions, Violations =   27
-Routed  9/13 Partitions, Violations =   25
-Routed  10/13 Partitions, Violations =  23
-Routed  11/13 Partitions, Violations =  19
-Routed  12/13 Partitions, Violations =  17
-Routed  13/13 Partitions, Violations =  16
+Start DR iteration 50: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   7
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
         Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
 
-[Iter 56] Elapsed real time: 0:00:06 
-[Iter 56] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
-[Iter 56] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 56] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 50] Elapsed real time: 0:00:04 
+[Iter 50] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:04
+[Iter 50] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 50] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 56 with 13 parts
+End DR iteration 50 with 1 parts
 
-Start DR iteration 57: non-uniform partition
-Routed  1/18 Partitions, Violations =   59
-Routed  2/18 Partitions, Violations =   53
-Routed  3/18 Partitions, Violations =   45
-Routed  4/18 Partitions, Violations =   45
-Routed  5/18 Partitions, Violations =   45
-Routed  6/18 Partitions, Violations =   45
-Routed  7/18 Partitions, Violations =   43
-Routed  8/18 Partitions, Violations =   41
-Routed  9/18 Partitions, Violations =   36
-Routed  10/18 Partitions, Violations =  32
-Routed  11/18 Partitions, Violations =  30
-Routed  12/18 Partitions, Violations =  28
-Routed  13/18 Partitions, Violations =  23
-Routed  14/18 Partitions, Violations =  22
-Routed  15/18 Partitions, Violations =  21
-Routed  16/18 Partitions, Violations =  20
-Routed  17/18 Partitions, Violations =  19
-Routed  18/18 Partitions, Violations =  18
+Start DR iteration 51: non-uniform partition
+Routed  1/1 Partitions, Violations =    15
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      18
-        @@@@ Total number of instance ports with antenna violations =   5
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
 
         Diff net spacing : 5
-        Less than minimum area : 3
+        Less than minimum area : 2
         Short : 8
-        Soft spacing : 1
-        Internal-only types : 1
 
-[Iter 57] Elapsed real time: 0:00:07 
-[Iter 57] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[Iter 57] Stage (MB): Used   90  Alloctr   90  Proc    0 
-[Iter 57] Total (MB): Used   94  Alloctr   95  Proc 2594 
+[Iter 51] Elapsed real time: 0:00:04 
+[Iter 51] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:05
+[Iter 51] Stage (MB): Used   91  Alloctr   92  Proc    0 
+[Iter 51] Total (MB): Used   95  Alloctr   96  Proc 2595 
 
-End DR iteration 57 with 18 parts
+End DR iteration 51 with 1 parts
 
-        @@@@ Total nets not meeting constraints =       3
+        @@@@ Total nets not meeting constraints =       0
 
 Stop DR since not converging
 
-Information: Discarded 1 drcs of internal-only type. (ZRT-306)
-[DR] Elapsed real time: 0:00:07 
-[DR] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[DR] Stage (MB): Used   79  Alloctr   79  Proc    0 
-[DR] Total (MB): Used   82  Alloctr   83  Proc 2594 
-[DR: Done] Elapsed real time: 0:00:07 
-[DR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
-[DR: Done] Stage (MB): Used   79  Alloctr   79  Proc    0 
-[DR: Done] Total (MB): Used   82  Alloctr   83  Proc 2594 
+[DR] Elapsed real time: 0:00:05 
+[DR] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:05
+[DR] Stage (MB): Used   80  Alloctr   80  Proc    0 
+[DR] Total (MB): Used   84  Alloctr   85  Proc 2595 
+[DR: Done] Elapsed real time: 0:00:05 
+[DR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:04 total=0:00:05
+[DR: Done] Stage (MB): Used   80  Alloctr   80  Proc    0 
+[DR: Done] Total (MB): Used   84  Alloctr   85  Proc 2595 
 
 DR finished with 0 open nets, of which 0 are frozen
 Information: Merged away 8 aligned/redundant DRCs. (ZRT-305)
 
-DR finished with 9 violations and 5 instance ports antenna violations
+DR finished with 7 violations and 0 instance ports antenna violations
 
 DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      9
+        @@@@@@@ TOTAL VIOLATIONS =      7
         Diff net spacing : 1
-        Less than minimum area : 3
+        Less than minimum area : 2
         Short : 4
-        Soft spacing : 1
 
 
 
-Total Wire Length =                    1160916 micron
-Total Number of Contacts =             250140
-Total Number of Wires =                208555
-Total Number of PtConns =              741
-Total Number of Routed Wires =       208555
-Total Routed Wire Length =           1160727 micron
-Total Number of Routed Contacts =       250140
-        Layer           MET1 :      46850 micron
-        Layer           MET2 :     376824 micron
-        Layer           MET3 :     498955 micron
-        Layer           MET4 :     238287 micron
+Total Wire Length =                    1165950 micron
+Total Number of Contacts =             253663
+Total Number of Wires =                210661
+Total Number of PtConns =              759
+Total Number of Routed Wires =       210661
+Total Routed Wire Length =           1165758 micron
+Total Number of Routed Contacts =       253663
+        Layer           MET1 :      59100 micron
+        Layer           MET2 :     359730 micron
+        Layer           MET3 :     504036 micron
+        Layer           MET4 :     243084 micron
         Layer           MET5 :          0 micron
         Layer           MET6 :          0 micron
         Via           FVIA45 :          1
-        Via            VIA34 :        381
-        Via        VIA34_2x1 :      27006
-        Via   VIA34(rot)_1x2 :         12
-        Via   VIA34(rot)_2x1 :          5
-        Via        VIA34_1x2 :       3353
-        Via            VIA23 :       2577
-        Via       VIA23(rot) :          4
-        Via        VIA23_1x2 :      76004
-        Via   VIA23(rot)_2x1 :         12
-        Via   VIA23(rot)_1x2 :        330
-        Via        VIA23_2x1 :      25851
-        Via            VIA12 :      75933
-        Via       VIA12(rot) :       2980
-        Via        VIA12_2x1 :       5115
-        Via   VIA12(rot)_1x2 :      10921
-        Via   VIA12(rot)_2x1 :       1757
-        Via        VIA12_1x2 :      17898
+        Via            VIA34 :        445
+        Via       VIA34(rot) :          3
+        Via        VIA34_2x1 :      27138
+        Via   VIA34(rot)_1x2 :         21
+        Via   VIA34(rot)_2x1 :          7
+        Via        VIA34_1x2 :       3435
+        Via            VIA23 :       2660
+        Via       VIA23(rot) :          2
+        Via        VIA23_1x2 :      77059
+        Via   VIA23(rot)_2x1 :         32
+        Via   VIA23(rot)_1x2 :        325
+        Via        VIA23_2x1 :      26533
+        Via            VIA12 :      76127
+        Via       VIA12(rot) :       3172
+        Via   VIA12(rot)_2x1 :       1747
+        Via        VIA12_1x2 :      19156
+        Via        VIA12_2x1 :       5309
+        Via   VIA12(rot)_1x2 :      10491
 
  
 Redundant via conversion report:
 --------------------------------
 
-  Total optimized via conversion rate = 67.27% (168265 / 250140 vias)
+  Total optimized via conversion rate = 67.51% (171254 / 253663 vias)
  
-    Layer VIA1       = 31.14% (35691  / 114604  vias)
-        Weight 1     = 31.14% (35691   vias)
-        Un-optimized = 68.86% (78913   vias)
-    Layer VIA2       = 97.54% (102197 / 104778  vias)
-        Weight 1     = 97.54% (102197  vias)
-        Un-optimized =  2.46% (2581    vias)
-    Layer VIA3       = 98.76% (30376  / 30757   vias)
-        Weight 1     = 98.76% (30376   vias)
-        Un-optimized =  1.24% (381     vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+        Weight 1     = 31.64% (36703   vias)
+        Un-optimized = 68.36% (79299   vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+        Weight 1     = 97.50% (103949  vias)
+        Un-optimized =  2.50% (2662    vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
+        Weight 1     = 98.56% (30601   vias)
+        Un-optimized =  1.44% (448     vias)
     Layer VIA4       = 100.00% (1      / 1       vias)
         Weight 1     = 100.00% (1       vias)
         Un-optimized =  0.00% (0       vias)
  
-  Total double via conversion rate    = 67.27% (168264 / 250140 vias)
+  Total double via conversion rate    = 67.51% (171253 / 253663 vias)
  
-    Layer VIA1       = 31.14% (35691  / 114604  vias)
-    Layer VIA2       = 97.54% (102197 / 104778  vias)
-    Layer VIA3       = 98.76% (30376  / 30757   vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
     Layer VIA4       =  0.00% (0      / 1       vias)
  
-  The optimized via conversion rate based on total routed via count = 67.27% (168265 / 250140 vias)
+  The optimized via conversion rate based on total routed via count = 67.51% (171254 / 253663 vias)
  
-    Layer VIA1       = 31.14% (35691  / 114604  vias)
-        Weight 1     = 31.14% (35691   vias)
-        Un-optimized = 68.86% (78913   vias)
-    Layer VIA2       = 97.54% (102197 / 104778  vias)
-        Weight 1     = 97.54% (102197  vias)
-        Un-optimized =  2.46% (2581    vias)
-    Layer VIA3       = 98.76% (30376  / 30757   vias)
-        Weight 1     = 98.76% (30376   vias)
-        Un-optimized =  1.24% (381     vias)
+    Layer VIA1       = 31.64% (36703  / 116002  vias)
+        Weight 1     = 31.64% (36703   vias)
+        Un-optimized = 68.36% (79299   vias)
+    Layer VIA2       = 97.50% (103949 / 106611  vias)
+        Weight 1     = 97.50% (103949  vias)
+        Un-optimized =  2.50% (2662    vias)
+    Layer VIA3       = 98.56% (30601  / 31049   vias)
+        Weight 1     = 98.56% (30601   vias)
+        Un-optimized =  1.44% (448     vias)
     Layer VIA4       = 100.00% (1      / 1       vias)
         Weight 1     = 100.00% (1       vias)
         Un-optimized =  0.00% (0       vias)
  
 
-Total number of nets = 31415
+Total number of nets = 32005
 0 open nets, of which 0 are frozen
 Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
                                  0 ports without pins of 0 cells connected to 0 nets
                                  0 ports of 0 cover cells connected to 0 non-pg nets
-Total number of DRCs = 9
-Total number of antenna violations = 7
+Total number of DRCs = 7
+Total number of antenna violations = 0
 Total number of voltage-area violations = no voltage-areas defined
 Special ECO iteration 1 ended with 0 qualifying violations.
 Topology ECO iteration 1 ended with 0 qualifying violations.
@@ -1609,7 +1565,7 @@ Information: Timer is not in zero interconnect delay mode. (TIM-176)
 Report          : create_qor_snapshot (08_chip_finish)
 Design          : khu_sensor_pad
 Version         : N-2017.09
-Date            : Tue Nov 17 19:20:30 2020
+Date            : Thu Nov 19 02:17:04 2020
 Time unit       : 1.0e-09 Second(ns)
 Capacitance unit: 1.0e-12 Farad(pF)
 Voltage unit    : 1 Volt
@@ -1621,28 +1577,29 @@ s1 = func1_wst
 --------------------------------------------------
 WNS of each timing group:                       s1 
 --------------------------------------------------
-**clock_gating_default**                    4.4303 
-REGIN                                       8.2468 
-REGOUT                                      6.3526 
-clk                                         0.0339 
+clk_half                                    6.6180 
+**clock_gating_default**                    3.3087 
+REGIN                                       6.5850 
+REGOUT                                      4.3529 
+clk                                         0.0444 
 --------------------------------------------------
-Setup WNS:                                  0.0339 
+Setup WNS:                                  0.0444 
 Setup TNS:                                     0.0
 Number of setup violations:                      0  
 Hold WNS:                                   0.0000  
 Hold TNS:                                   0.0000  
 Number of hold violations:                       0  
-Number of max trans violations:                  0  
+Number of max trans violations:                  1  
 Number of max cap violations:                    0  
 Number of min pulse width violations:            0  
-Route drc violations:                           16
+Route drc violations:                            7
 --------------------------------------------------
-Area:                                        90809
-Cell count:                                  29084
-Buf/inv cell count:                           5931
-Std cell utilization:                       41.19%
+Area:                                        91147
+Cell count:                                  29603
+Buf/inv cell count:                           6559
+Std cell utilization:                       41.34%
 CPU/ELAPSE(hr):                          0.03/0.05
-Mem(Mb):                                      1029
+Mem(Mb):                                      1030
 Host name:                               vlsi-dist.khu.ac.kr
 --------------------------------------------------
 Histogram:             s1 
@@ -1679,17 +1636,17 @@ Report : qor
 Design : khu_sensor_pad
 Scenario(s): func1_wst funccts_wst
 Version: N-2017.09
-Date   : Tue Nov 17 19:20:30 2020
+Date   : Thu Nov 19 02:17:04 2020
 ****************************************
 
 
   Scenario 'func1_wst'
   Timing Path Group '**clock_gating_default**'
   -----------------------------------
-  Levels of Logic:            13.0000
-  Critical Path Length:        6.9870
-  Critical Path Slack:         4.4303
-  Critical Path Clk Period:   12.0000
+  Levels of Logic:            22.0000
+  Critical Path Length:        6.4013
+  Critical Path Slack:         3.3087
+  Critical Path Clk Period:   10.2000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
   Worst Hold Violation:        0.0000
@@ -1701,9 +1658,9 @@ Date   : Tue Nov 17 19:20:30 2020
   Timing Path Group 'REGIN'
   -----------------------------------
   Levels of Logic:             5.0000
-  Critical Path Length:        2.9132
-  Critical Path Slack:         8.2468
-  Critical Path Clk Period:   12.0000
+  Critical Path Length:        2.7750
+  Critical Path Slack:         6.5850
+  Critical Path Clk Period:   10.2000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
   Worst Hold Violation:        0.0000
@@ -1715,9 +1672,9 @@ Date   : Tue Nov 17 19:20:30 2020
   Timing Path Group 'REGOUT'
   -----------------------------------
   Levels of Logic:             3.0000
-  Critical Path Length:        4.6674
-  Critical Path Slack:         6.3526
-  Critical Path Clk Period:   12.0000
+  Critical Path Length:        4.8671
+  Critical Path Slack:         4.3529
+  Critical Path Clk Period:   10.2000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
   Worst Hold Violation:        0.0000
@@ -1729,9 +1686,23 @@ Date   : Tue Nov 17 19:20:30 2020
   Timing Path Group 'clk'
   -----------------------------------
   Levels of Logic:            40.0000
-  Critical Path Length:       11.4761
-  Critical Path Slack:         0.0339
-  Critical Path Clk Period:   12.0000
+  Critical Path Length:        9.6656
+  Critical Path Slack:         0.0444
+  Critical Path Clk Period:   10.2000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'clk_half'
+  -----------------------------------
+  Levels of Logic:             9.0000
+  Critical Path Length:        2.5808
+  Critical Path Slack:         6.6180
+  Critical Path Clk Period:   20.4000
   Total Negative Slack:        0.0000
   No. of Violating Paths:      0.0000
   Worst Hold Violation:        0.0000
@@ -1743,13 +1714,13 @@ Date   : Tue Nov 17 19:20:30 2020
   Cell Count
   -----------------------------------
   Hierarchical Cell Count:        284
-  Hierarchical Port Count:       6612
-  Leaf Cell Count:              29084
-  Buf/Inv Cell Count:            5931
-  Buf Cell Count:                1548
-  Inv Cell Count:                4383
-  CT Buf/Inv Cell Count:          600
-  Combinational Cell Count:     23697
+  Hierarchical Port Count:       6556
+  Leaf Cell Count:              29603
+  Buf/Inv Cell Count:            6559
+  Buf Cell Count:                1496
+  Inv Cell Count:                5063
+  CT Buf/Inv Cell Count:          543
+  Combinational Cell Count:     24216
   Sequential Cell Count:         5387
   Macro Count:                      0
   -----------------------------------
@@ -1757,26 +1728,26 @@ Date   : Tue Nov 17 19:20:30 2020
 
   Area
   -----------------------------------
-  Combinational Area:      53454.6778
-  Noncombinational Area:   37354.6680
-  Buf/Inv Area:             6134.6706
-  Total Buffer Area:        2102.3284
-  Total Inverter Area:      4032.3423
+  Combinational Area:      54045.0133
+  Noncombinational Area:   37101.9998
+  Buf/Inv Area:             6544.6730
+  Total Buffer Area:        2041.9952
+  Total Inverter Area:      4502.6777
   Macro/Black Box Area:        0.0000
-  Net Area:                  847.4182
-  Net XLength        :    570872.7500
-  Net YLength        :    613398.5625
+  Net Area:                  848.6294
+  Net XLength        :    589193.5625
+  Net YLength        :    601079.1875
   -----------------------------------
-  Cell Area:               90809.3458
-  Design Area:             91656.7640
-  Net Length        :    1184271.2500
+  Cell Area:               91147.0131
+  Design Area:             91995.6425
+  Net Length        :    1190272.7500
 
 
   Design Rules
   -----------------------------------
-  Total Number of Nets:         31653
-  Nets With Violations:             0
-  Max Trans Violations:             0
+  Total Number of Nets:         32239
+  Nets With Violations:             1
+  Max Trans Violations:             1
   Max Cap Violations:               0
   -----------------------------------
 
@@ -1787,10 +1758,10 @@ Date   : Tue Nov 17 19:20:30 2020
   -----------------------------------------
   Resource Sharing:                  0.0000
   Logic Optimization:                0.0000
-  Mapping Optimization:            126.7208
+  Mapping Optimization:            227.3734
   -----------------------------------------
-  Overall Compile Time:            128.1865
-  Overall Compile Wall Clock Time: 128.5710
+  Overall Compile Time:            230.0020
+  Overall Compile Wall Clock Time: 230.5395
 
   --------------------------------------------------------------------
 
@@ -1812,7 +1783,7 @@ Report : design
         -physical
 Design : khu_sensor_pad
 Version: N-2017.09
-Date   : Tue Nov 17 19:20:30 2020
+Date   : Thu Nov 19 02:17:04 2020
 ****************************************
 
         Scenario            : func1_wst
@@ -1821,172 +1792,194 @@ Date   : Tue Nov 17 19:20:30 2020
         Extraction mode     : MIN_MAX
         Extraction derating : 125/125
 ****************************** P&R Summary ********************************
-Date : Tue Nov 17 19:20:30 2020
+Date : Thu Nov 19 02:17:04 2020
 Machine Host Name: vlsi-dist.khu.ac.kr
 Working Directory: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis
 Library Name:      khu_sensor_pad_08_chip_finish
 Cell Name:         khu_sensor_pad.CEL;1
 Design Statistics:
-    Number of Module Cells:        29028
-    Number of Pins:                164100
+    Number of Module Cells:        29547
+    Number of Pins:                165828
     Number of IO Pad Cells:        56
     Number of IO Pins:             13
-    Number of Nets:                31415
-    Average Pins Per Net (Signal): 3.13847
+    Number of Nets:                32005
+    Average Pins Per Net (Signal): 3.10651
 
 Chip Utilization:
-    Total Std Cell Area:           431525.95
+    Total Std Cell Area:           433130.54
     Total Pad Cell Area:           462403.20
     Core Size:     width 1024.76, height 1022.40; area 1047714.62
     Pad Core Size: width 1124.76, height 1124.76; area 1265085.06
     Chip Size:     width 1400.00, height 1400.00; area 1960000.00
-    Std cells utilization:         41.19% 
-    Cell/Core Ratio:               41.19%
-    Cell/Chip Ratio:               45.61%
+    Std cells utilization:         41.34% 
+    Cell/Core Ratio:               41.34%
+    Cell/Chip Ratio:               45.69%
     Number of Cell Rows:            284
 
 Master Instantiation:
         MasterName      Type    InstCount
         =================================
-        ivd1_hd         STD     2849
-        fd3qd1_hd       STD     2506
-        nd2d1_hd        STD     2041
-        fd2qd1_hd       STD     2041
-        oa22d1_hd       STD     2029
-        xn2d1_hd        STD     1929
-        fad1_hd         STD     1740
-        nr2d1_hd        STD     1407
-        scg2d2_hd       STD     1148
-        nid2_hd         STD     1136
-        ao22d1_hd       STD     1066
-        oa21d1_hd       STD     777
-        ivd2_hd         STD     640
+        ivd1_hd         STD     3506
+        fd3qd1_hd       STD     2263
+        nd2d1_hd        STD     2039
+        fd2qd1_hd       STD     2022
+        oa22d1_hd       STD     2014
+        xn2d1_hd        STD     1927
+        fad1_hd         STD     1713
+        nr2d1_hd        STD     1347
+        scg2d2_hd       STD     1120
+        ao22d1_hd       STD     1032
+        nid2_hd         STD     961
+        ivd2_hd         STD     778
+        oa21d1_hd       STD     757
         had1_hd         STD     552
-        oa211d1_hd      STD     502
-        ao21d1_hd       STD     470
-        ivd4_hd         STD     417
-        nid1_hd         STD     383
+        nid1_hd         STD     497
+        oa211d1_hd      STD     485
+        ao21d1_hd       STD     476
+        ivd4_hd         STD     353
+        clkxo2d2_hd     STD     327
         nr4d1_hd        STD     296
-        ad2d1_hd        STD     288
-        nd3d1_hd        STD     266
-        clkxo2d2_hd     STD     230
-        nd4d1_hd        STD     210
-        nr3d1_hd        STD     201
-        ivd6_hd         STD     199
-        nr2bd1_hd       STD     194
-        or2d1_hd        STD     194
-        fd3qd2_hd       STD     194
-        nd2bd1_hd       STD     184
-        fds2eqd1_hd     STD     181
+        fd1qd1_hd       STD     273
+        nd3d1_hd        STD     252
+        ad2d1_hd        STD     224
+        nd4d1_hd        STD     208
+        nr2bd1_hd       STD     205
+        nr3d1_hd        STD     203
         cglpd1_hd       STD     174
-        clkxo2d1_hd     STD     150
+        or2d1_hd        STD     170
+        ivd12_hd        STD     163
+        fds2eqd1_hd     STD     157
         scg4d1_hd       STD     144
-        scg6d1_hd       STD     132
-        fd1eqd1_hd      STD     131
-        ao211d1_hd      STD     91
-        ivd8_hd         STD     91
-        mx2d1_hd        STD     88
-        scg13d1_hd      STD     85
-        ivd12_hd        STD     82
-        ivd3_hd         STD     79
-        clknd2d4_hd     STD     78
-        scg15d1_hd      STD     70
-        oa22ad1_hd      STD     66
-        fad4_hd         STD     63
-        nr2ad1_hd       STD     62
-        scg14d1_hd      STD     61
-        fd1qd1_hd       STD     56
-        oa22d2_hd       STD     55
-        scg16d1_hd      STD     53
-        nr2d4_hd        STD     52
-        nd3bd1_hd       STD     42
+        nd2bd1_hd       STD     133
+        scg6d1_hd       STD     129
+        fd1eqd1_hd      STD     126
+        ao211d1_hd      STD     117
+        fd3qd2_hd       STD     117
+        fad4_hd         STD     106
+        ivd3_hd         STD     93
+        ivd8_hd         STD     88
+        mx2d1_hd        STD     87
+        scg13d1_hd      STD     80
+        clknd2d4_hd     STD     77
+        scg15d1_hd      STD     74
+        nr2ad1_hd       STD     69
+        oa22ad1_hd      STD     67
+        ivd6_hd         STD     63
+        nr2d4_hd        STD     62
+        oa22d2_hd       STD     59
+        fd1qd2_hd       STD     54
+        scg14d1_hd      STD     53
+        scg17d1_hd      STD     52
+        nr2d2_hd        STD     52
+        scg16d1_hd      STD     45
+        nd3bd1_hd       STD     44
         or4d1_hd        STD     42
-        scg17d1_hd      STD     42
-        clknd2d2_hd     STD     42
-        oa21d2_hd       STD     35
+        clkxo2d1_hd     STD     41
+        oa21d2_hd       STD     40
+        ao22d2_hd       STD     35
+        fd3d4_hd        STD     35
         fd2d1_hd        STD     34
         scg20d1_hd      STD     32
-        ad4d1_hd        STD     28
+        fd2qd2_hd       STD     32
+        clknd2d2_hd     STD     32
+        ad4d1_hd        STD     29
+        scg18d1_hd      STD     28
+        scg2d1_hd       STD     27
         scg5d1_hd       STD     27
-        or2d2_hd        STD     26
+        ad2d2_hd        STD     26
+        fd1d4_hd        STD     25
+        or2d2_hd        STD     24
         xo3d1_hd        STD     23
-        fds2d1_hd       STD     21
-        ivd16_hd        STD     21
-        scg18d1_hd      STD     20
-        nr2d2_hd        STD     20
-        scg22d1_hd      STD     19
+        ao21d4_hd       STD     21
+        scg22d1_hd      STD     20
+        nr2d6_hd        STD     20
+        fds2d1_hd       STD     20
+        oa22d4_hd       STD     20
         scg9d1_hd       STD     18
         ad3d1_hd        STD     18
-        fad2_hd         STD     17
-        ao21d2_hd       STD     16
-        scg10d1_hd      STD     15
+        ao21d2_hd       STD     18
+        oa21d4_hd       STD     17
         scg12d1_hd      STD     15
         oa211d2_hd      STD     15
+        scg10d1_hd      STD     14
         nr4d2_hd        STD     14
-        fd2qd2_hd       STD     14
-        ad2d2_hd        STD     14
-        ao22d2_hd       STD     12
-        nr2d6_hd        STD     12
+        fd2qd4_hd       STD     12
+        scg21d1_hd      STD     12
+        ad2d4_hd        STD     12
         scg20d2_hd      STD     12
-        fd2qd4_hd       STD     11
-        ao21d4_hd       STD     11
-        scg2d1_hd       STD     10
-        scg21d1_hd      STD     9
+        nid6_hd         STD     12
+        or3d1_hd        STD     11
+        fd1d2_hd        STD     11
+        ivd16_hd        STD     10
+        nid4_hd         STD     10
+        fd1eqd2_hd      STD     10
         mx2id1_hd       STD     9
-        or3d1_hd        STD     8
-        nid4_hd         STD     8
-        nid8_hd         STD     8
-        scg22d2_hd      STD     8
-        ad2d4_hd        STD     8
-        nr3ad1_hd       STD     8
-        nid12_hd        STD     8
-        fds2eqd2_hd     STD     7
-        ao22d4_hd       STD     7
-        fd1qd2_hd       STD     6
-        scg11d1_hd      STD     5
-        nd2d2_hd        STD     5
-        or2d4_hd        STD     5
-        oa21d4_hd       STD     5
-        fd1eqd2_hd      STD     5
-        nr3d2_hd        STD     4
-        ao22ad1_hd      STD     4
+        nd2d2_hd        STD     9
+        or2d4_hd        STD     8
+        nid8_hd         STD     7
+        scg22d2_hd      STD     7
+        nd2d4_hd        STD     7
+        ivd20_hd        STD     7
+        xo2d2_hd        STD     7
+        scg8d1_hd       STD     6
+        fds2eqd2_hd     STD     6
+        ao22d4_hd       STD     6
+        xo2d4_hd        STD     6
+        ao22ad1_hd      STD     5
+        fd3qd4_hd       STD     5
+        nd2d6_hd        STD     4
         fj2d1_hd        STD     4
-        oa22d4_hd       STD     4
-        ivd20_hd        STD     4
-        scg8d1_hd       STD     3
-        nd3d2_hd        STD     3
-        nid6_hd         STD     3
+        nr4d4_hd        STD     4
+        ad2bd2_hd       STD     4
+        clknd2d3_hd     STD     3
+        or2d8_hd        STD     3
         or3d2_hd        STD     3
-        nr4d4_hd        STD     3
-        nd2d6_hd        STD     3
+        scg16d2_hd      STD     3
+        clknd2d1_hd     STD     3
+        nid3_hd         STD     3
+        xn2d2_hd        STD     3
+        nid16_hd        STD     3
         mx4d1_hd        STD     2
-        nr3d4_hd        STD     2
-        or2d8_hd        STD     2
-        ad2bd2_hd       STD     2
-        xn2d2_hd        STD     2
-        or2d6_hd        STD     2
-        nd2d4_hd        STD     2
-        ad3d2_hd        STD     2
-        oa211d4_hd      STD     2
-        scg16d2_hd      STD     2
-        xo2d4_hd        STD     2
-        nid3_hd         STD     2
-        oa31d1_hd       STD     1
+        clkmx2d1_hd     STD     2
+        nr3d2_hd        STD     2
+        scg6d2_hd       STD     2
+        ad2bd4_hd       STD     2
+        nd3d2_hd        STD     2
+        xn2d4_hd        STD     2
+        fd1qd4_hd       STD     2
+        ad4d2_hd        STD     2
+        fd3d2_hd        STD     2
+        ivd24_hd        STD     2
+        nid12_hd        STD     2
+        xo2d1_hd        STD     1
+        scg11d1_hd      STD     1
         oa32d1_hd       STD     1
-        clkmx2d1_hd     STD     1
-        ao211d2_hd      STD     1
-        clknd2d3_hd     STD     1
+        clknd2d6_hd     STD     1
         fd3d1_hd        STD     1
         ao31d1_hd       STD     1
-        scg6d2_hd       STD     1
+        oa31d1_hd       STD     1
+        fds2d2_hd       STD     1
         or2bd2_hd       STD     1
-        ad2bd4_hd       STD     1
-        ao211d4_hd      STD     1
-        clkad2d2_hd     STD     1
-        clknd2d6_hd     STD     1
-        ad2d6_hd        STD     1
+        nd3d4_hd        STD     1
+        ad3d2_hd        STD     1
+        scg10d2_hd      STD     1
+        nr2bd2_hd       STD     1
+        scg14d2_hd      STD     1
+        scg9d2_hd       STD     1
+        nd3d6_hd        STD     1
+        clkad2d8_hd     STD     1
         ft2d4_hd        STD     1
-        ivd24_hd        STD     1
+        nr3ad1_hd       STD     1
+        scg13d2_hd      STD     1
+        nid20_hd        STD     1
+        ao22d8_hd       STD     1
+        nd2d8_hd        STD     1
+        scg9d4_hd       STD     1
+        clkad2d4_hd     STD     1
+        scg2d4_hd       STD     1
+        ad2d6_hd        STD     1
+        ad2d8_hd        STD     1
+        scg14d4_hd      STD     1
         iofillerh5_p    IO      48
         iofillerh10_p   IO      22
         vssoh_p         IO      12
@@ -2012,59 +2005,59 @@ Global Routing Information:
     layer MET5, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
     layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
      
-    Average gCell capacity  3.38         on layer (1)    MET1
+    Average gCell capacity  3.35         on layer (1)    MET1
     Average gCell capacity  5.61         on layer (2)    MET2
     Average gCell capacity  6.34         on layer (3)    MET3
     Average gCell capacity  5.95         on layer (4)    MET4
     Average gCell capacity  6.33         on layer (5)    MET5
     Average gCell capacity  0.00         on layer (6)    MET6
      
-    Initial. Both Dirs: Overflow =  1423 Max = 11 GRCs =   677 (0.22%)
-    Initial. H routing: Overflow =   168 Max =  3 (GRCs =  8) GRCs =   135 (0.09%)
-    Initial. V routing: Overflow =  1255 Max = 11 (GRCs =  1) GRCs =   542 (0.36%)
+    Initial. Both Dirs: Overflow =  1358 Max = 10 GRCs =   658 (0.22%)
+    Initial. H routing: Overflow =   105 Max =  4 (GRCs =  1) GRCs =    91 (0.06%)
+    Initial. V routing: Overflow =  1252 Max = 10 (GRCs =  5) GRCs =   567 (0.38%)
      
-    phase1. Both Dirs: Overflow =  1423 Max = 11 GRCs =   677 (0.22%)
-    phase1. H routing: Overflow =   168 Max =  3 (GRCs =  8) GRCs =   135 (0.09%)
-    phase1. V routing: Overflow =  1255 Max = 11 (GRCs =  1) GRCs =   542 (0.36%)
+    phase1. Both Dirs: Overflow =  1358 Max = 10 GRCs =   658 (0.22%)
+    phase1. H routing: Overflow =   105 Max =  4 (GRCs =  1) GRCs =    91 (0.06%)
+    phase1. V routing: Overflow =  1252 Max = 10 (GRCs =  5) GRCs =   567 (0.38%)
      
-    phase2. Both Dirs: Overflow =  1423 Max = 11 GRCs =   677 (0.22%)
-    phase2. H routing: Overflow =   168 Max =  3 (GRCs =  8) GRCs =   135 (0.09%)
-    phase2. V routing: Overflow =  1255 Max = 11 (GRCs =  1) GRCs =   542 (0.36%)
+    phase2. Both Dirs: Overflow =  1358 Max = 10 GRCs =   658 (0.22%)
+    phase2. H routing: Overflow =   105 Max =  4 (GRCs =  1) GRCs =    91 (0.06%)
+    phase2. V routing: Overflow =  1252 Max = 10 (GRCs =  5) GRCs =   567 (0.38%)
      
-    Total Wire Length = 133.41
+    Total Wire Length = 38.52
     Layer MET1 wire length = 0.00
-    Layer MET2 wire length = 0.00
-    Layer MET3 wire length = 133.41
+    Layer MET2 wire length = 22.62
+    Layer MET3 wire length = 15.90
     Layer MET4 wire length = 0.00
     Layer MET5 wire length = 0.00
     Layer MET6 wire length = 0.00
-    Total Number of Contacts = 38
-    Via VIA12 count = 15
-    Via VIA23 count = 23
+    Total Number of Contacts = 22
+    Via VIA12 count = 13
+    Via VIA23 count = 9
     Via VIA34 count = 0
     Via VIA45 count = 0
     Via VIA56 count = 0
      
     Elapsed real time: 0:00:01
     Elapsed cpu time: sys = 0:00:00 usr = 0:00:01 total = 0:00:01
-    Total Proc Memory(MB): 2718
+    Total Proc Memory(MB): 2724
 
 Track Assignment Information:
-    Number of wires with overlap after iteration 0 = 27 of 45
+    Number of wires with overlap after iteration 0 = 43 of 78
 
-    Number of wires with overlap after iteration 1 = 27 of 47
+    Number of wires with overlap after iteration 1 = 25 of 52
 
-    Total MET1 wire length: 0.0
-    Total MET2 wire length: 17.8
-    Total MET3 wire length: 135.6
-    Total MET4 wire length: 4.0
+    Total MET1 wire length: 1.2
+    Total MET2 wire length: 34.3
+    Total MET3 wire length: 36.5
+    Total MET4 wire length: 0.8
     Total MET5 wire length: 0.0
     Total MET6 wire length: 0.0
-    Total wire length: 157.4
+    Total wire length: 72.8
 
     Elapsed real time: 0:00:00
     Elapsed cpu time: sys = 0:00:00 usr = 0:00:00 total = 0:00:00
-    Total Proc Memory(MB): 2718
+    Total Proc Memory(MB): 2724
 
 Detailed Routing Information:
     
@@ -2072,142 +2065,140 @@ Detailed Routing Information:
     ---------- Detail route ----------
 
      
-    Iteration 52: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+    Iteration 46: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Iteration 53: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+    Iteration 47: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Iteration 54: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   4
+    Iteration 48: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Iteration 55: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      18
-        @@@@ Total number of instance ports with antenna violations =   4
+    Iteration 49: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Iteration 56: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      16
-        @@@@ Total number of instance ports with antenna violations =   7
+    Iteration 50: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Iteration 57: DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      18
-        @@@@ Total number of instance ports with antenna violations =   5
+    Iteration 51: DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      15
+        @@@@ Total number of instance ports with antenna violations =   0
      
-    Elapsed real time: 0:00:07
-    Elapsed cpu time: sys = 0:00:00 usr = 0:00:07 total = 0:00:07
-    Total Proc Memory(MB): 2594
+    Elapsed real time: 0:00:05
+    Elapsed cpu time: sys = 0:00:00 usr = 0:00:04 total = 0:00:05
+    Total Proc Memory(MB): 2595
      
-    Cumulative run time upto current stage: Elapsed = 0:00:07 CPU = 0:00:07
+    Cumulative run time upto current stage: Elapsed = 0:00:05 CPU = 0:00:05
      
     DR finished with 0 open nets, of which 0 are frozen
-    DR finished with 9 violations
+    DR finished with 7 violations
      
     DRC-SUMMARY:
-        @@@@@@@ TOTAL VIOLATIONS =      9
+        @@@@@@@ TOTAL VIOLATIONS =      7
         Diff net spacing : 1
-        Less than minimum area : 3
+        Less than minimum area : 2
         Short : 4
-        Soft spacing : 1
-    Total number of nets = 31415
+    Total number of nets = 32005
     0 open nets, of which 0 are frozen
     Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
                                      0 ports without pins of 0 cells connected to 0 nets
                                      0 ports of 0 cover cells connected to 0 non-pg nets
-    Total number of DRCs = 9
-    Total number of antenna violations = 7
+    Total number of DRCs = 7
+    Total number of antenna violations = 0
     Total number of voltage-area violations = no voltage-areas defined
     
 
      
     Elapsed real time: 0:00:01
     Elapsed cpu time: sys = 0:00:00 usr = 0:00:01 total = 0:00:01
-    Total Proc Memory(MB): 2594
+    Total Proc Memory(MB): 2595
      
-    Cumulative run time upto current stage: Elapsed = 0:00:08 CPU = 0:00:08
+    Cumulative run time upto current stage: Elapsed = 0:00:06 CPU = 0:00:06
      
-    Total Wire Length =                    1160916 micron
-    Total Number of Contacts =             250140
-    Total Number of Wires =                208555
-    Total Number of PtConns =              741
-    Total Number of Routed Wires =       208555
-    Total Routed Wire Length =           1160727 micron
-    Total Number of Routed Contacts =       250140
-        Layer           MET1 :      46850 micron
-        Layer           MET2 :     376824 micron
-        Layer           MET3 :     498955 micron
-        Layer           MET4 :     238287 micron
+    Total Wire Length =                    1165950 micron
+    Total Number of Contacts =             253663
+    Total Number of Wires =                210661
+    Total Number of PtConns =              759
+    Total Number of Routed Wires =       210661
+    Total Routed Wire Length =           1165758 micron
+    Total Number of Routed Contacts =       253663
+        Layer           MET1 :      59100 micron
+        Layer           MET2 :     359730 micron
+        Layer           MET3 :     504036 micron
+        Layer           MET4 :     243084 micron
         Layer           MET5 :          0 micron
         Layer           MET6 :          0 micron
         Via           FVIA45 :          1
-        Via            VIA34 :        381
-        Via        VIA34_2x1 :      27006
-        Via   VIA34(rot)_1x2 :         12
-        Via   VIA34(rot)_2x1 :          5
-        Via        VIA34_1x2 :       3353
-        Via            VIA23 :       2577
-        Via       VIA23(rot) :          4
-        Via        VIA23_1x2 :      76004
-        Via   VIA23(rot)_2x1 :         12
-        Via   VIA23(rot)_1x2 :        330
-        Via        VIA23_2x1 :      25851
-        Via            VIA12 :      75933
-        Via       VIA12(rot) :       2980
-        Via        VIA12_2x1 :       5115
-        Via   VIA12(rot)_1x2 :      10921
-        Via   VIA12(rot)_2x1 :       1757
-        Via        VIA12_1x2 :      17898
+        Via            VIA34 :        445
+        Via       VIA34(rot) :          3
+        Via        VIA34_2x1 :      27138
+        Via   VIA34(rot)_1x2 :         21
+        Via   VIA34(rot)_2x1 :          7
+        Via        VIA34_1x2 :       3435
+        Via            VIA23 :       2660
+        Via       VIA23(rot) :          2
+        Via        VIA23_1x2 :      77059
+        Via   VIA23(rot)_2x1 :         32
+        Via   VIA23(rot)_1x2 :        325
+        Via        VIA23_2x1 :      26533
+        Via            VIA12 :      76127
+        Via       VIA12(rot) :       3172
+        Via   VIA12(rot)_2x1 :       1747
+        Via        VIA12_1x2 :      19156
+        Via        VIA12_2x1 :       5309
+        Via   VIA12(rot)_1x2 :      10491
      
     Redundant via conversion report:
     --------------------------------
 
-      Total optimized via conversion rate = 67.27% (168265 / 250140 vias)
+      Total optimized via conversion rate = 67.51% (171254 / 253663 vias)
      
-        Layer VIA1       = 31.14% (35691  / 114604  vias)
-            Weight 1     = 31.14% (35691   vias)
-            Un-optimized = 68.86% (78913   vias)
-        Layer VIA2       = 97.54% (102197 / 104778  vias)
-            Weight 1     = 97.54% (102197  vias)
-            Un-optimized =  2.46% (2581    vias)
-        Layer VIA3       = 98.76% (30376  / 30757   vias)
-            Weight 1     = 98.76% (30376   vias)
-            Un-optimized =  1.24% (381     vias)
+        Layer VIA1       = 31.64% (36703  / 116002  vias)
+            Weight 1     = 31.64% (36703   vias)
+            Un-optimized = 68.36% (79299   vias)
+        Layer VIA2       = 97.50% (103949 / 106611  vias)
+            Weight 1     = 97.50% (103949  vias)
+            Un-optimized =  2.50% (2662    vias)
+        Layer VIA3       = 98.56% (30601  / 31049   vias)
+            Weight 1     = 98.56% (30601   vias)
+            Un-optimized =  1.44% (448     vias)
         Layer VIA4       = 100.00% (1      / 1       vias)
             Weight 1     = 100.00% (1       vias)
             Un-optimized =  0.00% (0       vias)
      
-      Total double via conversion rate    = 67.27% (168264 / 250140 vias)
+      Total double via conversion rate    = 67.51% (171253 / 253663 vias)
      
-        Layer VIA1       = 31.14% (35691  / 114604  vias)
-        Layer VIA2       = 97.54% (102197 / 104778  vias)
-        Layer VIA3       = 98.76% (30376  / 30757   vias)
+        Layer VIA1       = 31.64% (36703  / 116002  vias)
+        Layer VIA2       = 97.50% (103949 / 106611  vias)
+        Layer VIA3       = 98.56% (30601  / 31049   vias)
         Layer VIA4       =  0.00% (0      / 1       vias)
      
-      The optimized via conversion rate based on total routed via count = 67.27% (168265 / 250140 vias)
+      The optimized via conversion rate based on total routed via count = 67.51% (171254 / 253663 vias)
      
-        Layer VIA1       = 31.14% (35691  / 114604  vias)
-            Weight 1     = 31.14% (35691   vias)
-            Un-optimized = 68.86% (78913   vias)
-        Layer VIA2       = 97.54% (102197 / 104778  vias)
-            Weight 1     = 97.54% (102197  vias)
-            Un-optimized =  2.46% (2581    vias)
-        Layer VIA3       = 98.76% (30376  / 30757   vias)
-            Weight 1     = 98.76% (30376   vias)
-            Un-optimized =  1.24% (381     vias)
+        Layer VIA1       = 31.64% (36703  / 116002  vias)
+            Weight 1     = 31.64% (36703   vias)
+            Un-optimized = 68.36% (79299   vias)
+        Layer VIA2       = 97.50% (103949 / 106611  vias)
+            Weight 1     = 97.50% (103949  vias)
+            Un-optimized =  2.50% (2662    vias)
+        Layer VIA3       = 98.56% (30601  / 31049   vias)
+            Weight 1     = 98.56% (30601   vias)
+            Un-optimized =  1.44% (448     vias)
         Layer VIA4       = 100.00% (1      / 1       vias)
             Weight 1     = 100.00% (1       vias)
             Un-optimized =  0.00% (0       vias)
      
 
 DRC information: 
-      Less than minimum area: 3 
-      Soft spacing: 1 
       Short: 4 
       Diff net spacing: 1 
-      Antenna: 7 
-      Total error number: 16
+      Less than minimum area: 2 
+      Total error number: 7
 
 Ring Wiring Statistics:
     metal3 Wire Length(count):               4236.64(4)
@@ -2235,59 +2226,59 @@ Stripe Wiring Statistics:
 User Wiring Statistics:
 
 PG follow-pin Wiring Statistics:
-    metal1 Wire Length(count):             435886.87(599)
-    metal5 Wire Length(count):                 63.12(304)
+    metal1 Wire Length(count):             380837.44(487)
+    metal5 Wire Length(count):                 64.42(295)
   ==============================================
-    Total Wire Length(count):              435949.99(903)
-    Number of via1 Contacts:           7202
-    Number of via2 Contacts:           7145
-    Number of via3 Contacts:           7145
-    Number of via4 Contacts:           6695
-    Number of via5 Contacts:           6358
+    Total Wire Length(count):              380901.86(782)
+    Number of via1 Contacts:           7198
+    Number of via2 Contacts:           7140
+    Number of via3 Contacts:           7140
+    Number of via4 Contacts:           6689
+    Number of via5 Contacts:           6360
   ==============================================
-    Total Number of Contacts:    34545
+    Total Number of Contacts:    34527
 
 Signal Wiring Statistics:
-    metal1 Wire Length(count):              46851.27(3020)
-    metal2 Wire Length(count):             376995.38(114422)
-    metal3 Wire Length(count):             498960.59(73764)
-    metal4 Wire Length(count):             238287.31(18527)
+    metal1 Wire Length(count):              59102.20(3641)
+    metal2 Wire Length(count):             359925.15(114614)
+    metal3 Wire Length(count):             504042.15(74802)
+    metal4 Wire Length(count):             243084.19(18860)
   ==============================================
-    Total Wire Length(count):             1161094.55(209733)
+    Total Wire Length(count):             1166153.69(211917)
 
       Mask Name      Contact Code    Number Of Contacts    Percentage
-        via1           VIA12(2)             78913              68.9
-        via1_1x2       VIA12(2)             19655              17.2
-        via1_2x1       VIA12(2)             16036                14
- Default via for layer via1:                   68.9%
- Yield-optmized via for layer via1:            31.1%
+        via1           VIA12(2)             79299              68.4
+        via1_1x2       VIA12(2)             20903                18
+        via1_2x1       VIA12(2)             15800              13.6
+ Default via for layer via1:                   68.4%
+ Yield-optmized via for layer via1:            31.6%
 
-        via2           VIA23(4)              2581              2.46
-        via2_2x1       VIA23(4)             26181                25
-        via2_1x2       VIA23(4)             76016              72.5
- Default via for layer via2:                   2.46%
+        via2           VIA23(4)              2662               2.5
+        via2_2x1       VIA23(4)             26858              25.2
+        via2_1x2       VIA23(4)             77091              72.3
+ Default via for layer via2:                   2.5%
  Yield-optmized via for layer via2:            97.5%
 
-        via3           VIA34(6)               381              1.24
-        via3_1x2       VIA34(6)              3358              10.9
-        via3_2x1       VIA34(6)             27018              87.8
- Default via for layer via3:                   1.24%
- Yield-optmized via for layer via3:            98.8%
+        via3           VIA34(6)               448              1.44
+        via3_1x2       VIA34(6)              3442              11.1
+        via3_2x1       VIA34(6)             27159              87.5
+ Default via for layer via3:                   1.44%
+ Yield-optmized via for layer via3:            98.6%
 
         via4          FVIA45(9)                 1               100
 
- Double Via rate for all layers:           67.3%
+ Double Via rate for all layers:           67.5%
   ==============================================
-    Total Number of Contacts:    250140
+    Total Number of Contacts:    253663
 
   Horizontal/Vertical Wire Distribution:
     Layer      Hor. Wire (% of Hor.)     Ver. Wire (% of Ver.)
-    metal1         46778.35 ( 8.35%)            72.92 ( 0.01%)
-    metal2         14583.72 ( 2.60%)        362411.66 (60.33%)
-    metal3        496669.35 (88.63%)          2291.24 ( 0.38%)
-    metal4          2333.35 ( 0.42%)        235953.96 (39.28%)
+    metal1         58961.36 (10.19%)           140.84 ( 0.02%)
+    metal2         14739.95 ( 2.55%)        345185.20 (58.74%)
+    metal3        501899.11 (86.75%)          2143.04 ( 0.36%)
+    metal4          2940.01 ( 0.51%)        240144.18 (40.87%)
   ==============================================================
-    Total         560364.77                 600729.78
+    Total         578540.43                 587613.26
 1
 redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_group }
 ********************************************************************************
@@ -2296,13 +2287,13 @@ redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_gro
 Vth Group                All                Blackbox           Non-blackbox
 Name                    cells                cells                cells
 ********************************************************************************
-undefined           29084 (100.00%)         43 (100.00%)      29041 (100.00%)   
+undefined           29603 (100.00%)         43 (100.00%)      29560 (100.00%)   
 ********************************************************************************
 
 Vth Group                All                Blackbox           Non-blackbox
 Name                  cell area            cell area            cell area
 ********************************************************************************
-undefined        90809.35 (100.00%)       0.00   (0.00%)   90809.35 (100.00%)   
+undefined        91147.01 (100.00%)       0.00   (0.00%)   91147.01 (100.00%)   
 ********************************************************************************
 1
 redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
@@ -2313,6 +2304,419 @@ redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
         report_timing -significant_digits 4     -delay min -transition_time  -capacitance       -max_paths 20 -nets -input_pins         -physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+report_zrt_shield -with_ground $MW_R_GROUND_NET -output $REPORTS_STEP_DIR/shield_ratio.rpt
+Found antenna rule mode 1, diode mode 2:
+        metal ratio 100, cut ratio 20,metal gate diffusion length based ratio 0 cut gate length based ratio 0   metal pratio 0, cut pratio 0, metal gate diffusion length based pratio 0, cut gate diffusion length based pratio 0      metal nratio 0, cut nratio 0, metal nratio 0, cut nratio 0
+        layer MET1: max ratio 100 max pratio 2.14748e+09 max nratio 2.14748e+09 layer MET1: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 400 3700}
+        layer MET2: max ratio 100 max pratio 2.14748e+09 max nratio 2.14748e+09 layer MET2: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 400 3700}
+        layer MET3: max ratio 100 max pratio 2.14748e+09 max nratio 2.14748e+09 layer MET3: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 400 3700}
+        layer MET4: max ratio 100 max pratio 2.14748e+09 max nratio 2.14748e+09 layer MET4: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 8000 50000}
+        layer VIA1: max ratio 5 max pratio 2.14748e+09 max nratio 2.14748e+09   layer VIA1: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 83.33 75}
+        layer VIA2: max ratio 5 max pratio 2.14748e+09 max nratio 2.14748e+09   layer VIA2: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 83.33 75}
+        layer VIA3: max ratio 5 max pratio 2.14748e+09 max nratio 2.14748e+09   layer VIA3: max gate length based ratio 0 max gate length based pratio 0 max gate length based nratio 0, diode ratio {0.203 0 83.33 75}
+Cell Min-Routing-Layer = MET1
+Cell Max-Routing-Layer = MET4
+[ReportShielding: Start] Elapsed real time: 0:00:00 
+[ReportShielding: Start] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[ReportShielding: Start] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ReportShielding: Start] Total (MB): Used   53  Alloctr   54  Proc 2644 
+
+Net VSS doesn't have shielding
+
+Number of shielding nets = 0 are found
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_e_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_e_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_a_e_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_e_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_e_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_40/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_e_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_41/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_23/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_42/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_R_42/n1)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF_G4B10I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_43/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_43/n1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_e_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_a_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_value_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/uart_tx/clk_gate_o_Tx_Serial_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_b_reg/n1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n26)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF_G4B9I1)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF_G4B4I1)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF_G4B4I2)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF_G4B3I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B11I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n27)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B11I2)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B10I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B9I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B8I2)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B8I7)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B8I8)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B8I9)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B7I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B7I3)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B6I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B6I2)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B5I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B4I1)
+Shielded <1% side-wall of (khu_sensor_top/w_clk_p_G2B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/ENCLK_G3B1I14)
+Shielded 100% side-wall of (khu_sensor_top/ads1292_controller/ENCLK_G3B1I13)
+Shielded 100% side-wall of (khu_sensor_top/ads1292_controller/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/clk_gate_r_x_data_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/clk_gate_r_mult_2_A_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/clk_gate_r_mult_2_A_reg/n1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n2)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n22)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_2_A_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/ENCLK_G3B1I12)
+Shielded 100% side-wall of (khu_sensor_top/ads1292_filter/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/w_clk_p_G2B8I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/w_clk_p_G2B8I3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/w_clk_p_G2B8I6)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/w_clk_p_G2B7I2)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/w_clk_p_G2B6I3)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/ENCLK_G3B1I11)
+Shielded 100% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I110)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I19)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n2)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n9)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n22)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I18)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I17)
+Shielded 100% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I16)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I15)
+Shielded 100% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I14)
+Shielded 100% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n22)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I12)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n20)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/ENCLK_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/ENCLK_G5B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_mult_1_A_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_mult_1_A_reg/n1)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/ENCLK_G5B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n29)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/ENCLK_G5B1I11)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/ENCLK_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n21)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/clk_gate_r_ads_reg_addr_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/clk_gate_r_ads_data_out_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_ads_second_param_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_uart_clk_counter_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_o_ADS1292_FILTERED_DATA_ACK_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_mpr_chip_set_done_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/clk_gate_r_SPI_Clk_Count_reg_0/n6)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_o_Z_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/clk_gate_r_mult_A_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n2)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/clk_gate_o_ADS1292_FILTERED_DATA_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/clk_gate_r_converter_i2f_a_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/clk_gate_o_MPR121_INIT_SET_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/clk_gate_r_i2c_reg_data_in_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n2)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n17)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/net23752)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n1_G4B2I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B2I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B2I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B8I5)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/net23719)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/net23730)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n93)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n96)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n4)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n36)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n49)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n52)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n69)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n80)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B8I4)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/net23697)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/clk_gate_r_ads_reg_addr_reg/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/clk_gate_r_ads_data_out_reg_0/n3)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/clk_gate_o_ADS1292_FILTERED_DATA_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/clk_gate_r_converter_i2f_a_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/clk_gate_o_MPR121_INIT_SET_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/clk_gate_r_i2c_reg_data_in_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/ENCLK_G3B3I1)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/ENCLK_G3B2I12)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_ads_second_param_reg_0/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_uart_clk_counter_reg/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_ads_ch2_data_out_reg_0/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_o_ADS1292_FILTERED_DATA_ACK_reg/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/clk_gate_r_mpr_chip_set_done_reg/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/uart_rx/ENCLK_G5B1I1)
+Shielded 100% side-wall of (khu_sensor_top/uart_controller/uart_tx/ENCLK_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/clk_gate_r_SPI_Clk_Count_reg_0/n6_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/clk_gate_o_Z_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/clk_gate_r_mult_A_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/uart_tx/n142)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B3I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/n258)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/n260)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/n271)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/n327)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/uart_rx/n88)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I17)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n654)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n656)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n658)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n668)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n679)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n690)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n700)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n712)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n723)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n737)
+Shielded <1% side-wall of (khu_sensor_top/sensor_core/n841)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/w_CLOCK_HALF)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/n606)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/n621)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/i2c_master/n630)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/n219)
+Shielded <1% side-wall of (khu_sensor_top/mpr121_controller/n229)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/n409)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/n410)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/n411)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I17)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I17)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_1_B_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/clk_gate_r_add_2_A_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/clk_gate_r_x_data_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I17)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I16)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/net23686)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I15)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I14)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I13)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I12)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I11)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/ENCLK_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/net23675)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_a_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_i2f/clk_gate_value_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/uart_controller/uart_tx/clk_gate_o_Tx_Serial_reg/n3_G5B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/clk_gate_a_e_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/clk_gate_b_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_a_e_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/clk_gate_R_23/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/clk_gate_a_e_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_R_41/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/clk_gate_a_e_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_a_e_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_a_e_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_R_40/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1395)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1420)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1448)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1475)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1478)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1479)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/n1509)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/clk_gate_a_e_reg/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/add/clk_gate_a_e_reg_0/n3_G3B1I1)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n954)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n983)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n1008)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n1033)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n1035)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n1036)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_1/n1068)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1206)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1208)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1209)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1219)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n1125)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n1191)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n1196)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/n1290)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1137)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1160)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_lpf/mult_2/n1181)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1328)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1353)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1381)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1408)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1411)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1412)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1442)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_1/n1444)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1333)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1358)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1386)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1413)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1416)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1417)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1447)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/add_2/n1449)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n1177)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n1202)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n1227)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n1230)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_1/n1240)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1137)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1160)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1182)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1207)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1209)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1210)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1220)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_2/n1222)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1201)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1228)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1229)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1239)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1241)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n1930)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n1965)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n2136)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n2141)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n2143)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/n2248)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1153)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_notch/mult_3/n1176)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/n67)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/n205)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1397)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1425)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1452)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1455)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1456)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1486)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1488)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1355)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/add/n1372)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1197)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1198)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1208)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1210)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/n309)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/n364)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/n430)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1133)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1156)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1171)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/iir_hpf/mult/n1195)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/n415)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/n416)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/converter_f2i/n448)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/n107)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/n123)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/n125)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/n127)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_filter/n129)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/n151)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/n139)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/spi_master/n143)
+Shielded <1% side-wall of (w_clk_p)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/n514)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/n527)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/n532)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/n536)
+Shielded <1% side-wall of (khu_sensor_top/ads1292_controller/n562)
+Shielded 385 nets with average ratio as follows.
+        1) 2.08%                (total shield ratio/number of shielded nets)
+        2) 0.00%                (total shield length/total shielded net length)
+[ReportShielding: End] Elapsed real time: 0:00:02 
+[ReportShielding: End] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[ReportShielding: End] Stage (MB): Used   21  Alloctr   21  Proc    0 
+[ReportShielding: End] Total (MB): Used   75  Alloctr   76  Proc 2644 
+1
 report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt
@@ -2342,8 +2746,8 @@ verify_lvs -max_error 500
 Create error cell khu_sensor_pad_lvs.err ...
 
 -- LVS START : --
-Total area error in layer 0 is 0.  Elapsed =    0:00:00, CPU =    0:00:00
-Total area error in layer 1 is 0.  Elapsed =    0:00:01, CPU =    0:00:01
+Total area error in layer 0 is 0.  Elapsed =    0:00:01, CPU =    0:00:00
+Total area error in layer 1 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
 ERROR : area  [(615.560,137.420), (615.820,137.620)]    0.0520 um sqr.
 ERROR : area  [(1047.560,137.420), (1047.820,137.620)]  0.0520 um sqr.
 ERROR : area  [(1262.380,751.560), (1262.580,751.820)]  0.0520 um sqr.
@@ -2352,87 +2756,80 @@ ERROR : area  [(137.420,1100.180), (137.620,1100.440)]  0.0520 um sqr.
 ERROR : area  [(588.180,1262.380), (588.440,1262.580)]  0.0520 um sqr.
 ERROR : area  [(940.180,1262.380), (940.440,1262.580)]  0.0520 um sqr.
 ERROR : area  [(1204.180,1262.380), (1204.440,1262.580)]        0.0520 um sqr.
-Total area error in layer 2 is 8.  Elapsed =    0:00:01, CPU =    0:00:01
-ERROR : area  [(626.390,417.920), (626.650,418.120)]    0.0520 um sqr.
+Total area error in layer 2 is 8.  Elapsed =    0:00:02, CPU =    0:00:01
 ERROR : area  [(108.510,1043.120), (108.770,1043.320)]  0.0520 um sqr.
-Total area error in layer 3 is 2.  Elapsed =    0:00:02, CPU =    0:00:01
-Total area error in layer 4 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 5 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 6 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 7 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 8 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 9 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 10 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 11 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 12 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 13 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 14 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
-Total area error in layer 15 is 0.  Elapsed =    0:00:02, CPU =    0:00:02
+Total area error in layer 3 is 1.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 4 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 5 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 6 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 7 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 8 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 9 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 10 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 11 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 12 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 13 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 14 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+Total area error in layer 15 is 0.  Elapsed =    0:00:02, CPU =    0:00:01
+ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/I_0 Y doesn't connect to any net.
+
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/spi_master/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/uart_tx/async_rst_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/uart_rx/async_rst_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_command_reg_4_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/r_lstate_reg_1_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_21_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_uart_data_rx_reg_9_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_22_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_12_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_0_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_4_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_5_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_8_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_14_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_13_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_19_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_20_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_11_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_17_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_9_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_5_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_4_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_12_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_3_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_1_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_6_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_1_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_ads_lstate_reg_2_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_2_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_9_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_16_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_0_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_7_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_ads_lstate_reg_2_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_uart_data_rx_reg_9_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_8_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_15_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_21_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_18_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_10_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_2_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_3_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/I_0 Y doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_20_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_22_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_7_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_17_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_11_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_15_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_19_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/r_ads_data_out_reg_23_ QN doesn't connect to any net.
 
@@ -2440,71 +2837,79 @@ ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_ads_clk_counter_reg_0_ QN d
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_notch/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_lpf/async_rst_synchronizer/I_0 Y doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/converter_i2f/add_x_2/U2 CO doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_mpr_lstate_reg_0_ Q doesn't connect to any net.
+
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_hpf/async_rst_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/async_rst_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/async_rst_synchronizer/I_0 Y doesn't connect to any net.
-
 ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/async_rst_synchronizer/I_0 Y doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/converter_i2f/add_x_2/U2 CO doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/uart_controller/async_rst_synchronizer/I_0 Y doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/divider_by_2/o_CLK_DIV_2_reg QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_mpr_lstate_reg_0_ Q doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_controller/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/r_mpr_lstate_reg_4_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/sensor_core/async_rst_synchronizer/I_0 Y doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_lpf/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/async_rstn_glitch_synchronizer/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_notch/async_rst_synchronizer/I_0 Y doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_2_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_hpf/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_0_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_1_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst async_rstn_glitch_synchronizer/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_2_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_3_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_4_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_5_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_3_ QN doesn't connect to any net.
-
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_6_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_8_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_7_ QN doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_16_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst async_rstn_glitch_synchronizer/async_rstn_synchronizer/I_0 Y doesn't connect to any net.
 
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_10_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_15_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_9_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_12_ QN doesn't connect to any net.
-
-ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_14_ QN doesn't connect to any net.
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_8_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_11_ QN doesn't connect to any net.
 
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_12_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_10_ QN doesn't connect to any net.
+
 ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_13_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_9_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/ads1292_filter/iir_notch/add_1/DP_OP_46_232_75/icc_cpts3 S doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_14_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_16_ QN doesn't connect to any net.
+
+ERROR : OUTPUT PortInst khu_sensor_top/mpr121_controller/i2c_master/delay_reg_reg_15_ QN doesn't connect to any net.
 
 ERROR : OUTPUT PortInst pad21 PO doesn't connect to any net.
 
@@ -2519,6 +2924,48 @@ ERROR : OUTPUT PortInst pad51 PO doesn't connect to any net.
 ERROR : OUTPUT PortInst pad46 PO doesn't connect to any net.
 
 ERROR : OUTPUT PortInst pad43 PO doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad25 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad17 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad28 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad23 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad19 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad22 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad18 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad26 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad20 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad15 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad56 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad44 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad55 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad47 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad45 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad54 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad49 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad53 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad48 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad52 CDL doesn't connect to any net.
+
+ERROR : OUTPUT PortInst pad50 CDL doesn't connect to any net.
 
 ERROR : OUTPUT PortInst pad4 CDL doesn't connect to any net.
 
@@ -2564,57 +3011,20 @@ ERROR : OUTPUT PortInst pad36 CDL doesn't connect to any net.
 
 ERROR : OUTPUT PortInst pad32 CDL doesn't connect to any net.
 
-ERROR : OUTPUT PortInst pad25 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad17 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad28 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad23 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad19 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad22 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad18 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad26 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad20 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad15 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad56 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad44 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad55 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad47 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad45 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad54 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad49 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad53 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad48 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad52 CDL doesn't connect to any net.
-
-ERROR : OUTPUT PortInst pad50 CDL doesn't connect to any net.
-
-** Total Floating ports are 119.
+** Total Floating ports are 120.
 ** Total Floating Nets are 0.
 ** Total SHORT Nets are 0.
-** Total OPEN Nets are 0.
+ERROR : Logical Net VDD is open.
+        Node 14339 is in the region ((132,132),(1267,1267)).
+        Node 30834 is in the region ((1194,236),(1211,239)).
+        Total seperated nodes are 2.
+        Potential connection region ((1193, 235), (1212, 240)).
+** Total OPEN Nets are 1.
 ** Total Electrical Equivalent Error are 0.
 ** Total Must Joint Error are 0.
 
 -- LVS END : --
-Elapsed =    0:00:02, CPU =    0:00:02
+Elapsed =    0:00:03, CPU =    0:00:02
 Update error cell ...
 1
 # Write outputs
@@ -2744,15 +3154,14 @@ Processing module SNPS_CLOCK_GATE_HIGH_float_adder_1_2
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_1_1
 Processing module float_adder_1
 Processing module float_adder_2_DW01_inc_0
-Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_1
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_0
+Processing module float_adder_2_DW_cmp_6
 Processing module float_adder_2_DP_OP_46_232_75_0
 Processing module float_adder_2_DP_OP_139_218_18_0
 Processing module float_adder_2_DP_OP_125_157_130_0
 Processing module float_adder_2_DP_OP_124_156_2886_0
 Processing module float_adder_2_DP_OP_128_154_1832_0
 Processing module float_adder_2_DP_OP_127_153_5618_0
-Processing module float_adder_2_DW_cmp_0
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_11
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_7
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_6
@@ -2760,6 +3169,7 @@ Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_5
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_4
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_3
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_2
+Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_1
 Processing module float_adder_2
 Processing module async_rst_synchronizer_1
 Processing module async_rstn_synchronizer_3
@@ -3034,15 +3444,14 @@ Processing module SNPS_CLOCK_GATE_HIGH_float_adder_1_2
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_1_1
 Processing module float_adder_1
 Processing module float_adder_2_DW01_inc_0
-Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_1
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_0
+Processing module float_adder_2_DW_cmp_6
 Processing module float_adder_2_DP_OP_46_232_75_0
 Processing module float_adder_2_DP_OP_139_218_18_0
 Processing module float_adder_2_DP_OP_125_157_130_0
 Processing module float_adder_2_DP_OP_124_156_2886_0
 Processing module float_adder_2_DP_OP_128_154_1832_0
 Processing module float_adder_2_DP_OP_127_153_5618_0
-Processing module float_adder_2_DW_cmp_0
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_11
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_7
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_6
@@ -3050,6 +3459,7 @@ Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_5
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_4
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_3
 Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_2
+Processing module SNPS_CLOCK_GATE_HIGH_float_adder_2_1
 Processing module float_adder_2
 Processing module async_rst_synchronizer_1
 Processing module async_rstn_synchronizer_3
@@ -3224,72 +3634,73 @@ Information: Completed VIAS section  (DDEFW-016)
 Information: Writing NONDEFAULTRULES statement (DDEFW-014)
 Information: Completed NONDEFAULTRULES statement  (DDEFW-016)
 Information: Writing COMPONENTS section (DDEFW-014)
-Information: Completed COMPONENTS 1000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 2000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 3000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 4000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 5000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 6000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 7000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 8000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 9000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 10000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 11000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 12000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 13000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 14000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 15000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 16000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 17000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 18000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 19000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 20000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 21000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 22000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 23000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 24000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 25000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 26000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 27000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 28000/29158 (DDEFW-015)
-Information: Completed COMPONENTS 29000/29158 (DDEFW-015)
+Information: Completed COMPONENTS 1000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 2000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 3000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 4000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 5000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 6000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 7000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 8000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 9000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 10000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 11000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 12000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 13000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 14000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 15000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 16000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 17000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 18000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 19000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 20000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 21000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 22000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 23000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 24000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 25000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 26000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 27000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 28000/29677 (DDEFW-015)
+Information: Completed COMPONENTS 29000/29677 (DDEFW-015)
 Information: Completed COMPONENTS section  (DDEFW-016)
 Information: Writing PINS section (DDEFW-014)
 Information: Completed PINS section  (DDEFW-016)
 Information: Writing SPECIALNETS section (DDEFW-014)
 Information: Completed SPECIALNETS section  (DDEFW-016)
 Information: Writing NETS section (DDEFW-014)
-Information: Completed NETS 1000/31414 (DDEFW-015)
-Information: Completed NETS 2000/31414 (DDEFW-015)
-Information: Completed NETS 3000/31414 (DDEFW-015)
-Information: Completed NETS 4000/31414 (DDEFW-015)
-Information: Completed NETS 5000/31414 (DDEFW-015)
-Information: Completed NETS 6000/31414 (DDEFW-015)
-Information: Completed NETS 7000/31414 (DDEFW-015)
-Information: Completed NETS 8000/31414 (DDEFW-015)
-Information: Completed NETS 9000/31414 (DDEFW-015)
-Information: Completed NETS 10000/31414 (DDEFW-015)
-Information: Completed NETS 11000/31414 (DDEFW-015)
-Information: Completed NETS 12000/31414 (DDEFW-015)
-Information: Completed NETS 13000/31414 (DDEFW-015)
-Information: Completed NETS 14000/31414 (DDEFW-015)
-Information: Completed NETS 15000/31414 (DDEFW-015)
-Information: Completed NETS 16000/31414 (DDEFW-015)
-Information: Completed NETS 17000/31414 (DDEFW-015)
-Information: Completed NETS 18000/31414 (DDEFW-015)
-Information: Completed NETS 19000/31414 (DDEFW-015)
-Information: Completed NETS 20000/31414 (DDEFW-015)
-Information: Completed NETS 21000/31414 (DDEFW-015)
-Information: Completed NETS 22000/31414 (DDEFW-015)
-Information: Completed NETS 23000/31414 (DDEFW-015)
-Information: Completed NETS 24000/31414 (DDEFW-015)
-Information: Completed NETS 25000/31414 (DDEFW-015)
-Information: Completed NETS 26000/31414 (DDEFW-015)
-Information: Completed NETS 27000/31414 (DDEFW-015)
-Information: Completed NETS 28000/31414 (DDEFW-015)
-Information: Completed NETS 29000/31414 (DDEFW-015)
-Information: Completed NETS 30000/31414 (DDEFW-015)
-Information: Completed NETS 31000/31414 (DDEFW-015)
+Information: Completed NETS 1000/32004 (DDEFW-015)
+Information: Completed NETS 2000/32004 (DDEFW-015)
+Information: Completed NETS 3000/32004 (DDEFW-015)
+Information: Completed NETS 4000/32004 (DDEFW-015)
+Information: Completed NETS 5000/32004 (DDEFW-015)
+Information: Completed NETS 6000/32004 (DDEFW-015)
+Information: Completed NETS 7000/32004 (DDEFW-015)
+Information: Completed NETS 8000/32004 (DDEFW-015)
+Information: Completed NETS 9000/32004 (DDEFW-015)
+Information: Completed NETS 10000/32004 (DDEFW-015)
+Information: Completed NETS 11000/32004 (DDEFW-015)
+Information: Completed NETS 12000/32004 (DDEFW-015)
+Information: Completed NETS 13000/32004 (DDEFW-015)
+Information: Completed NETS 14000/32004 (DDEFW-015)
+Information: Completed NETS 15000/32004 (DDEFW-015)
+Information: Completed NETS 16000/32004 (DDEFW-015)
+Information: Completed NETS 17000/32004 (DDEFW-015)
+Information: Completed NETS 18000/32004 (DDEFW-015)
+Information: Completed NETS 19000/32004 (DDEFW-015)
+Information: Completed NETS 20000/32004 (DDEFW-015)
+Information: Completed NETS 21000/32004 (DDEFW-015)
+Information: Completed NETS 22000/32004 (DDEFW-015)
+Information: Completed NETS 23000/32004 (DDEFW-015)
+Information: Completed NETS 24000/32004 (DDEFW-015)
+Information: Completed NETS 25000/32004 (DDEFW-015)
+Information: Completed NETS 26000/32004 (DDEFW-015)
+Information: Completed NETS 27000/32004 (DDEFW-015)
+Information: Completed NETS 28000/32004 (DDEFW-015)
+Information: Completed NETS 29000/32004 (DDEFW-015)
+Information: Completed NETS 30000/32004 (DDEFW-015)
+Information: Completed NETS 31000/32004 (DDEFW-015)
+Information: Completed NETS 32000/32004 (DDEFW-015)
 Information: Completed NETS section  (DDEFW-016)
 DEF output completed
 1
@@ -3322,10 +3733,3 @@ start_gui
 Information: Visibility is turned ON for cells and cell contents because the task is set to Block Implementation (GUI-026)
 Preparing data for query................... 
 #exit
-icc_shell> report_crpr
-Error: Required argument '-to' was not found (CMD-007)
-Error: Required argument '-from' was not found (CMD-007)
-icc_shell> exit
-
-Thank you...
-

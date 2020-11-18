@@ -41,10 +41,10 @@ current_design $TOP_MODULE
 # Read scenario file
 remove_sdc
 remove_scenario -all
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-# After placement, delete max_delay constraints. It is only for placing 
+
+# After placement, delete max_delay constraints. It is only for placing
 # clock gating cell and gated register in proximity.
-sh sed -i '/set_max_delay/,+1 d' $FUNC1_SDC
+source $ICC_SDC_SETUP_FILE
 
 source $ICC_MCMM_SCENARIOS_FILE
 set_active_scenario $CHIP_FINISH_SCN
@@ -110,6 +110,7 @@ redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+report_zrt_shield -with_ground $MW_R_GROUND_NET -output $REPORTS_STEP_DIR/shield_ratio.rpt
 report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt

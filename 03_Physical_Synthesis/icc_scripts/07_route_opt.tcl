@@ -34,15 +34,20 @@ open_mw_cel $TOP_MODULE
 link
 current_design $TOP_MODULE
 
-## Read scenario file
-# After placement, delete max_delay constraints. It is only for placing 
-# clock gating cell and gated register in proximity.
-sh sed -i '/set_max_delay/,+1 d' $FUNC1_SDC
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
 if { $ROUTE_OPT_SCN_READ_AGAIN } {
 	remove_sdc
 	remove_scenario -all
+
+	# Read scenario file
+	# After placement, delete max_delay constraints. It is only for placing
+	# clock gating cell and gated register in proximity.
+	source $ICC_SDC_SETUP_FILE
+
 	source $ICC_MCMM_SCENARIOS_FILE
+} else {
+	# After placement, delete max_delay constraints. It is only for placing
+	# clock gating cell and gated register in proximity.
+	source $ICC_SDC_SETUP_FILE
 }
 
 set_active_scenario $ROUTE_OPT_SCN
@@ -100,12 +105,12 @@ update_timing
 
 #Route optimization
 route_opt \
-	-skip_initial_routei \
-	-effort medium \
+	-skip_initial_route \
+	-effort high \
 	-xtalk_reduction
 
 # incremental route optimization
-route_opt -incremental
+route_opt -incremental -effort high
 
 # Intermediate Save
 save_mw_cel -as 01_before_shield
@@ -123,7 +128,7 @@ verify_zrt_route
 route_zrt_detail -inc true -initial_drc_from_input true
 
 # incremental route optimization 2
-route_opt -incremental -size_only
+route_opt -incremental -size_only -effort high 
 
 # Use non-timing driven Duo. If not, runtime will be increased.
 set_route_zrt_global_options -timing_driven false
@@ -190,6 +195,7 @@ redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+report_zrt_shield -with_ground $MW_R_GROUND_NET -output $REPORTS_STEP_DIR/shield_ratio.rpt
 report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
 report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt

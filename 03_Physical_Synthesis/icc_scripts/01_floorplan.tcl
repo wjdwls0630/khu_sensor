@@ -38,8 +38,7 @@ current_design $TOP_MODULE
 # Read scenario file
 remove_sdc
 remove_scenario -all
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
-#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
+
 source $ICC_MCMM_SCENARIOS_FILE
 set_active_scenario $FP_SCN
 
@@ -137,25 +136,25 @@ set_ignored_layers -max_routing_layer MET6
 # mpr121_controller
 #create_plan_groups -rectangle {{703.680 956.570} {987.130 997.170}} \
    -cycle_color {khu_sensor_top/mpr121_controller}
- 
+
 # sensor_core
 #create_plan_groups -rectangle {{874.660 706.620} {987.130 862.810}} \
    -cycle_color {khu_sensor_top/sensor_core}
- 
+
 # ads1292_controller
 #create_plan_groups -rectangle {{204.350 210.140} {855.300 251.280}} \
    -cycle_color {khu_sensor_top/ads1292_controller}
 #create_plan_groups -polygon {{204.350 867.380} {204.350 210.140} {855.300 210.140} {855.300 251.280} {247.610 251.280} {247.610 867.380}} \
    -cycle_color {khu_sensor_top/ads1292_controller}
- 
+
 # ads1292_filter
 #create_plan_groups -polygon {{204.350 983.170} {204.350 266.280} {850.520 266.280} {850.520 941.570} {682.520 941.570} {682.520 983.170}} \
    -cycle_color {khu_sensor_top/ads1292_filter}
- 
+
 # ads1292_filter_tight_version
 # create_plan_groups -polygon {{324.350 983.170} {324.350 333.140} {871.660 333.140} {871.660 852.810} {693.680 852.810} {693.680 983.170}} \
 -cycle_color {khu_sensor_top/ads1292_filter}
- 
+
 
 # hard blockage for macro
 # In case of hard, Any macro cannot place in an area of blockage.

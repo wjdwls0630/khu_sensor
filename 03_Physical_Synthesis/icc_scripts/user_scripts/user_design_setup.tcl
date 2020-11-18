@@ -39,13 +39,14 @@ set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_khu_sensor_L13_68um.tdf"
 # The tcl file functions appending "_p" to a last character of the pad names.
 # (e.g. vssoh -> vssoh_p)
 set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"
+set ICC_SDC_SETUP_FILE             "./icc_scripts/user_scripts/sdc_setup.tcl"
 
-set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
+set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
 
 set MAX_ROUTING_LAYER              "MET4"
 set MIN_ROUTING_LAYER              ""
 # Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
-set CLK_MAX_ROUTING_LAYER          "MET5" 
+set CLK_MAX_ROUTING_LAYER          "MET5"
 set CLK_MIN_ROUTING_LAYER          "MET3"
 
 #######################################################
@@ -159,7 +160,7 @@ set JTAGCTS_SDC        ""
 ##
 
 set OPCOND_WST          V105WTP1250
-set OPCOND_WST_LIB      std150e_wst_105_p125 
+set OPCOND_WST_LIB      std150e_wst_105_p125
 
 set OPCOND_WST_TIV      ""
 set OPCOND_WST_LIB_TIV  ""

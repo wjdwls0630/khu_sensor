@@ -9,7 +9,7 @@ echo "***********************************************************************"
 # START_OF_USER_SPECIFICATION
 # ------------------------------------------------------------------------------
 
-set CLK_MAIN_PERIOD      20                       ;# Define the value as ns
+set CLK_MAIN_PERIOD      17                       ;# Define the value as ns
 set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 
 # MTTV : Max Transition Time Violation
@@ -25,7 +25,7 @@ set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 # propose 10% transition time of clock period rule.
 # Samsung 130nm default clock path max_transition 0.7ns
 if { $CLK_MAIN_PERIOD >= 4 } {
-  set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
+  set CLOCK_MAX_TRAN    0.7; # clock path max transtion time.
 } elseif { $CLK_MAIN_PERIOD >= 2 } {
   set CLOCK_MAX_TRAN    [expr $CLK_MAIN_PERIOD * 0.2] ;# clock path max transtion time.
 } else {
@@ -97,8 +97,8 @@ foreach_in_collection _clock [all_clocks] {
            set user_m   [expr $CLK_HALF_PERIOD * 0.6 * $USER_SETUP_MARGIN ]
            set uncert [expr $jitter_m + $user_m ]
 
-           if { $uncert > 3.2 } {
-		set uncert 3.2
+           if { $uncert > 5.2 } {
+		set uncert 5.2
 	   }
 
 	   set_clock_uncertainty -setup $uncert $clk
@@ -106,8 +106,8 @@ foreach_in_collection _clock [all_clocks] {
            set jitter_m [expr $CLK_MAIN_PERIOD * 0.6 * $JITTER_MARGIN ]
            set user_m   [expr $CLK_MAIN_PERIOD * 0.6 * $USER_SETUP_MARGIN ]
            set uncert [expr $jitter_m + $user_m ]
-           if { $uncert > 3.2 } {
-		set uncert 3.2
+           if { $uncert > 2.6 } {
+		set uncert 2.6
 	   }
 
 	   set_clock_uncertainty -setup $uncert $clk

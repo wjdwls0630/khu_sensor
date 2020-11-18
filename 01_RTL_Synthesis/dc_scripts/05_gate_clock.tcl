@@ -46,6 +46,30 @@ foreach_in_collection cell $gate_cell_list {
 
 source ./dc_scripts/common_reports.tcl
 # clock gating report
-report_clock_gating -style > ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
-report_clock_gating_check -significant_digits 4 >> ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
-report_clock_gating -structure >> ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
+report_clock_gating -style > ${REPORTS_DIR}/${step}/report_clock_gating.rpt
+report_clock_gating_check -significant_digits 4 >> ${REPORTS_DIR}/${step}/report_clock_gating.rpt
+report_clock_gating -structure >> ${REPORTS_DIR}/${step}/report_clock_gating.rpt
+# Check EN path delay, if there is enough EN setup margin, the ICC can re-optimize 
+# gated register's timing(or fix violation), even if the decrease in clock network delay by CTS. 
+# However, if there is very low EN setup margin, re-optimization is not easy in post-layout stage. 
+# Also, if the EN path delay is long and there is no enough margin, due to CTS buffer delay, 
+# even EN setup violation can readily occur.
+# Hence, if the EN slack is small, we should remove the clock-gating.
+report_timing -max_paths 10 -to [get_pins -hierarchical "clk_gate*"] \
+	> ${REPORTS_DIR}/${step}/report_clock_gating_max_paths.rpt
+
+# Remove clock gating from the cells that have small margin.
+#echo "***********************************************************************"
+#echo "                                                                       "
+#echo "                       remove clock gating                             "
+#echo "                                                                       "
+#echo "***********************************************************************"
+
+# Recompile
+# compile_ultra -incremental
+
+#source ./dc_scripts/common_reports.tcl
+# clock gating report
+#report_clock_gating -style > ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
+#report_clock_gating_check -significant_digits 4 >> ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
+#report_clock_gating -structure >> ${REPORTS_DIR}/${step}/${corner}/report_clock_gating.rpt
