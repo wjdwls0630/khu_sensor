@@ -28,7 +28,7 @@ Initializing...
                because reoptimize_design does not honor
                the set_fix_multiple_port_nets command
 ************************************************************************
-Initializing gui preferences from file  /home/graduation_project3/2015103977/.synopsys_icc_prefs.tcl
+Initializing gui preferences from file  /home/VLSI_graduated_2020/2015104027/.synopsys_icc_prefs.tcl
 #******************************************************************************
 #**                         00_read_design                                   **
 #**               create mw library and read verilog netlist                 **
@@ -103,13 +103,16 @@ set ICC_IN_IO_CONST_FILE           "./TECH/padplace_ICC_khu_sensor_L13_68um.tdf"
 # (e.g. vssoh -> vssoh_p)
 set ICC_IO_NAMING_FILE             "./icc_scripts/rules/pad_naming_rule.tcl"
 ./icc_scripts/rules/pad_naming_rule.tcl
-set CLOCK_MAX_TRAN    0.3; # clock path max transtion time.
-0.3
+set ICC_SDC_SETUP_FILE             "./icc_scripts/user_scripts/sdc_setup.tcl"
+./icc_scripts/user_scripts/sdc_setup.tcl
+set CLOCK_MAX_TRAN    0.5; # clock path max transtion time.
+0.5
 set MAX_ROUTING_LAYER              "MET4"
 MET4
 set MIN_ROUTING_LAYER              ""
-set CLK_MAX_ROUTING_LAYER          "MET4"
-MET4
+# Originally, clk max routing layer was MET4, but due to the PAD(MET5) for CLK, set max layer MET5
+set CLK_MAX_ROUTING_LAYER          "MET5"
+MET5
 set CLK_MIN_ROUTING_LAYER          "MET3"
 MET3
 #######################################################
@@ -232,7 +235,7 @@ set JTAGCTS_SDC        ""
 ##
 set OPCOND_WST          V105WTP1250
 V105WTP1250
-set OPCOND_WST_LIB      std150e_wst_105_p125 
+set OPCOND_WST_LIB      std150e_wst_105_p125
 std150e_wst_105_p125
 set OPCOND_WST_TIV      ""
 set OPCOND_WST_LIB_TIV  ""
@@ -294,6 +297,8 @@ set_message_info -id OPT-170    -limit 1
 set_message_info -id TIM-178    -limit 1
 1
 set_message_info -id TIM-179    -limit 1
+1
+set_message_info -id PGRT-030   -limit 5
 1
 1
 source -echo -v ./icc_scripts/common_lib_setup.tcl
@@ -376,18 +381,18 @@ set_route_mode_options -zroute true
 #**                   Set Physical Library Parameter                         **
 #******************************************************************************
 setenv SEC_SYNOPSYS_ICC [sh pwd]/MilkyWay
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 #******************************************************************************
 #******************************************************************************
 #**                Set New Variable for 'MW_REF_LIB_DIRS'                   **
 #******************************************************************************
 set icc_home [getenv SEC_SYNOPSYS_ICC]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay
 set all_milky [list 		$icc_home/std150e_prim_050504 		$icc_home/std150e_60poi_power_6lm_070420 		$icc_home/std150e_60poi_io_6lm_071011
 	      ]
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 set MW_REF_LIB_DIRS "$all_milky"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
 # Since I/O pad name is different between logical and physical, we should add
 # LM cell db for ICC to search I/O pad cell properly
 if { $step != "00_read_design" } {
@@ -401,13 +406,13 @@ if { $step != "00_read_design" } {
 set TECH_FILE "./TECH/std150e_prim_6m.techgen.tf"
 ./TECH/std150e_prim_6m.techgen.tf
 set TLUP_DIR [sh pwd]/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G
 set MAP_FILE "${TLUP_DIR}/MAP/L13_CELL_6LM.map"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
 set TLUP_MAX_FILE "${TLUP_DIR}/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 set TLUP_MIN_FILE "${TLUP_DIR}/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup"
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_BST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
 #******************************************************************************
 #******************************************************************************
 #**                        Set Stream Out Map File                           **
@@ -462,9 +467,9 @@ set_separate_process_options -extraction false
 set sh_enable_page_mode false
 false
 setenv TMPDIR [sh pwd]/TMP
-/home/graduation_project3/2015103977/03_Physical_Synthesis/TMP
+/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-0912_02:17:50
+1119_01:32:31
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -529,7 +534,7 @@ Warning: Layer 'MET4' has a pitch 0.44 that does not match the doubled pitch 0.8
 Warning: Layer 'MET5' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
 Technology file ./TECH/std150e_prim_6m.techgen.tf has been loaded successfully.
 Warning: Reference Library Inconsistent With Main Library
-Reference Library: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
 Warning: Inconsistent Number Of Metal Layers:
 	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
 Warning: Inconsistent Data for Contact Code 10
@@ -548,12 +553,12 @@ Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Syn
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
 # Read verilog netlist
 read_verilog -top ${TOP_MODULE} $ICC_IN_VERILOG_NETLIST_FILE
-Warning: /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504: bus naming style _<%d> is not consistent with main lib. (MWNL-111)
+Warning: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504: bus naming style _<%d> is not consistent with main lib. (MWNL-111)
 
 *****  Verilog HDL translation! *****
 
 *****    Start Pass 1 *****
-Compiling source file /home/graduation_project3/2015103977/01_RTL_Synthesis/outputs/khu_sensor_pad.vg
+Compiling source file /home/VLSI_graduated_2020/2015104027/khu_sensor/01_RTL_Synthesis/outputs/khu_sensor_pad.vg
 
 *****  Pass 1 Complete *****
 Elapsed =    0:00:01, CPU =    0:00:00
@@ -561,25 +566,25 @@ Elapsed =    0:00:01, CPU =    0:00:00
 *****  Verilog HDL translation! *****
 
 *****    Start Pass 2 *****
-Compiling source file /home/graduation_project3/2015103977/01_RTL_Synthesis/outputs/khu_sensor_pad.vg
+Compiling source file /home/VLSI_graduated_2020/2015104027/khu_sensor/01_RTL_Synthesis/outputs/khu_sensor_pad.vg
 
 *****  Pass 2 Complete *****
 
 *****   Verilog HDL translation completed! *****
-Elapsed =    0:00:00, CPU =    0:00:00
+Elapsed =    0:00:01, CPU =    0:00:00
 Hierarchy Preservation is turned ON
 The quick-attach skip-search mode has been turned on.
   Start axu naming escaping style change ...
   End axu naming escaping style change, status is 1
 Checking single pin net for cell 'khu_sensor_pad.CEL' now...
-Total number of cell instances: 26621
-Total number of nets: 28599
+Total number of cell instances: 25683
+Total number of nets: 28071
 Total number of ports: 13 (include 0 PG ports)
-Total number of hierarchical cell instances: 233
+Total number of hierarchical cell instances: 285
 
 The quick-attach skip-search mode has been turned off.
 INFO:  total find 0 pg nets connected with tie net.
-Elapsed =    0:00:01, CPU =    0:00:00
+Elapsed =    0:00:00, CPU =    0:00:00
 Information: Read verilog completed successfully.
 1
 link
@@ -594,9 +599,9 @@ uniquify_fp_mw_cel
 change_names -rule verilog -hier
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
 Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
-Information: linking reference library : /home/graduation_project3/2015103977/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
 	marked as "dont_use". (PSYN-039)
 Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
@@ -623,21 +628,21 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
   Linking design 'khu_sensor_pad'
   Using the following designs and libraries:
   --------------------------------------------------------------------------
-  * (233 designs)             khu_sensor_pad.CEL, etc
+  * (285 designs)             khu_sensor_pad.CEL, etc
   std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
 
-Warning: Unable to resolve reference 'vdd12ih_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'vssiph_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phic_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vdd33oph_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phob12_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vdd12ih_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vssiph_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vssoh_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vdd12ih_core_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phbct24_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phis_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phbct12_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phic_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Design 'khu_sensor_pad' has '10' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating database...
 Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)

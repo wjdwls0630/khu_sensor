@@ -43,65 +43,34 @@ echo "------------------------------------------------------------------------"
 ##
 # However, the worst case is only applied in this project
 # since the samsung013 bst library is damaged
-set MCMM_OPERATING_CONDITIONS                      "func1_wst"
+# Revised(20.10.05): 
+# Logic Synthesis & Pre-STA (1st Sign-off) 
+# SS 1.05V 125c - WIRE Zero Wire Load Model
 
-foreach mcmm_opcond $MCMM_OPERATING_CONDITIONS {
-  remove_design -all
-  # source the common_setup & Common variables file
-  source -echo -v ./dc_scripts/user_scripts/user_design_setup.tcl
-  source -echo -v ./dc_scripts/common_lib_setup.tcl
+remove_design -all
+# source the common_setup & Common variables file
+source -echo -v ./dc_scripts/user_scripts/user_design_setup.tcl
+source -echo -v ./dc_scripts/common_lib_setup.tcl
 
-  set_svf $SVF_DIR/$TOP_MODULE.svf
+set_svf $SVF_DIR/$TOP_MODULE.svf
 
-  source ./dc_scripts/00_read_global_reset.tcl
-  source ./dc_scripts/01_read_designs.tcl
+source ./dc_scripts/00_read_global_reset.tcl
+source ./dc_scripts/01_read_designs.tcl
 
-  set mode   [lindex [split $mcmm_opcond _] 0]
-  set corner [lindex [split $mcmm_opcond _] 1]
+# Apply constraints
+source ./dc_scripts/02_constraints.tcl
 
-  #### Source SDC
+# Define Group Paths
+set ports_clock_root [get_ports [all_fanout -flat -clock_tree -level 0]]
+group_path -name REGOUT -to [all_outputs]
+group_path -name REGIN -from [remove_from_collection [all_inputs] $ports_clock_root]
+group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] $ports_clock_root] -to [all_outputs]
 
-  switch $mode {
-    func1    { source $FUNC1_SDC }
-    func2    { source $FUNC2_SDC }
-  }
+source ./dc_scripts/03_compile_ultra.tcl
+source ./dc_scripts/04_retime.tcl
+source ./dc_scripts/05_gate_clock.tcl
 
-  #### Set operating conditions
-
-  if { $corner == "wst" } {
-      set_operating_conditions -analysis_type on_chip_variation \
-        -max_library $OPCOND_WST_LIB -max $OPCOND_WST \
-        -min_library $OPCOND_WST_LIB -min $OPCOND_WST
-
-      set user_opcond "./dc_scripts/user_scripts/user_operating_conditions.tcl"
-      if {[file exist $user_opcond]} {
-          source $user_opcond
-      }
-
-  } elseif { $corner == "bst" } {
-      set_operating_conditions -analysis_type on_chip_variation \
-        -max_library $OPCOND_BST_LIB -max $OPCOND_BST \
-        -min_library $OPCOND_BST_LIB -min $OPCOND_BST
-
-      set user_opcond "./dc_scripts/user_scripts/user_operating_conditions.tcl"
-      if {[file exist $user_opcond]} {
-          source $user_opcond
-      }
-
-  }
-  # Apply constraints
-  source ./dc_scripts/02_constraints.tcl
-
-  # Define Group Paths
-  set ports_clock_root [get_ports [all_fanout -flat -clock_tree -level 0]]
-  group_path -name REGOUT -to [all_outputs]
-  group_path -name REGIN -from [remove_from_collection [all_inputs] $ports_clock_root]
-  group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] $ports_clock_root] -to [all_outputs]
-
-  source ./dc_scripts/03_compile_ultra.tcl
-  source ./dc_scripts/04_retime.tcl
-  source ./dc_scripts/05_gate_clock.tcl
-}
 source ./dc_scripts/06_design_finish.tcl
 start_gui
 #exit
+

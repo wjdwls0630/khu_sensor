@@ -20,7 +20,7 @@ set_fp_rail_strategy  -use_tluplus true
 # block ring constraints
 
 # regions
-set_fp_rail_region_constraints  -polygon { {169.070007 1035.920044} {169.070007 172.589996} {1019.809998 172.589996} {1019.809998 1035.920044} {169.070007 1035.920044} } 
+set_fp_rail_region_constraints  -polygon { {169.070007 1228.420044} {169.070007 172.589996} {1230.949951 172.589996} {1230.949951 1228.420044} {169.070007 1228.420044} } 
 
 # virtual pads
 

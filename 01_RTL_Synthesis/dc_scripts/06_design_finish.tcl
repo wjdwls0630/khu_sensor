@@ -25,3 +25,4 @@ sh cp ./outputs/$TOP_MODULE.sdc ./outputs/$TOP_MODULE.sdc.bak
 current_design khu_sensor_top
 # write netlist without pad
 write_file -format verilog -hierarchy -output ./outputs/khu_sensor_top.vg
+current_design $TOP_MODULE 

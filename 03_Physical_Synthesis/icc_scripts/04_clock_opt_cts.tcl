@@ -34,13 +34,20 @@ open_mw_cel $TOP_MODULE
 link
 current_design $TOP_MODULE
 
-## Read scenario file
-#sh sed -i '/set_max_fanout/d' $FUNC1_SDC
-sh sed -i 's/ ${STD_WST}/ ${STD_WST}.db:${STD_WST}/' $FUNC1_SDC
 if { $CLOCK_OPT_CTS_SCN_READ_AGAIN } {
 	remove_sdc
 	remove_scenario -all
+
+	# Read scenario file
+	# After placement, delete max_delay constraints. It is only for placing
+	# clock gating cell and gated register in proximity.
+	source $ICC_SDC_SETUP_FILE
+
 	source $ICC_MCMM_SCENARIOS_FILE
+} else {
+	# After placement, delete max_delay constraints. It is only for placing
+	# clock gating cell and gated register in proximity.
+	source $ICC_SDC_SETUP_FILE
 }
 set_active_scenario $CLOCK_OPT_CTS_SCN
 
@@ -118,7 +125,7 @@ foreach cts_mode_scenario $CLOCK_OPT_CTS_SCN {
 		sh rm -rf $REPORTS_DIR/${step}/${cts_mode_scenario}
 	}
 	sh mkdir $REPORTS_DIR/${step}/${cts_mode_scenario}
-	
+
 	redirect -file $REPORTS_DIR/${step}/${cts_mode_scenario}/clock_tree_settings   {report_clock_tree -settings}
 	redirect -file $REPORTS_DIR/${step}/${cts_mode_scenario}/clock_tree_exceptions {report_clock_tree -exceptions}
 	redirect -file $REPORTS_DIR/${step}/${cts_mode_scenario}/skew                  {report_clock_tree}
@@ -174,15 +181,20 @@ redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint \
 redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay max -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins -slack_greater_than 0.0 \
+	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -derate -crosstalk_delta -derate -path full_clock_expanded
 }
 redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
 	report_timing -significant_digits 4 \
 	-delay min -transition_time  -capacitance \
-	-max_paths 100 -nets -input_pins \
+	-max_paths 20 -nets -input_pins \
 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
 }
+report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_timing -max_paths 10 -to [get_pins -hierarchical "clk_gate*"] \
+	> $REPORTS_STEP_DIR/clock_gating_max_paths.rpt
 # delete "snapshot" directory called by create_qor_snapshot command
 sh rm -rf snapshot/
 
@@ -208,4 +220,5 @@ close_mw_lib
 sh rm -f $FUNC1_SDC
 sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
 
+#start_gui
 exit
