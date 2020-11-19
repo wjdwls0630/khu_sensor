@@ -1,5 +1,50 @@
 <h1 align="center"> khu_sensor </h1>
 
+### Design Manual [pdf]()
+
+### Final Design Specification
+
+|  Spec    |   Value  |
+|-----------|---|
+| Technology | S130nm |
+| Operating Condition | SS 1.08V 125°C (Worst)|
+| Main Clock | 58 MHz |
+| Slack | 0.0589 ns |
+| Die Area |  1.4mm x 1.4mm (56 I/O PAD)  |
+| Design Area |  93007.5829 µm^2  |
+| Power | 3.0130 mW |
+
+### 01_RTL_Synthesis
+
+###### khu_sensor_pad
+<img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="600" height="500"/>
+
+###### khu_sensor_top
+<img src="./01_RTL_Synthesis/pictures/khu_sensor_top.png" alt="khu_sensor_top" width="600" height="500"/>
+
+
+### 2020Spring_Final_Project [pdf](https://github.com/wjdwls0630/2020_1_VLSI/blob/master/Final_Project/VLSI_Final_Project_8%EC%A1%B0.pdf) [code](https://github.com/wjdwls0630/2020_1_VLSI/tree/master/Final_Project/VLSI_Final_Project_Original)
+
+#### Title: Wallace Tree Multiplier for efficient MAC
+
+<img src="./Final_Project/Data/W_Mul_Load/W_Mul_Schematic.PNG" alt="Schematic" width="600" height="500"/>
+<img src="./Final_Project/Data/W_Mul_Load/W_Mul_Layout.PNG" alt="Schematic" width="600" height="500"/>
+
+##### Design Specification
+
+|  Spec    |   Value  |
+|-----------|---|
+| Library | 130nm  |
+| Main Clock | 58 MHz ns  |
+| Area |  124.041 µm^2  |
+|  Techonlogy | FreePDK 45nm<br>(North Carolina State University)|
+| VDD | 1.0V |
+| Temp | 30°C |
+| Rise/Fall Time | 1 ps|
+
+
+<h1 align="center"> khu_sensor </h1>
+
 ---  
 
 khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292 and sends sensing data to PC through RS232.  
