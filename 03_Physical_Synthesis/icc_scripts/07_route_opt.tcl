@@ -117,7 +117,7 @@ save_mw_cel -as 01_before_shield
 puts "SEC_INFO: CEL was saved. You can open CEL with read_only !!"
 
 # Shielding
-create_zrt_shield -with ground $MW_R_GROUND_NET -ignore_shielding_net_pins true
+create_zrt_shield -with $MW_R_GROUND_NET -ignore_shielding_net_pins true
 set_route_zrt_common_options -reshield_modified_nets reshield
 
 # Set variable after shielding
@@ -139,6 +139,12 @@ set_route_zrt_detail_options -timing_driven false
 insert_zrt_redundant_vias
 
 # To fix antenna violations
+# This "diode_cell_hd" cell must be manually inserted during P&R
+# The cell is an diode on the net close to input gates, which do not meet the antenna effect.
+# Actually, the library specifies a maximum wire length for antenna rule.
+# However, the route may connect longer wires to the input gates of cells than maximum wire length.
+# If this is the case, the "diode_cell_hd" cells are added to meet the antenna rule.
+# Antenna cell connects to a diode, reverse biased to ground.
 set_route_zrt_detail_options -antenna true -insert_diodes_during_routing true \
 	-diode_libcell_names diode_cell_hd
 

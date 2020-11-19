@@ -292,13 +292,23 @@ set_message_info -id PSYN-850   -limit 1
 1
 set_message_info -id CTS-102    -limit 1
 1
+set_message_info -id CTS-099    -limit 1
+1
+set_message_info -id CTS-618    -limit 1
+1
+set_message_info -id APL-017    -limit 1
+1
 set_message_info -id OPT-170    -limit 1
 1
 set_message_info -id TIM-178    -limit 1
 1
 set_message_info -id TIM-179    -limit 1
 1
-set_message_info -id PGRT-030   -limit 5
+set_message_info -id DPI-020    -limit 1
+1
+set_message_info -id ZRT-325    -limit 1
+1
+set_message_info -id ZRT-311    -limit 1
 1
 1
 source -echo -v ./icc_scripts/common_lib_setup.tcl
@@ -469,7 +479,7 @@ false
 setenv TMPDIR [sh pwd]/TMP
 /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TMP
 set back [sh date +%m%d_%H:%M:%S]
-1119_01:32:31
+1119_07:25:01
 #******************************************************************************
 # Clear existing mw library and re-make dir
 set _mw_lib ./mw_db/${TOP_MODULE}_${step}
@@ -561,7 +571,7 @@ Warning: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/M
 Compiling source file /home/VLSI_graduated_2020/2015104027/khu_sensor/01_RTL_Synthesis/outputs/khu_sensor_pad.vg
 
 *****  Pass 1 Complete *****
-Elapsed =    0:00:01, CPU =    0:00:00
+Elapsed =    0:00:00, CPU =    0:00:00
 
 *****  Verilog HDL translation! *****
 
@@ -577,14 +587,14 @@ The quick-attach skip-search mode has been turned on.
   Start axu naming escaping style change ...
   End axu naming escaping style change, status is 1
 Checking single pin net for cell 'khu_sensor_pad.CEL' now...
-Total number of cell instances: 25683
-Total number of nets: 28071
+Total number of cell instances: 25806
+Total number of nets: 28197
 Total number of ports: 13 (include 0 PG ports)
 Total number of hierarchical cell instances: 285
 
 The quick-attach skip-search mode has been turned off.
 INFO:  total find 0 pg nets connected with tie net.
-Elapsed =    0:00:00, CPU =    0:00:00
+Elapsed =    0:00:01, CPU =    0:00:00
 Information: Read verilog completed successfully.
 1
 link
@@ -633,16 +643,16 @@ Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
   std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
   dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
 
-Warning: Unable to resolve reference 'vdd33oph_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phob12_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'vdd12ih_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'vssiph_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vssoh_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'vdd12ih_core_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phbct12_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vdd12ih_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vssiph_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'vdd33oph_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phic_p' in 'khu_sensor_pad'. (LINK-5)
+Warning: Unable to resolve reference 'phob12_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phbct24_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Unable to resolve reference 'phis_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phbct12_p' in 'khu_sensor_pad'. (LINK-5)
-Warning: Unable to resolve reference 'phic_p' in 'khu_sensor_pad'. (LINK-5)
 Warning: Design 'khu_sensor_pad' has '10' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating database...
 Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)

@@ -198,7 +198,12 @@ set_message_info -id PSYN-523   -limit 5
 set_message_info -id PSYN-900   -limit 1
 set_message_info -id PSYN-850   -limit 1
 set_message_info -id CTS-102    -limit 1
+set_message_info -id CTS-099    -limit 1
+set_message_info -id CTS-618    -limit 1
+set_message_info -id APL-017    -limit 1
 set_message_info -id OPT-170    -limit 1
 set_message_info -id TIM-178    -limit 1
 set_message_info -id TIM-179    -limit 1
-set_message_info -id PGRT-030   -limit 5
+set_message_info -id DPI-020    -limit 1
+set_message_info -id ZRT-325    -limit 1
+set_message_info -id ZRT-311    -limit 1
