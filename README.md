@@ -43,7 +43,7 @@ khu_sensor is a processor that communicates with MPR121 and ADS1292 and sends fi
 <img src="./01_RTL_Synthesis/pictures/async_glitch_synchronizer.png" alt="async_glitch_synchronizer" width="750" height="300"/>
 
 ###### clock_gating_cell
-<img src="./01_RTL_Synthesis/pictures/clock_gate_cell.png" alt="clock_gate_cell" width="300" height="300"/>
+<img src="./01_RTL_Synthesis/pictures/clock_gate_cell.png" alt="clock_gate_cell" width="450" height="300"/>
 
 ### 03_Physical_Synthesis
 
