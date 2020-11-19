@@ -20,7 +20,7 @@
 ### 01_RTL_Synthesis
 
 ###### khu_sensor_pad
-<img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="700" height="500"/>
+<img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="1000" height="500"/>
 
 ###### khu_sensor_top
 <img src="./01_RTL_Synthesis/pictures/khu_sensor_top.png" alt="khu_sensor_top" width="600" height="500"/>
