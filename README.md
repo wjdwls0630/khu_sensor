@@ -2,7 +2,10 @@
 
 ### Design Manual [pdf]()
 
-### Final Design Specification
+### khu_sensor layer
+<img src="./03_Physical_Synthesis/pictures/08_chip_finish.png" alt="khu_sensor_pad" width="600" height="500"/>
+
+#### Final Design Specification
 
 |  Spec    |   Value  |
 |-----------|---|
@@ -17,11 +20,13 @@
 ### 01_RTL_Synthesis
 
 ###### khu_sensor_pad
-<img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="600" height="500"/>
+<img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="700" height="500"/>
 
 ###### khu_sensor_top
 <img src="./01_RTL_Synthesis/pictures/khu_sensor_top.png" alt="khu_sensor_top" width="600" height="500"/>
 
+###### khu_sensor_top
+<img src="./01_RTL_Synthesis/pictures/khu_sensor_top.png" alt="khu_sensor_top" width="600" height="500"/>
 
 ### 2020Spring_Final_Project [pdf](https://github.com/wjdwls0630/2020_1_VLSI/blob/master/Final_Project/VLSI_Final_Project_8%EC%A1%B0.pdf) [code](https://github.com/wjdwls0630/2020_1_VLSI/tree/master/Final_Project/VLSI_Final_Project_Original)
 
