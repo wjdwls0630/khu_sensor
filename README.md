@@ -22,14 +22,6 @@ khu_sensor is a processor that communicates with MPR121 and ADS1292 and sends fi
 
 ### 01_RTL_Synthesis
 
-#### Design Performance
-
-|  Spec (SS 1.08V 125°C)   |   Compile  | Re-time | Clock-Gating |
-|----------|------------|--------|-------------|
-| Slack (ns) | 0.0 | 0.0  | 4.74  |
-| Design Area (µm^2) |  91019.26  | 89087.26 | 86101.93 |
-| Power (mw) | 110.4946 | 110.4860 | 3.0130 |
-
 ###### khu_sensor_pad
 <img src="./01_RTL_Synthesis/pictures/khu_sensor_pad.png" alt="khu_sensor_pad" width="600" height="600"/>
 
@@ -44,6 +36,14 @@ khu_sensor is a processor that communicates with MPR121 and ADS1292 and sends fi
 
 ###### clock_gating_cell
 <img src="./01_RTL_Synthesis/pictures/clock_gate_cell.png" alt="clock_gate_cell" width="450" height="300"/>
+
+#### Design Performance
+
+|  Spec (SS 1.08V 125°C)   |   Compile  | Re-time | Clock-Gating |
+|----------|------------|--------|-------------|
+| Slack (ns) | 0.0 | 0.0  | 4.74  |
+| Design Area (µm^2) |  91019.26  | 89087.26 | 86101.93 |
+| Power (mw) | 110.4946 | 110.4860 | 3.0130 |
 
 ### 03_Physical_Synthesis
 
@@ -64,7 +64,7 @@ khu_sensor is a processor that communicates with MPR121 and ADS1292 and sends fi
 
 #### 03_place_opt
 
-<img src="./03_Physical_Synthesis/pictures/03_place_opt.png" alt="03_place_opt" width="600" height="600"/>
+<img src="./03_Physical_Synthesis/pictures/03_place_opt_zoom.png" alt="03_place_opt_zoom" width="600" height="600"/>
 
 #### 04_clock_opt_cts
 
