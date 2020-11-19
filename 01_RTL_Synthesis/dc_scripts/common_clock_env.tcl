@@ -9,7 +9,7 @@ echo "***********************************************************************"
 # START_OF_USER_SPECIFICATION
 # ------------------------------------------------------------------------------
 
-set CLK_MAIN_PERIOD      17                       ;# Define the value as ns
+set CLK_MAIN_PERIOD      18                       ;# Define the value as ns
 set CLK_HALF_PERIOD  [expr {$CLK_MAIN_PERIOD*2}]   ;# Define the value as ns
 
 # MTTV : Max Transition Time Violation
