@@ -46,14 +46,14 @@ khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292
   **_Caution_** : **Qt5 Program is not fully implemented yet.**
 
 ### Block_Diagram
-![Block Diagram](./Reference/khu_sensor_blockdiagram.png)
+![Block Diagram](./reference/khu_sensor_blockdiagram.png)
 
 ### How_khu_sensor_works
 For operating the module you must make sure that all wires and cables is connected with your FPGA board correctly.
 (you can modify Pin Assignments through Quartus.)
 
 First, Compare to our PIN Asssignment.
-![GPIO_PinSet](./Reference/GPIO_PinSet.png)
+![GPIO_PinSet](./reference/GPIO_PinSet.png)
 
 |MPR121|||ADS1292|||
 |----|----|----|----|----|----|
