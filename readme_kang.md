@@ -14,7 +14,7 @@ khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292
 * [Modules](#Modules)
 	- [khu_sensor_top](#khu_sensor_top)
   - [mpr121_controller](#mpr121_controller)
-    + [i2c_master](#i2c_master)
+   	+ [i2c_master](#i2c_master)
   - [ads1292_controller](#ads1292_controller)
 	  + [spi_master](#spi_master)
   - [sensor_core](#sensor_core)
@@ -46,14 +46,14 @@ khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292
   **_Caution_** : **Qt5 Program is not fully implemented yet.**
 
 ### Block_Diagram
-![Block Diagram](./Reference/khu_sensor/khu_sensor_blockdiagram.png)
+![Block Diagram](./Reference/khu_sensor_blockdiagram.png)
 
 ### How_khu_sensor_works
 For operating the module you must make sure that all wires and cables is connected with your FPGA board correctly.
 (you can modify Pin Assignments through Quartus.)
 
 First, Compare to our PIN Asssignment.
-![GPIO_PinSet](./Reference/DE2-115/GPIO_PinSet.png)
+![GPIO_PinSet](./Reference/GPIO_PinSet.png)
 
 |MPR121|||ADS1292|||
 |----|----|----|----|----|----|
@@ -71,10 +71,10 @@ First, Compare to our PIN Asssignment.
 
 1. send 'R'(8'h52) to the FPGA Board through Serial communication Program what you use.
 
-2. receive [data](./Reference/khu_sensor/Packet_Definition.pptx) from FPGA
+2. receive [data](./Reference/Packet_Definition.pptx) from FPGA
 
   - **MPR121**
-  ![MPR121_Packet_Definition](./Reference/khu_sensor/MPR121_Packet_Definition.jpeg)
+  ![MPR121_Packet_Definition](./Reference/MPR121_Packet_Definition.jpeg)
 
   - **MPR121 Data Process**
     - MPR121 Data : {24'hBB0xxx} (xxx is ELE11~0 12 bits. MSB is ELE11 and LSB is ELE0)
@@ -111,7 +111,7 @@ First, Compare to our PIN Asssignment.
 
 
   - **ADS1292**
-  ![ADS1292_Packet_Definition](./Reference/khu_sensor/ADS1292_Packet_Definition.jpeg)
+  ![ADS1292_Packet_Definition](./Reference/ADS1292_Packet_Definition.jpeg)
 
   - **ADS1292 Data Process**
     - ADS1292 Data : {32'hAAxxxxxx} (ADS1292 data is 3byte and MSB(sign) is left)
@@ -259,7 +259,7 @@ khu_sensor_top is the top module of khu_sensor. The module assigns pins of fpga 
   - chip select to communicate
   - active low
 
-_If you want to obtain more specific information, refer to [DE2-115](./Reference/DE2-115/DE2-115.pdf)_
+_If you want to obtain more specific information, refer to [DE2-115](./Reference/DE2-115-User-Manual.pdf)_
 
 ---
 ### mpr121_controller
@@ -976,7 +976,7 @@ designed phase locked loop
 
 ### Reference_mpr121_controller
 
-**[MPR121_DataSheet](./Reference/MPR121/MPR121.pdf)**
+**[MPR121_DataSheet](./Reference/MPR121.pdf)**
 
 
 ####MPR121 Register Map
@@ -1018,7 +1018,7 @@ Stop : 'Stop' is change point of state when SDA changes from high to low.
 
 ### Reference_ads1292_controller
 
-**[ADS1292_DataSheet](./Reference/ADS1292/ADS1292.pdf)**
+**[ADS1292_DataSheet](./Reference/ADS1292.pdf)**
 
 ####ADS1292 Register Map
 
