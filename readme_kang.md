@@ -71,10 +71,10 @@ First, Compare to our PIN Asssignment.
 
 1. send 'R'(8'h52) to the FPGA Board through Serial communication Program what you use.
 
-2. receive [data](./Reference/Packet_Definition.pptx) from FPGA
+2. receive [data](./reference/Packet_Definition.pptx) from FPGA
 
   - **MPR121**
-  ![MPR121_Packet_Definition](./Reference/MPR121_Packet_Definition.jpeg)
+  ![MPR121_Packet_Definition](./reference/MPR121_Packet_Definition.jpeg)
 
   - **MPR121 Data Process**
     - MPR121 Data : {24'hBB0xxx} (xxx is ELE11~0 12 bits. MSB is ELE11 and LSB is ELE0)
@@ -111,7 +111,7 @@ First, Compare to our PIN Asssignment.
 
 
   - **ADS1292**
-  ![ADS1292_Packet_Definition](./Reference/ADS1292_Packet_Definition.jpeg)
+  ![ADS1292_Packet_Definition](./reference/ADS1292_Packet_Definition.jpeg)
 
   - **ADS1292 Data Process**
     - ADS1292 Data : {32'hAAxxxxxx} (ADS1292 data is 3byte and MSB(sign) is left)
@@ -259,7 +259,7 @@ khu_sensor_top is the top module of khu_sensor. The module assigns pins of fpga 
   - chip select to communicate
   - active low
 
-_If you want to obtain more specific information, refer to [DE2-115](./Reference/DE2-115-User-Manual.pdf)_
+_If you want to obtain more specific information, refer to [DE2-115](./reference/DE2-115-User-Manual.pdf)_
 
 ---
 ### mpr121_controller
@@ -976,7 +976,7 @@ designed phase locked loop
 
 ### Reference_mpr121_controller
 
-**[MPR121_DataSheet](./Reference/MPR121.pdf)**
+**[MPR121_DataSheet](./reference/MPR121.pdf)**
 
 
 ####MPR121 Register Map
@@ -1018,7 +1018,6 @@ Stop : 'Stop' is change point of state when SDA changes from high to low.
 
 ### Reference_ads1292_controller
 
-**[ADS1292_DataSheet](./Reference/ADS1292.pdf)**
 
 ####ADS1292 Register Map
 
