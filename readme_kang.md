@@ -616,7 +616,7 @@ _If you want to obtain more specific information and operation, refer to [Refere
 > 	> after **i_TX_DV** becomes low again, make SPI it's own 16 cycle using reg **r_Trailing_Egde, r_Leading_Egde**
 
 <p align="center">
-  <img width="600" height="200" src="./reference/Image/spi_clock.PNG">
+  <img width="600" height="200" src="./reference/spi_clock.PNG">
 </p>
 
 
