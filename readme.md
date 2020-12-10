@@ -1051,7 +1051,7 @@ Stop : 'Stop' is change point of state when SDA changes from high to low.
 * __8'h66 : ???__
 
 ### Reference_ADS1292_Filter
-$$ \frac {1}{b_0} (\sum_{i=0}^P a_ix[n-i] - \sum_{j=1}^Q b_iy[n-j])  $$
+<img src="http://latex.codecogs.com/png.latex?\dpi{150}\bg_black \frac {1}{b_0} (\sum_{i=0}^P a_ix[n-i] - \sum_{j=1}^Q b_iy[n-j]) "/>
 
 P : Feedforward filter order (6)
 Q : Feedback filter order (6)
