@@ -1,5 +1,8 @@
 <h1 align="center"> khu_sensor </h1>
-
+<script type="text/javascript" async
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js? 
+config=TeX-MML-AM_CHTML"
+</script>
 ---
 
 khu_sensor is a module on a FPGA board that communicates with MPR121 and ADS1292 and sends sensing data to PC through RS232.
@@ -1051,7 +1054,7 @@ Stop : 'Stop' is change point of state when SDA changes from high to low.
 * __8'h66 : ???__
 
 ### Reference_ADS1292_Filter
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;\frac {1}{b_0} (\sum_{i=0}^P a_ix[n-i] - \sum_{j=1}^Q b_iy[n-j])" title="\Large \frac {1}{b_0} (\sum_{i=0}^P a_ix[n-i] - \sum_{j=1}^Q b_iy[n-j])" />
+$$ \frac {1}{b_0} (\sum_{i=0}^P a_ix[n-i] - \sum_{j=1}^Q b_iy[n-j]) $$
 
 P : Feedforward filter order (6)
 Q : Feedback filter order (6)
