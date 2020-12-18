@@ -1,0 +1,3284 @@
+
+                                IC Compiler (TM)
+                              IC Compiler-PC (TM)
+                              IC Compiler-XP (TM)
+                              IC Compiler-DP (TM)
+                              IC Compiler-AG (TM)
+
+                 Version N-2017.09 for linux64 - Aug 17, 2017 
+
+                    Copyright (c) 1988 - 2017 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+***********************************************************************
+                                                                       
+                     synopsys_dc_setup.tcl                             
+                                                                       
+***********************************************************************
+***********************************************************************
+       NOTE>>> You MUST fix the design which have multiple ports
+               Use the following command
+               set_fix_multiple_port_nets -all -buffer_constants
+************************************************************************
+***********************************************************************
+       NOTE>>> Use the old compile_fix_multiple_port_nets
+               because reoptimize_design does not honor
+               the set_fix_multiple_port_nets command
+************************************************************************
+Initializing gui preferences from file  /home/VLSI_graduated_2020/2015104027/.synopsys_icc_prefs.tcl
+#******************************************************************************
+#**                           03_place_opt                                   **
+#**                    Placement and Optimization                            **
+#******************************************************************************
+echo "***********************************************************************"
+***********************************************************************
+echo "                                                                       "
+                                                                       
+echo "                           03_place_opt.tcl                            "
+                           03_place_opt.tcl                            
+echo "                                                                       "
+                                                                       
+echo "***********************************************************************"
+***********************************************************************
+# Set Step
+set step "03_place_opt"
+03_place_opt
+# source the user_design_setup & common_lib_setup
+source ./icc_scripts/user_scripts/user_design_setup.tcl
+***********************************************************************
+                                                                       
+                      user_design_setup.tcl                            
+                                                                       
+***********************************************************************
+1
+source ./icc_scripts/common_lib_setup.tcl
+***********************************************************************
+                                                                       
+                       common_lib_setup.tcl                            
+                                                                       
+***********************************************************************
+# Clear existing mw library and re-make dir
+set _mw_lib ./mw_db/${TOP_MODULE}_${step}
+./mw_db/khu_sensor_pad_03_place_opt
+if {[file exist $_mw_lib]} {
+	sh mv $_mw_lib ./mw_db/old/${TOP_MODULE}_${step}_${back}
+}
+copy_mw_lib -from ./mw_db/${TOP_MODULE}_02_powerplan -to $_mw_lib
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_03_place_opt' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt'. (MW-212)
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_03_place_opt' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt'. (MW-212)
+
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+Successfully updated library ./mw_db/khu_sensor_pad_03_place_opt ref-control-file
+1
+# Open Library and Cell
+set_mw_technology_file -technology $TECH_FILE $_mw_lib
+Warning: Top library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/khu_sensor_pad_03_place_opt' in reference library control file is inconsistent with current library path '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt'. (MW-212)
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_03_place_opt)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_03_place_opt)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Technology data dumped to ./mw_db/khu_sensor_pad_03_place_opt.tf_replaced completely.
+Start to load technology file ./TECH/std150e_prim_6m.techgen.tf.
+Warning: Layer 'ACT' is missing the attribute 'minSpacing'. (line 173) (TFCHK-014)
+Warning: Layer 'ACT' is missing the attribute 'minWidth'. (line 173) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minSpacing'. (line 236) (TFCHK-014)
+Warning: Layer 'LDIO' is missing the attribute 'minWidth'. (line 236) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minSpacing'. (line 246) (TFCHK-014)
+Warning: Layer 'CHBD' is missing the attribute 'minWidth'. (line 246) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minSpacing'. (line 287) (TFCHK-014)
+Warning: Layer 'NPLUS' is missing the attribute 'minWidth'. (line 287) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minSpacing'. (line 297) (TFCHK-014)
+Warning: Layer 'PPLUS' is missing the attribute 'minWidth'. (line 297) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minSpacing'. (line 687) (TFCHK-014)
+Warning: Layer 'PAD' is missing the attribute 'minWidth'. (line 687) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minSpacing'. (line 697) (TFCHK-014)
+Warning: Layer 'STEXT' is missing the attribute 'minWidth'. (line 697) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minSpacing'. (line 707) (TFCHK-014)
+Warning: Layer 'PTEXT' is missing the attribute 'minWidth'. (line 707) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minSpacing'. (line 717) (TFCHK-014)
+Warning: Layer 'M1TEXT' is missing the attribute 'minWidth'. (line 717) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minSpacing'. (line 727) (TFCHK-014)
+Warning: Layer 'M2TEXT' is missing the attribute 'minWidth'. (line 727) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minSpacing'. (line 737) (TFCHK-014)
+Warning: Layer 'M3TEXT' is missing the attribute 'minWidth'. (line 737) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minSpacing'. (line 747) (TFCHK-014)
+Warning: Layer 'M4TEXT' is missing the attribute 'minWidth'. (line 747) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minSpacing'. (line 757) (TFCHK-014)
+Warning: Layer 'M5TEXT' is missing the attribute 'minWidth'. (line 757) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minSpacing'. (line 767) (TFCHK-014)
+Warning: Layer 'M6TEXT' is missing the attribute 'minWidth'. (line 767) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minSpacing'. (line 777) (TFCHK-014)
+Warning: Layer 'BOUND' is missing the attribute 'minWidth'. (line 777) (TFCHK-014)
+Warning: FringeCap 1 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 992) (TFCHK-067)
+Warning: FringeCap 3 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1010) (TFCHK-067)
+Warning: FringeCap 6 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1037) (TFCHK-067)
+Warning: FringeCap 10 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1073) (TFCHK-067)
+Warning: FringeCap 15 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1118) (TFCHK-067)
+Warning: FringeCap 21 attribute 'layer2' is assigned a non-metal, non-poly layer 'ACT'. (line 1171) (TFCHK-067)
+Warning: Layer 'MET1' has a pitch 0.4 that does not match the recommended wire-to-via pitch 0.34. (TFCHK-049)
+Warning: Layer 'MET2' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the recommended wire-to-via pitch 0.4. (TFCHK-049)
+Warning: Layer 'MET3' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Warning: Layer 'MET4' has a pitch 0.44 that does not match the doubled pitch 0.88 or tripled pitch 1.32. (TFCHK-050)
+Warning: Layer 'MET5' has a pitch 0.4 that does not match the doubled pitch 0.8 or tripled pitch 1.2. (TFCHK-050)
+Technology file ./TECH/std150e_prim_6m.techgen.tf has been loaded successfully.
+1
+set_mw_lib_reference $_mw_lib -mw_reference_library $MW_REF_LIB_DIRS
+
+------------------- Internal Reference Library Settings -----------------
+
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+
+
+------------------- Control File Reference Library Settings -----------
+
+Library    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420
+  Reference    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011
+-------------------------------------------------------------------------
+
+1
+open_mw_lib $_mw_lib
+Warning: Reference Library Inconsistent With Main Library
+Reference Library: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504 (MWLIBP-300)
+Warning: Inconsistent Number Of Metal Layers:
+	6 (Main Library) <==> 7 (Reference Library). (MWLIBP-301)
+Warning: Inconsistent Data for Contact Code 10
+	Main Library (khu_sensor_pad_03_place_opt)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+Warning: Inconsistent Data for Contact Code 11
+	Main Library (khu_sensor_pad_03_place_opt)|	Reference Library (std150e_prim_050504)
+	Upper Layer     MET6 (130, 130)   |	MET6 (10, 40)	 (MWLIBP-324)
+{khu_sensor_pad_03_place_opt}
+remove_mw_cel 	[remove_from_collection [get_mw_cel *] [get_mw_cel $TOP_MODULE]] 	-all_versions -all_view -verbose
+0
+open_mw_cel $TOP_MODULE
+Information: Opened "khu_sensor_pad.CEL;1" from "/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/mw_db/khu_sensor_pad_03_place_opt" library. (MWUI-068)
+{khu_sensor_pad}
+link
+1
+current_design $TOP_MODULE
+khu_sensor_pad
+# Read scenario file
+remove_sdc
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db'
+Loading db file '/Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db'
+Loading db file '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/gtech.db'
+Loading db file '/Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/standard.sldb'
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd1_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd2_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd3_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd4_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library is being 
+	marked as "dont_use". (PSYN-039)
+Warning: The 'cgnd6_hd' cell in the 'std150e_wst_105_p125' technology library does not 
+	have corresponding physical cell description. (PSYN-024)
+Note - message 'PSYN-039' limit (5) exceeded.  Remainder will be suppressed.
+Note - message 'PSYN-024' limit (5) exceeded.  Remainder will be suppressed.
+Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
+Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
+Current scenario is func1_wst.
+Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std150e_bst_135_n040.db}. (MWDC-290)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (285 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  std150e_bst_135_n040 (library) /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
+  dw_foundation.sldb (library) /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+  std150e_bst_135_n040 (library) /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+
+Information: scenario: func1_wst
+1
+remove_scenario -all
+Information: Removed scenario func1_wst from memory. (UID-1024)
+Information: Removed scenario funccts_wst from memory. (UID-1024)
+1
+source $ICC_MCMM_SCENARIOS_FILE
+Warning: Discarding all scenario specific information previously defined in this session. (UID-1008)
+Current scenario is: func1_wst
+Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+***********************************************************************
+                                                                       
+    Check consistency between the Milkyway library and the TLUPlus     
+                                                                       
+***********************************************************************
+
+Sanity check for TLU+ vs MW-Tech files:
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ number of unique tlu+ files in mcmm mode: 1
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Warning: You have provided ambiguous libraries:
+    /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+  Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
+  and contain the same lib_cell names (e.g. or2d8_hd).
+  The latter library will be ignored. (MV-086)
+  Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
+Information: Updating graph... (UID-83)
+Warning: Some objects from '_sel402' were of the incorrect class. (SEL-010)
+Information: Updating graph... (UID-83)
+ 
+****************************************
+Report : clocks
+Design : khu_sensor_pad
+Scenario(s): func1_wst
+Version: N-2017.09
+Date   : Thu Nov 19 07:31:53 2020
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources   Scenario
+--------------------------------------------------------------------------------
+clk             10.80   {0 5.4}                       {i_CLK}   func1_wst
+clk_half        21.60   {0 10.8}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+                                                                func1_wst
+--------------------------------------------------------------------------------
+
+Generated     Master         Generated      Master         Waveform
+Clock         Source         Source         Clock          Modification
+                                                                     Scenario
+--------------------------------------------------------------------------------
+clk_half      i_CLK          {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+                                            clk            divide_by(2)
+                                                                     func1_wst
+--------------------------------------------------------------------------------
+Current scenario is: funccts_wst
+Information: Setting sdc_version outside of an SDC file has no effect (SDC-1)
+***********************************************************************
+                                                                       
+    Check consistency between the Milkyway library and the TLUPlus     
+                                                                       
+***********************************************************************
+
+Sanity check for TLU+ vs MW-Tech files:
+ mapping_file: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/MAP/L13_CELL_6LM.map
+ number of unique tlu+ files in mcmm mode: 1
+  /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Using operating conditions 'V105WTP1250' found in library 'std150e_wst_105_p125'.
+Warning: Some objects from '_sel813' were of the incorrect class. (SEL-010)
+ 
+****************************************
+Report : clocks
+Design : khu_sensor_pad
+Scenario(s): funccts_wst
+Version: N-2017.09
+Date   : Thu Nov 19 07:31:53 2020
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources   Scenario
+--------------------------------------------------------------------------------
+clk             10.80   {0 5.4}                       {i_CLK}   funccts_wst
+clk_half        21.60   {0 10.8}            G         {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+                                                                funccts_wst
+--------------------------------------------------------------------------------
+
+Generated     Master         Generated      Master         Waveform
+Clock         Source         Source         Clock          Modification
+                                                                     Scenario
+--------------------------------------------------------------------------------
+clk_half      i_CLK          {khu_sensor_top/divider_by_2/o_CLK_DIV_2}
+                                            clk            divide_by(2)
+                                                                     funccts_wst
+--------------------------------------------------------------------------------
+set_active_scenario $PLACE_OPT_SCN
+Information: Scenario funccts_wst is no longer active. (UID-1022)
+Warning: Current scenario changed to 'func1_wst'. (UID-1009)
+1
+#Fixing the locations of the hard macros
+if { [all_macro_cells] != "" } {
+  set_dont_touch_placement [all_macro_cells]
+}
+#Inout optimization
+if { !$INOUT_OPT } {
+	set_false_path -from [all_inputs]
+	set_false_path -to [all_outputs]
+}
+# Optimization Common Session Options - set in all sessions
+source ./icc_scripts/common_place_opt_env.tcl
+***********************************************************************
+                                                                       
+                      common_place_opt_env.tcl                         
+                                                                       
+***********************************************************************
+Warning: The design has already been assigned layer constraints and we will overwrite the constraints. (RT-064)
+high driving strength buffer cell!
+Warning: You have provided ambiguous libraries:
+    /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+  Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
+  and contain the same lib_cell names (e.g. or2d8_hd).
+  The latter library will be ignored. (MV-086)
+  Ambiguity is evident at async_rstn_glitch_synchronizer/u__tmp100 in scenario func1_wst
+***********************************************************************
+                                                                       
+                   130nm_ocv_margin.pnr.tcl                            
+                                                                       
+***********************************************************************
+Current scenario is: func1_wst
+Current design is 'khu_sensor_pad'.
+Information: Updating graph... (UID-83)
+Current design is 'khu_sensor_pad'.
+source ./icc_scripts/rules/shield_130nm_rule.tcl
+Information: creating wire rule 'shield_130nm_rule'...
+================================================================================
+
+Nondefault routing rule name ( shield_130nm_rule ):
+================================================================================
+
+   Layers:
+   ----------------------------------------------------------------------------
+   layer     width     spacing   Extension      shield_width   shield_spacing
+   ----------------------------------------------------------------------------
+   MET1      160       160       DEFAULT        0              0
+   MET2      200       200       DEFAULT        0              0
+   MET3      200       200       DEFAULT        200            200
+   MET4      200       200       DEFAULT        200            200
+   MET5      200       200       DEFAULT        200            400
+   MET6      440       440       DEFAULT        440            800
+
+   Spacing weights:
+   ----------------------------------------------------------------------------
+   layer     spacing   weight    spc_len_thresh
+   ----------------------------------------------------------------------------
+   MET1      160       1.00      0
+   MET2      200       1.00      0
+   MET3      200       1.00      0
+   MET4      200       1.00      0
+   MET5      200       1.00      0
+   MET6      440       1.00      0
+
+   Vias:
+
+   Same net spacing:
+   ----------------------------------------------------------------------------
+   layer1    layer2    spacing   is_stack
+   ----------------------------------------------------------------------------
+
+Info: Total 1 nondrules are reported
+1
+set_clock_tree_options -clock_trees [all_clocks] 	-routing_rule shield_130nm_rule -layer_list "MET3 MET4"
+clock: clk
+clock: clk_half
+Setting CTS options for clock tree 'i_CLK' rooted from pin i_CLK (net i_CLK)...
+Warning: Pin khu_sensor_top/divider_by_2/o_CLK_DIV_2 is a hierarchical port...
+Setting CTS options for clock tree 'khu_sensor_top/divider_by_2/o_CLK_DIV_2' rooted from pin khu_sensor_top/divider_by_2/o_CLK_DIV_2 (net khu_sensor_top/w_CLOCK_HALF)...
+1
+# Unplace all standard cells except for tap and well_edge cells
+remove_placement -object_type standard_cell
+1
+# Improved congestion analysis by using Global Route info
+if { $GL_BASED_PLACE } {
+	set placer_enable_enhanced_router true
+	set placer_enable_high_effort_congestion true
+} else {
+	set placer_enable_enhanced_router false
+	set placer_enable_high_effort_congestion false
+}
+true
+# Placement Optimization
+if {$LEAKAGE_POWER_PLACE} {
+	#Optimize Power
+	if {$ICC_STRATEGY == "ttr" } {
+		place_opt -effort low -power
+	}
+	if {$ICC_STRATEGY == "qor" } {
+    place_opt -congestion -area_recovery -effort $qor_effort -power
+  }
+} else {
+	#Default place_opt
+	if {$ICC_STRATEGY == "ttr" } {
+		place_opt -effort low
+	}
+	if {$ICC_STRATEGY == "qor" } {
+		place_opt -congestion -area_recovery -effort $qor_effort
+  }
+}
+Warning: No power optimization is performed because the leakage power optimization is not enabled for any active scenarios. (PWR-809)
+
+The options for place_opt:
+--------------------------
+POPT:  place_opt effort level               : high
+POPT:  Congestion removal                   : Yes
+POPT:  Layer Optimization                   : Yes
+POPT:  Area recovery                        : Yes
+POPT:  Optimize dft                         : No
+POPT:  Clock Tree Synthesis                 : No
+POPT:  Optimize power                       : Yes
+POPT:  Optimize power mode                  : Leakage
+---------------------------------------------------
+
+Settings of some common used Tcl variables for place_opt:
+---------------------------------------------------------
+---------------------------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Warning: Net 'i_CLK' is connected to a pad cell and other cells. (PSYN-086)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Information: The target library  has 1 Vth group. VT classification is based on area-leakage and the estimated accuracy is above 80%. (ROPT-028)
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+
+TLU+ File = /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/TLUP/sec060328_0003_0.13um_L13G__InternalRule-set_PROC_Astro-TLUp_N/L13G/TLUP/L13_CELL_WST_6LM_DUMMY_V8.0_R_vari_Hole_Rev3.0.tlup
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00026 0.00026 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00061 0.00061 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00033 0.00033 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00033 0.00033 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00024 0.00024 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 0.00014 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00029 0.00029 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.0005 0.0005 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00038 0.00038 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
+
+ Beginning Coarse Placement
+  --------------------------
+
+Warning: Scan DEF information is required. (PSYN-1099)
+...17%...33%...50%...67%...83%...100% done.
+
+  Coarse Placement Complete
+  --------------------------
+
+Information: ivd4_hd is a repeated name.
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Note - message 'PSYN-086' limit (1) exceeded.  Remainder will be suppressed.
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+ Beginning Buffering Optimizations
+ ---------------------------------
+
+ Estimating Design ...... 
+ Done
+
+ Updating Timing ........ 
+ Done
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+ Collecting Buffer Trees ... Found 1185
+
+ Processing Buffer Trees ... 
+
+Warning: New port 'khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg/IN0' is generated to sub_module 'khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg' as an additional of original port 'khu_sensor_top/ads1292_filter/iir_notch/add_1/clk_gate_b_s_reg/EN'. (PSYN-850)
+    [119]  10% ...
+Note - message 'PSYN-850' limit (1) exceeded.  Remainder will be suppressed.
+    [238]  20% ...
+    [357]  30% ...
+    [476]  40% ...
+    [595]  50% ...
+    [714]  60% ...
+    [833]  70% ...
+    [952]  80% ...
+    [1071]  90% ...
+    [1185] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 571 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 3173 new cells. (PSYN-864)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+Information: Analyzing channel congestion ... 
+Information: Channel congestion analysis found no blockages
+
+
+  ------------------------------------------
+  Not appropriate to run layer optimization.
+  ------------------------------------------
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+
+  Scenario: func1_wst   WNS: 0.94  TNS: 1570.64  Number of Violating Paths: 4927
+  Design  WNS: 0.94  TNS: 1570.64  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 22
+  Total moveable cell area: 429660.0
+  Total fixed cell area: 462403.2
+  Total physical cell area: 892063.2
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 1)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:19   90416.7      0.94    1570.6       1.7                          
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:19   90416.7      0.94    1570.6       1.7                          
+    0:00:20   90454.3      0.94    1584.9       0.2                          
+    0:00:20   90466.0      0.94    1584.9       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:20   90466.0      0.94    1584.9       0.0                          
+    0:00:21   90471.3      0.75    1570.9       0.0                          
+    0:00:22   90476.7      0.75    1559.9       0.0                          
+    0:00:22   90467.3      0.75    1518.7       0.0                          
+    0:00:22   90458.0      0.75    1488.3       0.0                          
+    0:00:23   90450.7      0.75    1476.4       0.0                          
+    0:00:23   90449.0      0.75    1471.8       0.0                          
+    0:00:28   88841.0      0.75    1495.8       0.0                          
+    0:00:29   88841.0      0.75    1495.8       0.0                          
+    0:00:29   88841.0      0.75    1495.8       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Scenario: func1_wst   WNS: 0.75  TNS: 1495.76  Number of Violating Paths: 4927
+  Design  WNS: 0.75  TNS: 1495.76  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 422172.4
+  Total fixed cell area: 462403.2
+  Total physical cell area: 884575.6
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+
+  Beginning Coarse Placement (Congestion Driven)
+  ---------------------------------------------
+
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Warning: Scan DEF information is required. (PSYN-1099)
+Warning: Scan DEF information is required. (PSYN-1099)
+56%...67%...78%...89%...100% done.
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Warning: Scan DEF information is required. (PSYN-1099)
+Warning: Scan DEF information is required. (PSYN-1099)
+56%...67%...78%...89%...100% done.
+
+  Coarse Placement Complete
+  --------------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:33:15 2020
+****************************************
+Std cell utilization: 40.29%  (266523/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 40.29%  (266523/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        266523   sites, (non-fixed:266523 fixed:0)
+                      27117    cells, (non-fixed:27117  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       132 
+Avg. std cell width:  4.46 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:33:15 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 27117 illegal cells...
+Starting legalizer.
+Initial legalization:  100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.6 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Legalization complete (2 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:33:17 2020
+****************************************
+
+avg cell displacement:    0.990 um ( 0.28 row height)
+max cell displacement:    3.392 um ( 0.94 row height)
+std deviation:            0.524 um ( 0.15 row height)
+number of cell moved:     27117 cells (out of 27117 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+Information: Analyzing channel congestion ... 
+Information: Channel congestion analysis found no blockages
+
+
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+
+  Scenario: func1_wst   WNS: 0.60  TNS: 1354.57  Number of Violating Paths: 4927
+  Design  WNS: 0.60  TNS: 1354.57  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 38
+  Total moveable cell area: 422172.4
+  Total fixed cell area: 462403.2
+  Total physical cell area: 884575.6
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 1)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:26   88841.0      0.60    1354.6       4.2                          
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:28   88841.0      0.59    1349.6       4.0                          
+    0:01:28   88872.7      0.59    1351.0       1.3                          
+    0:01:28   88888.0      0.59    1351.0       0.4                          
+
+
+  Beginning Phase 2 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:28   88888.0      0.59    1351.0       0.4                          
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+    0:01:30   88888.0      0.82    1346.7       0.2 khu_sensor_top/ads1292_filter/iir_lpf/n1292
+    0:01:30   88884.3      0.67    1367.0       0.0 khu_sensor_top/ads1292_filter/iir_lpf/r_mult_1_B_reg_8_/CK
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:31   88884.3      0.67    1367.0       0.0                          
+    0:01:31   88884.3      0.67    1367.0       0.0                          
+    0:01:34   88739.7      0.67    1362.2       0.0                          
+    0:01:34   88739.7      0.67    1362.2       0.0                          
+    0:01:34   88739.7      0.67    1362.2       0.0                          
+    0:01:34   88739.7      0.67    1362.2       0.0                          
+    0:01:34   88739.7      0.67    1362.2       0.0                          
+    0:01:39   87425.7      0.67    1362.3       0.0                          
+    0:01:39   87425.7      0.67    1362.3       0.0                          
+    0:01:39   87411.0      0.67    1362.3       0.0                          
+    0:01:39   87411.0      0.67    1362.3       0.0                          
+    0:01:39   87411.0      0.67    1362.3       0.0                          
+    0:01:39   87411.0      0.67    1362.3       0.0                          
+    0:01:39   87411.0      0.67    1362.3       0.0                          
+    0:01:41   87407.7      0.67    1362.3       0.0                          
+    0:01:41   87407.7      0.67    1362.3       0.0                          
+    0:01:41   87407.7      0.67    1362.3       0.0                          
+    0:01:42   87406.7      0.67    1360.6       0.0                          
+    0:01:43   87403.0      0.67    1357.0       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0 khu_sensor_top/ads1292_filter/iir_lpf/r_mult_2_A_reg_6_/CK
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+    0:01:45   87402.0      0.65    1355.2       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 1) (Congestion Driven)
+  -----------------------------------------------------
+
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+58%...67%...75%...83%...92%...100% done.
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+58%...67%...75%...83%...92%...100% done.
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+Information: Analyzing channel congestion ... 
+Information: Channel congestion analysis found no blockages
+
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:29 2020
+****************************************
+Std cell utilization: 39.64%  (262206/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.64%  (262206/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        262206   sites, (non-fixed:262206 fixed:0)
+                      27050    cells, (non-fixed:27050  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       119 
+Avg. std cell width:  4.18 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:29 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 27050 illegal cells...
+Starting legalizer.
+Initial legalization:  100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.5 sec)
+Legalization complete (2 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:31 2020
+****************************************
+
+avg cell displacement:    0.977 um ( 0.27 row height)
+max cell displacement:    3.244 um ( 0.90 row height)
+std deviation:            0.519 um ( 0.14 row height)
+number of cell moved:     27050 cells (out of 27050 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.62  TNS: 1334.07  Number of Violating Paths: 4927
+  Design  WNS: 0.62  TNS: 1334.07  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 44
+  Total moveable cell area: 415334.3
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877737.5
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 2)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:39   87402.0      0.62    1334.1       3.6                          
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)  (max_capacitance)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:40   87402.0      0.62    1334.1       3.6                          
+    0:02:40   87443.0      0.62    1336.1       0.8                          
+    0:02:41   87455.0      1.07    1389.7       0.3                          
+    0:02:42   87456.3      0.80    1354.1       0.0 khu_sensor_top/ads1292_filter/iir_notch/r_mult_1_A_reg_17_/CK
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+    0:02:43   87455.0      0.73    1347.5       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 2) (Congestion Driven)
+  -----------------------------------------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:39 2020
+****************************************
+Std cell utilization: 39.67%  (262365/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.67%  (262365/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        262365   sites, (non-fixed:262365 fixed:0)
+                      27071    cells, (non-fixed:27071  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       122 
+Avg. std cell width:  4.22 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:39 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 82 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.1 sec)
+Legalization complete (1 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:40 2020
+****************************************
+
+avg cell displacement:    1.059 um ( 0.29 row height)
+max cell displacement:    1.954 um ( 0.54 row height)
+std deviation:            0.630 um ( 0.18 row height)
+number of cell moved:        52 cells (out of 27071 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.74  TNS: 1347.79  Number of Violating Paths: 4927
+  Design  WNS: 0.74  TNS: 1347.79  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 1
+  Total moveable cell area: 415586.2
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877989.4
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 3)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:49   87455.0      0.74    1347.8       0.0                          
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:49   87455.0      0.74    1347.8       0.0                          
+    0:02:49   87455.0      0.86    1357.2       0.0                          
+    0:02:51   87452.7      0.86    1350.1       0.0                          
+    0:02:52   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:53   87451.3      0.86    1349.1       0.0                          
+    0:02:54   87444.3      0.86    1349.1       0.0                          
+    0:02:54   87444.3      0.86    1349.1       0.0                          
+    0:02:54   87444.3      0.86    1349.1       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 3) (Congestion Driven)
+  -----------------------------------------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:50 2020
+****************************************
+Std cell utilization: 39.66%  (262333/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.66%  (262333/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        262333   sites, (non-fixed:262333 fixed:0)
+                      27062    cells, (non-fixed:27062  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       122 
+Avg. std cell width:  4.22 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:50 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 4 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Legalization complete (0 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:34:51 2020
+****************************************
+
+avg cell displacement:    1.144 um ( 0.32 row height)
+max cell displacement:    1.672 um ( 0.46 row height)
+std deviation:            0.659 um ( 0.18 row height)
+number of cell moved:         2 cells (out of 27062 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1336.28  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1336.28  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 415535.5
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877938.7
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+Warning: Die area is not integer multiples of min site height (3600), object's width and height(1400000,1400000). (PSYN-523)
+Warning: Die area is not integer multiples of min site width (440), object's width and height(1400000,1400000). (PSYN-523)
+Warning: Cell pad45 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
+Warning: Cell pad45 is not integer multiples of min site height (3600), object's width and height(137620,137620). (PSYN-523)
+Warning: Cell pad44 is not integer multiples of min site width (440), object's width and height(60000,137620). (PSYN-523)
+Note - message 'PSYN-523' limit (5) exceeded.  Remainder will be suppressed.
+
+**************************************************** 
+Check_legality: Report for Fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+**************************************************** 
+(fixed placement) Cells Not on Row            : 0
+(fixed placement) Cell Overlaps               : 0
+(fixed placement) Cells overlapping blockages : 0
+(fixed placement) Orientation Violations      : 0
+(fixed placement) Site Violations             : 0
+(fixed placement) Power Strap Violations      : 0
+****************************************************** 
+
+****************************************************** 
+Check_legality: Report for Non-fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+****************************************************** 
+Number of Cells Not on Row            : 0
+Number of Cell Overlaps               : 0
+Number of Cells overlapping blockages : 0
+Number of Orientation Violations      : 0
+Number of Site Violations             : 0
+Number of Power Strap Violations      : 0
+******************************************** 
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1336.28  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1336.28  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 415535.5
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877938.7
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 1)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:00   87444.3      0.86    1336.3       0.0                          
+
+
+  Beginning Phase 1 Design Rule Fixing  (max_transition)
+  ------------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:01   87444.3      0.86    1336.3       0.0                          
+    0:03:01   87445.7      0.86    1336.3       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:01   87445.7      0.86    1336.3       0.0                          
+    0:03:01   87445.7      0.86    1336.3       0.0                          
+    0:03:04   87422.0      0.86    1333.7       0.0                          
+    0:03:04   87422.0      0.86    1333.7       0.0                          
+    0:03:04   87422.0      0.86    1333.7       0.0                          
+    0:03:04   87422.0      0.86    1333.7       0.0                          
+    0:03:04   87422.0      0.86    1333.7       0.0                          
+    0:03:05   87337.0      0.86    1333.7       0.0                          
+    0:03:05   87337.0      0.86    1333.7       0.0                          
+    0:03:05   87336.7      0.86    1333.7       0.0                          
+    0:03:05   87336.7      0.86    1333.7       0.0                          
+    0:03:05   87336.7      0.86    1333.7       0.0                          
+    0:03:05   87336.7      0.86    1333.7       0.0                          
+    0:03:05   87336.7      0.86    1333.7       0.0                          
+    0:03:07   87335.3      0.86    1333.7       0.0                          
+    0:03:07   87335.3      0.86    1333.7       0.0                          
+    0:03:07   87335.3      0.86    1333.7       0.0                          
+    0:03:08   87335.7      0.86    1332.2       0.0                          
+    0:03:10   87334.7      0.86    1326.6       0.0                          
+    0:03:11   87333.0      0.86    1325.9       0.0                          
+    0:03:12   87332.7      0.86    1324.4       0.0                          
+    0:03:12   87332.7      0.86    1324.4       0.0                          
+    0:03:12   87332.7      0.86    1324.4       0.0                          
+    0:03:12   87332.7      0.86    1324.4       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 1) (Congestion Driven)
+  -----------------------------------------------------
+
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Skipping placement due to "placer_skip_cgpl" setting...
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Information: The application variable "zrt_max_parallel_computations" overrides the "set_host_options -max_cores" option.  (ZRT-452)
+Warning: Cell contains tie connections which are not connected to real PG. (MW-349)
+Information: Using 1 threads for routing. (ZRT-444)
+Skipping placement due to "placer_skip_cgpl" setting...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+Information: Analyzing channel congestion ... 
+Information: Channel congestion analysis found no blockages
+
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:41 2020
+****************************************
+Std cell utilization: 39.61%  (261998/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.61%  (261998/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        261998   sites, (non-fixed:261998 fixed:0)
+                      27031    cells, (non-fixed:27031  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       121 
+Avg. std cell width:  4.23 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:41 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+Legalizing 4 illegal cells...
+Starting legalizer.
+Initial legalization:  10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0 sec)
+Optimizations pass 1: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Optimizations pass 2: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Optimizations pass 3: 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% (0.0 sec)
+Legalization complete (0 total sec)
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:42 2020
+****************************************
+
+avg cell displacement:    1.144 um ( 0.32 row height)
+max cell displacement:    1.672 um ( 0.46 row height)
+std deviation:            0.659 um ( 0.18 row height)
+number of cell moved:         2 cells (out of 27031 cells)
+
+Total 0 cells has large displacement (e.g. > 10.800 um or 3 row height)
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1324.38  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1324.38  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 415004.8
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877408.0
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 2)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:50   87332.7      0.86    1324.4       0.0                          
+    0:03:52   87331.3      0.86    1320.8       0.0                          
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+    0:03:59   87331.3      0.86    1320.8       0.0                          
+    0:04:00   87331.3      0.86    1320.8       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 2) (Congestion Driven)
+  -----------------------------------------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:56 2020
+****************************************
+Std cell utilization: 39.61%  (261994/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.61%  (261994/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        261994   sites, (non-fixed:261994 fixed:0)
+                      27030    cells, (non-fixed:27030  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       121 
+Avg. std cell width:  4.23 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:56 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:35:56 2020
+****************************************
+
+No cell displacement.
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1320.85  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1320.85  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 414998.5
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877401.7
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+
+**************************************************** 
+Check_legality: Report for Fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+**************************************************** 
+(fixed placement) Cells Not on Row            : 0
+(fixed placement) Cell Overlaps               : 0
+(fixed placement) Cells overlapping blockages : 0
+(fixed placement) Orientation Violations      : 0
+(fixed placement) Site Violations             : 0
+(fixed placement) Power Strap Violations      : 0
+****************************************************** 
+
+****************************************************** 
+Check_legality: Report for Non-fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+****************************************************** 
+Number of Cells Not on Row            : 0
+Number of Cell Overlaps               : 0
+Number of Cells overlapping blockages : 0
+Number of Orientation Violations      : 0
+Number of Site Violations             : 0
+Number of Power Strap Violations      : 0
+******************************************** 
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1320.85  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1320.85  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 414998.5
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877401.7
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+
+  Timing and DRC Optimization (Stage 1)
+  --------------------------------------
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:04:06   87331.3      0.86    1320.8       0.0                          
+    0:04:07   87330.0      0.86    1319.8       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:04:07   87330.0      0.86    1319.8       0.0                          
+    0:04:07   87330.0      0.86    1319.8       0.0                          
+    0:04:08   87330.0      0.86    1319.8       0.0                          
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+  Placement Optimization (Stage 1)
+  ---------------------------------
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+ 
+****************************************
+  Report : Chip Summary
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:36:05 2020
+****************************************
+Std cell utilization: 39.61%  (261990/(661436-0))
+(Non-fixed + Fixed)
+Std cell utilization: 39.61%  (261990/(661436-0))
+(Non-fixed only)
+Chip area:            661436   sites, bbox (187.62 187.62 1212.38 1210.02) um
+Std cell area:        261990   sites, (non-fixed:261990 fixed:0)
+                      27030    cells, (non-fixed:27030  fixed:0)
+Macro cell area:      0        sites
+                      0        cells
+Placement blockages:  0        sites, (excluding fixed std cells)
+                      0        sites, (include fixed std cells & chimney area)
+                      0        sites, (complete p/g net blockages)
+Routing blockages:    0        sites, (partial p/g net blockages)
+                      0        sites, (routing blockages and signal pre-route)
+Lib cell count:       121 
+Avg. std cell width:  4.23 um 
+Site array:           unit     (width: 0.44 um, height: 3.60 um, rows: 284)
+Physical DB scale:    1000 db_unit = 1 um 
+
+ 
+****************************************
+  Report : pnet options
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:36:05 2020
+****************************************
+
+
+--------------------------------------------------------------------
+Layer      Blockage   Min_width   Min_height   Via_additive     Density
+--------------------------------------------------------------------
+MET1       none          ---         ---       via additive      ---
+MET2       partial     7.20        1.80        via additive      ---
+MET3       partial     10000.00    10000.00    via additive      ---
+MET4       partial     10000.00    10000.00    via additive      ---
+MET5       partial     10000.00    10000.00    via additive      ---
+MET6       partial     10000.00    10000.00    via additive      ---
+ 
+****************************************
+  Report : Legalize Displacement
+  Design : khu_sensor_pad
+  Version: N-2017.09
+  Date   : Thu Nov 19 07:36:05 2020
+****************************************
+
+No cell displacement.
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+
+  Placement Optimization Complete
+  -------------------------------
+
+
+  Scenario: func1_wst   WNS: 0.86  TNS: 1319.75  Number of Violating Paths: 4927
+  Design  WNS: 0.86  TNS: 1319.75  Number of Violating Paths: 4927
+
+  Nets with DRC Violations: 0
+  Total moveable cell area: 414992.2
+  Total fixed cell area: 462403.2
+  Total physical cell area: 877395.4
+  Core area: (187620 187620 1212380 1210020)
+
+
+  No hold constraints
+
+[begin initializing data for legality checker]
+
+Initializing Data Structure ...
+INFO: legalizer_via_spacing_check_mode 0
+  Reading technology information ...
+    Technology table contains 6 routable metal layers
+    Top most routable layer is set to be metal4
+    This is considered as a 4-metal-layer design
+    Reading library information from DB ...
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Reading misc information ...
+    array <unit> has 0 vertical and 284 horizontal rows
+    98 pre-routes for placement blockage/checking
+    934 pre-routes for map congestion calculation
+  Checking information read in ...
+    design style = Horizontal masters, Horizontal rows
+
+  Preprocessing design ...
+    splitting rows by natural obstacles ...
+... design style 0
+... number of base array 1 0
+INFO:... use original rows...
+INFO: 0 pre-routes used for checking; 0 redundant shapes removed
+[end initializing data for legality checker]
+
+**************************************************** 
+Check_legality: Report for Fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+**************************************************** 
+(fixed placement) Cells Not on Row            : 0
+(fixed placement) Cell Overlaps               : 0
+(fixed placement) Cells overlapping blockages : 0
+(fixed placement) Orientation Violations      : 0
+(fixed placement) Site Violations             : 0
+(fixed placement) Power Strap Violations      : 0
+****************************************************** 
+
+****************************************************** 
+Check_legality: Report for Non-fixed Placement Cells
+Information: Use the -verbose option to get details about the legality violations. (PSYN-054)
+****************************************************** 
+Number of Cells Not on Row            : 0
+Number of Cell Overlaps               : 0
+Number of Cells overlapping blockages : 0
+Number of Orientation Violations      : 0
+Number of Site Violations             : 0
+Number of Power Strap Violations      : 0
+******************************************** 
+Information: Updating database...
+1
+# Connect Power & Grounding in extraction and update timing
+derive_pg_connection -power_net $MW_R_POWER_NET -power_pin  $MW_POWER_PORT
+Information: connected 2076 power ports and 0 ground ports
+1
+derive_pg_connection -ground_net $MW_R_GROUND_NET -ground_pin $MW_GROUND_PORT
+Information: connected 0 power ports and 2076 ground ports
+1
+derive_pg_connection -power_net $MW_R_POWER_NET -ground_net $MW_R_GROUND_NET -tie
+reconnected total 2822 tie highs and 195 tie lows
+1
+# Generate global zroute based congestion map
+if { $GEN_GL_CONG_MAP } {
+	route_zrt_global -congestion_map_only true -effort ultra
+}
+Start Global Route ... 
+[Init] Elapsed real time: 0:00:00 
+[Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Init] Total (MB): Used   20  Alloctr   21  Proc 2612 
+Printing options for 'set_route_zrt_common_options'
+
+Printing options for 'set_route_zrt_global_options'
+
+Begin global routing.
+Turn off antenna since no rule is specified
+Cell Min-Routing-Layer = MET1
+Cell Max-Routing-Layer = MET4
+soft rule shld_1 is redundant
+Current Stage stats:
+[End of Read DB] Elapsed real time: 0:00:00 
+[End of Read DB] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Read DB] Stage (MB): Used   34  Alloctr   34  Proc    0 
+[End of Read DB] Total (MB): Used   55  Alloctr   56  Proc 2612 
+Constructing data structure ...
+Design statistics:
+Design Bounding Box (0.00,0.00,1400.00,1400.00)
+Number of routing layers = 6
+layer MET1, dir Hor, min width = 0.16, min space = 0.16 pitch = 0.40
+layer MET2, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET3, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET4, dir Ver, min width = 0.20, min space = 0.20 pitch = 0.44
+layer MET5, dir Hor, min width = 0.20, min space = 0.20 pitch = 0.40
+layer MET6, dir Ver, min width = 0.44, min space = 0.44 pitch = 0.88
+Current Stage stats:
+[End of Build Tech Data] Elapsed real time: 0:00:00 
+[End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Tech Data] Stage (MB): Used    7  Alloctr    7  Proc    0 
+[End of Build Tech Data] Total (MB): Used   63  Alloctr   64  Proc 2612 
+Net statistics:
+Total number of nets     = 29417
+Number of nets to route  = 29403
+Number of single or zero port nets = 1
+13 nets are fully connected,
+ of which 13 are detail routed and 0 are global routed.
+Current Stage stats:
+[End of Build All Nets] Elapsed real time: 0:00:00 
+[End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build All Nets] Stage (MB): Used    9  Alloctr    9  Proc    0 
+[End of Build All Nets] Total (MB): Used   72  Alloctr   73  Proc 2612 
+Average gCell capacity  3.43	 on layer (1)	 MET1
+Average gCell capacity  5.61	 on layer (2)	 MET2
+Average gCell capacity  6.34	 on layer (3)	 MET3
+Average gCell capacity  5.95	 on layer (4)	 MET4
+Average gCell capacity  6.33	 on layer (5)	 MET5
+Average gCell capacity  0.00	 on layer (6)	 MET6
+Average number of tracks per gCell 9.00	 on layer (1)	 MET1
+Average number of tracks per gCell 8.20	 on layer (2)	 MET2
+Average number of tracks per gCell 9.00	 on layer (3)	 MET3
+Average number of tracks per gCell 8.20	 on layer (4)	 MET4
+Average number of tracks per gCell 9.00	 on layer (5)	 MET5
+Average number of tracks per gCell 4.10	 on layer (6)	 MET6
+Number of gCells = 905592
+Current Stage stats:
+[End of Build Congestion map] Elapsed real time: 0:00:00 
+[End of Build Congestion map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Congestion map] Stage (MB): Used    0  Alloctr    2  Proc    0 
+[End of Build Congestion map] Total (MB): Used   73  Alloctr   76  Proc 2612 
+Total stats:
+[End of Build Data] Elapsed real time: 0:00:00 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Data] Stage (MB): Used   18  Alloctr   19  Proc    0 
+[End of Build Data] Total (MB): Used   73  Alloctr   76  Proc 2612 
+Current Stage stats:
+[End of Blocked Pin Detection] Elapsed real time: 0:00:01 
+[End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Blocked Pin Detection] Total (MB): Used   73  Alloctr   76  Proc 2612 
+Information: Using 1 threads for routing. (ZRT-444)
+multi gcell levels ON
+
+Start GR phase 0
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+80% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+90% of nets complete Elapsed cpu time: 0:00:01 Elapsed real time: 0:00:01
+Current Stage stats:
+[End of Initial Routing] Elapsed real time: 0:00:02 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:02 total=0:00:02
+[End of Initial Routing] Stage (MB): Used   16  Alloctr   16  Proc    0 
+[End of Initial Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+Initial. Routing result:
+Initial. Both Dirs: Overflow =   375 Max = 3 GRCs =   550 (0.18%)
+Initial. H routing: Overflow =   140 Max = 2 (GRCs =  1) GRCs =   160 (0.11%)
+Initial. V routing: Overflow =   234 Max = 3 (GRCs =  1) GRCs =   390 (0.26%)
+Initial. MET1       Overflow =   101 Max = 1 (GRCs = 81) GRCs =   122 (0.08%)
+Initial. MET2       Overflow =   233 Max = 3 (GRCs =  1) GRCs =   389 (0.26%)
+Initial. MET3       Overflow =    38 Max = 2 (GRCs =  1) GRCs =    38 (0.03%)
+Initial. MET4       Overflow =     1 Max = 1 (GRCs =  1) GRCs =     1 (0.00%)
+Initial. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+Initial. Total Wire Length = 1195148.64
+Initial. Layer MET1 wire length = 28145.28
+Initial. Layer MET2 wire length = 510093.99
+Initial. Layer MET3 wire length = 587209.13
+Initial. Layer MET4 wire length = 69700.24
+Initial. Layer MET5 wire length = 0.00
+Initial. Layer MET6 wire length = 0.00
+Initial. Total Number of Contacts = 177561
+Initial. Via VIA12 count = 96603
+Initial. Via VIA23 count = 78250
+Initial. Via VIA34 count = 2707
+Initial. Via VIA45 count = 1
+Initial. Via VIA56 count = 0
+Initial. completed.
+
+Start GR phase 1
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+90% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase1 Routing] Elapsed real time: 0:00:00 
+[End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase1 Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+phase1. Routing result:
+phase1. Both Dirs: Overflow =   103 Max = 2 GRCs =   155 (0.05%)
+phase1. H routing: Overflow =    35 Max = 1 (GRCs = 15) GRCs =    56 (0.04%)
+phase1. V routing: Overflow =    67 Max = 2 (GRCs =  2) GRCs =    99 (0.07%)
+phase1. MET1       Overflow =    35 Max = 1 (GRCs = 15) GRCs =    56 (0.04%)
+phase1. MET2       Overflow =    67 Max = 2 (GRCs =  2) GRCs =    99 (0.07%)
+phase1. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase1. Total Wire Length = 1195434.76
+phase1. Layer MET1 wire length = 28027.02
+phase1. Layer MET2 wire length = 502025.43
+phase1. Layer MET3 wire length = 587439.08
+phase1. Layer MET4 wire length = 77943.23
+phase1. Layer MET5 wire length = 0.00
+phase1. Layer MET6 wire length = 0.00
+phase1. Total Number of Contacts = 178168
+phase1. Via VIA12 count = 96594
+phase1. Via VIA23 count = 78502
+phase1. Via VIA34 count = 3071
+phase1. Via VIA45 count = 1
+phase1. Via VIA56 count = 0
+phase1. completed.
+
+Start GR phase 2
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+90% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase2 Routing] Elapsed real time: 0:00:00 
+[End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase2 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase2 Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+phase2. Routing result:
+phase2. Both Dirs: Overflow =    46 Max = 1 GRCs =    77 (0.03%)
+phase2. H routing: Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase2. V routing: Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase2. MET1       Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase2. MET2       Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase2. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase2. Total Wire Length = 1195434.76
+phase2. Layer MET1 wire length = 28027.02
+phase2. Layer MET2 wire length = 501942.83
+phase2. Layer MET3 wire length = 587439.08
+phase2. Layer MET4 wire length = 78025.83
+phase2. Layer MET5 wire length = 0.00
+phase2. Layer MET6 wire length = 0.00
+phase2. Total Number of Contacts = 178176
+phase2. Via VIA12 count = 96596
+phase2. Via VIA23 count = 78504
+phase2. Via VIA34 count = 3075
+phase2. Via VIA45 count = 1
+phase2. Via VIA56 count = 0
+phase2. completed.
+
+Start GR phase 3
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+90% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase3 Routing] Elapsed real time: 0:00:00 
+[End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase3 Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+phase3. Routing result:
+phase3. Both Dirs: Overflow =    46 Max = 1 GRCs =    77 (0.03%)
+phase3. H routing: Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase3. V routing: Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase3. MET1       Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase3. MET2       Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase3. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase3. Total Wire Length = 1195434.76
+phase3. Layer MET1 wire length = 28027.02
+phase3. Layer MET2 wire length = 501942.83
+phase3. Layer MET3 wire length = 587439.08
+phase3. Layer MET4 wire length = 78025.83
+phase3. Layer MET5 wire length = 0.00
+phase3. Layer MET6 wire length = 0.00
+phase3. Total Number of Contacts = 178176
+phase3. Via VIA12 count = 96596
+phase3. Via VIA23 count = 78504
+phase3. Via VIA34 count = 3075
+phase3. Via VIA45 count = 1
+phase3. Via VIA56 count = 0
+phase3. completed.
+
+Start GR phase 4
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+90% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase4 Routing] Elapsed real time: 0:00:00 
+[End of Phase4 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase4 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase4 Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+phase4. Routing result:
+phase4. Both Dirs: Overflow =    46 Max = 1 GRCs =    77 (0.03%)
+phase4. H routing: Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase4. V routing: Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase4. MET1       Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase4. MET2       Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase4. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase4. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase4. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase4. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase4. Total Wire Length = 1195434.76
+phase4. Layer MET1 wire length = 28027.02
+phase4. Layer MET2 wire length = 501942.83
+phase4. Layer MET3 wire length = 587439.08
+phase4. Layer MET4 wire length = 78025.83
+phase4. Layer MET5 wire length = 0.00
+phase4. Layer MET6 wire length = 0.00
+phase4. Total Number of Contacts = 178176
+phase4. Via VIA12 count = 96596
+phase4. Via VIA23 count = 78504
+phase4. Via VIA34 count = 3075
+phase4. Via VIA45 count = 1
+phase4. Via VIA56 count = 0
+phase4. completed.
+
+Start GR phase 5
+10% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+20% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+30% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+40% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+50% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+60% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+70% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+80% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+90% of nets complete Elapsed cpu time: 0:00:00 Elapsed real time: 0:00:00
+Current Stage stats:
+[End of Phase5 Routing] Elapsed real time: 0:00:00 
+[End of Phase5 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase5 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase5 Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+phase5. Routing result:
+phase5. Both Dirs: Overflow =    46 Max = 1 GRCs =    77 (0.03%)
+phase5. H routing: Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase5. V routing: Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase5. MET1       Overflow =    32 Max = 1 (GRCs = 13) GRCs =    51 (0.03%)
+phase5. MET2       Overflow =    14 Max = 1 (GRCs =  4) GRCs =    26 (0.02%)
+phase5. MET3       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase5. MET4       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase5. MET5       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase5. MET6       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase5. Total Wire Length = 1195434.76
+phase5. Layer MET1 wire length = 28027.02
+phase5. Layer MET2 wire length = 501942.83
+phase5. Layer MET3 wire length = 587439.08
+phase5. Layer MET4 wire length = 78025.83
+phase5. Layer MET5 wire length = 0.00
+phase5. Layer MET6 wire length = 0.00
+phase5. Total Number of Contacts = 178176
+phase5. Via VIA12 count = 96596
+phase5. Via VIA23 count = 78504
+phase5. Via VIA34 count = 3075
+phase5. Via VIA45 count = 1
+phase5. Via VIA56 count = 0
+phase5. completed.
+[End of Whole Chip Routing] Elapsed real time: 0:00:06 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
+[End of Whole Chip Routing] Stage (MB): Used   34  Alloctr   35  Proc    0 
+[End of Whole Chip Routing] Total (MB): Used   90  Alloctr   92  Proc 2612 
+
+Congestion utilization per direction:
+Average vertical track utilization   = 12.29 %
+Peak    vertical track utilization   = 110.00 %
+Average horizontal track utilization =  8.53 %
+Peak    horizontal track utilization = 81.82 %
+
+Current Stage stats:
+[GR: Done] Elapsed real time: 0:00:00 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[GR: Done] Stage (MB): Used   -6  Alloctr   -7  Proc    0 
+[GR: Done] Total (MB): Used   87  Alloctr   88  Proc 2612 
+GR Total stats:
+[GR: Done] Elapsed real time: 0:00:07 
+[GR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
+[GR: Done] Stage (MB): Used   66  Alloctr   67  Proc    0 
+[GR: Done] Total (MB): Used   87  Alloctr   88  Proc 2612 
+Writing out congestion map...
+Updating congestion ...
+[DBOUT] Elapsed real time: 0:00:00 
+[DBOUT] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DBOUT] Stage (MB): Used  -54  Alloctr  -56  Proc    0 
+[DBOUT] Total (MB): Used   21  Alloctr   22  Proc 2612 
+Final total stats:
+[End of Global Routing] Elapsed real time: 0:00:07 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
+[End of Global Routing] Stage (MB): Used    1  Alloctr    1  Proc    0 
+[End of Global Routing] Total (MB): Used   21  Alloctr   22  Proc 2612 
+1
+# Running extraction and updating the timing
+extract_rc
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_prim_050504. (PSYN-878)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420. (PSYN-878)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_wst_105_p125' technology 
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Warning: 'VDD15FIN' pin on 'pvpp15hf_p' cell in the 'std150e_bst_135_n040' technology 
+	library is missing in the '/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_power_6lm_070420' physical library. (PSYN-200)
+Information: linking reference library : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011. (PSYN-878)
+Warning: Could not find a valid driver for the hierarchical Power net 'VDD'. (MWDC-285)
+Warning: Could not find a valid driver for the hierarchical Ground net 'VSS'. (MWDC-285)
+Information: Loading local_link_library attribute {std150e_wst_105_p125.db, std150e_bst_135_n040.db}. (MWDC-290)
+
+  Linking design 'khu_sensor_pad'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (285 designs)             khu_sensor_pad.CEL, etc
+  std150e_wst_105_p125 (library)
+                              /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db
+  std150e_bst_135_n040 (library)
+                              /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_bst_135_n040.db
+  dw_foundation.sldb (library)
+                              /Tools/Synopsys/ICC_2017/icc/N-2017.09/libraries/syn/dw_foundation.sldb
+  std150e_wst_105_p125 (library)
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db
+  std150e_bst_135_n040 (library)
+                              /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_bst_135_n040_astro.db
+
+Information: The design has horizontal rows, and Y-symmetry has been used for sites. (MWDC-217)
+Floorplan loading succeeded.
+Warning: You have provided ambiguous libraries:
+    /Tools/Library/samsung013/sec050915_0050_STD150E_regular_DK_Synopsys_N/sec150e_synopsys/syn/STD150E/std150e_wst_105_p125.db:std150e_wst_105_p125
+    /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/MilkyWay/std150e_60poi_io_6lm_071011/LM/std150e_wst_105_p125_astro.db:std150e_wst_105_p125
+  Both are characterized for voltage 1.050000V, process 1.000000, temperature 125.000000
+  and contain the same lib_cell names (e.g. ivd2_hd).
+  The latter library will be ignored. (MV-086)
+  Ambiguity is evident at icc_place19 in scenario func1_wst
+
+Warning: Pin PAD of reference cell phis_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phic_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phob12_p has no physical location. (APL-028)
+Warning: Pin PAD of reference cell phbct24_p has no physical location. (APL-028)
+  Loading design 'khu_sensor_pad'
+
+
+Information: Setting a dont_touch attribute on net 'ADS1292_DRDY' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MISO' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_RXD' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_RSTN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/async_rstn_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'async_rstn_glitch_synchronizer/i_CLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SDA' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'MPR121_SCL' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_CSN' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_START' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_RESET' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_MOSI' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'ADS1292_SCLK' because it is connected to a pad cell. (PSYN-088)
+Information: Setting a dont_touch attribute on net 'UART_TXD' because it is connected to a pad cell. (PSYN-088)
+
+
+Information: Library Manufacturing Grid(GridResolution) : 10
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Information: Design Library and main library resistance units are matched - 1.000 kohm. 
+Information: Capacitance Unit from Milkyway design library: 'pf' 
+Information: Design Library and main library capacitance units are matched - 1.000 pf. 
+Information: None of the nets in the design are routed. Estimation of all the nets will be performed. (RCEX-203)
+Information: Start rc update...
+Information: Layer MET5 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MET6 is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer MET1 : 0.00026 0.00026 (RCEX-011)
+Information: Library Derived Res for layer MET1 : 0.00061 0.00061 (RCEX-011)
+Information: Library Derived Cap for layer MET2 : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Res for layer MET2 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET3 : 0.00033 0.00033 (RCEX-011)
+Information: Library Derived Res for layer MET3 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET4 : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Res for layer MET4 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET5 : 0.00033 0.00033 (RCEX-011)
+Information: Library Derived Res for layer MET5 : 0.00038 0.00038 (RCEX-011)
+Information: Library Derived Cap for layer MET6 : 0.00024 0.00024 (RCEX-011)
+Information: Library Derived Res for layer MET6 : 0.00014 0.00014 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.00029 0.00029 (RCEX-011)
+Information: Library Derived Horizontal Res : 0.0005 0.0005 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.0003 0.0003 (RCEX-011)
+Information: Library Derived Vertical Res : 0.00038 0.00038 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 0.0015 0.0015 (RCEX-011)
+Information: End rc update.
+1
+update_timing
+Information: Updating design information... (UID-85)
+1
+# Report
+set REPORTS_STEP_DIR $REPORTS_DIR/${step}
+./reports/03_place_opt
+if {[file exist $REPORTS_STEP_DIR]} {
+	sh rm -rf $REPORTS_STEP_DIR
+}
+sh mkdir $REPORTS_STEP_DIR
+set legalize_support_phys_only_cell true
+true
+create_qor_snapshot -show_all -significant_digits 4 -name $step
+Current scenario is: func1_wst
+Information: Timer is not in zero interconnect delay mode. (TIM-176)
+***********************************************
+Report          : create_qor_snapshot (03_place_opt)
+Design          : khu_sensor_pad
+Version         : N-2017.09
+Date            : Thu Nov 19 07:36:30 2020
+Time unit       : 1.0e-09 Second(ns)
+Capacitance unit: 1.0e-12 Farad(pF)
+Voltage unit    : 1 Volt
+Power unit      : 1.0e-03 Watt(mW)
+Location        : /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/snapshot
+***********************************************
+No. of scenario = 1
+s1 = func1_wst
+--------------------------------------------------
+WNS of each timing group:                       s1 
+--------------------------------------------------
+clk_half                                    7.0495 
+**clock_gating_default**                    3.9724 
+REGIN                                       6.9192 
+default                                    -0.8552 
+REGOUT                                      5.5677 
+clk                                         4.1832 
+--------------------------------------------------
+Setup WNS:                                 -0.8552 
+Setup TNS:                               -1319.7477
+Number of setup violations:                   4927  
+Hold WNS:                                   0.0000  
+Hold TNS:                                   0.0000  
+Number of hold violations:                       0  
+Number of max trans violations:                  0  
+Number of max cap violations:                    0  
+Number of min pulse width violations:            0  
+Route drc violations:                            0
+--------------------------------------------------
+Area:                                        87330
+Cell count:                                  27086
+Buf/inv cell count:                           3978
+Std cell utilization:                       39.61%
+CPU/ELAPSE(hr):                          0.08/0.11
+Mem(Mb):                                      1052
+Host name:                               vlsi-dist.khu.ac.kr
+--------------------------------------------------
+Histogram:             s1 
+--------------------------------------------------
+Max violations:      4927 
+   above ~ -0.7  ---   86 
+    -0.6 ~ -0.7  ---    0 
+    -0.5 ~ -0.6  ---  159 
+    -0.4 ~ -0.5  ---  556 
+    -0.3 ~ -0.4  --- 1582 
+    -0.2 ~ -0.3  --- 1428 
+    -0.1 ~ -0.2  ---    0 
+       0 ~ -0.1  --- 1116 
+--------------------------------------------------
+Min violations:         0 
+  -0.06 ~ above  ---    0 
+  -0.05 ~ -0.06  ---    0 
+  -0.04 ~ -0.05  ---    0 
+  -0.03 ~ -0.04  ---    0 
+  -0.02 ~ -0.03  ---    0 
+  -0.01 ~ -0.02  ---    0 
+      0 ~ -0.01  ---    0 
+--------------------------------------------------
+Current scenario is: func1_wst
+Snapshot (03_place_opt) is created and stored under "/home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis/snapshot" directory
+1
+redirect -file $REPORTS_STEP_DIR/snap.rpt 	{ report_qor_snapshot -name $step -save_as snap.rpt }
+redirect -file $REPORTS_STEP_DIR/hfn.rpt { report_net_fanout -threshold 100 }
+redirect -file $REPORTS_STEP_DIR/qor.rpt -tee 	{ report_qor -scenario [all_scenarios] -significant_digits 4 }
+Information: Scenario funccts_wst either not exists or is inactive. report_qor will skip it. (UID-1059)
+ 
+****************************************
+Report : qor
+Design : khu_sensor_pad
+Scenario(s): func1_wst funccts_wst
+Version: N-2017.09
+Date   : Thu Nov 19 07:36:30 2020
+****************************************
+
+
+  Scenario 'func1_wst'
+  Timing Path Group '**clock_gating_default**'
+  -----------------------------------
+  Levels of Logic:            13.0000
+  Critical Path Length:        6.1534
+  Critical Path Slack:         3.9724
+  Critical Path Clk Period:   10.8000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'REGIN'
+  -----------------------------------
+  Levels of Logic:             5.0000
+  Critical Path Length:        2.9208
+  Critical Path Slack:         6.9192
+  Critical Path Clk Period:   10.8000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'REGOUT'
+  -----------------------------------
+  Levels of Logic:             3.0000
+  Critical Path Length:        4.1323
+  Critical Path Slack:         5.5677
+  Critical Path Clk Period:   10.8000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'clk'
+  -----------------------------------
+  Levels of Logic:            14.0000
+  Critical Path Length:        5.9531
+  Critical Path Slack:         4.1832
+  Critical Path Clk Period:   10.8000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'clk_half'
+  -----------------------------------
+  Levels of Logic:             9.0000
+  Critical Path Length:        2.5139
+  Critical Path Slack:         7.0495
+  Critical Path Clk Period:   21.6000
+  Total Negative Slack:        0.0000
+  No. of Violating Paths:      0.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+  Scenario 'func1_wst'
+  Timing Path Group 'default'
+  -----------------------------------
+  Levels of Logic:             2.0000
+  Critical Path Length:        0.8552
+  Critical Path Slack:        -0.8552
+  Critical Path Clk Period:       n/a
+  Total Negative Slack:    -1319.7477
+  No. of Violating Paths:   4927.0000
+  Worst Hold Violation:        0.0000
+  Total Hold Violation:        0.0000
+  No. of Hold Violations:      0.0000
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:        284
+  Hierarchical Port Count:       6505
+  Leaf Cell Count:              27086
+  Buf/Inv Cell Count:            3978
+  Buf Cell Count:                  71
+  Inv Cell Count:                3907
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     21699
+  Sequential Cell Count:         5387
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:      50118.0143
+  Noncombinational Area:   37212.0014
+  Buf/Inv Area:             3325.3405
+  Total Buffer Area:         104.6665
+  Total Inverter Area:      3220.6740
+  Macro/Black Box Area:        0.0000
+  Net Area:                  823.2107
+  Net XLength        :    624088.2500
+  Net YLength        :    568420.5625
+  -----------------------------------
+  Cell Area:               87330.0157
+  Design Area:             88153.2263
+  Net Length        :    1192508.7500
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         29657
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: vlsi-dist.khu.ac.kr
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                  0.0000
+  Logic Optimization:                0.0000
+  Mapping Optimization:             64.2202
+  -----------------------------------------
+  Overall Compile Time:             64.8101
+  Overall Compile Wall Clock Time:  65.0159
+
+  --------------------------------------------------------------------
+
+  Scenario: func1_wst   WNS: 0.8552  TNS: 1319.7477  Number of Violating Paths: 4927
+  Design  WNS: 0.8552  TNS: 1319.7477  Number of Violating Paths: 4927
+
+
+  Scenario: func1_wst  (Hold)  WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
+  Design (Hold)  WNS: 0.0000  TNS: 0.0000  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1
+redirect -file $REPORTS_STEP_DIR/physical.sum -tee { report_design -physical -nosplit }
+ 
+****************************************
+Report : design
+        -physical
+Design : khu_sensor_pad
+Version: N-2017.09
+Date   : Thu Nov 19 07:36:30 2020
+****************************************
+
+****************************** P&R Summary ********************************
+Date : Thu Nov 19 07:36:30 2020
+Machine Host Name: vlsi-dist.khu.ac.kr
+Working Directory: /home/VLSI_graduated_2020/2015104027/khu_sensor/03_Physical_Synthesis
+Library Name:      khu_sensor_pad_03_place_opt
+Cell Name:         khu_sensor_pad.CEL;1
+Design Statistics:
+    Number of Module Cells:        27030
+    Number of Pins:                156003
+    Number of IO Pad Cells:        56
+    Number of IO Pins:             13
+    Number of Nets:                29417
+    Average Pins Per Net (Signal): 3.35891
+
+Chip Utilization:
+    Total Std Cell Area:           414992.16
+    Total Pad Cell Area:           462403.20
+    Core Size:     width 1024.76, height 1022.40; area 1047714.62
+    Pad Core Size: width 1124.76, height 1124.76; area 1265085.06
+    Chip Size:     width 1400.00, height 1400.00; area 1960000.00
+    Std cells utilization:         39.61% 
+    Cell/Core Ratio:               39.61%
+    Cell/Chip Ratio:               44.77%
+    Number of Cell Rows:            284
+
+Master Instantiation:
+	MasterName	Type	InstCount
+	=================================
+	ivd1_hd		STD	2732
+	fd3qd1_hd	STD	2602
+	nd2d1_hd	STD	2068
+	oa22d1_hd	STD	2065
+	fd2qd1_hd	STD	2042
+	xn2d1_hd	STD	1927
+	fad1_hd		STD	1820
+	nr2d1_hd	STD	1451
+	scg2d2_hd	STD	1127
+	ao22d1_hd	STD	1086
+	oa21d1_hd	STD	801
+	ivd4_hd		STD	572
+	ivd2_hd		STD	567
+	had1_hd		STD	552
+	oa211d1_hd	STD	499
+	ao21d1_hd	STD	495
+	clkxo2d2_hd	STD	346
+	nr4d1_hd	STD	302
+	ad2d1_hd	STD	283
+	nd3d1_hd	STD	261
+	nd4d1_hd	STD	209
+	nr3d1_hd	STD	206
+	nr2bd1_hd	STD	194
+	or2d1_hd	STD	194
+	fds2eqd1_hd	STD	179
+	cglpd1_hd	STD	174
+	nd2bd1_hd	STD	166
+	scg4d1_hd	STD	144
+	fd1eqd1_hd	STD	137
+	scg6d1_hd	STD	131
+	fd1qd1_hd	STD	123
+	ao211d1_hd	STD	95
+	mx2d1_hd	STD	86
+	scg13d1_hd	STD	83
+	clknd2d4_hd	STD	75
+	scg15d1_hd	STD	70
+	oa22ad1_hd	STD	66
+	scg14d1_hd	STD	59
+	scg16d1_hd	STD	52
+	nr2ad1_hd	STD	52
+	scg17d1_hd	STD	46
+	nd3bd1_hd	STD	42
+	or4d1_hd	STD	42
+	nr2d4_hd	STD	36
+	nid1_hd		STD	36
+	fd3qd2_hd	STD	35
+	fd2d1_hd	STD	34
+	clkxo2d1_hd	STD	34
+	scg20d1_hd	STD	32
+	ad4d1_hd	STD	28
+	scg5d1_hd	STD	27
+	nid2_hd		STD	27
+	scg2d1_hd	STD	26
+	scg22d1_hd	STD	26
+	oa22d2_hd	STD	24
+	ivd8_hd		STD	23
+	xo3d1_hd	STD	23
+	scg18d1_hd	STD	23
+	or2d2_hd	STD	23
+	fds2d1_hd	STD	20
+	scg9d1_hd	STD	19
+	ad3d1_hd	STD	18
+	scg12d1_hd	STD	15
+	scg10d1_hd	STD	14
+	clknd2d2_hd	STD	14
+	nr2d6_hd	STD	14
+	oa21d2_hd	STD	14
+	oa211d2_hd	STD	14
+	fd2qd2_hd	STD	13
+	ad2d2_hd	STD	13
+	ad2d4_hd	STD	12
+	scg20d2_hd	STD	12
+	fd2qd4_hd	STD	11
+	or3d1_hd	STD	11
+	ivd6_hd		STD	11
+	scg21d1_hd	STD	10
+	fds2eqd2_hd	STD	9
+	mx2id1_hd	STD	9
+	nr4d2_hd	STD	9
+	ao21d4_hd	STD	6
+	scg11d1_hd	STD	5
+	nd2d2_hd	STD	5
+	ao22ad1_hd	STD	4
+	fj2d1_hd	STD	4
+	scg22d2_hd	STD	4
+	nd3d2_hd	STD	4
+	nid8_hd		STD	3
+	scg8d1_hd	STD	3
+	or2d4_hd	STD	3
+	nr4d4_hd	STD	3
+	xn2d2_hd	STD	3
+	ao21d2_hd	STD	3
+	xo2d1_hd	STD	2
+	mx4d1_hd	STD	2
+	ivd12_hd	STD	2
+	nr3d2_hd	STD	2
+	or2d8_hd	STD	2
+	nid4_hd		STD	2
+	or3d2_hd	STD	2
+	nid6_hd		STD	2
+	or2bd2_hd	STD	2
+	oa31d1_hd	STD	1
+	fds2d2_hd	STD	1
+	oa32d1_hd	STD	1
+	clkmx2d1_hd	STD	1
+	ao22d2_hd	STD	1
+	nr2d2_hd	STD	1
+	ft2d1_hd	STD	1
+	fd3d1_hd	STD	1
+	ao31d1_hd	STD	1
+	scg16d2_hd	STD	1
+	scg13d2_hd	STD	1
+	clkad2d1_hd	STD	1
+	ad3d2_hd	STD	1
+	nid12_hd	STD	1
+	nr3ad1_hd	STD	1
+	ad2bd4_hd	STD	1
+	fd1eqd2_hd	STD	1
+	ad2bd2_hd	STD	1
+	scg6d2_hd	STD	1
+	ad3d4_hd	STD	1
+	iofillerh5_p	IO	48
+	iofillerh10_p	IO	22
+	vssoh_p		IO	12
+	vdd33oph_p	IO	10
+	vssiph_p	IO	8
+	vdd12ih_p	IO	8
+	phob12_p	IO	6
+	vdd12ih_core_p	IO	5
+	iofillerh30_p	IO	4
+	phic_p		IO	3
+	phbct12_p	IO	2
+	phbct24_p	IO	1
+	phis_p		IO	1
+	=================================
+
+Timing/Optimization Information:
+
+Global Routing Information:
+
+Track Assignment Information:
+
+Detailed Routing Information:
+
+DRC information: 
+      Total error number: 0
+
+Ring Wiring Statistics:
+    metal3 Wire Length(count):               4236.64(4)
+    metal4 Wire Length(count):               4212.44(4)
+    metal5 Wire Length(count):               2215.42(2)
+    metal6 Wire Length(count):               2226.56(2)
+  ==============================================
+    Total Wire Length(count):               12891.06(12)
+    Number of via3 Contacts:              8
+    Number of via5 Contacts:              4
+  ==============================================
+    Total Number of Contacts:       12
+
+Stripe Wiring Statistics:
+    metal5 Wire Length(count):              50855.04(48)
+    metal6 Wire Length(count):              50564.64(48)
+  ==============================================
+    Total Wire Length(count):              101419.68(96)
+    Number of via3 Contacts:             96
+    Number of via4 Contacts:            192
+    Number of via5 Contacts:           1248
+  ==============================================
+    Total Number of Contacts:     1536
+
+User Wiring Statistics:
+
+PG follow-pin Wiring Statistics:
+    metal1 Wire Length(count):             418208.21(628)
+    metal5 Wire Length(count):                 63.68(301)
+  ==============================================
+    Total Wire Length(count):              418271.89(929)
+    Number of via1 Contacts:           7199
+    Number of via2 Contacts:           7142
+    Number of via3 Contacts:           7142
+    Number of via4 Contacts:           6692
+    Number of via5 Contacts:           6359
+  ==============================================
+    Total Number of Contacts:    34534
+
+Signal Wiring Statistics:
+      Mask Name      Contact Code    Number Of Contacts    Percentage
+
+  Horizontal/Vertical Wire Distribution:
+    Layer      Hor. Wire (% of Hor.)     Ver. Wire (% of Ver.)
+  ==============================================================
+    Total              0.00                      0.00
+1
+redirect -file $REPORTS_STEP_DIR/vth_use.rpt -tee { report_threshold_voltage_group }
+********************************************************************************
+                        Threshold Voltage Group Report                         
+
+Vth Group                All                Blackbox           Non-blackbox
+Name                    cells                cells                cells
+********************************************************************************
+undefined           27086 (100.00%)         43 (100.00%)      27043 (100.00%)   
+********************************************************************************
+
+Vth Group                All                Blackbox           Non-blackbox
+Name                  cell area            cell area            cell area
+********************************************************************************
+undefined        87330.02 (100.00%)       0.00   (0.00%)   87330.02 (100.00%)   
+********************************************************************************
+1
+redirect -file $REPORTS_STEP_DIR/check_legality { check_legality -verbose }
+redirect -file $REPORTS_STEP_DIR/constraints.rpt { report_constraint 	-scenario [all_scenarios] -all_violators -nosplit -significant_digits 4 }
+redirect -file $REPORTS_STEP_DIR/max_timing.rpt {
+	report_timing -significant_digits 4 	-delay max -transition_time  -capacitance 	-max_paths 20 -nets -input_pins -slack_greater_than 0.0 	-physical -attributes -nosplit -derate
+}
+redirect -file $REPORTS_STEP_DIR/min_timing.rpt {
+	report_timing -significant_digits 4 	-delay min -transition_time  -capacitance 	-max_paths 20 -nets -input_pins 	-physical -attributes -nosplit -crosstalk_delta -derate -path full_clock_expanded
+}
+report_clock_gating -style > $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating_check -significant_digits 4 >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_clock_gating -structure >> $REPORTS_STEP_DIR/clock_gating.rpt
+report_timing -max_paths 10 -to [get_pins -hierarchical "clk_gate*"] 	> $REPORTS_STEP_DIR/clock_gating_max_paths.rpt
+Warning: No pin objects matched 'clk_gate*' (SEL-004)
+# delete "snapshot" directory called by create_qor_snapshot command
+sh rm -rf snapshot/
+# Save
+change_names -rule verilog -hier
+Information: Updating database...
+Information: Updating top database 'khu_sensor_pad.CEL;1'. (MWDC-255)
+1
+set verilogout_no_tri true
+true
+save_mw_cel -as ${TOP_MODULE}
+Information: Performing CEL netlist consistency check. (MWDC-118)
+Information: CEL consistency check PASSED. (MWDC-119)
+Information: Saved design named khu_sensor_pad. (UIG-5)
+1
+# close lib
+close_mw_lib
+Removing physical design 'khu_sensor_pad'
+Information: Removing all scenarios because all designs have been removed. (UID-1040)
+Information: Removed scenario func1_wst from memory. (UID-1024)
+Information: Removed scenario funccts_wst from memory. (UID-1024)
+1
+# Reset sdc file for applying sdc
+sh rm -f $FUNC1_SDC
+sh cp ${FUNC1_SDC}.bak ${FUNC1_SDC}
+exit
+
+Thank you...
+Exit IC Compiler!

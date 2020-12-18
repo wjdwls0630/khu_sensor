@@ -1,0 +1,13 @@
+set_attribute -type boolean [get_pins pad51/PAD] is_pad true
+set_attribute -type boolean [get_pins pad46/PAD] is_pad true
+set_attribute -type boolean [get_pins pad43/PAD] is_pad true
+set_attribute -type boolean [get_pins pad37/PAD] is_pad true
+set_attribute -type boolean [get_pins pad33/PAD] is_pad true
+set_attribute -type boolean [get_pins pad27/PAD] is_pad true
+set_attribute -type boolean [get_pins pad24/PAD] is_pad true
+set_attribute -type boolean [get_pins pad21/PAD] is_pad true
+set_attribute -type boolean [get_pins pad16/PAD] is_pad true
+set_attribute -type boolean [get_pins pad14/PAD] is_pad true
+set_attribute -type boolean [get_pins pad11/PAD] is_pad true
+set_attribute -type boolean [get_pins pad10/PAD] is_pad true
+set_attribute -type boolean [get_pins pad2/PAD] is_pad true

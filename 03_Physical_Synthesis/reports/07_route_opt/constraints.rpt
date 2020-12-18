@@ -1,0 +1,146 @@
+Information: Scenario funccts_wst either not exists or is inactive. report_constraint will skip it. (UID-1059)
+Information: Updating graph... (UID-83)
+
+************************************************************
+SI options:
+Delta Delay Computation:           true
+Static Noise Computation:          true
+Timing window analysis for SI:     false
+Min Delta Delay for SI:            true
+Analysis Effort:                   medium
+Max Transition Mode:               normal_slew
+Static Noise Thresholds:           0.35 (0.37V) above low
+                                   0.35 (0.37V) below high
+Route xtalk prevention:            true
+Route xtalk prevention threshold:  0.25
+************************************************************
+
+Information: Updating design information... (UID-85)
+
+************************************************************
+SI options:
+Delta Delay Computation:           true
+Static Noise Computation:          true
+Timing window analysis for SI:     false
+Min Delta Delay for SI:            true
+Analysis Effort:                   medium
+Max Transition Mode:               normal_slew
+Static Noise Thresholds:           0.35 (0.37V) above low
+                                   0.35 (0.37V) below high
+Route xtalk prevention:            true
+Route xtalk prevention threshold:  0.25
+************************************************************
+
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('rise') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+Information: Input delay ('fall') on clock port 'clk_half' will be added to the clock's propagated skew. (TIM-112)
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : khu_sensor_pad
+Scenario(s): func1_wst funccts_wst
+Version: N-2017.09
+Date   : Thu Nov 19 08:08:19 2020
+****************************************
+
+	Scenario            : func1_wst
+	Parasitic source    : LPE
+	Parasitic mode      : RealRC
+	Extraction mode     : MIN_MAX
+	Extraction derating : 125/125
+
+   max_delay/setup ('clk' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_lpf/add/sum_reg_27_/D  14.1902  14.2128 f  -0.0227 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_1/sum_reg_27_/D  14.2083  14.2247 f  -0.0164 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/sum_reg_27_/D  14.2114  14.2221 f  -0.0106 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_hpf/add/sum_reg_27_/D  14.2045  14.2110 f  -0.0065 (VIOLATED) func1_wst
+
+
+   min_delay/hold ('clk' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_reg_2_/D   4.0081   4.0024 f  -0.0058 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/mult_1/a_reg_15_/D   4.2530   4.2485 f  -0.0045 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/add/o_Z_reg_12_/D   3.9475   3.9437 f  -0.0039 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/add/o_Z_reg_9_/D   3.9447   3.9418 f  -0.0029 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/o_ADS1292_FILTERED_DATA_reg_6_/D   4.0077   4.0072 f  -0.0005 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/mult_3/b_reg_1_/D   4.2255   4.2250 f  -0.0004 (VIOLATED) func1_wst
+
+
+   max_transition
+
+                             Required        Actual
+   Net                      Transition     Transition        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/ads1292_filter/iir_notch/n1866   1.0000   1.0345  -0.0345 (VIOLATED) func1_wst
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/U784/A   1.0000   1.0339  -0.0339 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/r_x_data_reg_67_/D   1.0000   1.0342  -0.0342 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/icc_place364/Y   1.0000   1.0345  -0.0345 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_notch/add_2/n9   1.0000   1.0054  -0.0054 (VIOLATED) func1_wst
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/add_2/U268/A   1.0000   1.0054  -0.0054 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/add_2/U218/A   1.0000   1.0054  -0.0054 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/add_2/U217/Y   1.0000   1.0054  -0.0054 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_notch/add_2/clk_gate_o_Z_reg_0/latch/EN   1.0000   1.0054  -0.0054 (VIOLATED)
+   khu_sensor_top/mpr121_controller/i2c_master/sda_i_reg   1.0000   1.0011  -0.0011 (VIOLATED) func1_wst
+       PIN :   khu_sensor_top/mpr121_controller/i2c_master/last_sda_i_reg_reg/D   1.0000   1.0011  -0.0011 (VIOLATED)
+       PIN :   khu_sensor_top/mpr121_controller/i2c_master/phy_rx_data_reg_reg/D   1.0000   1.0011  -0.0011 (VIOLATED)
+       PIN :   khu_sensor_top/mpr121_controller/i2c_master/U85/A   1.0000   1.0011  -0.0011 (VIOLATED)
+       PIN :   khu_sensor_top/mpr121_controller/i2c_master/U84/A   1.0000   1.0011  -0.0011 (VIOLATED)
+       PIN :   khu_sensor_top/mpr121_controller/i2c_master/sda_i_reg_reg/Q   1.0000   1.0011  -0.0011 (VIOLATED)
+   khu_sensor_top/ads1292_filter/iir_hpf/n482   1.0000   1.0005  -0.0005 (VIOLATED) func1_wst
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/U78/B   1.0000   1.0000  -0.0000 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/U70/B   1.0000   1.0000  -0.0000 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/U64/B   1.0000   1.0002  -0.0002 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/U62/B   1.0000   1.0001  -0.0001 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/U66/B   1.0000   1.0002  -0.0002 (VIOLATED)
+       PIN :   khu_sensor_top/ads1292_filter/iir_hpf/icc_place27/Y   1.0000   1.0005  -0.0005 (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      4                -0.0415    func1_wst
+
+   max_net_length
+
+                             Required        Actual
+   Net                      Net length     Net length        Slack             Scenario
+   -----------------------------------------------------------------
+   khu_sensor_top/w_clk_p_G2B11I1 (dont_touch) 900.0000 1575.3800 -675.3800 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B12I3 (dont_touch) 900.0000 1444.0800 -544.0800 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B4I1 (dont_touch) 900.0000 1174.5601 -274.5601 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B10I1 (dont_touch) 900.0000 1164.2400 -264.2400 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I6 (dont_touch) 900.0000 1159.2000 -259.2000 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B8I8 (dont_touch) 900.0000 1094.3199 -194.3199 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B8I4 (dont_touch) 900.0000 1056.3900 -156.3900 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I3 (dont_touch) 900.0000 1024.6400 -124.6400 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B8I7 (dont_touch) 900.0000 1020.0000 -120.0000 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_lpf/w_clk_p_G2B12I6 (dont_touch) 900.0000 1014.4500 -114.4500 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B12I4 (dont_touch) 900.0000 999.3700 -99.3700 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I5 (dont_touch) 900.0000 983.0400 -83.0400 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/iir_notch/w_clk_p_G2B12I2 (dont_touch) 900.0000 975.6400 -75.6400 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B9I1 (dont_touch) 900.0000 961.6900 -61.6900 (VIOLATED) func1_wst
+   khu_sensor_top/ads1292_filter/w_clk_p_G2B8I1 (dont_touch) 900.0000 951.3300 -51.3300 (VIOLATED) func1_wst
+   khu_sensor_top/w_clk_p_G2B8I2 (dont_touch) 900.0000 915.7300 -15.7300 (VIOLATED) func1_wst
+
+   -----------------------------------------------------------------
+   Total                      16              -3114.0601  func1_wst
+
+   max_area
+
+                             Required        Actual
+   Design                      Area           Area           Slack
+   -----------------------------------------------------------------
+   khu_sensor_pad             0.0000       93007.5859     -93007.5859 (VIOLATED)
+
+
+1

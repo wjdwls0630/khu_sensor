@@ -1,0 +1,45 @@
+
+====================
+|      Usage       |
+====================
+
+0. Install SAMSUNG 130nm Physical Design Library as followings.
+   
+   student_number@home_directory> cd installer 
+   student_number@installer> csh ./sainstaller.DK 
+
+
+1. Source :env
+
+   student_number@home_directory> csh ./:env  
+
+2. Modify the following files in the directory "icc_scripts"
+
+	- common_lib_setup.tcl, user_scripts/user_design_setup.tcl
+
+	* NOTE:
+
+	You can modify the files in the directory of "user_scripts".
+
+3. Run ICC
+
+	- to invoke ICC shell
+
+		unix> make -f Makefile_sys is
+
+	- to invoke ICC GUI
+
+		unix> make -f Makefile_sys i
+
+	- to run ICC with step
+
+		unix> make -f Makefile_sys read_design
+
+	- to run ICC from place_opt to chip_finish
+
+		unix> make -f Makefile_sys chip_finish
+
+	* NOTE:
+
+	- When finishing each step, you can find the file of "{step}.pass".
+          When ICC run next step, ICC check this file.

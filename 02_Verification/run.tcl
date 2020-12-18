@@ -1,0 +1,11 @@
+source "./tcl/synopsys_fm_setup.tcl"
+echo "------------------------------------------------------------------------"
+echo "--                                                                    --"
+echo "--                                                                    --"
+echo "--                     khu_sensor verify start                        --"
+echo "--                                                                    --"
+echo "--                                                                    --"
+echo "------------------------------------------------------------------------"
+
+set tcl_path "tcl/"
+source "${tcl_path}verify_init.tcl"
